@@ -15,9 +15,162 @@ extension KinesisVideo {
         public var description: String { return self.rawValue }
     }
 
+    public struct ChannelInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelARN", required: false, type: .string), 
+            AWSShapeMember(label: "ChannelName", required: false, type: .string), 
+            AWSShapeMember(label: "ChannelStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ChannelType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SingleMasterConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+
+        /// The ARN of the signaling channel.
+        public let channelARN: String?
+        /// The name of the signaling channel.
+        public let channelName: String?
+        /// Current status of the signaling channel.
+        public let channelStatus: Status?
+        /// The type of the signaling channel.
+        public let channelType: ChannelType?
+        /// The time at which the signaling channel was created.
+        public let creationTime: TimeStamp?
+        /// A structure that contains the configuration for the SINGLE_MASTER channel type.
+        public let singleMasterConfiguration: SingleMasterConfiguration?
+        /// The current version of the signaling channel.
+        public let version: String?
+
+        public init(channelARN: String? = nil, channelName: String? = nil, channelStatus: Status? = nil, channelType: ChannelType? = nil, creationTime: TimeStamp? = nil, singleMasterConfiguration: SingleMasterConfiguration? = nil, version: String? = nil) {
+            self.channelARN = channelARN
+            self.channelName = channelName
+            self.channelStatus = channelStatus
+            self.channelType = channelType
+            self.creationTime = creationTime
+            self.singleMasterConfiguration = singleMasterConfiguration
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case channelName = "ChannelName"
+            case channelStatus = "ChannelStatus"
+            case channelType = "ChannelType"
+            case creationTime = "CreationTime"
+            case singleMasterConfiguration = "SingleMasterConfiguration"
+            case version = "Version"
+        }
+    }
+
+    public struct ChannelNameCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "ComparisonValue", required: false, type: .string)
+        ]
+
+        /// A comparison operator. Currently, you can only specify the BEGINS_WITH operator, which finds signaling channels whose names begin with a given prefix.
+        public let comparisonOperator: ComparisonOperator?
+        /// A value to compare.
+        public let comparisonValue: String?
+
+        public init(comparisonOperator: ComparisonOperator? = nil, comparisonValue: String? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.comparisonValue = comparisonValue
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.comparisonValue, name:"comparisonValue", parent: name, max: 256)
+            try validate(self.comparisonValue, name:"comparisonValue", parent: name, min: 1)
+            try validate(self.comparisonValue, name:"comparisonValue", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case comparisonValue = "ComparisonValue"
+        }
+    }
+
+    public enum ChannelProtocol: String, CustomStringConvertible, Codable {
+        case wss = "WSS"
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelRole: String, CustomStringConvertible, Codable {
+        case master = "MASTER"
+        case viewer = "VIEWER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelType: String, CustomStringConvertible, Codable {
+        case singleMaster = "SINGLE_MASTER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case beginsWith = "BEGINS_WITH"
         public var description: String { return self.rawValue }
+    }
+
+    public struct CreateSignalingChannelInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelName", required: true, type: .string), 
+            AWSShapeMember(label: "ChannelType", required: false, type: .enum), 
+            AWSShapeMember(label: "SingleMasterConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// A name for the signaling channel that you are creating. It must be unique for each account and region.
+        public let channelName: String
+        /// A type of the signaling channel that you are creating. Currently, SINGLE_MASTER is the only supported channel type. 
+        public let channelType: ChannelType?
+        /// A structure containing the configuration for the SINGLE_MASTER channel type. 
+        public let singleMasterConfiguration: SingleMasterConfiguration?
+        /// A set of tags (key/value pairs) that you want to associate with this channel.
+        public let tags: [Tag]?
+
+        public init(channelName: String, channelType: ChannelType? = nil, singleMasterConfiguration: SingleMasterConfiguration? = nil, tags: [Tag]? = nil) {
+            self.channelName = channelName
+            self.channelType = channelType
+            self.singleMasterConfiguration = singleMasterConfiguration
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.channelName, name:"channelName", parent: name, max: 256)
+            try validate(self.channelName, name:"channelName", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.singleMasterConfiguration?.validate(name: "\(name).singleMasterConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "ChannelName"
+            case channelType = "ChannelType"
+            case singleMasterConfiguration = "SingleMasterConfiguration"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSignalingChannelOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelARN", required: false, type: .string)
+        ]
+
+        /// The ARN of the created channel.
+        public let channelARN: String?
+
+        public init(channelARN: String? = nil) {
+            self.channelARN = channelARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+        }
     }
 
     public struct CreateStreamInput: AWSShape {
@@ -36,7 +189,7 @@ extension KinesisVideo {
         public let deviceName: String?
         /// The ID of the AWS Key Management Service (AWS KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used.  For more information, see DescribeKey. 
         public let kmsKeyId: String?
-        /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. This parameter is optional; the default value is null (or empty in JSON).
+        /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. Example valid values include "video/h264" and "video/h264,audio/aac". This parameter is optional; the default value is null (or empty in JSON).
         public let mediaType: String?
         /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region.
         public let streamName: String
@@ -68,8 +221,10 @@ extension KinesisVideo {
             try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
             }
         }
 
@@ -98,6 +253,45 @@ extension KinesisVideo {
         private enum CodingKeys: String, CodingKey {
             case streamARN = "StreamARN"
         }
+    }
+
+    public struct DeleteSignalingChannelInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelARN", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentVersion", required: false, type: .string)
+        ]
+
+        /// The ARN of the signaling channel that you want to delete.
+        public let channelARN: String
+        /// The current version of the signaling channel that you want to delete. You can obtain the current version by invoking the DescribeSignalingChannel or ListSignalingChannels APIs.
+        public let currentVersion: String?
+
+        public init(channelARN: String, currentVersion: String? = nil) {
+            self.channelARN = channelARN
+            self.currentVersion = currentVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.channelARN, name:"channelARN", parent: name, max: 1024)
+            try validate(self.channelARN, name:"channelARN", parent: name, min: 1)
+            try validate(self.channelARN, name:"channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try validate(self.currentVersion, name:"currentVersion", parent: name, max: 64)
+            try validate(self.currentVersion, name:"currentVersion", parent: name, min: 1)
+            try validate(self.currentVersion, name:"currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case currentVersion = "CurrentVersion"
+        }
+    }
+
+    public struct DeleteSignalingChannelOutput: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteStreamInput: AWSShape {
@@ -137,6 +331,54 @@ extension KinesisVideo {
         public init() {
         }
 
+    }
+
+    public struct DescribeSignalingChannelInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelARN", required: false, type: .string), 
+            AWSShapeMember(label: "ChannelName", required: false, type: .string)
+        ]
+
+        /// The ARN of the signaling channel that you want to describe.
+        public let channelARN: String?
+        /// The name of the signaling channel that you want to describe.
+        public let channelName: String?
+
+        public init(channelARN: String? = nil, channelName: String? = nil) {
+            self.channelARN = channelARN
+            self.channelName = channelName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.channelARN, name:"channelARN", parent: name, max: 1024)
+            try validate(self.channelARN, name:"channelARN", parent: name, min: 1)
+            try validate(self.channelARN, name:"channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try validate(self.channelName, name:"channelName", parent: name, max: 256)
+            try validate(self.channelName, name:"channelName", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case channelName = "ChannelName"
+        }
+    }
+
+    public struct DescribeSignalingChannelOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelInfo", required: false, type: .structure)
+        ]
+
+        /// A structure that encapsulates the specified signaling channel's metadata and properties.
+        public let channelInfo: ChannelInfo?
+
+        public init(channelInfo: ChannelInfo? = nil) {
+            self.channelInfo = channelInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelInfo = "ChannelInfo"
+        }
     }
 
     public struct DescribeStreamInput: AWSShape {
@@ -240,6 +482,110 @@ extension KinesisVideo {
         }
     }
 
+    public struct GetSignalingChannelEndpointInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelARN", required: true, type: .string), 
+            AWSShapeMember(label: "SingleMasterChannelEndpointConfiguration", required: false, type: .structure)
+        ]
+
+        /// The ARN of the signalling channel for which you want to get an endpoint.
+        public let channelARN: String
+        /// A structure containing the endpoint configuration for the SINGLE_MASTER channel type.
+        public let singleMasterChannelEndpointConfiguration: SingleMasterChannelEndpointConfiguration?
+
+        public init(channelARN: String, singleMasterChannelEndpointConfiguration: SingleMasterChannelEndpointConfiguration? = nil) {
+            self.channelARN = channelARN
+            self.singleMasterChannelEndpointConfiguration = singleMasterChannelEndpointConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.channelARN, name:"channelARN", parent: name, max: 1024)
+            try validate(self.channelARN, name:"channelARN", parent: name, min: 1)
+            try validate(self.channelARN, name:"channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.singleMasterChannelEndpointConfiguration?.validate(name: "\(name).singleMasterChannelEndpointConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case singleMasterChannelEndpointConfiguration = "SingleMasterChannelEndpointConfiguration"
+        }
+    }
+
+    public struct GetSignalingChannelEndpointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceEndpointList", required: false, type: .list)
+        ]
+
+        /// A list of endpoints for the specified signaling channel.
+        public let resourceEndpointList: [ResourceEndpointListItem]?
+
+        public init(resourceEndpointList: [ResourceEndpointListItem]? = nil) {
+            self.resourceEndpointList = resourceEndpointList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceEndpointList = "ResourceEndpointList"
+        }
+    }
+
+    public struct ListSignalingChannelsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelNameCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Optional: Returns only the channels that satisfy a specific condition.
+        public let channelNameCondition: ChannelNameCondition?
+        /// The maximum number of channels to return in the response. The default is 500.
+        public let maxResults: Int?
+        /// If you specify this parameter, when the result of a ListSignalingChannels operation is truncated, the call returns the NextToken in the response. To get another batch of channels, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(channelNameCondition: ChannelNameCondition? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.channelNameCondition = channelNameCondition
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.channelNameCondition?.validate(name: "\(name).channelNameCondition")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 10000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 512)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelNameCondition = "ChannelNameCondition"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSignalingChannelsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelInfoList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// An array of ChannelInfo objects.
+        public let channelInfoList: [ChannelInfo]?
+        /// If the response is truncated, the call returns this element with a token. To get the next batch of streams, use this token in your next request.
+        public let nextToken: String?
+
+        public init(channelInfoList: [ChannelInfo]? = nil, nextToken: String? = nil) {
+            self.channelInfoList = channelInfoList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelInfoList = "ChannelInfoList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListStreamsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
@@ -265,6 +611,7 @@ extension KinesisVideo {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 512)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
             try self.streamNameCondition?.validate(name: "\(name).streamNameCondition")
         }
 
@@ -297,6 +644,59 @@ extension KinesisVideo {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+        ]
+
+        /// If you specify this parameter and the result of a ListTagsForResource call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags. 
+        public let nextToken: String?
+        /// The ARN of the signaling channel for which you want to list tags.
+        public let resourceARN: String
+
+        public init(nextToken: String? = nil, resourceARN: String) {
+            self.nextToken = nextToken
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 512)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1024)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+
+        /// If you specify this parameter and the result of a ListTagsForResource call is truncated, the response includes a token that you can use in the next request to fetch the next set of tags. 
+        public let nextToken: String?
+        /// A map of tag keys and values associated with the specified signaling channel.
+        public let tags: [String: String]?
+
+        public init(nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
     public struct ListTagsForStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -320,6 +720,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 512)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
             try validate(self.streamARN, name:"streamARN", parent: name, max: 1024)
             try validate(self.streamARN, name:"streamARN", parent: name, min: 1)
             try validate(self.streamARN, name:"streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
@@ -354,6 +755,77 @@ extension KinesisVideo {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
+        }
+    }
+
+    public struct ResourceEndpointListItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceEndpoint", required: false, type: .string)
+        ]
+
+        /// The protocol of the signaling channel returned by the GetSignalingChannelEndpoint API.
+        public let `protocol`: ChannelProtocol?
+        /// The endpoint of the signaling channel returned by the GetSignalingChannelEndpoint API.
+        public let resourceEndpoint: String?
+
+        public init(protocol: ChannelProtocol? = nil, resourceEndpoint: String? = nil) {
+            self.`protocol` = `protocol`
+            self.resourceEndpoint = resourceEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "Protocol"
+            case resourceEndpoint = "ResourceEndpoint"
+        }
+    }
+
+    public struct SingleMasterChannelEndpointConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Protocols", required: false, type: .list), 
+            AWSShapeMember(label: "Role", required: false, type: .enum)
+        ]
+
+        /// This property is used to determine the nature of communication over this SINGLE_MASTER signaling channel. If WSS is specified, this API returns a websocket endpoint. If HTTPS is specified, this API returns an HTTPS endpoint.
+        public let protocols: [ChannelProtocol]?
+        /// This property is used to determine messaging permissions in this SINGLE_MASTER signaling channel. If MASTER is specified, this API returns an endpoint that a client can use to receive offers from and send answers to any of the viewers on this signaling channel. If VIEWER is specified, this API returns an endpoint that a client can use only to send offers to another MASTER client on this signaling channel. 
+        public let role: ChannelRole?
+
+        public init(protocols: [ChannelProtocol]? = nil, role: ChannelRole? = nil) {
+            self.protocols = protocols
+            self.role = role
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.protocols, name:"protocols", parent: name, max: 5)
+            try validate(self.protocols, name:"protocols", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protocols = "Protocols"
+            case role = "Role"
+        }
+    }
+
+    public struct SingleMasterConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageTtlSeconds", required: false, type: .integer)
+        ]
+
+        /// The period of time a signaling channel retains underlivered messages before they are discarded.
+        public let messageTtlSeconds: Int?
+
+        public init(messageTtlSeconds: Int? = nil) {
+            self.messageTtlSeconds = messageTtlSeconds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.messageTtlSeconds, name:"messageTtlSeconds", parent: name, max: 120)
+            try validate(self.messageTtlSeconds, name:"messageTtlSeconds", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageTtlSeconds = "MessageTtlSeconds"
         }
     }
 
@@ -450,6 +922,78 @@ extension KinesisVideo {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// The key of the tag that is associated with the specified signaling channel.
+        public let key: String
+        /// The value of the tag that is associated with the specified signaling channel.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+
+        /// The ARN of the signaling channel to which you want to add tags.
+        public let resourceARN: String
+        /// A list of tags to associate with the specified signaling channel. Each tag is a key-value pair.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1024)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct TagStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamARN", required: false, type: .string), 
@@ -480,8 +1024,10 @@ extension KinesisVideo {
             try self.tags.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
             }
         }
 
@@ -493,6 +1039,49 @@ extension KinesisVideo {
     }
 
     public struct TagStreamOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeyList", required: true, type: .list)
+        ]
+
+        /// The ARN of the signaling channel from which you want to remove tags.
+        public let resourceARN: String
+        /// A list of the keys of the tags that you want to remove.
+        public let tagKeyList: [String]
+
+        public init(resourceARN: String, tagKeyList: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeyList = tagKeyList
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1024)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.tagKeyList.forEach {
+                try validate($0, name: "tagKeyList[]", parent: name, max: 128)
+                try validate($0, name: "tagKeyList[]", parent: name, min: 1)
+                try validate($0, name: "tagKeyList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try validate(self.tagKeyList, name:"tagKeyList", parent: name, max: 50)
+            try validate(self.tagKeyList, name:"tagKeyList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeyList = "TagKeyList"
+        }
+    }
+
+    public struct UntagResourceOutput: AWSShape {
 
 
         public init() {
@@ -530,6 +1119,7 @@ extension KinesisVideo {
             try self.tagKeyList.forEach {
                 try validate($0, name: "tagKeyList[]", parent: name, max: 128)
                 try validate($0, name: "tagKeyList[]", parent: name, min: 1)
+                try validate($0, name: "tagKeyList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try validate(self.tagKeyList, name:"tagKeyList", parent: name, max: 50)
             try validate(self.tagKeyList, name:"tagKeyList", parent: name, min: 1)
@@ -607,6 +1197,51 @@ extension KinesisVideo {
     }
 
     public struct UpdateDataRetentionOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateSignalingChannelInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelARN", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentVersion", required: true, type: .string), 
+            AWSShapeMember(label: "SingleMasterConfiguration", required: false, type: .structure)
+        ]
+
+        /// The ARN of the signaling channel that you want to update.
+        public let channelARN: String
+        /// The current version of the signaling channel that you want to update.
+        public let currentVersion: String
+        /// The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update. 
+        public let singleMasterConfiguration: SingleMasterConfiguration?
+
+        public init(channelARN: String, currentVersion: String, singleMasterConfiguration: SingleMasterConfiguration? = nil) {
+            self.channelARN = channelARN
+            self.currentVersion = currentVersion
+            self.singleMasterConfiguration = singleMasterConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.channelARN, name:"channelARN", parent: name, max: 1024)
+            try validate(self.channelARN, name:"channelARN", parent: name, min: 1)
+            try validate(self.channelARN, name:"channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try validate(self.currentVersion, name:"currentVersion", parent: name, max: 64)
+            try validate(self.currentVersion, name:"currentVersion", parent: name, min: 1)
+            try validate(self.currentVersion, name:"currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
+            try self.singleMasterConfiguration?.validate(name: "\(name).singleMasterConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case currentVersion = "CurrentVersion"
+            case singleMasterConfiguration = "SingleMasterConfiguration"
+        }
+    }
+
+    public struct UpdateSignalingChannelOutput: AWSShape {
 
 
         public init() {

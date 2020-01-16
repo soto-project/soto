@@ -684,17 +684,17 @@ extension Lightsail {
             AWSShapeMember(label: "useLatestRestorableAutoSnapshot", required: false, type: .boolean)
         ]
 
-        /// The date of the automatic snapshot to copy for the new manual snapshot. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.    Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide. 
+        /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.  
         public let restoreDate: String?
         /// The AWS Region where the source manual or automatic snapshot is located.
         public let sourceRegion: RegionName
-        /// The name of the source resource from which the automatic snapshot was created.  Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide. 
+        /// The name of the source instance or disk from which the source automatic snapshot was created. Constraint:   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.  
         public let sourceResourceName: String?
-        /// The name of the source instance or disk snapshot to be copied.  Define this parameter only when copying a manual snapshot as another manual snapshot. 
+        /// The name of the source manual snapshot to copy. Constraint:   Define this parameter only when copying a manual snapshot as another manual snapshot.  
         public let sourceSnapshotName: String?
-        /// The name of the new instance or disk snapshot to be created as a copy.
+        /// The name of the new manual snapshot to be created as a copy.
         public let targetSnapshotName: String
-        /// A Boolean value to indicate whether to use the latest available automatic snapshot. This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.  Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide. 
+        /// A Boolean value to indicate whether to use the latest available automatic snapshot of the specified source instance or disk. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.  
         public let useLatestRestorableAutoSnapshot: Bool?
 
         public init(restoreDate: String? = nil, sourceRegion: RegionName, sourceResourceName: String? = nil, sourceSnapshotName: String? = nil, targetSnapshotName: String, useLatestRestorableAutoSnapshot: Bool? = nil) {
@@ -797,17 +797,17 @@ extension Lightsail {
         public let availabilityZone: String
         /// The unique Lightsail disk name (e.g., my-disk).
         public let diskName: String
-        /// The name of the disk snapshot (e.g., my-snapshot) from which to create the new storage disk. This parameter cannot be defined together with the source disk name parameter. The disk snapshot name and source disk name parameters are mutually exclusive.
+        /// The name of the disk snapshot (e.g., my-snapshot) from which to create the new storage disk. Constraint:   This parameter cannot be defined together with the source disk name parameter. The disk snapshot name and source disk name parameters are mutually exclusive.  
         public let diskSnapshotName: String?
-        /// The date of the automatic snapshot to use for the new disk. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.    Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        /// The date of the automatic snapshot to use for the new disk. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let restoreDate: String?
         /// The size of the disk in GB (e.g., 32).
         public let sizeInGb: Int
-        /// The name of the source disk from which the source automatic snapshot was created. This parameter cannot be defined together with the disk snapshot name parameter. The source disk name and disk snapshot name parameters are mutually exclusive.  Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        /// The name of the source disk from which the source automatic snapshot was created. Constraints:   This parameter cannot be defined together with the disk snapshot name parameter. The source disk name and disk snapshot name parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let sourceDiskName: String?
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        /// A Boolean value to indicate whether to use the latest available automatic snapshot. This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.  Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        /// A Boolean value to indicate whether to use the latest available automatic snapshot. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let useLatestRestorableAutoSnapshot: Bool?
 
         public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, diskName: String, diskSnapshotName: String? = nil, restoreDate: String? = nil, sizeInGb: Int, sourceDiskName: String? = nil, tags: [Tag]? = nil, useLatestRestorableAutoSnapshot: Bool? = nil) {
@@ -1135,17 +1135,17 @@ extension Lightsail {
         public let bundleId: String
         /// The names for your new instances.
         public let instanceNames: [String]
-        /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots. This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive.
+        /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots. Constraint:   This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive.  
         public let instanceSnapshotName: String?
         /// The name for your key pair.
         public let keyPairName: String?
-        /// The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.    Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        /// The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let restoreDate: String?
-        /// The name of the source instance from which the source automatic snapshot was created. This parameter cannot be defined together with the instance snapshot name parameter. The source instance name and instance snapshot name parameters are mutually exclusive.  Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        /// The name of the source instance from which the source automatic snapshot was created. Constraints:   This parameter cannot be defined together with the instance snapshot name parameter. The source instance name and instance snapshot name parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let sourceInstanceName: String?
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        /// A Boolean value to indicate whether to use the latest available automatic snapshot. This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.  Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        /// A Boolean value to indicate whether to use the latest available automatic snapshot. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
         public let useLatestRestorableAutoSnapshot: Bool?
         /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
         public let userData: String?
@@ -1701,7 +1701,7 @@ extension Lightsail {
 
         /// The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource.
         public let date: String
-        /// The name of the source resource from which to delete the automatic snapshot.
+        /// The name of the source instance or disk from which to delete the automatic snapshot.
         public let resourceName: String
 
         public init(date: String, resourceName: String) {
@@ -2378,7 +2378,7 @@ extension Lightsail {
 
         /// The add-on type to disable.
         public let addOnType: AddOnType
-        /// The name of the source resource from which to disable the add-on.
+        /// The name of the source resource for which to disable the add-on.
         public let resourceName: String
 
         public init(addOnType: AddOnType, resourceName: String) {
@@ -3039,7 +3039,7 @@ extension Lightsail {
             AWSShapeMember(label: "resourceName", required: true, type: .string)
         ]
 
-        /// The name of the source resource from which to get automatic snapshot information.
+        /// The name of the source instance or disk from which to get automatic snapshot information.
         public let resourceName: String
 
         public init(resourceName: String) {
@@ -3062,9 +3062,9 @@ extension Lightsail {
             AWSShapeMember(label: "resourceType", required: false, type: .enum)
         ]
 
-        /// An array of objects that describe the automatic snapshots that are available for the specified source resource.asdf
+        /// An array of objects that describe the automatic snapshots that are available for the specified source instance or disk.
         public let autoSnapshots: [AutoSnapshotDetails]?
-        /// The name of the source resource for the automatic snapshots.
+        /// The name of the source instance or disk for the automatic snapshots.
         public let resourceName: String?
         /// The resource type (e.g., Instance or Disk).
         public let resourceType: ResourceType?
@@ -6708,6 +6708,7 @@ extension Lightsail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "backupRetentionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "caCertificateIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "engine", required: false, type: .string), 
             AWSShapeMember(label: "engineVersion", required: false, type: .string), 
@@ -6737,6 +6738,8 @@ extension Lightsail {
         public let arn: String?
         /// A Boolean value indicating whether automated backup retention is enabled for the database.
         public let backupRetentionEnabled: Bool?
+        /// The certificate associated with the database.
+        public let caCertificateIdentifier: String?
         /// The timestamp when the database was created. Formatted in Unix time.
         public let createdAt: TimeStamp?
         /// The database software (for example, MySQL).
@@ -6784,9 +6787,10 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, backupRetentionEnabled: Bool? = nil, createdAt: TimeStamp? = nil, engine: String? = nil, engineVersion: String? = nil, hardware: RelationalDatabaseHardware? = nil, latestRestorableTime: TimeStamp? = nil, location: ResourceLocation? = nil, masterDatabaseName: String? = nil, masterEndpoint: RelationalDatabaseEndpoint? = nil, masterUsername: String? = nil, name: String? = nil, parameterApplyStatus: String? = nil, pendingMaintenanceActions: [PendingMaintenanceAction]? = nil, pendingModifiedValues: PendingModifiedRelationalDatabaseValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBlueprintId: String? = nil, relationalDatabaseBundleId: String? = nil, resourceType: ResourceType? = nil, secondaryAvailabilityZone: String? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, backupRetentionEnabled: Bool? = nil, caCertificateIdentifier: String? = nil, createdAt: TimeStamp? = nil, engine: String? = nil, engineVersion: String? = nil, hardware: RelationalDatabaseHardware? = nil, latestRestorableTime: TimeStamp? = nil, location: ResourceLocation? = nil, masterDatabaseName: String? = nil, masterEndpoint: RelationalDatabaseEndpoint? = nil, masterUsername: String? = nil, name: String? = nil, parameterApplyStatus: String? = nil, pendingMaintenanceActions: [PendingMaintenanceAction]? = nil, pendingModifiedValues: PendingModifiedRelationalDatabaseValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBlueprintId: String? = nil, relationalDatabaseBundleId: String? = nil, resourceType: ResourceType? = nil, secondaryAvailabilityZone: String? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.backupRetentionEnabled = backupRetentionEnabled
+            self.caCertificateIdentifier = caCertificateIdentifier
             self.createdAt = createdAt
             self.engine = engine
             self.engineVersion = engineVersion
@@ -6815,6 +6819,7 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case backupRetentionEnabled = "backupRetentionEnabled"
+            case caCertificateIdentifier = "caCertificateIdentifier"
             case createdAt = "createdAt"
             case engine = "engine"
             case engineVersion = "engineVersion"
@@ -7764,6 +7769,7 @@ extension Lightsail {
     public struct UpdateRelationalDatabaseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "caCertificateIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "disableBackupRetention", required: false, type: .boolean), 
             AWSShapeMember(label: "enableBackupRetention", required: false, type: .boolean), 
             AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
@@ -7776,6 +7782,8 @@ extension Lightsail {
 
         /// When true, applies changes immediately. When false, applies changes during the preferred maintenance window. Some changes may cause an outage. Default: false 
         public let applyImmediately: Bool?
+        /// Indicates the certificate that needs to be associated with the database.
+        public let caCertificateIdentifier: String?
         /// When true, disables automated backup retention for your database. Disabling backup retention deletes all automated database backups. Before disabling this, you may want to create a snapshot of your database using the create relational database snapshot operation. Updates are applied during the next maintenance window because this can result in an outage.
         public let disableBackupRetention: Bool?
         /// When true, enables automated backup retention for your database. Updates are applied during the next maintenance window because this can result in an outage.
@@ -7793,8 +7801,9 @@ extension Lightsail {
         /// When true, the master user password is changed to a new strong password generated by Lightsail. Use the get relational database master user password operation to get the new password.
         public let rotateMasterUserPassword: Bool?
 
-        public init(applyImmediately: Bool? = nil, disableBackupRetention: Bool? = nil, enableBackupRetention: Bool? = nil, masterUserPassword: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseName: String, rotateMasterUserPassword: Bool? = nil) {
+        public init(applyImmediately: Bool? = nil, caCertificateIdentifier: String? = nil, disableBackupRetention: Bool? = nil, enableBackupRetention: Bool? = nil, masterUserPassword: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseName: String, rotateMasterUserPassword: Bool? = nil) {
             self.applyImmediately = applyImmediately
+            self.caCertificateIdentifier = caCertificateIdentifier
             self.disableBackupRetention = disableBackupRetention
             self.enableBackupRetention = enableBackupRetention
             self.masterUserPassword = masterUserPassword
@@ -7811,6 +7820,7 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case applyImmediately = "applyImmediately"
+            case caCertificateIdentifier = "caCertificateIdentifier"
             case disableBackupRetention = "disableBackupRetention"
             case enableBackupRetention = "enableBackupRetention"
             case masterUserPassword = "masterUserPassword"

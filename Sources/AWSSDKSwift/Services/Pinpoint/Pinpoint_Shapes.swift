@@ -132,7 +132,7 @@ extension Pinpoint {
         public let imageUrl: String?
         /// The base64-encoded, MD5 checksum of the value specified by the Data property. ADM uses the MD5 value to verify the integrity of the data.
         public let md5: String?
-        /// The raw, JSON-formatted string to use as the payload for the notification message. This value overrides the message.
+        /// The raw, JSON-formatted string to use as the payload for the notification message. If specified, this value overrides all other content for the message.
         public let rawContent: String?
         /// Specifies whether the notification is a silent push notification, which is a push notification that doesn't display on a recipient's device. Silent push notifications can be used for cases such as updating an app's configuration or supporting phone home functionality.
         public let silentPush: Bool?
@@ -352,7 +352,7 @@ extension Pinpoint {
         public let preferredAuthenticationMethod: String?
         /// para>5 - Low priority, the notification might be delayed, delivered as part of a group, or throttled./listitem> 10 - High priority, the notification is sent immediately. This is the default value. A high priority notification should trigger an alert, play a sound, or badge your app's icon on the recipient's device./para> Amazon Pinpoint specifies this value in the apns-priority request header when it sends the notification message to APNs. The equivalent values for Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), are normal, for 5, and high, for 10. If you specify an FCM value for this property, Amazon Pinpoint accepts and converts the value to the corresponding APNs value.
         public let priority: String?
-        /// The raw, JSON-formatted string to use as the payload for the notification message. This value overrides all other content for the message. If you specify the raw content of an APNs push notification, the message payload has to include the content-available key. The value of the content-available key has to be an integer, and can only be 0 or 1. If you're sending a standard notification, set the value of content-available to 0. If you're sending a silent (background) notification, set the value of content-available to 1. Additionally, silent notification payloads can't include the alert, badge, or sound keys. For more information, see Generating a Remote Notification and Pushing Background Updates to Your App on the Apple Developer website.
+        /// The raw, JSON-formatted string to use as the payload for the notification message. If specified, this value overrides all other content for the message. If you specify the raw content of an APNs push notification, the message payload has to include the content-available key. The value of the content-available key has to be an integer, and can only be 0 or 1. If you're sending a standard notification, set the value of content-available to 0. If you're sending a silent (background) notification, set the value of content-available to 1. Additionally, silent notification payloads can't include the alert, badge, or sound keys. For more information, see Generating a Remote Notification and Pushing Background Updates to Your App on the Apple Developer website.
         public let rawContent: String?
         /// Specifies whether the notification is a silent push notification. A silent (or background) push notification isn't displayed on recipients' devices. You can use silent push notifications to make small updates to your app, or to display messages in an in-app message center. Amazon Pinpoint uses this property to determine the correct value for the apns-push-type request header when it sends the notification message to APNs. If you specify a value of true for this property, Amazon Pinpoint sets the value for the apns-push-type header field to background. If you specify the raw content of an APNs push notification, the message payload has to include the content-available key. For silent (background) notifications, set the value of content-available to 1. Additionally, the message payload for a silent notification can't include the alert, badge, or sound keys. For more information, see Generating a Remote Notification and Pushing Background Updates to Your App on the Apple Developer website. Apple has indicated that they will throttle "excessive" background notifications based on current traffic volumes. To prevent your notifications being throttled, Apple recommends that you send no more than 3 silent push notifications to each recipient per hour.
         public let silentPush: Bool?
@@ -417,6 +417,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Action", required: false, type: .enum), 
             AWSShapeMember(label: "Body", required: false, type: .string), 
             AWSShapeMember(label: "MediaUrl", required: false, type: .string), 
+            AWSShapeMember(label: "RawContent", required: false, type: .string), 
             AWSShapeMember(label: "Sound", required: false, type: .string), 
             AWSShapeMember(label: "Title", required: false, type: .string), 
             AWSShapeMember(label: "Url", required: false, type: .string)
@@ -428,6 +429,8 @@ extension Pinpoint {
         public let body: String?
         /// The URL of an image or video to display in push notifications that are based on the message template.
         public let mediaUrl: String?
+        /// The raw, JSON-formatted string to use as the payload for push notifications that are based on the message template. If specified, this value overrides all other content for the message template.
+        public let rawContent: String?
         /// The key for the sound to play when the recipient receives a push notification that's based on the message template. The value for this key is the name of a sound file in your app's main bundle or the Library/Sounds folder in your app's data container. If the sound file can't be found or you specify default for the value, the system plays the default alert sound.
         public let sound: String?
         /// The title to use in push notifications that are based on the message template. This title appears above the notification message on a recipient's device.
@@ -435,10 +438,11 @@ extension Pinpoint {
         /// The URL to open in the recipient's default mobile browser, if a recipient taps a push notification that's based on the message template and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, body: String? = nil, mediaUrl: String? = nil, sound: String? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, body: String? = nil, mediaUrl: String? = nil, rawContent: String? = nil, sound: String? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
             self.mediaUrl = mediaUrl
+            self.rawContent = rawContent
             self.sound = sound
             self.title = title
             self.url = url
@@ -448,6 +452,7 @@ extension Pinpoint {
             case action = "Action"
             case body = "Body"
             case mediaUrl = "MediaUrl"
+            case rawContent = "RawContent"
             case sound = "Sound"
             case title = "Title"
             case url = "Url"
@@ -874,7 +879,7 @@ extension Pinpoint {
         public let email: EmailMessageActivity?
         /// The settings for a holdout activity. This type of activity stops a journey for a specified percentage of participants.
         public let holdout: HoldoutActivity?
-        /// The settings for a multivariate split activity. This type of activity sends participants down one of as many as five paths in a journey, based on conditions that you specify.
+        /// The settings for a multivariate split activity. This type of activity sends participants down one of as many as five paths (including a default Else path) in a journey, based on conditions that you specify.
         public let multiCondition: MultiConditionalSplitActivity?
         /// The settings for a random split activity. This type of activity randomly sends specified percentages of participants down one of as many as five paths in a journey, based on conditions that you specify.
         public let randomSplit: RandomSplitActivity?
@@ -995,9 +1000,9 @@ extension Pinpoint {
         public let channelType: ChannelType?
         /// An object that maps custom attributes to attributes for the address and is attached to the message. For a push notification, this payload is added to the data.pinpoint object. For an email or text message, this payload is added to email/SMS delivery receipt event attributes.
         public let context: [String: String]?
-        /// The raw, JSON-formatted string to use as the payload for the notification message. This value overrides the message.
+        /// The raw, JSON-formatted string to use as the payload for the message. If specified, this value overrides all other values for the message.
         public let rawContent: String?
-        /// An object that maps variable values for the message. Amazon Pinpoint merges these values with the variable values specified by properties of the DefaultMessage object. The substitutions in this map take precedence over all other substitutions.
+        /// A map of the message variables to merge with the variables specified by properties of the DefaultMessage object. The variables specified in this map take precedence over all other variables.
         public let substitutions: [String: [String]]?
         /// The message title to use instead of the default message title. This value overrides the default message title.
         public let titleOverride: String?
@@ -1027,6 +1032,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Body", required: false, type: .string), 
             AWSShapeMember(label: "ImageIconUrl", required: false, type: .string), 
             AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
+            AWSShapeMember(label: "RawContent", required: false, type: .string), 
             AWSShapeMember(label: "SmallImageIconUrl", required: false, type: .string), 
             AWSShapeMember(label: "Sound", required: false, type: .string), 
             AWSShapeMember(label: "Title", required: false, type: .string), 
@@ -1041,6 +1047,8 @@ extension Pinpoint {
         public let imageIconUrl: String?
         /// The URL of an image to display in a push notification that's based on the message template.
         public let imageUrl: String?
+        /// The raw, JSON-formatted string to use as the payload for a push notification that's based on the message template. If specified, this value overrides all other content for the message template.
+        public let rawContent: String?
         /// The URL of the small icon image to display in the status bar and the content view of a push notification that's based on the message template.
         public let smallImageIconUrl: String?
         /// The sound to play when a recipient receives a push notification that's based on the message template. You can use the default stream or specify the file name of a sound resource that's bundled in your app. On an Android platform, the sound file must reside in /res/raw/.
@@ -1050,11 +1058,12 @@ extension Pinpoint {
         /// The URL to open in a recipient's default mobile browser, if a recipient taps a a push notification that's based on the message template and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, body: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, body: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, rawContent: String? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
             self.imageIconUrl = imageIconUrl
             self.imageUrl = imageUrl
+            self.rawContent = rawContent
             self.smallImageIconUrl = smallImageIconUrl
             self.sound = sound
             self.title = title
@@ -1066,6 +1075,7 @@ extension Pinpoint {
             case body = "Body"
             case imageIconUrl = "ImageIconUrl"
             case imageUrl = "ImageUrl"
+            case rawContent = "RawContent"
             case smallImageIconUrl = "SmallImageIconUrl"
             case sound = "Sound"
             case title = "Title"
@@ -1385,7 +1395,7 @@ extension Pinpoint {
         public let imageIconUrl: String?
         /// The URL of an image to display in the push notification.
         public let imageUrl: String?
-        /// The raw, JSON-formatted string to use as the payload for the notification message. This value overrides the message.
+        /// The raw, JSON-formatted string to use as the payload for the notification message. If specified, this value overrides all other content for the message.
         public let rawContent: String?
         /// Specifies whether the notification is a silent push notification, which is a push notification that doesn't display on a recipient's device. Silent push notifications can be used for cases such as updating an app's configuration or supporting phone home functionality.
         public let silentPush: Bool?
@@ -1509,11 +1519,11 @@ extension Pinpoint {
             AWSShapeMember(label: "Title", required: true, type: .string)
         ]
 
-        /// The body of the email for recipients whose email clients don't support HTML content.
+        /// The body of the email for recipients whose email clients don't render HTML content.
         public let body: String?
         /// The verified email address to send the email from. The default address is the FromAddress specified for the email channel for the application.
         public let fromAddress: String?
-        /// The body of the email, in HTML format, for recipients whose email clients support HTML content.
+        /// The body of the email, in HTML format, for recipients whose email clients render HTML content.
         public let htmlBody: String?
         /// The subject line, or title, of the email.
         public let title: String
@@ -1647,7 +1657,7 @@ extension Pinpoint {
         public let applicationId: String
         /// The Amazon Resource Name (ARN) of the campaign.
         public let arn: String
-        /// The date, ISO 8601 format, when the campaign was created.
+        /// The date, in ISO 8601 format, when the campaign was created.
         public let creationDate: String
         /// The current status of the campaign's default treatment. This value exists only for campaigns that have more than one treatment, to support A/B testing.
         public let defaultState: CampaignState?
@@ -1940,9 +1950,9 @@ extension Pinpoint {
         public let condition: Condition?
         /// The amount of time to wait before determining whether the conditions are met, or the date and time when Amazon Pinpoint determines whether the conditions are met.
         public let evaluationWaitTime: WaitTime?
-        /// The unique identifier for the activity to perform if the condition isn't met.
+        /// The unique identifier for the activity to perform if the conditions aren't met.
         public let falseActivity: String?
-        /// The unique identifier for the activity to perform if the condition is met.
+        /// The unique identifier for the activity to perform if the conditions are met.
         public let trueActivity: String?
 
         public init(condition: Condition? = nil, evaluationWaitTime: WaitTime? = nil, falseActivity: String? = nil, trueActivity: String? = nil) {
@@ -2365,15 +2375,55 @@ extension Pinpoint {
         }
     }
 
+    public struct CreateVoiceTemplateRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "VoiceTemplateRequest"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "VoiceTemplateRequest", required: true, type: .structure)
+        ]
+
+        public let templateName: String
+        public let voiceTemplateRequest: VoiceTemplateRequest
+
+        public init(templateName: String, voiceTemplateRequest: VoiceTemplateRequest) {
+            self.templateName = templateName
+            self.voiceTemplateRequest = voiceTemplateRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "template-name"
+            case voiceTemplateRequest = "VoiceTemplateRequest"
+        }
+    }
+
+    public struct CreateVoiceTemplateResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CreateTemplateMessageBody"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateTemplateMessageBody", required: true, type: .structure)
+        ]
+
+        public let createTemplateMessageBody: CreateTemplateMessageBody
+
+        public init(createTemplateMessageBody: CreateTemplateMessageBody) {
+            self.createTemplateMessageBody = createTemplateMessageBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTemplateMessageBody = "CreateTemplateMessageBody"
+        }
+    }
+
     public struct DefaultMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Body", required: false, type: .string), 
             AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
 
-        /// The default message body of the push notification, email, or SMS message.
+        /// The default body of the message.
         public let body: String?
-        /// The default message variables to use in the push notification, email, or SMS message. You can override these default variables with individual address variables.
+        /// The default message variables to use in the message. You can override these default variables with individual address variables.
         public let substitutions: [String: [String]]?
 
         public init(body: String? = nil, substitutions: [String: [String]]? = nil) {
@@ -2783,17 +2833,21 @@ extension Pinpoint {
 
     public struct DeleteEmailTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
         ]
 
         public let templateName: String
+        public let version: String?
 
-        public init(templateName: String) {
+        public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case templateName = "template-name"
+            case version = "version"
         }
     }
 
@@ -2961,17 +3015,21 @@ extension Pinpoint {
 
     public struct DeletePushTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
         ]
 
         public let templateName: String
+        public let version: String?
 
-        public init(templateName: String) {
+        public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case templateName = "template-name"
+            case version = "version"
         }
     }
 
@@ -3067,17 +3125,21 @@ extension Pinpoint {
 
     public struct DeleteSmsTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
         ]
 
         public let templateName: String
+        public let version: String?
 
-        public init(templateName: String) {
+        public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case templateName = "template-name"
+            case version = "version"
         }
     }
 
@@ -3171,6 +3233,44 @@ extension Pinpoint {
         }
     }
 
+    public struct DeleteVoiceTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
+        ]
+
+        public let templateName: String
+        public let version: String?
+
+        public init(templateName: String, version: String? = nil) {
+            self.templateName = templateName
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "template-name"
+            case version = "version"
+        }
+    }
+
+    public struct DeleteVoiceTemplateResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "MessageBody"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageBody", required: true, type: .structure)
+        ]
+
+        public let messageBody: MessageBody
+
+        public init(messageBody: MessageBody) {
+            self.messageBody = messageBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageBody = "MessageBody"
+        }
+    }
+
     public enum DeliveryStatus: String, CustomStringConvertible, Codable {
         case successful = "SUCCESSFUL"
         case throttled = "THROTTLED"
@@ -3207,7 +3307,7 @@ extension Pinpoint {
         public let aPNSMessage: APNSMessage?
         /// The default push notification message for the Baidu (Baidu Cloud Push) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
         public let baiduMessage: BaiduMessage?
-        /// The default message body for all channels.
+        /// The default message for all channels.
         public let defaultMessage: DefaultMessage?
         /// The default push notification message for all push notification channels.
         public let defaultPushNotificationMessage: DefaultPushNotificationMessage?
@@ -3428,7 +3528,8 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MessageConfig", required: false, type: .structure), 
             AWSShapeMember(label: "NextActivity", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string)
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateVersion", required: false, type: .string)
         ]
 
         /// The "From" address to use for the message.
@@ -3437,48 +3538,62 @@ extension Pinpoint {
         public let nextActivity: String?
         /// The name of the email template to use for the message.
         public let templateName: String?
+        /// The unique identifier for the version of the email template to use for the message. If specified, this value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource. If you don't specify a value for this property, Amazon Pinpoint uses the active version of the template. The active version is typically the version of a template that's been most recently reviewed and approved for use, depending on your workflow. It isn't necessarily the latest version of a template.
+        public let templateVersion: String?
 
-        public init(messageConfig: JourneyEmailMessage? = nil, nextActivity: String? = nil, templateName: String? = nil) {
+        public init(messageConfig: JourneyEmailMessage? = nil, nextActivity: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
             self.messageConfig = messageConfig
             self.nextActivity = nextActivity
             self.templateName = templateName
+            self.templateVersion = templateVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case messageConfig = "MessageConfig"
             case nextActivity = "NextActivity"
             case templateName = "TemplateName"
+            case templateVersion = "TemplateVersion"
         }
     }
 
     public struct EmailTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
             AWSShapeMember(label: "HtmlPart", required: false, type: .string), 
             AWSShapeMember(label: "Subject", required: false, type: .string), 
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string), 
             AWSShapeMember(label: "TextPart", required: false, type: .string)
         ]
 
-        /// The message body, in HTML format, to use in email messages that are based on the message template. We recommend using HTML format for email clients that support HTML. You can include links, formatted text, and more in an HTML message.
+        /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
+        public let defaultSubstitutions: String?
+        /// The message body, in HTML format, to use in email messages that are based on the message template. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
         public let htmlPart: String?
         /// The subject line, or title, to use in email messages that are based on the message template.
         public let subject: String?
         /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
-        /// The message body, in text format, to use in email messages that are based on the message template. We recommend using text format for email clients that don't support HTML and clients that are connected to high-latency networks, such as mobile devices.
+        /// A custom description of the message template.
+        public let templateDescription: String?
+        /// The message body, in plain text format, to use in email messages that are based on the message template. We recommend using plain text format for email clients that don't render HTML content and clients that are connected to high-latency networks, such as mobile devices.
         public let textPart: String?
 
-        public init(htmlPart: String? = nil, subject: String? = nil, tags: [String: String]? = nil, textPart: String? = nil) {
+        public init(defaultSubstitutions: String? = nil, htmlPart: String? = nil, subject: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, textPart: String? = nil) {
+            self.defaultSubstitutions = defaultSubstitutions
             self.htmlPart = htmlPart
             self.subject = subject
             self.tags = tags
+            self.templateDescription = templateDescription
             self.textPart = textPart
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultSubstitutions = "DefaultSubstitutions"
             case htmlPart = "HtmlPart"
             case subject = "Subject"
             case tags = "tags"
+            case templateDescription = "TemplateDescription"
             case textPart = "TextPart"
         }
     }
@@ -3487,56 +3602,71 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
             AWSShapeMember(label: "HtmlPart", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: true, type: .string), 
             AWSShapeMember(label: "Subject", required: false, type: .string), 
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string), 
             AWSShapeMember(label: "TemplateName", required: true, type: .string), 
             AWSShapeMember(label: "TemplateType", required: true, type: .enum), 
-            AWSShapeMember(label: "TextPart", required: false, type: .string)
+            AWSShapeMember(label: "TextPart", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
 
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
-        /// The date when the message template was created.
+        /// The date, in ISO 8601 format, when the message template was created.
         public let creationDate: String
+        /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
+        public let defaultSubstitutions: String?
         /// The message body, in HTML format, that's used in email messages that are based on the message template.
         public let htmlPart: String?
-        /// The date when the message template was last modified.
+        /// The date, in ISO 8601 format, when the message template was last modified.
         public let lastModifiedDate: String
         /// The subject line, or title, that's used in email messages that are based on the message template.
         public let subject: String?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the message template. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
+        /// The custom description of the message template.
+        public let templateDescription: String?
         /// The name of the message template.
         public let templateName: String
         /// The type of channel that the message template is designed for. For an email template, this value is EMAIL.
         public let templateType: TemplateType
-        /// The message body, in text format, that's used in email messages that are based on the message template.
+        /// The message body, in plain text format, that's used in email messages that are based on the message template.
         public let textPart: String?
+        /// The unique identifier, as an integer, for the active version of the message template, or the version of the template that you specified by using the version parameter in your request.
+        public let version: String?
 
-        public init(arn: String? = nil, creationDate: String, htmlPart: String? = nil, lastModifiedDate: String, subject: String? = nil, tags: [String: String]? = nil, templateName: String, templateType: TemplateType, textPart: String? = nil) {
+        public init(arn: String? = nil, creationDate: String, defaultSubstitutions: String? = nil, htmlPart: String? = nil, lastModifiedDate: String, subject: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, textPart: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationDate = creationDate
+            self.defaultSubstitutions = defaultSubstitutions
             self.htmlPart = htmlPart
             self.lastModifiedDate = lastModifiedDate
             self.subject = subject
             self.tags = tags
+            self.templateDescription = templateDescription
             self.templateName = templateName
             self.templateType = templateType
             self.textPart = textPart
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creationDate = "CreationDate"
+            case defaultSubstitutions = "DefaultSubstitutions"
             case htmlPart = "HtmlPart"
             case lastModifiedDate = "LastModifiedDate"
             case subject = "Subject"
             case tags = "tags"
+            case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
             case textPart = "TextPart"
+            case version = "Version"
         }
     }
 
@@ -3645,13 +3775,13 @@ extension Pinpoint {
         public let appVersion: String?
         /// The locale of the endpoint, in the following format: the ISO 639-1 alpha-2 code, followed by an underscore (_), followed by an ISO 3166-1 alpha-2 value.
         public let locale: String?
-        /// The manufacturer of the endpoint device, such as Apple or Samsung.
+        /// The manufacturer of the endpoint device, such as apple or samsung.
         public let make: String?
-        /// The model name or number of the endpoint device, such as iPhone.
+        /// The model name or number of the endpoint device, such as iPhone or SM-G900F.
         public let model: String?
         /// The model version of the endpoint device.
         public let modelVersion: String?
-        /// The platform of the endpoint device, such as iOS or Android.
+        /// The platform of the endpoint device, such as ios.
         public let platform: String?
         /// The platform version of the endpoint device.
         public let platformVersion: String?
@@ -3954,7 +4084,7 @@ extension Pinpoint {
         public let bodyOverride: String?
         /// A map of custom attributes to attach to the message for the address. For a push notification, this payload is added to the data.pinpoint object. For an email or text message, this payload is added to email/SMS delivery receipt event attributes.
         public let context: [String: String]?
-        /// The raw, JSON-formatted string to use as the payload for the message. If specified, this value overrides the message.
+        /// The raw, JSON-formatted string to use as the payload for the message. If specified, this value overrides all other values for the message.
         public let rawContent: String?
         /// A map of the message variables to merge with the variables specified for the default message (DefaultMessage.Substitutions). The variables specified in this map take precedence over all other variables.
         public let substitutions: [String: [String]]?
@@ -4561,7 +4691,7 @@ extension Pinpoint {
         public let imageUrl: String?
         /// para>normal - The notification might be delayed. Delivery is optimized for battery usage on the recipient's device. Use this value unless immediate delivery is required./listitem> high - The notification is sent immediately and might wake a sleeping device./para> Amazon Pinpoint specifies this value in the FCM priority parameter when it sends the notification message to FCM. The equivalent values for Apple Push Notification service (APNs) are 5, for normal, and 10, for high. If you specify an APNs value for this property, Amazon Pinpoint accepts and converts the value to the corresponding FCM value.
         public let priority: String?
-        /// The raw, JSON-formatted string to use as the payload for the notification message. This value overrides the message.
+        /// The raw, JSON-formatted string to use as the payload for the notification message. If specified, this value overrides all other content for the message.
         public let rawContent: String?
         /// The package name of the application where registration tokens must match in order for the recipient to receive the message.
         public let restrictedPackageName: String?
@@ -5371,17 +5501,21 @@ extension Pinpoint {
 
     public struct GetEmailTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
         ]
 
         public let templateName: String
+        public let version: String?
 
-        public init(templateName: String) {
+        public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case templateName = "template-name"
+            case version = "version"
         }
     }
 
@@ -5863,17 +5997,21 @@ extension Pinpoint {
 
     public struct GetPushTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
         ]
 
         public let templateName: String
+        public let version: String?
 
-        public init(templateName: String) {
+        public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case templateName = "template-name"
+            case version = "version"
         }
     }
 
@@ -6191,17 +6329,21 @@ extension Pinpoint {
 
     public struct GetSmsTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
         ]
 
         public let templateName: String
+        public let version: String?
 
-        public init(templateName: String) {
+        public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case templateName = "template-name"
+            case version = "version"
         }
     }
 
@@ -6295,6 +6437,44 @@ extension Pinpoint {
         }
     }
 
+    public struct GetVoiceTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
+        ]
+
+        public let templateName: String
+        public let version: String?
+
+        public init(templateName: String, version: String? = nil) {
+            self.templateName = templateName
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "template-name"
+            case version = "version"
+        }
+    }
+
+    public struct GetVoiceTemplateResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "VoiceTemplateResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VoiceTemplateResponse", required: true, type: .structure)
+        ]
+
+        public let voiceTemplateResponse: VoiceTemplateResponse
+
+        public init(voiceTemplateResponse: VoiceTemplateResponse) {
+            self.voiceTemplateResponse = voiceTemplateResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceTemplateResponse = "VoiceTemplateResponse"
+        }
+    }
+
     public struct HoldoutActivity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextActivity", required: false, type: .string), 
@@ -6303,7 +6483,7 @@ extension Pinpoint {
 
         /// The unique identifier for the next activity to perform, after performing the holdout activity.
         public let nextActivity: String?
-        /// The percentage of participants who shouldn't continue the journey.
+        /// The percentage of participants who shouldn't continue the journey. To determine which participants are held out, Amazon Pinpoint applies a probability-based algorithm to the percentage that you specify. Therefore, the actual percentage of participants who are held out may not be equal to the percentage that you specify.
         public let percentage: Int
 
         public init(nextActivity: String? = nil, percentage: Int) {
@@ -6746,7 +6926,7 @@ extension Pinpoint {
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
-        /// The configuration and other settings for the activities that comprise the journey.
+        /// A map that contains a set of Activity objects, one object for each activity in the journey. For each Activity object, the key is the unique identifier (string) for an activity and the value is the settings for the activity.
         public let activities: [String: Activity]?
         /// The unique identifier for the application that the journey applies to.
         public let applicationId: String
@@ -6772,7 +6952,7 @@ extension Pinpoint {
         public let startActivity: String?
         /// The segment that defines which users are participants in the journey.
         public let startCondition: StartCondition?
-        /// The current status of the journey. Possible values are: DRAFT - The journey is being developed and hasn't been published yet. ACTIVE - The journey has been developed and published. Depending on the journey's schedule, the journey may currently be running or scheduled to start running at a later time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. COMPLETED - The journey has been published and has finished running. All participants have entered the journey and no participants are waiting to complete the journey or any activities in the journey. CANCELLED - The journey has been stopped. If a journey's status is CANCELLED, you can't add, change, or remove activities or segment settings from the journey. CLOSED - The journey has been published and has started running. It may have also passed its scheduled end time, or passed its scheduled start time and a refresh frequency hasn't been specified for it. If a journey's status is CLOSED, you can't add participants to it, and no existing participants can enter the journey for the first time. However, any existing participants who are currently waiting to start an activity may resume the journey.
+        /// The current status of the journey. Possible values are: DRAFT - The journey is being developed and hasn't been published yet. ACTIVE - The journey has been developed and published. Depending on the journey's schedule, the journey may currently be running or scheduled to start running at a later time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. COMPLETED - The journey has been published and has finished running. All participants have entered the journey and no participants are waiting to complete the journey or any activities in the journey. CANCELLED - The journey has been stopped. If a journey's status is CANCELLED, you can't add, change, or remove activities or segment settings from the journey. CLOSED - The journey has been published and has started running. It may have also passed its scheduled end time, or passed its scheduled start time and a refresh frequency hasn't been specified for it. If a journey's status is CLOSED, you can't add participants to it, and no existing participants can enter the journey for the first time. However, any existing participants who are currently waiting to start an activity may continue the journey.
         public let state: State?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the journey. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
@@ -6961,6 +7141,52 @@ extension Pinpoint {
         }
     }
 
+    public struct ListTemplateVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateType", location: .uri(locationName: "template-type"), required: true, type: .string)
+        ]
+
+        public let nextToken: String?
+        public let pageSize: String?
+        public let templateName: String
+        public let templateType: String
+
+        public init(nextToken: String? = nil, pageSize: String? = nil, templateName: String, templateType: String) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.templateName = templateName
+            self.templateType = templateType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "next-token"
+            case pageSize = "page-size"
+            case templateName = "template-name"
+            case templateType = "template-type"
+        }
+    }
+
+    public struct ListTemplateVersionsResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "TemplateVersionsResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateVersionsResponse", required: true, type: .structure)
+        ]
+
+        public let templateVersionsResponse: TemplateVersionsResponse
+
+        public init(templateVersionsResponse: TemplateVersionsResponse) {
+            self.templateVersionsResponse = templateVersionsResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateVersionsResponse = "TemplateVersionsResponse"
+        }
+    }
+
     public struct ListTemplatesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
@@ -7037,7 +7263,7 @@ extension Pinpoint {
         public let jsonBody: String?
         /// The URL of the image or video to display in the push notification.
         public let mediaUrl: String?
-        /// The raw, JSON-formatted string to use as the payload for the notification message. This value overrides other values for the message.
+        /// The raw, JSON-formatted string to use as the payload for the notification message. If specified, this value overrides all other content for the message.
         public let rawContent: String?
         /// Specifies whether the notification is a silent push notification, which is a push notification that doesn't display on a recipient's device. Silent push notifications can be used for cases such as updating an app's configuration, displaying messages in an in-app message center, or supporting phone home functionality.
         public let silentPush: Bool?
@@ -7164,7 +7390,7 @@ extension Pinpoint {
         public let context: [String: String]?
         /// A map of key-value pairs, where each key is an endpoint ID and each value is an EndpointSendConfiguration object. You can use an EndpointSendConfiguration object to tailor the message for an endpoint by specifying settings such as content overrides and message variables.
         public let endpoints: [String: EndpointSendConfiguration]?
-        /// The set of properties that defines the configuration settings for the message.
+        /// The settings and content for the default message and any default messages that you defined for specific channels.
         public let messageConfiguration: DirectMessageConfiguration
         /// The message template to use for the message.
         public let templateConfiguration: TemplateConfiguration?
@@ -7324,7 +7550,7 @@ extension Pinpoint {
 
         /// The paths for the activity, including the conditions for entering each path and the activity to perform for each path.
         public let branches: [MultiConditionalBranch]?
-        /// The activity to perform by default for any path in the activity.
+        /// The unique identifier for the activity to perform for participants who don't meet any of the conditions specified for other paths in the activity.
         public let defaultActivity: String?
         /// The amount of time to wait or the date and time when Amazon Pinpoint determines whether the conditions are met.
         public let evaluationWaitTime: WaitTime?
@@ -7562,8 +7788,10 @@ extension Pinpoint {
             AWSShapeMember(label: "APNS", required: false, type: .structure), 
             AWSShapeMember(label: "Baidu", required: false, type: .structure), 
             AWSShapeMember(label: "Default", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
             AWSShapeMember(label: "GCM", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string)
         ]
 
         /// The message template to use for the ADM (Amazon Device Messaging) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
@@ -7574,18 +7802,24 @@ extension Pinpoint {
         public let baidu: AndroidPushNotificationTemplate?
         /// The default message template to use for push notification channels.
         public let `default`: DefaultPushNotificationTemplate?
+        /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
+        public let defaultSubstitutions: String?
         /// The message template to use for the GCM channel, which is used to send notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let gcm: AndroidPushNotificationTemplate?
         /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
+        /// A custom description of the message template.
+        public let templateDescription: String?
 
-        public init(adm: AndroidPushNotificationTemplate? = nil, apns: APNSPushNotificationTemplate? = nil, baidu: AndroidPushNotificationTemplate? = nil, default: DefaultPushNotificationTemplate? = nil, gcm: AndroidPushNotificationTemplate? = nil, tags: [String: String]? = nil) {
+        public init(adm: AndroidPushNotificationTemplate? = nil, apns: APNSPushNotificationTemplate? = nil, baidu: AndroidPushNotificationTemplate? = nil, default: DefaultPushNotificationTemplate? = nil, defaultSubstitutions: String? = nil, gcm: AndroidPushNotificationTemplate? = nil, tags: [String: String]? = nil, templateDescription: String? = nil) {
             self.adm = adm
             self.apns = apns
             self.baidu = baidu
             self.`default` = `default`
+            self.defaultSubstitutions = defaultSubstitutions
             self.gcm = gcm
             self.tags = tags
+            self.templateDescription = templateDescription
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7593,8 +7827,10 @@ extension Pinpoint {
             case apns = "APNS"
             case baidu = "Baidu"
             case `default` = "Default"
+            case defaultSubstitutions = "DefaultSubstitutions"
             case gcm = "GCM"
             case tags = "tags"
+            case templateDescription = "TemplateDescription"
         }
     }
 
@@ -7606,11 +7842,14 @@ extension Pinpoint {
             AWSShapeMember(label: "Baidu", required: false, type: .structure), 
             AWSShapeMember(label: "CreationDate", required: true, type: .string), 
             AWSShapeMember(label: "Default", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
             AWSShapeMember(label: "GCM", required: false, type: .structure), 
             AWSShapeMember(label: "LastModifiedDate", required: true, type: .string), 
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string), 
             AWSShapeMember(label: "TemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateType", required: true, type: .enum)
+            AWSShapeMember(label: "TemplateType", required: true, type: .enum), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
 
         /// The message template that's used for the ADM (Amazon Device Messaging) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
@@ -7621,33 +7860,42 @@ extension Pinpoint {
         public let arn: String?
         /// The message template that's used for the Baidu (Baidu Cloud Push) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let baidu: AndroidPushNotificationTemplate?
-        /// The date when the message template was created.
+        /// The date, in ISO 8601 format, when the message template was created.
         public let creationDate: String
         /// The default message template that's used for push notification channels.
         public let `default`: DefaultPushNotificationTemplate?
+        /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
+        public let defaultSubstitutions: String?
         /// The message template that's used for the GCM channel, which is used to send notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let gcm: AndroidPushNotificationTemplate?
-        /// The date when the message template was last modified.
+        /// The date, in ISO 8601 format, when the message template was last modified.
         public let lastModifiedDate: String
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the message template. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
+        /// The custom description of the message template.
+        public let templateDescription: String?
         /// The name of the message template.
         public let templateName: String
         /// The type of channel that the message template is designed for. For a push notification template, this value is PUSH.
         public let templateType: TemplateType
+        /// The unique identifier, as an integer, for the active version of the message template, or the version of the template that you specified by using the version parameter in your request.
+        public let version: String?
 
-        public init(adm: AndroidPushNotificationTemplate? = nil, apns: APNSPushNotificationTemplate? = nil, arn: String? = nil, baidu: AndroidPushNotificationTemplate? = nil, creationDate: String, default: DefaultPushNotificationTemplate? = nil, gcm: AndroidPushNotificationTemplate? = nil, lastModifiedDate: String, tags: [String: String]? = nil, templateName: String, templateType: TemplateType) {
+        public init(adm: AndroidPushNotificationTemplate? = nil, apns: APNSPushNotificationTemplate? = nil, arn: String? = nil, baidu: AndroidPushNotificationTemplate? = nil, creationDate: String, default: DefaultPushNotificationTemplate? = nil, defaultSubstitutions: String? = nil, gcm: AndroidPushNotificationTemplate? = nil, lastModifiedDate: String, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil) {
             self.adm = adm
             self.apns = apns
             self.arn = arn
             self.baidu = baidu
             self.creationDate = creationDate
             self.`default` = `default`
+            self.defaultSubstitutions = defaultSubstitutions
             self.gcm = gcm
             self.lastModifiedDate = lastModifiedDate
             self.tags = tags
+            self.templateDescription = templateDescription
             self.templateName = templateName
             self.templateType = templateType
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7657,11 +7905,14 @@ extension Pinpoint {
             case baidu = "Baidu"
             case creationDate = "CreationDate"
             case `default` = "Default"
+            case defaultSubstitutions = "DefaultSubstitutions"
             case gcm = "GCM"
             case lastModifiedDate = "LastModifiedDate"
             case tags = "tags"
+            case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
+            case version = "Version"
         }
     }
 
@@ -7792,7 +8043,7 @@ extension Pinpoint {
 
         /// The unique identifier for the next activity to perform, after completing the activity for the path.
         public let nextActivity: String?
-        /// The percentage of participants to send down the activity path.
+        /// The percentage of participants to send down the activity path. To determine which participants are sent down each path, Amazon Pinpoint applies a probability-based algorithm to the percentages that you specify for the paths. Therefore, the actual percentage of participants who are sent down a path may not be equal to the percentage that you specify.
         public let percentage: Int?
 
         public init(nextActivity: String? = nil, percentage: Int? = nil) {
@@ -8098,22 +8349,32 @@ extension Pinpoint {
     public struct SMSTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Body", required: false, type: .string), 
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string)
         ]
 
         /// The message body to use in text messages that are based on the message template.
         public let body: String?
+        /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
+        public let defaultSubstitutions: String?
         /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
+        /// A custom description of the message template.
+        public let templateDescription: String?
 
-        public init(body: String? = nil, tags: [String: String]? = nil) {
+        public init(body: String? = nil, defaultSubstitutions: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil) {
             self.body = body
+            self.defaultSubstitutions = defaultSubstitutions
             self.tags = tags
+            self.templateDescription = templateDescription
         }
 
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
+            case defaultSubstitutions = "DefaultSubstitutions"
             case tags = "tags"
+            case templateDescription = "TemplateDescription"
         }
     }
 
@@ -8122,45 +8383,60 @@ extension Pinpoint {
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "Body", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: true, type: .string), 
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string), 
             AWSShapeMember(label: "TemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateType", required: true, type: .enum)
+            AWSShapeMember(label: "TemplateType", required: true, type: .enum), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
 
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
         /// The message body that's used in text messages that are based on the message template.
         public let body: String?
-        /// The date when the message template was created.
+        /// The date, in ISO 8601 format, when the message template was created.
         public let creationDate: String
-        /// The date when the message template was last modified.
+        /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
+        public let defaultSubstitutions: String?
+        /// The date, in ISO 8601 format, when the message template was last modified.
         public let lastModifiedDate: String
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the message template. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
+        /// The custom description of the message template.
+        public let templateDescription: String?
         /// The name of the message template.
         public let templateName: String
         /// The type of channel that the message template is designed for. For an SMS template, this value is SMS.
         public let templateType: TemplateType
+        /// The unique identifier, as an integer, for the active version of the message template, or the version of the template that you specified by using the version parameter in your request.
+        public let version: String?
 
-        public init(arn: String? = nil, body: String? = nil, creationDate: String, lastModifiedDate: String, tags: [String: String]? = nil, templateName: String, templateType: TemplateType) {
+        public init(arn: String? = nil, body: String? = nil, creationDate: String, defaultSubstitutions: String? = nil, lastModifiedDate: String, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil) {
             self.arn = arn
             self.body = body
             self.creationDate = creationDate
+            self.defaultSubstitutions = defaultSubstitutions
             self.lastModifiedDate = lastModifiedDate
             self.tags = tags
+            self.templateDescription = templateDescription
             self.templateName = templateName
             self.templateType = templateType
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case body = "Body"
             case creationDate = "CreationDate"
+            case defaultSubstitutions = "DefaultSubstitutions"
             case lastModifiedDate = "LastModifiedDate"
             case tags = "tags"
+            case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
+            case version = "Version"
         }
     }
 
@@ -8623,7 +8899,7 @@ extension Pinpoint {
 
         /// A map of custom attribute-value pairs. For a push notification, Amazon Pinpoint adds these attributes to the data.pinpoint object in the body of the notification payload. Amazon Pinpoint also provides these attributes in the events that it generates for users-messages deliveries.
         public let context: [String: String]?
-        /// The message definitions for the default message and any default messages that you defined for specific channels.
+        /// The settings and content for the default message and any default messages that you defined for specific channels.
         public let messageConfiguration: DirectMessageConfiguration
         /// The message template to use for the message.
         public let templateConfiguration: TemplateConfiguration?
@@ -8804,11 +9080,11 @@ extension Pinpoint {
             AWSShapeMember(label: "TextPart", required: false, type: .structure)
         ]
 
-        /// The body of the email message, in HTML format. We recommend using an HTML part for email clients that support HTML. You can include links, formatted text, and more in an HTML message.
+        /// The body of the email message, in HTML format. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
         public let htmlPart: SimpleEmailPart?
         /// The subject line, or title, of the email.
         public let subject: SimpleEmailPart?
-        /// The body of the email message, in text format. We recommend using a text part for email clients that don't support HTML and clients that are connected to high-latency networks, such as mobile devices.
+        /// The body of the email message, in plain text format. We recommend using plain text format for email clients that don't render HTML content and clients that are connected to high-latency networks, such as mobile devices.
         public let textPart: SimpleEmailPart?
 
         public init(htmlPart: SimpleEmailPart? = nil, subject: SimpleEmailPart? = nil, textPart: SimpleEmailPart? = nil) {
@@ -8925,18 +9201,40 @@ extension Pinpoint {
 
     public struct Template: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
 
         /// The name of the message template to use for the message. If specified, this value must match the name of an existing message template.
         public let name: String?
+        /// The unique identifier for the version of the message template to use for the message. If specified, this value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource. If you don't specify a value for this property, Amazon Pinpoint uses the active version of the template. The active version is typically the version of a template that's been most recently reviewed and approved for use, depending on your workflow. It isn't necessarily the latest version of a template.
+        public let version: String?
 
-        public init(name: String? = nil) {
+        public init(name: String? = nil, version: String? = nil) {
             self.name = name
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct TemplateActiveVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+
+        /// The unique identifier for the version of the message template to use as the active version of the template. If specified, this value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource.
+        public let version: String?
+
+        public init(version: String? = nil) {
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
         }
     }
 
@@ -8944,7 +9242,8 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailTemplate", required: false, type: .structure), 
             AWSShapeMember(label: "PushTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "SMSTemplate", required: false, type: .structure)
+            AWSShapeMember(label: "SMSTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "VoiceTemplate", required: false, type: .structure)
         ]
 
         /// The email template to use for the message.
@@ -8953,17 +9252,21 @@ extension Pinpoint {
         public let pushTemplate: Template?
         /// The SMS template to use for the message.
         public let sMSTemplate: Template?
+        /// The voice template to use for the message.
+        public let voiceTemplate: Template?
 
-        public init(emailTemplate: Template? = nil, pushTemplate: Template? = nil, sMSTemplate: Template? = nil) {
+        public init(emailTemplate: Template? = nil, pushTemplate: Template? = nil, sMSTemplate: Template? = nil, voiceTemplate: Template? = nil) {
             self.emailTemplate = emailTemplate
             self.pushTemplate = pushTemplate
             self.sMSTemplate = sMSTemplate
+            self.voiceTemplate = voiceTemplate
         }
 
         private enum CodingKeys: String, CodingKey {
             case emailTemplate = "EmailTemplate"
             case pushTemplate = "PushTemplate"
             case sMSTemplate = "SMSTemplate"
+            case voiceTemplate = "VoiceTemplate"
         }
     }
 
@@ -8971,41 +9274,56 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: true, type: .string), 
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string), 
             AWSShapeMember(label: "TemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateType", required: true, type: .enum)
+            AWSShapeMember(label: "TemplateType", required: true, type: .enum), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
 
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
-        /// The date when the message template was created.
+        /// The date, in ISO 8601 format, when the message template was created.
         public let creationDate: String
-        /// The date when the message template was last modified.
+        /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
+        public let defaultSubstitutions: String?
+        /// The date, in ISO 8601 format, when the message template was last modified.
         public let lastModifiedDate: String
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the message template. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
+        /// The custom description of the message template.
+        public let templateDescription: String?
         /// The name of the message template.
         public let templateName: String
-        /// The type of channel that the message template is designed for.
+        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, and VOICE.
         public let templateType: TemplateType
+        /// The unique identifier, as an integer, for the active version of the message template.
+        public let version: String?
 
-        public init(arn: String? = nil, creationDate: String, lastModifiedDate: String, tags: [String: String]? = nil, templateName: String, templateType: TemplateType) {
+        public init(arn: String? = nil, creationDate: String, defaultSubstitutions: String? = nil, lastModifiedDate: String, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil) {
             self.arn = arn
             self.creationDate = creationDate
+            self.defaultSubstitutions = defaultSubstitutions
             self.lastModifiedDate = lastModifiedDate
             self.tags = tags
+            self.templateDescription = templateDescription
             self.templateName = templateName
             self.templateType = templateType
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creationDate = "CreationDate"
+            case defaultSubstitutions = "DefaultSubstitutions"
             case lastModifiedDate = "LastModifiedDate"
             case tags = "tags"
+            case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
+            case version = "Version"
         }
     }
 
@@ -9015,6 +9333,85 @@ extension Pinpoint {
         case voice = "VOICE"
         case push = "PUSH"
         public var description: String { return self.rawValue }
+    }
+
+    public struct TemplateVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDate", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateType", required: true, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+
+        /// The date, in ISO 8601 format, when the version of the message template was created.
+        public let creationDate: String
+        /// A JSON object that specifies the default values that are used for message variables in the version of the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
+        public let defaultSubstitutions: String?
+        /// The date, in ISO 8601 format, when the version of the message template was last modified.
+        public let lastModifiedDate: String
+        /// The custom description of the version of the message template.
+        public let templateDescription: String?
+        /// The name of the message template.
+        public let templateName: String
+        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, and VOICE.
+        public let templateType: String
+        /// The unique identifier for the version of the message template. This value is an integer that Amazon Pinpoint automatically increments and assigns to each new version of a template.
+        public let version: String?
+
+        public init(creationDate: String, defaultSubstitutions: String? = nil, lastModifiedDate: String, templateDescription: String? = nil, templateName: String, templateType: String, version: String? = nil) {
+            self.creationDate = creationDate
+            self.defaultSubstitutions = defaultSubstitutions
+            self.lastModifiedDate = lastModifiedDate
+            self.templateDescription = templateDescription
+            self.templateName = templateName
+            self.templateType = templateType
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case defaultSubstitutions = "DefaultSubstitutions"
+            case lastModifiedDate = "LastModifiedDate"
+            case templateDescription = "TemplateDescription"
+            case templateName = "TemplateName"
+            case templateType = "TemplateType"
+            case version = "Version"
+        }
+    }
+
+    public struct TemplateVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: true, type: .list), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestID", required: false, type: .string)
+        ]
+
+        /// An array of responses, one for each version of the message template.
+        public let item: [TemplateVersionResponse]
+        /// The message that's returned from the API for the request to retrieve information about all the versions of the message template.
+        public let message: String?
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+        public let nextToken: String?
+        /// The unique identifier for the request to retrieve information about all the versions of the message template.
+        public let requestID: String?
+
+        public init(item: [TemplateVersionResponse], message: String? = nil, nextToken: String? = nil, requestID: String? = nil) {
+            self.item = item
+            self.message = message
+            self.nextToken = nextToken
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+            case message = "Message"
+            case nextToken = "NextToken"
+            case requestID = "RequestID"
+        }
     }
 
     public struct TemplatesResponse: AWSShape {
@@ -9503,21 +9900,29 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "EmailTemplateRequest"
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateNewVersion", location: .querystring(locationName: "create-new-version"), required: false, type: .boolean), 
             AWSShapeMember(label: "EmailTemplateRequest", required: true, type: .structure), 
-            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
         ]
 
+        public let createNewVersion: Bool?
         public let emailTemplateRequest: EmailTemplateRequest
         public let templateName: String
+        public let version: String?
 
-        public init(emailTemplateRequest: EmailTemplateRequest, templateName: String) {
+        public init(createNewVersion: Bool? = nil, emailTemplateRequest: EmailTemplateRequest, templateName: String, version: String? = nil) {
+            self.createNewVersion = createNewVersion
             self.emailTemplateRequest = emailTemplateRequest
             self.templateName = templateName
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createNewVersion = "create-new-version"
             case emailTemplateRequest = "EmailTemplateRequest"
             case templateName = "template-name"
+            case version = "version"
         }
     }
 
@@ -9755,21 +10160,29 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "PushNotificationTemplateRequest"
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateNewVersion", location: .querystring(locationName: "create-new-version"), required: false, type: .boolean), 
             AWSShapeMember(label: "PushNotificationTemplateRequest", required: true, type: .structure), 
-            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
         ]
 
+        public let createNewVersion: Bool?
         public let pushNotificationTemplateRequest: PushNotificationTemplateRequest
         public let templateName: String
+        public let version: String?
 
-        public init(pushNotificationTemplateRequest: PushNotificationTemplateRequest, templateName: String) {
+        public init(createNewVersion: Bool? = nil, pushNotificationTemplateRequest: PushNotificationTemplateRequest, templateName: String, version: String? = nil) {
+            self.createNewVersion = createNewVersion
             self.pushNotificationTemplateRequest = pushNotificationTemplateRequest
             self.templateName = templateName
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createNewVersion = "create-new-version"
             case pushNotificationTemplateRequest = "PushNotificationTemplateRequest"
             case templateName = "template-name"
+            case version = "version"
         }
     }
 
@@ -9879,25 +10292,77 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "SMSTemplateRequest"
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateNewVersion", location: .querystring(locationName: "create-new-version"), required: false, type: .boolean), 
             AWSShapeMember(label: "SMSTemplateRequest", required: true, type: .structure), 
-            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string)
         ]
 
+        public let createNewVersion: Bool?
         public let sMSTemplateRequest: SMSTemplateRequest
         public let templateName: String
+        public let version: String?
 
-        public init(sMSTemplateRequest: SMSTemplateRequest, templateName: String) {
+        public init(createNewVersion: Bool? = nil, sMSTemplateRequest: SMSTemplateRequest, templateName: String, version: String? = nil) {
+            self.createNewVersion = createNewVersion
             self.sMSTemplateRequest = sMSTemplateRequest
             self.templateName = templateName
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createNewVersion = "create-new-version"
             case sMSTemplateRequest = "SMSTemplateRequest"
             case templateName = "template-name"
+            case version = "version"
         }
     }
 
     public struct UpdateSmsTemplateResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "MessageBody"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageBody", required: true, type: .structure)
+        ]
+
+        public let messageBody: MessageBody
+
+        public init(messageBody: MessageBody) {
+            self.messageBody = messageBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageBody = "MessageBody"
+        }
+    }
+
+    public struct UpdateTemplateActiveVersionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "TemplateActiveVersionRequest"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateActiveVersionRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateType", location: .uri(locationName: "template-type"), required: true, type: .string)
+        ]
+
+        public let templateActiveVersionRequest: TemplateActiveVersionRequest
+        public let templateName: String
+        public let templateType: String
+
+        public init(templateActiveVersionRequest: TemplateActiveVersionRequest, templateName: String, templateType: String) {
+            self.templateActiveVersionRequest = templateActiveVersionRequest
+            self.templateName = templateName
+            self.templateType = templateType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateActiveVersionRequest = "TemplateActiveVersionRequest"
+            case templateName = "template-name"
+            case templateType = "template-type"
+        }
+    }
+
+    public struct UpdateTemplateActiveVersionResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "MessageBody"
         public static var _members: [AWSShapeMember] = [
@@ -9952,6 +10417,54 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case voiceChannelResponse = "VoiceChannelResponse"
+        }
+    }
+
+    public struct UpdateVoiceTemplateRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "VoiceTemplateRequest"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateNewVersion", location: .querystring(locationName: "create-new-version"), required: false, type: .boolean), 
+            AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .querystring(locationName: "version"), required: false, type: .string), 
+            AWSShapeMember(label: "VoiceTemplateRequest", required: true, type: .structure)
+        ]
+
+        public let createNewVersion: Bool?
+        public let templateName: String
+        public let version: String?
+        public let voiceTemplateRequest: VoiceTemplateRequest
+
+        public init(createNewVersion: Bool? = nil, templateName: String, version: String? = nil, voiceTemplateRequest: VoiceTemplateRequest) {
+            self.createNewVersion = createNewVersion
+            self.templateName = templateName
+            self.version = version
+            self.voiceTemplateRequest = voiceTemplateRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createNewVersion = "create-new-version"
+            case templateName = "template-name"
+            case version = "version"
+            case voiceTemplateRequest = "VoiceTemplateRequest"
+        }
+    }
+
+    public struct UpdateVoiceTemplateResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "MessageBody"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageBody", required: true, type: .structure)
+        ]
+
+        public let messageBody: MessageBody
+
+        public init(messageBody: MessageBody) {
+            self.messageBody = messageBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageBody = "MessageBody"
         }
     }
 
@@ -10043,9 +10556,9 @@ extension Pinpoint {
             AWSShapeMember(label: "VoiceId", required: false, type: .string)
         ]
 
-        /// The text script for the voice message.
+        /// The text of the script to use for the voice message.
         public let body: String?
-        /// The language to use when delivering the message. For a list of supported languages, see the Amazon Polly Developer Guide.
+        /// The code for the language to use when synthesizing the text of the message script. For a list of supported languages and the code for each one, see the Amazon Polly Developer Guide.
         public let languageCode: String?
         /// The long code to send the voice message from. This value should be one of the dedicated long codes that's assigned to your AWS account. Although it isn't required, we recommend that you specify the long code in E.164 format, for example +12065550100, to ensure prompt and accurate delivery of the message.
         public let originationNumber: String?
@@ -10067,6 +10580,120 @@ extension Pinpoint {
             case languageCode = "LanguageCode"
             case originationNumber = "OriginationNumber"
             case substitutions = "Substitutions"
+            case voiceId = "VoiceId"
+        }
+    }
+
+    public struct VoiceTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .string), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string), 
+            AWSShapeMember(label: "VoiceId", required: false, type: .string)
+        ]
+
+        /// The text of the script to use in messages that are based on the message template, in plain text format.
+        public let body: String?
+        /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
+        public let defaultSubstitutions: String?
+        /// The code for the language to use when synthesizing the text of the script in messages that are based on the message template. For a list of supported languages and the code for each one, see the Amazon Polly Developer Guide.
+        public let languageCode: String?
+        /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
+        public let tags: [String: String]?
+        /// A custom description of the message template.
+        public let templateDescription: String?
+        /// The name of the voice to use when delivering messages that are based on the message template. For a list of supported voices, see the Amazon Polly Developer Guide.
+        public let voiceId: String?
+
+        public init(body: String? = nil, defaultSubstitutions: String? = nil, languageCode: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, voiceId: String? = nil) {
+            self.body = body
+            self.defaultSubstitutions = defaultSubstitutions
+            self.languageCode = languageCode
+            self.tags = tags
+            self.templateDescription = templateDescription
+            self.voiceId = voiceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case defaultSubstitutions = "DefaultSubstitutions"
+            case languageCode = "LanguageCode"
+            case tags = "tags"
+            case templateDescription = "TemplateDescription"
+            case voiceId = "VoiceId"
+        }
+    }
+
+    public struct VoiceTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultSubstitutions", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: true, type: .string), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateType", required: true, type: .enum), 
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "VoiceId", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the message template.
+        public let arn: String?
+        /// The text of the script that's used in messages that are based on the message template, in plain text format.
+        public let body: String?
+        /// The date, in ISO 8601 format, when the message template was created.
+        public let creationDate: String
+        /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
+        public let defaultSubstitutions: String?
+        /// The code for the language that's used when synthesizing the text of the script in messages that are based on the message template. For a list of supported languages and the code for each one, see the Amazon Polly Developer Guide.
+        public let languageCode: String?
+        /// The date, in ISO 8601 format, when the message template was last modified.
+        public let lastModifiedDate: String
+        /// A string-to-string map of key-value pairs that identifies the tags that are associated with the message template. Each tag consists of a required tag key and an associated tag value.
+        public let tags: [String: String]?
+        /// The custom description of the message template.
+        public let templateDescription: String?
+        /// The name of the message template.
+        public let templateName: String
+        /// The type of channel that the message template is designed for. For a voice template, this value is VOICE.
+        public let templateType: TemplateType
+        /// The unique identifier, as an integer, for the active version of the message template, or the version of the template that you specified by using the version parameter in your request.
+        public let version: String?
+        /// The name of the voice that's used when delivering messages that are based on the message template. For a list of supported voices, see the Amazon Polly Developer Guide.
+        public let voiceId: String?
+
+        public init(arn: String? = nil, body: String? = nil, creationDate: String, defaultSubstitutions: String? = nil, languageCode: String? = nil, lastModifiedDate: String, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil, voiceId: String? = nil) {
+            self.arn = arn
+            self.body = body
+            self.creationDate = creationDate
+            self.defaultSubstitutions = defaultSubstitutions
+            self.languageCode = languageCode
+            self.lastModifiedDate = lastModifiedDate
+            self.tags = tags
+            self.templateDescription = templateDescription
+            self.templateName = templateName
+            self.templateType = templateType
+            self.version = version
+            self.voiceId = voiceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case body = "Body"
+            case creationDate = "CreationDate"
+            case defaultSubstitutions = "DefaultSubstitutions"
+            case languageCode = "LanguageCode"
+            case lastModifiedDate = "LastModifiedDate"
+            case tags = "tags"
+            case templateDescription = "TemplateDescription"
+            case templateName = "TemplateName"
+            case templateType = "TemplateType"
+            case version = "Version"
             case voiceId = "VoiceId"
         }
     }
@@ -10099,7 +10726,7 @@ extension Pinpoint {
             AWSShapeMember(label: "WaitUntil", required: false, type: .string)
         ]
 
-        /// The amount of time, as a duration in ISO 8601 format, to wait before determining whether the activity's conditions have been met or moving participants to the next activity in the journey.
+        /// The amount of time to wait, as a duration in ISO 8601 format, before determining whether the activity's conditions have been met or moving participants to the next activity in the journey.
         public let waitFor: String?
         /// The date and time, in ISO 8601 format, when Amazon Pinpoint determines whether the activity's conditions have been met or the activity moves participants to the next activity in the journey.
         public let waitUntil: String?
@@ -10168,7 +10795,7 @@ extension Pinpoint {
 
         /// An array of requests that defines additional treatments for the campaign, in addition to the default treatment for the campaign.
         public let additionalTreatments: [WriteTreatmentResource]?
-        /// The custom description of the campaign.
+        /// A custom description of the campaign.
         public let description: String?
         /// The allocated percentage of users (segment members) who shouldn't receive messages from the campaign.
         public let holdoutPercent: Int?
@@ -10192,7 +10819,7 @@ extension Pinpoint {
         public let tags: [String: String]?
         /// The message template to use for the campaign.
         public let templateConfiguration: TemplateConfiguration?
-        /// The custom description of a variation of the campaign to use for A/B testing.
+        /// A custom description of a variation of the campaign to use for A/B testing.
         public let treatmentDescription: String?
         /// The custom name of a variation of the campaign to use for A/B testing.
         public let treatmentName: String?
@@ -10274,7 +10901,7 @@ extension Pinpoint {
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
 
-        /// The configuration and other settings for the activities that comprise the journey.
+        /// A map that contains a set of Activity objects, one object for each activity in the journey. For each Activity object, the key is the unique identifier (string) for an activity and the value is the settings for the activity. An activity identifier can contain a maximum of 128 characters. The characters must be alphanumeric characters.
         public let activities: [String: Activity]?
         /// The date, in ISO 8601 format, when the journey was created.
         public let creationDate: String?
@@ -10292,7 +10919,7 @@ extension Pinpoint {
         public let refreshFrequency: String?
         /// The schedule settings for the journey.
         public let schedule: JourneySchedule?
-        /// The unique identifier for the first activity in the journey.
+        /// The unique identifier for the first activity in the journey. An activity identifier can contain a maximum of 128 characters. The characters must be alphanumeric characters.
         public let startActivity: String?
         /// The segment that defines which users are participants in the journey.
         public let startCondition: StartCondition?
@@ -10380,7 +11007,7 @@ extension Pinpoint {
         public let sizePercent: Int
         /// The message template to use for the treatment.
         public let templateConfiguration: TemplateConfiguration?
-        /// The custom description of the treatment.
+        /// A custom description of the treatment.
         public let treatmentDescription: String?
         /// The custom name of the treatment. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
         public let treatmentName: String?

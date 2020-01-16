@@ -291,6 +291,12 @@ extension MediaConvert {
         }
     }
 
+    public enum AlphaBehavior: String, CustomStringConvertible, Codable {
+        case discard = "DISCARD"
+        case remapToLuma = "REMAP_TO_LUMA"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AncillaryConvert608To708: String, CustomStringConvertible, Codable {
         case upconvert = "UPCONVERT"
         case disabled = "DISABLED"
@@ -470,11 +476,11 @@ extension MediaConvert {
         public let audioTypeControl: AudioTypeControl?
         /// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the group of settings related to audio encoding. The settings in this group vary depending on the value that you choose for Audio codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AAC, AacSettings * MP2, Mp2Settings * WAV, WavSettings * AIFF, AiffSettings * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings
         public let codecSettings: AudioCodecSettings?
-        /// Specify the language for this audio output track, using the ISO 639-2 or ISO 639-3 three-letter language code. The language specified will be used when 'Follow Input Language Code' is not selected or when 'Follow Input Language Code' is selected but there is no ISO 639 language code specified by the input.
+        /// Specify the language for this audio output track. The service puts this language code into your output audio track when you set Language code control (AudioLanguageCodeControl) to Use configured (USE_CONFIGURED). The service also uses your specified custom language code when you set Language code control (AudioLanguageCodeControl) to Follow input (FOLLOW_INPUT), but your input file doesn't specify a language code. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
         /// Indicates the language of the audio output track. The ISO 639 language specified in the 'Language Code' drop down will be used when 'Follow Input Language Code' is not selected or when 'Follow Input Language Code' is selected but there is no ISO 639 language code specified by the input.
         public let languageCode: LanguageCode?
-        /// Choosing FOLLOW_INPUT will cause the ISO 639 language code of the output to follow the ISO 639 language code of the input. The language specified for languageCode' will be used when USE_CONFIGURED is selected or when FOLLOW_INPUT is selected but there is no ISO 639 language code specified by the input.
+        /// Specify which source for language code takes precedence for this audio track. When you choose Follow input (FOLLOW_INPUT), the service uses the language code from the input track if it's present. If there's no languge code on the input track, the service uses the code that you specify in the setting Language code (languageCode or customLanguageCode). When you choose Use configured (USE_CONFIGURED), the service uses the language code that you specify.
         public let languageCodeControl: AudioLanguageCodeControl?
         /// Advanced audio remixing settings.
         public let remixSettings: RemixSettings?
@@ -499,9 +505,7 @@ extension MediaConvert {
             try validate(self.audioType, name:"audioType", parent: name, max: 255)
             try validate(self.audioType, name:"audioType", parent: name, min: 0)
             try self.codecSettings?.validate(name: "\(name).codecSettings")
-            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, max: 3)
-            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, min: 3)
-            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
+            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{2,3}(-[A-Za-z-]+)?$")
             try self.remixSettings?.validate(name: "\(name).remixSettings")
             try validate(self.streamName, name:"streamName", parent: name, pattern: "^[\\w\\s]*$")
         }
@@ -651,7 +655,7 @@ extension MediaConvert {
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, max: 3)
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, min: 3)
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
-            try validate(self.externalAudioFileInput, name:"externalAudioFileInput", parent: name, pattern: "^(http|https|s3)://([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))$")
+            try validate(self.externalAudioFileInput, name:"externalAudioFileInput", parent: name, pattern: "^(http|https|s3)://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))$")
             try validate(self.offset, name:"offset", parent: name, max: 2147483647)
             try validate(self.offset, name:"offset", parent: name, min: -2147483648)
             try self.pids?.forEach {
@@ -953,7 +957,7 @@ extension MediaConvert {
 
         /// Specifies which "Caption Selector":#inputs-caption_selector to use from each input when generating captions. The name should be of the format "Caption Selector ", which denotes that the Nth Caption Selector will be used from each input.
         public let captionSelectorName: String?
-        /// Indicates the language of the caption output track, using the ISO 639-2 or ISO 639-3 three-letter language code. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information to choose the font language for rendering the captions text.
+        /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
         /// Specific settings required by destination type. Note that burnin_destination_settings are not available if the source of the caption data is Embedded or Teletext.
         public let destinationSettings: CaptionDestinationSettings?
@@ -972,9 +976,7 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try validate(self.captionSelectorName, name:"captionSelectorName", parent: name, min: 1)
-            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, max: 3)
-            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, min: 3)
-            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
+            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{2,3}(-[A-Za-z-]+)?$")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
         }
 
@@ -995,7 +997,7 @@ extension MediaConvert {
             AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: false, type: .string)
         ]
 
-        /// Indicates the language of the caption output track, using the ISO 639-2 or ISO 639-3 three-letter language code. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information to choose the font language for rendering the captions text.
+        /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
         /// Specific settings required by destination type. Note that burnin_destination_settings are not available if the source of the caption data is Embedded or Teletext.
         public let destinationSettings: CaptionDestinationSettings?
@@ -1012,9 +1014,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, max: 3)
-            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, min: 3)
-            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
+            try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{2,3}(-[A-Za-z-]+)?$")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
         }
 
@@ -1230,6 +1230,35 @@ extension MediaConvert {
         }
     }
 
+    public struct CmafAdditionalManifest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
+            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"), required: false, type: .list)
+        ]
+
+        /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
+        public let manifestNameModifier: String?
+        /// Specify the outputs that you want this additional top-level manifest to reference.
+        public let selectedOutputs: [String]?
+
+        public init(manifestNameModifier: String? = nil, selectedOutputs: [String]? = nil) {
+            self.manifestNameModifier = manifestNameModifier
+            self.selectedOutputs = selectedOutputs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.manifestNameModifier, name:"manifestNameModifier", parent: name, min: 1)
+            try self.selectedOutputs?.forEach {
+                try validate($0, name: "selectedOutputs[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
+        }
+    }
+
     public enum CmafClientCache: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -1300,6 +1329,7 @@ extension MediaConvert {
 
     public struct CmafGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests"), required: false, type: .list), 
             AWSShapeMember(label: "BaseUrl", location: .body(locationName: "baseUrl"), required: false, type: .string), 
             AWSShapeMember(label: "ClientCache", location: .body(locationName: "clientCache"), required: false, type: .enum), 
             AWSShapeMember(label: "CodecSpecification", location: .body(locationName: "codecSpecification"), required: false, type: .enum), 
@@ -1319,6 +1349,8 @@ extension MediaConvert {
             AWSShapeMember(label: "WriteHlsManifest", location: .body(locationName: "writeHlsManifest"), required: false, type: .enum)
         ]
 
+        /// By default, the service creates one top-level .m3u8 HLS manifest and one top -level .mpd DASH manifest for each CMAF output group in your job. These default manifests reference every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here. For each additional manifest that you specify, the service creates one HLS manifest and one DASH manifest.
+        public let additionalManifests: [CmafAdditionalManifest]?
         /// A partial URI prefix that will be put in the manifest file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public let baseUrl: String?
         /// When set to ENABLED, sets #EXT-X-ALLOW-CACHE:no tag, which prevents client from saving media segments for later replay.
@@ -1354,7 +1386,8 @@ extension MediaConvert {
         /// When set to ENABLED, an Apple HLS manifest will be generated for this output.
         public let writeHlsManifest: CmafWriteHLSManifest?
 
-        public init(baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, streamInfResolution: CmafStreamInfResolution? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil) {
+        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, streamInfResolution: CmafStreamInfResolution? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil) {
+            self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.clientCache = clientCache
             self.codecSpecification = codecSpecification
@@ -1375,6 +1408,9 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.additionalManifests?.forEach {
+                try $0.validate(name: "\(name).additionalManifests[]")
+            }
             try validate(self.destination, name:"destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
@@ -1387,6 +1423,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalManifests = "additionalManifests"
             case baseUrl = "baseUrl"
             case clientCache = "clientCache"
             case codecSpecification = "codecSpecification"
@@ -1557,7 +1594,8 @@ extension MediaConvert {
             AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "M3u8Settings", location: .body(locationName: "m3u8Settings"), required: false, type: .structure), 
             AWSShapeMember(label: "MovSettings", location: .body(locationName: "movSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Mp4Settings", location: .body(locationName: "mp4Settings"), required: false, type: .structure)
+            AWSShapeMember(label: "Mp4Settings", location: .body(locationName: "mp4Settings"), required: false, type: .structure), 
+            AWSShapeMember(label: "MpdSettings", location: .body(locationName: "mpdSettings"), required: false, type: .structure)
         ]
 
         /// Container for this output. Some containers require a container settings object. If not specified, the default object will be created.
@@ -1572,14 +1610,17 @@ extension MediaConvert {
         public let movSettings: MovSettings?
         /// Settings for MP4 container. You can create audio-only AAC outputs with this container.
         public let mp4Settings: Mp4Settings?
+        /// Settings for MP4 segments in DASH
+        public let mpdSettings: MpdSettings?
 
-        public init(container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil) {
+        public init(container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil, mpdSettings: MpdSettings? = nil) {
             self.container = container
             self.f4vSettings = f4vSettings
             self.m2tsSettings = m2tsSettings
             self.m3u8Settings = m3u8Settings
             self.movSettings = movSettings
             self.mp4Settings = mp4Settings
+            self.mpdSettings = mpdSettings
         }
 
         public func validate(name: String) throws {
@@ -1594,6 +1635,7 @@ extension MediaConvert {
             case m3u8Settings = "m3u8Settings"
             case movSettings = "movSettings"
             case mp4Settings = "mp4Settings"
+            case mpdSettings = "mpdSettings"
         }
     }
 
@@ -1903,6 +1945,35 @@ extension MediaConvert {
         }
     }
 
+    public struct DashAdditionalManifest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
+            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"), required: false, type: .list)
+        ]
+
+        /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your DASH group is film-name.mpd. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.mpd.
+        public let manifestNameModifier: String?
+        /// Specify the outputs that you want this additional top-level manifest to reference.
+        public let selectedOutputs: [String]?
+
+        public init(manifestNameModifier: String? = nil, selectedOutputs: [String]? = nil) {
+            self.manifestNameModifier = manifestNameModifier
+            self.selectedOutputs = selectedOutputs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.manifestNameModifier, name:"manifestNameModifier", parent: name, min: 1)
+            try self.selectedOutputs?.forEach {
+                try validate($0, name: "selectedOutputs[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
+        }
+    }
+
     public struct DashIsoEncryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlaybackDeviceCompatibility", location: .body(locationName: "playbackDeviceCompatibility"), required: false, type: .enum), 
@@ -1931,6 +2002,7 @@ extension MediaConvert {
 
     public struct DashIsoGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests"), required: false, type: .list), 
             AWSShapeMember(label: "BaseUrl", location: .body(locationName: "baseUrl"), required: false, type: .string), 
             AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
             AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure), 
@@ -1944,6 +2016,8 @@ extension MediaConvert {
             AWSShapeMember(label: "WriteSegmentTimelineInRepresentation", location: .body(locationName: "writeSegmentTimelineInRepresentation"), required: false, type: .enum)
         ]
 
+        /// By default, the service creates one .mpd DASH manifest for each DASH ISO output group in your job. This default manifest references every output in the output group. To create additional DASH manifests that reference a subset of the outputs in the output group, specify a list of them here.
+        public let additionalManifests: [DashAdditionalManifest]?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public let baseUrl: String?
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
@@ -1967,7 +2041,8 @@ extension MediaConvert {
         /// If you get an HTTP error in the 400 range when you play back your DASH output, enable this setting and run your transcoding job again. When you enable this setting, the service writes precise segment durations in the DASH manifest. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When you don't enable this setting, the service writes approximate segment durations in your DASH manifest.
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
 
-        public init(baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, minBufferTime: Int? = nil, mpdProfile: DashIsoMpdProfile? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [DashAdditionalManifest]? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, minBufferTime: Int? = nil, mpdProfile: DashIsoMpdProfile? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+            self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.destination = destination
             self.destinationSettings = destinationSettings
@@ -1982,6 +2057,9 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.additionalManifests?.forEach {
+                try $0.validate(name: "\(name).additionalManifests[]")
+            }
             try validate(self.destination, name:"destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
@@ -1994,6 +2072,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalManifests = "additionalManifests"
             case baseUrl = "baseUrl"
             case destination = "destination"
             case destinationSettings = "destinationSettings"
@@ -2269,6 +2348,78 @@ extension MediaConvert {
 
     }
 
+    public struct DolbyVision: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "L6Metadata", location: .body(locationName: "l6Metadata"), required: false, type: .structure), 
+            AWSShapeMember(label: "L6Mode", location: .body(locationName: "l6Mode"), required: false, type: .enum), 
+            AWSShapeMember(label: "Profile", location: .body(locationName: "profile"), required: false, type: .enum)
+        ]
+
+        /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override the MaxCLL and MaxFALL values in your input with new values.
+        public let l6Metadata: DolbyVisionLevel6Metadata?
+        /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision MaxCLL and MaxFALL properies.
+        public let l6Mode: DolbyVisionLevel6Mode?
+        /// In the current MediaConvert implementation, the Dolby Vision profile is always 5 (PROFILE_5). Therefore, all of your inputs must contain Dolby Vision frame interleaved data.
+        public let profile: DolbyVisionProfile?
+
+        public init(l6Metadata: DolbyVisionLevel6Metadata? = nil, l6Mode: DolbyVisionLevel6Mode? = nil, profile: DolbyVisionProfile? = nil) {
+            self.l6Metadata = l6Metadata
+            self.l6Mode = l6Mode
+            self.profile = profile
+        }
+
+        public func validate(name: String) throws {
+            try self.l6Metadata?.validate(name: "\(name).l6Metadata")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case l6Metadata = "l6Metadata"
+            case l6Mode = "l6Mode"
+            case profile = "profile"
+        }
+    }
+
+    public struct DolbyVisionLevel6Metadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxCll", location: .body(locationName: "maxCll"), required: false, type: .integer), 
+            AWSShapeMember(label: "MaxFall", location: .body(locationName: "maxFall"), required: false, type: .integer)
+        ]
+
+        /// Maximum Content Light Level. Static HDR metadata that corresponds to the brightest pixel in the entire stream. Measured in nits.
+        public let maxCll: Int?
+        /// Maximum Frame-Average Light Level. Static HDR metadata that corresponds to the highest frame-average brightness in the entire stream. Measured in nits.
+        public let maxFall: Int?
+
+        public init(maxCll: Int? = nil, maxFall: Int? = nil) {
+            self.maxCll = maxCll
+            self.maxFall = maxFall
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxCll, name:"maxCll", parent: name, max: 65535)
+            try validate(self.maxCll, name:"maxCll", parent: name, min: 0)
+            try validate(self.maxFall, name:"maxFall", parent: name, max: 65535)
+            try validate(self.maxFall, name:"maxFall", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCll = "maxCll"
+            case maxFall = "maxFall"
+        }
+    }
+
+    public enum DolbyVisionLevel6Mode: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case recalculate = "RECALCULATE"
+        case specify = "SPECIFY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DolbyVisionProfile: String, CustomStringConvertible, Codable {
+        case profile5 = "PROFILE_5"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DropFrameTimecode: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -2368,6 +2519,7 @@ extension MediaConvert {
             AWSShapeMember(label: "ShadowOpacity", location: .body(locationName: "shadowOpacity"), required: false, type: .integer), 
             AWSShapeMember(label: "ShadowXOffset", location: .body(locationName: "shadowXOffset"), required: false, type: .integer), 
             AWSShapeMember(label: "ShadowYOffset", location: .body(locationName: "shadowYOffset"), required: false, type: .integer), 
+            AWSShapeMember(label: "SubtitlingType", location: .body(locationName: "subtitlingType"), required: false, type: .enum), 
             AWSShapeMember(label: "TeletextSpacing", location: .body(locationName: "teletextSpacing"), required: false, type: .enum), 
             AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition"), required: false, type: .integer), 
             AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"), required: false, type: .integer)
@@ -2405,6 +2557,8 @@ extension MediaConvert {
         public let shadowXOffset: Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.
         public let shadowYOffset: Int?
+        /// Specify whether your DVB subtitles are standard or for hearing impaired. Choose hearing impaired if your subtitles include audio descriptions and dialogue. Choose standard if your subtitles include only dialogue.
+        public let subtitlingType: DvbSubtitlingType?
         /// Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.
         public let teletextSpacing: DvbSubtitleTeletextSpacing?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
@@ -2412,7 +2566,7 @@ extension MediaConvert {
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let yPosition: Int?
 
-        public init(alignment: DvbSubtitleAlignment? = nil, backgroundColor: DvbSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, fontColor: DvbSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, outlineColor: DvbSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, teletextSpacing: DvbSubtitleTeletextSpacing? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
+        public init(alignment: DvbSubtitleAlignment? = nil, backgroundColor: DvbSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, fontColor: DvbSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, outlineColor: DvbSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, subtitlingType: DvbSubtitlingType? = nil, teletextSpacing: DvbSubtitleTeletextSpacing? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
@@ -2427,6 +2581,7 @@ extension MediaConvert {
             self.shadowOpacity = shadowOpacity
             self.shadowXOffset = shadowXOffset
             self.shadowYOffset = shadowYOffset
+            self.subtitlingType = subtitlingType
             self.teletextSpacing = teletextSpacing
             self.xPosition = xPosition
             self.yPosition = yPosition
@@ -2470,6 +2625,7 @@ extension MediaConvert {
             case shadowOpacity = "shadowOpacity"
             case shadowXOffset = "shadowXOffset"
             case shadowYOffset = "shadowYOffset"
+            case subtitlingType = "subtitlingType"
             case teletextSpacing = "teletextSpacing"
             case xPosition = "xPosition"
             case yPosition = "yPosition"
@@ -2541,6 +2697,12 @@ extension MediaConvert {
     public enum DvbSubtitleTeletextSpacing: String, CustomStringConvertible, Codable {
         case fixedGrid = "FIXED_GRID"
         case proportional = "PROPORTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubtitlingType: String, CustomStringConvertible, Codable {
+        case hearingImpaired = "HEARING_IMPAIRED"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
@@ -4112,7 +4274,7 @@ extension MediaConvert {
         public let tiles: H265Tiles?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H265UnregisteredSeiTimecode?
-        /// If the location of parameter set NAL units doesn't matter in your workflow, ignore this setting. Use this setting in your CMAF, DASH, or file MP4 output. For file MP4 outputs, choosing HVC1 can create video that doesn't work properly with some downstream systems and video players. Choose HVC1 to mark your output as HVC1. This makes your output compliant with the following specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. The service defaults to marking your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
+        /// If the location of parameter set NAL units doesn't matter in your workflow, ignore this setting. Use this setting only with CMAF or DASH outputs, or with standalone file outputs in an MPEG-4 container (MP4 outputs). Choose HVC1 to mark your output as HVC1. This makes your output compliant with the following specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. For MP4 outputs, when you choose HVC1, your output video might not work properly with some downstream systems and video players. The service defaults to marking your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
 
         public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, dynamicSubGop: H265DynamicSubGop? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
@@ -4384,6 +4546,35 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public struct HlsAdditionalManifest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
+            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"), required: false, type: .list)
+        ]
+
+        /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
+        public let manifestNameModifier: String?
+        /// Specify the outputs that you want this additional top-level manifest to reference.
+        public let selectedOutputs: [String]?
+
+        public init(manifestNameModifier: String? = nil, selectedOutputs: [String]? = nil) {
+            self.manifestNameModifier = manifestNameModifier
+            self.selectedOutputs = selectedOutputs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.manifestNameModifier, name:"manifestNameModifier", parent: name, min: 1)
+            try self.selectedOutputs?.forEach {
+                try validate($0, name: "selectedOutputs[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
+        }
+    }
+
     public enum HlsAudioOnlyContainer: String, CustomStringConvertible, Codable {
         case automatic = "AUTOMATIC"
         case m2ts = "M2TS"
@@ -4408,7 +4599,7 @@ extension MediaConvert {
 
         /// Caption channel.
         public let captionChannel: Int?
-        /// Specify the language for this caption channel, using the ISO 639-2 or ISO 639-3 three-letter language code
+        /// Specify the language for this captions channel, using the ISO 639-2 or ISO 639-3 three-letter language code
         public let customLanguageCode: String?
         /// Specify the language, using the ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php.
         public let languageCode: LanguageCode?
@@ -4526,6 +4717,7 @@ extension MediaConvert {
 
     public struct HlsGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests"), required: false, type: .list), 
             AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .list), 
             AWSShapeMember(label: "BaseUrl", location: .body(locationName: "baseUrl"), required: false, type: .string), 
             AWSShapeMember(label: "CaptionLanguageMappings", location: .body(locationName: "captionLanguageMappings"), required: false, type: .list), 
@@ -4552,6 +4744,8 @@ extension MediaConvert {
             AWSShapeMember(label: "TimestampDeltaMilliseconds", location: .body(locationName: "timestampDeltaMilliseconds"), required: false, type: .integer)
         ]
 
+        /// By default, the service creates one top-level .m3u8 HLS manifest for each HLS output group in your job. This default manifest references every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here.
+        public let additionalManifests: [HlsAdditionalManifest]?
         /// Choose one or more ad marker types to decorate your Apple HLS manifest. This setting does not determine whether SCTE-35 markers appear in the outputs themselves.
         public let adMarkers: [HlsAdMarkers]?
         /// A partial URI prefix that will be prepended to each output in the media .m3u8 file. Can be used if base manifest is delivered from a different URL than the main .m3u8 file.
@@ -4601,7 +4795,8 @@ extension MediaConvert {
         /// Provides an extra millisecond delta offset to fine tune the timestamps.
         public let timestampDeltaMilliseconds: Int?
 
-        public init(adMarkers: [HlsAdMarkers]? = nil, baseUrl: String? = nil, captionLanguageMappings: [HlsCaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, directoryStructure: HlsDirectoryStructure? = nil, encryption: HlsEncryptionSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minFinalSegmentLength: Double? = nil, minSegmentLength: Int? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, segmentControl: HlsSegmentControl? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil) {
+        public init(additionalManifests: [HlsAdditionalManifest]? = nil, adMarkers: [HlsAdMarkers]? = nil, baseUrl: String? = nil, captionLanguageMappings: [HlsCaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, directoryStructure: HlsDirectoryStructure? = nil, encryption: HlsEncryptionSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minFinalSegmentLength: Double? = nil, minSegmentLength: Int? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, segmentControl: HlsSegmentControl? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil) {
+            self.additionalManifests = additionalManifests
             self.adMarkers = adMarkers
             self.baseUrl = baseUrl
             self.captionLanguageMappings = captionLanguageMappings
@@ -4629,6 +4824,9 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.additionalManifests?.forEach {
+                try $0.validate(name: "\(name).additionalManifests[]")
+            }
             try self.captionLanguageMappings?.forEach {
                 try $0.validate(name: "\(name).captionLanguageMappings[]")
             }
@@ -4650,6 +4848,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalManifests = "additionalManifests"
             case adMarkers = "adMarkers"
             case baseUrl = "baseUrl"
             case captionLanguageMappings = "captionLanguageMappings"
@@ -4955,7 +5154,7 @@ extension MediaConvert {
             }
             try self.crop?.validate(name: "\(name).crop")
             try self.decryptionSettings?.validate(name: "\(name).decryptionSettings")
-            try validate(self.fileInput, name:"fileInput", parent: name, pattern: "^(http|https|s3)://([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL])))$")
+            try validate(self.fileInput, name:"fileInput", parent: name, pattern: "^(http|https|s3)://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL])))$")
             try validate(self.filterStrength, name:"filterStrength", parent: name, max: 5)
             try validate(self.filterStrength, name:"filterStrength", parent: name, min: -5)
             try self.imageInserter?.validate(name: "\(name).imageInserter")
@@ -6940,6 +7139,51 @@ extension MediaConvert {
         }
     }
 
+    public enum MpdCaptionContainerType: String, CustomStringConvertible, Codable {
+        case raw = "RAW"
+        case fragmentedMp4 = "FRAGMENTED_MP4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpdScte35Esam: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpdScte35Source: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MpdSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaptionContainerType", location: .body(locationName: "captionContainerType"), required: false, type: .enum), 
+            AWSShapeMember(label: "Scte35Esam", location: .body(locationName: "scte35Esam"), required: false, type: .enum), 
+            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source"), required: false, type: .enum)
+        ]
+
+        /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions.  You specify sidecar captions in a separate output from your audio and video. Choose Raw (RAW) for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
+        public let captionContainerType: MpdCaptionContainerType?
+        /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
+        public let scte35Esam: MpdScte35Esam?
+        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
+        public let scte35Source: MpdScte35Source?
+
+        public init(captionContainerType: MpdCaptionContainerType? = nil, scte35Esam: MpdScte35Esam? = nil, scte35Source: MpdScte35Source? = nil) {
+            self.captionContainerType = captionContainerType
+            self.scte35Esam = scte35Esam
+            self.scte35Source = scte35Source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captionContainerType = "captionContainerType"
+            case scte35Esam = "scte35Esam"
+            case scte35Source = "scte35Source"
+        }
+    }
+
     public enum Mpeg2AdaptiveQuantization: String, CustomStringConvertible, Codable {
         case off = "OFF"
         case low = "LOW"
@@ -7256,6 +7500,35 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public struct MsSmoothAdditionalManifest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
+            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"), required: false, type: .list)
+        ]
+
+        /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your Microsoft Smooth group is film-name.ismv. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.ismv.
+        public let manifestNameModifier: String?
+        /// Specify the outputs that you want this additional top-level manifest to reference.
+        public let selectedOutputs: [String]?
+
+        public init(manifestNameModifier: String? = nil, selectedOutputs: [String]? = nil) {
+            self.manifestNameModifier = manifestNameModifier
+            self.selectedOutputs = selectedOutputs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.manifestNameModifier, name:"manifestNameModifier", parent: name, min: 1)
+            try self.selectedOutputs?.forEach {
+                try validate($0, name: "selectedOutputs[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
+        }
+    }
+
     public enum MsSmoothAudioDeduplication: String, CustomStringConvertible, Codable {
         case combineDuplicateStreams = "COMBINE_DUPLICATE_STREAMS"
         case none = "NONE"
@@ -7285,6 +7558,7 @@ extension MediaConvert {
 
     public struct MsSmoothGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests"), required: false, type: .list), 
             AWSShapeMember(label: "AudioDeduplication", location: .body(locationName: "audioDeduplication"), required: false, type: .enum), 
             AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
             AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure), 
@@ -7293,6 +7567,8 @@ extension MediaConvert {
             AWSShapeMember(label: "ManifestEncoding", location: .body(locationName: "manifestEncoding"), required: false, type: .enum)
         ]
 
+        /// By default, the service creates one .ism Microsoft Smooth Streaming manifest for each Microsoft Smooth Streaming output group in your job. This default manifest references every output in the output group. To create additional manifests that reference a subset of the outputs in the output group, specify a list of them here.
+        public let additionalManifests: [MsSmoothAdditionalManifest]?
         /// COMBINE_DUPLICATE_STREAMS combines identical audio encoding settings across a Microsoft Smooth output group into a single audio stream.
         public let audioDeduplication: MsSmoothAudioDeduplication?
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
@@ -7306,7 +7582,8 @@ extension MediaConvert {
         /// Use Manifest encoding (MsSmoothManifestEncoding) to specify the encoding format for the server and client manifest. Valid options are utf8 and utf16.
         public let manifestEncoding: MsSmoothManifestEncoding?
 
-        public init(audioDeduplication: MsSmoothAudioDeduplication? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: MsSmoothEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestEncoding: MsSmoothManifestEncoding? = nil) {
+        public init(additionalManifests: [MsSmoothAdditionalManifest]? = nil, audioDeduplication: MsSmoothAudioDeduplication? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: MsSmoothEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestEncoding: MsSmoothManifestEncoding? = nil) {
+            self.additionalManifests = additionalManifests
             self.audioDeduplication = audioDeduplication
             self.destination = destination
             self.destinationSettings = destinationSettings
@@ -7316,6 +7593,9 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.additionalManifests?.forEach {
+                try $0.validate(name: "\(name).additionalManifests[]")
+            }
             try validate(self.destination, name:"destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
@@ -7324,6 +7604,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalManifests = "additionalManifests"
             case audioDeduplication = "audioDeduplication"
             case destination = "destination"
             case destinationSettings = "destinationSettings"
@@ -8269,15 +8550,36 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public struct S3DestinationAccessControl: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CannedAcl", location: .body(locationName: "cannedAcl"), required: false, type: .enum)
+        ]
+
+        /// Choose an Amazon S3 canned ACL for MediaConvert to apply to this output.
+        public let cannedAcl: S3ObjectCannedAcl?
+
+        public init(cannedAcl: S3ObjectCannedAcl? = nil) {
+            self.cannedAcl = cannedAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cannedAcl = "cannedAcl"
+        }
+    }
+
     public struct S3DestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessControl", location: .body(locationName: "accessControl"), required: false, type: .structure), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
         ]
 
+        /// Optional. Have MediaConvert automatically apply Amazon S3 access control for the outputs in this output group. When you don't use this setting, S3 automatically applies the default access control list PRIVATE.
+        public let accessControl: S3DestinationAccessControl?
         /// Settings for how your job outputs are encrypted as they are uploaded to Amazon S3.
         public let encryption: S3EncryptionSettings?
 
-        public init(encryption: S3EncryptionSettings? = nil) {
+        public init(accessControl: S3DestinationAccessControl? = nil, encryption: S3EncryptionSettings? = nil) {
+            self.accessControl = accessControl
             self.encryption = encryption
         }
 
@@ -8286,6 +8588,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessControl = "accessControl"
             case encryption = "encryption"
         }
     }
@@ -8316,6 +8619,14 @@ extension MediaConvert {
         }
     }
 
+    public enum S3ObjectCannedAcl: String, CustomStringConvertible, Codable {
+        case publicRead = "PUBLIC_READ"
+        case authenticatedRead = "AUTHENTICATED_READ"
+        case bucketOwnerRead = "BUCKET_OWNER_READ"
+        case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3ServerSideEncryptionType: String, CustomStringConvertible, Codable {
         case serverSideEncryptionS3 = "SERVER_SIDE_ENCRYPTION_S3"
         case serverSideEncryptionKms = "SERVER_SIDE_ENCRYPTION_KMS"
@@ -8331,6 +8642,7 @@ extension MediaConvert {
     public enum SccDestinationFramerate: String, CustomStringConvertible, Codable {
         case framerate2397 = "FRAMERATE_23_97"
         case framerate24 = "FRAMERATE_24"
+        case framerate25 = "FRAMERATE_25"
         case framerate2997Dropframe = "FRAMERATE_29_97_DROPFRAME"
         case framerate2997NonDropframe = "FRAMERATE_29_97_NON_DROPFRAME"
         public var description: String { return self.rawValue }
@@ -9137,13 +9449,13 @@ extension MediaConvert {
             try self.crop?.validate(name: "\(name).crop")
             try validate(self.fixedAfd, name:"fixedAfd", parent: name, max: 15)
             try validate(self.fixedAfd, name:"fixedAfd", parent: name, min: 0)
-            try validate(self.height, name:"height", parent: name, max: 4096)
+            try validate(self.height, name:"height", parent: name, max: 8192)
             try validate(self.height, name:"height", parent: name, min: 32)
             try self.position?.validate(name: "\(name).position")
             try validate(self.sharpness, name:"sharpness", parent: name, max: 100)
             try validate(self.sharpness, name:"sharpness", parent: name, min: 0)
             try self.videoPreprocessors?.validate(name: "\(name).videoPreprocessors")
-            try validate(self.width, name:"width", parent: name, max: 4096)
+            try validate(self.width, name:"width", parent: name, max: 8192)
             try validate(self.width, name:"width", parent: name, min: 32)
         }
 
@@ -9192,6 +9504,7 @@ extension MediaConvert {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ColorCorrector", location: .body(locationName: "colorCorrector"), required: false, type: .structure), 
             AWSShapeMember(label: "Deinterlacer", location: .body(locationName: "deinterlacer"), required: false, type: .structure), 
+            AWSShapeMember(label: "DolbyVision", location: .body(locationName: "dolbyVision"), required: false, type: .structure), 
             AWSShapeMember(label: "ImageInserter", location: .body(locationName: "imageInserter"), required: false, type: .structure), 
             AWSShapeMember(label: "NoiseReducer", location: .body(locationName: "noiseReducer"), required: false, type: .structure), 
             AWSShapeMember(label: "TimecodeBurnin", location: .body(locationName: "timecodeBurnin"), required: false, type: .structure)
@@ -9201,6 +9514,8 @@ extension MediaConvert {
         public let colorCorrector: ColorCorrector?
         /// Use Deinterlacer (Deinterlacer) to produce smoother motion and a clearer picture.
         public let deinterlacer: Deinterlacer?
+        /// Enable Dolby Vision feature to produce Dolby Vision compatible video output.
+        public let dolbyVision: DolbyVision?
         /// Enable the Image inserter (ImageInserter) feature to include a graphic overlay on your video. Enable or disable this feature for each output individually. This setting is disabled by default.
         public let imageInserter: ImageInserter?
         /// Enable the Noise reducer (NoiseReducer) feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default.
@@ -9208,9 +9523,10 @@ extension MediaConvert {
         /// Timecode burn-in (TimecodeBurnIn)--Burns the output timecode and specified prefix into the output.
         public let timecodeBurnin: TimecodeBurnin?
 
-        public init(colorCorrector: ColorCorrector? = nil, deinterlacer: Deinterlacer? = nil, imageInserter: ImageInserter? = nil, noiseReducer: NoiseReducer? = nil, timecodeBurnin: TimecodeBurnin? = nil) {
+        public init(colorCorrector: ColorCorrector? = nil, deinterlacer: Deinterlacer? = nil, dolbyVision: DolbyVision? = nil, imageInserter: ImageInserter? = nil, noiseReducer: NoiseReducer? = nil, timecodeBurnin: TimecodeBurnin? = nil) {
             self.colorCorrector = colorCorrector
             self.deinterlacer = deinterlacer
+            self.dolbyVision = dolbyVision
             self.imageInserter = imageInserter
             self.noiseReducer = noiseReducer
             self.timecodeBurnin = timecodeBurnin
@@ -9218,6 +9534,7 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try self.colorCorrector?.validate(name: "\(name).colorCorrector")
+            try self.dolbyVision?.validate(name: "\(name).dolbyVision")
             try self.imageInserter?.validate(name: "\(name).imageInserter")
             try self.noiseReducer?.validate(name: "\(name).noiseReducer")
             try self.timecodeBurnin?.validate(name: "\(name).timecodeBurnin")
@@ -9226,6 +9543,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case colorCorrector = "colorCorrector"
             case deinterlacer = "deinterlacer"
+            case dolbyVision = "dolbyVision"
             case imageInserter = "imageInserter"
             case noiseReducer = "noiseReducer"
             case timecodeBurnin = "timecodeBurnin"
@@ -9234,6 +9552,7 @@ extension MediaConvert {
 
     public struct VideoSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlphaBehavior", location: .body(locationName: "alphaBehavior"), required: false, type: .enum), 
             AWSShapeMember(label: "ColorSpace", location: .body(locationName: "colorSpace"), required: false, type: .enum), 
             AWSShapeMember(label: "ColorSpaceUsage", location: .body(locationName: "colorSpaceUsage"), required: false, type: .enum), 
             AWSShapeMember(label: "Hdr10Metadata", location: .body(locationName: "hdr10Metadata"), required: false, type: .structure), 
@@ -9242,6 +9561,8 @@ extension MediaConvert {
             AWSShapeMember(label: "Rotate", location: .body(locationName: "rotate"), required: false, type: .enum)
         ]
 
+        /// Ignore this setting unless this input is a QuickTime animation. Specify which part of this input MediaConvert uses for your outputs. Leave this setting set to DISCARD in order to delete the alpha channel and preserve the video. Use REMAP_TO_LUMA for this setting to delete the video and map the alpha channel to the luma channel of your outputs.
+        public let alphaBehavior: AlphaBehavior?
         /// If your input video has accurate color space metadata, or if you don't know about color space, leave this set to the default value Follow (FOLLOW). The service will automatically detect your input color space. If your input video has metadata indicating the wrong color space, specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate, choose Force HDR 10 (FORCE_HDR10) here and specify correct values in the input HDR 10 metadata (Hdr10Metadata) settings. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public let colorSpace: ColorSpace?
         /// There are two sources for color metadata, the input file and the job input settings Color space (ColorSpace) and HDR master display information settings(Hdr10Metadata). The Color space usage setting determines which takes precedence. Choose Force (FORCE) to use color metadata from the input job settings. If you don't specify values for those settings, the service defaults to using metadata from your input. FALLBACK - Choose Fallback (FALLBACK) to use color metadata from the source when it is present. If there's no color metadata in your input file, the service defaults to using values you specify in the input settings.
@@ -9255,7 +9576,8 @@ extension MediaConvert {
         /// Use Rotate (InputRotate) to specify how the service rotates your video. You can choose automatic rotation or specify a rotation. You can specify a clockwise rotation of 0, 90, 180, or 270 degrees. If your input video container is .mov or .mp4 and your input has rotation metadata, you can choose Automatic to have the service rotate your video according to the rotation specified in the metadata. The rotation must be within one degree of 90, 180, or 270 degrees. If the rotation metadata specifies any other rotation, the service will default to no rotation. By default, the service does no rotation, even if your input video has rotation metadata. The service doesn't pass through rotation metadata.
         public let rotate: InputRotate?
 
-        public init(colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, hdr10Metadata: Hdr10Metadata? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil) {
+        public init(alphaBehavior: AlphaBehavior? = nil, colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, hdr10Metadata: Hdr10Metadata? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil) {
+            self.alphaBehavior = alphaBehavior
             self.colorSpace = colorSpace
             self.colorSpaceUsage = colorSpaceUsage
             self.hdr10Metadata = hdr10Metadata
@@ -9273,6 +9595,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alphaBehavior = "alphaBehavior"
             case colorSpace = "colorSpace"
             case colorSpaceUsage = "colorSpaceUsage"
             case hdr10Metadata = "hdr10Metadata"

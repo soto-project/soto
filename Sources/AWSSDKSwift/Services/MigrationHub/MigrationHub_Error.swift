@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum MigrationHubErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
     case dryRunOperation(message: String?)
+    case homeRegionNotSetException(message: String?)
     case internalServerError(message: String?)
     case invalidInputException(message: String?)
     case policyErrorException(message: String?)
@@ -25,6 +26,8 @@ extension MigrationHubErrorType {
             self = .accessDeniedException(message: message)
         case "DryRunOperation":
             self = .dryRunOperation(message: message)
+        case "HomeRegionNotSetException":
+            self = .homeRegionNotSetException(message: message)
         case "InternalServerError":
             self = .internalServerError(message: message)
         case "InvalidInputException":
@@ -50,6 +53,8 @@ extension MigrationHubErrorType : CustomStringConvertible {
             return "AccessDeniedException: \(message ?? "")"
         case .dryRunOperation(let message):
             return "DryRunOperation: \(message ?? "")"
+        case .homeRegionNotSetException(let message):
+            return "HomeRegionNotSetException: \(message ?? "")"
         case .internalServerError(let message):
             return "InternalServerError: \(message ?? "")"
         case .invalidInputException(let message):

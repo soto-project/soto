@@ -246,6 +246,7 @@ extension CodePipeline {
             AWSShapeMember(label: "configuration", required: false, type: .map), 
             AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
             AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "namespace", required: false, type: .string), 
             AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
             AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "roleArn", required: false, type: .string), 
@@ -260,6 +261,8 @@ extension CodePipeline {
         public let inputArtifacts: [InputArtifact]?
         /// The action declaration's name.
         public let name: String
+        /// The variable namespace associated with the action. All variables produced as output by this action fall under this namespace.
+        public let namespace: String?
         /// The name or ID of the result of the action declaration, such as a test or build artifact.
         public let outputArtifacts: [OutputArtifact]?
         /// The action declaration's AWS Region, such as us-east-1.
@@ -269,11 +272,12 @@ extension CodePipeline {
         /// The order in which actions are run.
         public let runOrder: Int?
 
-        public init(actionTypeId: ActionTypeId, configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, outputArtifacts: [OutputArtifact]? = nil, region: String? = nil, roleArn: String? = nil, runOrder: Int? = nil) {
+        public init(actionTypeId: ActionTypeId, configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, namespace: String? = nil, outputArtifacts: [OutputArtifact]? = nil, region: String? = nil, roleArn: String? = nil, runOrder: Int? = nil) {
             self.actionTypeId = actionTypeId
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
             self.name = name
+            self.namespace = namespace
             self.outputArtifacts = outputArtifacts
             self.region = region
             self.roleArn = roleArn
@@ -294,6 +298,9 @@ extension CodePipeline {
             try validate(self.name, name:"name", parent: name, max: 100)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.namespace, name:"namespace", parent: name, max: 100)
+            try validate(self.namespace, name:"namespace", parent: name, min: 1)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "[A-Za-z0-9@\\-_]+")
             try self.outputArtifacts?.forEach {
                 try $0.validate(name: "\(name).outputArtifacts[]")
             }
@@ -310,6 +317,7 @@ extension CodePipeline {
             case configuration = "configuration"
             case inputArtifacts = "inputArtifacts"
             case name = "name"
+            case namespace = "namespace"
             case outputArtifacts = "outputArtifacts"
             case region = "region"
             case roleArn = "roleArn"
@@ -462,7 +470,9 @@ extension CodePipeline {
             AWSShapeMember(label: "actionTypeId", required: false, type: .structure), 
             AWSShapeMember(label: "configuration", required: false, type: .map), 
             AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "namespace", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "resolvedConfiguration", required: false, type: .map), 
             AWSShapeMember(label: "roleArn", required: false, type: .string)
         ]
 
@@ -471,16 +481,22 @@ extension CodePipeline {
         public let configuration: [String: String]?
         /// Details of input artifacts of the action that correspond to the action execution.
         public let inputArtifacts: [ArtifactDetail]?
+        /// The variable namespace associated with the action. All variables produced as output by this action fall under this namespace.
+        public let namespace: String?
         /// The AWS Region for the action, such as us-east-1.
         public let region: String?
+        /// Configuration data for an action execution with all variable references replaced with their real values for the execution.
+        public let resolvedConfiguration: [String: String]?
         /// The ARN of the IAM service role that performs the declared action. This is assumed through the roleArn for the pipeline. 
         public let roleArn: String?
 
-        public init(actionTypeId: ActionTypeId? = nil, configuration: [String: String]? = nil, inputArtifacts: [ArtifactDetail]? = nil, region: String? = nil, roleArn: String? = nil) {
+        public init(actionTypeId: ActionTypeId? = nil, configuration: [String: String]? = nil, inputArtifacts: [ArtifactDetail]? = nil, namespace: String? = nil, region: String? = nil, resolvedConfiguration: [String: String]? = nil, roleArn: String? = nil) {
             self.actionTypeId = actionTypeId
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
+            self.namespace = namespace
             self.region = region
+            self.resolvedConfiguration = resolvedConfiguration
             self.roleArn = roleArn
         }
 
@@ -488,7 +504,9 @@ extension CodePipeline {
             case actionTypeId = "actionTypeId"
             case configuration = "configuration"
             case inputArtifacts = "inputArtifacts"
+            case namespace = "namespace"
             case region = "region"
+            case resolvedConfiguration = "resolvedConfiguration"
             case roleArn = "roleArn"
         }
     }
@@ -496,22 +514,27 @@ extension CodePipeline {
     public struct ActionExecutionOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "executionResult", required: false, type: .structure), 
-            AWSShapeMember(label: "outputArtifacts", required: false, type: .list)
+            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "outputVariables", required: false, type: .map)
         ]
 
         /// Execution result information listed in the output details for an action execution.
         public let executionResult: ActionExecutionResult?
         /// Details of output artifacts of the action that correspond to the action execution.
         public let outputArtifacts: [ArtifactDetail]?
+        /// The outputVariables field shows the key-value pairs that were output as part of that execution.
+        public let outputVariables: [String: String]?
 
-        public init(executionResult: ActionExecutionResult? = nil, outputArtifacts: [ArtifactDetail]? = nil) {
+        public init(executionResult: ActionExecutionResult? = nil, outputArtifacts: [ArtifactDetail]? = nil, outputVariables: [String: String]? = nil) {
             self.executionResult = executionResult
             self.outputArtifacts = outputArtifacts
+            self.outputVariables = outputVariables
         }
 
         private enum CodingKeys: String, CodingKey {
             case executionResult = "executionResult"
             case outputArtifacts = "outputArtifacts"
+            case outputVariables = "outputVariables"
         }
     }
 
@@ -2832,7 +2855,8 @@ extension CodePipeline {
             AWSShapeMember(label: "continuationToken", required: false, type: .string), 
             AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
             AWSShapeMember(label: "executionDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "jobId", required: true, type: .string)
+            AWSShapeMember(label: "jobId", required: true, type: .string), 
+            AWSShapeMember(label: "outputVariables", required: false, type: .map)
         ]
 
         /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
@@ -2843,12 +2867,15 @@ extension CodePipeline {
         public let executionDetails: ExecutionDetails?
         /// The unique system-generated ID of the job that succeeded. This is the same ID returned from PollForJobs.
         public let jobId: String
+        /// Key-value pairs produced as output by a job worker that can be made available to a downstream action configuration. outputVariables can be included only when there is no continuation token on the request.
+        public let outputVariables: [String: String]?
 
-        public init(continuationToken: String? = nil, currentRevision: CurrentRevision? = nil, executionDetails: ExecutionDetails? = nil, jobId: String) {
+        public init(continuationToken: String? = nil, currentRevision: CurrentRevision? = nil, executionDetails: ExecutionDetails? = nil, jobId: String, outputVariables: [String: String]? = nil) {
             self.continuationToken = continuationToken
             self.currentRevision = currentRevision
             self.executionDetails = executionDetails
             self.jobId = jobId
+            self.outputVariables = outputVariables
         }
 
         public func validate(name: String) throws {
@@ -2857,6 +2884,9 @@ extension CodePipeline {
             try self.currentRevision?.validate(name: "\(name).currentRevision")
             try self.executionDetails?.validate(name: "\(name).executionDetails")
             try validate(self.jobId, name:"jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.outputVariables?.forEach {
+                try validate($0.key, name:"outputVariables.key", parent: name, pattern: "[A-Za-z0-9@\\-_]+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2864,6 +2894,7 @@ extension CodePipeline {
             case currentRevision = "currentRevision"
             case executionDetails = "executionDetails"
             case jobId = "jobId"
+            case outputVariables = "outputVariables"
         }
     }
 

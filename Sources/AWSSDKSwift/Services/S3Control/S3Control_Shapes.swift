@@ -5,6 +5,83 @@ import AWSSDKSwiftCore
 
 extension S3Control {
 
+    public struct AccessPoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NetworkOrigin", required: true, type: .enum), 
+            AWSShapeMember(label: "VpcConfiguration", required: false, type: .structure)
+        ]
+
+        /// The name of the bucket associated with this access point.
+        public let bucket: String
+        /// The name of this access point.
+        public let name: String
+        /// Indicates whether this access point allows access from the public Internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public Internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public Internet, subject to the access point and bucket access policies.
+        public let networkOrigin: NetworkOrigin
+        /// The Virtual Private Cloud (VPC) configuration for this access point, if one exists.
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(bucket: String, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
+            self.bucket = bucket
+            self.name = name
+            self.networkOrigin = networkOrigin
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case name = "Name"
+            case networkOrigin = "NetworkOrigin"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct CreateAccessPointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "PublicAccessBlockConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConfiguration", required: false, type: .structure)
+        ]
+
+        /// The AWS account ID for the owner of the bucket for which you want to create an access point.
+        public let accountId: String
+        /// The name of the bucket that you want to associate this access point with.
+        public let bucket: String
+        /// The name you want to assign to this access point.
+        public let name: String
+        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
+        /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified Virtual Private Cloud (VPC).
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(accountId: String, bucket: String, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+            self.accountId = accountId
+            self.bucket = bucket
+            self.name = name
+            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.bucket, name:"bucket", parent: name, max: 255)
+            try validate(self.bucket, name:"bucket", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case bucket = "Bucket"
+            case name = "name"
+            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
     public struct CreateJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
@@ -93,12 +170,68 @@ extension S3Control {
         }
     }
 
+    public struct DeleteAccessPointPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+
+        /// The account ID for the account that owns the specified access point.
+        public let accountId: String
+        /// The name of the access point whose policy you want to delete.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case name = "name"
+        }
+    }
+
+    public struct DeleteAccessPointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+
+        /// The account ID for the account that owns the specified access point.
+        public let accountId: String
+        /// The name of the access point you want to delete.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case name = "name"
+        }
+    }
+
     public struct DeletePublicAccessBlockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string)
         ]
 
-        /// The account ID for the AWS account whose block public access configuration you want to delete.
+        /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove.
         public let accountId: String
 
         public init(accountId: String) {
@@ -158,6 +291,165 @@ extension S3Control {
         }
     }
 
+    public struct GetAccessPointPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+
+        /// The account ID for the account that owns the specified access point.
+        public let accountId: String
+        /// The name of the access point whose policy you want to retrieve.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case name = "name"
+        }
+    }
+
+    public struct GetAccessPointPolicyResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .string)
+        ]
+
+        /// The access point policy associated with the specified access point.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct GetAccessPointPolicyStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+
+        /// The account ID for the account that owns the specified access point.
+        public let accountId: String
+        /// The name of the access point whose policy status you want to retrieve.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case name = "name"
+        }
+    }
+
+    public struct GetAccessPointPolicyStatusResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyStatus", required: false, type: .structure)
+        ]
+
+        /// Indicates the current policy status of the specified access point.
+        public let policyStatus: PolicyStatus?
+
+        public init(policyStatus: PolicyStatus? = nil) {
+            self.policyStatus = policyStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyStatus = "PolicyStatus"
+        }
+    }
+
+    public struct GetAccessPointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+
+        /// The account ID for the account that owns the specified access point.
+        public let accountId: String
+        /// The name of the access point whose configuration information you want to retrieve.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case name = "name"
+        }
+    }
+
+    public struct GetAccessPointResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkOrigin", required: false, type: .enum), 
+            AWSShapeMember(label: "PublicAccessBlockConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConfiguration", required: false, type: .structure)
+        ]
+
+        /// The name of the bucket associated with the specified access point.
+        public let bucket: String?
+        /// The date and time when the specified access point was created.
+        public let creationDate: TimeStamp?
+        /// The name of the specified access point.
+        public let name: String?
+        /// Indicates whether this access point allows access from the public Internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public Internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public Internet, subject to the access point and bucket access policies.
+        public let networkOrigin: NetworkOrigin?
+        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
+        /// Contains the Virtual Private Cloud (VPC) configuration for the specified access point.
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(bucket: String? = nil, creationDate: TimeStamp? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+            self.bucket = bucket
+            self.creationDate = creationDate
+            self.name = name
+            self.networkOrigin = networkOrigin
+            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case creationDate = "CreationDate"
+            case name = "Name"
+            case networkOrigin = "NetworkOrigin"
+            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
     public struct GetPublicAccessBlockOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicAccessBlockConfiguration"
@@ -165,6 +457,7 @@ extension S3Control {
             AWSShapeMember(label: "PublicAccessBlockConfiguration", required: false, type: .structure)
         ]
 
+        /// The PublicAccessBlock configuration currently in effect for this Amazon Web Services account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
 
         public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
@@ -181,6 +474,7 @@ extension S3Control {
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string)
         ]
 
+        /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve.
         public let accountId: String
 
         public init(accountId: String) {
@@ -542,7 +836,7 @@ extension S3Control {
             AWSShapeMember(label: "ReportScope", required: false, type: .enum)
         ]
 
-        /// The bucket where specified job-completion report will be stored.
+        /// The Amazon Resource Name (ARN) for the bucket where specified job-completion report will be stored.
         public let bucket: String?
         /// Indicates whether the specified job will generate a job-completion report.
         public let enabled: Bool
@@ -627,6 +921,70 @@ extension S3Control {
         }
     }
 
+    public struct ListAccessPointsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .querystring(locationName: "bucket"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The AWS account ID for owner of the bucket whose access points you want to list.
+        public let accountId: String
+        /// The name of the bucket whose associated access points you want to list.
+        public let bucket: String?
+        /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
+        public let maxResults: Int?
+        /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(accountId: String, bucket: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.bucket = bucket
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.bucket, name:"bucket", parent: name, max: 255)
+            try validate(self.bucket, name:"bucket", parent: name, min: 3)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case bucket = "bucket"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAccessPointsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPointList", required: false, type: .list, encoding: .list(member:"AccessPoint")), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Contains identification and configuration information for one or more access points associated with the specified bucket.
+        public let accessPointList: [AccessPoint]?
+        /// If the specified bucket has more access points than can be returned in one call to this API, then this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
+        public let nextToken: String?
+
+        public init(accessPointList: [AccessPoint]? = nil, nextToken: String? = nil) {
+            self.accessPointList = accessPointList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointList = "AccessPointList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
@@ -688,6 +1046,12 @@ extension S3Control {
         }
     }
 
+    public enum NetworkOrigin: String, CustomStringConvertible, Codable {
+        case internet = "Internet"
+        case vpc = "VPC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OperationName: String, CustomStringConvertible, Codable {
         case lambdainvoke = "LambdaInvoke"
         case s3putobjectcopy = "S3PutObjectCopy"
@@ -695,6 +1059,22 @@ extension S3Control {
         case s3putobjecttagging = "S3PutObjectTagging"
         case s3initiaterestoreobject = "S3InitiateRestoreObject"
         public var description: String { return self.rawValue }
+    }
+
+    public struct PolicyStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsPublic", location: .body(locationName: "IsPublic"), required: false, type: .boolean)
+        ]
+
+        public let isPublic: Bool?
+
+        public init(isPublic: Bool? = nil) {
+            self.isPublic = isPublic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isPublic = "IsPublic"
+        }
     }
 
     public struct PublicAccessBlockConfiguration: AWSShape {
@@ -705,9 +1085,13 @@ extension S3Control {
             AWSShapeMember(label: "RestrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"), required: false, type: .boolean)
         ]
 
+        /// Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   PUT Bucket calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs.
         public let blockPublicAcls: Bool?
+        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Enabling this setting doesn't affect existing bucket policies.
         public let blockPublicPolicy: Bool?
+        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
         public let ignorePublicAcls: Bool?
+        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only AWS services and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
         public let restrictPublicBuckets: Bool?
 
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
@@ -725,6 +1109,39 @@ extension S3Control {
         }
     }
 
+    public struct PutAccessPointPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "Policy", required: true, type: .string)
+        ]
+
+        /// The AWS account ID for owner of the bucket associated with the specified access point.
+        public let accountId: String
+        /// The name of the access point that you want to associate with the specified policy.
+        public let name: String
+        /// The policy that you want to apply to the specified access point. For more information about access point policies, see Managing Data Access with Amazon S3 Access Points in the Amazon Simple Storage Service Developer Guide.
+        public let policy: String
+
+        public init(accountId: String, name: String, policy: String) {
+            self.accountId = accountId
+            self.name = name
+            self.policy = policy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case name = "name"
+            case policy = "Policy"
+        }
+    }
+
     public struct PutPublicAccessBlockRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicAccessBlockConfiguration"
@@ -734,7 +1151,9 @@ extension S3Control {
             AWSShapeMember(label: "PublicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"), required: true, type: .structure)
         ]
 
+        /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to set.
         public let accountId: String
+        /// The PublicAccessBlock configuration that you want to apply to the specified Amazon Web Services account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
         public init(accountId: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
@@ -1340,6 +1759,28 @@ extension S3Control {
             case jobId = "JobId"
             case status = "Status"
             case statusUpdateReason = "StatusUpdateReason"
+        }
+    }
+
+    public struct VpcConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcId", required: true, type: .string)
+        ]
+
+        /// If this field is specified, this access point will only allow connections from the specified VPC ID.
+        public let vpcId: String
+
+        public init(vpcId: String) {
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.vpcId, name:"vpcId", parent: name, max: 1024)
+            try validate(self.vpcId, name:"vpcId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcId = "VpcId"
         }
     }
 }

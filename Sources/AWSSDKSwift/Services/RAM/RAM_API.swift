@@ -37,6 +37,11 @@ public struct RAM {
         return client.send(operation: "AssociateResourceShare", path: "/associateresourceshare", httpMethod: "POST", input: input)
     }
 
+    ///  Associates a permission with a resource share.
+    public func associateResourceSharePermission(_ input: AssociateResourceSharePermissionRequest) -> Future<AssociateResourceSharePermissionResponse> {
+        return client.send(operation: "AssociateResourceSharePermission", path: "/associateresourcesharepermission", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a resource share.
     public func createResourceShare(_ input: CreateResourceShareRequest) -> Future<CreateResourceShareResponse> {
         return client.send(operation: "CreateResourceShare", path: "/createresourceshare", httpMethod: "POST", input: input)
@@ -52,9 +57,19 @@ public struct RAM {
         return client.send(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: "POST", input: input)
     }
 
+    ///  Disassociates an AWS RAM permission from a resource share.
+    public func disassociateResourceSharePermission(_ input: DisassociateResourceSharePermissionRequest) -> Future<DisassociateResourceSharePermissionResponse> {
+        return client.send(operation: "DisassociateResourceSharePermission", path: "/disassociateresourcesharepermission", httpMethod: "POST", input: input)
+    }
+
     ///  Enables resource sharing within your AWS Organization. The caller must be the master account for the AWS Organization.
     public func enableSharingWithAwsOrganization(_ input: EnableSharingWithAwsOrganizationRequest) -> Future<EnableSharingWithAwsOrganizationResponse> {
         return client.send(operation: "EnableSharingWithAwsOrganization", path: "/enablesharingwithawsorganization", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the contents of an AWS RAM permission in JSON format.
+    public func getPermission(_ input: GetPermissionRequest) -> Future<GetPermissionResponse> {
+        return client.send(operation: "GetPermission", path: "/getpermission", httpMethod: "POST", input: input)
     }
 
     ///  Gets the policies for the specified resources that you own and have shared.
@@ -82,14 +97,29 @@ public struct RAM {
         return client.send(operation: "ListPendingInvitationResources", path: "/listpendinginvitationresources", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the principals that you have shared resources with or the principals that have shared resources with you.
+    ///  Lists the AWS RAM permissions.
+    public func listPermissions(_ input: ListPermissionsRequest) -> Future<ListPermissionsResponse> {
+        return client.send(operation: "ListPermissions", path: "/listpermissions", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the principals that you have shared resources with or that have shared resources with you.
     public func listPrincipals(_ input: ListPrincipalsRequest) -> Future<ListPrincipalsResponse> {
         return client.send(operation: "ListPrincipals", path: "/listprincipals", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the AWS RAM permissions that are associated with a resource share.
+    public func listResourceSharePermissions(_ input: ListResourceSharePermissionsRequest) -> Future<ListResourceSharePermissionsResponse> {
+        return client.send(operation: "ListResourceSharePermissions", path: "/listresourcesharepermissions", httpMethod: "POST", input: input)
     }
 
     ///  Lists the resources that you added to a resource shares or the resources that are shared with you.
     public func listResources(_ input: ListResourcesRequest) -> Future<ListResourcesResponse> {
         return client.send(operation: "ListResources", path: "/listresources", httpMethod: "POST", input: input)
+    }
+
+    ///  Resource shares that were created by attaching a policy to a resource are visible only to the resource share owner, and the resource share cannot be modified in AWS RAM. Use this API action to promote the resource share. When you promote the resource share, it becomes:   Visible to all principals that it is shared with.   Modifiable in AWS RAM.  
+    public func promoteResourceShareCreatedFromPolicy(_ input: PromoteResourceShareCreatedFromPolicyRequest) -> Future<PromoteResourceShareCreatedFromPolicyResponse> {
+        return client.send(operation: "PromoteResourceShareCreatedFromPolicy", path: "/promoteresourcesharecreatedfrompolicy", httpMethod: "POST", input: input)
     }
 
     ///  Rejects an invitation to a resource share from another AWS account.

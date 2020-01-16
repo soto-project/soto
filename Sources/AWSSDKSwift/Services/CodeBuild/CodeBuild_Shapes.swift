@@ -130,7 +130,7 @@ extension CodeBuild {
             AWSShapeMember(label: "names", required: true, type: .list)
         ]
 
-        /// The names of the build projects.
+        /// The names or ARNs of the build projects. To get information about a project shared with your AWS account, its ARN must be specified. You cannot specify a shared project using its name.
         public let names: [String]
 
         public init(names: [String]) {
@@ -172,6 +172,100 @@ extension CodeBuild {
         }
     }
 
+    public struct BatchGetReportGroupsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reportGroupArns", required: true, type: .list)
+        ]
+
+        ///  An array of report group ARNs that identify the report groups to return. 
+        public let reportGroupArns: [String]
+
+        public init(reportGroupArns: [String]) {
+            self.reportGroupArns = reportGroupArns
+        }
+
+        public func validate(name: String) throws {
+            try self.reportGroupArns.forEach {
+                try validate($0, name: "reportGroupArns[]", parent: name, min: 1)
+            }
+            try validate(self.reportGroupArns, name:"reportGroupArns", parent: name, max: 100)
+            try validate(self.reportGroupArns, name:"reportGroupArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportGroupArns = "reportGroupArns"
+        }
+    }
+
+    public struct BatchGetReportGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reportGroups", required: false, type: .list), 
+            AWSShapeMember(label: "reportGroupsNotFound", required: false, type: .list)
+        ]
+
+        ///  The array of report groups returned by BatchGetReportGroups. 
+        public let reportGroups: [ReportGroup]?
+        ///  An array of ARNs passed to BatchGetReportGroups that are not associated with a ReportGroup. 
+        public let reportGroupsNotFound: [String]?
+
+        public init(reportGroups: [ReportGroup]? = nil, reportGroupsNotFound: [String]? = nil) {
+            self.reportGroups = reportGroups
+            self.reportGroupsNotFound = reportGroupsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportGroups = "reportGroups"
+            case reportGroupsNotFound = "reportGroupsNotFound"
+        }
+    }
+
+    public struct BatchGetReportsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reportArns", required: true, type: .list)
+        ]
+
+        ///  An array of ARNs that identify the Report objects to return. 
+        public let reportArns: [String]
+
+        public init(reportArns: [String]) {
+            self.reportArns = reportArns
+        }
+
+        public func validate(name: String) throws {
+            try self.reportArns.forEach {
+                try validate($0, name: "reportArns[]", parent: name, min: 1)
+            }
+            try validate(self.reportArns, name:"reportArns", parent: name, max: 100)
+            try validate(self.reportArns, name:"reportArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportArns = "reportArns"
+        }
+    }
+
+    public struct BatchGetReportsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reports", required: false, type: .list), 
+            AWSShapeMember(label: "reportsNotFound", required: false, type: .list)
+        ]
+
+        ///  The array of Report objects returned by BatchGetReports. 
+        public let reports: [Report]?
+        ///  An array of ARNs passed to BatchGetReportGroups that are not associated with a Report. 
+        public let reportsNotFound: [String]?
+
+        public init(reports: [Report]? = nil, reportsNotFound: [String]? = nil) {
+            self.reports = reports
+            self.reportsNotFound = reportsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reports = "reports"
+            case reportsNotFound = "reportsNotFound"
+        }
+    }
+
     public struct Build: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
@@ -192,6 +286,7 @@ extension CodeBuild {
             AWSShapeMember(label: "phases", required: false, type: .list), 
             AWSShapeMember(label: "projectName", required: false, type: .string), 
             AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "reportArns", required: false, type: .list), 
             AWSShapeMember(label: "resolvedSourceVersion", required: false, type: .string), 
             AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
             AWSShapeMember(label: "secondarySources", required: false, type: .list), 
@@ -240,13 +335,15 @@ extension CodeBuild {
         public let projectName: String?
         ///  The number of minutes a build is allowed to be queued before it times out. 
         public let queuedTimeoutInMinutes: Int?
+        ///  An array of the ARNs associated with this build's reports. 
+        public let reportArns: [String]?
         ///  An identifier for the version of this build's source code.     For AWS CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.     For AWS CodePipeline, the source revision provided by AWS CodePipeline.     For Amazon Simple Storage Service (Amazon S3), this does not apply.   
         public let resolvedSourceVersion: String?
         ///  An array of ProjectArtifacts objects. 
         public let secondaryArtifacts: [BuildArtifacts]?
         ///  An array of ProjectSource objects. 
         public let secondarySources: [ProjectSource]?
-        ///  An array of ProjectSourceVersion objects. Each ProjectSourceVersion must be one of:    For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
+        ///  An array of ProjectSourceVersion objects. Each ProjectSourceVersion must be one of:    For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
         public let secondarySourceVersions: [ProjectSourceVersion]?
         /// The name of a service role used for this build.
         public let serviceRole: String?
@@ -261,7 +358,7 @@ extension CodeBuild {
         /// If your AWS CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildComplete: Bool? = nil, buildNumber: Int64? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, exportedEnvironmentVariables: [ExportedEnvironmentVariable]? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildComplete: Bool? = nil, buildNumber: Int64? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, exportedEnvironmentVariables: [ExportedEnvironmentVariable]? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, reportArns: [String]? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.buildComplete = buildComplete
@@ -280,6 +377,7 @@ extension CodeBuild {
             self.phases = phases
             self.projectName = projectName
             self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
+            self.reportArns = reportArns
             self.resolvedSourceVersion = resolvedSourceVersion
             self.secondaryArtifacts = secondaryArtifacts
             self.secondarySources = secondarySources
@@ -311,6 +409,7 @@ extension CodeBuild {
             case phases = "phases"
             case projectName = "projectName"
             case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case reportArns = "reportArns"
             case resolvedSourceVersion = "resolvedSourceVersion"
             case secondaryArtifacts = "secondaryArtifacts"
             case secondarySources = "secondarySources"
@@ -490,6 +589,7 @@ extension CodeBuild {
         case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
         case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
         case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
+        case buildGeneral12Xlarge = "BUILD_GENERAL1_2XLARGE"
         public var description: String { return self.rawValue }
     }
 
@@ -543,7 +643,7 @@ extension CodeBuild {
         public let serviceRole: String
         /// Information about the build input source code for the build project.
         public let source: ProjectSource
-        ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
+        ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
         /// A set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
@@ -643,6 +743,56 @@ extension CodeBuild {
         }
     }
 
+    public struct CreateReportGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        ///  A ReportExportConfig object that contains information about where the report group test results are exported. 
+        public let exportConfig: ReportExportConfig
+        ///  The name of the report group. 
+        public let name: String
+        ///  The type of report group. 
+        public let `type`: ReportType
+
+        public init(exportConfig: ReportExportConfig, name: String, type: ReportType) {
+            self.exportConfig = exportConfig
+            self.name = name
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try self.exportConfig.validate(name: "\(name).exportConfig")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportConfig = "exportConfig"
+            case name = "name"
+            case `type` = "type"
+        }
+    }
+
+    public struct CreateReportGroupOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reportGroup", required: false, type: .structure)
+        ]
+
+        ///  Information about the report group that was created. 
+        public let reportGroup: ReportGroup?
+
+        public init(reportGroup: ReportGroup? = nil) {
+            self.reportGroup = reportGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportGroup = "reportGroup"
+        }
+    }
+
     public struct CreateWebhookInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "branchFilter", required: false, type: .string), 
@@ -727,6 +877,93 @@ extension CodeBuild {
 
     }
 
+    public struct DeleteReportGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+
+        ///  The ARN of the report group to delete. 
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeleteReportGroupOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteReportInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+
+        ///  The ARN of the report to delete. 
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeleteReportOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteResourcePolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
+        ]
+
+        ///  The ARN of the resource that is associated with the resource policy. 
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct DeleteResourcePolicyOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteSourceCredentialsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
@@ -794,6 +1031,65 @@ extension CodeBuild {
         public init() {
         }
 
+    }
+
+    public struct DescribeTestCasesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "reportArn", required: true, type: .string)
+        ]
+
+        ///  A TestCaseFilter object used to filter the returned reports. 
+        public let filter: TestCaseFilter?
+        ///  The maximum number of paginated test cases returned per response. Use nextToken to iterate pages in the list of returned TestCase objects. The default value is 100. 
+        public let maxResults: Int?
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The ARN of the report for which test cases are returned. 
+        public let reportArn: String
+
+        public init(filter: TestCaseFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, reportArn: String) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.reportArn = reportArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reportArn = "reportArn"
+        }
+    }
+
+    public struct DescribeTestCasesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "testCases", required: false, type: .list)
+        ]
+
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The returned list of test cases. 
+        public let testCases: [TestCase]?
+
+        public init(nextToken: String? = nil, testCases: [TestCase]? = nil) {
+            self.nextToken = nextToken
+            self.testCases = testCases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testCases = "testCases"
+        }
     }
 
     public struct EnvironmentImage: AWSShape {
@@ -870,6 +1166,8 @@ extension CodeBuild {
     public enum EnvironmentType: String, CustomStringConvertible, Codable {
         case windowsContainer = "WINDOWS_CONTAINER"
         case linuxContainer = "LINUX_CONTAINER"
+        case linuxGpuContainer = "LINUX_GPU_CONTAINER"
+        case armContainer = "ARM_CONTAINER"
         public var description: String { return self.rawValue }
     }
 
@@ -882,7 +1180,7 @@ extension CodeBuild {
 
         /// The name or key of the environment variable.
         public let name: String
-        /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Amazon EC2 Systems Manager Parameter Store.    PLAINTEXT: An environment variable in plaintext format.    SECRETS_MANAGER: An environment variable stored in AWS Secrets Manager.  
+        /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Amazon EC2 Systems Manager Parameter Store.    PLAINTEXT: An environment variable in plain text format. This is the default value.    SECRETS_MANAGER: An environment variable stored in AWS Secrets Manager.  
         public let `type`: EnvironmentVariableType?
         /// The value of the environment variable.  We strongly discourage the use of environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. Environment variables can be displayed in plain text using the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI). 
         public let value: String
@@ -930,6 +1228,44 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case value = "value"
+        }
+    }
+
+    public struct GetResourcePolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
+        ]
+
+        ///  The ARN of the resource that is associated with the resource policy. 
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct GetResourcePolicyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policy", required: false, type: .string)
+        ]
+
+        ///  The resource policy for the resource identified by the input ARN parameter. 
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
         }
     }
 
@@ -1065,7 +1401,7 @@ extension CodeBuild {
             AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
 
-        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
+        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The name of the AWS CodeBuild project.
         public let projectName: String
@@ -1097,7 +1433,7 @@ extension CodeBuild {
 
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
         public let ids: [String]?
-        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
+        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
 
         public init(ids: [String]? = nil, nextToken: String? = nil) {
@@ -1117,7 +1453,7 @@ extension CodeBuild {
             AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
 
-        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
+        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
         public let sortOrder: SortOrderType?
@@ -1141,7 +1477,7 @@ extension CodeBuild {
 
         /// A list of build IDs, with each build ID representing a single build.
         public let ids: [String]?
-        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
+        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
 
         public init(ids: [String]? = nil, nextToken: String? = nil) {
@@ -1187,7 +1523,7 @@ extension CodeBuild {
             AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
 
-        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
+        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List based on when each build project was created.    LAST_MODIFIED_TIME: List based on when information about each build project was last changed.    NAME: List based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
         public let sortBy: ProjectSortByType?
@@ -1217,7 +1553,7 @@ extension CodeBuild {
             AWSShapeMember(label: "projects", required: false, type: .list)
         ]
 
-        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
+        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
         /// The list of build project names, with each build project name representing a single build project.
         public let projects: [String]?
@@ -1230,6 +1566,307 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case projects = "projects"
+        }
+    }
+
+    public struct ListReportGroupsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
+        ]
+
+        ///  The maximum number of paginated report groups returned per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100. 
+        public let maxResults: Int?
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The criterion to be used to list build report groups. Valid values include:     CREATED_TIME: List based on when each report group was created.    LAST_MODIFIED_TIME: List based on when each report group was last changed.    NAME: List based on each report group's name.  
+        public let sortBy: ReportGroupSortByType?
+        ///  Used to specify the order to sort the list of returned report groups. Valid values are ASCENDING and DESCENDING. 
+        public let sortOrder: SortOrderType?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: ReportGroupSortByType? = nil, sortOrder: SortOrderType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListReportGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "reportGroups", required: false, type: .list)
+        ]
+
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The list of ARNs for the report groups in the current AWS account. 
+        public let reportGroups: [String]?
+
+        public init(nextToken: String? = nil, reportGroups: [String]? = nil) {
+            self.nextToken = nextToken
+            self.reportGroups = reportGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reportGroups = "reportGroups"
+        }
+    }
+
+    public struct ListReportsForReportGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "reportGroupArn", required: true, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
+        ]
+
+        ///  A ReportFilter object used to filter the returned reports. 
+        public let filter: ReportFilter?
+        ///  The maximum number of paginated reports in this report group returned per response. Use nextToken to iterate pages in the list of returned Report objects. The default value is 100. 
+        public let maxResults: Int?
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The ARN of the report group for which you want to return report ARNs. 
+        public let reportGroupArn: String
+        ///  Use to specify whether the results are returned in ascending or descending order. 
+        public let sortOrder: SortOrderType?
+
+        public init(filter: ReportFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, reportGroupArn: String, sortOrder: SortOrderType? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.reportGroupArn = reportGroupArn
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reportGroupArn = "reportGroupArn"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListReportsForReportGroupOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "reports", required: false, type: .list)
+        ]
+
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The list of returned report group ARNs. 
+        public let reports: [String]?
+
+        public init(nextToken: String? = nil, reports: [String]? = nil) {
+            self.nextToken = nextToken
+            self.reports = reports
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reports = "reports"
+        }
+    }
+
+    public struct ListReportsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
+        ]
+
+        ///  A ReportFilter object used to filter the returned reports. 
+        public let filter: ReportFilter?
+        ///  The maximum number of paginated reports returned per response. Use nextToken to iterate pages in the list of returned Report objects. The default value is 100. 
+        public let maxResults: Int?
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  Specifies the sort order for the list of returned reports. Valid values are:     ASCENDING: return reports in chronological order based on their creation date.     DESCENDING: return reports in the reverse chronological order based on their creation date.   
+        public let sortOrder: SortOrderType?
+
+        public init(filter: ReportFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListReportsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "reports", required: false, type: .list)
+        ]
+
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The list of returned ARNs for the reports in the current AWS account. 
+        public let reports: [String]?
+
+        public init(nextToken: String? = nil, reports: [String]? = nil) {
+            self.nextToken = nextToken
+            self.reports = reports
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reports = "reports"
+        }
+    }
+
+    public struct ListSharedProjectsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
+        ]
+
+        ///  The maximum number of paginated shared build projects returned per response. Use nextToken to iterate pages in the list of returned Project objects. The default value is 100. 
+        public let maxResults: Int?
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The criterion to be used to list build projects shared with the current AWS account or user. Valid values include:     ARN: List based on the ARN.     MODIFIED_TIME: List based on when information about the shared project was last changed.   
+        public let sortBy: SharedResourceSortByType?
+        /// The order in which to list shared build projects. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.  
+        public let sortOrder: SortOrderType?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: SharedResourceSortByType? = nil, sortOrder: SortOrderType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListSharedProjectsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "projects", required: false, type: .list)
+        ]
+
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The list of ARNs for the build projects shared with the current AWS account or user. 
+        public let projects: [String]?
+
+        public init(nextToken: String? = nil, projects: [String]? = nil) {
+            self.nextToken = nextToken
+            self.projects = projects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case projects = "projects"
+        }
+    }
+
+    public struct ListSharedReportGroupsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
+        ]
+
+        ///  The maximum number of paginated shared report groups per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100. 
+        public let maxResults: Int?
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The criterion to be used to list report groups shared with the current AWS account or user. Valid values include:     ARN: List based on the ARN.     MODIFIED_TIME: List based on when information about the shared report group was last changed.   
+        public let sortBy: SharedResourceSortByType?
+        /// The order in which to list shared report groups. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.  
+        public let sortOrder: SortOrderType?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: SharedResourceSortByType? = nil, sortOrder: SortOrderType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListSharedReportGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "reportGroups", required: false, type: .list)
+        ]
+
+        ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+        public let nextToken: String?
+        ///  The list of ARNs for the report groups shared with the current AWS account or user. 
+        public let reportGroups: [String]?
+
+        public init(nextToken: String? = nil, reportGroups: [String]? = nil) {
+            self.nextToken = nextToken
+            self.reportGroups = reportGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reportGroups = "reportGroups"
         }
     }
 
@@ -1289,15 +1926,19 @@ extension CodeBuild {
     public struct LogsLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cloudWatchLogs", required: false, type: .structure), 
+            AWSShapeMember(label: "cloudWatchLogsArn", required: false, type: .string), 
             AWSShapeMember(label: "deepLink", required: false, type: .string), 
             AWSShapeMember(label: "groupName", required: false, type: .string), 
             AWSShapeMember(label: "s3DeepLink", required: false, type: .string), 
             AWSShapeMember(label: "s3Logs", required: false, type: .structure), 
+            AWSShapeMember(label: "s3LogsArn", required: false, type: .string), 
             AWSShapeMember(label: "streamName", required: false, type: .string)
         ]
 
         ///  Information about Amazon CloudWatch Logs for a build project. 
         public let cloudWatchLogs: CloudWatchLogsConfig?
+        ///  The ARN of Amazon CloudWatch Logs for a build project. Its format is arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}. For more information, see Resources Defined by Amazon CloudWatch Logs. 
+        public let cloudWatchLogsArn: String?
         /// The URL to an individual build log in Amazon CloudWatch Logs.
         public let deepLink: String?
         /// The name of the Amazon CloudWatch Logs group for the build logs.
@@ -1306,24 +1947,30 @@ extension CodeBuild {
         public let s3DeepLink: String?
         ///  Information about S3 logs for a build project. 
         public let s3Logs: S3LogsConfig?
+        ///  The ARN of S3 logs for a build project. Its format is arn:${Partition}:s3:::${BucketName}/${ObjectName}. For more information, see Resources Defined by Amazon S3. 
+        public let s3LogsArn: String?
         /// The name of the Amazon CloudWatch Logs stream for the build logs.
         public let streamName: String?
 
-        public init(cloudWatchLogs: CloudWatchLogsConfig? = nil, deepLink: String? = nil, groupName: String? = nil, s3DeepLink: String? = nil, s3Logs: S3LogsConfig? = nil, streamName: String? = nil) {
+        public init(cloudWatchLogs: CloudWatchLogsConfig? = nil, cloudWatchLogsArn: String? = nil, deepLink: String? = nil, groupName: String? = nil, s3DeepLink: String? = nil, s3Logs: S3LogsConfig? = nil, s3LogsArn: String? = nil, streamName: String? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
+            self.cloudWatchLogsArn = cloudWatchLogsArn
             self.deepLink = deepLink
             self.groupName = groupName
             self.s3DeepLink = s3DeepLink
             self.s3Logs = s3Logs
+            self.s3LogsArn = s3LogsArn
             self.streamName = streamName
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogs = "cloudWatchLogs"
+            case cloudWatchLogsArn = "cloudWatchLogsArn"
             case deepLink = "deepLink"
             case groupName = "groupName"
             case s3DeepLink = "s3DeepLink"
             case s3Logs = "s3Logs"
+            case s3LogsArn = "s3LogsArn"
             case streamName = "streamName"
         }
     }
@@ -1440,7 +2087,7 @@ extension CodeBuild {
         public let serviceRole: String?
         /// Information about the build input source code for this build project.
         public let source: ProjectSource?
-        /// A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
+        /// A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:   For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
         /// The tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
@@ -1590,7 +2237,7 @@ extension CodeBuild {
 
         /// Information about the cache location:     NO_CACHE or LOCAL: This value is ignored.    S3: This is the S3 bucket name/prefix.  
         public let location: String?
-        ///  If you use a LOCAL cache, the local cache mode. You can use one or more local cache modes at the same time.     LOCAL_SOURCE_CACHE mode caches Git metadata for primary and secondary sources. After the cache is created, subsequent builds pull only the change between commits. This mode is a good choice for projects with a clean working directory and a source that is a large Git repository. If you choose this option and your project does not use a Git repository (GitHub, GitHub Enterprise, or Bitbucket), the option is ignored.     LOCAL_DOCKER_LAYER_CACHE mode caches existing Docker layers. This mode is a good choice for projects that build or pull large Docker images. It can prevent the performance issues caused by pulling large Docker images down from the network.      You can use a Docker layer cache in the Linux environment only.     The privileged flag must be set so that your project has the required Docker permissions.     You should consider the security implications before you use a Docker layer cache.          LOCAL_CUSTOM_CACHE mode caches directories you specify in the buildspec file. This mode is a good choice if your build scenario is not suited to one of the other three local cache modes. If you use a custom cache:     Only directories can be specified for caching. You cannot specify individual files.     Symlinks are used to reference cached directories.     Cached directories are linked to your build before it downloads its project sources. Cached items are overriden if a source item has the same name. Directories are specified using cache paths in the buildspec file.     
+        ///  If you use a LOCAL cache, the local cache mode. You can use one or more local cache modes at the same time.     LOCAL_SOURCE_CACHE mode caches Git metadata for primary and secondary sources. After the cache is created, subsequent builds pull only the change between commits. This mode is a good choice for projects with a clean working directory and a source that is a large Git repository. If you choose this option and your project does not use a Git repository (GitHub, GitHub Enterprise, or Bitbucket), the option is ignored.     LOCAL_DOCKER_LAYER_CACHE mode caches existing Docker layers. This mode is a good choice for projects that build or pull large Docker images. It can prevent the performance issues caused by pulling large Docker images down from the network.      You can use a Docker layer cache in the Linux environment only.     The privileged flag must be set so that your project has the required Docker permissions.     You should consider the security implications before you use a Docker layer cache.          LOCAL_CUSTOM_CACHE mode caches directories you specify in the buildspec file. This mode is a good choice if your build scenario is not suited to one of the other three local cache modes. If you use a custom cache:     Only directories can be specified for caching. You cannot specify individual files.     Symlinks are used to reference cached directories.     Cached directories are linked to your build before it downloads its project sources. Cached items are overridden if a source item has the same name. Directories are specified using cache paths in the buildspec file.     
         public let modes: [CacheMode]?
         /// The type of cache used by the build project. Valid values include:    NO_CACHE: The build project does not use any cache.    S3: The build project reads and writes from and to S3.    LOCAL: The build project stores a cache locally on a build host that is only available to that build host.  
         public let `type`: CacheType
@@ -1622,7 +2269,7 @@ extension CodeBuild {
 
         /// The certificate to use with this build project.
         public let certificate: String?
-        /// Information about the compute resources the build project uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.    For more information, see Build Environment Compute Types in the AWS CodeBuild User Guide. 
+        /// Information about the compute resources the build project uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    If you use BUILD_GENERAL1_LARGE:     For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.     For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.    For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.    For more information, see Build Environment Compute Types in the AWS CodeBuild User Guide. 
         public let computeType: ComputeType
         /// A set of environment variables to make available to builds for this build project.
         public let environmentVariables: [EnvironmentVariable]?
@@ -1634,7 +2281,7 @@ extension CodeBuild {
         public let privilegedMode: Bool?
         ///  The credentials for access to a private registry.
         public let registryCredential: RegistryCredential?
-        /// The type of build environment to use for related builds.
+        /// The type of build environment to use for related builds.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and EU (Frankfurt).   The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) , China (Beijing), and China (Ningxia).  
         public let `type`: EnvironmentType
 
         public init(certificate: String? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
@@ -1744,7 +2391,7 @@ extension CodeBuild {
 
         /// An identifier for a source in the build project.
         public let sourceIdentifier: String
-        /// The source version for the corresponding source identifier. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
+        /// The source version for the corresponding source identifier. If specified, must be one of:   For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String
 
         public init(sourceIdentifier: String, sourceVersion: String) {
@@ -1755,6 +2402,50 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case sourceIdentifier = "sourceIdentifier"
             case sourceVersion = "sourceVersion"
+        }
+    }
+
+    public struct PutResourcePolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policy", required: true, type: .string), 
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
+        ]
+
+        ///  A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the AWS CodeBuild User Guide. 
+        public let policy: String
+        ///  The ARN of the Project or ReportGroup resource you want to associate with a resource policy. 
+        public let resourceArn: String
+
+        public init(policy: String, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.policy, name:"policy", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct PutResourcePolicyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: false, type: .string)
+        ]
+
+        ///  The ARN of the Project or ReportGroup resource that is associated with a resource policy. 
+        public let resourceArn: String?
+
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1784,6 +2475,191 @@ extension CodeBuild {
         }
     }
 
+    public struct Report: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "executionId", required: false, type: .string), 
+            AWSShapeMember(label: "expired", required: false, type: .timestamp), 
+            AWSShapeMember(label: "exportConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "reportGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "testSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "truncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
+        ]
+
+        ///  The ARN of the report run. 
+        public let arn: String?
+        ///  The date and time this report run occurred. 
+        public let created: TimeStamp?
+        ///  The ARN of the build run that generated this report. 
+        public let executionId: String?
+        ///  The date and time a report expires. A report expires 30 days after it is created. An expired report is not available to view in CodeBuild. 
+        public let expired: TimeStamp?
+        ///  Information about where the raw data used to generate this report was exported. 
+        public let exportConfig: ReportExportConfig?
+        ///  The name of the report that was run. 
+        public let name: String?
+        ///  The ARN of the report group associated with this report. 
+        public let reportGroupArn: String?
+        ///  The status of this report. 
+        public let status: ReportStatusType?
+        ///  A TestReportSummary object that contains information about this test report. 
+        public let testSummary: TestReportSummary?
+        ///  A boolean that specifies if this report run is truncated. The list of test cases is truncated after the maximum number of test cases is reached. 
+        public let truncated: Bool?
+        ///  The type of the report that was run. 
+        public let `type`: ReportType?
+
+        public init(arn: String? = nil, created: TimeStamp? = nil, executionId: String? = nil, expired: TimeStamp? = nil, exportConfig: ReportExportConfig? = nil, name: String? = nil, reportGroupArn: String? = nil, status: ReportStatusType? = nil, testSummary: TestReportSummary? = nil, truncated: Bool? = nil, type: ReportType? = nil) {
+            self.arn = arn
+            self.created = created
+            self.executionId = executionId
+            self.expired = expired
+            self.exportConfig = exportConfig
+            self.name = name
+            self.reportGroupArn = reportGroupArn
+            self.status = status
+            self.testSummary = testSummary
+            self.truncated = truncated
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case created = "created"
+            case executionId = "executionId"
+            case expired = "expired"
+            case exportConfig = "exportConfig"
+            case name = "name"
+            case reportGroupArn = "reportGroupArn"
+            case status = "status"
+            case testSummary = "testSummary"
+            case truncated = "truncated"
+            case `type` = "type"
+        }
+    }
+
+    public struct ReportExportConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportConfigType", required: false, type: .enum), 
+            AWSShapeMember(label: "s3Destination", required: false, type: .structure)
+        ]
+
+        ///  The export configuration type. Valid values are:     S3: The report results are exported to an S3 bucket.     NO_EXPORT: The report results are not exported.   
+        public let exportConfigType: ReportExportConfigType?
+        ///  A S3ReportExportConfig object that contains information about the S3 bucket where the run of a report is exported. 
+        public let s3Destination: S3ReportExportConfig?
+
+        public init(exportConfigType: ReportExportConfigType? = nil, s3Destination: S3ReportExportConfig? = nil) {
+            self.exportConfigType = exportConfigType
+            self.s3Destination = s3Destination
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Destination?.validate(name: "\(name).s3Destination")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportConfigType = "exportConfigType"
+            case s3Destination = "s3Destination"
+        }
+    }
+
+    public enum ReportExportConfigType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        case noExport = "NO_EXPORT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ReportFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+
+        ///  The status used to filter reports. You can filter using one status only. 
+        public let status: ReportStatusType?
+
+        public init(status: ReportStatusType? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct ReportGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "exportConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "lastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
+        ]
+
+        ///  The ARN of a ReportGroup. 
+        public let arn: String?
+        ///  The date and time this ReportGroup was created. 
+        public let created: TimeStamp?
+        ///  Information about the destination where the raw data of this ReportGroup is exported. 
+        public let exportConfig: ReportExportConfig?
+        ///  The date and time this ReportGroup was last modified. 
+        public let lastModified: TimeStamp?
+        ///  The name of a ReportGroup. 
+        public let name: String?
+        ///  The type of the ReportGroup. The one valid value is TEST. 
+        public let `type`: ReportType?
+
+        public init(arn: String? = nil, created: TimeStamp? = nil, exportConfig: ReportExportConfig? = nil, lastModified: TimeStamp? = nil, name: String? = nil, type: ReportType? = nil) {
+            self.arn = arn
+            self.created = created
+            self.exportConfig = exportConfig
+            self.lastModified = lastModified
+            self.name = name
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case created = "created"
+            case exportConfig = "exportConfig"
+            case lastModified = "lastModified"
+            case name = "name"
+            case `type` = "type"
+        }
+    }
+
+    public enum ReportGroupSortByType: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case createdTime = "CREATED_TIME"
+        case lastModifiedTime = "LAST_MODIFIED_TIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportPackagingType: String, CustomStringConvertible, Codable {
+        case zip = "ZIP"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportStatusType: String, CustomStringConvertible, Codable {
+        case generating = "GENERATING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case incomplete = "INCOMPLETE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportType: String, CustomStringConvertible, Codable {
+        case test = "TEST"
+        public var description: String { return self.rawValue }
+    }
+
     public struct S3LogsConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "encryptionDisabled", required: false, type: .boolean), 
@@ -1811,10 +2687,58 @@ extension CodeBuild {
         }
     }
 
+    public struct S3ReportExportConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucket", required: false, type: .string), 
+            AWSShapeMember(label: "encryptionDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "packaging", required: false, type: .enum), 
+            AWSShapeMember(label: "path", required: false, type: .string)
+        ]
+
+        ///  The name of the S3 bucket where the raw data of a report are exported. 
+        public let bucket: String?
+        ///  A boolean value that specifies if the results of a report are encrypted. 
+        public let encryptionDisabled: Bool?
+        ///  The encryption key for the report's encrypted raw data. 
+        public let encryptionKey: String?
+        ///  The type of build output artifact to create. Valid values include:     NONE: AWS CodeBuild creates the raw data in the output bucket. This is the default if packaging is not specified.     ZIP: AWS CodeBuild creates a ZIP file with the raw data in the output bucket.   
+        public let packaging: ReportPackagingType?
+        ///  The path to the exported report's raw data results. 
+        public let path: String?
+
+        public init(bucket: String? = nil, encryptionDisabled: Bool? = nil, encryptionKey: String? = nil, packaging: ReportPackagingType? = nil, path: String? = nil) {
+            self.bucket = bucket
+            self.encryptionDisabled = encryptionDisabled
+            self.encryptionKey = encryptionKey
+            self.packaging = packaging
+            self.path = path
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bucket, name:"bucket", parent: name, min: 1)
+            try validate(self.encryptionKey, name:"encryptionKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case encryptionDisabled = "encryptionDisabled"
+            case encryptionKey = "encryptionKey"
+            case packaging = "packaging"
+            case path = "path"
+        }
+    }
+
     public enum ServerType: String, CustomStringConvertible, Codable {
         case github = "GITHUB"
         case bitbucket = "BITBUCKET"
         case githubEnterprise = "GITHUB_ENTERPRISE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SharedResourceSortByType: String, CustomStringConvertible, Codable {
+        case arn = "ARN"
+        case modifiedTime = "MODIFIED_TIME"
         public var description: String { return self.rawValue }
     }
 
@@ -1896,6 +2820,7 @@ extension CodeBuild {
             AWSShapeMember(label: "cacheOverride", required: false, type: .structure), 
             AWSShapeMember(label: "certificateOverride", required: false, type: .string), 
             AWSShapeMember(label: "computeTypeOverride", required: false, type: .enum), 
+            AWSShapeMember(label: "encryptionKeyOverride", required: false, type: .string), 
             AWSShapeMember(label: "environmentTypeOverride", required: false, type: .enum), 
             AWSShapeMember(label: "environmentVariablesOverride", required: false, type: .list), 
             AWSShapeMember(label: "gitCloneDepthOverride", required: false, type: .integer), 
@@ -1931,6 +2856,8 @@ extension CodeBuild {
         public let certificateOverride: String?
         /// The name of a compute type for this build that overrides the one specified in the build project.
         public let computeTypeOverride: ComputeType?
+        /// The AWS Key Management Service (AWS KMS) customer master key (CMK) that overrides the one specified in the build project. The CMK key encrypts the build output artifacts.   You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key.   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/alias-name ).
+        public let encryptionKeyOverride: String?
         /// A container type for this build that overrides the one specified in the build project.
         public let environmentTypeOverride: EnvironmentType?
         /// A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
@@ -1973,17 +2900,18 @@ extension CodeBuild {
         public let sourceLocationOverride: String?
         /// A source input type, for this build, that overrides the source input defined in the build project.
         public let sourceTypeOverride: SourceType?
-        /// A version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
+        /// A version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, must be one of:   For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
         /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
         public let timeoutInMinutesOverride: Int?
 
-        public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
+        public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
             self.artifactsOverride = artifactsOverride
             self.buildspecOverride = buildspecOverride
             self.cacheOverride = cacheOverride
             self.certificateOverride = certificateOverride
             self.computeTypeOverride = computeTypeOverride
+            self.encryptionKeyOverride = encryptionKeyOverride
             self.environmentTypeOverride = environmentTypeOverride
             self.environmentVariablesOverride = environmentVariablesOverride
             self.gitCloneDepthOverride = gitCloneDepthOverride
@@ -2010,6 +2938,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
+            try validate(self.encryptionKeyOverride, name:"encryptionKeyOverride", parent: name, min: 1)
             try self.environmentVariablesOverride?.forEach {
                 try $0.validate(name: "\(name).environmentVariablesOverride[]")
             }
@@ -2039,6 +2968,7 @@ extension CodeBuild {
             case cacheOverride = "cacheOverride"
             case certificateOverride = "certificateOverride"
             case computeTypeOverride = "computeTypeOverride"
+            case encryptionKeyOverride = "encryptionKeyOverride"
             case environmentTypeOverride = "environmentTypeOverride"
             case environmentVariablesOverride = "environmentVariablesOverride"
             case gitCloneDepthOverride = "gitCloneDepthOverride"
@@ -2161,6 +3091,102 @@ extension CodeBuild {
         }
     }
 
+    public struct TestCase: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "durationInNanoSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "expired", required: false, type: .timestamp), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "prefix", required: false, type: .string), 
+            AWSShapeMember(label: "reportArn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "testRawDataPath", required: false, type: .string)
+        ]
+
+        ///  The number of nanoseconds it took to run this test case. 
+        public let durationInNanoSeconds: Int64?
+        ///  The date and time a test case expires. A test case expires 30 days after it is created. An expired test case is not available to view in CodeBuild. 
+        public let expired: TimeStamp?
+        ///  A message associated with a test case. For example, an error message or stack trace. 
+        public let message: String?
+        ///  The name of the test case. 
+        public let name: String?
+        ///  A string that is applied to a series of related test cases. CodeBuild generates the prefix. The prefix depends on the framework used to generate the tests. 
+        public let prefix: String?
+        ///  The ARN of the report to which the test case belongs. 
+        public let reportArn: String?
+        ///  The status returned by the test case after it was run. Valid statuses are SUCCEEDED, FAILED, ERROR, SKIPPED, and UNKNOWN. 
+        public let status: String?
+        ///  The path to the raw data file that contains the test result. 
+        public let testRawDataPath: String?
+
+        public init(durationInNanoSeconds: Int64? = nil, expired: TimeStamp? = nil, message: String? = nil, name: String? = nil, prefix: String? = nil, reportArn: String? = nil, status: String? = nil, testRawDataPath: String? = nil) {
+            self.durationInNanoSeconds = durationInNanoSeconds
+            self.expired = expired
+            self.message = message
+            self.name = name
+            self.prefix = prefix
+            self.reportArn = reportArn
+            self.status = status
+            self.testRawDataPath = testRawDataPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInNanoSeconds = "durationInNanoSeconds"
+            case expired = "expired"
+            case message = "message"
+            case name = "name"
+            case prefix = "prefix"
+            case reportArn = "reportArn"
+            case status = "status"
+            case testRawDataPath = "testRawDataPath"
+        }
+    }
+
+    public struct TestCaseFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .string)
+        ]
+
+        ///  The status used to filter test cases. Valid statuses are SUCCEEDED, FAILED, ERROR, SKIPPED, and UNKNOWN. A TestCaseFilter can have one status. 
+        public let status: String?
+
+        public init(status: String? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct TestReportSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "durationInNanoSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "statusCounts", required: true, type: .map), 
+            AWSShapeMember(label: "total", required: true, type: .integer)
+        ]
+
+        ///  The number of nanoseconds it took to run all of the test cases in this report. 
+        public let durationInNanoSeconds: Int64
+        ///  A map that contains the number of each type of status returned by the test results in this TestReportSummary. 
+        public let statusCounts: [String: Int]
+        ///  The number of test cases in this TestReportSummary. The total includes truncated test cases. 
+        public let total: Int
+
+        public init(durationInNanoSeconds: Int64, statusCounts: [String: Int], total: Int) {
+            self.durationInNanoSeconds = durationInNanoSeconds
+            self.statusCounts = statusCounts
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInNanoSeconds = "durationInNanoSeconds"
+            case statusCounts = "statusCounts"
+            case total = "total"
+        }
+    }
+
     public struct UpdateProjectInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "artifacts", required: false, type: .structure), 
@@ -2211,7 +3237,7 @@ extension CodeBuild {
         public let serviceRole: String?
         /// Information to be changed about the build input source code for the build project.
         public let source: ProjectSource?
-        ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
+        ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
         /// The replacement set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
@@ -2309,6 +3335,50 @@ extension CodeBuild {
         }
     }
 
+    public struct UpdateReportGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "exportConfig", required: false, type: .structure)
+        ]
+
+        ///  The ARN of the report group to update. 
+        public let arn: String
+        ///  Used to specify an updated export type. Valid values are:     S3: The report results are exported to an S3 bucket.     NO_EXPORT: The report results are not exported.   
+        public let exportConfig: ReportExportConfig?
+
+        public init(arn: String, exportConfig: ReportExportConfig? = nil) {
+            self.arn = arn
+            self.exportConfig = exportConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+            try self.exportConfig?.validate(name: "\(name).exportConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case exportConfig = "exportConfig"
+        }
+    }
+
+    public struct UpdateReportGroupOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reportGroup", required: false, type: .structure)
+        ]
+
+        ///  Information about the updated report group. 
+        public let reportGroup: ReportGroup?
+
+        public init(reportGroup: ReportGroup? = nil) {
+            self.reportGroup = reportGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportGroup = "reportGroup"
+        }
+    }
+
     public struct UpdateWebhookInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "branchFilter", required: false, type: .string), 
@@ -2319,7 +3389,7 @@ extension CodeBuild {
 
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
-        ///  An array of arrays of WebhookFilter objects used to determine if a webhook event can trigger a build. A filter group must pcontain at least one EVENT WebhookFilter. 
+        ///  An array of arrays of WebhookFilter objects used to determine if a webhook event can trigger a build. A filter group must contain at least one EVENT WebhookFilter. 
         public let filterGroups: [[WebhookFilter]]?
         /// The name of the AWS CodeBuild project.
         public let projectName: String

@@ -127,6 +127,11 @@ public struct RDS {
         return client.send(operation: "CreateDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Creates a new DB proxy.
+    public func createDBProxy(_ input: CreateDBProxyRequest) -> Future<CreateDBProxyResponse> {
+        return client.send(operation: "CreateDBProxy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new DB security group. DB security groups control access to a DB instance.  A DB security group controls access to EC2-Classic DB instances that are not in a VPC. 
     public func createDBSecurityGroup(_ input: CreateDBSecurityGroupMessage) -> Future<CreateDBSecurityGroupResult> {
         return client.send(operation: "CreateDBSecurityGroup", path: "/", httpMethod: "POST", input: input)
@@ -142,7 +147,7 @@ public struct RDS {
         return client.send(operation: "CreateDBSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an RDS event notification subscription. This action requires a topic ARN (Amazon Resource Name) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) you want to be notified of, provide a list of RDS sources (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIdentifier = myDBInstance1, you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your RDS sources. If you do not specify either the SourceType nor the SourceIdentifier, you are notified of events generated from all RDS sources belonging to your customer account.
+    ///  Creates an RDS event notification subscription. This action requires a topic ARN (Amazon Resource Name) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) you want to be notified of, provide a list of RDS sources (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIdentifier = myDBInstance1, you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your RDS sources. If you do not specify either the SourceType nor the SourceIdentifier, you are notified of events generated from all RDS sources belonging to your customer account.  RDS event notification is only available for unencrypted SNS topics. If you specify an encrypted SNS topic, event notifications aren't sent for the topic. 
     public func createEventSubscription(_ input: CreateEventSubscriptionMessage) -> Future<CreateEventSubscriptionResult> {
         return client.send(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
@@ -197,6 +202,11 @@ public struct RDS {
         return client.send(operation: "DeleteDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Deletes an existing proxy.
+    public func deleteDBProxy(_ input: DeleteDBProxyRequest) -> Future<DeleteDBProxyResponse> {
+        return client.send(operation: "DeleteDBProxy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a DB security group.  The specified DB security group must not be associated with any DB instances. 
     @discardableResult public func deleteDBSecurityGroup(_ input: DeleteDBSecurityGroupMessage) -> Future<Void> {
         return client.send(operation: "DeleteDBSecurityGroup", path: "/", httpMethod: "POST", input: input)
@@ -230,6 +240,11 @@ public struct RDS {
     ///  Deletes an existing option group.
     @discardableResult public func deleteOptionGroup(_ input: DeleteOptionGroupMessage) -> Future<Void> {
         return client.send(operation: "DeleteOptionGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup.
+    public func deregisterDBProxyTargets(_ input: DeregisterDBProxyTargetsRequest) -> Future<DeregisterDBProxyTargetsResponse> {
+        return client.send(operation: "DeregisterDBProxyTargets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command doesn't take any parameters.
@@ -277,7 +292,7 @@ public struct RDS {
         return client.send(operation: "DescribeDBClusterSnapshots", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
     public func describeDBClusters(_ input: DescribeDBClustersMessage) -> Future<DBClusterMessage> {
         return client.send(operation: "DescribeDBClusters", path: "/", httpMethod: "POST", input: input)
     }
@@ -292,7 +307,7 @@ public struct RDS {
         return client.send(operation: "DescribeDBInstanceAutomatedBackups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about provisioned RDS instances. This API supports pagination.
+    ///  Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
     public func describeDBInstances(_ input: DescribeDBInstancesMessage) -> Future<DBInstanceMessage> {
         return client.send(operation: "DescribeDBInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -310,6 +325,21 @@ public struct RDS {
     ///  Returns the detailed parameter list for a particular DB parameter group.
     public func describeDBParameters(_ input: DescribeDBParametersMessage) -> Future<DBParameterGroupDetails> {
         return client.send(operation: "DescribeDBParameters", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxies.
+    public func describeDBProxies(_ input: DescribeDBProxiesRequest) -> Future<DescribeDBProxiesResponse> {
+        return client.send(operation: "DescribeDBProxies", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
+    public func describeDBProxyTargetGroups(_ input: DescribeDBProxyTargetGroupsRequest) -> Future<DescribeDBProxyTargetGroupsResponse> {
+        return client.send(operation: "DescribeDBProxyTargetGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DBProxyTarget objects. This API supports pagination.
+    public func describeDBProxyTargets(_ input: DescribeDBProxyTargetsRequest) -> Future<DescribeDBProxyTargetsResponse> {
+        return client.send(operation: "DescribeDBProxyTargets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. 
@@ -427,6 +457,11 @@ public struct RDS {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Override the system-default Secure Sockets Layer/Transport Layer Security (SSL/TLS) certificate for Amazon RDS for new DB instances, or remove the override. By using this operation, you can specify an RDS-approved SSL/TLS certificate for new DB instances that is different from the default certificate provided by RDS. You can also use this operation to remove the override, so that new DB instances use the default certificate provided by RDS. You might need to override the default certificate in the following situations:   You already migrated your applications to support the latest certificate authority (CA) certificate, but the new CA certificate is not yet the RDS default CA certificate for the specified AWS Region.   RDS has already moved to a new default CA certificate for the specified AWS Region, but you are still in the process of supporting the new CA certificate. In this case, you temporarily need additional time to finish your application changes.   For more information about rotating your SSL/TLS certificate for RDS DB engines, see  Rotating Your SSL/TLS Certificate in the Amazon RDS User Guide. For more information about rotating your SSL/TLS certificate for Aurora DB engines, see  Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.
+    public func modifyCertificates(_ input: ModifyCertificatesMessage) -> Future<ModifyCertificatesResult> {
+        return client.send(operation: "ModifyCertificates", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Set the capacity of an Aurora Serverless DB cluster to a specific value. Aurora Serverless scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless can automatically scale the DB cluster based on the cooldown period for scaling up and the cooldown period for scaling down. For more information about Aurora Serverless, see Using Amazon Aurora Serverless in the Amazon Aurora User Guide.  If you call ModifyCurrentDBClusterCapacity with the default TimeoutAction, connections that prevent Aurora Serverless from finding a scaling point might be dropped. For more information about scaling points, see  Autoscaling for Aurora Serverless in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func modifyCurrentDBClusterCapacity(_ input: ModifyCurrentDBClusterCapacityMessage) -> Future<DBClusterCapacityInfo> {
         return client.send(operation: "ModifyCurrentDBClusterCapacity", path: "/", httpMethod: "POST", input: input)
@@ -442,7 +477,7 @@ public struct RDS {
         return client.send(operation: "ModifyDBClusterEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect.   After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters action to verify that your DB cluster parameter group has been created or modified.   This action only applies to Aurora DB clusters. 
+    ///   Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect.   After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters action to verify that your DB cluster parameter group has been created or modified. If the modified DB cluster parameter group is used by an Aurora Serverless cluster, Aurora applies the update immediately. The cluster restart might interrupt your workload. In that case, your application must reopen any connections and retry any transactions that were active when the parameter changes took effect.   This action only applies to Aurora DB clusters. 
     public func modifyDBClusterParameterGroup(_ input: ModifyDBClusterParameterGroupMessage) -> Future<DBClusterParameterGroupNameMessage> {
         return client.send(operation: "ModifyDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -462,7 +497,17 @@ public struct RDS {
         return client.send(operation: "ModifyDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a manual DB snapshot, which can be encrypted or not encrypted, with a new engine version.  Amazon RDS supports upgrading DB snapshots for MySQL and Oracle. 
+    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Changes the settings for an existing DB proxy.
+    public func modifyDBProxy(_ input: ModifyDBProxyRequest) -> Future<ModifyDBProxyResponse> {
+        return client.send(operation: "ModifyDBProxy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Modifies the properties of a DBProxyTargetGroup.
+    public func modifyDBProxyTargetGroup(_ input: ModifyDBProxyTargetGroupRequest) -> Future<ModifyDBProxyTargetGroupResponse> {
+        return client.send(operation: "ModifyDBProxyTargetGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a manual DB snapshot, which can be encrypted or not encrypted, with a new engine version.  Amazon RDS supports upgrading DB snapshots for MySQL, Oracle, and PostgreSQL. 
     public func modifyDBSnapshot(_ input: ModifyDBSnapshotMessage) -> Future<ModifyDBSnapshotResult> {
         return client.send(operation: "ModifyDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -510,6 +555,11 @@ public struct RDS {
     ///  You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect.  Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB instance status is set to rebooting.  For more information about rebooting, see Rebooting a DB Instance in the Amazon RDS User Guide. 
     public func rebootDBInstance(_ input: RebootDBInstanceMessage) -> Future<RebootDBInstanceResult> {
         return client.send(operation: "RebootDBInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Associate one or more DBProxyTarget data structures with a DBProxyTargetGroup.
+    public func registerDBProxyTargets(_ input: RegisterDBProxyTargetsRequest) -> Future<RegisterDBProxyTargetsResponse> {
+        return client.send(operation: "RegisterDBProxyTargets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different region.   This action only applies to Aurora DB clusters. 

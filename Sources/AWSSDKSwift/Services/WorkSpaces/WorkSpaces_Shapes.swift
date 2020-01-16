@@ -5,6 +5,12 @@ import AWSSDKSwiftCore
 
 extension WorkSpaces {
 
+    public enum AccessPropertyValue: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AccountModification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DedicatedTenancyManagementCidrRange", required: false, type: .string), 
@@ -64,6 +70,8 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
+            try validate(self.directoryId, name:"directoryId", parent: name, max: 65)
+            try validate(self.directoryId, name:"directoryId", parent: name, min: 10)
             try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try self.groupIds.forEach {
                 try validate($0, name: "groupIds[]", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
@@ -325,7 +333,7 @@ extension WorkSpaces {
 
         /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
         public let resourceId: String
-        /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
+        /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. If you want to add new tags to a set of existing tags, you must submit all of the existing tags along with the new ones.
         public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
@@ -424,6 +432,7 @@ extension WorkSpaces {
             AWSShapeMember(label: "CustomSecurityGroupId", required: false, type: .string), 
             AWSShapeMember(label: "DefaultOu", required: false, type: .string), 
             AWSShapeMember(label: "EnableInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableMaintenanceMode", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableWorkDocs", required: false, type: .boolean), 
             AWSShapeMember(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean)
         ]
@@ -432,17 +441,20 @@ extension WorkSpaces {
         public let customSecurityGroupId: String?
         /// The organizational unit (OU) in the directory for the WorkSpace machine accounts.
         public let defaultOu: String?
-        /// Specifies whether to automatically assign a public IP address to WorkSpaces in this directory by default. If enabled, the public IP address allows outbound internet access from your WorkSpaces when you’re using an internet gateway in the Amazon VPC in which your WorkSpaces are located. If you're using a Network Address Translation (NAT) gateway for outbound internet access from your VPC, or if your WorkSpaces are in public subnets and you manually assign them Elastic IP addresses, you should disable this setting. This setting applies to new WorkSpaces that you launch or to existing WorkSpaces that you rebuild. For more information, see  Configure a VPC for Amazon WorkSpaces.
+        /// Specifies whether to automatically assign an Elastic public IP address to WorkSpaces in this directory by default. If enabled, the Elastic public IP address allows outbound internet access from your WorkSpaces when you’re using an internet gateway in the Amazon VPC in which your WorkSpaces are located. If you're using a Network Address Translation (NAT) gateway for outbound internet access from your VPC, or if your WorkSpaces are in public subnets and you manually assign them Elastic IP addresses, you should disable this setting. This setting applies to new WorkSpaces that you launch or to existing WorkSpaces that you rebuild. For more information, see  Configure a VPC for Amazon WorkSpaces.
         public let enableInternetAccess: Bool?
+        /// Specifies whether maintenance mode is enabled for WorkSpaces. For more information, see WorkSpace Maintenance.
+        public let enableMaintenanceMode: Bool?
         /// Specifies whether the directory is enabled for Amazon WorkDocs.
         public let enableWorkDocs: Bool?
-        /// Specifies whether the WorkSpace user is an administrator on the WorkSpace.
+        /// Specifies whether WorkSpace users are local administrators on their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
 
-        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableWorkDocs: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
+        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
+            self.enableMaintenanceMode = enableMaintenanceMode
             self.enableWorkDocs = enableWorkDocs
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
@@ -451,6 +463,7 @@ extension WorkSpaces {
             case customSecurityGroupId = "CustomSecurityGroupId"
             case defaultOu = "DefaultOu"
             case enableInternetAccess = "EnableInternetAccess"
+            case enableMaintenanceMode = "EnableMaintenanceMode"
             case enableWorkDocs = "EnableWorkDocs"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
@@ -544,6 +557,37 @@ extension WorkSpaces {
     }
 
     public struct DeleteWorkspaceImageResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeregisterWorkspaceDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+
+        /// The identifier of the directory. If any WorkSpaces are registered to this directory, you must remove them before you deregister the directory, or you will receive an OperationNotSupportedException error.
+        public let directoryId: String
+
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.directoryId, name:"directoryId", parent: name, max: 65)
+            try validate(self.directoryId, name:"directoryId", parent: name, min: 10)
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DeregisterWorkspaceDirectoryResult: AWSShape {
 
 
         public init() {
@@ -826,31 +870,40 @@ extension WorkSpaces {
     public struct DescribeWorkspaceDirectoriesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryIds", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
         /// The identifiers of the directories. If the value is null, all directories are retrieved.
         public let directoryIds: [String]?
+        /// The maximum number of directories to return.
+        public let limit: Int?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
-        public init(directoryIds: [String]? = nil, nextToken: String? = nil) {
+        public init(directoryIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryIds = directoryIds
+            self.limit = limit
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
             try self.directoryIds?.forEach {
+                try validate($0, name: "directoryIds[]", parent: name, max: 65)
+                try validate($0, name: "directoryIds[]", parent: name, min: 10)
                 try validate($0, name: "directoryIds[]", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             }
             try validate(self.directoryIds, name:"directoryIds", parent: name, max: 25)
             try validate(self.directoryIds, name:"directoryIds", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 25)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 63)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case directoryIds = "DirectoryIds"
+            case limit = "Limit"
             case nextToken = "NextToken"
         }
     }
@@ -1069,6 +1122,8 @@ extension WorkSpaces {
 
         public func validate(name: String) throws {
             try validate(self.bundleId, name:"bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+            try validate(self.directoryId, name:"directoryId", parent: name, max: 65)
+            try validate(self.directoryId, name:"directoryId", parent: name, min: 10)
             try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try validate(self.limit, name:"limit", parent: name, max: 25)
             try validate(self.limit, name:"limit", parent: name, min: 1)
@@ -1132,6 +1187,8 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
+            try validate(self.directoryId, name:"directoryId", parent: name, max: 65)
+            try validate(self.directoryId, name:"directoryId", parent: name, min: 10)
             try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try self.groupIds.forEach {
                 try validate($0, name: "groupIds[]", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
@@ -1352,6 +1409,55 @@ extension WorkSpaces {
         }
     }
 
+    public struct MigrateWorkspaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BundleId", required: true, type: .string), 
+            AWSShapeMember(label: "SourceWorkspaceId", required: true, type: .string)
+        ]
+
+        /// The identifier of the target bundle type to migrate the WorkSpace to.
+        public let bundleId: String
+        /// The identifier of the WorkSpace to migrate from.
+        public let sourceWorkspaceId: String
+
+        public init(bundleId: String, sourceWorkspaceId: String) {
+            self.bundleId = bundleId
+            self.sourceWorkspaceId = sourceWorkspaceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bundleId, name:"bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+            try validate(self.sourceWorkspaceId, name:"sourceWorkspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "BundleId"
+            case sourceWorkspaceId = "SourceWorkspaceId"
+        }
+    }
+
+    public struct MigrateWorkspaceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceWorkspaceId", required: false, type: .string), 
+            AWSShapeMember(label: "TargetWorkspaceId", required: false, type: .string)
+        ]
+
+        /// The original identifier of the WorkSpace that is being migrated.
+        public let sourceWorkspaceId: String?
+        /// The new identifier of the WorkSpace that is being migrated. If the migration does not succeed, the target WorkSpace ID will not be used, and the WorkSpace will still have the original WorkSpace ID.
+        public let targetWorkspaceId: String?
+
+        public init(sourceWorkspaceId: String? = nil, targetWorkspaceId: String? = nil) {
+            self.sourceWorkspaceId = sourceWorkspaceId
+            self.targetWorkspaceId = targetWorkspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceWorkspaceId = "SourceWorkspaceId"
+            case targetWorkspaceId = "TargetWorkspaceId"
+        }
+    }
+
     public enum ModificationResourceEnum: String, CustomStringConvertible, Codable {
         case rootVolume = "ROOT_VOLUME"
         case userVolume = "USER_VOLUME"
@@ -1448,6 +1554,115 @@ extension WorkSpaces {
     }
 
     public struct ModifyClientPropertiesResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct ModifySelfservicePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "SelfservicePermissions", required: true, type: .structure)
+        ]
+
+        /// The identifier of the directory.
+        public let resourceId: String
+        /// The permissions to enable or disable self-service capabilities.
+        public let selfservicePermissions: SelfservicePermissions
+
+        public init(resourceId: String, selfservicePermissions: SelfservicePermissions) {
+            self.resourceId = resourceId
+            self.selfservicePermissions = selfservicePermissions
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 65)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 10)
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case selfservicePermissions = "SelfservicePermissions"
+        }
+    }
+
+    public struct ModifySelfservicePermissionsResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct ModifyWorkspaceAccessPropertiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkspaceAccessProperties", required: true, type: .structure)
+        ]
+
+        /// The identifier of the directory.
+        public let resourceId: String
+        /// The device types and operating systems to enable or disable for access.
+        public let workspaceAccessProperties: WorkspaceAccessProperties
+
+        public init(resourceId: String, workspaceAccessProperties: WorkspaceAccessProperties) {
+            self.resourceId = resourceId
+            self.workspaceAccessProperties = workspaceAccessProperties
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 65)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 10)
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case workspaceAccessProperties = "WorkspaceAccessProperties"
+        }
+    }
+
+    public struct ModifyWorkspaceAccessPropertiesResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct ModifyWorkspaceCreationPropertiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkspaceCreationProperties", required: true, type: .structure)
+        ]
+
+        /// The identifier of the directory.
+        public let resourceId: String
+        /// The default properties for creating WorkSpaces.
+        public let workspaceCreationProperties: WorkspaceCreationProperties
+
+        public init(resourceId: String, workspaceCreationProperties: WorkspaceCreationProperties) {
+            self.resourceId = resourceId
+            self.workspaceCreationProperties = workspaceCreationProperties
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 65)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 10)
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.workspaceCreationProperties.validate(name: "\(name).workspaceCreationProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case workspaceCreationProperties = "WorkspaceCreationProperties"
+        }
+    }
+
+    public struct ModifyWorkspaceCreationPropertiesResult: AWSShape {
 
 
         public init() {
@@ -1678,6 +1893,71 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public struct RegisterWorkspaceDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "EnableSelfService", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableWorkDocs", required: true, type: .boolean), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Tenancy", required: false, type: .enum)
+        ]
+
+        /// The identifier of the directory. You cannot register a directory if it does not have a status of Active. If the directory does not have a status of Active, you will receive an InvalidResourceStateException error. If you have already registered the maximum number of directories that you can register with Amazon WorkSpaces, you will receive a ResourceLimitExceededException error. Deregister directories that you are not using for WorkSpaces, and try again.
+        public let directoryId: String
+        /// Indicates whether self-service capabilities are enabled or disabled.
+        public let enableSelfService: Bool?
+        /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
+        public let enableWorkDocs: Bool
+        /// The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these conditions are not met, you will receive an OperationNotSupportedException error.
+        public let subnetIds: [String]?
+        /// The tags associated with the directory.
+        public let tags: [Tag]?
+        /// Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your AWS account must be enabled for BYOL. If your account has not been enabled for BYOL, you will receive an InvalidParameterValuesException error. For more information about BYOL images, see Bring Your Own Windows Desktop Images.
+        public let tenancy: Tenancy?
+
+        public init(directoryId: String, enableSelfService: Bool? = nil, enableWorkDocs: Bool, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil) {
+            self.directoryId = directoryId
+            self.enableSelfService = enableSelfService
+            self.enableWorkDocs = enableWorkDocs
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.tenancy = tenancy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.directoryId, name:"directoryId", parent: name, max: 65)
+            try validate(self.directoryId, name:"directoryId", parent: name, min: 10)
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 24)
+                try validate($0, name: "subnetIds[]", parent: name, min: 15)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^(subnet-([0-9a-f]{8}|[0-9a-f]{17}))$")
+            }
+            try validate(self.subnetIds, name:"subnetIds", parent: name, max: 2)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case enableSelfService = "EnableSelfService"
+            case enableWorkDocs = "EnableWorkDocs"
+            case subnetIds = "SubnetIds"
+            case tags = "Tags"
+            case tenancy = "Tenancy"
+        }
+    }
+
+    public struct RegisterWorkspaceDirectoryResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct RestoreWorkspaceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
@@ -1762,6 +2042,43 @@ extension WorkSpaces {
         case autoStop = "AUTO_STOP"
         case alwaysOn = "ALWAYS_ON"
         public var description: String { return self.rawValue }
+    }
+
+    public struct SelfservicePermissions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeComputeType", required: false, type: .enum), 
+            AWSShapeMember(label: "IncreaseVolumeSize", required: false, type: .enum), 
+            AWSShapeMember(label: "RebuildWorkspace", required: false, type: .enum), 
+            AWSShapeMember(label: "RestartWorkspace", required: false, type: .enum), 
+            AWSShapeMember(label: "SwitchRunningMode", required: false, type: .enum)
+        ]
+
+        /// Specifies whether users can change the compute type (bundle) for their WorkSpace.
+        public let changeComputeType: ReconnectEnum?
+        /// Specifies whether users can increase the volume size of the drives on their WorkSpace.
+        public let increaseVolumeSize: ReconnectEnum?
+        /// Specifies whether users can rebuild the operating system of a WorkSpace to its original state.
+        public let rebuildWorkspace: ReconnectEnum?
+        /// Specifies whether users can restart their WorkSpace.
+        public let restartWorkspace: ReconnectEnum?
+        /// Specifies whether users can switch the running mode of their WorkSpace.
+        public let switchRunningMode: ReconnectEnum?
+
+        public init(changeComputeType: ReconnectEnum? = nil, increaseVolumeSize: ReconnectEnum? = nil, rebuildWorkspace: ReconnectEnum? = nil, restartWorkspace: ReconnectEnum? = nil, switchRunningMode: ReconnectEnum? = nil) {
+            self.changeComputeType = changeComputeType
+            self.increaseVolumeSize = increaseVolumeSize
+            self.rebuildWorkspace = rebuildWorkspace
+            self.restartWorkspace = restartWorkspace
+            self.switchRunningMode = switchRunningMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeComputeType = "ChangeComputeType"
+            case increaseVolumeSize = "IncreaseVolumeSize"
+            case rebuildWorkspace = "RebuildWorkspace"
+            case restartWorkspace = "RestartWorkspace"
+            case switchRunningMode = "SwitchRunningMode"
+        }
     }
 
     public struct Snapshot: AWSShape {
@@ -1941,6 +2258,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum Tenancy: String, CustomStringConvertible, Codable {
+        case dedicated = "DEDICATED"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct TerminateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
@@ -2098,7 +2421,7 @@ extension WorkSpaces {
         public let userName: String?
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The KMS key used to encrypt data stored on your WorkSpace.
+        /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
         public let volumeEncryptionKey: String?
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
@@ -2142,11 +2465,60 @@ extension WorkSpaces {
         }
     }
 
+    public struct WorkspaceAccessProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceTypeAndroid", required: false, type: .enum), 
+            AWSShapeMember(label: "DeviceTypeChromeOs", required: false, type: .enum), 
+            AWSShapeMember(label: "DeviceTypeIos", required: false, type: .enum), 
+            AWSShapeMember(label: "DeviceTypeOsx", required: false, type: .enum), 
+            AWSShapeMember(label: "DeviceTypeWeb", required: false, type: .enum), 
+            AWSShapeMember(label: "DeviceTypeWindows", required: false, type: .enum), 
+            AWSShapeMember(label: "DeviceTypeZeroClient", required: false, type: .enum)
+        ]
+
+        /// Indicates whether users can use Android devices to access their WorkSpaces.
+        public let deviceTypeAndroid: AccessPropertyValue?
+        /// Indicates whether users can use Chromebooks to access their WorkSpaces.
+        public let deviceTypeChromeOs: AccessPropertyValue?
+        /// Indicates whether users can use iOS devices to access their WorkSpaces.
+        public let deviceTypeIos: AccessPropertyValue?
+        /// Indicates whether users can use macOS clients to access their WorkSpaces. To restrict WorkSpaces access to trusted devices (also known as managed devices) with valid certificates, specify a value of TRUST. For more information, see Restrict WorkSpaces Access to Trusted Devices. 
+        public let deviceTypeOsx: AccessPropertyValue?
+        /// Indicates whether users can access their WorkSpaces through a web browser.
+        public let deviceTypeWeb: AccessPropertyValue?
+        /// Indicates whether users can use Windows clients to access their WorkSpaces. To restrict WorkSpaces access to trusted devices (also known as managed devices) with valid certificates, specify a value of TRUST. For more information, see Restrict WorkSpaces Access to Trusted Devices. 
+        public let deviceTypeWindows: AccessPropertyValue?
+        /// Indicates whether users can use zero client devices to access their WorkSpaces.
+        public let deviceTypeZeroClient: AccessPropertyValue?
+
+        public init(deviceTypeAndroid: AccessPropertyValue? = nil, deviceTypeChromeOs: AccessPropertyValue? = nil, deviceTypeIos: AccessPropertyValue? = nil, deviceTypeOsx: AccessPropertyValue? = nil, deviceTypeWeb: AccessPropertyValue? = nil, deviceTypeWindows: AccessPropertyValue? = nil, deviceTypeZeroClient: AccessPropertyValue? = nil) {
+            self.deviceTypeAndroid = deviceTypeAndroid
+            self.deviceTypeChromeOs = deviceTypeChromeOs
+            self.deviceTypeIos = deviceTypeIos
+            self.deviceTypeOsx = deviceTypeOsx
+            self.deviceTypeWeb = deviceTypeWeb
+            self.deviceTypeWindows = deviceTypeWindows
+            self.deviceTypeZeroClient = deviceTypeZeroClient
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceTypeAndroid = "DeviceTypeAndroid"
+            case deviceTypeChromeOs = "DeviceTypeChromeOs"
+            case deviceTypeIos = "DeviceTypeIos"
+            case deviceTypeOsx = "DeviceTypeOsx"
+            case deviceTypeWeb = "DeviceTypeWeb"
+            case deviceTypeWindows = "DeviceTypeWindows"
+            case deviceTypeZeroClient = "DeviceTypeZeroClient"
+        }
+    }
+
     public struct WorkspaceBundle: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BundleId", required: false, type: .string), 
             AWSShapeMember(label: "ComputeType", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Owner", required: false, type: .string), 
             AWSShapeMember(label: "RootStorage", required: false, type: .structure), 
@@ -2159,6 +2531,10 @@ extension WorkSpaces {
         public let computeType: ComputeType?
         /// A description.
         public let description: String?
+        /// The image identifier of the bundle.
+        public let imageId: String?
+        /// The last time that the bundle was updated.
+        public let lastUpdatedTime: TimeStamp?
         /// The name of the bundle.
         public let name: String?
         /// The owner of the bundle. This is the account identifier of the owner, or AMAZON if the bundle is provided by AWS.
@@ -2168,10 +2544,12 @@ extension WorkSpaces {
         /// The size of the user storage.
         public let userStorage: UserStorage?
 
-        public init(bundleId: String? = nil, computeType: ComputeType? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, userStorage: UserStorage? = nil) {
+        public init(bundleId: String? = nil, computeType: ComputeType? = nil, description: String? = nil, imageId: String? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, userStorage: UserStorage? = nil) {
             self.bundleId = bundleId
             self.computeType = computeType
             self.description = description
+            self.imageId = imageId
+            self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.owner = owner
             self.rootStorage = rootStorage
@@ -2182,6 +2560,8 @@ extension WorkSpaces {
             case bundleId = "BundleId"
             case computeType = "ComputeType"
             case description = "Description"
+            case imageId = "ImageId"
+            case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
             case owner = "Owner"
             case rootStorage = "RootStorage"
@@ -2221,6 +2601,49 @@ extension WorkSpaces {
         }
     }
 
+    public struct WorkspaceCreationProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomSecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultOu", required: false, type: .string), 
+            AWSShapeMember(label: "EnableInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableMaintenanceMode", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean)
+        ]
+
+        /// The identifier of your custom security group.
+        public let customSecurityGroupId: String?
+        /// The default organizational unit (OU) for your WorkSpace directories.
+        public let defaultOu: String?
+        /// Indicates whether internet access is enabled for your WorkSpaces.
+        public let enableInternetAccess: Bool?
+        /// Indicates whether maintenance mode is enabled for your WorkSpaces. For more information, see WorkSpace Maintenance. 
+        public let enableMaintenanceMode: Bool?
+        /// Indicates whether users are local administrators of their WorkSpaces.
+        public let userEnabledAsLocalAdministrator: Bool?
+
+        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
+            self.customSecurityGroupId = customSecurityGroupId
+            self.defaultOu = defaultOu
+            self.enableInternetAccess = enableInternetAccess
+            self.enableMaintenanceMode = enableMaintenanceMode
+            self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.customSecurityGroupId, name:"customSecurityGroupId", parent: name, max: 20)
+            try validate(self.customSecurityGroupId, name:"customSecurityGroupId", parent: name, min: 11)
+            try validate(self.customSecurityGroupId, name:"customSecurityGroupId", parent: name, pattern: "^(sg-([0-9a-f]{8}|[0-9a-f]{17}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customSecurityGroupId = "CustomSecurityGroupId"
+            case defaultOu = "DefaultOu"
+            case enableInternetAccess = "EnableInternetAccess"
+            case enableMaintenanceMode = "EnableMaintenanceMode"
+            case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
+        }
+    }
+
     public struct WorkspaceDirectory: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Alias", required: false, type: .string), 
@@ -2232,8 +2655,11 @@ extension WorkSpaces {
             AWSShapeMember(label: "IamRoleId", required: false, type: .string), 
             AWSShapeMember(label: "ipGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "RegistrationCode", required: false, type: .string), 
+            AWSShapeMember(label: "SelfservicePermissions", required: false, type: .structure), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "Tenancy", required: false, type: .enum), 
+            AWSShapeMember(label: "WorkspaceAccessProperties", required: false, type: .structure), 
             AWSShapeMember(label: "WorkspaceCreationProperties", required: false, type: .structure), 
             AWSShapeMember(label: "WorkspaceSecurityGroupId", required: false, type: .string)
         ]
@@ -2256,16 +2682,22 @@ extension WorkSpaces {
         public let ipGroupIds: [String]?
         /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
         public let registrationCode: String?
-        /// The state of the directory's registration with Amazon WorkSpaces
+        /// The default self-service permissions for WorkSpaces in the directory.
+        public let selfservicePermissions: SelfservicePermissions?
+        /// The state of the directory's registration with Amazon WorkSpaces.
         public let state: WorkspaceDirectoryState?
         /// The identifiers of the subnets used with the directory.
         public let subnetIds: [String]?
+        /// Specifies whether the directory is dedicated or shared. To use Bring Your Own License (BYOL), this value must be set to DEDICATED. For more information, see Bring Your Own Windows Desktop Images.
+        public let tenancy: Tenancy?
+        /// The devices and operating systems that users can use to access WorkSpaces.
+        public let workspaceAccessProperties: WorkspaceAccessProperties?
         /// The default creation properties for all WorkSpaces in the directory.
         public let workspaceCreationProperties: DefaultWorkspaceCreationProperties?
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public let workspaceSecurityGroupId: String?
 
-        public init(alias: String? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
+        public init(alias: String? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
             self.alias = alias
             self.customerUserName = customerUserName
             self.directoryId = directoryId
@@ -2275,8 +2707,11 @@ extension WorkSpaces {
             self.iamRoleId = iamRoleId
             self.ipGroupIds = ipGroupIds
             self.registrationCode = registrationCode
+            self.selfservicePermissions = selfservicePermissions
             self.state = state
             self.subnetIds = subnetIds
+            self.tenancy = tenancy
+            self.workspaceAccessProperties = workspaceAccessProperties
             self.workspaceCreationProperties = workspaceCreationProperties
             self.workspaceSecurityGroupId = workspaceSecurityGroupId
         }
@@ -2291,8 +2726,11 @@ extension WorkSpaces {
             case iamRoleId = "IamRoleId"
             case ipGroupIds = "ipGroupIds"
             case registrationCode = "RegistrationCode"
+            case selfservicePermissions = "SelfservicePermissions"
             case state = "State"
             case subnetIds = "SubnetIds"
+            case tenancy = "Tenancy"
+            case workspaceAccessProperties = "WorkspaceAccessProperties"
             case workspaceCreationProperties = "WorkspaceCreationProperties"
             case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
         }
@@ -2337,7 +2775,7 @@ extension WorkSpaces {
         public let name: String?
         /// The operating system that the image is running. 
         public let operatingSystem: OperatingSystem?
-        /// Specifies whether the image is running on dedicated hardware. When bring your own license (BYOL) is enabled, this value is set to DEDICATED. 
+        /// Specifies whether the image is running on dedicated hardware. When Bring Your Own License (BYOL) is enabled, this value is set to DEDICATED. For more information, see Bring Your Own Windows Desktop Images.
         public let requiredTenancy: WorkspaceImageRequiredTenancy?
         /// The status of the image.
         public let state: WorkspaceImageState?
@@ -2442,11 +2880,11 @@ extension WorkSpaces {
         public let rootVolumeEncryptionEnabled: Bool?
         /// The tags for the WorkSpace.
         public let tags: [Tag]?
-        /// The username of the user for the WorkSpace. This username must exist in the AWS Directory Service directory for the WorkSpace.
+        /// The user name of the user for the WorkSpace. This user name must exist in the AWS Directory Service directory for the WorkSpace.
         public let userName: String
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The KMS key used to encrypt data stored on your WorkSpace.
+        /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
         public let volumeEncryptionKey: String?
         /// The WorkSpace properties.
         public let workspaceProperties: WorkspaceProperties?
@@ -2464,6 +2902,8 @@ extension WorkSpaces {
 
         public func validate(name: String) throws {
             try validate(self.bundleId, name:"bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+            try validate(self.directoryId, name:"directoryId", parent: name, max: 65)
+            try validate(self.directoryId, name:"directoryId", parent: name, min: 10)
             try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")

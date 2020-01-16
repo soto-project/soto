@@ -15,7 +15,9 @@ public enum WorkSpacesErrorType: AWSErrorType {
     case resourceLimitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
     case resourceUnavailableException(message: String?)
+    case unsupportedNetworkConfigurationException(message: String?)
     case unsupportedWorkspaceConfigurationException(message: String?)
+    case workspacesDefaultRoleNotFoundException(message: String?)
 }
 
 extension WorkSpacesErrorType {
@@ -47,8 +49,12 @@ extension WorkSpacesErrorType {
             self = .resourceNotFoundException(message: message)
         case "ResourceUnavailableException":
             self = .resourceUnavailableException(message: message)
+        case "UnsupportedNetworkConfigurationException":
+            self = .unsupportedNetworkConfigurationException(message: message)
         case "UnsupportedWorkspaceConfigurationException":
             self = .unsupportedWorkspaceConfigurationException(message: message)
+        case "WorkspacesDefaultRoleNotFoundException":
+            self = .workspacesDefaultRoleNotFoundException(message: message)
         default:
             return nil
         }
@@ -80,8 +86,12 @@ extension WorkSpacesErrorType : CustomStringConvertible {
             return "ResourceNotFoundException: \(message ?? "")"
         case .resourceUnavailableException(let message):
             return "ResourceUnavailableException: \(message ?? "")"
+        case .unsupportedNetworkConfigurationException(let message):
+            return "UnsupportedNetworkConfigurationException: \(message ?? "")"
         case .unsupportedWorkspaceConfigurationException(let message):
             return "UnsupportedWorkspaceConfigurationException: \(message ?? "")"
+        case .workspacesDefaultRoleNotFoundException(let message):
+            return "WorkspacesDefaultRoleNotFoundException: \(message ?? "")"
         }
     }
 }

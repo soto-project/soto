@@ -5,6 +5,31 @@ import AWSSDKSwiftCore
 
 extension CognitoIdentityProvider {
 
+    public struct AccountRecoverySettingType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecoveryMechanisms", required: false, type: .list)
+        ]
+
+        /// The list of RecoveryOptionTypes.
+        public let recoveryMechanisms: [RecoveryOptionType]?
+
+        public init(recoveryMechanisms: [RecoveryOptionType]? = nil) {
+            self.recoveryMechanisms = recoveryMechanisms
+        }
+
+        public func validate(name: String) throws {
+            try self.recoveryMechanisms?.forEach {
+                try $0.validate(name: "\(name).recoveryMechanisms[]")
+            }
+            try validate(self.recoveryMechanisms, name:"recoveryMechanisms", parent: name, max: 2)
+            try validate(self.recoveryMechanisms, name:"recoveryMechanisms", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryMechanisms = "RecoveryMechanisms"
+        }
+    }
+
     public struct AccountTakeoverActionType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventAction", required: true, type: .enum), 
@@ -725,7 +750,7 @@ extension CognitoIdentityProvider {
 
         /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminInitiateAuth calls.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// The authentication flow for this call to execute. The API action will depend on this value. For example:    REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    ADMIN_NO_SRP_AUTH: Non-SRP authentication flow; you can pass in the USERNAME and PASSWORD directly if the flow is enabled for calling the app client.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.   
+        /// The authentication flow for this call to execute. The API action will depend on this value. For example:    REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    ADMIN_NO_SRP_AUTH: Non-SRP authentication flow; you can pass in the USERNAME and PASSWORD directly if the flow is enabled for calling the app client.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.     ADMIN_USER_PASSWORD_AUTH: Admin-based user password authentication. This replaces the ADMIN_NO_SRP_AUTH authentication flow. In this flow, Cognito receives the password in the request instead of using the SRP process to verify passwords.  
         public let authFlow: AuthFlowType
         /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For ADMIN_NO_SRP_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), PASSWORD (required), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
         public let authParameters: [String: String]?
@@ -1778,6 +1803,7 @@ extension CognitoIdentityProvider {
         case customAuth = "CUSTOM_AUTH"
         case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
         case userPasswordAuth = "USER_PASSWORD_AUTH"
+        case adminUserPasswordAuth = "ADMIN_USER_PASSWORD_AUTH"
         public var description: String { return self.rawValue }
     }
 
@@ -2062,7 +2088,7 @@ extension CognitoIdentityProvider {
         public let analyticsMetadata: AnalyticsMetadataType?
         /// The app client ID of the app associated with the user pool.
         public let clientId: String
-        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action, Amazon Cognito invokes the functions that are assigned to the post confirmation and pre mutation triggers. When Amazon Cognito invokes either of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmForgotPassword request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
+        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmForgotPassword request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
         /// The confirmation code sent by a user's request to retrieve a forgotten password. For more information, see 
         public let confirmationCode: String
@@ -2516,6 +2542,7 @@ extension CognitoIdentityProvider {
             AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
             AWSShapeMember(label: "GenerateSecret", required: false, type: .boolean), 
             AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
+            AWSShapeMember(label: "PreventUserExistenceErrors", required: false, type: .enum), 
             AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
             AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
             AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
@@ -2537,12 +2564,14 @@ extension CognitoIdentityProvider {
         public let clientName: String
         /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let defaultRedirectURI: String?
-        /// The explicit authentication flows.
+        /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in the request instead of using the SRP (Secure Remote Password protocol) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.  
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// Boolean to specify whether you want to generate a secret for the user pool client being created.
         public let generateSecret: Bool?
         /// A list of allowed logout URLs for the identity providers.
         public let logoutURLs: [String]?
+        /// Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.   This setting affects the behavior of following APIs:    AdminInitiateAuth     AdminRespondToAuthChallenge     InitiateAuth     RespondToAuthChallenge     ForgotPassword     ConfirmForgotPassword     ConfirmSignUp     ResendConfirmationCode     After January 1st 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
+        public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The read attributes.
         public let readAttributes: [String]?
         /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
@@ -2554,7 +2583,7 @@ extension CognitoIdentityProvider {
         /// The user pool attributes that the app client can write to. If your app client allows users to sign in through an identity provider, this array must include all attributes that are mapped to identity provider attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an identity provider. If your app client lacks write access to a mapped attribute, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see Specifying Identity Provider Attribute Mappings for Your User Pool.
         public let writeAttributes: [String]?
 
-        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.allowedOAuthScopes = allowedOAuthScopes
@@ -2565,6 +2594,7 @@ extension CognitoIdentityProvider {
             self.explicitAuthFlows = explicitAuthFlows
             self.generateSecret = generateSecret
             self.logoutURLs = logoutURLs
+            self.preventUserExistenceErrors = preventUserExistenceErrors
             self.readAttributes = readAttributes
             self.refreshTokenValidity = refreshTokenValidity
             self.supportedIdentityProviders = supportedIdentityProviders
@@ -2633,6 +2663,7 @@ extension CognitoIdentityProvider {
             case explicitAuthFlows = "ExplicitAuthFlows"
             case generateSecret = "GenerateSecret"
             case logoutURLs = "LogoutURLs"
+            case preventUserExistenceErrors = "PreventUserExistenceErrors"
             case readAttributes = "ReadAttributes"
             case refreshTokenValidity = "RefreshTokenValidity"
             case supportedIdentityProviders = "SupportedIdentityProviders"
@@ -2714,6 +2745,7 @@ extension CognitoIdentityProvider {
 
     public struct CreateUserPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountRecoverySetting", required: false, type: .structure), 
             AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
             AWSShapeMember(label: "AliasAttributes", required: false, type: .list), 
             AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
@@ -2735,6 +2767,8 @@ extension CognitoIdentityProvider {
             AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure)
         ]
 
+        /// Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.  Starting February 1, 2020, the value of AccountRecoverySetting will default to verified_email first and verified_phone_number as the second option for newly created user pools if no value is provided. 
+        public let accountRecoverySetting: AccountRecoverySettingType?
         /// The configuration for AdminCreateUser requests.
         public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username.
@@ -2774,7 +2808,8 @@ extension CognitoIdentityProvider {
         /// The template for the verification message that the user sees when the app requests permission to access the user's information.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
-        public init(adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, usernameAttributes: [UsernameAttributeType]? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, usernameAttributes: [UsernameAttributeType]? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+            self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
             self.autoVerifiedAttributes = autoVerifiedAttributes
@@ -2797,6 +2832,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
+            try self.accountRecoverySetting?.validate(name: "\(name).accountRecoverySetting")
             try self.adminCreateUserConfig?.validate(name: "\(name).adminCreateUserConfig")
             try self.emailConfiguration?.validate(name: "\(name).emailConfiguration")
             try validate(self.emailVerificationMessage, name:"emailVerificationMessage", parent: name, max: 20000)
@@ -2832,6 +2868,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountRecoverySetting = "AccountRecoverySetting"
             case adminCreateUserConfig = "AdminCreateUserConfig"
             case aliasAttributes = "AliasAttributes"
             case autoVerifiedAttributes = "AutoVerifiedAttributes"
@@ -3622,25 +3659,36 @@ extension CognitoIdentityProvider {
 
     public struct EmailConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSet", required: false, type: .string), 
             AWSShapeMember(label: "EmailSendingAccount", required: false, type: .enum), 
+            AWSShapeMember(label: "From", required: false, type: .string), 
             AWSShapeMember(label: "ReplyToEmailAddress", required: false, type: .string), 
             AWSShapeMember(label: "SourceArn", required: false, type: .string)
         ]
 
+        /// The set of configuration rules that can be applied to emails sent using Amazon SES. A configuration set is applied to an email by including a reference to the configuration set in the headers of the email. Once applied, all of the rules in that configuration set are applied to the email. Configuration sets can be used to apply the following types of rules to emails:    Event publishing – Amazon SES can track the number of send, delivery, open, click, bounce, and complaint events for each email sent. Use event publishing to send information about these events to other AWS services such as SNS and CloudWatch.   IP pool management – When leasing dedicated IP addresses with Amazon SES, you can create groups of IP addresses, called dedicated IP pools. You can then associate the dedicated IP pools with configuration sets.  
+        public let configurationSet: String?
         /// Specifies whether Amazon Cognito emails your users by using its built-in email functionality or your Amazon SES email configuration. Specify one of the following values:  COGNITO_DEFAULT  When Amazon Cognito emails your users, it uses its built-in email functionality. When you use the default option, Amazon Cognito allows only a limited number of emails each day for your user pool. For typical production environments, the default email limit is below the required delivery volume. To achieve a higher delivery volume, specify DEVELOPER to use your Amazon SES email configuration. To look up the email delivery limit for the default option, see Limits in Amazon Cognito in the Amazon Cognito Developer Guide. The default FROM address is no-reply@verificationemail.com. To customize the FROM address, provide the ARN of an Amazon SES verified email address for the SourceArn parameter.  DEVELOPER  When Amazon Cognito emails your users, it uses your Amazon SES configuration. Amazon Cognito calls Amazon SES on your behalf to send email from your verified email address. When you use this option, the email delivery limits are the same limits that apply to your Amazon SES verified email address in your AWS account. If you use this option, you must provide the ARN of an Amazon SES verified email address for the SourceArn parameter. Before Amazon Cognito can email your users, it requires additional permissions to call Amazon SES on your behalf. When you update your user pool with this option, Amazon Cognito creates a service-linked role, which is a type of IAM role, in your AWS account. This role contains the permissions that allow Amazon Cognito to access Amazon SES and send email messages with your address. For more information about the service-linked role that Amazon Cognito creates, see Using Service-Linked Roles for Amazon Cognito in the Amazon Cognito Developer Guide.  
         public let emailSendingAccount: EmailSendingAccountType?
+        /// Identifies either the sender’s email address or the sender’s name with their email address. For example, testuser@example.com or Test User &lt;testuser@example.com&gt;. This address will appear before the body of the email.
+        public let from: String?
         /// The destination to which the receiver of the email should reply to.
         public let replyToEmailAddress: String?
         /// The Amazon Resource Name (ARN) of a verified email address in Amazon SES. This email address is used in one of the following ways, depending on the value that you specify for the EmailSendingAccount parameter:   If you specify COGNITO_DEFAULT, Amazon Cognito uses this address as the custom FROM address when it emails your users by using its built-in email account.   If you specify DEVELOPER, Amazon Cognito emails your users with this address by calling Amazon SES on your behalf.  
         public let sourceArn: String?
 
-        public init(emailSendingAccount: EmailSendingAccountType? = nil, replyToEmailAddress: String? = nil, sourceArn: String? = nil) {
+        public init(configurationSet: String? = nil, emailSendingAccount: EmailSendingAccountType? = nil, from: String? = nil, replyToEmailAddress: String? = nil, sourceArn: String? = nil) {
+            self.configurationSet = configurationSet
             self.emailSendingAccount = emailSendingAccount
+            self.from = from
             self.replyToEmailAddress = replyToEmailAddress
             self.sourceArn = sourceArn
         }
 
         public func validate(name: String) throws {
+            try validate(self.configurationSet, name:"configurationSet", parent: name, max: 64)
+            try validate(self.configurationSet, name:"configurationSet", parent: name, min: 1)
+            try validate(self.configurationSet, name:"configurationSet", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try validate(self.replyToEmailAddress, name:"replyToEmailAddress", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+@[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             try validate(self.sourceArn, name:"sourceArn", parent: name, max: 2048)
             try validate(self.sourceArn, name:"sourceArn", parent: name, min: 20)
@@ -3648,7 +3696,9 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configurationSet = "ConfigurationSet"
             case emailSendingAccount = "EmailSendingAccount"
+            case from = "From"
             case replyToEmailAddress = "ReplyToEmailAddress"
             case sourceArn = "SourceArn"
         }
@@ -3770,6 +3820,11 @@ extension CognitoIdentityProvider {
         case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
         case customAuthFlowOnly = "CUSTOM_AUTH_FLOW_ONLY"
         case userPasswordAuth = "USER_PASSWORD_AUTH"
+        case allowAdminUserPasswordAuth = "ALLOW_ADMIN_USER_PASSWORD_AUTH"
+        case allowCustomAuth = "ALLOW_CUSTOM_AUTH"
+        case allowUserPasswordAuth = "ALLOW_USER_PASSWORD_AUTH"
+        case allowUserSrpAuth = "ALLOW_USER_SRP_AUTH"
+        case allowRefreshTokenAuth = "ALLOW_REFRESH_TOKEN_AUTH"
         public var description: String { return self.rawValue }
     }
 
@@ -4468,6 +4523,7 @@ extension CognitoIdentityProvider {
         case facebook = "Facebook"
         case google = "Google"
         case loginwithamazon = "LoginWithAmazon"
+        case signinwithapple = "SignInWithApple"
         case oidc = "OIDC"
         public var description: String { return self.rawValue }
     }
@@ -4484,7 +4540,7 @@ extension CognitoIdentityProvider {
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for InitiateAuth calls.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// The authentication flow for this call to execute. The API action will depend on this value. For example:     REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.     ADMIN_NO_SRP_AUTH is not a valid value.
+        /// The authentication flow for this call to execute. The API action will depend on this value. For example:     REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.     ADMIN_USER_PASSWORD_AUTH: Admin-based user password authentication. This replaces the ADMIN_NO_SRP_AUTH authentication flow. In this flow, Cognito receives the password in the request instead of using the SRP process to verify passwords.    ADMIN_NO_SRP_AUTH is not a valid value.
         public let authFlow: AuthFlowType
         /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
         public let authParameters: [String: String]?
@@ -5495,6 +5551,12 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public enum PreventUserExistenceErrorTypes: String, CustomStringConvertible, Codable {
+        case legacy = "LEGACY"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ProviderDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
@@ -5557,6 +5619,40 @@ extension CognitoIdentityProvider {
             case providerAttributeName = "ProviderAttributeName"
             case providerAttributeValue = "ProviderAttributeValue"
             case providerName = "ProviderName"
+        }
+    }
+
+    public enum RecoveryOptionNameType: String, CustomStringConvertible, Codable {
+        case verifiedEmail = "verified_email"
+        case verifiedPhoneNumber = "verified_phone_number"
+        case adminOnly = "admin_only"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RecoveryOptionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .enum), 
+            AWSShapeMember(label: "Priority", required: true, type: .integer)
+        ]
+
+        /// Specifies the recovery method for a user.
+        public let name: RecoveryOptionNameType
+        /// A positive integer specifying priority of a method with 1 being the highest priority.
+        public let priority: Int
+
+        public init(name: RecoveryOptionNameType, priority: Int) {
+            self.name = name
+            self.priority = priority
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.priority, name:"priority", parent: name, max: 2)
+            try validate(self.priority, name:"priority", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case priority = "Priority"
         }
     }
 
@@ -6973,7 +7069,7 @@ extension CognitoIdentityProvider {
 
         /// The access token for the request to update user attributes.
         public let accessToken: String
-        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action, Amazon Cognito invokes the functions that are assigned to the custom message and pre mutation triggers. When Amazon Cognito invokes either of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your UpdateUserAttributes request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
+        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your UpdateUserAttributes request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
         /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
         public let userAttributes: [AttributeType]
@@ -7027,6 +7123,7 @@ extension CognitoIdentityProvider {
             AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
             AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
             AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
+            AWSShapeMember(label: "PreventUserExistenceErrors", required: false, type: .enum), 
             AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
             AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
             AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
@@ -7050,10 +7147,12 @@ extension CognitoIdentityProvider {
         public let clientName: String?
         /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let defaultRedirectURI: String?
-        /// Explicit authentication flows.
+        /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in the request instead of using the SRP (Secure Remote Password protocol) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.  
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// A list of allowed logout URLs for the identity providers.
         public let logoutURLs: [String]?
+        /// Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.   This setting affects the behavior of following APIs:    AdminInitiateAuth     AdminRespondToAuthChallenge     InitiateAuth     RespondToAuthChallenge     ForgotPassword     ConfirmForgotPassword     ConfirmSignUp     ResendConfirmationCode     After January 1st 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
+        public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The read-only attributes of the user pool.
         public let readAttributes: [String]?
         /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
@@ -7065,7 +7164,7 @@ extension CognitoIdentityProvider {
         /// The writeable attributes of the user pool.
         public let writeAttributes: [String]?
 
-        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.allowedOAuthScopes = allowedOAuthScopes
@@ -7076,6 +7175,7 @@ extension CognitoIdentityProvider {
             self.defaultRedirectURI = defaultRedirectURI
             self.explicitAuthFlows = explicitAuthFlows
             self.logoutURLs = logoutURLs
+            self.preventUserExistenceErrors = preventUserExistenceErrors
             self.readAttributes = readAttributes
             self.refreshTokenValidity = refreshTokenValidity
             self.supportedIdentityProviders = supportedIdentityProviders
@@ -7147,6 +7247,7 @@ extension CognitoIdentityProvider {
             case defaultRedirectURI = "DefaultRedirectURI"
             case explicitAuthFlows = "ExplicitAuthFlows"
             case logoutURLs = "LogoutURLs"
+            case preventUserExistenceErrors = "PreventUserExistenceErrors"
             case readAttributes = "ReadAttributes"
             case refreshTokenValidity = "RefreshTokenValidity"
             case supportedIdentityProviders = "SupportedIdentityProviders"
@@ -7228,6 +7329,7 @@ extension CognitoIdentityProvider {
 
     public struct UpdateUserPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountRecoverySetting", required: false, type: .structure), 
             AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
             AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
             AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
@@ -7246,6 +7348,8 @@ extension CognitoIdentityProvider {
             AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure)
         ]
 
+        /// Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.
+        public let accountRecoverySetting: AccountRecoverySettingType?
         /// The configuration for AdminCreateUser requests.
         public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// The attributes that are automatically verified when the Amazon Cognito service makes a request to update user pools.
@@ -7279,7 +7383,8 @@ extension CognitoIdentityProvider {
         /// The template for verification messages.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
-        public init(adminCreateUserConfig: AdminCreateUserConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolId: String, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolId: String, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+            self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.autoVerifiedAttributes = autoVerifiedAttributes
             self.deviceConfiguration = deviceConfiguration
@@ -7299,6 +7404,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
+            try self.accountRecoverySetting?.validate(name: "\(name).accountRecoverySetting")
             try self.adminCreateUserConfig?.validate(name: "\(name).adminCreateUserConfig")
             try self.emailConfiguration?.validate(name: "\(name).emailConfiguration")
             try validate(self.emailVerificationMessage, name:"emailVerificationMessage", parent: name, max: 20000)
@@ -7329,6 +7435,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountRecoverySetting = "AccountRecoverySetting"
             case adminCreateUserConfig = "AdminCreateUserConfig"
             case autoVerifiedAttributes = "AutoVerifiedAttributes"
             case deviceConfiguration = "DeviceConfiguration"
@@ -7521,6 +7628,7 @@ extension CognitoIdentityProvider {
             AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
+            AWSShapeMember(label: "PreventUserExistenceErrors", required: false, type: .enum), 
             AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
             AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
             AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
@@ -7548,12 +7656,14 @@ extension CognitoIdentityProvider {
         public let creationDate: TimeStamp?
         /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let defaultRedirectURI: String?
-        /// The explicit authentication flows.
+        /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in the request instead of using the SRP (Secure Remote Password protocol) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.  
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// The date the user pool client was last modified.
         public let lastModifiedDate: TimeStamp?
         /// A list of allowed logout URLs for the identity providers.
         public let logoutURLs: [String]?
+        /// Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.   This setting affects the behavior of following APIs:    AdminInitiateAuth     AdminRespondToAuthChallenge     InitiateAuth     RespondToAuthChallenge     ForgotPassword     ConfirmForgotPassword     ConfirmSignUp     ResendConfirmationCode     After January 1st 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
+        public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The Read-only attributes.
         public let readAttributes: [String]?
         /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
@@ -7565,7 +7675,7 @@ extension CognitoIdentityProvider {
         /// The writeable attributes.
         public let writeAttributes: [String]?
 
-        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: TimeStamp? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, lastModifiedDate: TimeStamp? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
+        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: TimeStamp? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, lastModifiedDate: TimeStamp? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.allowedOAuthScopes = allowedOAuthScopes
@@ -7579,6 +7689,7 @@ extension CognitoIdentityProvider {
             self.explicitAuthFlows = explicitAuthFlows
             self.lastModifiedDate = lastModifiedDate
             self.logoutURLs = logoutURLs
+            self.preventUserExistenceErrors = preventUserExistenceErrors
             self.readAttributes = readAttributes
             self.refreshTokenValidity = refreshTokenValidity
             self.supportedIdentityProviders = supportedIdentityProviders
@@ -7600,6 +7711,7 @@ extension CognitoIdentityProvider {
             case explicitAuthFlows = "ExplicitAuthFlows"
             case lastModifiedDate = "LastModifiedDate"
             case logoutURLs = "LogoutURLs"
+            case preventUserExistenceErrors = "PreventUserExistenceErrors"
             case readAttributes = "ReadAttributes"
             case refreshTokenValidity = "RefreshTokenValidity"
             case supportedIdentityProviders = "SupportedIdentityProviders"
@@ -7680,6 +7792,7 @@ extension CognitoIdentityProvider {
 
     public struct UserPoolType: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountRecoverySetting", required: false, type: .structure), 
             AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
             AWSShapeMember(label: "AliasAttributes", required: false, type: .list), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -7711,6 +7824,8 @@ extension CognitoIdentityProvider {
             AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure)
         ]
 
+        /// Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.
+        public let accountRecoverySetting: AccountRecoverySettingType?
         /// The configuration for AdminCreateUser requests.
         public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// Specifies the attributes that are aliased in a user pool.
@@ -7770,7 +7885,8 @@ extension CognitoIdentityProvider {
         /// The template for verification messages.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
-        public init(adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: TimeStamp? = nil, customDomain: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: TimeStamp? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: TimeStamp? = nil, customDomain: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: TimeStamp? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+            self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
             self.arn = arn
@@ -7803,6 +7919,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountRecoverySetting = "AccountRecoverySetting"
             case adminCreateUserConfig = "AdminCreateUserConfig"
             case aliasAttributes = "AliasAttributes"
             case arn = "Arn"

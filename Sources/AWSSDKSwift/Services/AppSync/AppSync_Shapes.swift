@@ -32,6 +32,74 @@ extension AppSync {
         }
     }
 
+    public struct ApiCache: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiCachingBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "atRestEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "transitEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ttl", required: false, type: .long), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
+        ]
+
+        /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
+        public let apiCachingBehavior: ApiCachingBehavior?
+        /// At rest encryption flag for cache. This setting cannot be updated after creation.
+        public let atRestEncryptionEnabled: Bool?
+        /// The cache instance status.    AVAILABLE: The instance is available for use.    CREATING: The instance is currently creating.    DELETING: The instance is currently deleting.    MODIFYING: The instance is currently modifying.    FAILED: The instance has failed creation.  
+        public let status: ApiCacheStatus?
+        /// Transit encryption flag when connecting to cache. This setting cannot be updated after creation.
+        public let transitEncryptionEnabled: Bool?
+        /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
+        public let ttl: Int64?
+        /// The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        public let `type`: ApiCacheType?
+
+        public init(apiCachingBehavior: ApiCachingBehavior? = nil, atRestEncryptionEnabled: Bool? = nil, status: ApiCacheStatus? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64? = nil, type: ApiCacheType? = nil) {
+            self.apiCachingBehavior = apiCachingBehavior
+            self.atRestEncryptionEnabled = atRestEncryptionEnabled
+            self.status = status
+            self.transitEncryptionEnabled = transitEncryptionEnabled
+            self.ttl = ttl
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiCachingBehavior = "apiCachingBehavior"
+            case atRestEncryptionEnabled = "atRestEncryptionEnabled"
+            case status = "status"
+            case transitEncryptionEnabled = "transitEncryptionEnabled"
+            case ttl = "ttl"
+            case `type` = "type"
+        }
+    }
+
+    public enum ApiCacheStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case modifying = "MODIFYING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApiCacheType: String, CustomStringConvertible, Codable {
+        case t2Small = "T2_SMALL"
+        case t2Medium = "T2_MEDIUM"
+        case r4Large = "R4_LARGE"
+        case r4Xlarge = "R4_XLARGE"
+        case r42Xlarge = "R4_2XLARGE"
+        case r44Xlarge = "R4_4XLARGE"
+        case r48Xlarge = "R4_8XLARGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApiCachingBehavior: String, CustomStringConvertible, Codable {
+        case fullRequestCaching = "FULL_REQUEST_CACHING"
+        case perResolverCaching = "PER_RESOLVER_CACHING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ApiKey: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
@@ -116,6 +184,28 @@ extension AppSync {
         }
     }
 
+    public struct CachingConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cachingKeys", required: false, type: .list), 
+            AWSShapeMember(label: "ttl", required: false, type: .long)
+        ]
+
+        /// The caching keys for a resolver that has caching enabled. Valid values are entries from the $context.identity and $context.arguments maps.
+        public let cachingKeys: [String]?
+        /// The TTL in seconds for a resolver that has caching enabled. Valid values are between 1 and 3600 seconds.
+        public let ttl: Int64?
+
+        public init(cachingKeys: [String]? = nil, ttl: Int64? = nil) {
+            self.cachingKeys = cachingKeys
+            self.ttl = ttl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachingKeys = "cachingKeys"
+            case ttl = "ttl"
+        }
+    }
+
     public struct CognitoUserPoolConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appIdClientRegex", required: false, type: .string), 
@@ -140,6 +230,79 @@ extension AppSync {
             case appIdClientRegex = "appIdClientRegex"
             case awsRegion = "awsRegion"
             case userPoolId = "userPoolId"
+        }
+    }
+
+    public enum ConflictDetectionType: String, CustomStringConvertible, Codable {
+        case version = "VERSION"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConflictHandlerType: String, CustomStringConvertible, Codable {
+        case optimisticConcurrency = "OPTIMISTIC_CONCURRENCY"
+        case lambda = "LAMBDA"
+        case automerge = "AUTOMERGE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateApiCacheRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiCachingBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "atRestEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "transitEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ttl", required: true, type: .long), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
+        public let apiCachingBehavior: ApiCachingBehavior
+        /// The GraphQL API Id.
+        public let apiId: String
+        /// At rest encryption flag for cache. This setting cannot be updated after creation.
+        public let atRestEncryptionEnabled: Bool?
+        /// Transit encryption flag when connecting to cache. This setting cannot be updated after creation.
+        public let transitEncryptionEnabled: Bool?
+        /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
+        public let ttl: Int64
+        /// The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        public let `type`: ApiCacheType
+
+        public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64, type: ApiCacheType) {
+            self.apiCachingBehavior = apiCachingBehavior
+            self.apiId = apiId
+            self.atRestEncryptionEnabled = atRestEncryptionEnabled
+            self.transitEncryptionEnabled = transitEncryptionEnabled
+            self.ttl = ttl
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiCachingBehavior = "apiCachingBehavior"
+            case apiId = "apiId"
+            case atRestEncryptionEnabled = "atRestEncryptionEnabled"
+            case transitEncryptionEnabled = "transitEncryptionEnabled"
+            case ttl = "ttl"
+            case `type` = "type"
+        }
+    }
+
+    public struct CreateApiCacheResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiCache", required: false, type: .structure)
+        ]
+
+        /// The ApiCache object.
+        public let apiCache: ApiCache?
+
+        public init(apiCache: ApiCache? = nil) {
+            self.apiCache = apiCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiCache = "apiCache"
         }
     }
 
@@ -236,6 +399,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 65536)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -307,7 +472,11 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.dataSourceName, name:"dataSourceName", parent: name, max: 65536)
+            try validate(self.dataSourceName, name:"dataSourceName", parent: name, min: 1)
             try validate(self.dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(self.name, name:"name", parent: name, max: 65536)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
             try validate(self.requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
             try validate(self.requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
@@ -419,17 +588,21 @@ extension AppSync {
     public struct CreateResolverRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "cachingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
             AWSShapeMember(label: "fieldName", required: true, type: .string), 
             AWSShapeMember(label: "kind", required: false, type: .enum), 
             AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
             AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "syncConfig", required: false, type: .structure), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
 
         /// The ID for the GraphQL API for which the resolver is being created.
         public let apiId: String
+        /// The caching configuration for the resolver.
+        public let cachingConfig: CachingConfig?
         /// The name of the data source for which the resolver is being created.
         public let dataSourceName: String?
         /// The name of the field to attach the resolver to.
@@ -442,38 +615,50 @@ extension AppSync {
         public let requestMappingTemplate: String
         /// The mapping template to be used for responses from the data source.
         public let responseMappingTemplate: String?
+        /// The SyncConfig for a resolver attached to a versioned datasource.
+        public let syncConfig: SyncConfig?
         /// The name of the Type.
         public let typeName: String
 
-        public init(apiId: String, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
+            self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
             self.pipelineConfig = pipelineConfig
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.syncConfig = syncConfig
             self.typeName = typeName
         }
 
         public func validate(name: String) throws {
+            try validate(self.dataSourceName, name:"dataSourceName", parent: name, max: 65536)
+            try validate(self.dataSourceName, name:"dataSourceName", parent: name, min: 1)
             try validate(self.dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(self.fieldName, name:"fieldName", parent: name, max: 65536)
+            try validate(self.fieldName, name:"fieldName", parent: name, min: 1)
             try validate(self.fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
             try validate(self.requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
             try validate(self.requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
             try validate(self.responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
             try validate(self.responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, max: 65536)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
+            case cachingConfig = "cachingConfig"
             case dataSourceName = "dataSourceName"
             case fieldName = "fieldName"
             case kind = "kind"
             case pipelineConfig = "pipelineConfig"
             case requestMappingTemplate = "requestMappingTemplate"
             case responseMappingTemplate = "responseMappingTemplate"
+            case syncConfig = "syncConfig"
             case typeName = "typeName"
         }
     }
@@ -617,6 +802,31 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
+    public struct DeleteApiCacheRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+        ]
+
+        /// The API ID.
+        public let apiId: String
+
+        public init(apiId: String) {
+            self.apiId = apiId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+        }
+    }
+
+    public struct DeleteApiCacheResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteApiKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
@@ -664,6 +874,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 65536)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -698,6 +910,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.functionId, name:"functionId", parent: name, max: 65536)
+            try validate(self.functionId, name:"functionId", parent: name, min: 1)
             try validate(self.functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -761,7 +975,11 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.fieldName, name:"fieldName", parent: name, max: 65536)
+            try validate(self.fieldName, name:"fieldName", parent: name, min: 1)
             try validate(self.fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(self.typeName, name:"typeName", parent: name, max: 65536)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -797,6 +1015,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.typeName, name:"typeName", parent: name, max: 65536)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -814,30 +1034,67 @@ extension AppSync {
 
     }
 
+    public struct DeltaSyncConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "baseTableTTL", required: false, type: .long), 
+            AWSShapeMember(label: "deltaSyncTableName", required: false, type: .string), 
+            AWSShapeMember(label: "deltaSyncTableTTL", required: false, type: .long)
+        ]
+
+        /// The number of minutes an Item is stored in the datasource.
+        public let baseTableTTL: Int64?
+        /// The Delta Sync table name.
+        public let deltaSyncTableName: String?
+        /// The number of minutes a Delta Sync log entry is stored in the Delta Sync table.
+        public let deltaSyncTableTTL: Int64?
+
+        public init(baseTableTTL: Int64? = nil, deltaSyncTableName: String? = nil, deltaSyncTableTTL: Int64? = nil) {
+            self.baseTableTTL = baseTableTTL
+            self.deltaSyncTableName = deltaSyncTableName
+            self.deltaSyncTableTTL = deltaSyncTableTTL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseTableTTL = "baseTableTTL"
+            case deltaSyncTableName = "deltaSyncTableName"
+            case deltaSyncTableTTL = "deltaSyncTableTTL"
+        }
+    }
+
     public struct DynamodbDataSourceConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "awsRegion", required: true, type: .string), 
+            AWSShapeMember(label: "deltaSyncConfig", required: false, type: .structure), 
             AWSShapeMember(label: "tableName", required: true, type: .string), 
-            AWSShapeMember(label: "useCallerCredentials", required: false, type: .boolean)
+            AWSShapeMember(label: "useCallerCredentials", required: false, type: .boolean), 
+            AWSShapeMember(label: "versioned", required: false, type: .boolean)
         ]
 
         /// The AWS Region.
         public let awsRegion: String
+        /// The DeltaSyncConfig for a versioned datasource.
+        public let deltaSyncConfig: DeltaSyncConfig?
         /// The table name.
         public let tableName: String
         /// Set to TRUE to use Amazon Cognito credentials with this data source.
         public let useCallerCredentials: Bool?
+        /// Set to TRUE to use Conflict Detection and Resolution with this data source.
+        public let versioned: Bool?
 
-        public init(awsRegion: String, tableName: String, useCallerCredentials: Bool? = nil) {
+        public init(awsRegion: String, deltaSyncConfig: DeltaSyncConfig? = nil, tableName: String, useCallerCredentials: Bool? = nil, versioned: Bool? = nil) {
             self.awsRegion = awsRegion
+            self.deltaSyncConfig = deltaSyncConfig
             self.tableName = tableName
             self.useCallerCredentials = useCallerCredentials
+            self.versioned = versioned
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsRegion = "awsRegion"
+            case deltaSyncConfig = "deltaSyncConfig"
             case tableName = "tableName"
             case useCallerCredentials = "useCallerCredentials"
+            case versioned = "versioned"
         }
     }
 
@@ -868,6 +1125,31 @@ extension AppSync {
         case error = "ERROR"
         case all = "ALL"
         public var description: String { return self.rawValue }
+    }
+
+    public struct FlushApiCacheRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+        ]
+
+        /// The API ID.
+        public let apiId: String
+
+        public init(apiId: String) {
+            self.apiId = apiId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+        }
+    }
+
+    public struct FlushApiCacheResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct FunctionConfiguration: AWSShape {
@@ -922,6 +1204,39 @@ extension AppSync {
         }
     }
 
+    public struct GetApiCacheRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+        ]
+
+        /// The API ID.
+        public let apiId: String
+
+        public init(apiId: String) {
+            self.apiId = apiId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+        }
+    }
+
+    public struct GetApiCacheResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiCache", required: false, type: .structure)
+        ]
+
+        public let apiCache: ApiCache?
+
+        public init(apiCache: ApiCache? = nil) {
+            self.apiCache = apiCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiCache = "apiCache"
+        }
+    }
+
     public struct GetDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
@@ -939,6 +1254,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 65536)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -982,6 +1299,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.functionId, name:"functionId", parent: name, max: 65536)
+            try validate(self.functionId, name:"functionId", parent: name, min: 1)
             try validate(self.functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -1109,7 +1428,11 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.fieldName, name:"fieldName", parent: name, max: 65536)
+            try validate(self.fieldName, name:"fieldName", parent: name, min: 1)
             try validate(self.fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(self.typeName, name:"typeName", parent: name, max: 65536)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -1197,6 +1520,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.typeName, name:"typeName", parent: name, max: 65536)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -1308,6 +1633,23 @@ extension AppSync {
         }
     }
 
+    public struct LambdaConflictHandlerConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaConflictHandlerArn", required: false, type: .string)
+        ]
+
+        /// The Arn for the Lambda function to use as the Conflict Handler.
+        public let lambdaConflictHandlerArn: String?
+
+        public init(lambdaConflictHandlerArn: String? = nil) {
+            self.lambdaConflictHandlerArn = lambdaConflictHandlerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaConflictHandlerArn = "lambdaConflictHandlerArn"
+        }
+    }
+
     public struct LambdaDataSourceConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lambdaFunctionArn", required: true, type: .string)
@@ -1348,6 +1690,8 @@ extension AppSync {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 65536)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
@@ -1403,6 +1747,8 @@ extension AppSync {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 65536)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
@@ -1458,6 +1804,8 @@ extension AppSync {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 65536)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
@@ -1509,6 +1857,8 @@ extension AppSync {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 65536)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
@@ -1567,6 +1917,8 @@ extension AppSync {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 65536)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
@@ -1627,6 +1979,8 @@ extension AppSync {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 65536)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
@@ -1727,6 +2081,8 @@ extension AppSync {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 65536)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
@@ -1908,6 +2264,7 @@ extension AppSync {
 
     public struct Resolver: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cachingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
             AWSShapeMember(label: "fieldName", required: false, type: .string), 
             AWSShapeMember(label: "kind", required: false, type: .enum), 
@@ -1915,9 +2272,12 @@ extension AppSync {
             AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "resolverArn", required: false, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "syncConfig", required: false, type: .structure), 
             AWSShapeMember(label: "typeName", required: false, type: .string)
         ]
 
+        /// The caching configuration for the resolver.
+        public let cachingConfig: CachingConfig?
         /// The resolver data source name.
         public let dataSourceName: String?
         /// The resolver field name.
@@ -1932,10 +2292,13 @@ extension AppSync {
         public let resolverArn: String?
         /// The response mapping template.
         public let responseMappingTemplate: String?
+        /// The SyncConfig for a resolver attached to a versioned datasource.
+        public let syncConfig: SyncConfig?
         /// The resolver type name.
         public let typeName: String?
 
-        public init(dataSourceName: String? = nil, fieldName: String? = nil, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, resolverArn: String? = nil, responseMappingTemplate: String? = nil, typeName: String? = nil) {
+        public init(cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String? = nil, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, resolverArn: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String? = nil) {
+            self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
@@ -1943,10 +2306,12 @@ extension AppSync {
             self.requestMappingTemplate = requestMappingTemplate
             self.resolverArn = resolverArn
             self.responseMappingTemplate = responseMappingTemplate
+            self.syncConfig = syncConfig
             self.typeName = typeName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cachingConfig = "cachingConfig"
             case dataSourceName = "dataSourceName"
             case fieldName = "fieldName"
             case kind = "kind"
@@ -1954,6 +2319,7 @@ extension AppSync {
             case requestMappingTemplate = "requestMappingTemplate"
             case resolverArn = "resolverArn"
             case responseMappingTemplate = "responseMappingTemplate"
+            case syncConfig = "syncConfig"
             case typeName = "typeName"
         }
     }
@@ -2010,6 +2376,33 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case status = "status"
+        }
+    }
+
+    public struct SyncConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "conflictDetection", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictHandler", required: false, type: .enum), 
+            AWSShapeMember(label: "lambdaConflictHandlerConfig", required: false, type: .structure)
+        ]
+
+        /// The Conflict Detection strategy to use.    VERSION: Detect conflicts based on object versions for this resolver.    NONE: Do not detect conflicts when executing this resolver.  
+        public let conflictDetection: ConflictDetectionType?
+        /// The Conflict Resolution strategy to perform in the event of a conflict.    OPTIMISTIC_CONCURRENCY: Resolve conflicts by rejecting mutations when versions do not match the latest version at the server.    AUTOMERGE: Resolve conflicts with the Automerge conflict resolution strategy.    LAMBDA: Resolve conflicts with a Lambda function supplied in the LambdaConflictHandlerConfig.  
+        public let conflictHandler: ConflictHandlerType?
+        /// The LambdaConflictHandlerConfig when configuring LAMBDA as the Conflict Handler.
+        public let lambdaConflictHandlerConfig: LambdaConflictHandlerConfig?
+
+        public init(conflictDetection: ConflictDetectionType? = nil, conflictHandler: ConflictHandlerType? = nil, lambdaConflictHandlerConfig: LambdaConflictHandlerConfig? = nil) {
+            self.conflictDetection = conflictDetection
+            self.conflictHandler = conflictHandler
+            self.lambdaConflictHandlerConfig = lambdaConflictHandlerConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictDetection = "conflictDetection"
+            case conflictHandler = "conflictHandler"
+            case lambdaConflictHandlerConfig = "lambdaConflictHandlerConfig"
         }
     }
 
@@ -2141,6 +2534,55 @@ extension AppSync {
 
     }
 
+    public struct UpdateApiCacheRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiCachingBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "ttl", required: true, type: .long), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
+        public let apiCachingBehavior: ApiCachingBehavior
+        /// The GraphQL API Id.
+        public let apiId: String
+        /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
+        public let ttl: Int64
+        /// The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        public let `type`: ApiCacheType
+
+        public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, ttl: Int64, type: ApiCacheType) {
+            self.apiCachingBehavior = apiCachingBehavior
+            self.apiId = apiId
+            self.ttl = ttl
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiCachingBehavior = "apiCachingBehavior"
+            case apiId = "apiId"
+            case ttl = "ttl"
+            case `type` = "type"
+        }
+    }
+
+    public struct UpdateApiCacheResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiCache", required: false, type: .structure)
+        ]
+
+        /// The ApiCache object.
+        public let apiCache: ApiCache?
+
+        public init(apiCache: ApiCache? = nil) {
+            self.apiCache = apiCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiCache = "apiCache"
+        }
+    }
+
     public struct UpdateApiKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
@@ -2239,6 +2681,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 65536)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
@@ -2314,8 +2758,14 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.dataSourceName, name:"dataSourceName", parent: name, max: 65536)
+            try validate(self.dataSourceName, name:"dataSourceName", parent: name, min: 1)
             try validate(self.dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(self.functionId, name:"functionId", parent: name, max: 65536)
+            try validate(self.functionId, name:"functionId", parent: name, min: 1)
             try validate(self.functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(self.name, name:"name", parent: name, max: 65536)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
             try validate(self.requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
             try validate(self.requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
@@ -2419,17 +2869,21 @@ extension AppSync {
     public struct UpdateResolverRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "cachingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
             AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName"), required: true, type: .string), 
             AWSShapeMember(label: "kind", required: false, type: .enum), 
             AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
             AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "syncConfig", required: false, type: .structure), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
 
         /// The API ID.
         public let apiId: String
+        /// The caching configuration for the resolver.
+        public let cachingConfig: CachingConfig?
         /// The new data source name.
         public let dataSourceName: String?
         /// The new field name.
@@ -2442,38 +2896,50 @@ extension AppSync {
         public let requestMappingTemplate: String
         /// The new response mapping template.
         public let responseMappingTemplate: String?
+        /// The SyncConfig for a resolver attached to a versioned datasource.
+        public let syncConfig: SyncConfig?
         /// The new type name.
         public let typeName: String
 
-        public init(apiId: String, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
+            self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
             self.pipelineConfig = pipelineConfig
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.syncConfig = syncConfig
             self.typeName = typeName
         }
 
         public func validate(name: String) throws {
+            try validate(self.dataSourceName, name:"dataSourceName", parent: name, max: 65536)
+            try validate(self.dataSourceName, name:"dataSourceName", parent: name, min: 1)
             try validate(self.dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(self.fieldName, name:"fieldName", parent: name, max: 65536)
+            try validate(self.fieldName, name:"fieldName", parent: name, min: 1)
             try validate(self.fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
             try validate(self.requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
             try validate(self.requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
             try validate(self.responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
             try validate(self.responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, max: 65536)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
+            case cachingConfig = "cachingConfig"
             case dataSourceName = "dataSourceName"
             case fieldName = "fieldName"
             case kind = "kind"
             case pipelineConfig = "pipelineConfig"
             case requestMappingTemplate = "requestMappingTemplate"
             case responseMappingTemplate = "responseMappingTemplate"
+            case syncConfig = "syncConfig"
             case typeName = "typeName"
         }
     }
@@ -2520,6 +2986,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
+            try validate(self.typeName, name:"typeName", parent: name, max: 65536)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 

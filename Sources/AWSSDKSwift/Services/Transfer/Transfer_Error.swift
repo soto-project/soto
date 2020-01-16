@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for Transfer
 public enum TransferErrorType: AWSErrorType {
+    case conflictException(message: String?)
     case internalServiceError(message: String?)
     case invalidNextTokenException(message: String?)
     case invalidRequestException(message: String?)
@@ -20,6 +21,8 @@ extension TransferErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "InternalServiceError":
             self = .internalServiceError(message: message)
         case "InvalidNextTokenException":
@@ -43,6 +46,8 @@ extension TransferErrorType {
 extension TransferErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .internalServiceError(let message):
             return "InternalServiceError: \(message ?? "")"
         case .invalidNextTokenException(let message):

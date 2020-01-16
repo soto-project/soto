@@ -99,6 +99,11 @@ public struct IoT {
         return client.send(operation: "ClearDefaultAuthorizer", path: "/default-authorizer", httpMethod: "DELETE", input: input)
     }
 
+    ///  Confirms a topic rule destination. When you create a rule requiring a destination, AWS IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint.
+    public func confirmTopicRuleDestination(_ input: ConfirmTopicRuleDestinationRequest) -> Future<ConfirmTopicRuleDestinationResponse> {
+        return client.send(operation: "ConfirmTopicRuleDestination", path: "/confirmdestination/{confirmationToken+}", httpMethod: "GET", input: input)
+    }
+
     ///  Creates an authorizer.
     public func createAuthorizer(_ input: CreateAuthorizerRequest) -> Future<CreateAuthorizerResponse> {
         return client.send(operation: "CreateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "POST", input: input)
@@ -114,6 +119,11 @@ public struct IoT {
         return client.send(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
+    public func createDomainConfiguration(_ input: CreateDomainConfigurationRequest) -> Future<CreateDomainConfigurationResponse> {
+        return client.send(operation: "CreateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a dynamic thing group.
     public func createDynamicThingGroup(_ input: CreateDynamicThingGroupRequest) -> Future<CreateDynamicThingGroupResponse> {
         return client.send(operation: "CreateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: "POST", input: input)
@@ -124,7 +134,7 @@ public struct IoT {
         return client.send(operation: "CreateJob", path: "/jobs/{jobId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key.  Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
+    ///  Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see Provisioning MQTT API.  Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
     public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest) -> Future<CreateKeysAndCertificateResponse> {
         return client.send(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: "POST", input: input)
     }
@@ -149,6 +159,21 @@ public struct IoT {
         return client.send(operation: "CreatePolicyVersion", path: "/policies/{policyName}/version", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a provisioning claim.
+    public func createProvisioningClaim(_ input: CreateProvisioningClaimRequest) -> Future<CreateProvisioningClaimResponse> {
+        return client.send(operation: "CreateProvisioningClaim", path: "/provisioning-templates/{templateName}/provisioning-claim", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a fleet provisioning template.
+    public func createProvisioningTemplate(_ input: CreateProvisioningTemplateRequest) -> Future<CreateProvisioningTemplateResponse> {
+        return client.send(operation: "CreateProvisioningTemplate", path: "/provisioning-templates", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new version of a fleet provisioning template.
+    public func createProvisioningTemplateVersion(_ input: CreateProvisioningTemplateVersionRequest) -> Future<CreateProvisioningTemplateVersionResponse> {
+        return client.send(operation: "CreateProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a role alias.
     public func createRoleAlias(_ input: CreateRoleAliasRequest) -> Future<CreateRoleAliasResponse> {
         return client.send(operation: "CreateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "POST", input: input)
@@ -164,7 +189,7 @@ public struct IoT {
         return client.send(operation: "CreateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. The total size of a file associated with the stream cannot exceed more than 2 MB. The stream will be created with version 0. If a stream is created with the same streamID as a stream that existed and was deleted within last 90 days, we will resurrect that old stream by incrementing the version by 1.
+    ///  Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream.
     public func createStream(_ input: CreateStreamRequest) -> Future<CreateStreamResponse> {
         return client.send(operation: "CreateStream", path: "/streams/{streamId}", httpMethod: "POST", input: input)
     }
@@ -187,6 +212,11 @@ public struct IoT {
     ///  Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
     @discardableResult public func createTopicRule(_ input: CreateTopicRuleRequest) -> Future<Void> {
         return client.send(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a topic rule destination. The destination must be confirmed prior to use.
+    public func createTopicRuleDestination(_ input: CreateTopicRuleDestinationRequest) -> Future<CreateTopicRuleDestinationResponse> {
+        return client.send(operation: "CreateTopicRuleDestination", path: "/destinations", httpMethod: "POST", input: input)
     }
 
     ///  Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. 
@@ -212,6 +242,11 @@ public struct IoT {
     ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
     @discardableResult public func deleteCertificate(_ input: DeleteCertificateRequest) -> Future<Void> {
         return client.send(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes the specified domain configuration.  The domain configuration feature is in public preview and is subject to change. 
+    public func deleteDomainConfiguration(_ input: DeleteDomainConfigurationRequest) -> Future<DeleteDomainConfigurationResponse> {
+        return client.send(operation: "DeleteDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a dynamic thing group.
@@ -247,6 +282,16 @@ public struct IoT {
     ///  Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this API. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default version, use ListPolicyVersions.
     @discardableResult public func deletePolicyVersion(_ input: DeletePolicyVersionRequest) -> Future<Void> {
         return client.send(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a fleet provisioning template.
+    public func deleteProvisioningTemplate(_ input: DeleteProvisioningTemplateRequest) -> Future<DeleteProvisioningTemplateResponse> {
+        return client.send(operation: "DeleteProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a fleet provisioning template version.
+    public func deleteProvisioningTemplateVersion(_ input: DeleteProvisioningTemplateVersionRequest) -> Future<DeleteProvisioningTemplateVersionResponse> {
+        return client.send(operation: "DeleteProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a CA certificate registration code.
@@ -292,6 +337,11 @@ public struct IoT {
     ///  Deletes the rule.
     @discardableResult public func deleteTopicRule(_ input: DeleteTopicRuleRequest) -> Future<Void> {
         return client.send(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a topic rule destination.
+    public func deleteTopicRuleDestination(_ input: DeleteTopicRuleDestinationRequest) -> Future<DeleteTopicRuleDestinationResponse> {
+        return client.send(operation: "DeleteTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a logging level.
@@ -349,6 +399,11 @@ public struct IoT {
         return client.send(operation: "DescribeDefaultAuthorizer", path: "/default-authorizer", httpMethod: "GET", input: input)
     }
 
+    ///  Gets summary information about a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
+    public func describeDomainConfiguration(_ input: DescribeDomainConfigurationRequest) -> Future<DescribeDomainConfigurationResponse> {
+        return client.send(operation: "DescribeDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: "GET", input: input)
+    }
+
     ///  Returns a unique endpoint specific to the AWS account making the call.
     public func describeEndpoint(_ input: DescribeEndpointRequest) -> Future<DescribeEndpointResponse> {
         return client.send(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: "GET", input: input)
@@ -377,6 +432,16 @@ public struct IoT {
     ///  Gets information about a mitigation action.
     public func describeMitigationAction(_ input: DescribeMitigationActionRequest) -> Future<DescribeMitigationActionResponse> {
         return client.send(operation: "DescribeMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns information about a fleet provisioning template.
+    public func describeProvisioningTemplate(_ input: DescribeProvisioningTemplateRequest) -> Future<DescribeProvisioningTemplateResponse> {
+        return client.send(operation: "DescribeProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns information about a fleet provisioning template version.
+    public func describeProvisioningTemplateVersion(_ input: DescribeProvisioningTemplateVersionRequest) -> Future<DescribeProvisioningTemplateVersionResponse> {
+        return client.send(operation: "DescribeProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a role alias.
@@ -450,12 +515,17 @@ public struct IoT {
         return client.send(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the approximate count of unique values that match the query.
+    public func getCardinality(_ input: GetCardinalityRequest) -> Future<GetCardinalityResponse> {
+        return client.send(operation: "GetCardinality", path: "/indices/cardinality", httpMethod: "POST", input: input)
+    }
+
     ///  Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the AWS IoT device gateway.
     public func getEffectivePolicies(_ input: GetEffectivePoliciesRequest) -> Future<GetEffectivePoliciesResponse> {
         return client.send(operation: "GetEffectivePolicies", path: "/effective-policies", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the search configuration.
+    ///  Gets the indexing configuration.
     public func getIndexingConfiguration(_ input: GetIndexingConfigurationRequest) -> Future<GetIndexingConfigurationResponse> {
         return client.send(operation: "GetIndexingConfiguration", path: "/indexing/config", httpMethod: "GET", input: input)
     }
@@ -475,6 +545,11 @@ public struct IoT {
         return client.send(operation: "GetOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: "GET", input: input)
     }
 
+    ///  Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles. This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field value that occurs in approximately five percent of the values that match the query, and so on. The result is an approximation, the more values that match the query, the more accurate the percentile values.
+    public func getPercentiles(_ input: GetPercentilesRequest) -> Future<GetPercentilesResponse> {
+        return client.send(operation: "GetPercentiles", path: "/indices/percentiles", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about the specified policy with the policy document of the default version.
     public func getPolicy(_ input: GetPolicyRequest) -> Future<GetPolicyResponse> {
         return client.send(operation: "GetPolicy", path: "/policies/{policyName}", httpMethod: "GET", input: input)
@@ -490,7 +565,7 @@ public struct IoT {
         return client.send(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: "GET", input: input)
     }
 
-    ///  Gets statistics about things that match the specified query.
+    ///  Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned.
     public func getStatistics(_ input: GetStatisticsRequest) -> Future<GetStatisticsResponse> {
         return client.send(operation: "GetStatistics", path: "/indices/statistics", httpMethod: "POST", input: input)
     }
@@ -498,6 +573,11 @@ public struct IoT {
     ///  Gets information about the rule.
     public func getTopicRule(_ input: GetTopicRuleRequest) -> Future<GetTopicRuleResponse> {
         return client.send(operation: "GetTopicRule", path: "/rules/{ruleName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets information about a topic rule destination.
+    public func getTopicRuleDestination(_ input: GetTopicRuleDestinationRequest) -> Future<GetTopicRuleDestinationResponse> {
+        return client.send(operation: "GetTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the fine grained logging options.
@@ -560,6 +640,11 @@ public struct IoT {
         return client.send(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: "GET", input: input)
     }
 
+    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change. 
+    public func listDomainConfigurations(_ input: ListDomainConfigurationsRequest) -> Future<ListDomainConfigurationsResponse> {
+        return client.send(operation: "ListDomainConfigurations", path: "/domainConfigurations", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the search indices.
     public func listIndices(_ input: ListIndicesRequest) -> Future<ListIndicesResponse> {
         return client.send(operation: "ListIndices", path: "/indices", httpMethod: "GET", input: input)
@@ -620,6 +705,16 @@ public struct IoT {
     ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. 
     public func listPrincipalThings(_ input: ListPrincipalThingsRequest) -> Future<ListPrincipalThingsResponse> {
         return client.send(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: "GET", input: input)
+    }
+
+    ///  A list of fleet provisioning template versions.
+    public func listProvisioningTemplateVersions(_ input: ListProvisioningTemplateVersionsRequest) -> Future<ListProvisioningTemplateVersionsResponse> {
+        return client.send(operation: "ListProvisioningTemplateVersions", path: "/provisioning-templates/{templateName}/versions", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the fleet provisioning templates in your AWS account.
+    public func listProvisioningTemplates(_ input: ListProvisioningTemplatesRequest) -> Future<ListProvisioningTemplatesResponse> {
+        return client.send(operation: "ListProvisioningTemplates", path: "/provisioning-templates", httpMethod: "GET", input: input)
     }
 
     ///  Lists the role aliases registered in your account.
@@ -707,6 +802,11 @@ public struct IoT {
         return client.send(operation: "ListThingsInThingGroup", path: "/thing-groups/{thingGroupName}/things", httpMethod: "GET", input: input)
     }
 
+    ///  Lists all the topic rule destinations in your AWS account.
+    public func listTopicRuleDestinations(_ input: ListTopicRuleDestinationsRequest) -> Future<ListTopicRuleDestinationsResponse> {
+        return client.send(operation: "ListTopicRuleDestinations", path: "/destinations", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the rules for the specific topic.
     public func listTopicRules(_ input: ListTopicRulesRequest) -> Future<ListTopicRulesResponse> {
         return client.send(operation: "ListTopicRules", path: "/rules", httpMethod: "GET", input: input)
@@ -732,7 +832,7 @@ public struct IoT {
         return client.send(operation: "RegisterCertificate", path: "/certificate/register", httpMethod: "POST", input: input)
     }
 
-    ///  Provisions a thing.
+    ///  Provisions a thing in the device registry. RegisterThing calls other AWS IoT control plane APIs. These calls might exceed your account level  AWS IoT Throttling Limits and cause throttle errors. Please contact AWS Customer Support to raise your throttling limits if necessary.
     public func registerThing(_ input: RegisterThingRequest) -> Future<RegisterThingResponse> {
         return client.send(operation: "RegisterThing", path: "/things", httpMethod: "POST", input: input)
     }
@@ -857,6 +957,11 @@ public struct IoT {
         return client.send(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: "PUT", input: input)
     }
 
+    ///  Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated.  The domain configuration feature is in public preview and is subject to change. 
+    public func updateDomainConfiguration(_ input: UpdateDomainConfigurationRequest) -> Future<UpdateDomainConfigurationResponse> {
+        return client.send(operation: "UpdateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: "PUT", input: input)
+    }
+
     ///  Updates a dynamic thing group.
     public func updateDynamicThingGroup(_ input: UpdateDynamicThingGroupRequest) -> Future<UpdateDynamicThingGroupResponse> {
         return client.send(operation: "UpdateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: "PATCH", input: input)
@@ -880,6 +985,11 @@ public struct IoT {
     ///  Updates the definition for the specified mitigation action.
     public func updateMitigationAction(_ input: UpdateMitigationActionRequest) -> Future<UpdateMitigationActionResponse> {
         return client.send(operation: "UpdateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  Updates a fleet provisioning template.
+    public func updateProvisioningTemplate(_ input: UpdateProvisioningTemplateRequest) -> Future<UpdateProvisioningTemplateResponse> {
+        return client.send(operation: "UpdateProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a role alias.
@@ -915,6 +1025,11 @@ public struct IoT {
     ///  Updates the groups to which the thing belongs.
     public func updateThingGroupsForThing(_ input: UpdateThingGroupsForThingRequest) -> Future<UpdateThingGroupsForThingResponse> {
         return client.send(operation: "UpdateThingGroupsForThing", path: "/thing-groups/updateThingGroupsForThing", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination.
+    public func updateTopicRuleDestination(_ input: UpdateTopicRuleDestinationRequest) -> Future<UpdateTopicRuleDestinationResponse> {
+        return client.send(operation: "UpdateTopicRuleDestination", path: "/destinations", httpMethod: "PATCH", input: input)
     }
 
     ///  Validates a Device Defender security profile behaviors specification.

@@ -102,6 +102,7 @@ extension Firehose {
 
     public struct CreateDeliveryStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamEncryptionConfigurationInput", required: false, type: .structure), 
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
             AWSShapeMember(label: "DeliveryStreamType", required: false, type: .enum), 
             AWSShapeMember(label: "ElasticsearchDestinationConfiguration", required: false, type: .structure), 
@@ -112,6 +113,8 @@ extension Firehose {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
+        /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
+        public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
         /// The name of the delivery stream. This name must be unique per AWS account in the same AWS Region. If the delivery streams are in different accounts or different Regions, you can have multiple delivery streams with the same name.
         public let deliveryStreamName: String
         /// The delivery stream type. This parameter can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.  
@@ -129,7 +132,8 @@ extension Firehose {
         /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to AWS resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream.
         public let tags: [Tag]?
 
-        public init(deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+            self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
             self.deliveryStreamType = deliveryStreamType
             self.elasticsearchDestinationConfiguration = elasticsearchDestinationConfiguration
@@ -141,6 +145,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try self.deliveryStreamEncryptionConfigurationInput?.validate(name: "\(name).deliveryStreamEncryptionConfigurationInput")
             try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
             try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
             try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -157,6 +162,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deliveryStreamEncryptionConfigurationInput = "DeliveryStreamEncryptionConfigurationInput"
             case deliveryStreamName = "DeliveryStreamName"
             case deliveryStreamType = "DeliveryStreamType"
             case elasticsearchDestinationConfiguration = "ElasticsearchDestinationConfiguration"
@@ -225,13 +231,17 @@ extension Firehose {
 
     public struct DeleteDeliveryStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowForceDelete", required: false, type: .boolean), 
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
 
+        /// Set this to true if you want to delete the delivery stream even if Kinesis Data Firehose is unable to retire the grant for the CMK. Kinesis Data Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the RevokeGrant operation to revoke the grant you gave to Kinesis Data Firehose. If a failure to retire the grant happens due to an AWS KMS issue, Kinesis Data Firehose keeps retrying the delete operation. The default value is false.
+        public let allowForceDelete: Bool?
         /// The name of the delivery stream.
         public let deliveryStreamName: String
 
-        public init(deliveryStreamName: String) {
+        public init(allowForceDelete: Bool? = nil, deliveryStreamName: String) {
+            self.allowForceDelete = allowForceDelete
             self.deliveryStreamName = deliveryStreamName
         }
 
@@ -242,6 +252,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowForceDelete = "AllowForceDelete"
             case deliveryStreamName = "DeliveryStreamName"
         }
     }
@@ -263,6 +274,7 @@ extension Firehose {
             AWSShapeMember(label: "DeliveryStreamStatus", required: true, type: .enum), 
             AWSShapeMember(label: "DeliveryStreamType", required: true, type: .enum), 
             AWSShapeMember(label: "Destinations", required: true, type: .list), 
+            AWSShapeMember(label: "FailureDescription", required: false, type: .structure), 
             AWSShapeMember(label: "HasMoreDestinations", required: true, type: .boolean), 
             AWSShapeMember(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Source", required: false, type: .structure), 
@@ -277,12 +289,14 @@ extension Firehose {
         public let deliveryStreamEncryptionConfiguration: DeliveryStreamEncryptionConfiguration?
         /// The name of the delivery stream.
         public let deliveryStreamName: String
-        /// The status of the delivery stream.
+        /// The status of the delivery stream. If the status of a delivery stream is CREATING_FAILED, this status doesn't change, and you can't invoke CreateDeliveryStream again on it. However, you can invoke the DeleteDeliveryStream operation to delete it.
         public let deliveryStreamStatus: DeliveryStreamStatus
         /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.  
         public let deliveryStreamType: DeliveryStreamType
         /// The destinations.
         public let destinations: [DestinationDescription]
+        /// Provides details in case one of the following operations fails due to an error related to KMS: CreateDeliveryStream, DeleteDeliveryStream, StartDeliveryStreamEncryption, StopDeliveryStreamEncryption.
+        public let failureDescription: FailureDescription?
         /// Indicates whether there are more destinations available to list.
         public let hasMoreDestinations: Bool
         /// The date and time that the delivery stream was last updated.
@@ -292,7 +306,7 @@ extension Firehose {
         /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
         public let versionId: String
 
-        public init(createTimestamp: TimeStamp? = nil, deliveryStreamARN: String, deliveryStreamEncryptionConfiguration: DeliveryStreamEncryptionConfiguration? = nil, deliveryStreamName: String, deliveryStreamStatus: DeliveryStreamStatus, deliveryStreamType: DeliveryStreamType, destinations: [DestinationDescription], hasMoreDestinations: Bool, lastUpdateTimestamp: TimeStamp? = nil, source: SourceDescription? = nil, versionId: String) {
+        public init(createTimestamp: TimeStamp? = nil, deliveryStreamARN: String, deliveryStreamEncryptionConfiguration: DeliveryStreamEncryptionConfiguration? = nil, deliveryStreamName: String, deliveryStreamStatus: DeliveryStreamStatus, deliveryStreamType: DeliveryStreamType, destinations: [DestinationDescription], failureDescription: FailureDescription? = nil, hasMoreDestinations: Bool, lastUpdateTimestamp: TimeStamp? = nil, source: SourceDescription? = nil, versionId: String) {
             self.createTimestamp = createTimestamp
             self.deliveryStreamARN = deliveryStreamARN
             self.deliveryStreamEncryptionConfiguration = deliveryStreamEncryptionConfiguration
@@ -300,6 +314,7 @@ extension Firehose {
             self.deliveryStreamStatus = deliveryStreamStatus
             self.deliveryStreamType = deliveryStreamType
             self.destinations = destinations
+            self.failureDescription = failureDescription
             self.hasMoreDestinations = hasMoreDestinations
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.source = source
@@ -314,6 +329,7 @@ extension Firehose {
             case deliveryStreamStatus = "DeliveryStreamStatus"
             case deliveryStreamType = "DeliveryStreamType"
             case destinations = "Destinations"
+            case failureDescription = "FailureDescription"
             case hasMoreDestinations = "HasMoreDestinations"
             case lastUpdateTimestamp = "LastUpdateTimestamp"
             case source = "Source"
@@ -323,32 +339,91 @@ extension Firehose {
 
     public struct DeliveryStreamEncryptionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "KeyARN", required: false, type: .string), 
+            AWSShapeMember(label: "KeyType", required: false, type: .enum), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
 
-        /// For a full description of the different values of this status, see StartDeliveryStreamEncryption and StopDeliveryStreamEncryption.
+        /// Provides details in case one of the following operations fails due to an error related to KMS: CreateDeliveryStream, DeleteDeliveryStream, StartDeliveryStreamEncryption, StopDeliveryStreamEncryption.
+        public let failureDescription: FailureDescription?
+        /// If KeyType is CUSTOMER_MANAGED_CMK, this field contains the ARN of the customer managed CMK. If KeyType is AWS_OWNED_CMK, DeliveryStreamEncryptionConfiguration doesn't contain a value for KeyARN.
+        public let keyARN: String?
+        /// Indicates the type of customer master key (CMK) that is used for encryption. The default setting is AWS_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs).
+        public let keyType: KeyType?
+        /// This is the server-side encryption (SSE) status for the delivery stream. For a full description of the different values of this status, see StartDeliveryStreamEncryption and StopDeliveryStreamEncryption. If this status is ENABLING_FAILED or DISABLING_FAILED, it is the status of the most recent attempt to enable or disable SSE, respectively.
         public let status: DeliveryStreamEncryptionStatus?
 
-        public init(status: DeliveryStreamEncryptionStatus? = nil) {
+        public init(failureDescription: FailureDescription? = nil, keyARN: String? = nil, keyType: KeyType? = nil, status: DeliveryStreamEncryptionStatus? = nil) {
+            self.failureDescription = failureDescription
+            self.keyARN = keyARN
+            self.keyType = keyType
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case failureDescription = "FailureDescription"
+            case keyARN = "KeyARN"
+            case keyType = "KeyType"
             case status = "Status"
+        }
+    }
+
+    public struct DeliveryStreamEncryptionConfigurationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyARN", required: false, type: .string), 
+            AWSShapeMember(label: "KeyType", required: true, type: .enum)
+        ]
+
+        /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to AWS_OWNED_CMK, Kinesis Data Firehose uses a service-account CMK.
+        public let keyARN: String?
+        /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is AWS_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs). When you invoke CreateDeliveryStream or StartDeliveryStreamEncryption with KeyType set to CUSTOMER_MANAGED_CMK, Kinesis Data Firehose invokes the Amazon KMS operation CreateGrant to create a grant that allows the Kinesis Data Firehose service to use the customer managed CMK to perform encryption and decryption. Kinesis Data Firehose manages that grant.  When you invoke StartDeliveryStreamEncryption to change the CMK for a delivery stream that is already encrypted with a customer managed CMK, Kinesis Data Firehose schedules the grant it had on the old CMK for retirement.
+        public let keyType: KeyType
+
+        public init(keyARN: String? = nil, keyType: KeyType) {
+            self.keyARN = keyARN
+            self.keyType = keyType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.keyARN, name:"keyARN", parent: name, max: 512)
+            try validate(self.keyARN, name:"keyARN", parent: name, min: 1)
+            try validate(self.keyARN, name:"keyARN", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyARN = "KeyARN"
+            case keyType = "KeyType"
         }
     }
 
     public enum DeliveryStreamEncryptionStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case enabling = "ENABLING"
+        case enablingFailed = "ENABLING_FAILED"
         case disabled = "DISABLED"
         case disabling = "DISABLING"
+        case disablingFailed = "DISABLING_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryStreamFailureType: String, CustomStringConvertible, Codable {
+        case retireKmsGrantFailed = "RETIRE_KMS_GRANT_FAILED"
+        case createKmsGrantFailed = "CREATE_KMS_GRANT_FAILED"
+        case kmsAccessDenied = "KMS_ACCESS_DENIED"
+        case disabledKmsKey = "DISABLED_KMS_KEY"
+        case invalidKmsKey = "INVALID_KMS_KEY"
+        case kmsKeyNotFound = "KMS_KEY_NOT_FOUND"
+        case kmsOptInRequired = "KMS_OPT_IN_REQUIRED"
+        case unknownError = "UNKNOWN_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum DeliveryStreamStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
+        case creatingFailed = "CREATING_FAILED"
         case deleting = "DELETING"
+        case deletingFailed = "DELETING_FAILED"
         case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
@@ -1069,6 +1144,28 @@ extension Firehose {
         }
     }
 
+    public struct FailureDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Details", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+
+        /// A message providing details about the error that caused the failure.
+        public let details: String
+        /// The type of error that caused the failure.
+        public let `type`: DeliveryStreamFailureType
+
+        public init(details: String, type: DeliveryStreamFailureType) {
+            self.details = details
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+            case `type` = "Type"
+        }
+    }
+
     public enum HECEndpointType: String, CustomStringConvertible, Codable {
         case raw = "Raw"
         case event = "Event"
@@ -1140,6 +1237,12 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case aWSKMSKeyARN = "AWSKMSKeyARN"
         }
+    }
+
+    public enum KeyType: String, CustomStringConvertible, Codable {
+        case awsOwnedCmk = "AWS_OWNED_CMK"
+        case customerManagedCmk = "CUSTOMER_MANAGED_CMK"
+        public var description: String { return self.rawValue }
     }
 
     public struct KinesisStreamSourceConfiguration: AWSShape {
@@ -1485,7 +1588,7 @@ extension Firehose {
 
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
         public let blockSizeBytes: Int?
-        /// The compression code to use over data blocks. The possible values are UNCOMPRESSED, SNAPPY, and GZIP, with the default being SNAPPY. Use SNAPPY for higher decompression speed. Use GZIP if the compression ration is more important than speed.
+        /// The compression code to use over data blocks. The possible values are UNCOMPRESSED, SNAPPY, and GZIP, with the default being SNAPPY. Use SNAPPY for higher decompression speed. Use GZIP if the compression ratio is more important than speed.
         public let compression: ParquetCompression?
         /// Indicates whether to enable dictionary compression.
         public let enableDictionaryCompression: Bool?
@@ -2534,23 +2637,29 @@ extension Firehose {
 
     public struct StartDeliveryStreamEncryptionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamEncryptionConfigurationInput", required: false, type: .structure), 
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
 
+        /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
+        public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
         /// The name of the delivery stream for which you want to enable server-side encryption (SSE).
         public let deliveryStreamName: String
 
-        public init(deliveryStreamName: String) {
+        public init(deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String) {
+            self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
         }
 
         public func validate(name: String) throws {
+            try self.deliveryStreamEncryptionConfigurationInput?.validate(name: "\(name).deliveryStreamEncryptionConfigurationInput")
             try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
             try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
             try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deliveryStreamEncryptionConfigurationInput = "DeliveryStreamEncryptionConfigurationInput"
             case deliveryStreamName = "DeliveryStreamName"
         }
     }

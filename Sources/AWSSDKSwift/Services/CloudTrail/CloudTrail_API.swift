@@ -53,6 +53,11 @@ public struct CloudTrail {
         return client.send(operation: "GetEventSelectors", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the settings for the Insights event selectors that you configured for your trail. GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail, and if it is, which insight types are enabled. If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException  For more information, see Logging CloudTrail Insights Events for Trails  in the AWS CloudTrail User Guide.
+    public func getInsightSelectors(_ input: GetInsightSelectorsRequest) -> Future<GetInsightSelectorsResponse> {
+        return client.send(operation: "GetInsightSelectors", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns settings information for a specified trail.
     public func getTrail(_ input: GetTrailRequest) -> Future<GetTrailResponse> {
         return client.send(operation: "GetTrail", path: "/", httpMethod: "POST", input: input)
@@ -78,7 +83,7 @@ public struct CloudTrail {
         return client.send(operation: "ListTrails", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Looks up management events captured by CloudTrail. You can look up events that occurred in a region within the last 90 days. Lookup supports the following attributes:   AWS access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to one per second per account. If this limit is exceeded, a throttling error occurs. Events that occurred during the selected time range will not be available for lookup if CloudTrail logging was not enabled when the events occurred. 
+    ///  Looks up management events or CloudTrail Insights events that are captured by CloudTrail. You can look up events that occurred in a region within the last 90 days. Lookup supports the following attributes for management events:   AWS access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second per account. If this limit is exceeded, a throttling error occurs. 
     public func lookupEvents(_ input: LookupEventsRequest) -> Future<LookupEventsResponse> {
         return client.send(operation: "LookupEvents", path: "/", httpMethod: "POST", input: input)
     }
@@ -86,6 +91,11 @@ public struct CloudTrail {
     ///  Configures an event selector for your trail. Use event selectors to further specify the management and data event settings for your trail. By default, trails created without specific event selectors will be configured to log all read and write management events, and no data events.  When an event occurs in your account, CloudTrail evaluates the event selectors in all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.  Example   You create an event selector for a trail and specify that you want write-only events.   The EC2 GetConsoleOutput and RunInstances API operations occur in your account.   CloudTrail evaluates whether the events match your event selectors.   The RunInstances is a write-only event and it matches your event selector. The trail logs the event.   The GetConsoleOutput is a read-only event but it doesn't match your event selector. The trail doesn't log the event.    The PutEventSelectors operation must be called from the region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown. You can configure up to five event selectors for each trail. For more information, see Logging Data and Management Events for Trails  and Limits in AWS CloudTrail in the AWS CloudTrail User Guide.
     public func putEventSelectors(_ input: PutEventSelectorsRequest) -> Future<PutEventSelectorsResponse> {
         return client.send(operation: "PutEventSelectors", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of insight types. In this release, only ApiCallRateInsight is supported as an Insights selector.
+    public func putInsightSelectors(_ input: PutInsightSelectorsRequest) -> Future<PutInsightSelectorsResponse> {
+        return client.send(operation: "PutInsightSelectors", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified tags from a trail.

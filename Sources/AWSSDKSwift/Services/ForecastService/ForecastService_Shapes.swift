@@ -32,7 +32,7 @@ extension ForecastService {
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 63)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, pattern: "^[a-zA-Z0-9\\_\\-]+$")
@@ -61,7 +61,7 @@ extension ForecastService {
         public let minValue: Double
         /// The name of the hyperparameter to tune.
         public let name: String
-        /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  Amazon Forecast hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.  ReverseLogarithmic  Hyperparemeter tuning searches the values in the hyperparameter range by using a reverse logarithmic scale. Reverse logarithmic scaling works only for ranges that are entirely within the range 0 &lt;= x &lt; 1.0.  
+        /// The scale that hyperparameter tuning uses to search the hyperparameter range. Valid values:  Auto  Amazon Forecast hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have values greater than 0.  ReverseLogarithmic  hyperparameter tuning searches the values in the hyperparameter range by using a reverse logarithmic scale. Reverse logarithmic scaling works only for ranges that are entirely within the range 0 &lt;= x &lt; 1.0.   For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:
         public let scalingType: ScalingType?
 
         public init(maxValue: Double, minValue: Double, name: String, scalingType: ScalingType? = nil) {
@@ -74,7 +74,7 @@ extension ForecastService {
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 63)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -96,7 +96,7 @@ extension ForecastService {
         public let datasetArns: [String]?
         /// A name for the dataset group.
         public let datasetGroupName: String
-        /// The domain associated with the dataset group. The Domain and DatasetType that you choose determine the fields that must be present in the training data that you import to the dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires item_id, timestamp, and demand fields to be present in your data. For more information, see howitworks-datasets-groups.
+        /// The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires that item_id, timestamp, and demand fields are present in your data. For more information, see howitworks-datasets-groups.
         public let domain: Domain
 
         public init(datasetArns: [String]? = nil, datasetGroupName: String, domain: Domain) {
@@ -112,7 +112,7 @@ extension ForecastService {
             }
             try validate(self.datasetGroupName, name:"datasetGroupName", parent: name, max: 63)
             try validate(self.datasetGroupName, name:"datasetGroupName", parent: name, min: 1)
-            try validate(self.datasetGroupName, name:"datasetGroupName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.datasetGroupName, name:"datasetGroupName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -149,11 +149,11 @@ extension ForecastService {
 
         /// The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you want to import data to.
         public let datasetArn: String
-        /// The name for the dataset import job. It is recommended to include the current timestamp in the name to guard against getting a ResourceAlreadyExistsException exception, for example, 20190721DatasetImport.
+        /// The name for the dataset import job. We recommend including the current timestamp in the name, for example, 20190721DatasetImport. This can help you avoid getting a ResourceAlreadyExistsException exception.
         public let datasetImportJobName: String
-        /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data.
+        /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an AWS Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the CreateDataset operation.
         public let dataSource: DataSource
-        /// The format of timestamps in the dataset. Two formats are supported, dependent on the DataFrequency specified when the dataset was created.   "yyyy-MM-dd" For data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D  
+        /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D   If the format isn't specified, Amazon Forecast expects the format to be "yyyy-MM-dd HH:mm:ss".
         public let timestampFormat: String?
 
         public init(datasetArn: String, datasetImportJobName: String, dataSource: DataSource, timestampFormat: String? = nil) {
@@ -168,7 +168,7 @@ extension ForecastService {
             try validate(self.datasetArn, name:"datasetArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             try validate(self.datasetImportJobName, name:"datasetImportJobName", parent: name, max: 63)
             try validate(self.datasetImportJobName, name:"datasetImportJobName", parent: name, min: 1)
-            try validate(self.datasetImportJobName, name:"datasetImportJobName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.datasetImportJobName, name:"datasetImportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.dataSource.validate(name: "\(name).dataSource")
             try validate(self.timestampFormat, name:"timestampFormat", parent: name, max: 256)
             try validate(self.timestampFormat, name:"timestampFormat", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\.\\,\\'\\s]+$")
@@ -209,13 +209,13 @@ extension ForecastService {
             AWSShapeMember(label: "Schema", required: true, type: .structure)
         ]
 
-        /// The frequency of data collection. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "D" indicates every day and "15min" indicates every 15 minutes.
+        /// The frequency of data collection. This parameter is required for RELATED_TIME_SERIES datasets. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "D" indicates every day and "15min" indicates every 15 minutes.
         public let dataFrequency: String?
         /// A name for the dataset.
         public let datasetName: String
         /// The dataset type. Valid values depend on the chosen Domain.
         public let datasetType: DatasetType
-        /// The domain associated with the dataset. The Domain and DatasetType that you choose determine the fields that must be present in the training data that you import to the dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires item_id, timestamp, and demand fields to be present in your data. For more information, see howitworks-datasets-groups.
+        /// The domain associated with the dataset. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDatasetGroup operation must match. The Domain and DatasetType that you choose determine the fields that must be present in the training data that you import to the dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires item_id, timestamp, and demand fields to be present in your data. For more information, see howitworks-datasets-groups.
         public let domain: Domain
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
@@ -235,7 +235,7 @@ extension ForecastService {
             try validate(self.dataFrequency, name:"dataFrequency", parent: name, pattern: "^Y|M|W|D|H|30min|15min|10min|5min|1min$")
             try validate(self.datasetName, name:"datasetName", parent: name, max: 63)
             try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
             try self.schema.validate(name: "\(name).schema")
         }
@@ -274,7 +274,7 @@ extension ForecastService {
             AWSShapeMember(label: "ForecastExportJobName", required: true, type: .string)
         ]
 
-        /// The path to the Amazon S3 bucket where you want to save the forecast and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the bucket.
+        /// The location where you want to save the forecast and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
         public let destination: DataDestination
         /// The Amazon Resource Name (ARN) of the forecast that you want to export.
         public let forecastArn: String
@@ -293,7 +293,7 @@ extension ForecastService {
             try validate(self.forecastArn, name:"forecastArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             try validate(self.forecastExportJobName, name:"forecastExportJobName", parent: name, max: 63)
             try validate(self.forecastExportJobName, name:"forecastExportJobName", parent: name, min: 1)
-            try validate(self.forecastExportJobName, name:"forecastExportJobName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.forecastExportJobName, name:"forecastExportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -323,29 +323,39 @@ extension ForecastService {
     public struct CreateForecastRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ForecastName", required: true, type: .string), 
+            AWSShapeMember(label: "ForecastTypes", required: false, type: .list), 
             AWSShapeMember(label: "PredictorArn", required: true, type: .string)
         ]
 
-        /// The name for the forecast.
+        /// A name for the forecast.
         public let forecastName: String
+        /// The quantiles at which probabilistic forecasts are generated. You can specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99 (increments of .01 only) and mean. The mean forecast is different from the median (0.50) when the distribution is not symmetric (e.g. Beta, Negative Binomial). The default value is ["0.1", "0.5", "0.9"].
+        public let forecastTypes: [String]?
         /// The Amazon Resource Name (ARN) of the predictor to use to generate the forecast.
         public let predictorArn: String
 
-        public init(forecastName: String, predictorArn: String) {
+        public init(forecastName: String, forecastTypes: [String]? = nil, predictorArn: String) {
             self.forecastName = forecastName
+            self.forecastTypes = forecastTypes
             self.predictorArn = predictorArn
         }
 
         public func validate(name: String) throws {
             try validate(self.forecastName, name:"forecastName", parent: name, max: 63)
             try validate(self.forecastName, name:"forecastName", parent: name, min: 1)
-            try validate(self.forecastName, name:"forecastName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.forecastName, name:"forecastName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
+            try self.forecastTypes?.forEach {
+                try validate($0, name: "forecastTypes[]", parent: name, pattern: "(^0?\\.\\d\\d?$|^mean$)")
+            }
+            try validate(self.forecastTypes, name:"forecastTypes", parent: name, max: 20)
+            try validate(self.forecastTypes, name:"forecastTypes", parent: name, min: 1)
             try validate(self.predictorArn, name:"predictorArn", parent: name, max: 256)
             try validate(self.predictorArn, name:"predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case forecastName = "ForecastName"
+            case forecastTypes = "ForecastTypes"
             case predictorArn = "PredictorArn"
         }
     }
@@ -382,7 +392,7 @@ extension ForecastService {
             AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
         ]
 
-        /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/Deep_AR_Plus   - supports hyperparameter optimization (HPO)     arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet   
+        /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/Deep_AR_Plus  Supports hyperparameter optimization (HPO)    arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet   
         public let algorithmArn: String?
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
@@ -390,19 +400,19 @@ extension ForecastService {
         public let evaluationParameters: EvaluationParameters?
         /// The featurization configuration.
         public let featurizationConfig: FeaturizationConfig
-        /// Specifies the number of time-steps that the model is trained to predict. The forecast horizon is also called the prediction length. For example, if you configure a dataset for daily data collection (using the DataFrequency parameter of the CreateDataset operation) and set the forecast horizon to 10, the model returns predictions for 10 days.
+        /// Specifies the number of time-steps that the model is trained to predict. The forecast horizon is also called the prediction length. For example, if you configure a dataset for daily data collection (using the DataFrequency parameter of the CreateDataset operation) and set the forecast horizon to 10, the model returns predictions for 10 days. The maximum forecast horizon is the lesser of 500 time-steps or 1/3 of the TARGET_TIME_SERIES dataset length.
         public let forecastHorizon: Int
-        /// Provides hyperparameter override values for the algorithm. If you don't provide this parameter, Amazon Forecast uses default values. The individual algorithms specify which hyperparameters support hyperparameter optimization (HPO). For more information, see aws-forecast-choosing-recipes.
+        /// Provides hyperparameter override values for the algorithm. If you don't provide this parameter, Amazon Forecast uses default values. The individual algorithms specify which hyperparameters support hyperparameter optimization (HPO). For more information, see aws-forecast-choosing-recipes. If you included the HPOConfig object, you must set PerformHPO to true.
         public let hPOConfig: HyperParameterTuningJobConfig?
         /// Describes the dataset group that contains the data to use to train the predictor.
         public let inputDataConfig: InputDataConfig
-        /// Whether to perform AutoML. The default value is false. In this case, you are required to specify an algorithm. If you want Amazon Forecast to evaluate the algorithms it provides and choose the best algorithm and configuration for your training dataset, set PerformAutoML to true. This is a good option if you aren't sure which algorithm is suitable for your application.
+        /// Whether to perform AutoML. When Amazon Forecast performs AutoML, it evaluates the algorithms it provides and chooses the best algorithm and configuration for your training dataset. The default value is false. In this case, you are required to specify an algorithm. Set PerformAutoML to true to have Amazon Forecast perform AutoML. This is a good option if you aren't sure which algorithm is suitable for your training data. In this case, PerformHPO must be false.
         public let performAutoML: Bool?
-        /// Whether to perform hyperparameter optimization (HPO). HPO finds optimal hyperparameter values for your training data. The process of performing HPO is known as a hyperparameter tuning job. The default value is false. In this case, Amazon Forecast uses default hyperparameter values from the chosen algorithm. To override the default values, set PerformHPO to true and supply the HyperParameterTuningJobConfig object. The tuning job specifies an objective metric, the hyperparameters to optimize, and the valid range for each hyperparameter. The following algorithms support HPO:   DeepAR+  
+        /// Whether to perform hyperparameter optimization (HPO). HPO finds optimal hyperparameter values for your training data. The process of performing HPO is known as running a hyperparameter tuning job. The default value is false. In this case, Amazon Forecast uses default hyperparameter values from the chosen algorithm. To override the default values, set PerformHPO to true and, optionally, supply the HyperParameterTuningJobConfig object. The tuning job specifies a metric to optimize, which hyperparameters participate in tuning, and the valid range for each tunable hyperparameter. In this case, you are required to specify an algorithm and PerformAutoML must be false. The following algorithm supports HPO:   DeepAR+  
         public let performHPO: Bool?
         /// A name for the predictor.
         public let predictorName: String
-        /// The training parameters to override for model training. The parameters that you can override are listed in the individual algorithms in aws-forecast-choosing-recipes.
+        /// The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
         public init(algorithmArn: String? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, trainingParameters: [String: String]? = nil) {
@@ -428,7 +438,7 @@ extension ForecastService {
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try validate(self.predictorName, name:"predictorName", parent: name, max: 63)
             try validate(self.predictorName, name:"predictorName", parent: name, min: 1)
-            try validate(self.predictorName, name:"predictorName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.predictorName, name:"predictorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.trainingParameters?.forEach {
                 try validate($0.key, name:"trainingParameters.key", parent: name, max: 256)
                 try validate($0.key, name:"trainingParameters.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\[\\]\\,\\\\]+$")
@@ -519,13 +529,13 @@ extension ForecastService {
             AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp)
         ]
 
-        /// When the datase group was created.
+        /// When the dataset group was created.
         public let creationTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
         /// The name of the dataset group.
         public let datasetGroupName: String?
-        /// When the dataset group was created or last updated from a call to the UpdateDatasetGroup operation. While the dataset group is being updated, LastModificationTime is the current query time.
+        /// When the dataset group was created or last updated from a call to the UpdateDatasetGroup operation. While the dataset group is being updated, LastModificationTime is the current time of the ListDatasetGroups call.
         public let lastModificationTime: TimeStamp?
 
         public init(creationTime: TimeStamp? = nil, datasetGroupArn: String? = nil, datasetGroupName: String? = nil, lastModificationTime: TimeStamp? = nil) {
@@ -560,9 +570,9 @@ extension ForecastService {
         public let datasetImportJobArn: String?
         /// The name of the dataset import job.
         public let datasetImportJobName: String?
-        /// The location of the Amazon S3 bucket that contains the training data.
+        /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource includes an AWS Key Management Service (KMS) key.
         public let dataSource: DataSource?
-        /// Dependent on the status as follows:    CREATE_PENDING - same as CreationTime     CREATE_IN_PROGRESS - the current timestamp    ACTIVE or CREATE_FAILED - when the job finished or failed  
+        /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.  
         public let lastModificationTime: TimeStamp?
         /// If an error occurred, an informational message about the error.
         public let message: String?
@@ -610,7 +620,7 @@ extension ForecastService {
         public let datasetType: DatasetType?
         /// The domain associated with the dataset.
         public let domain: Domain?
-        /// When the dataset is created, LastModificationTime is the same as CreationTime. After a CreateDatasetImportJob operation is called, LastModificationTime is when the import job finished or failed. While data is being imported to the dataset, LastModificationTime is the current query time.
+        /// When you create a dataset, LastModificationTime is the same as CreationTime. While data is being imported to the dataset, LastModificationTime is the current time of the ListDatasets call. After a CreateDatasetImportJob operation has finished, LastModificationTime is when the import job completed or failed.
         public let lastModificationTime: TimeStamp?
 
         public init(creationTime: TimeStamp? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetType: DatasetType? = nil, domain: Domain? = nil, lastModificationTime: TimeStamp? = nil) {
@@ -812,11 +822,11 @@ extension ForecastService {
         public let datasetGroupArn: String?
         /// The name of the dataset group.
         public let datasetGroupName: String?
-        /// The domain associated with the dataset group. The Domain and DatasetType that you choose determine the fields that must be present in the training data that you import to the dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires item_id, timestamp, and demand fields to be present in your data. For more information, see howitworks-datasets-groups.
+        /// The domain associated with the dataset group.
         public let domain: Domain?
-        /// When the dataset group was created or last updated from a call to the UpdateDatasetGroup operation. While the dataset group is being updated, LastModificationTime is the current query time.
+        /// When the dataset group was created or last updated from a call to the UpdateDatasetGroup operation. While the dataset group is being updated, LastModificationTime is the current time of the DescribeDatasetGroup call.
         public let lastModificationTime: TimeStamp?
-        /// The status of the dataset group. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply when the UpdateDatasetGroup operation is called.  The Status of the dataset group must be ACTIVE before creating a predictor using the dataset group. 
+        /// The status of the dataset group. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply when you call the UpdateDatasetGroup operation.  The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor. 
         public let status: String?
 
         public init(creationTime: TimeStamp? = nil, datasetArns: [String]? = nil, datasetGroupArn: String? = nil, datasetGroupName: String? = nil, domain: Domain? = nil, lastModificationTime: TimeStamp? = nil, status: String? = nil) {
@@ -885,19 +895,19 @@ extension ForecastService {
         public let datasetImportJobArn: String?
         /// The name of the dataset import job.
         public let datasetImportJobName: String?
-        /// The size of the dataset in gigabytes (GB) after completion of the import job.
+        /// The size of the dataset in gigabytes (GB) after the import job has finished.
         public let dataSize: Double?
-        /// The location of the training data to import. The training data must be stored in an Amazon S3 bucket.
+        /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. If encryption is used, DataSource includes an AWS Key Management Service (KMS) key.
         public let dataSource: DataSource?
         /// Statistical information about each field in the input data.
         public let fieldStatistics: [String: Statistics]?
-        /// Dependent on the status as follows:    CREATE_PENDING - same as CreationTime     CREATE_IN_PROGRESS - the current timestamp    ACTIVE or CREATE_FAILED - when the job finished or failed  
+        /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.  
         public let lastModificationTime: TimeStamp?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The status of the dataset import job. The status is reflected in the status of the dataset. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED   
         public let status: String?
-        /// The format of timestamps in the dataset. Two formats are supported dependent on the DataFrequency specified when the dataset was created.   "yyyy-MM-dd" For data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D  
+        /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D  
         public let timestampFormat: String?
 
         public init(creationTime: TimeStamp? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, fieldStatistics: [String: Statistics]? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil) {
@@ -975,15 +985,15 @@ extension ForecastService {
         public let datasetName: String?
         /// The dataset type.
         public let datasetType: DatasetType?
-        /// The dataset domain.
+        /// The domain associated with the dataset.
         public let domain: Domain?
-        /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
+        /// The AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
-        /// When the dataset is created, LastModificationTime is the same as CreationTime. After a CreateDatasetImportJob operation is called, LastModificationTime is when the import job finished or failed. While data is being imported to the dataset, LastModificationTime is the current query time.
+        /// When you create a dataset, LastModificationTime is the same as CreationTime. While data is being imported to the dataset, LastModificationTime is the current time of the DescribeDataset call. After a CreateDatasetImportJob operation has finished, LastModificationTime is when the import job completed or failed.
         public let lastModificationTime: TimeStamp?
         /// An array of SchemaAttribute objects that specify the dataset fields. Each SchemaAttribute specifies the name and data type of a field.
         public let schema: Schema?
-        /// The status of the dataset. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply while data is imported to the dataset from a call to the CreateDatasetImportJob operation. During this time, the status reflects the status of the dataset import job. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS.  The Status of the dataset must be ACTIVE before you can import training data. 
+        /// The status of the dataset. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply while data is imported to the dataset from a call to the CreateDatasetImportJob operation and reflect the status of the dataset import job. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS.  The Status of the dataset must be ACTIVE before you can import training data. 
         public let status: String?
 
         public init(creationTime: TimeStamp? = nil, dataFrequency: String? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetType: DatasetType? = nil, domain: Domain? = nil, encryptionConfig: EncryptionConfig? = nil, lastModificationTime: TimeStamp? = nil, schema: Schema? = nil, status: String? = nil) {
@@ -1049,7 +1059,7 @@ extension ForecastService {
 
         /// When the forecast export job was created.
         public let creationTime: TimeStamp?
-        /// The path to the AWS S3 bucket where the forecast is exported.
+        /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
         public let destination: DataDestination?
         /// The Amazon Resource Name (ARN) of the exported forecast.
         public let forecastArn: String?
@@ -1061,7 +1071,7 @@ extension ForecastService {
         public let lastModificationTime: TimeStamp?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the forecast export job. One of the following states:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. 
+        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket. 
         public let status: String?
 
         public init(creationTime: TimeStamp? = nil, destination: DataDestination? = nil, forecastArn: String? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, status: String? = nil) {
@@ -1115,6 +1125,7 @@ extension ForecastService {
             AWSShapeMember(label: "DatasetGroupArn", required: false, type: .string), 
             AWSShapeMember(label: "ForecastArn", required: false, type: .string), 
             AWSShapeMember(label: "ForecastName", required: false, type: .string), 
+            AWSShapeMember(label: "ForecastTypes", required: false, type: .list), 
             AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "PredictorArn", required: false, type: .string), 
@@ -1125,10 +1136,12 @@ extension ForecastService {
         public let creationTime: TimeStamp?
         /// The ARN of the dataset group that provided the data used to train the predictor.
         public let datasetGroupArn: String?
-        /// The same forecast ARN as given in the request.
+        /// The forecast ARN as specified in the request.
         public let forecastArn: String?
         /// The name of the forecast.
         public let forecastName: String?
+        /// The quantiles at which proababilistic forecasts were generated.
+        public let forecastTypes: [String]?
         /// Initially, the same as CreationTime (status is CREATE_PENDING). Updated when inference (creating the forecast) starts (status changed to CREATE_IN_PROGRESS), and when inference is complete (status changed to ACTIVE) or fails (status changed to CREATE_FAILED).
         public let lastModificationTime: TimeStamp?
         /// If an error occurred, an informational message about the error.
@@ -1138,11 +1151,12 @@ extension ForecastService {
         /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast. 
         public let status: String?
 
-        public init(creationTime: TimeStamp? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
+        public init(creationTime: TimeStamp? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
             self.forecastArn = forecastArn
             self.forecastName = forecastName
+            self.forecastTypes = forecastTypes
             self.lastModificationTime = lastModificationTime
             self.message = message
             self.predictorArn = predictorArn
@@ -1154,6 +1168,7 @@ extension ForecastService {
             case datasetGroupArn = "DatasetGroupArn"
             case forecastArn = "ForecastArn"
             case forecastName = "ForecastName"
+            case forecastTypes = "ForecastTypes"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
             case predictorArn = "PredictorArn"
@@ -1200,6 +1215,7 @@ extension ForecastService {
             AWSShapeMember(label: "PerformAutoML", required: false, type: .boolean), 
             AWSShapeMember(label: "PerformHPO", required: false, type: .boolean), 
             AWSShapeMember(label: "PredictorArn", required: false, type: .string), 
+            AWSShapeMember(label: "PredictorExecutionDetails", required: false, type: .structure), 
             AWSShapeMember(label: "PredictorName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
@@ -1211,7 +1227,7 @@ extension ForecastService {
         public let autoMLAlgorithmArns: [String]?
         /// When the model training task was created.
         public let creationTime: TimeStamp?
-        /// An array of ARNs of the dataset import jobs used to import training data for the predictor.
+        /// An array of the ARNs of the dataset import jobs used to import training data for the predictor.
         public let datasetImportJobArns: [String]?
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
@@ -1225,24 +1241,26 @@ extension ForecastService {
         public let hPOConfig: HyperParameterTuningJobConfig?
         /// Describes the dataset group that contains the data to use to train the predictor.
         public let inputDataConfig: InputDataConfig?
-        /// Initially, the same as CreationTime (status is CREATE_PENDING). Updated when training starts (status changed to CREATE_IN_PROGRESS), and when training is complete (status changed to ACTIVE) or fails (status changed to CREATE_FAILED).
+        /// Initially, the same as CreationTime (when the status is CREATE_PENDING). This value is updated when training starts (when the status changes to CREATE_IN_PROGRESS), and when training has completed (when the status changes to ACTIVE) or fails (when the status changes to CREATE_FAILED).
         public let lastModificationTime: TimeStamp?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// Whether the predictor is set to perform AutoML.
         public let performAutoML: Bool?
-        /// Whether the predictor is set to perform HPO.
+        /// Whether the predictor is set to perform hyperparameter optimization (HPO).
         public let performHPO: Bool?
         /// The ARN of the predictor.
         public let predictorArn: String?
+        /// Details on the the status and results of the backtests performed to evaluate the accuracy of the predictor. You specify the number of backtests to perform when you call the operation.
+        public let predictorExecutionDetails: PredictorExecutionDetails?
         /// The name of the predictor.
         public let predictorName: String?
-        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before using the predictor to create a forecast. 
+        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast. 
         public let status: String?
-        /// The training parameters to override for model training. The parameters that you can override are listed in the individual algorithms in aws-forecast-choosing-recipes.
+        /// The default training parameters or overrides selected during model training. If using the AutoML algorithm or if HPO is turned on while using the DeepAR+ algorithms, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, creationTime: TimeStamp? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, creationTime: TimeStamp? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLAlgorithmArns = autoMLAlgorithmArns
             self.creationTime = creationTime
@@ -1258,6 +1276,7 @@ extension ForecastService {
             self.performAutoML = performAutoML
             self.performHPO = performHPO
             self.predictorArn = predictorArn
+            self.predictorExecutionDetails = predictorExecutionDetails
             self.predictorName = predictorName
             self.status = status
             self.trainingParameters = trainingParameters
@@ -1279,6 +1298,7 @@ extension ForecastService {
             case performAutoML = "PerformAutoML"
             case performHPO = "PerformHPO"
             case predictorArn = "PredictorArn"
+            case predictorExecutionDetails = "PredictorExecutionDetails"
             case predictorName = "PredictorName"
             case status = "Status"
             case trainingParameters = "TrainingParameters"
@@ -1302,9 +1322,9 @@ extension ForecastService {
             AWSShapeMember(label: "RoleArn", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key.
+        /// The Amazon Resource Name (ARN) of the KMS key.
         public let kMSKeyArn: String
-        /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the AWS KMS key. Cross-account pass role is not allowed. If you pass a role that doesn't belong to your account, an InvalidInputException is thrown.
+        /// The ARN of the IAM role that Amazon Forecast can assume to access the AWS KMS key. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
         public let roleArn: String
 
         public init(kMSKeyArn: String, roleArn: String) {
@@ -1331,9 +1351,9 @@ extension ForecastService {
             AWSShapeMember(label: "NumberOfBacktestWindows", required: false, type: .integer)
         ]
 
-        /// The point from the end of the dataset where you want to split the data for model training and evaluation. The value is specified as the number of data points.
+        /// The point from the end of the dataset where you want to split the data for model training and testing (evaluation). Specify the value as the number of data points. The default is the value of the forecast horizon. BackTestWindowOffset can be used to mimic a past virtual forecast start date. This value must be greater than or equal to the forecast horizon and less than half of the TARGET_TIME_SERIES dataset length.  ForecastHorizon &lt;= BackTestWindowOffset &lt; 1/2 * TARGET_TIME_SERIES dataset length
         public let backTestWindowOffset: Int?
-        /// The number of times to split the input data. The default is 1. The range is 1 through 5.
+        /// The number of times to split the input data. The default is 1. Valid values are 1 through 5.
         public let numberOfBacktestWindows: Int?
 
         public init(backTestWindowOffset: Int? = nil, numberOfBacktestWindows: Int? = nil) {
@@ -1381,9 +1401,9 @@ extension ForecastService {
             AWSShapeMember(label: "FeaturizationPipeline", required: false, type: .list)
         ]
 
-        /// The name of the schema attribute specifying the data field to be featurized. In this release, only the target field of the TARGET_TIME_SERIES dataset type is supported. For example, for the RETAIL domain, the target is demand, and for the CUSTOM domain, the target is target_value.
+        /// The name of the schema attribute that specifies the data field to be featurized. Only the target field of the TARGET_TIME_SERIES dataset type is supported. For example, for the RETAIL domain, the target is demand, and for the CUSTOM domain, the target is target_value.
         public let attributeName: String
-        /// An array FeaturizationMethod objects that specifies the feature transformation methods. For this release, the number of methods is limited to one.
+        /// An array of one FeaturizationMethod object that specifies the feature transformation method.
         public let featurizationPipeline: [FeaturizationMethod]?
 
         public init(attributeName: String, featurizationPipeline: [FeaturizationMethod]? = nil) {
@@ -1394,7 +1414,7 @@ extension ForecastService {
         public func validate(name: String) throws {
             try validate(self.attributeName, name:"attributeName", parent: name, max: 63)
             try validate(self.attributeName, name:"attributeName", parent: name, min: 1)
-            try validate(self.attributeName, name:"attributeName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.attributeName, name:"attributeName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.featurizationPipeline?.forEach {
                 try $0.validate(name: "\(name).featurizationPipeline[]")
             }
@@ -1415,11 +1435,11 @@ extension ForecastService {
             AWSShapeMember(label: "ForecastFrequency", required: true, type: .string)
         ]
 
-        /// An array of featurization (transformation) information for the fields of a dataset. In this release, only a single featurization is supported.
+        /// An array of featurization (transformation) information for the fields of a dataset. Only a single featurization is supported.
         public let featurizations: [Featurization]?
-        /// An array of dimension (field) names that specify how to group the generated forecast. For example, suppose that you are generating a forecast for item sales across all of your stores, and your dataset contains a store_id field. If you want the sales forecast for each item by store, you would specify store_id as the dimension.
+        /// An array of dimension (field) names that specify how to group the generated forecast. For example, suppose that you are generating a forecast for item sales across all of your stores, and your dataset contains a store_id field. If you want the sales forecast for each item by store, you would specify store_id as the dimension. All forecast dimensions specified in the TARGET_TIME_SERIES dataset don't need to be specified in the CreatePredictor request. All forecast dimensions specified in the RELATED_TIME_SERIES dataset must be specified in the CreatePredictor request.
         public let forecastDimensions: [String]?
-        /// The frequency of predictions in a forecast. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "Y" indicates every year and "5min" indicates every five minutes.
+        /// The frequency of predictions in a forecast. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "Y" indicates every year and "5min" indicates every five minutes. The frequency must be greater than or equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the RELATED_TIME_SERIES dataset frequency.
         public let forecastFrequency: String
 
         public init(featurizations: [Featurization]? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String) {
@@ -1437,7 +1457,7 @@ extension ForecastService {
             try self.forecastDimensions?.forEach {
                 try validate($0, name: "forecastDimensions[]", parent: name, max: 63)
                 try validate($0, name: "forecastDimensions[]", parent: name, min: 1)
-                try validate($0, name: "forecastDimensions[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+                try validate($0, name: "forecastDimensions[]", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             }
             try validate(self.forecastDimensions, name:"forecastDimensions", parent: name, max: 5)
             try validate(self.forecastDimensions, name:"forecastDimensions", parent: name, min: 1)
@@ -1457,9 +1477,9 @@ extension ForecastService {
             AWSShapeMember(label: "FeaturizationMethodParameters", required: false, type: .map)
         ]
 
-        /// The name of the method. In this release, "filling" is the only supported method.
+        /// The name of the method. The "filling" method is the only supported method.
         public let featurizationMethodName: FeaturizationMethodName
-        /// The method parameters (key-value pairs). Specify these to override the default values. The following list shows the parameters and their valid values. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number)    backfill: zero, nan   
+        /// The method parameters (key-value pairs). Specify these parameters to override the default values. The following list shows the parameters and their valid values. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number)    backfill: zero, nan   
         public let featurizationMethodParameters: [String: String]?
 
         public init(featurizationMethodName: FeaturizationMethodName, featurizationMethodParameters: [String: String]? = nil) {
@@ -1494,11 +1514,11 @@ extension ForecastService {
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
-        /// The condition to apply.
+        /// The condition to apply. To include the objects that match the statement, specify IS. To exclude matching objects, specify IS_NOT.
         public let condition: FilterConditionString
         /// The name of the parameter to filter on.
         public let key: String
-        /// A valid value for Key.
+        /// The value to match.
         public let value: String
 
         public init(condition: FilterConditionString, key: String, value: String) {
@@ -1540,7 +1560,7 @@ extension ForecastService {
 
         /// When the forecast export job was created.
         public let creationTime: TimeStamp?
-        /// The path to the S3 bucket where the forecast is stored.
+        /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
         public let destination: DataDestination?
         /// The Amazon Resource Name (ARN) of the forecast export job.
         public let forecastExportJobArn: String?
@@ -1550,7 +1570,7 @@ extension ForecastService {
         public let lastModificationTime: TimeStamp?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the forecast export job. One of the following states:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. 
+        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket. 
         public let status: String?
 
         public init(creationTime: TimeStamp? = nil, destination: DataDestination? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, status: String? = nil) {
@@ -1694,7 +1714,7 @@ extension ForecastService {
 
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String
-        /// An array of supplementary features. For this release, the only supported feature is a holiday calendar.
+        /// An array of supplementary features. The only supported feature is a holiday calendar.
         public let supplementaryFeatures: [SupplementaryFeature]?
 
         public init(datasetGroupArn: String, supplementaryFeatures: [SupplementaryFeature]? = nil) {
@@ -1732,7 +1752,7 @@ extension ForecastService {
         public let minValue: Int
         /// The name of the hyperparameter to tune.
         public let name: String
-        /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  Amazon Forecast hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.  ReverseLogarithmic  Not supported for IntegerParameterRange. Reverse logarithmic scaling works only for ranges that are entirely within the range 0 &lt;= x &lt; 1.0.  
+        /// The scale that hyperparameter tuning uses to search the hyperparameter range. Valid values:  Auto  Amazon Forecast hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have values greater than 0.  ReverseLogarithmic  Not supported for IntegerParameterRange. Reverse logarithmic scaling works only for ranges that are entirely within the range 0 &lt;= x &lt; 1.0.   For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:
         public let scalingType: ScalingType?
 
         public init(maxValue: Int, minValue: Int, name: String, scalingType: ScalingType? = nil) {
@@ -1745,7 +1765,7 @@ extension ForecastService {
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 63)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1814,7 +1834,7 @@ extension ForecastService {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude, respectively, from the list, the predictors that match the statement. The match statement consists of a key and a value. In this release, Name is the only valid key, which filters on the DatasetImportJobName property.    Condition - IS or IS_NOT     Key - Name     Value - the value to match   For example, to list all dataset import jobs named my_dataset_import_job, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Name", "Value": "my_dataset_import_job" } ] 
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the datasets that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the datasets that match the statement, specify IS. To exclude matching datasets, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetArn and Status.    Value - The value to match.   For example, to list all dataset import jobs whose status is ACTIVE, you specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ] 
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -1924,7 +1944,7 @@ extension ForecastService {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude, respectively, from the list, the predictors that match the statement. The match statement consists of a key and a value. In this release, Name is the only valid key, which filters on the ForecastExportJobName property.    Condition - IS or IS_NOT     Key - Name     Value - the value to match   For example, to list all forecast export jobs named my_forecast_export_job, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Name", "Value": "my_forecast_export_job" } ] 
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are ForecastArn and Status.    Value - The value to match.   For example, to list all jobs that export a forecast named electricityforecast, specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value": "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast" } ] 
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -1983,7 +2003,7 @@ extension ForecastService {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude, respectively, from the list, the predictors that match the statement. The match statement consists of a key and a value. In this release, Name is the only valid key, which filters on the ForecastName property.    Condition - IS or IS_NOT     Key - Name     Value - the value to match   For example, to list all forecasts named my_forecast, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Name", "Value": "my_forecast" } ] 
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecasts that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecasts that match the statement, specify IS. To exclude matching forecasts, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn, PredictorArn, and Status.    Value - The value to match.   For example, to list all forecasts whose status is not ACTIVE, you would specify:  "Filters": [ { "Condition": "IS_NOT", "Key": "Status", "Value": "ACTIVE" } ] 
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -2042,7 +2062,7 @@ extension ForecastService {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude, respectively, from the list, the predictors that match the statement. The match statement consists of a key and a value. In this release, Name is the only valid key, which filters on the PredictorName property.    Condition - IS or IS_NOT     Key - Name     Value - the value to match   For example, to list all predictors named my_predictor, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Name", "Value": "my_predictor" } ] 
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictors that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictors that match the statement, specify IS. To exclude matching predictors, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn and Status.    Value - The value to match.   For example, to list all predictors whose status is ACTIVE, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ] 
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -2161,6 +2181,45 @@ extension ForecastService {
         }
     }
 
+    public struct PredictorExecution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlgorithmArn", required: false, type: .string), 
+            AWSShapeMember(label: "TestWindows", required: false, type: .list)
+        ]
+
+        /// The ARN of the algorithm used to test the predictor.
+        public let algorithmArn: String?
+        /// An array of test windows used to evaluate the algorithm. The NumberOfBacktestWindows from the object determines the number of windows in the array.
+        public let testWindows: [TestWindowSummary]?
+
+        public init(algorithmArn: String? = nil, testWindows: [TestWindowSummary]? = nil) {
+            self.algorithmArn = algorithmArn
+            self.testWindows = testWindows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithmArn = "AlgorithmArn"
+            case testWindows = "TestWindows"
+        }
+    }
+
+    public struct PredictorExecutionDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PredictorExecutions", required: false, type: .list)
+        ]
+
+        /// An array of the backtests performed to evaluate the accuracy of the predictor against a particular algorithm. The NumberOfBacktestWindows from the object determines the number of windows in the array.
+        public let predictorExecutions: [PredictorExecution]?
+
+        public init(predictorExecutions: [PredictorExecution]? = nil) {
+            self.predictorExecutions = predictorExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predictorExecutions = "PredictorExecutions"
+        }
+    }
+
     public struct PredictorSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
@@ -2184,7 +2243,7 @@ extension ForecastService {
         public let predictorArn: String?
         /// The name of the predictor.
         public let predictorName: String?
-        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before using the predictor to create a forecast. 
+        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast. 
         public let status: String?
 
         public init(creationTime: TimeStamp? = nil, datasetGroupArn: String? = nil, lastModificationTime: TimeStamp? = nil, message: String? = nil, predictorArn: String? = nil, predictorName: String? = nil, status: String? = nil) {
@@ -2219,7 +2278,7 @@ extension ForecastService {
         public let kMSKeyArn: String?
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket.
         public let path: String
-        /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or file(s). Cross-account pass role is not allowed. If you pass a role that doesn't belong to your account, an InvalidInputException is thrown.
+        /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
         public let roleArn: String
 
         public init(kMSKeyArn: String? = nil, path: String, roleArn: String) {
@@ -2231,7 +2290,7 @@ extension ForecastService {
         public func validate(name: String) throws {
             try validate(self.kMSKeyArn, name:"kMSKeyArn", parent: name, max: 256)
             try validate(self.kMSKeyArn, name:"kMSKeyArn", parent: name, pattern: "arn:aws:kms:.*:key/.*")
-            try validate(self.path, name:"path", parent: name, pattern: "^s3://.+$")
+            try validate(self.path, name:"path", parent: name, pattern: "^s3://[a-z0-9].+$")
             try validate(self.roleArn, name:"roleArn", parent: name, max: 256)
             try validate(self.roleArn, name:"roleArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -2293,7 +2352,7 @@ extension ForecastService {
         public func validate(name: String) throws {
             try validate(self.attributeName, name:"attributeName", parent: name, max: 63)
             try validate(self.attributeName, name:"attributeName", parent: name, min: 1)
-            try validate(self.attributeName, name:"attributeName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.attributeName, name:"attributeName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2373,7 +2432,7 @@ extension ForecastService {
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 63)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try validate(self.value, name:"value", parent: name, max: 256)
             try validate(self.value, name:"value", parent: name, pattern: "^[a-zA-Z0-9\\_\\-]+$")
         }
@@ -2384,13 +2443,45 @@ extension ForecastService {
         }
     }
 
+    public struct TestWindowSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "TestWindowEnd", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TestWindowStart", required: false, type: .timestamp)
+        ]
+
+        /// If the test failed, the reason why it failed.
+        public let message: String?
+        /// The status of the test. Possible status values are:    ACTIVE     CREATE_IN_PROGRESS     CREATE_FAILED   
+        public let status: String?
+        /// The time at which the test ended.
+        public let testWindowEnd: TimeStamp?
+        /// The time at which the test began.
+        public let testWindowStart: TimeStamp?
+
+        public init(message: String? = nil, status: String? = nil, testWindowEnd: TimeStamp? = nil, testWindowStart: TimeStamp? = nil) {
+            self.message = message
+            self.status = status
+            self.testWindowEnd = testWindowEnd
+            self.testWindowStart = testWindowStart
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case status = "Status"
+            case testWindowEnd = "TestWindowEnd"
+            case testWindowStart = "TestWindowStart"
+        }
+    }
+
     public struct UpdateDatasetGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatasetArns", required: true, type: .list), 
             AWSShapeMember(label: "DatasetGroupArn", required: true, type: .string)
         ]
 
-        /// An array of Amazon Resource Names (ARNs) of the datasets to add to the dataset group.
+        /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group.
         public let datasetArns: [String]
         /// The ARN of the dataset group.
         public let datasetGroupArn: String
@@ -2429,7 +2520,7 @@ extension ForecastService {
             AWSShapeMember(label: "Quantile", required: false, type: .double)
         ]
 
-        /// The difference between the predicted value and actual value over the quantile, weighted (normalized) by dividing by the sum over all quantiles.
+        /// The difference between the predicted value and the actual value over the quantile, weighted (normalized) by dividing by the sum over all quantiles.
         public let lossValue: Double?
         /// The quantile. Quantiles divide a probability distribution into regions of equal probability. For example, if the distribution was divided into 5 regions of equal probability, the quantiles would be 0.2, 0.4, 0.6, and 0.8.
         public let quantile: Double?
@@ -2458,6 +2549,7 @@ extension ForecastService {
         public let evaluationType: EvaluationType?
         /// The number of data points within the window.
         public let itemCount: Int?
+        /// Provides metrics used to evaluate the performance of a predictor.
         public let metrics: Metrics?
         /// The timestamp that defines the end of the window.
         public let testWindowEnd: TimeStamp?

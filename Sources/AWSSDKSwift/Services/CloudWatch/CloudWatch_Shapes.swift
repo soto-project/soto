@@ -320,6 +320,48 @@ extension CloudWatch {
 
     }
 
+    public struct DeleteInsightRulesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleNames", required: true, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules.
+        public let ruleNames: [String]
+
+        public init(ruleNames: [String]) {
+            self.ruleNames = ruleNames
+        }
+
+        public func validate(name: String) throws {
+            try self.ruleNames.forEach {
+                try validate($0, name: "ruleNames[]", parent: name, max: 128)
+                try validate($0, name: "ruleNames[]", parent: name, min: 1)
+                try validate($0, name: "ruleNames[]", parent: name, pattern: "[\\x20-\\x7E]+")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleNames = "RuleNames"
+        }
+    }
+
+    public struct DeleteInsightRulesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Failures", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// An array listing the rules that could not be deleted. You cannot delete built-in rules.
+        public let failures: [PartialFailure]?
+
+        public init(failures: [PartialFailure]? = nil) {
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "Failures"
+        }
+    }
+
     public struct DescribeAlarmHistoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlarmName", required: false, type: .string), 
@@ -619,6 +661,55 @@ extension CloudWatch {
         }
     }
 
+    public struct DescribeInsightRulesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// This parameter is not currently used. Reserved for future use. If it is used in the future, the maximum value may be different.
+        public let maxResults: Int?
+        /// Reserved for future use.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeInsightRulesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightRules", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The rules returned by the operation.
+        public let insightRules: [InsightRule]?
+        /// Reserved for future use.
+        public let nextToken: String?
+
+        public init(insightRules: [InsightRule]? = nil, nextToken: String? = nil) {
+            self.insightRules = insightRules
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightRules = "InsightRules"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct Dimension: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -702,6 +793,48 @@ extension CloudWatch {
         }
     }
 
+    public struct DisableInsightRulesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleNames", required: true, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules.
+        public let ruleNames: [String]
+
+        public init(ruleNames: [String]) {
+            self.ruleNames = ruleNames
+        }
+
+        public func validate(name: String) throws {
+            try self.ruleNames.forEach {
+                try validate($0, name: "ruleNames[]", parent: name, max: 128)
+                try validate($0, name: "ruleNames[]", parent: name, min: 1)
+                try validate($0, name: "ruleNames[]", parent: name, pattern: "[\\x20-\\x7E]+")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleNames = "RuleNames"
+        }
+    }
+
+    public struct DisableInsightRulesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Failures", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// An array listing the rules that could not be disabled. You cannot disable built-in rules.
+        public let failures: [PartialFailure]?
+
+        public init(failures: [PartialFailure]? = nil) {
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "Failures"
+        }
+    }
+
     public struct EnableAlarmActionsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlarmNames", required: true, type: .list, encoding: .list(member:"member"))
@@ -724,6 +857,48 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case alarmNames = "AlarmNames"
+        }
+    }
+
+    public struct EnableInsightRulesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleNames", required: true, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// An array of the rule names to enable. If you need to find out the names of your rules, use DescribeInsightRules.
+        public let ruleNames: [String]
+
+        public init(ruleNames: [String]) {
+            self.ruleNames = ruleNames
+        }
+
+        public func validate(name: String) throws {
+            try self.ruleNames.forEach {
+                try validate($0, name: "ruleNames[]", parent: name, max: 128)
+                try validate($0, name: "ruleNames[]", parent: name, min: 1)
+                try validate($0, name: "ruleNames[]", parent: name, pattern: "[\\x20-\\x7E]+")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleNames = "RuleNames"
+        }
+    }
+
+    public struct EnableInsightRulesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Failures", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// An array listing the rules that could not be enabled. You cannot disable or enable built-in rules.
+        public let failures: [PartialFailure]?
+
+        public init(failures: [PartialFailure]? = nil) {
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "Failures"
         }
     }
 
@@ -768,6 +943,110 @@ extension CloudWatch {
             case dashboardArn = "DashboardArn"
             case dashboardBody = "DashboardBody"
             case dashboardName = "DashboardName"
+        }
+    }
+
+    public struct GetInsightRuleReportInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "MaxContributorCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "OrderBy", required: false, type: .string), 
+            AWSShapeMember(label: "Period", required: true, type: .integer), 
+            AWSShapeMember(label: "RuleName", required: true, type: .string), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+        ]
+
+        /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
+        public let endTime: TimeStamp
+        /// The maximum number of contributors to include in the report. The range is 1 to 100. If you omit this, the default of 10 is used.
+        public let maxContributorCount: Int?
+        /// Specifies which metrics to use for aggregation of contributor values for the report. You can specify one or more of the following metrics:    UniqueContributors -- the number of unique contributors for each data point.    MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor may change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.  
+        public let metrics: [String]?
+        /// Determines what statistic to use to rank the contributors. Valid values are SUM and MAXIMUM.
+        public let orderBy: String?
+        /// The period, in seconds, to use for the statistics in the InsightRuleMetricDatapoint results.
+        public let period: Int
+        /// The name of the rule that you want to see data from.
+        public let ruleName: String
+        /// The start time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
+        public let startTime: TimeStamp
+
+        public init(endTime: TimeStamp, maxContributorCount: Int? = nil, metrics: [String]? = nil, orderBy: String? = nil, period: Int, ruleName: String, startTime: TimeStamp) {
+            self.endTime = endTime
+            self.maxContributorCount = maxContributorCount
+            self.metrics = metrics
+            self.orderBy = orderBy
+            self.period = period
+            self.ruleName = ruleName
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.metrics?.forEach {
+                try validate($0, name: "metrics[]", parent: name, max: 32)
+                try validate($0, name: "metrics[]", parent: name, min: 1)
+                try validate($0, name: "metrics[]", parent: name, pattern: "[\\x20-\\x7E]+")
+            }
+            try validate(self.orderBy, name:"orderBy", parent: name, max: 32)
+            try validate(self.orderBy, name:"orderBy", parent: name, min: 1)
+            try validate(self.orderBy, name:"orderBy", parent: name, pattern: "[\\x20-\\x7E]+")
+            try validate(self.period, name:"period", parent: name, min: 1)
+            try validate(self.ruleName, name:"ruleName", parent: name, max: 128)
+            try validate(self.ruleName, name:"ruleName", parent: name, min: 1)
+            try validate(self.ruleName, name:"ruleName", parent: name, pattern: "[\\x20-\\x7E]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case maxContributorCount = "MaxContributorCount"
+            case metrics = "Metrics"
+            case orderBy = "OrderBy"
+            case period = "Period"
+            case ruleName = "RuleName"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct GetInsightRuleReportOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AggregateValue", required: false, type: .double), 
+            AWSShapeMember(label: "AggregationStatistic", required: false, type: .string), 
+            AWSShapeMember(label: "ApproximateUniqueCount", required: false, type: .long), 
+            AWSShapeMember(label: "Contributors", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "KeyLabels", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "MetricDatapoints", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// The sum of the values from all individual contributors that match the rule.
+        public let aggregateValue: Double?
+        /// Specifies whether this rule aggregates contributor data by COUNT or SUM.
+        public let aggregationStatistic: String?
+        /// An approximate count of the unique contributors found by this rule in this time period.
+        public let approximateUniqueCount: Int64?
+        /// An array of the unique contributors found by this rule in this time period. If the rule contains multiple keys, each combination of values for the keys counts as a unique contributor.
+        public let contributors: [InsightRuleContributor]?
+        /// An array of the strings used as the keys for this rule. The keys are the dimensions used to classify contributors. If the rule contains more than one key, then each unique combination of values for the keys is counted as a unique contributor.
+        public let keyLabels: [String]?
+        /// A time series of metric data points that matches the time period in the rule request.
+        public let metricDatapoints: [InsightRuleMetricDatapoint]?
+
+        public init(aggregateValue: Double? = nil, aggregationStatistic: String? = nil, approximateUniqueCount: Int64? = nil, contributors: [InsightRuleContributor]? = nil, keyLabels: [String]? = nil, metricDatapoints: [InsightRuleMetricDatapoint]? = nil) {
+            self.aggregateValue = aggregateValue
+            self.aggregationStatistic = aggregationStatistic
+            self.approximateUniqueCount = approximateUniqueCount
+            self.contributors = contributors
+            self.keyLabels = keyLabels
+            self.metricDatapoints = metricDatapoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregateValue = "AggregateValue"
+            case aggregationStatistic = "AggregationStatistic"
+            case approximateUniqueCount = "ApproximateUniqueCount"
+            case contributors = "Contributors"
+            case keyLabels = "KeyLabels"
+            case metricDatapoints = "MetricDatapoints"
         }
     }
 
@@ -861,7 +1140,7 @@ extension CloudWatch {
 
         /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. If a specific combination of dimensions was not published, you can't retrieve statistics for it. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
         public let dimensions: [Dimension]?
-        /// The time stamp that determines the last data point to return. The value specified is exclusive; results include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
+        /// The time stamp that determines the last data point to return. The value specified is exclusive; results include data points up to the specified time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
         public let endTime: TimeStamp
         /// The percentile statistics. Specify values between p0.0 and p100. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both. Percentile statistics are not available for metrics when any of the metric values are negative numbers.
         public let extendedStatistics: [String]?
@@ -871,7 +1150,7 @@ extension CloudWatch {
         public let namespace: String
         /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).  
         public let period: Int
-        /// The time stamp that determines the first data point to return. Start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15. 
+        /// The time stamp that determines the first data point to return. Start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15. 
         public let startTime: TimeStamp
         /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistics. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both.
         public let statistics: [Statistic]?
@@ -989,6 +1268,139 @@ extension CloudWatch {
         case stateupdate = "StateUpdate"
         case action = "Action"
         public var description: String { return self.rawValue }
+    }
+
+    public struct InsightRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definition", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Schema", required: true, type: .string), 
+            AWSShapeMember(label: "State", required: true, type: .string)
+        ]
+
+        /// The definition of the rule, as a JSON object. The definition contains the keywords used to define contributors, the value to aggregate on if this rule returns a sum instead of a count, and the filters. For details on the valid syntax, see Contributor Insights Rule Syntax.
+        public let definition: String
+        /// The name of the rule.
+        public let name: String
+        /// For rules that you create, this is always {"Name": "CloudWatchLogRule", "Version": 1}. For built-in rules, this is {"Name": "ServiceLogRule", "Version": 1} 
+        public let schema: String
+        /// Indicates whether the rule is enabled or disabled.
+        public let state: String
+
+        public init(definition: String, name: String, schema: String, state: String) {
+            self.definition = definition
+            self.name = name
+            self.schema = schema
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
+            case name = "Name"
+            case schema = "Schema"
+            case state = "State"
+        }
+    }
+
+    public struct InsightRuleContributor: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApproximateAggregateValue", required: true, type: .double), 
+            AWSShapeMember(label: "Datapoints", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Keys", required: true, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// An approximation of the aggregate value that comes from this contributor.
+        public let approximateAggregateValue: Double
+        /// An array of the data points where this contributor is present. Only the data points when this contributor appeared are included in the array.
+        public let datapoints: [InsightRuleContributorDatapoint]
+        /// One of the log entry field keywords that is used to define contributors for this rule.
+        public let keys: [String]
+
+        public init(approximateAggregateValue: Double, datapoints: [InsightRuleContributorDatapoint], keys: [String]) {
+            self.approximateAggregateValue = approximateAggregateValue
+            self.datapoints = datapoints
+            self.keys = keys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateAggregateValue = "ApproximateAggregateValue"
+            case datapoints = "Datapoints"
+            case keys = "Keys"
+        }
+    }
+
+    public struct InsightRuleContributorDatapoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApproximateValue", required: true, type: .double), 
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
+        ]
+
+        /// The approximate value that this contributor added during this timestamp.
+        public let approximateValue: Double
+        /// The timestamp of the data point.
+        public let timestamp: TimeStamp
+
+        public init(approximateValue: Double, timestamp: TimeStamp) {
+            self.approximateValue = approximateValue
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateValue = "ApproximateValue"
+            case timestamp = "Timestamp"
+        }
+    }
+
+    public struct InsightRuleMetricDatapoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Average", required: false, type: .double), 
+            AWSShapeMember(label: "MaxContributorValue", required: false, type: .double), 
+            AWSShapeMember(label: "Maximum", required: false, type: .double), 
+            AWSShapeMember(label: "Minimum", required: false, type: .double), 
+            AWSShapeMember(label: "SampleCount", required: false, type: .double), 
+            AWSShapeMember(label: "Sum", required: false, type: .double), 
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "UniqueContributors", required: false, type: .double)
+        ]
+
+        /// The average value from all contributors during the time period represented by that data point. This statistic is returned only if you included it in the Metrics array in your request.
+        public let average: Double?
+        /// The maximum value provided by one contributor during this timestamp. Each timestamp is evaluated separately, so the identity of the max contributor could be different for each timestamp. This statistic is returned only if you included it in the Metrics array in your request.
+        public let maxContributorValue: Double?
+        /// The maximum value from a single occurence from a single contributor during the time period represented by that data point. This statistic is returned only if you included it in the Metrics array in your request.
+        public let maximum: Double?
+        /// The minimum value from a single contributor during the time period represented by that data point. This statistic is returned only if you included it in the Metrics array in your request.
+        public let minimum: Double?
+        /// The number of occurrences that matched the rule during this data point. This statistic is returned only if you included it in the Metrics array in your request.
+        public let sampleCount: Double?
+        /// The sum of the values from all contributors during the time period represented by that data point. This statistic is returned only if you included it in the Metrics array in your request.
+        public let sum: Double?
+        /// The timestamp of the data point.
+        public let timestamp: TimeStamp
+        /// The number of unique contributors who published data during this timestamp. This statistic is returned only if you included it in the Metrics array in your request.
+        public let uniqueContributors: Double?
+
+        public init(average: Double? = nil, maxContributorValue: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: TimeStamp, uniqueContributors: Double? = nil) {
+            self.average = average
+            self.maxContributorValue = maxContributorValue
+            self.maximum = maximum
+            self.minimum = minimum
+            self.sampleCount = sampleCount
+            self.sum = sum
+            self.timestamp = timestamp
+            self.uniqueContributors = uniqueContributors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case average = "Average"
+            case maxContributorValue = "MaxContributorValue"
+            case maximum = "Maximum"
+            case minimum = "Minimum"
+            case sampleCount = "SampleCount"
+            case sum = "Sum"
+            case timestamp = "Timestamp"
+            case uniqueContributors = "UniqueContributors"
+        }
     }
 
     public struct ListDashboardsInput: AWSShape {
@@ -1246,7 +1658,7 @@ extension CloudWatch {
         public let alarmName: String?
         /// The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
         public let comparisonOperator: ComparisonOperator?
-        /// The number of datapoints that must be breaching to trigger the alarm.
+        /// The number of data points that must be breaching to trigger the alarm.
         public let datapointsToAlarm: Int?
         /// The dimensions for the metric associated with the alarm.
         public let dimensions: [Dimension]?
@@ -1366,7 +1778,7 @@ extension CloudWatch {
         public let label: String?
         /// The metric to be returned, along with statistics, period, and units. Use this parameter only if this object is retrieving a metric and not performing a math expression on returned data. Within one MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let metricStat: MetricStat?
-        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second. Use this field only when you are performing a GetMetricData operation, and only when you are specifying the Expression field. Do not use this field with a PutMetricAlarm operation or when you are specifying a MetricStat in a GetMetricData operation. 
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second. If you are performing a GetMetricData operation, use this field only if you are specifying an Expression. Do not use this field when you are specifying a MetricStat in a GetMetricData operation.
         public let period: Int?
         /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify False. If you omit this, the default of True is used. When used in PutMetricAlarm, specify True for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
         public let returnData: Bool?
@@ -1468,9 +1880,9 @@ extension CloudWatch {
         public let timestamp: TimeStamp?
         /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric.
         public let unit: StandardUnit?
-        /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+        /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
         public let value: Double?
-        /// Array of numbers representing the values for the metric during the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array specifies the number of times that value occurred during the period. You can include up to 150 unique values in each PutMetricData action that specifies a Values array. Although the Values array accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+        /// Array of numbers representing the values for the metric during the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array specifies the number of times that value occurred during the period. You can include up to 150 unique values in each PutMetricData action that specifies a Values array. Although the Values array accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
         public let values: [Double]?
 
         public init(counts: [Double]? = nil, dimensions: [Dimension]? = nil, metricName: String, statisticValues: StatisticSet? = nil, storageResolution: Int? = nil, timestamp: TimeStamp? = nil, unit: StandardUnit? = nil, value: Double? = nil, values: [Double]? = nil) {
@@ -1542,6 +1954,38 @@ extension CloudWatch {
             case period = "Period"
             case stat = "Stat"
             case unit = "Unit"
+        }
+    }
+
+    public struct PartialFailure: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExceptionType", required: false, type: .string), 
+            AWSShapeMember(label: "FailureCode", required: false, type: .string), 
+            AWSShapeMember(label: "FailureDescription", required: false, type: .string), 
+            AWSShapeMember(label: "FailureResource", required: false, type: .string)
+        ]
+
+        /// The type of error.
+        public let exceptionType: String?
+        /// The code of the error.
+        public let failureCode: String?
+        /// A description of the error.
+        public let failureDescription: String?
+        /// The specified rule that could not be deleted.
+        public let failureResource: String?
+
+        public init(exceptionType: String? = nil, failureCode: String? = nil, failureDescription: String? = nil, failureResource: String? = nil) {
+            self.exceptionType = exceptionType
+            self.failureCode = failureCode
+            self.failureDescription = failureDescription
+            self.failureResource = failureResource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionType = "ExceptionType"
+            case failureCode = "FailureCode"
+            case failureDescription = "FailureDescription"
+            case failureResource = "FailureResource"
         }
     }
 
@@ -1641,6 +2085,53 @@ extension CloudWatch {
         }
     }
 
+    public struct PutInsightRuleInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleDefinition", required: true, type: .string), 
+            AWSShapeMember(label: "RuleName", required: true, type: .string), 
+            AWSShapeMember(label: "RuleState", required: false, type: .string)
+        ]
+
+        /// The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax.
+        public let ruleDefinition: String
+        /// A unique name for the rule.
+        public let ruleName: String
+        /// The state of the rule. Valid values are ENABLED and DISABLED.
+        public let ruleState: String?
+
+        public init(ruleDefinition: String, ruleName: String, ruleState: String? = nil) {
+            self.ruleDefinition = ruleDefinition
+            self.ruleName = ruleName
+            self.ruleState = ruleState
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.ruleDefinition, name:"ruleDefinition", parent: name, max: 8192)
+            try validate(self.ruleDefinition, name:"ruleDefinition", parent: name, min: 1)
+            try validate(self.ruleDefinition, name:"ruleDefinition", parent: name, pattern: "[\\x00-\\x7F]+")
+            try validate(self.ruleName, name:"ruleName", parent: name, max: 128)
+            try validate(self.ruleName, name:"ruleName", parent: name, min: 1)
+            try validate(self.ruleName, name:"ruleName", parent: name, pattern: "[\\x20-\\x7E]+")
+            try validate(self.ruleState, name:"ruleState", parent: name, max: 32)
+            try validate(self.ruleState, name:"ruleState", parent: name, min: 1)
+            try validate(self.ruleState, name:"ruleState", parent: name, pattern: "[\\x20-\\x7E]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleDefinition = "RuleDefinition"
+            case ruleName = "RuleName"
+            case ruleState = "RuleState"
+        }
+    }
+
+    public struct PutInsightRuleOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct PutMetricAlarmInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
@@ -1677,7 +2168,7 @@ extension CloudWatch {
         public let alarmName: String
         ///  The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand. The values LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, and GreaterThanUpperThreshold are used only for alarms based on anomaly detection models.
         public let comparisonOperator: ComparisonOperator
-        /// The number of datapoints that must be breaching to trigger the alarm. This is used only if you are setting an "M out of N" alarm. In that case, this value is the M. For more information, see Evaluating an Alarm in the Amazon CloudWatch User Guide.
+        /// The number of data points that must be breaching to trigger the alarm. This is used only if you are setting an "M out of N" alarm. In that case, this value is the M. For more information, see Evaluating an Alarm in the Amazon CloudWatch User Guide.
         public let datapointsToAlarm: Int?
         /// The dimensions for the metric specified in MetricName.
         public let dimensions: [Dimension]?

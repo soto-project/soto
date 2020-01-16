@@ -102,6 +102,11 @@ public struct Redshift {
         return client.send(operation: "CreateHsmConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the ResizeCluster API operation. 
+    public func createScheduledAction(_ input: CreateScheduledActionMessage) -> Future<ScheduledAction> {
+        return client.send(operation: "CreateScheduledAction", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a snapshot copy grant that permits Amazon Redshift to use a customer master key (CMK) from AWS Key Management Service (AWS KMS) to encrypt copied snapshots in a destination region.  For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide. 
     public func createSnapshotCopyGrant(_ input: CreateSnapshotCopyGrantMessage) -> Future<CreateSnapshotCopyGrantResult> {
         return client.send(operation: "CreateSnapshotCopyGrant", path: "/", httpMethod: "POST", input: input)
@@ -155,6 +160,11 @@ public struct Redshift {
     ///  Deletes the specified Amazon Redshift HSM configuration.
     @discardableResult public func deleteHsmConfiguration(_ input: DeleteHsmConfigurationMessage) -> Future<Void> {
         return client.send(operation: "DeleteHsmConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a scheduled action. 
+    @discardableResult public func deleteScheduledAction(_ input: DeleteScheduledActionMessage) -> Future<Void> {
+        return client.send(operation: "DeleteScheduledAction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified snapshot copy grant.
@@ -282,6 +292,11 @@ public struct Redshift {
         return client.send(operation: "DescribeResize", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes properties of scheduled actions. 
+    public func describeScheduledActions(_ input: DescribeScheduledActionsMessage) -> Future<ScheduledActionsMessage> {
+        return client.send(operation: "DescribeScheduledActions", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of snapshot copy grants owned by the AWS account in the destination region.  For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide. 
     public func describeSnapshotCopyGrants(_ input: DescribeSnapshotCopyGrantsMessage) -> Future<SnapshotCopyGrantMessage> {
         return client.send(operation: "DescribeSnapshotCopyGrants", path: "/", httpMethod: "POST", input: input)
@@ -382,6 +397,11 @@ public struct Redshift {
         return client.send(operation: "ModifyEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Modify a scheduled action. 
+    public func modifyScheduledAction(_ input: ModifyScheduledActionMessage) -> Future<ScheduledAction> {
+        return client.send(operation: "ModifyScheduledAction", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Modifies the number of days to retain snapshots in the destination AWS Region after they are copied from the source AWS Region. By default, this operation only changes the retention period of copied automated snapshots. The retention periods for both new and existing copied automated snapshots are updated with the new retention period. You can set the manual option to change only the retention periods of copied manual snapshots. If you set this option, only newly copied manual snapshots have the new retention period. 
     public func modifySnapshotCopyRetentionPeriod(_ input: ModifySnapshotCopyRetentionPeriodMessage) -> Future<ModifySnapshotCopyRetentionPeriodResult> {
         return client.send(operation: "ModifySnapshotCopyRetentionPeriod", path: "/", httpMethod: "POST", input: input)
@@ -407,7 +427,7 @@ public struct Redshift {
         return client.send(operation: "ResetClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ds2.xlarge   ds2.8xlarge     The type of nodes that you add must match the node type for the cluster.  
+    ///  Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ds2.xlarge   ds2.8xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.  
     public func resizeCluster(_ input: ResizeClusterMessage) -> Future<ResizeClusterResult> {
         return client.send(operation: "ResizeCluster", path: "/", httpMethod: "POST", input: input)
     }

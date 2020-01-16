@@ -5,7 +5,7 @@ import Foundation
 import NIO
 
 /**
- AWS License Manager   This is the AWS License Manager API Reference. It provides descriptions, syntax, and usage examples for each of the actions and data types for License Manager. The topic for each action shows the Query API request parameters and the XML response. You can also view the XML request elements in the WSDL.   Alternatively, you can use one of the AWS SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see AWS SDKs. 
+ AWS License Manager  AWS License Manager makes it easier to manage licenses from software vendors across multiple AWS accounts and on-premises servers.
 */
 public struct LicenseManager {
 
@@ -28,47 +28,52 @@ public struct LicenseManager {
         )
     }
 
-    ///  Creates a new license configuration object. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or VCPU), tenancy (shared tenancy, Amazon EC2 Dedicated Instance, Amazon EC2 Dedicated Host, or any of these), host affinity (how long a VM must be associated with a host), the number of licenses purchased and used.
+    ///  Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), host affinity (how long a VM must be associated with a host), and the number of licenses purchased and used.
     public func createLicenseConfiguration(_ input: CreateLicenseConfigurationRequest) -> Future<CreateLicenseConfigurationResponse> {
         return client.send(operation: "CreateLicenseConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an existing license configuration. This action fails if the configuration is in use.
+    ///  Deletes the specified license configuration. You cannot delete a license configuration that is in use.
     public func deleteLicenseConfiguration(_ input: DeleteLicenseConfigurationRequest) -> Future<DeleteLicenseConfigurationResponse> {
         return client.send(operation: "DeleteLicenseConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a detailed description of a license configuration.
+    ///  Gets detailed information about the specified license configuration.
     public func getLicenseConfiguration(_ input: GetLicenseConfigurationRequest) -> Future<GetLicenseConfigurationResponse> {
         return client.send(operation: "GetLicenseConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets License Manager settings for a region. Exposes the configured S3 bucket, SNS topic, etc., for inspection. 
+    ///  Gets the License Manager settings for the current Region.
     public func getServiceSettings(_ input: GetServiceSettingsRequest) -> Future<GetServiceSettingsResponse> {
         return client.send(operation: "GetServiceSettings", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the resource associations for a license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance may not consume a license (depending on the license rules). Use this operation to find all resources associated with a license configuration.
+    ///  Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
     public func listAssociationsForLicenseConfiguration(_ input: ListAssociationsForLicenseConfigurationRequest) -> Future<ListAssociationsForLicenseConfigurationResponse> {
         return client.send(operation: "ListAssociationsForLicenseConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists license configuration objects for an account, each containing the name, description, license type, and other license terms modeled from a license agreement.
+    ///  Lists the license configuration operations that failed.
+    public func listFailuresForLicenseConfigurationOperations(_ input: ListFailuresForLicenseConfigurationOperationsRequest) -> Future<ListFailuresForLicenseConfigurationOperationsResponse> {
+        return client.send(operation: "ListFailuresForLicenseConfigurationOperations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the license configurations for your account.
     public func listLicenseConfigurations(_ input: ListLicenseConfigurationsRequest) -> Future<ListLicenseConfigurationsResponse> {
         return client.send(operation: "ListLicenseConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the license configuration for a resource.
+    ///  Describes the license configurations for the specified resource.
     public func listLicenseSpecificationsForResource(_ input: ListLicenseSpecificationsForResourceRequest) -> Future<ListLicenseSpecificationsForResourceResponse> {
         return client.send(operation: "ListLicenseSpecificationsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a detailed list of resources.
+    ///  Lists resources managed using Systems Manager inventory.
     public func listResourceInventory(_ input: ListResourceInventoryRequest) -> Future<ListResourceInventoryResponse> {
         return client.send(operation: "ListResourceInventory", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists tags attached to a resource.
+    ///  Lists the tags for the specified license configuration.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -78,27 +83,27 @@ public struct LicenseManager {
         return client.send(operation: "ListUsageForLicenseConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attach one of more tags to any resource.
+    ///  Adds the specified tags to the specified license configuration.
     public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Remove tags from a resource.
+    ///  Removes the specified tags from the specified license configuration.
     public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the attributes of an existing license configuration object. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (Instances, cores, sockets, VCPUs), tenancy (shared or Dedicated Host), host affinity (how long a VM is associated with a host), the number of licenses purchased and used.
+    ///  Modifies the attributes of an existing license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), host affinity (how long a VM must be associated with a host), and the number of licenses purchased and used.
     public func updateLicenseConfiguration(_ input: UpdateLicenseConfigurationRequest) -> Future<UpdateLicenseConfigurationResponse> {
         return client.send(operation: "UpdateLicenseConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds or removes license configurations for a specified AWS resource. This operation currently supports updating the license specifications of AMIs, instances, and hosts. Launch templates and AWS CloudFormation templates are not managed from this operation as those resources send the license configurations directly to a resource creation operation, such as RunInstances.
+    ///  Adds or removes the specified license configurations for the specified AWS resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and AWS CloudFormation templates, as they send license configurations to the operation that creates the resource.
     public func updateLicenseSpecificationsForResource(_ input: UpdateLicenseSpecificationsForResourceRequest) -> Future<UpdateLicenseSpecificationsForResourceResponse> {
         return client.send(operation: "UpdateLicenseSpecificationsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates License Manager service settings.
+    ///  Updates License Manager settings for the current Region.
     public func updateServiceSettings(_ input: UpdateServiceSettingsRequest) -> Future<UpdateServiceSettingsResponse> {
         return client.send(operation: "UpdateServiceSettings", path: "/", httpMethod: "POST", input: input)
     }

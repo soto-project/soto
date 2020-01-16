@@ -30,6 +30,21 @@ public struct CostExplorer {
         )
     }
 
+    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Creates a new Cost Category with the requested name and rules.
+    public func createCostCategoryDefinition(_ input: CreateCostCategoryDefinitionRequest) -> Future<CreateCostCategoryDefinitionResponse> {
+        return client.send(operation: "CreateCostCategoryDefinition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
+    public func deleteCostCategoryDefinition(_ input: DeleteCostCategoryDefinitionRequest) -> Future<DeleteCostCategoryDefinitionResponse> {
+        return client.send(operation: "DeleteCostCategoryDefinition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Returns the name, ARN, rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that is active on a specific date. If there is no EffectiveOn specified, you’ll see a Cost Category that is effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. 
+    public func describeCostCategoryDefinition(_ input: DescribeCostCategoryDefinitionRequest) -> Future<DescribeCostCategoryDefinitionResponse> {
+        return client.send(operation: "DescribeCostCategoryDefinition", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Master accounts in an organization in AWS Organizations have access to all member accounts.
     public func getCostAndUsage(_ input: GetCostAndUsageRequest) -> Future<GetCostAndUsageResponse> {
         return client.send(operation: "GetCostAndUsage", path: "/", httpMethod: "POST", input: input)
@@ -98,5 +113,15 @@ public struct CostExplorer {
     ///  Retrieves a forecast for how much Amazon Web Services predicts that you will use over the forecast time period that you select, based on your past usage. 
     public func getUsageForecast(_ input: GetUsageForecastRequest) -> Future<GetUsageForecastResponse> {
         return client.send(operation: "GetUsageForecast", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Returns the name, ARN and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. 
+    public func listCostCategoryDefinitions(_ input: ListCostCategoryDefinitionsRequest) -> Future<ListCostCategoryDefinitionsResponse> {
+        return client.send(operation: "ListCostCategoryDefinitions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///     Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).    Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
+    public func updateCostCategoryDefinition(_ input: UpdateCostCategoryDefinitionRequest) -> Future<UpdateCostCategoryDefinitionResponse> {
+        return client.send(operation: "UpdateCostCategoryDefinition", path: "/", httpMethod: "POST", input: input)
     }
 }

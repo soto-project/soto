@@ -9,6 +9,8 @@ public enum CostExplorerErrorType: AWSErrorType {
     case invalidNextTokenException(message: String?)
     case limitExceededException(message: String?)
     case requestChangedException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case serviceQuotaExceededException(message: String?)
     case unresolvableUsageUnitException(message: String?)
 }
 
@@ -29,6 +31,10 @@ extension CostExplorerErrorType {
             self = .limitExceededException(message: message)
         case "RequestChangedException":
             self = .requestChangedException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ServiceQuotaExceededException":
+            self = .serviceQuotaExceededException(message: message)
         case "UnresolvableUsageUnitException":
             self = .unresolvableUsageUnitException(message: message)
         default:
@@ -50,6 +56,10 @@ extension CostExplorerErrorType : CustomStringConvertible {
             return "LimitExceededException: \(message ?? "")"
         case .requestChangedException(let message):
             return "RequestChangedException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceQuotaExceededException(let message):
+            return "ServiceQuotaExceededException: \(message ?? "")"
         case .unresolvableUsageUnitException(let message):
             return "UnresolvableUsageUnitException: \(message ?? "")"
         }

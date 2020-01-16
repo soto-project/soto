@@ -14,7 +14,7 @@ extension Lambda {
             AWSShapeMember(label: "UnreservedConcurrentExecutions", required: false, type: .integer)
         ]
 
-        /// The maximum size of your function's code and layers when they're extracted.
+        /// The maximum size of a function's deployment package and layers when they're extracted.
         public let codeSizeUnzipped: Int64?
         /// The maximum size of a deployment package when it's uploaded directly to AWS Lambda. Use Amazon S3 for larger files.
         public let codeSizeZipped: Int64?
@@ -379,34 +379,55 @@ extension Lambda {
     public struct CreateEventSourceMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
+            AWSShapeMember(label: "BisectBatchOnFunctionError", required: false, type: .boolean), 
+            AWSShapeMember(label: "DestinationConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "EventSourceArn", required: true, type: .string), 
             AWSShapeMember(label: "FunctionName", required: true, type: .string), 
             AWSShapeMember(label: "MaximumBatchingWindowInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRecordAgeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRetryAttempts", required: false, type: .integer), 
+            AWSShapeMember(label: "ParallelizationFactor", required: false, type: .integer), 
             AWSShapeMember(label: "StartingPosition", required: false, type: .enum), 
             AWSShapeMember(label: "StartingPositionTimestamp", required: false, type: .timestamp)
         ]
 
         /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.  
         public let batchSize: Int?
+        /// (Streams) If the function returns an error, split the batch in two and retry.
+        public let bisectBatchOnFunctionError: Bool?
+        /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        public let destinationConfig: DestinationConfig?
         /// Disables the event source mapping to pause polling and invocation.
         public let enabled: Bool?
         /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.  
         public let eventSourceArn: String
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
+        /// The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
+        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        public let maximumRecordAgeInSeconds: Int?
+        /// (Streams) The maximum number of times to retry when the function returns an error.
+        public let maximumRetryAttempts: Int?
+        /// (Streams) The number of batches to process from each shard concurrently.
+        public let parallelizationFactor: Int?
         /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Streams sources. AT_TIMESTAMP is only supported for Amazon Kinesis streams.
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
         public let startingPositionTimestamp: TimeStamp?
 
-        public init(batchSize: Int? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil) {
             self.batchSize = batchSize
+            self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
+            self.destinationConfig = destinationConfig
             self.enabled = enabled
             self.eventSourceArn = eventSourceArn
             self.functionName = functionName
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
+            self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
+            self.maximumRetryAttempts = maximumRetryAttempts
+            self.parallelizationFactor = parallelizationFactor
             self.startingPosition = startingPosition
             self.startingPositionTimestamp = startingPositionTimestamp
         }
@@ -414,20 +435,32 @@ extension Lambda {
         public func validate(name: String) throws {
             try validate(self.batchSize, name:"batchSize", parent: name, max: 10000)
             try validate(self.batchSize, name:"batchSize", parent: name, min: 1)
+            try self.destinationConfig?.validate(name: "\(name).destinationConfig")
             try validate(self.eventSourceArn, name:"eventSourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
             try validate(self.functionName, name:"functionName", parent: name, max: 140)
             try validate(self.functionName, name:"functionName", parent: name, min: 1)
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, max: 300)
             try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, min: 0)
+            try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, max: 604800)
+            try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, min: 60)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, max: 10000)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, min: 0)
+            try validate(self.parallelizationFactor, name:"parallelizationFactor", parent: name, max: 10)
+            try validate(self.parallelizationFactor, name:"parallelizationFactor", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case batchSize = "BatchSize"
+            case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
+            case destinationConfig = "DestinationConfig"
             case enabled = "Enabled"
             case eventSourceArn = "EventSourceArn"
             case functionName = "FunctionName"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
+            case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
+            case maximumRetryAttempts = "MaximumRetryAttempts"
+            case parallelizationFactor = "ParallelizationFactor"
             case startingPosition = "StartingPosition"
             case startingPositionTimestamp = "StartingPositionTimestamp"
         }
@@ -641,6 +674,37 @@ extension Lambda {
         }
     }
 
+    public struct DeleteFunctionEventInvokeConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
+        ]
+
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// A version number or alias name.
+        public let qualifier: String?
+
+        public init(functionName: String, qualifier: String? = nil) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+            case qualifier = "Qualifier"
+        }
+    }
+
     public struct DeleteFunctionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
@@ -697,6 +761,64 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case layerName = "LayerName"
             case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct DeleteProvisionedConcurrencyConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: true, type: .string)
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The version number or alias name.
+        public let qualifier: String
+
+        public init(functionName: String, qualifier: String) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+            case qualifier = "Qualifier"
+        }
+    }
+
+    public struct DestinationConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OnFailure", required: false, type: .structure), 
+            AWSShapeMember(label: "OnSuccess", required: false, type: .structure)
+        ]
+
+        /// The destination configuration for failed invocations.
+        public let onFailure: OnFailure?
+        /// The destination configuration for successful invocations.
+        public let onSuccess: OnSuccess?
+
+        public init(onFailure: OnFailure? = nil, onSuccess: OnSuccess? = nil) {
+            self.onFailure = onFailure
+            self.onSuccess = onSuccess
+        }
+
+        public func validate(name: String) throws {
+            try self.onFailure?.validate(name: "\(name).onFailure")
+            try self.onSuccess?.validate(name: "\(name).onSuccess")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onFailure = "OnFailure"
+            case onSuccess = "OnSuccess"
         }
     }
 
@@ -770,11 +892,16 @@ extension Lambda {
     public struct EventSourceMappingConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
+            AWSShapeMember(label: "BisectBatchOnFunctionError", required: false, type: .boolean), 
+            AWSShapeMember(label: "DestinationConfig", required: false, type: .structure), 
             AWSShapeMember(label: "EventSourceArn", required: false, type: .string), 
             AWSShapeMember(label: "FunctionArn", required: false, type: .string), 
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastProcessingResult", required: false, type: .string), 
             AWSShapeMember(label: "MaximumBatchingWindowInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRecordAgeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRetryAttempts", required: false, type: .integer), 
+            AWSShapeMember(label: "ParallelizationFactor", required: false, type: .integer), 
             AWSShapeMember(label: "State", required: false, type: .string), 
             AWSShapeMember(label: "StateTransitionReason", required: false, type: .string), 
             AWSShapeMember(label: "UUID", required: false, type: .string)
@@ -782,29 +909,45 @@ extension Lambda {
 
         /// The maximum number of items to retrieve in a single batch.
         public let batchSize: Int?
+        /// (Streams) If the function returns an error, split the batch in two and retry.
+        public let bisectBatchOnFunctionError: Bool?
+        /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        public let destinationConfig: DestinationConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public let eventSourceArn: String?
         /// The ARN of the Lambda function.
         public let functionArn: String?
-        /// The date that the event source mapping was last updated.
+        /// The date that the event source mapping was last updated, or its state changed.
         public let lastModified: TimeStamp?
         /// The result of the last AWS Lambda invocation of your Lambda function.
         public let lastProcessingResult: String?
+        /// The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
+        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        public let maximumRecordAgeInSeconds: Int?
+        /// (Streams) The maximum number of times to retry when the function returns an error.
+        public let maximumRetryAttempts: Int?
+        /// (Streams) The number of batches to process from each shard concurrently.
+        public let parallelizationFactor: Int?
         /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
         public let state: String?
-        /// The cause of the last state change, either User initiated or Lambda initiated.
+        /// Indicates whether the last change to the event source mapping was made by a user, or by the Lambda service.
         public let stateTransitionReason: String?
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(batchSize: Int? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, state: String? = nil, stateTransitionReason: String? = nil, uuid: String? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, state: String? = nil, stateTransitionReason: String? = nil, uuid: String? = nil) {
             self.batchSize = batchSize
+            self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
+            self.destinationConfig = destinationConfig
             self.eventSourceArn = eventSourceArn
             self.functionArn = functionArn
             self.lastModified = lastModified
             self.lastProcessingResult = lastProcessingResult
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
+            self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
+            self.maximumRetryAttempts = maximumRetryAttempts
+            self.parallelizationFactor = parallelizationFactor
             self.state = state
             self.stateTransitionReason = stateTransitionReason
             self.uuid = uuid
@@ -812,11 +955,16 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case batchSize = "BatchSize"
+            case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
+            case destinationConfig = "DestinationConfig"
             case eventSourceArn = "EventSourceArn"
             case functionArn = "FunctionArn"
             case lastModified = "LastModified"
             case lastProcessingResult = "LastProcessingResult"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
+            case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
+            case maximumRetryAttempts = "MaximumRetryAttempts"
+            case parallelizationFactor = "ParallelizationFactor"
             case state = "State"
             case stateTransitionReason = "StateTransitionReason"
             case uuid = "UUID"
@@ -906,12 +1054,18 @@ extension Lambda {
             AWSShapeMember(label: "Handler", required: false, type: .string), 
             AWSShapeMember(label: "KMSKeyArn", required: false, type: .string), 
             AWSShapeMember(label: "LastModified", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LastUpdateStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateStatusReasonCode", required: false, type: .enum), 
             AWSShapeMember(label: "Layers", required: false, type: .list), 
             AWSShapeMember(label: "MasterArn", required: false, type: .string), 
             AWSShapeMember(label: "MemorySize", required: false, type: .integer), 
             AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "Role", required: false, type: .string), 
             AWSShapeMember(label: "Runtime", required: false, type: .enum), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateReason", required: false, type: .string), 
+            AWSShapeMember(label: "StateReasonCode", required: false, type: .enum), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "TracingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Version", required: false, type: .string), 
@@ -934,10 +1088,16 @@ extension Lambda {
         public let functionName: String?
         /// The function that Lambda calls to begin executing your function.
         public let handler: String?
-        /// The KMS key that's used to encrypt the function's environment variables. This key is only returned if you've configured a customer-managed CMK.
+        /// The KMS key that's used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed CMK.
         public let kMSKeyArn: String?
         /// The date and time that the function was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModified: String?
+        /// The status of the last update that was performed on the function.
+        public let lastUpdateStatus: LastUpdateStatus?
+        /// The reason for the last update that was performed on the function.
+        public let lastUpdateStatusReason: String?
+        /// The reason code for the last update that was performed on the function.
+        public let lastUpdateStatusReasonCode: LastUpdateStatusReasonCode?
         /// The function's  layers.
         public let layers: [Layer]?
         /// For Lambda@Edge functions, the ARN of the master function.
@@ -950,6 +1110,12 @@ extension Lambda {
         public let role: String?
         /// The runtime environment for the Lambda function.
         public let runtime: Runtime?
+        /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
+        public let state: State?
+        /// The reason for the function's current state.
+        public let stateReason: String?
+        /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
+        public let stateReasonCode: StateReasonCode?
         /// The amount of time that Lambda allows a function to run before stopping it.
         public let timeout: Int?
         /// The function's AWS X-Ray tracing configuration.
@@ -959,7 +1125,7 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.deadLetterConfig = deadLetterConfig
@@ -970,12 +1136,18 @@ extension Lambda {
             self.handler = handler
             self.kMSKeyArn = kMSKeyArn
             self.lastModified = lastModified
+            self.lastUpdateStatus = lastUpdateStatus
+            self.lastUpdateStatusReason = lastUpdateStatusReason
+            self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
             self.layers = layers
             self.masterArn = masterArn
             self.memorySize = memorySize
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
+            self.state = state
+            self.stateReason = stateReason
+            self.stateReasonCode = stateReasonCode
             self.timeout = timeout
             self.tracingConfig = tracingConfig
             self.version = version
@@ -993,16 +1165,59 @@ extension Lambda {
             case handler = "Handler"
             case kMSKeyArn = "KMSKeyArn"
             case lastModified = "LastModified"
+            case lastUpdateStatus = "LastUpdateStatus"
+            case lastUpdateStatusReason = "LastUpdateStatusReason"
+            case lastUpdateStatusReasonCode = "LastUpdateStatusReasonCode"
             case layers = "Layers"
             case masterArn = "MasterArn"
             case memorySize = "MemorySize"
             case revisionId = "RevisionId"
             case role = "Role"
             case runtime = "Runtime"
+            case state = "State"
+            case stateReason = "StateReason"
+            case stateReasonCode = "StateReasonCode"
             case timeout = "Timeout"
             case tracingConfig = "TracingConfig"
             case version = "Version"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct FunctionEventInvokeConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "FunctionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaximumEventAgeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRetryAttempts", required: false, type: .integer)
+        ]
+
+        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.  
+        public let destinationConfig: DestinationConfig?
+        /// The Amazon Resource Name (ARN) of the function.
+        public let functionArn: String?
+        /// The date and time that the configuration was last updated.
+        public let lastModified: TimeStamp?
+        /// The maximum age of a request that Lambda sends to a function for processing.
+        public let maximumEventAgeInSeconds: Int?
+        /// The maximum number of times to retry when the function returns an error.
+        public let maximumRetryAttempts: Int?
+
+        public init(destinationConfig: DestinationConfig? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil) {
+            self.destinationConfig = destinationConfig
+            self.functionArn = functionArn
+            self.lastModified = lastModified
+            self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+            self.maximumRetryAttempts = maximumRetryAttempts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfig = "DestinationConfig"
+            case functionArn = "FunctionArn"
+            case lastModified = "LastModified"
+            case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
+            case maximumRetryAttempts = "MaximumRetryAttempts"
         }
     }
 
@@ -1089,6 +1304,46 @@ extension Lambda {
         }
     }
 
+    public struct GetFunctionConcurrencyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+
+        public init(functionName: String) {
+            self.functionName = functionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+        }
+    }
+
+    public struct GetFunctionConcurrencyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedConcurrentExecutions", required: false, type: .integer)
+        ]
+
+        /// The number of simultaneous executions that are reserved for the function.
+        public let reservedConcurrentExecutions: Int?
+
+        public init(reservedConcurrentExecutions: Int? = nil) {
+            self.reservedConcurrentExecutions = reservedConcurrentExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedConcurrentExecutions = "ReservedConcurrentExecutions"
+        }
+    }
+
     public struct GetFunctionConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
@@ -1109,6 +1364,37 @@ extension Lambda {
             try validate(self.functionName, name:"functionName", parent: name, max: 170)
             try validate(self.functionName, name:"functionName", parent: name, min: 1)
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+            case qualifier = "Qualifier"
+        }
+    }
+
+    public struct GetFunctionEventInvokeConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
+        ]
+
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// A version number or alias name.
+        public let qualifier: String?
+
+        public init(functionName: String, qualifier: String? = nil) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
             try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -1389,6 +1675,79 @@ extension Lambda {
         }
     }
 
+    public struct GetProvisionedConcurrencyConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: true, type: .string)
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The version number or alias name.
+        public let qualifier: String
+
+        public init(functionName: String, qualifier: String) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+            case qualifier = "Qualifier"
+        }
+    }
+
+    public struct GetProvisionedConcurrencyConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedProvisionedConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "AvailableProvisionedConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModified", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedProvisionedConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .string)
+        ]
+
+        /// The amount of provisioned concurrency allocated.
+        public let allocatedProvisionedConcurrentExecutions: Int?
+        /// The amount of provisioned concurrency available.
+        public let availableProvisionedConcurrentExecutions: Int?
+        /// The date and time that a user last updated the configuration, in ISO 8601 format.
+        public let lastModified: String?
+        /// The amount of provisioned concurrency requested.
+        public let requestedProvisionedConcurrentExecutions: Int?
+        /// The status of the allocation process.
+        public let status: ProvisionedConcurrencyStatusEnum?
+        /// For failed allocations, the reason that provisioned concurrency could not be allocated.
+        public let statusReason: String?
+
+        public init(allocatedProvisionedConcurrentExecutions: Int? = nil, availableProvisionedConcurrentExecutions: Int? = nil, lastModified: String? = nil, requestedProvisionedConcurrentExecutions: Int? = nil, status: ProvisionedConcurrencyStatusEnum? = nil, statusReason: String? = nil) {
+            self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
+            self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
+            self.lastModified = lastModified
+            self.requestedProvisionedConcurrentExecutions = requestedProvisionedConcurrentExecutions
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedProvisionedConcurrentExecutions = "AllocatedProvisionedConcurrentExecutions"
+            case availableProvisionedConcurrentExecutions = "AvailableProvisionedConcurrentExecutions"
+            case lastModified = "LastModified"
+            case requestedProvisionedConcurrentExecutions = "RequestedProvisionedConcurrentExecutions"
+            case status = "Status"
+            case statusReason = "StatusReason"
+        }
+    }
+
     public struct InvocationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Payload"
@@ -1533,6 +1892,21 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
         }
+    }
+
+    public enum LastUpdateStatus: String, CustomStringConvertible, Codable {
+        case successful = "Successful"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable {
+        case enilimitexceeded = "EniLimitExceeded"
+        case insufficientrolepermissions = "InsufficientRolePermissions"
+        case invalidconfiguration = "InvalidConfiguration"
+        case internalerror = "InternalError"
+        public var description: String { return self.rawValue }
     }
 
     public struct Layer: AWSShape {
@@ -1823,6 +2197,63 @@ extension Lambda {
         }
     }
 
+    public struct ListFunctionEventInvokeConfigsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+        public let marker: String?
+        /// The maximum number of configurations to return.
+        public let maxItems: Int?
+
+        public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.functionName = functionName
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 50)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListFunctionEventInvokeConfigsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionEventInvokeConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        ]
+
+        /// A list of configurations.
+        public let functionEventInvokeConfigs: [FunctionEventInvokeConfig]?
+        /// The pagination token that's included if more results are available.
+        public let nextMarker: String?
+
+        public init(functionEventInvokeConfigs: [FunctionEventInvokeConfig]? = nil, nextMarker: String? = nil) {
+            self.functionEventInvokeConfigs = functionEventInvokeConfigs
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionEventInvokeConfigs = "FunctionEventInvokeConfigs"
+            case nextMarker = "NextMarker"
+        }
+    }
+
     public struct ListFunctionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionVersion", location: .querystring(locationName: "FunctionVersion"), required: false, type: .enum), 
@@ -1999,6 +2430,63 @@ extension Lambda {
         }
     }
 
+    public struct ListProvisionedConcurrencyConfigsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+        public let marker: String?
+        /// Specify a number to limit the number of configurations returned.
+        public let maxItems: Int?
+
+        public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.functionName = functionName
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 50)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListProvisionedConcurrencyConfigsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedConcurrencyConfigs", required: false, type: .list)
+        ]
+
+        /// The pagination token that's included if more results are available.
+        public let nextMarker: String?
+        /// A list of provisioned concurrency configurations.
+        public let provisionedConcurrencyConfigs: [ProvisionedConcurrencyConfigListItem]?
+
+        public init(nextMarker: String? = nil, provisionedConcurrencyConfigs: [ProvisionedConcurrencyConfigListItem]? = nil) {
+            self.nextMarker = nextMarker
+            self.provisionedConcurrencyConfigs = provisionedConcurrencyConfigs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case provisionedConcurrencyConfigs = "ProvisionedConcurrencyConfigs"
+        }
+    }
+
     public struct ListTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string)
@@ -2097,6 +2585,106 @@ extension Lambda {
     public enum LogType: String, CustomStringConvertible, Codable {
         case none = "None"
         case tail = "Tail"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OnFailure: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destination", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the destination resource.
+        public let destination: String?
+
+        public init(destination: String? = nil) {
+            self.destination = destination
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.destination, name:"destination", parent: name, max: 350)
+            try validate(self.destination, name:"destination", parent: name, min: 0)
+            try validate(self.destination, name:"destination", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+        }
+    }
+
+    public struct OnSuccess: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destination", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the destination resource.
+        public let destination: String?
+
+        public init(destination: String? = nil) {
+            self.destination = destination
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.destination, name:"destination", parent: name, max: 350)
+            try validate(self.destination, name:"destination", parent: name, min: 0)
+            try validate(self.destination, name:"destination", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+        }
+    }
+
+    public struct ProvisionedConcurrencyConfigListItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedProvisionedConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "AvailableProvisionedConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "FunctionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedProvisionedConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .string)
+        ]
+
+        /// The amount of provisioned concurrency allocated.
+        public let allocatedProvisionedConcurrentExecutions: Int?
+        /// The amount of provisioned concurrency available.
+        public let availableProvisionedConcurrentExecutions: Int?
+        /// The Amazon Resource Name (ARN) of the alias or version.
+        public let functionArn: String?
+        /// The date and time that a user last updated the configuration, in ISO 8601 format.
+        public let lastModified: String?
+        /// The amount of provisioned concurrency requested.
+        public let requestedProvisionedConcurrentExecutions: Int?
+        /// The status of the allocation process.
+        public let status: ProvisionedConcurrencyStatusEnum?
+        /// For failed allocations, the reason that provisioned concurrency could not be allocated.
+        public let statusReason: String?
+
+        public init(allocatedProvisionedConcurrentExecutions: Int? = nil, availableProvisionedConcurrentExecutions: Int? = nil, functionArn: String? = nil, lastModified: String? = nil, requestedProvisionedConcurrentExecutions: Int? = nil, status: ProvisionedConcurrencyStatusEnum? = nil, statusReason: String? = nil) {
+            self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
+            self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
+            self.functionArn = functionArn
+            self.lastModified = lastModified
+            self.requestedProvisionedConcurrentExecutions = requestedProvisionedConcurrentExecutions
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedProvisionedConcurrentExecutions = "AllocatedProvisionedConcurrentExecutions"
+            case availableProvisionedConcurrentExecutions = "AvailableProvisionedConcurrentExecutions"
+            case functionArn = "FunctionArn"
+            case lastModified = "LastModified"
+            case requestedProvisionedConcurrentExecutions = "RequestedProvisionedConcurrentExecutions"
+            case status = "Status"
+            case statusReason = "StatusReason"
+        }
+    }
+
+    public enum ProvisionedConcurrencyStatusEnum: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case ready = "READY"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -2269,6 +2857,136 @@ extension Lambda {
         }
     }
 
+    public struct PutFunctionEventInvokeConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "MaximumEventAgeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRetryAttempts", required: false, type: .integer), 
+            AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
+        ]
+
+        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.  
+        public let destinationConfig: DestinationConfig?
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The maximum age of a request that Lambda sends to a function for processing.
+        public let maximumEventAgeInSeconds: Int?
+        /// The maximum number of times to retry when the function returns an error.
+        public let maximumRetryAttempts: Int?
+        /// A version number or alias name.
+        public let qualifier: String?
+
+        public init(destinationConfig: DestinationConfig? = nil, functionName: String, maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, qualifier: String? = nil) {
+            self.destinationConfig = destinationConfig
+            self.functionName = functionName
+            self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+            self.maximumRetryAttempts = maximumRetryAttempts
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.maximumEventAgeInSeconds, name:"maximumEventAgeInSeconds", parent: name, max: 21600)
+            try validate(self.maximumEventAgeInSeconds, name:"maximumEventAgeInSeconds", parent: name, min: 60)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, max: 2)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, min: 0)
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfig = "DestinationConfig"
+            case functionName = "FunctionName"
+            case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
+            case maximumRetryAttempts = "MaximumRetryAttempts"
+            case qualifier = "Qualifier"
+        }
+    }
+
+    public struct PutProvisionedConcurrencyConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedConcurrentExecutions", required: true, type: .integer), 
+            AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: true, type: .string)
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The amount of provisioned concurrency to allocate for the version or alias.
+        public let provisionedConcurrentExecutions: Int
+        /// The version number or alias name.
+        public let qualifier: String
+
+        public init(functionName: String, provisionedConcurrentExecutions: Int, qualifier: String) {
+            self.functionName = functionName
+            self.provisionedConcurrentExecutions = provisionedConcurrentExecutions
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.provisionedConcurrentExecutions, name:"provisionedConcurrentExecutions", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+            case provisionedConcurrentExecutions = "ProvisionedConcurrentExecutions"
+            case qualifier = "Qualifier"
+        }
+    }
+
+    public struct PutProvisionedConcurrencyConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedProvisionedConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "AvailableProvisionedConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModified", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedProvisionedConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .string)
+        ]
+
+        /// The amount of provisioned concurrency allocated.
+        public let allocatedProvisionedConcurrentExecutions: Int?
+        /// The amount of provisioned concurrency available.
+        public let availableProvisionedConcurrentExecutions: Int?
+        /// The date and time that a user last updated the configuration, in ISO 8601 format.
+        public let lastModified: String?
+        /// The amount of provisioned concurrency requested.
+        public let requestedProvisionedConcurrentExecutions: Int?
+        /// The status of the allocation process.
+        public let status: ProvisionedConcurrencyStatusEnum?
+        /// For failed allocations, the reason that provisioned concurrency could not be allocated.
+        public let statusReason: String?
+
+        public init(allocatedProvisionedConcurrentExecutions: Int? = nil, availableProvisionedConcurrentExecutions: Int? = nil, lastModified: String? = nil, requestedProvisionedConcurrentExecutions: Int? = nil, status: ProvisionedConcurrencyStatusEnum? = nil, statusReason: String? = nil) {
+            self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
+            self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
+            self.lastModified = lastModified
+            self.requestedProvisionedConcurrentExecutions = requestedProvisionedConcurrentExecutions
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedProvisionedConcurrentExecutions = "AllocatedProvisionedConcurrentExecutions"
+            case availableProvisionedConcurrentExecutions = "AvailableProvisionedConcurrentExecutions"
+            case lastModified = "LastModified"
+            case requestedProvisionedConcurrentExecutions = "RequestedProvisionedConcurrentExecutions"
+            case status = "Status"
+            case statusReason = "StatusReason"
+        }
+    }
+
     public struct RemoveLayerVersionPermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerName", location: .uri(locationName: "LayerName"), required: true, type: .string), 
@@ -2360,10 +3078,13 @@ extension Lambda {
         case nodejs610 = "nodejs6.10"
         case nodejs810 = "nodejs8.10"
         case nodejs10X = "nodejs10.x"
+        case nodejs12X = "nodejs12.x"
         case java8 = "java8"
+        case java11 = "java11"
         case python27 = "python2.7"
         case python36 = "python3.6"
         case python37 = "python3.7"
+        case python38 = "python3.8"
         case dotnetcore10 = "dotnetcore1.0"
         case dotnetcore20 = "dotnetcore2.0"
         case dotnetcore21 = "dotnetcore2.1"
@@ -2371,6 +3092,26 @@ extension Lambda {
         case go1X = "go1.x"
         case ruby25 = "ruby2.5"
         case provided = "provided"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case active = "Active"
+        case inactive = "Inactive"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StateReasonCode: String, CustomStringConvertible, Codable {
+        case idle = "Idle"
+        case creating = "Creating"
+        case restoring = "Restoring"
+        case enilimitexceeded = "EniLimitExceeded"
+        case insufficientrolepermissions = "InsufficientRolePermissions"
+        case invalidconfiguration = "InvalidConfiguration"
+        case internalerror = "InternalError"
+        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
 
@@ -2526,45 +3267,78 @@ extension Lambda {
     public struct UpdateEventSourceMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
+            AWSShapeMember(label: "BisectBatchOnFunctionError", required: false, type: .boolean), 
+            AWSShapeMember(label: "DestinationConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "FunctionName", required: false, type: .string), 
             AWSShapeMember(label: "MaximumBatchingWindowInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRecordAgeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRetryAttempts", required: false, type: .integer), 
+            AWSShapeMember(label: "ParallelizationFactor", required: false, type: .integer), 
             AWSShapeMember(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
 
         /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.  
         public let batchSize: Int?
+        /// (Streams) If the function returns an error, split the batch in two and retry.
+        public let bisectBatchOnFunctionError: Bool?
+        /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        public let destinationConfig: DestinationConfig?
         /// Disables the event source mapping to pause polling and invocation.
         public let enabled: Bool?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
+        /// The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
+        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        public let maximumRecordAgeInSeconds: Int?
+        /// (Streams) The maximum number of times to retry when the function returns an error.
+        public let maximumRetryAttempts: Int?
+        /// (Streams) The number of batches to process from each shard concurrently.
+        public let parallelizationFactor: Int?
         /// The identifier of the event source mapping.
         public let uuid: String
 
-        public init(batchSize: Int? = nil, enabled: Bool? = nil, functionName: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, uuid: String) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, functionName: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, uuid: String) {
             self.batchSize = batchSize
+            self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
+            self.destinationConfig = destinationConfig
             self.enabled = enabled
             self.functionName = functionName
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
+            self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
+            self.maximumRetryAttempts = maximumRetryAttempts
+            self.parallelizationFactor = parallelizationFactor
             self.uuid = uuid
         }
 
         public func validate(name: String) throws {
             try validate(self.batchSize, name:"batchSize", parent: name, max: 10000)
             try validate(self.batchSize, name:"batchSize", parent: name, min: 1)
+            try self.destinationConfig?.validate(name: "\(name).destinationConfig")
             try validate(self.functionName, name:"functionName", parent: name, max: 140)
             try validate(self.functionName, name:"functionName", parent: name, min: 1)
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, max: 300)
             try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, min: 0)
+            try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, max: 604800)
+            try validate(self.maximumRecordAgeInSeconds, name:"maximumRecordAgeInSeconds", parent: name, min: 60)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, max: 10000)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, min: 0)
+            try validate(self.parallelizationFactor, name:"parallelizationFactor", parent: name, max: 10)
+            try validate(self.parallelizationFactor, name:"parallelizationFactor", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case batchSize = "BatchSize"
+            case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
+            case destinationConfig = "DestinationConfig"
             case enabled = "Enabled"
             case functionName = "FunctionName"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
+            case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
+            case maximumRetryAttempts = "MaximumRetryAttempts"
+            case parallelizationFactor = "ParallelizationFactor"
             case uuid = "UUID"
         }
     }
@@ -2736,6 +3510,57 @@ extension Lambda {
             case timeout = "Timeout"
             case tracingConfig = "TracingConfig"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct UpdateFunctionEventInvokeConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeMember(label: "MaximumEventAgeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRetryAttempts", required: false, type: .integer), 
+            AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
+        ]
+
+        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.  
+        public let destinationConfig: DestinationConfig?
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The maximum age of a request that Lambda sends to a function for processing.
+        public let maximumEventAgeInSeconds: Int?
+        /// The maximum number of times to retry when the function returns an error.
+        public let maximumRetryAttempts: Int?
+        /// A version number or alias name.
+        public let qualifier: String?
+
+        public init(destinationConfig: DestinationConfig? = nil, functionName: String, maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, qualifier: String? = nil) {
+            self.destinationConfig = destinationConfig
+            self.functionName = functionName
+            self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+            self.maximumRetryAttempts = maximumRetryAttempts
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.maximumEventAgeInSeconds, name:"maximumEventAgeInSeconds", parent: name, max: 21600)
+            try validate(self.maximumEventAgeInSeconds, name:"maximumEventAgeInSeconds", parent: name, min: 60)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, max: 2)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, min: 0)
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfig = "DestinationConfig"
+            case functionName = "FunctionName"
+            case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
+            case maximumRetryAttempts = "MaximumRetryAttempts"
+            case qualifier = "Qualifier"
         }
     }
 

@@ -19,7 +19,7 @@ extension ComprehendMedical {
 
         ///  The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string. 
         public let beginOffset: Int?
-        ///  The 0-based character offset in the input text that shows where the attribute ends. The offset returns the UTF-8 code point in the string. 
+        ///  The 0-based character offset in the input text that shows where the attribute ends. The offset returns the UTF-8 code point in the string.
         public let endOffset: Int?
         ///  The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier. 
         public let id: Int?
@@ -378,7 +378,7 @@ extension ComprehendMedical {
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
 
-        ///  A UTF-8 text string containing the clinical content being examined for PHI entities. Each string must contain fewer than 20,000 bytes of characters. 
+        ///  A UTF-8 text string containing the clinical content being examined for PHI entities. Each string must contain fewer than 20,000 bytes of characters.
         public let text: String
 
         public init(text: String) {
@@ -449,9 +449,9 @@ extension ComprehendMedical {
         public let score: Float?
         ///  The segment of input text extracted as this entity.
         public let text: String?
-        /// Contextual information for the entity
+        /// Contextual information for the entity.
         public let traits: [Trait]?
-        ///  Describes the specific type of entity with category of entities. 
+        ///  Describes the specific type of entity with category of entities.
         public let `type`: EntitySubType?
 
         public init(attributes: [Attribute]? = nil, beginOffset: Int? = nil, category: EntityType? = nil, endOffset: Int? = nil, id: Int? = nil, score: Float? = nil, text: String? = nil, traits: [Trait]? = nil, type: EntitySubType? = nil) {
@@ -519,6 +519,294 @@ extension ComprehendMedical {
         case testTreatmentProcedure = "TEST_TREATMENT_PROCEDURE"
         case anatomy = "ANATOMY"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ICD10CMAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "Id", required: false, type: .integer), 
+            AWSShapeMember(label: "RelationshipScore", required: false, type: .float), 
+            AWSShapeMember(label: "Score", required: false, type: .float), 
+            AWSShapeMember(label: "Text", required: false, type: .string), 
+            AWSShapeMember(label: "Traits", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string.
+        public let beginOffset: Int?
+        /// The 0-based character offset in the input text that shows where the attribute ends. The offset returns the UTF-8 code point in the string.
+        public let endOffset: Int?
+        /// The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+        public let id: Int?
+        /// The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity.
+        public let relationshipScore: Float?
+        /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+        public let score: Float?
+        /// The segment of input text which contains the detected attribute.
+        public let text: String?
+        /// The contextual information for the attribute. The traits recognized by InferICD10CM are DIAGNOSIS, SIGN, SYMPTOM, and NEGATION.
+        public let traits: [ICD10CMTrait]?
+        /// The type of attribute. InferICD10CM detects entities of the type DX_NAME. 
+        public let `type`: ICD10CMAttributeType?
+
+        public init(beginOffset: Int? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMAttributeType? = nil) {
+            self.beginOffset = beginOffset
+            self.endOffset = endOffset
+            self.id = id
+            self.relationshipScore = relationshipScore
+            self.score = score
+            self.text = text
+            self.traits = traits
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case endOffset = "EndOffset"
+            case id = "Id"
+            case relationshipScore = "RelationshipScore"
+            case score = "Score"
+            case text = "Text"
+            case traits = "Traits"
+            case `type` = "Type"
+        }
+    }
+
+    public enum ICD10CMAttributeType: String, CustomStringConvertible, Codable {
+        case acuity = "ACUITY"
+        case direction = "DIRECTION"
+        case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case quality = "QUALITY"
+        case quantity = "QUANTITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ICD10CMConcept: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Score", required: false, type: .float)
+        ]
+
+        /// The ICD-10-CM code that identifies the concept found in the knowledge base from the Centers for Disease Control.
+        public let code: String?
+        /// The long description of the ICD-10-CM code in the ontology.
+        public let description: String?
+        /// The level of confidence that Amazon Comprehend Medical has that the entity is accurately linked to an ICD-10-CM concept.
+        public let score: Float?
+
+        public init(code: String? = nil, description: String? = nil, score: Float? = nil) {
+            self.code = code
+            self.description = description
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case description = "Description"
+            case score = "Score"
+        }
+    }
+
+    public struct ICD10CMEntity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .list), 
+            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "Category", required: false, type: .enum), 
+            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "ICD10CMConcepts", required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .integer), 
+            AWSShapeMember(label: "Score", required: false, type: .float), 
+            AWSShapeMember(label: "Text", required: false, type: .string), 
+            AWSShapeMember(label: "Traits", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The detected attributes that relate to the entity. An extracted segment of the text that is an attribute of an entity, or otherwise related to an entity, such as the nature of a medical condition.
+        public let attributes: [ICD10CMAttribute]?
+        /// The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
+        public let beginOffset: Int?
+        ///  The category of the entity. InferICD10CM detects entities in the MEDICAL_CONDITION category. 
+        public let category: ICD10CMEntityCategory?
+        /// The 0-based character offset in the input text that shows where the entity ends. The offset returns the UTF-8 code point in the string.
+        public let endOffset: Int?
+        /// The ICD-10-CM concepts that the entity could refer to, along with a score indicating the likelihood of the match.
+        public let iCD10CMConcepts: [ICD10CMConcept]?
+        /// The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+        public let id: Int?
+        /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detection.
+        public let score: Float?
+        /// The segment of input text that is matched to the detected entity.
+        public let text: String?
+        /// Provides Contextual information for the entity. The traits recognized by InferICD10CM are DIAGNOSIS, SIGN, SYMPTOM, and NEGATION. 
+        public let traits: [ICD10CMTrait]?
+        /// Describes the specific type of entity with category of entities. InferICD10CM detects entities of the type DX_NAME.
+        public let `type`: ICD10CMEntityType?
+
+        public init(attributes: [ICD10CMAttribute]? = nil, beginOffset: Int? = nil, category: ICD10CMEntityCategory? = nil, endOffset: Int? = nil, iCD10CMConcepts: [ICD10CMConcept]? = nil, id: Int? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMEntityType? = nil) {
+            self.attributes = attributes
+            self.beginOffset = beginOffset
+            self.category = category
+            self.endOffset = endOffset
+            self.iCD10CMConcepts = iCD10CMConcepts
+            self.id = id
+            self.score = score
+            self.text = text
+            self.traits = traits
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case beginOffset = "BeginOffset"
+            case category = "Category"
+            case endOffset = "EndOffset"
+            case iCD10CMConcepts = "ICD10CMConcepts"
+            case id = "Id"
+            case score = "Score"
+            case text = "Text"
+            case traits = "Traits"
+            case `type` = "Type"
+        }
+    }
+
+    public enum ICD10CMEntityCategory: String, CustomStringConvertible, Codable {
+        case medicalCondition = "MEDICAL_CONDITION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ICD10CMEntityType: String, CustomStringConvertible, Codable {
+        case dxName = "DX_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ICD10CMTrait: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Score", required: false, type: .float)
+        ]
+
+        /// Provides a name or contextual description about the trait.
+        public let name: ICD10CMTraitName?
+        /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as a trait.
+        public let score: Float?
+
+        public init(name: ICD10CMTraitName? = nil, score: Float? = nil) {
+            self.name = name
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case score = "Score"
+        }
+    }
+
+    public enum ICD10CMTraitName: String, CustomStringConvertible, Codable {
+        case negation = "NEGATION"
+        case diagnosis = "DIAGNOSIS"
+        case sign = "SIGN"
+        case symptom = "SYMPTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InferICD10CMRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Text", required: true, type: .string)
+        ]
+
+        /// The input text used for analysis. The input for InferICD10CM is a string from 1 to 10000 characters.
+        public let text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.text, name:"text", parent: name, max: 10000)
+            try validate(self.text, name:"text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+        }
+    }
+
+    public struct InferICD10CMResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entities", required: true, type: .list), 
+            AWSShapeMember(label: "ModelVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
+        ]
+
+        /// The medical conditions detected in the text linked to ICD-10-CM concepts. If the action is successful, the service sends back an HTTP 200 response, as well as the entities detected.
+        public let entities: [ICD10CMEntity]
+        /// The version of the model used to analyze the documents, in the format n.n.n You can use this information to track the model used for a particular batch of documents.
+        public let modelVersion: String?
+        /// If the result of the previous request to InferICD10CM was truncated, include the PaginationToken to fetch the next page of medical condition entities. 
+        public let paginationToken: String?
+
+        public init(entities: [ICD10CMEntity], modelVersion: String? = nil, paginationToken: String? = nil) {
+            self.entities = entities
+            self.modelVersion = modelVersion
+            self.paginationToken = paginationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "Entities"
+            case modelVersion = "ModelVersion"
+            case paginationToken = "PaginationToken"
+        }
+    }
+
+    public struct InferRxNormRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Text", required: true, type: .string)
+        ]
+
+        /// The input text used for analysis. The input for InferRxNorm is a string from 1 to 10000 characters.
+        public let text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.text, name:"text", parent: name, max: 10000)
+            try validate(self.text, name:"text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+        }
+    }
+
+    public struct InferRxNormResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entities", required: true, type: .list), 
+            AWSShapeMember(label: "ModelVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
+        ]
+
+        /// The medication entities detected in the text linked to RxNorm concepts. If the action is successful, the service sends back an HTTP 200 response, as well as the entities detected.
+        public let entities: [RxNormEntity]
+        /// The version of the model used to analyze the documents, in the format n.n.n You can use this information to track the model used for a particular batch of documents.
+        public let modelVersion: String?
+        /// If the result of the previous request to InferRxNorm was truncated, include the PaginationToken to fetch the next page of medication entities.
+        public let paginationToken: String?
+
+        public init(entities: [RxNormEntity], modelVersion: String? = nil, paginationToken: String? = nil) {
+            self.entities = entities
+            self.modelVersion = modelVersion
+            self.paginationToken = paginationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "Entities"
+            case modelVersion = "ModelVersion"
+            case paginationToken = "PaginationToken"
+        }
     }
 
     public struct InputDataConfig: AWSShape {
@@ -707,6 +995,196 @@ extension ComprehendMedical {
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
         }
+    }
+
+    public struct RxNormAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "Id", required: false, type: .integer), 
+            AWSShapeMember(label: "RelationshipScore", required: false, type: .float), 
+            AWSShapeMember(label: "Score", required: false, type: .float), 
+            AWSShapeMember(label: "Text", required: false, type: .string), 
+            AWSShapeMember(label: "Traits", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string.
+        public let beginOffset: Int?
+        /// The 0-based character offset in the input text that shows where the attribute ends. The offset returns the UTF-8 code point in the string.
+        public let endOffset: Int?
+        /// The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+        public let id: Int?
+        /// The level of confidence that Amazon Comprehend Medical has that the attribute is accurately linked to an entity.
+        public let relationshipScore: Float?
+        /// The level of confidence that Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+        public let score: Float?
+        /// The segment of input text which corresponds to the detected attribute.
+        public let text: String?
+        /// Contextual information for the attribute. InferRxNorm recognizes the trait NEGATION for attributes, i.e. that the patient is not taking a specific dose or form of a medication.
+        public let traits: [RxNormTrait]?
+        /// The type of attribute. The types of attributes recognized by InferRxNorm are BRAND_NAME and GENERIC_NAME.
+        public let `type`: RxNormAttributeType?
+
+        public init(beginOffset: Int? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, score: Float? = nil, text: String? = nil, traits: [RxNormTrait]? = nil, type: RxNormAttributeType? = nil) {
+            self.beginOffset = beginOffset
+            self.endOffset = endOffset
+            self.id = id
+            self.relationshipScore = relationshipScore
+            self.score = score
+            self.text = text
+            self.traits = traits
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case endOffset = "EndOffset"
+            case id = "Id"
+            case relationshipScore = "RelationshipScore"
+            case score = "Score"
+            case text = "Text"
+            case traits = "Traits"
+            case `type` = "Type"
+        }
+    }
+
+    public enum RxNormAttributeType: String, CustomStringConvertible, Codable {
+        case dosage = "DOSAGE"
+        case duration = "DURATION"
+        case form = "FORM"
+        case frequency = "FREQUENCY"
+        case rate = "RATE"
+        case routeOrMode = "ROUTE_OR_MODE"
+        case strength = "STRENGTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RxNormConcept: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Score", required: false, type: .float)
+        ]
+
+        /// RxNorm concept ID, also known as the RxCUI.
+        public let code: String?
+        /// The description of the RxNorm concept.
+        public let description: String?
+        /// The level of confidence that Amazon Comprehend Medical has that the entity is accurately linked to the reported RxNorm concept.
+        public let score: Float?
+
+        public init(code: String? = nil, description: String? = nil, score: Float? = nil) {
+            self.code = code
+            self.description = description
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case description = "Description"
+            case score = "Score"
+        }
+    }
+
+    public struct RxNormEntity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .list), 
+            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "Category", required: false, type: .enum), 
+            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "Id", required: false, type: .integer), 
+            AWSShapeMember(label: "RxNormConcepts", required: false, type: .list), 
+            AWSShapeMember(label: "Score", required: false, type: .float), 
+            AWSShapeMember(label: "Text", required: false, type: .string), 
+            AWSShapeMember(label: "Traits", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The extracted attributes that relate to the entity. The attributes recognized by InferRxNorm are DOSAGE, DURATION, FORM, FREQUENCY, RATE, ROUTE_OR_MODE, and STRENGTH.
+        public let attributes: [RxNormAttribute]?
+        /// The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
+        public let beginOffset: Int?
+        /// The category of the entity. The recognized categories are GENERIC or BRAND_NAME.
+        public let category: RxNormEntityCategory?
+        /// The 0-based character offset in the input text that shows where the entity ends. The offset returns the UTF-8 code point in the string.
+        public let endOffset: Int?
+        /// The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+        public let id: Int?
+        ///  The RxNorm concepts that the entity could refer to, along with a score indicating the likelihood of the match.
+        public let rxNormConcepts: [RxNormConcept]?
+        /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detected entity.
+        public let score: Float?
+        /// The segment of input text extracted from which the entity was detected.
+        public let text: String?
+        ///  Contextual information for the entity.
+        public let traits: [RxNormTrait]?
+        ///  Describes the specific type of entity. For InferRxNorm, the recognized entity type is MEDICATION.
+        public let `type`: RxNormEntityType?
+
+        public init(attributes: [RxNormAttribute]? = nil, beginOffset: Int? = nil, category: RxNormEntityCategory? = nil, endOffset: Int? = nil, id: Int? = nil, rxNormConcepts: [RxNormConcept]? = nil, score: Float? = nil, text: String? = nil, traits: [RxNormTrait]? = nil, type: RxNormEntityType? = nil) {
+            self.attributes = attributes
+            self.beginOffset = beginOffset
+            self.category = category
+            self.endOffset = endOffset
+            self.id = id
+            self.rxNormConcepts = rxNormConcepts
+            self.score = score
+            self.text = text
+            self.traits = traits
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case beginOffset = "BeginOffset"
+            case category = "Category"
+            case endOffset = "EndOffset"
+            case id = "Id"
+            case rxNormConcepts = "RxNormConcepts"
+            case score = "Score"
+            case text = "Text"
+            case traits = "Traits"
+            case `type` = "Type"
+        }
+    }
+
+    public enum RxNormEntityCategory: String, CustomStringConvertible, Codable {
+        case medication = "MEDICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RxNormEntityType: String, CustomStringConvertible, Codable {
+        case brandName = "BRAND_NAME"
+        case genericName = "GENERIC_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RxNormTrait: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Score", required: false, type: .float)
+        ]
+
+        /// Provides a name or contextual description about the trait.
+        public let name: RxNormTraitName?
+        /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detected trait.
+        public let score: Float?
+
+        public init(name: RxNormTraitName? = nil, score: Float? = nil) {
+            self.name = name
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case score = "Score"
+        }
+    }
+
+    public enum RxNormTraitName: String, CustomStringConvertible, Codable {
+        case negation = "NEGATION"
+        public var description: String { return self.rawValue }
     }
 
     public struct StartEntitiesDetectionV2JobRequest: AWSShape {

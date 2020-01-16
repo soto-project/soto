@@ -53,6 +53,11 @@ public struct KinesisAnalyticsV2 {
         return client.send(operation: "AddApplicationReferenceDataSource", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store and access resources securely. Note the following about VPC configurations for Kinesis Data Analytics applications:   VPC configurations are not supported for SQL applications.   When a VPC is added to a Kinesis Data Analytics application, the application can no longer be accessed from the Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.  
+    public func addApplicationVpcConfiguration(_ input: AddApplicationVpcConfigurationRequest) -> Future<AddApplicationVpcConfigurationResponse> {
+        return client.send(operation: "AddApplicationVpcConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates an Amazon Kinesis Data Analytics application. For information about creating a Kinesis Data Analytics application, see Creating an Application. 
     public func createApplication(_ input: CreateApplicationRequest) -> Future<CreateApplicationResponse> {
         return client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
@@ -93,6 +98,11 @@ public struct KinesisAnalyticsV2 {
         return client.send(operation: "DeleteApplicationSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Removes a VPC configuration from a Kinesis Data Analytics application.
+    public func deleteApplicationVpcConfiguration(_ input: DeleteApplicationVpcConfigurationRequest) -> Future<DeleteApplicationVpcConfigurationResponse> {
+        return client.send(operation: "DeleteApplicationVpcConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about a specific Amazon Kinesis Data Analytics application. If you want to retrieve a list of all applications in your account, use the ListApplications operation.
     public func describeApplication(_ input: DescribeApplicationRequest) -> Future<DescribeApplicationResponse> {
         return client.send(operation: "DescribeApplication", path: "/", httpMethod: "POST", input: input)
@@ -118,7 +128,7 @@ public struct KinesisAnalyticsV2 {
         return client.send(operation: "ListApplications", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the list of key-value tags assigned to the application.
+    ///  Retrieves the list of key-value tags assigned to the application. For more information, see Using Tagging.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -133,12 +143,12 @@ public struct KinesisAnalyticsV2 {
         return client.send(operation: "StopApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
+    ///  Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging.
     public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes one or more tags from a Kinesis Analytics application.
+    ///  Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging.
     public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }

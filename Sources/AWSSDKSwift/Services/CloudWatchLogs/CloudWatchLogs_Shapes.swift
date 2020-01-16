@@ -11,7 +11,7 @@ extension CloudWatchLogs {
             AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS).
+        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. This must be a symmetric CMK. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS) and Using Symmetric and Asymmetric Keys.
         public let kmsKeyId: String
         /// The name of the log group.
         public let logGroupName: String
@@ -1229,7 +1229,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The name of the log stream.
         public let logStreamName: String
-        /// The token for the next set of items to return. (You received this token from a previous call.)
+        /// The token for the next set of items to return. (You received this token from a previous call.) Using this token works only when you specify true for startFromHead.
         public let nextToken: String?
         /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false. If you are using nextToken in this operation, you must specify true for startFromHead.
         public let startFromHead: Bool?
@@ -2252,7 +2252,7 @@ extension CloudWatchLogs {
 
         /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let endTime: Int64
-        /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned.
+        /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 1000.
         public let limit: Int?
         /// The log group on which to perform the query. A StartQuery operation must include a logGroupNames or a logGroupName parameter, but not both.
         public let logGroupName: String?

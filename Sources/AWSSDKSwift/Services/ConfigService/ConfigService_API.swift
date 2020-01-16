@@ -58,6 +58,11 @@ public struct ConfigService {
         return client.send(operation: "DeleteConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified conformance pack and all the AWS Config rules, remediation actions, and all evaluation results within that conformance pack. AWS Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state.
+    @discardableResult public func deleteConformancePack(_ input: DeleteConformancePackRequest) -> Future<Void> {
+        return client.send(operation: "DeleteConformancePack", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the delivery channel. Before you can delete the delivery channel, you must stop the configuration recorder by using the StopConfigurationRecorder action.
     @discardableResult public func deleteDeliveryChannel(_ input: DeleteDeliveryChannelRequest) -> Future<Void> {
         return client.send(operation: "DeleteDeliveryChannel", path: "/", httpMethod: "POST", input: input)
@@ -73,6 +78,11 @@ public struct ConfigService {
         return client.send(operation: "DeleteOrganizationConfigRule", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified organization conformance pack and all of the config rules and remediation actions from all member accounts in that organization. Only a master account can delete an organization conformance pack. AWS Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state. 
+    @discardableResult public func deleteOrganizationConformancePack(_ input: DeleteOrganizationConformancePackRequest) -> Future<Void> {
+        return client.send(operation: "DeleteOrganizationConformancePack", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes pending authorization requests for a specified aggregator account in a specified region.
     @discardableResult public func deletePendingAggregationRequest(_ input: DeletePendingAggregationRequestRequest) -> Future<Void> {
         return client.send(operation: "DeletePendingAggregationRequest", path: "/", httpMethod: "POST", input: input)
@@ -86,6 +96,11 @@ public struct ConfigService {
     ///  Deletes one or more remediation exceptions mentioned in the resource keys.
     public func deleteRemediationExceptions(_ input: DeleteRemediationExceptionsRequest) -> Future<DeleteRemediationExceptionsResponse> {
         return client.send(operation: "DeleteRemediationExceptions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your AWS Config History. 
+    @discardableResult public func deleteResourceConfig(_ input: DeleteResourceConfigRequest) -> Future<Void> {
+        return client.send(operation: "DeleteResourceConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the retention configuration.
@@ -148,6 +163,21 @@ public struct ConfigService {
         return client.send(operation: "DescribeConfigurationRecorders", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns compliance details for each rule in that conformance pack.  You must provide exact rule names. 
+    public func describeConformancePackCompliance(_ input: DescribeConformancePackComplianceRequest) -> Future<DescribeConformancePackComplianceResponse> {
+        return client.send(operation: "DescribeConformancePackCompliance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides one or more conformance packs deployment status.  If there are no conformance packs then you will see an empty result. 
+    public func describeConformancePackStatus(_ input: DescribeConformancePackStatusRequest) -> Future<DescribeConformancePackStatusResponse> {
+        return client.send(operation: "DescribeConformancePackStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of one or more conformance packs.
+    public func describeConformancePacks(_ input: DescribeConformancePacksRequest) -> Future<DescribeConformancePacksResponse> {
+        return client.send(operation: "DescribeConformancePacks", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the current status of the specified delivery channel. If a delivery channel is not specified, this action returns the current status of all delivery channels associated with the account.  Currently, you can specify only one delivery channel per region in your account. 
     public func describeDeliveryChannelStatus(_ input: DescribeDeliveryChannelStatusRequest) -> Future<DescribeDeliveryChannelStatusResponse> {
         return client.send(operation: "DescribeDeliveryChannelStatus", path: "/", httpMethod: "POST", input: input)
@@ -166,6 +196,16 @@ public struct ConfigService {
     ///  Returns a list of organization config rules.  When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization config rule names. It is only applicable, when you request all the organization config rules. Only a master account can call this API. 
     public func describeOrganizationConfigRules(_ input: DescribeOrganizationConfigRulesRequest) -> Future<DescribeOrganizationConfigRulesResponse> {
         return client.send(operation: "DescribeOrganizationConfigRules", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides organization conformance pack deployment status for an organization.  The status is not considered successful until organization conformance pack is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance pack names. They are only applicable, when you request all the organization conformance packs. Only a master account can call this API. 
+    public func describeOrganizationConformancePackStatuses(_ input: DescribeOrganizationConformancePackStatusesRequest) -> Future<DescribeOrganizationConformancePackStatusesResponse> {
+        return client.send(operation: "DescribeOrganizationConformancePackStatuses", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of organization conformance packs.  When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs.  Only a master account can call this API. 
+    public func describeOrganizationConformancePacks(_ input: DescribeOrganizationConformancePacksRequest) -> Future<DescribeOrganizationConformancePacksResponse> {
+        return client.send(operation: "DescribeOrganizationConformancePacks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of all pending aggregation requests.
@@ -233,6 +273,16 @@ public struct ConfigService {
         return client.send(operation: "GetComplianceSummaryByResourceType", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns compliance details of a conformance pack for all AWS resources that are monitered by conformance pack.
+    public func getConformancePackComplianceDetails(_ input: GetConformancePackComplianceDetailsRequest) -> Future<GetConformancePackComplianceDetailsResponse> {
+        return client.send(operation: "GetConformancePackComplianceDetails", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
+    public func getConformancePackComplianceSummary(_ input: GetConformancePackComplianceSummaryRequest) -> Future<GetConformancePackComplianceSummaryResponse> {
+        return client.send(operation: "GetConformancePackComplianceSummary", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the resource types, the number of each resource type, and the total number of resources that AWS Config is recording in this region for your AWS account.   Example    AWS Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets.   You make a call to the GetDiscoveredResourceCounts action and specify that you want all resource types.    AWS Config returns the following:   The resource types (EC2 instances, IAM users, and S3 buckets).   The number of each resource type (25, 20, and 15).   The total number of all resources (60).     The response is paginated. By default, AWS Config lists 100 ResourceCount objects on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.  If you make a call to the GetDiscoveredResourceCounts action, you might not immediately receive resource counts in the following situations:   You are a new AWS Config customer.   You just enabled resource recording.   It might take a few minutes for AWS Config to record and count your resources. Wait a few minutes and then retry the GetDiscoveredResourceCounts action.  
     public func getDiscoveredResourceCounts(_ input: GetDiscoveredResourceCountsRequest) -> Future<GetDiscoveredResourceCountsResponse> {
         return client.send(operation: "GetDiscoveredResourceCounts", path: "/", httpMethod: "POST", input: input)
@@ -241,6 +291,11 @@ public struct ConfigService {
     ///  Returns detailed status for each member account within an organization for a given organization config rule.  Only a master account can call this API. 
     public func getOrganizationConfigRuleDetailedStatus(_ input: GetOrganizationConfigRuleDetailedStatusRequest) -> Future<GetOrganizationConfigRuleDetailedStatusResponse> {
         return client.send(operation: "GetOrganizationConfigRuleDetailedStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns detailed status for each member account within an organization for a given organization conformance pack. Only a master account can call this API.
+    public func getOrganizationConformancePackDetailedStatus(_ input: GetOrganizationConformancePackDetailedStatusRequest) -> Future<GetOrganizationConformancePackDetailedStatusResponse> {
+        return client.send(operation: "GetOrganizationConformancePackDetailedStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of configuration items for the specified resource. The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your ConfigurationItems between a minimum of 30 days and a maximum of 7 years (2557 days), AWS Config returns the ConfigurationItems for the specified retention period.  The response is paginated. By default, AWS Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.  Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken. 
@@ -283,6 +338,11 @@ public struct ConfigService {
         return client.send(operation: "PutConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates or updates a conformance pack. A conformance pack is a collection of AWS Config rules that can be easily deployed in an account and a region and across AWS Organization. This API creates a service linked role AWSServiceRoleForConfigConforms in your account. The service linked role is created only when the role does not exist in your account. AWS Config verifies the existence of role with GetRole action.  You must specify either the TemplateS3Uri or the TemplateBody parameter, but not both. If you provide both AWS Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter. 
+    public func putConformancePack(_ input: PutConformancePackRequest) -> Future<PutConformancePackResponse> {
+        return client.send(operation: "PutConformancePack", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a delivery channel object to deliver configuration information to an Amazon S3 bucket and Amazon SNS topic. Before you can create a delivery channel, you must create a configuration recorder. You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values for the S3 bucket and the SNS topic. If you specify a different value for either the S3 bucket or the SNS topic, this action will keep the existing value for the parameter that is not changed.  You can have only one delivery channel per region in your account. 
     @discardableResult public func putDeliveryChannel(_ input: PutDeliveryChannelRequest) -> Future<Void> {
         return client.send(operation: "PutDeliveryChannel", path: "/", httpMethod: "POST", input: input)
@@ -298,6 +358,11 @@ public struct ConfigService {
         return client.send(operation: "PutOrganizationConfigRule", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deploys conformance packs across member accounts in an AWS Organization. This API enables organization service access for config-multiaccountsetup.amazonaws.com through the EnableAWSServiceAccess action and creates a service linked role AWSServiceRoleForConfigMultiAccountSetup in the master account of your organization. The service linked role is created only when the role does not exist in the master account. AWS Config verifies the existence of role with GetRole action.  You must specify either the TemplateS3Uri or the TemplateBody parameter, but not both. If you provide both AWS Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter. AWS Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the confomance pack is created or updated. You cannot update a conformance pack while it is in this state. You can create 6 conformance packs with 25 AWS Config rules in each pack. 
+    public func putOrganizationConformancePack(_ input: PutOrganizationConformancePackRequest) -> Future<PutOrganizationConformancePackResponse> {
+        return client.send(operation: "PutOrganizationConformancePack", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Adds or updates the remediation configuration with a specific AWS Config rule with the selected target or action. The API creates the RemediationConfiguration object for the AWS Config rule. The AWS Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target. 
     public func putRemediationConfigurations(_ input: PutRemediationConfigurationsRequest) -> Future<PutRemediationConfigurationsResponse> {
         return client.send(operation: "PutRemediationConfigurations", path: "/", httpMethod: "POST", input: input)
@@ -306,6 +371,11 @@ public struct ConfigService {
     ///  A remediation exception is when a specific resource is no longer considered for auto-remediation. This API adds a new exception or updates an exisiting exception for a specific resource with a specific AWS Config rule. 
     public func putRemediationExceptions(_ input: PutRemediationExceptionsRequest) -> Future<PutRemediationExceptionsResponse> {
         return client.send(operation: "PutRemediationExceptions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Records the configuration state for the resource provided in the request. The configuration state of a resource is represented in AWS Config as Configuration Items. Once this API records the configuration item, you can retrieve the list of configuration items for the custom resource type using existing AWS Config APIs.   The custom resource type must be registered with AWS CloudFormation. This API accepts the configuration item registered with AWS CloudFormation. When you call this API, AWS Config only stores configuration state of the resource provided in the request. This API does not change or remediate the configuration of the resource.  
+    @discardableResult public func putResourceConfig(_ input: PutResourceConfigRequest) -> Future<Void> {
+        return client.send(operation: "PutResourceConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates and updates the retention configuration with details about retention period (number of days) that AWS Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default. When you have a RetentionConfiguration object named default, calling the API modifies the default object.   Currently, AWS Config supports only one retention configuration per region in your account. 

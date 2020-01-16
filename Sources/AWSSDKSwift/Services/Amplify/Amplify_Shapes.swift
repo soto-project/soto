@@ -213,6 +213,48 @@ extension Amplify {
         }
     }
 
+    public struct BackendEnvironment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "backendEnvironmentArn", required: true, type: .string), 
+            AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "deploymentArtifacts", required: false, type: .string), 
+            AWSShapeMember(label: "environmentName", required: true, type: .string), 
+            AWSShapeMember(label: "stackName", required: false, type: .string), 
+            AWSShapeMember(label: "updateTime", required: true, type: .timestamp)
+        ]
+
+        ///  Arn for a backend environment, part of an Amplify App. 
+        public let backendEnvironmentArn: String
+        ///  Creation date and time for a backend environment, part of an Amplify App. 
+        public let createTime: TimeStamp
+        ///  Name of deployment artifacts. 
+        public let deploymentArtifacts: String?
+        ///  Name for a backend environment, part of an Amplify App. 
+        public let environmentName: String
+        ///  CloudFormation stack name of backend environment. 
+        public let stackName: String?
+        ///  Last updated date and time for a backend environment, part of an Amplify App. 
+        public let updateTime: TimeStamp
+
+        public init(backendEnvironmentArn: String, createTime: TimeStamp, deploymentArtifacts: String? = nil, environmentName: String, stackName: String? = nil, updateTime: TimeStamp) {
+            self.backendEnvironmentArn = backendEnvironmentArn
+            self.createTime = createTime
+            self.deploymentArtifacts = deploymentArtifacts
+            self.environmentName = environmentName
+            self.stackName = stackName
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backendEnvironmentArn = "backendEnvironmentArn"
+            case createTime = "createTime"
+            case deploymentArtifacts = "deploymentArtifacts"
+            case environmentName = "environmentName"
+            case stackName = "stackName"
+            case updateTime = "updateTime"
+        }
+    }
+
     public struct Branch: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "activeJobId", required: true, type: .string), 
@@ -498,6 +540,66 @@ extension Amplify {
 
         private enum CodingKeys: String, CodingKey {
             case app = "app"
+        }
+    }
+
+    public struct CreateBackendEnvironmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "deploymentArtifacts", required: false, type: .string), 
+            AWSShapeMember(label: "environmentName", required: true, type: .string), 
+            AWSShapeMember(label: "stackName", required: false, type: .string)
+        ]
+
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Name of deployment artifacts. 
+        public let deploymentArtifacts: String?
+        ///  Name for the backend environment. 
+        public let environmentName: String
+        ///  CloudFormation stack name of backend environment. 
+        public let stackName: String?
+
+        public init(appId: String, deploymentArtifacts: String? = nil, environmentName: String, stackName: String? = nil) {
+            self.appId = appId
+            self.deploymentArtifacts = deploymentArtifacts
+            self.environmentName = environmentName
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name:"appId", parent: name, max: 255)
+            try validate(self.appId, name:"appId", parent: name, min: 1)
+            try validate(self.deploymentArtifacts, name:"deploymentArtifacts", parent: name, max: 1000)
+            try validate(self.deploymentArtifacts, name:"deploymentArtifacts", parent: name, min: 1)
+            try validate(self.environmentName, name:"environmentName", parent: name, max: 255)
+            try validate(self.environmentName, name:"environmentName", parent: name, min: 1)
+            try validate(self.stackName, name:"stackName", parent: name, max: 255)
+            try validate(self.stackName, name:"stackName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case deploymentArtifacts = "deploymentArtifacts"
+            case environmentName = "environmentName"
+            case stackName = "stackName"
+        }
+    }
+
+    public struct CreateBackendEnvironmentResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "backendEnvironment", required: true, type: .structure)
+        ]
+
+        ///  Backend environment structure for an amplify App. 
+        public let backendEnvironment: BackendEnvironment
+
+        public init(backendEnvironment: BackendEnvironment) {
+            self.backendEnvironment = backendEnvironment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backendEnvironment = "backendEnvironment"
         }
     }
 
@@ -898,6 +1000,52 @@ extension Amplify {
         }
     }
 
+    public struct DeleteBackendEnvironmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "environmentName", location: .uri(locationName: "environmentName"), required: true, type: .string)
+        ]
+
+        ///  Unique Id of an Amplify App. 
+        public let appId: String
+        ///  Name of a backend environment of an Amplify App. 
+        public let environmentName: String
+
+        public init(appId: String, environmentName: String) {
+            self.appId = appId
+            self.environmentName = environmentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name:"appId", parent: name, max: 255)
+            try validate(self.appId, name:"appId", parent: name, min: 1)
+            try validate(self.environmentName, name:"environmentName", parent: name, max: 255)
+            try validate(self.environmentName, name:"environmentName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case environmentName = "environmentName"
+        }
+    }
+
+    public struct DeleteBackendEnvironmentResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "backendEnvironment", required: true, type: .structure)
+        ]
+
+        ///  Backend environment structure for an Amplify App. 
+        public let backendEnvironment: BackendEnvironment
+
+        public init(backendEnvironment: BackendEnvironment) {
+            self.backendEnvironment = backendEnvironment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backendEnvironment = "backendEnvironment"
+        }
+    }
+
     public struct DeleteBranchRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
@@ -1269,6 +1417,52 @@ extension Amplify {
         private enum CodingKeys: String, CodingKey {
             case artifactId = "artifactId"
             case artifactUrl = "artifactUrl"
+        }
+    }
+
+    public struct GetBackendEnvironmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "environmentName", location: .uri(locationName: "environmentName"), required: true, type: .string)
+        ]
+
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Name for the backend environment. 
+        public let environmentName: String
+
+        public init(appId: String, environmentName: String) {
+            self.appId = appId
+            self.environmentName = environmentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name:"appId", parent: name, max: 255)
+            try validate(self.appId, name:"appId", parent: name, min: 1)
+            try validate(self.environmentName, name:"environmentName", parent: name, max: 255)
+            try validate(self.environmentName, name:"environmentName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case environmentName = "environmentName"
+        }
+    }
+
+    public struct GetBackendEnvironmentResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "backendEnvironment", required: true, type: .structure)
+        ]
+
+        ///  Backend environment structure for an an Amplify App. 
+        public let backendEnvironment: BackendEnvironment
+
+        public init(backendEnvironment: BackendEnvironment) {
+            self.backendEnvironment = backendEnvironment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backendEnvironment = "backendEnvironment"
         }
     }
 
@@ -1665,6 +1859,70 @@ extension Amplify {
 
         private enum CodingKeys: String, CodingKey {
             case artifacts = "artifacts"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBackendEnvironmentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "environmentName", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        ///  Unique Id for an amplify App. 
+        public let appId: String
+        ///  Name of the backend environment 
+        public let environmentName: String?
+        ///  Maximum number of records to list in a single response. 
+        public let maxResults: Int?
+        ///  Pagination token. Set to null to start listing backen environments from start. If a non-null pagination token is returned in a result, then pass its value in here to list more backend environments. 
+        public let nextToken: String?
+
+        public init(appId: String, environmentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appId = appId
+            self.environmentName = environmentName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name:"appId", parent: name, max: 255)
+            try validate(self.appId, name:"appId", parent: name, min: 1)
+            try validate(self.environmentName, name:"environmentName", parent: name, max: 255)
+            try validate(self.environmentName, name:"environmentName", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case environmentName = "environmentName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBackendEnvironmentsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "backendEnvironments", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        ///  List of backend environments for an Amplify App. 
+        public let backendEnvironments: [BackendEnvironment]
+        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        public let nextToken: String?
+
+        public init(backendEnvironments: [BackendEnvironment], nextToken: String? = nil) {
+            self.backendEnvironments = backendEnvironments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backendEnvironments = "backendEnvironments"
             case nextToken = "nextToken"
         }
     }

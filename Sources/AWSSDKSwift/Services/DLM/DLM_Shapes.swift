@@ -10,29 +10,44 @@ extension DLM {
             AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "ExecutionRoleArn", required: true, type: .string), 
             AWSShapeMember(label: "PolicyDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "State", required: true, type: .enum)
+            AWSShapeMember(label: "State", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
 
         /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are supported.
         public let description: String
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
         public let executionRoleArn: String
-        /// The configuration details of the lifecycle policy. Target tags cannot be re-used across lifecycle policies.
+        /// The configuration details of the lifecycle policy.
         public let policyDetails: PolicyDetails
         /// The desired activation state of the lifecycle policy after creation.
         public let state: SettablePolicyStateValues
+        /// The tags to apply to the lifecycle policy during creation.
+        public let tags: [String: String]?
 
-        public init(description: String, executionRoleArn: String, policyDetails: PolicyDetails, state: SettablePolicyStateValues) {
+        public init(description: String, executionRoleArn: String, policyDetails: PolicyDetails, state: SettablePolicyStateValues, tags: [String: String]? = nil) {
             self.description = description
             self.executionRoleArn = executionRoleArn
             self.policyDetails = policyDetails
             self.state = state
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.description, name:"description", parent: name, max: 500)
             try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "[0-9A-Za-z _-]+")
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 2048)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 0)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "arn:aws:iam::\\d+:role/.*")
             try self.policyDetails.validate(name: "\(name).policyDetails")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[\\p{all}]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -40,6 +55,7 @@ extension DLM {
             case executionRoleArn = "ExecutionRoleArn"
             case policyDetails = "PolicyDetails"
             case state = "State"
+            case tags = "Tags"
         }
     }
 
@@ -83,7 +99,9 @@ extension DLM {
         public func validate(name: String) throws {
             try validate(self.interval, name:"interval", parent: name, min: 1)
             try self.times?.forEach {
-                try validate($0, name: "times[]", parent: name, pattern: "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+                try validate($0, name: "times[]", parent: name, max: 5)
+                try validate($0, name: "times[]", parent: name, min: 5)
+                try validate($0, name: "times[]", parent: name, pattern: "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
             }
             try validate(self.times, name:"times", parent: name, max: 1)
         }
@@ -92,6 +110,79 @@ extension DLM {
             case interval = "Interval"
             case intervalUnit = "IntervalUnit"
             case times = "Times"
+        }
+    }
+
+    public struct CrossRegionCopyRetainRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Interval", required: false, type: .integer), 
+            AWSShapeMember(label: "IntervalUnit", required: false, type: .enum)
+        ]
+
+        /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
+        public let interval: Int?
+        /// The unit of time for time-based retention.
+        public let intervalUnit: RetentionIntervalUnitValues?
+
+        public init(interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
+            self.interval = interval
+            self.intervalUnit = intervalUnit
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.interval, name:"interval", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interval = "Interval"
+            case intervalUnit = "IntervalUnit"
+        }
+    }
+
+    public struct CrossRegionCopyRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CmkArn", required: false, type: .string), 
+            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
+            AWSShapeMember(label: "Encrypted", required: true, type: .boolean), 
+            AWSShapeMember(label: "RetainRule", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetRegion", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to use for EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used.
+        public let cmkArn: String?
+        /// Copy all user-defined tags from the source snapshot to the copied snapshot.
+        public let copyTags: Bool?
+        /// To encrypt a copy of an unencrypted snapshot if encryption by default is not enabled, enable encryption using this parameter. Copies of encrypted snapshots are encrypted, even if this parameter is false or if encryption by default is not enabled.
+        public let encrypted: Bool
+        /// The retention rule.
+        public let retainRule: CrossRegionCopyRetainRule?
+        /// The target Region.
+        public let targetRegion: String
+
+        public init(cmkArn: String? = nil, copyTags: Bool? = nil, encrypted: Bool, retainRule: CrossRegionCopyRetainRule? = nil, targetRegion: String) {
+            self.cmkArn = cmkArn
+            self.copyTags = copyTags
+            self.encrypted = encrypted
+            self.retainRule = retainRule
+            self.targetRegion = targetRegion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.cmkArn, name:"cmkArn", parent: name, max: 2048)
+            try validate(self.cmkArn, name:"cmkArn", parent: name, min: 0)
+            try validate(self.cmkArn, name:"cmkArn", parent: name, pattern: "arn:aws(-[a-z]{1,3}){0,2}:kms:([a-z]+-){2,3}\\d:\\d+:key/.*")
+            try self.retainRule?.validate(name: "\(name).retainRule")
+            try validate(self.targetRegion, name:"targetRegion", parent: name, max: 16)
+            try validate(self.targetRegion, name:"targetRegion", parent: name, min: 0)
+            try validate(self.targetRegion, name:"targetRegion", parent: name, pattern: "([a-z]+-){2,3}\\d")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cmkArn = "CmkArn"
+            case copyTags = "CopyTags"
+            case encrypted = "Encrypted"
+            case retainRule = "RetainRule"
+            case targetRegion = "TargetRegion"
         }
     }
 
@@ -107,6 +198,12 @@ extension DLM {
             self.policyId = policyId
         }
 
+        public func validate(name: String) throws {
+            try validate(self.policyId, name:"policyId", parent: name, max: 64)
+            try validate(self.policyId, name:"policyId", parent: name, min: 0)
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "policy-[A-Za-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyId = "policyId"
         }
@@ -118,6 +215,51 @@ extension DLM {
         public init() {
         }
 
+    }
+
+    public struct FastRestoreRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeMember(label: "Count", required: false, type: .integer), 
+            AWSShapeMember(label: "Interval", required: false, type: .integer), 
+            AWSShapeMember(label: "IntervalUnit", required: false, type: .enum)
+        ]
+
+        /// The Availability Zones in which to enable fast snapshot restore.
+        public let availabilityZones: [String]
+        /// The number of snapshots to be enabled with fast snapshot restore.
+        public let count: Int?
+        /// The amount of time to enable fast snapshot restore. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
+        public let interval: Int?
+        /// The unit of time for enabling fast snapshot restore.
+        public let intervalUnit: RetentionIntervalUnitValues?
+
+        public init(availabilityZones: [String], count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
+            self.availabilityZones = availabilityZones
+            self.count = count
+            self.interval = interval
+            self.intervalUnit = intervalUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.availabilityZones.forEach {
+                try validate($0, name: "availabilityZones[]", parent: name, max: 16)
+                try validate($0, name: "availabilityZones[]", parent: name, min: 0)
+                try validate($0, name: "availabilityZones[]", parent: name, pattern: "([a-z]+-){2,3}\\d[a-z]")
+            }
+            try validate(self.availabilityZones, name:"availabilityZones", parent: name, max: 10)
+            try validate(self.availabilityZones, name:"availabilityZones", parent: name, min: 1)
+            try validate(self.count, name:"count", parent: name, max: 1000)
+            try validate(self.count, name:"count", parent: name, min: 1)
+            try validate(self.interval, name:"interval", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case count = "Count"
+            case interval = "Interval"
+            case intervalUnit = "IntervalUnit"
+        }
     }
 
     public struct GetLifecyclePoliciesRequest: AWSShape {
@@ -149,10 +291,25 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
+            try self.policyIds?.forEach {
+                try validate($0, name: "policyIds[]", parent: name, max: 64)
+                try validate($0, name: "policyIds[]", parent: name, min: 0)
+                try validate($0, name: "policyIds[]", parent: name, pattern: "policy-[A-Za-z0-9]+")
+            }
             try validate(self.resourceTypes, name:"resourceTypes", parent: name, max: 1)
             try validate(self.resourceTypes, name:"resourceTypes", parent: name, min: 1)
+            try self.tagsToAdd?.forEach {
+                try validate($0, name: "tagsToAdd[]", parent: name, max: 256)
+                try validate($0, name: "tagsToAdd[]", parent: name, min: 0)
+                try validate($0, name: "tagsToAdd[]", parent: name, pattern: "[\\p{all}]*")
+            }
             try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, max: 50)
             try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, min: 0)
+            try self.targetTags?.forEach {
+                try validate($0, name: "targetTags[]", parent: name, max: 256)
+                try validate($0, name: "targetTags[]", parent: name, min: 0)
+                try validate($0, name: "targetTags[]", parent: name, pattern: "[\\p{all}]*")
+            }
             try validate(self.targetTags, name:"targetTags", parent: name, max: 50)
             try validate(self.targetTags, name:"targetTags", parent: name, min: 1)
         }
@@ -195,6 +352,12 @@ extension DLM {
             self.policyId = policyId
         }
 
+        public func validate(name: String) throws {
+            try validate(self.policyId, name:"policyId", parent: name, max: 64)
+            try validate(self.policyId, name:"policyId", parent: name, min: 0)
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "policy-[A-Za-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyId = "policyId"
         }
@@ -235,9 +398,12 @@ extension DLM {
             AWSShapeMember(label: "DateModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
             AWSShapeMember(label: "PolicyDetails", required: false, type: .structure), 
             AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
 
         /// The local date and time when the lifecycle policy was created.
@@ -248,21 +414,30 @@ extension DLM {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
         public let executionRoleArn: String?
+        /// The Amazon Resource Name (ARN) of the policy.
+        public let policyArn: String?
         /// The configuration of the lifecycle policy
         public let policyDetails: PolicyDetails?
         /// The identifier of the lifecycle policy.
         public let policyId: String?
         /// The activation state of the lifecycle policy.
         public let state: GettablePolicyStateValues?
+        /// The description of the status.
+        public let statusMessage: String?
+        /// The tags.
+        public let tags: [String: String]?
 
-        public init(dateCreated: TimeStamp? = nil, dateModified: TimeStamp? = nil, description: String? = nil, executionRoleArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil) {
+        public init(dateCreated: TimeStamp? = nil, dateModified: TimeStamp? = nil, description: String? = nil, executionRoleArn: String? = nil, policyArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
             self.description = description
             self.executionRoleArn = executionRoleArn
+            self.policyArn = policyArn
             self.policyDetails = policyDetails
             self.policyId = policyId
             self.state = state
+            self.statusMessage = statusMessage
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -270,9 +445,12 @@ extension DLM {
             case dateModified = "DateModified"
             case description = "Description"
             case executionRoleArn = "ExecutionRoleArn"
+            case policyArn = "PolicyArn"
             case policyDetails = "PolicyDetails"
             case policyId = "PolicyId"
             case state = "State"
+            case statusMessage = "StatusMessage"
+            case tags = "Tags"
         }
     }
 
@@ -280,7 +458,8 @@ extension DLM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
 
         /// The description of the lifecycle policy.
@@ -289,17 +468,61 @@ extension DLM {
         public let policyId: String?
         /// The activation state of the lifecycle policy.
         public let state: GettablePolicyStateValues?
+        /// The tags.
+        public let tags: [String: String]?
 
-        public init(description: String? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil) {
+        public init(description: String? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.policyId = policyId
             self.state = state
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case policyId = "PolicyId"
             case state = "State"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 0)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+
+        /// Information about the tags.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -356,6 +579,9 @@ extension DLM {
             }
             try validate(self.schedules, name:"schedules", parent: name, max: 1)
             try validate(self.schedules, name:"schedules", parent: name, min: 1)
+            try self.targetTags?.forEach {
+                try $0.validate(name: "\(name).targetTags[]")
+            }
             try validate(self.targetTags, name:"targetTags", parent: name, max: 50)
             try validate(self.targetTags, name:"targetTags", parent: name, min: 1)
         }
@@ -382,30 +608,51 @@ extension DLM {
 
     public struct RetainRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: true, type: .integer)
+            AWSShapeMember(label: "Count", required: false, type: .integer), 
+            AWSShapeMember(label: "Interval", required: false, type: .integer), 
+            AWSShapeMember(label: "IntervalUnit", required: false, type: .enum)
         ]
 
-        /// The number of snapshots to keep for each volume, up to a maximum of 1000.
-        public let count: Int
+        /// The number of snapshots to retain for each volume, up to a maximum of 1000.
+        public let count: Int?
+        /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
+        public let interval: Int?
+        /// The unit of time for time-based retention.
+        public let intervalUnit: RetentionIntervalUnitValues?
 
-        public init(count: Int) {
+        public init(count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
             self.count = count
+            self.interval = interval
+            self.intervalUnit = intervalUnit
         }
 
         public func validate(name: String) throws {
             try validate(self.count, name:"count", parent: name, max: 1000)
             try validate(self.count, name:"count", parent: name, min: 1)
+            try validate(self.interval, name:"interval", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
+            case interval = "Interval"
+            case intervalUnit = "IntervalUnit"
         }
+    }
+
+    public enum RetentionIntervalUnitValues: String, CustomStringConvertible, Codable {
+        case days = "DAYS"
+        case weeks = "WEEKS"
+        case months = "MONTHS"
+        case years = "YEARS"
+        public var description: String { return self.rawValue }
     }
 
     public struct Schedule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
             AWSShapeMember(label: "CreateRule", required: false, type: .structure), 
+            AWSShapeMember(label: "CrossRegionCopyRules", required: false, type: .list), 
+            AWSShapeMember(label: "FastRestoreRule", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "RetainRule", required: false, type: .structure), 
             AWSShapeMember(label: "TagsToAdd", required: false, type: .list), 
@@ -414,20 +661,26 @@ extension DLM {
 
         /// Copy all user-defined tags on a source volume to snapshots of the volume created by this policy.
         public let copyTags: Bool?
-        /// The create rule.
+        /// The creation rule.
         public let createRule: CreateRule?
+        /// The rule for cross-Region snapshot copies.
+        public let crossRegionCopyRules: [CrossRegionCopyRule]?
+        /// The rule for enabling fast snapshot restore.
+        public let fastRestoreRule: FastRestoreRule?
         /// The name of the schedule.
         public let name: String?
-        /// The retain rule.
+        /// The retention rule.
         public let retainRule: RetainRule?
         /// The tags to apply to policy-created resources. These user-defined tags are in addition to the AWS-added lifecycle tags.
         public let tagsToAdd: [Tag]?
         /// A collection of key/value pairs with values determined dynamically when the policy is executed. Keys may be any valid Amazon EC2 tag key. Values must be in one of the two following formats: $(instance-id) or $(timestamp). Variable tags are only valid for EBS Snapshot Management – Instance policies.
         public let variableTags: [Tag]?
 
-        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
+        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, crossRegionCopyRules: [CrossRegionCopyRule]? = nil, fastRestoreRule: FastRestoreRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
             self.copyTags = copyTags
             self.createRule = createRule
+            self.crossRegionCopyRules = crossRegionCopyRules
+            self.fastRestoreRule = fastRestoreRule
             self.name = name
             self.retainRule = retainRule
             self.tagsToAdd = tagsToAdd
@@ -436,11 +689,24 @@ extension DLM {
 
         public func validate(name: String) throws {
             try self.createRule?.validate(name: "\(name).createRule")
+            try self.crossRegionCopyRules?.forEach {
+                try $0.validate(name: "\(name).crossRegionCopyRules[]")
+            }
+            try validate(self.crossRegionCopyRules, name:"crossRegionCopyRules", parent: name, max: 3)
+            try validate(self.crossRegionCopyRules, name:"crossRegionCopyRules", parent: name, min: 0)
+            try self.fastRestoreRule?.validate(name: "\(name).fastRestoreRule")
             try validate(self.name, name:"name", parent: name, max: 500)
             try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\p{all}]*")
             try self.retainRule?.validate(name: "\(name).retainRule")
+            try self.tagsToAdd?.forEach {
+                try $0.validate(name: "\(name).tagsToAdd[]")
+            }
             try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, max: 50)
             try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, min: 0)
+            try self.variableTags?.forEach {
+                try $0.validate(name: "\(name).variableTags[]")
+            }
             try validate(self.variableTags, name:"variableTags", parent: name, max: 50)
             try validate(self.variableTags, name:"variableTags", parent: name, min: 0)
         }
@@ -448,6 +714,8 @@ extension DLM {
         private enum CodingKeys: String, CodingKey {
             case copyTags = "CopyTags"
             case createRule = "CreateRule"
+            case crossRegionCopyRules = "CrossRegionCopyRules"
+            case fastRestoreRule = "FastRestoreRule"
             case name = "Name"
             case retainRule = "RetainRule"
             case tagsToAdd = "TagsToAdd"
@@ -477,10 +745,105 @@ extension DLM {
             self.value = value
         }
 
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 500)
+            try validate(self.key, name:"key", parent: name, min: 0)
+            try validate(self.key, name:"key", parent: name, pattern: "[\\p{all}]*")
+            try validate(self.value, name:"value", parent: name, max: 500)
+            try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: "[\\p{all}]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
         }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .map)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        /// One or more tags.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 0)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
+            try self.tags.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[\\p{all}]*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 0)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateLifecyclePolicyRequest: AWSShape {
@@ -496,7 +859,7 @@ extension DLM {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
         public let executionRoleArn: String?
-        /// The configuration of the lifecycle policy. Target tags cannot be re-used across policies.
+        /// The configuration of the lifecycle policy. You cannot update the policy type or the resource type.
         public let policyDetails: PolicyDetails?
         /// The identifier of the lifecycle policy.
         public let policyId: String
@@ -514,7 +877,14 @@ extension DLM {
         public func validate(name: String) throws {
             try validate(self.description, name:"description", parent: name, max: 500)
             try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "[0-9A-Za-z _-]+")
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 2048)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 0)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "arn:aws:iam::\\d+:role/.*")
             try self.policyDetails?.validate(name: "\(name).policyDetails")
+            try validate(self.policyId, name:"policyId", parent: name, max: 64)
+            try validate(self.policyId, name:"policyId", parent: name, min: 0)
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "policy-[A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {

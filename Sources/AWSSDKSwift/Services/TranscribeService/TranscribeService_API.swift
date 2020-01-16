@@ -33,6 +33,11 @@ public struct TranscribeService {
         return client.send(operation: "CreateVocabulary", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a new vocabulary filter that you can use to filter words, such as profane words, from the output of a transcription job.
+    public func createVocabularyFilter(_ input: CreateVocabularyFilterRequest) -> Future<CreateVocabularyFilterResponse> {
+        return client.send(operation: "CreateVocabularyFilter", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a previously submitted transcription job along with any other generated results such as the transcription, models, and so on.
     @discardableResult public func deleteTranscriptionJob(_ input: DeleteTranscriptionJobRequest) -> Future<Void> {
         return client.send(operation: "DeleteTranscriptionJob", path: "/", httpMethod: "POST", input: input)
@@ -41,6 +46,11 @@ public struct TranscribeService {
     ///  Deletes a vocabulary from Amazon Transcribe. 
     @discardableResult public func deleteVocabulary(_ input: DeleteVocabularyRequest) -> Future<Void> {
         return client.send(operation: "DeleteVocabulary", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes a vocabulary filter.
+    @discardableResult public func deleteVocabularyFilter(_ input: DeleteVocabularyFilterRequest) -> Future<Void> {
+        return client.send(operation: "DeleteVocabularyFilter", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a transcription job. To see the status of the job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in the TranscriptionFileUri field.
@@ -53,6 +63,11 @@ public struct TranscribeService {
         return client.send(operation: "GetVocabulary", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns information about a vocabulary filter.
+    public func getVocabularyFilter(_ input: GetVocabularyFilterRequest) -> Future<GetVocabularyFilterResponse> {
+        return client.send(operation: "GetVocabularyFilter", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists transcription jobs with the specified status.
     public func listTranscriptionJobs(_ input: ListTranscriptionJobsRequest) -> Future<ListTranscriptionJobsResponse> {
         return client.send(operation: "ListTranscriptionJobs", path: "/", httpMethod: "POST", input: input)
@@ -63,6 +78,11 @@ public struct TranscribeService {
         return client.send(operation: "ListVocabularies", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets information about vocabulary filters.
+    public func listVocabularyFilters(_ input: ListVocabularyFiltersRequest) -> Future<ListVocabularyFiltersResponse> {
+        return client.send(operation: "ListVocabularyFilters", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Starts an asynchronous job to transcribe speech to text. 
     public func startTranscriptionJob(_ input: StartTranscriptionJobRequest) -> Future<StartTranscriptionJobResponse> {
         return client.send(operation: "StartTranscriptionJob", path: "/", httpMethod: "POST", input: input)
@@ -71,5 +91,10 @@ public struct TranscribeService {
     ///  Updates an existing vocabulary with new values. The UpdateVocabulary operation overwrites all of the existing information with the values that you provide in the request. 
     public func updateVocabulary(_ input: UpdateVocabularyRequest) -> Future<UpdateVocabularyResponse> {
         return client.send(operation: "UpdateVocabulary", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a vocabulary filter with a new list of filtered words.
+    public func updateVocabularyFilter(_ input: UpdateVocabularyFilterRequest) -> Future<UpdateVocabularyFilterResponse> {
+        return client.send(operation: "UpdateVocabularyFilter", path: "/", httpMethod: "POST", input: input)
     }
 }

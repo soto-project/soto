@@ -886,6 +886,63 @@ extension CloudFormation {
 
     }
 
+    public enum DeprecatedStatus: String, CustomStringConvertible, Codable {
+        case live = "LIVE"
+        case deprecated = "DEPRECATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeregisterTypeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify TypeName or Arn.
+        public let arn: String?
+        /// The kind of type. Currently the only valid value is RESOURCE.
+        public let `type`: RegistryType?
+        /// The name of the type. Conditional: You must specify TypeName or Arn.
+        public let typeName: String?
+        /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
+        public let versionId: String?
+
+        public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
+            self.arn = arn
+            self.`type` = `type`
+            self.typeName = typeName
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, max: 1024)
+            try validate(self.arn, name:"arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
+            try validate(self.typeName, name:"typeName", parent: name, max: 196)
+            try validate(self.typeName, name:"typeName", parent: name, min: 10)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+            try validate(self.versionId, name:"versionId", parent: name, max: 128)
+            try validate(self.versionId, name:"versionId", parent: name, min: 1)
+            try validate(self.versionId, name:"versionId", parent: name, pattern: "[A-Za-z0-9-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case `type` = "Type"
+            case typeName = "TypeName"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct DeregisterTypeOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DescribeAccountLimitsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
@@ -1501,6 +1558,191 @@ extension CloudFormation {
         }
     }
 
+    public struct DescribeTypeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify TypeName or Arn.
+        public let arn: String?
+        /// The kind of type.  Currently the only valid value is RESOURCE.
+        public let `type`: RegistryType?
+        /// The name of the type. Conditional: You must specify TypeName or Arn.
+        public let typeName: String?
+        /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered. If you specify a VersionId, DescribeType returns information about that specific type version. Otherwise, it returns information about the default type version.
+        public let versionId: String?
+
+        public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
+            self.arn = arn
+            self.`type` = `type`
+            self.typeName = typeName
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, max: 1024)
+            try validate(self.arn, name:"arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
+            try validate(self.typeName, name:"typeName", parent: name, max: 196)
+            try validate(self.typeName, name:"typeName", parent: name, min: 10)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+            try validate(self.versionId, name:"versionId", parent: name, max: 128)
+            try validate(self.versionId, name:"versionId", parent: name, min: 1)
+            try validate(self.versionId, name:"versionId", parent: name, pattern: "[A-Za-z0-9-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case `type` = "Type"
+            case typeName = "TypeName"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct DescribeTypeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "DeprecatedStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentationUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LoggingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisioningType", required: false, type: .enum), 
+            AWSShapeMember(label: "Schema", required: false, type: .string), 
+            AWSShapeMember(label: "SourceUrl", required: false, type: .string), 
+            AWSShapeMember(label: "TimeCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string), 
+            AWSShapeMember(label: "Visibility", required: false, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the type.
+        public let arn: String?
+        /// The ID of the default version of the type. The default version is used when the type version is not specified. To set the default version of a type, use  SetTypeDefaultVersion . 
+        public let defaultVersionId: String?
+        /// The deprecation status of the type. Valid values include:    LIVE: The type is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The type has been deregistered and can no longer be used in CloudFormation operations.   
+        public let deprecatedStatus: DeprecatedStatus?
+        /// The description of the registered type.
+        public let description: String?
+        /// The URL of a page providing detailed documentation for this type.
+        public let documentationUrl: String?
+        /// The Amazon Resource Name (ARN) of the IAM execution role used to register the type. If your resource type calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your resource type with the appropriate credentials.
+        public let executionRoleArn: String?
+        /// When the specified type version was registered.
+        public let lastUpdated: TimeStamp?
+        /// Contains logging configuration information for a type.
+        public let loggingConfig: LoggingConfig?
+        /// The provisioning behavior of the type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The type does not include an update handler, so the type cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The type does not include all of the following handlers, and therefore cannot actually be provisioned.   create   read   delete    
+        public let provisioningType: ProvisioningType?
+        /// The schema that defines the type. For more information on type schemas, see Resource Provider Schema in the CloudFormation CLI User Guide.
+        public let schema: String?
+        /// The URL of the source code for the type.
+        public let sourceUrl: String?
+        /// When the specified type version was registered.
+        public let timeCreated: TimeStamp?
+        /// The kind of type.  Currently the only valid value is RESOURCE.
+        public let `type`: RegistryType?
+        /// The name of the registered type.
+        public let typeName: String?
+        /// The scope at which the type is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The type is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you register as PRIVATE.    PUBLIC: The type is publically visible and usable within any Amazon account.  
+        public let visibility: Visibility?
+
+        public init(arn: String? = nil, defaultVersionId: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, description: String? = nil, documentationUrl: String? = nil, executionRoleArn: String? = nil, lastUpdated: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, provisioningType: ProvisioningType? = nil, schema: String? = nil, sourceUrl: String? = nil, timeCreated: TimeStamp? = nil, type: RegistryType? = nil, typeName: String? = nil, visibility: Visibility? = nil) {
+            self.arn = arn
+            self.defaultVersionId = defaultVersionId
+            self.deprecatedStatus = deprecatedStatus
+            self.description = description
+            self.documentationUrl = documentationUrl
+            self.executionRoleArn = executionRoleArn
+            self.lastUpdated = lastUpdated
+            self.loggingConfig = loggingConfig
+            self.provisioningType = provisioningType
+            self.schema = schema
+            self.sourceUrl = sourceUrl
+            self.timeCreated = timeCreated
+            self.`type` = `type`
+            self.typeName = typeName
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case defaultVersionId = "DefaultVersionId"
+            case deprecatedStatus = "DeprecatedStatus"
+            case description = "Description"
+            case documentationUrl = "DocumentationUrl"
+            case executionRoleArn = "ExecutionRoleArn"
+            case lastUpdated = "LastUpdated"
+            case loggingConfig = "LoggingConfig"
+            case provisioningType = "ProvisioningType"
+            case schema = "Schema"
+            case sourceUrl = "SourceUrl"
+            case timeCreated = "TimeCreated"
+            case `type` = "Type"
+            case typeName = "TypeName"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct DescribeTypeRegistrationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegistrationToken", required: true, type: .string)
+        ]
+
+        /// The identifier for this registration request. This registration token is generated by CloudFormation when you initiate a registration request using  RegisterType .
+        public let registrationToken: String
+
+        public init(registrationToken: String) {
+            self.registrationToken = registrationToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.registrationToken, name:"registrationToken", parent: name, max: 128)
+            try validate(self.registrationToken, name:"registrationToken", parent: name, min: 1)
+            try validate(self.registrationToken, name:"registrationToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationToken = "RegistrationToken"
+        }
+    }
+
+    public struct DescribeTypeRegistrationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ProgressStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeArn", required: false, type: .string), 
+            AWSShapeMember(label: "TypeVersionArn", required: false, type: .string)
+        ]
+
+        /// The description of the type registration request.
+        public let description: String?
+        /// The current status of the type registration request.
+        public let progressStatus: RegistrationStatus?
+        /// The Amazon Resource Name (ARN) of the type being registered. For registration requests with a ProgressStatus of other than COMPLETE, this will be null.
+        public let typeArn: String?
+        /// The Amazon Resource Name (ARN) of this specific version of the type being registered. For registration requests with a ProgressStatus of other than COMPLETE, this will be null.
+        public let typeVersionArn: String?
+
+        public init(description: String? = nil, progressStatus: RegistrationStatus? = nil, typeArn: String? = nil, typeVersionArn: String? = nil) {
+            self.description = description
+            self.progressStatus = progressStatus
+            self.typeArn = typeArn
+            self.typeVersionArn = typeVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case progressStatus = "ProgressStatus"
+            case typeArn = "TypeArn"
+            case typeVersionArn = "TypeVersionArn"
+        }
+    }
+
     public struct DetectStackDriftInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LogicalResourceIds", required: false, type: .list, encoding: .list(member:"member")), 
@@ -1588,6 +1830,57 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case stackResourceDrift = "StackResourceDrift"
+        }
+    }
+
+    public struct DetectStackSetDriftInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: false, type: .string), 
+            AWSShapeMember(label: "OperationPreferences", required: false, type: .structure), 
+            AWSShapeMember(label: "StackSetName", required: true, type: .string)
+        ]
+
+        ///  The ID of the stack set operation. 
+        public let operationId: String?
+        public let operationPreferences: StackSetOperationPreferences?
+        /// The name of the stack set on which to perform the drift detection operation.
+        public let stackSetName: String
+
+        public init(operationId: String? = DetectStackSetDriftInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, stackSetName: String) {
+            self.operationId = operationId
+            self.operationPreferences = operationPreferences
+            self.stackSetName = stackSetName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.operationId, name:"operationId", parent: name, max: 128)
+            try validate(self.operationId, name:"operationId", parent: name, min: 1)
+            try validate(self.operationId, name:"operationId", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
+            try self.operationPreferences?.validate(name: "\(name).operationPreferences")
+            try validate(self.stackSetName, name:"stackSetName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+            case operationPreferences = "OperationPreferences"
+            case stackSetName = "StackSetName"
+        }
+    }
+
+    public struct DetectStackSetDriftOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: false, type: .string)
+        ]
+
+        /// The ID of the drift detection stack set operation.  you can use this operation id with  DescribeStackSetOperation  to monitor the progress of the drift detection operation. 
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
@@ -1922,6 +2215,24 @@ extension CloudFormation {
             case resourceTypes = "ResourceTypes"
             case version = "Version"
         }
+    }
+
+    public enum HandlerErrorCode: String, CustomStringConvertible, Codable {
+        case notupdatable = "NotUpdatable"
+        case invalidrequest = "InvalidRequest"
+        case accessdenied = "AccessDenied"
+        case invalidcredentials = "InvalidCredentials"
+        case alreadyexists = "AlreadyExists"
+        case notfound = "NotFound"
+        case resourceconflict = "ResourceConflict"
+        case throttling = "Throttling"
+        case servicelimitexceeded = "ServiceLimitExceeded"
+        case notstabilized = "NotStabilized"
+        case generalserviceexception = "GeneralServiceException"
+        case serviceinternalerror = "ServiceInternalError"
+        case networkfailure = "NetworkFailure"
+        case internalfailure = "InternalFailure"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListChangeSetsInput: AWSShape {
@@ -2409,10 +2720,267 @@ extension CloudFormation {
         }
     }
 
+    public struct ListTypeRegistrationsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RegistrationStatusFilter", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeArn", required: false, type: .string), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string)
+        ]
+
+        /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
+        public let maxResults: Int?
+        /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        public let nextToken: String?
+        /// The current status of the type registration request.
+        public let registrationStatusFilter: RegistrationStatus?
+        /// The kind of type. Currently the only valid value is RESOURCE.
+        public let `type`: RegistryType?
+        /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify TypeName or Arn.
+        public let typeArn: String?
+        /// The name of the type. Conditional: You must specify TypeName or Arn.
+        public let typeName: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, registrationStatusFilter: RegistrationStatus? = nil, type: RegistryType? = nil, typeArn: String? = nil, typeName: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registrationStatusFilter = registrationStatusFilter
+            self.`type` = `type`
+            self.typeArn = typeArn
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.typeArn, name:"typeArn", parent: name, max: 1024)
+            try validate(self.typeArn, name:"typeArn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
+            try validate(self.typeName, name:"typeName", parent: name, max: 196)
+            try validate(self.typeName, name:"typeName", parent: name, min: 10)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registrationStatusFilter = "RegistrationStatusFilter"
+            case `type` = "Type"
+            case typeArn = "TypeArn"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct ListTypeRegistrationsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RegistrationTokenList", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+        public let nextToken: String?
+        ///  A list of type registration tokens. Use  DescribeTypeRegistration  to return detailed information about a type registration request.
+        public let registrationTokenList: [String]?
+
+        public init(nextToken: String? = nil, registrationTokenList: [String]? = nil) {
+            self.nextToken = nextToken
+            self.registrationTokenList = registrationTokenList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registrationTokenList = "RegistrationTokenList"
+        }
+    }
+
+    public struct ListTypeVersionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DeprecatedStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the type for which you want version summary information. Conditional: You must specify TypeName or Arn.
+        public let arn: String?
+        /// The deprecation status of the type versions that you want to get summary information about. Valid values include:    LIVE: The type version is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The type version has been deregistered and can no longer be used in CloudFormation operations.   
+        public let deprecatedStatus: DeprecatedStatus?
+        /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
+        public let maxResults: Int?
+        /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        public let nextToken: String?
+        /// The kind of the type. Currently the only valid value is RESOURCE.
+        public let `type`: RegistryType?
+        /// The name of the type for which you want version summary information. Conditional: You must specify TypeName or Arn.
+        public let typeName: String?
+
+        public init(arn: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, type: RegistryType? = nil, typeName: String? = nil) {
+            self.arn = arn
+            self.deprecatedStatus = deprecatedStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.`type` = `type`
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, max: 1024)
+            try validate(self.arn, name:"arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, max: 196)
+            try validate(self.typeName, name:"typeName", parent: name, min: 10)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case deprecatedStatus = "DeprecatedStatus"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case `type` = "Type"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct ListTypeVersionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TypeVersionSummaries", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+        public let nextToken: String?
+        /// A list of TypeVersionSummary structures that contain information about the specified type's versions.
+        public let typeVersionSummaries: [TypeVersionSummary]?
+
+        public init(nextToken: String? = nil, typeVersionSummaries: [TypeVersionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.typeVersionSummaries = typeVersionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case typeVersionSummaries = "TypeVersionSummaries"
+        }
+    }
+
+    public struct ListTypesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeprecatedStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningType", required: false, type: .enum), 
+            AWSShapeMember(label: "Visibility", required: false, type: .enum)
+        ]
+
+        /// The deprecation status of the types that you want to get summary information about. Valid values include:    LIVE: The type is registered for use in CloudFormation operations.    DEPRECATED: The type has been deregistered and can no longer be used in CloudFormation operations.   
+        public let deprecatedStatus: DeprecatedStatus?
+        /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
+        public let maxResults: Int?
+        /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        public let nextToken: String?
+        /// The provisioning behavior of the type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The type does not include an update handler, so the type cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The type does not include create, read, and delete handlers, and therefore cannot actually be provisioned.  
+        public let provisioningType: ProvisioningType?
+        /// The scope at which the type is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The type is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you create as PRIVATE.    PUBLIC: The type is publically visible and usable within any Amazon account.  
+        public let visibility: Visibility?
+
+        public init(deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, provisioningType: ProvisioningType? = nil, visibility: Visibility? = nil) {
+            self.deprecatedStatus = deprecatedStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.provisioningType = provisioningType
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deprecatedStatus = "DeprecatedStatus"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case provisioningType = "ProvisioningType"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct ListTypesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TypeSummaries", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+        public let nextToken: String?
+        /// A list of TypeSummary structures that contain information about the specified types.
+        public let typeSummaries: [TypeSummary]?
+
+        public init(nextToken: String? = nil, typeSummaries: [TypeSummary]? = nil) {
+            self.nextToken = nextToken
+            self.typeSummaries = typeSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case typeSummaries = "TypeSummaries"
+        }
+    }
+
+    public struct LoggingConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "LogRoleArn", required: true, type: .string)
+        ]
+
+        /// The Amazon CloudWatch log group to which CloudFormation sends error logging information when invoking the type's handlers.
+        public let logGroupName: String
+        /// The ARN of the role that CloudFormation should assume when sending log entries to CloudWatch logs.
+        public let logRoleArn: String
+
+        public init(logGroupName: String, logRoleArn: String) {
+            self.logGroupName = logGroupName
+            self.logRoleArn = logRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(self.logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(self.logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(self.logRoleArn, name:"logRoleArn", parent: name, max: 256)
+            try validate(self.logRoleArn, name:"logRoleArn", parent: name, min: 1)
+            try validate(self.logRoleArn, name:"logRoleArn", parent: name, pattern: "arn:.+:iam::[0-9]{12}:role/.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "LogGroupName"
+            case logRoleArn = "LogRoleArn"
+        }
+    }
+
     public enum OnFailure: String, CustomStringConvertible, Codable {
         case doNothing = "DO_NOTHING"
         case rollback = "ROLLBACK"
         case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case inProgress = "IN_PROGRESS"
+        case success = "SUCCESS"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -2591,6 +3159,165 @@ extension CloudFormation {
             case expectedValue = "ExpectedValue"
             case propertyPath = "PropertyPath"
         }
+    }
+
+    public enum ProvisioningType: String, CustomStringConvertible, Codable {
+        case nonProvisionable = "NON_PROVISIONABLE"
+        case immutable = "IMMUTABLE"
+        case fullyMutable = "FULLY_MUTABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RecordHandlerProgressInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BearerToken", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentOperationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "OperationStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceModel", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+        ]
+
+        /// Reserved for use by the CloudFormation CLI.
+        public let bearerToken: String
+        /// Reserved for use by the CloudFormation CLI.
+        public let clientRequestToken: String?
+        /// Reserved for use by the CloudFormation CLI.
+        public let currentOperationStatus: OperationStatus?
+        /// Reserved for use by the CloudFormation CLI.
+        public let errorCode: HandlerErrorCode?
+        /// Reserved for use by the CloudFormation CLI.
+        public let operationStatus: OperationStatus
+        /// Reserved for use by the CloudFormation CLI.
+        public let resourceModel: String?
+        /// Reserved for use by the CloudFormation CLI.
+        public let statusMessage: String?
+
+        public init(bearerToken: String, clientRequestToken: String? = nil, currentOperationStatus: OperationStatus? = nil, errorCode: HandlerErrorCode? = nil, operationStatus: OperationStatus, resourceModel: String? = nil, statusMessage: String? = nil) {
+            self.bearerToken = bearerToken
+            self.clientRequestToken = clientRequestToken
+            self.currentOperationStatus = currentOperationStatus
+            self.errorCode = errorCode
+            self.operationStatus = operationStatus
+            self.resourceModel = resourceModel
+            self.statusMessage = statusMessage
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bearerToken, name:"bearerToken", parent: name, max: 128)
+            try validate(self.bearerToken, name:"bearerToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 128)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
+            try validate(self.resourceModel, name:"resourceModel", parent: name, max: 16384)
+            try validate(self.resourceModel, name:"resourceModel", parent: name, min: 1)
+            try validate(self.statusMessage, name:"statusMessage", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bearerToken = "BearerToken"
+            case clientRequestToken = "ClientRequestToken"
+            case currentOperationStatus = "CurrentOperationStatus"
+            case errorCode = "ErrorCode"
+            case operationStatus = "OperationStatus"
+            case resourceModel = "ResourceModel"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct RecordHandlerProgressOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct RegisterTypeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "LoggingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "SchemaHandlerPackage", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeName", required: true, type: .string)
+        ]
+
+        /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of a type from the same registeration request, even if the request is submitted multiple times. 
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the IAM execution role to use to register the type. If your resource type calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your resource type with the appropriate credentials.
+        public let executionRoleArn: String?
+        /// Specifies logging configuration information for a type.
+        public let loggingConfig: LoggingConfig?
+        /// A url to the S3 bucket containing the schema handler package that contains the schema, event handlers, and associated files for the type you want to register. For information on generating a schema handler package for the type you want to register, see submit in the CloudFormation CLI User Guide.
+        public let schemaHandlerPackage: String
+        /// The kind of type. Currently, the only valid value is RESOURCE.
+        public let `type`: RegistryType?
+        /// The name of the type being registered. We recommend that type names adhere to the following pattern: company_or_organization::service::type.  The following organization namespaces are reserved and cannot be used in your resource type names:    Alexa     AMZN     Amazon     AWS     Custom     Dev    
+        public let typeName: String
+
+        public init(clientRequestToken: String? = nil, executionRoleArn: String? = nil, loggingConfig: LoggingConfig? = nil, schemaHandlerPackage: String, type: RegistryType? = nil, typeName: String) {
+            self.clientRequestToken = clientRequestToken
+            self.executionRoleArn = executionRoleArn
+            self.loggingConfig = loggingConfig
+            self.schemaHandlerPackage = schemaHandlerPackage
+            self.`type` = `type`
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 128)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 256)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 1)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "arn:.+:iam::[0-9]{12}:role/.+")
+            try self.loggingConfig?.validate(name: "\(name).loggingConfig")
+            try validate(self.schemaHandlerPackage, name:"schemaHandlerPackage", parent: name, max: 4096)
+            try validate(self.schemaHandlerPackage, name:"schemaHandlerPackage", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, max: 196)
+            try validate(self.typeName, name:"typeName", parent: name, min: 10)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case executionRoleArn = "ExecutionRoleArn"
+            case loggingConfig = "LoggingConfig"
+            case schemaHandlerPackage = "SchemaHandlerPackage"
+            case `type` = "Type"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct RegisterTypeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegistrationToken", required: false, type: .string)
+        ]
+
+        /// The identifier for this registration request. Use this registration token when calling  DescribeTypeRegistration , which returns information about the status and IDs of the type registration. 
+        public let registrationToken: String?
+
+        public init(registrationToken: String? = nil) {
+            self.registrationToken = registrationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationToken = "RegistrationToken"
+        }
+    }
+
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case inProgress = "IN_PROGRESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistryType: String, CustomStringConvertible, Codable {
+        case resource = "RESOURCE"
+        public var description: String { return self.rawValue }
     }
 
     public enum Replacement: String, CustomStringConvertible, Codable {
@@ -2898,6 +3625,57 @@ extension CloudFormation {
         }
     }
 
+    public struct SetTypeDefaultVersionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the type for which you want version summary information. Conditional: You must specify TypeName or Arn.
+        public let arn: String?
+        /// The kind of type.
+        public let `type`: RegistryType?
+        /// The name of the type. Conditional: You must specify TypeName or Arn.
+        public let typeName: String?
+        /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
+        public let versionId: String?
+
+        public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
+            self.arn = arn
+            self.`type` = `type`
+            self.typeName = typeName
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, max: 1024)
+            try validate(self.arn, name:"arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
+            try validate(self.typeName, name:"typeName", parent: name, max: 196)
+            try validate(self.typeName, name:"typeName", parent: name, min: 10)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+            try validate(self.versionId, name:"versionId", parent: name, max: 128)
+            try validate(self.versionId, name:"versionId", parent: name, min: 1)
+            try validate(self.versionId, name:"versionId", parent: name, pattern: "[A-Za-z0-9-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case `type` = "Type"
+            case typeName = "TypeName"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct SetTypeDefaultVersionOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct SignalResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LogicalResourceId", required: true, type: .string), 
@@ -3188,6 +3966,8 @@ extension CloudFormation {
     public struct StackInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Account", required: false, type: .string), 
+            AWSShapeMember(label: "DriftStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LastDriftCheckTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "ParameterOverrides", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string), 
@@ -3198,6 +3978,10 @@ extension CloudFormation {
 
         /// The name of the AWS account that the stack instance is associated with.
         public let account: String?
+        /// Status of the stack instance's actual configuration compared to the expected template and parameter configuration of the stack set to which it belongs.     DRIFTED: The stack differs from the expected template and parameter configuration of the stack set to which it belongs. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.    NOT_CHECKED: AWS CloudFormation has not checked if the stack instance differs from its expected stack set configuration.    IN_SYNC: The stack instance's actual configuration matches its expected stack set configuration.    UNKNOWN: This value is reserved for future use.  
+        public let driftStatus: StackDriftStatus?
+        /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection has not yet been performed.
+        public let lastDriftCheckTimestamp: TimeStamp?
         /// A list of parameters from the stack set template whose values have been overridden in this stack instance.
         public let parameterOverrides: [Parameter]?
         /// The name of the AWS region that the stack instance is associated with.
@@ -3211,8 +3995,10 @@ extension CloudFormation {
         /// The explanation for the specific status code that is assigned to this stack instance.
         public let statusReason: String?
 
-        public init(account: String? = nil, parameterOverrides: [Parameter]? = nil, region: String? = nil, stackId: String? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
+        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, parameterOverrides: [Parameter]? = nil, region: String? = nil, stackId: String? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
+            self.driftStatus = driftStatus
+            self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
             self.parameterOverrides = parameterOverrides
             self.region = region
             self.stackId = stackId
@@ -3223,6 +4009,8 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
+            case driftStatus = "DriftStatus"
+            case lastDriftCheckTimestamp = "LastDriftCheckTimestamp"
             case parameterOverrides = "ParameterOverrides"
             case region = "Region"
             case stackId = "StackId"
@@ -3242,6 +4030,8 @@ extension CloudFormation {
     public struct StackInstanceSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Account", required: false, type: .string), 
+            AWSShapeMember(label: "DriftStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LastDriftCheckTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "StackSetId", required: false, type: .string), 
@@ -3251,6 +4041,10 @@ extension CloudFormation {
 
         /// The name of the AWS account that the stack instance is associated with.
         public let account: String?
+        /// Status of the stack instance's actual configuration compared to the expected template and parameter configuration of the stack set to which it belongs.     DRIFTED: The stack differs from the expected template and parameter configuration of the stack set to which it belongs. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.    NOT_CHECKED: AWS CloudFormation has not checked if the stack instance differs from its expected stack set configuration.    IN_SYNC: The stack instance's actual configuration matches its expected stack set configuration.    UNKNOWN: This value is reserved for future use.  
+        public let driftStatus: StackDriftStatus?
+        /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection has not yet been performed.
+        public let lastDriftCheckTimestamp: TimeStamp?
         /// The name of the AWS region that the stack instance is associated with.
         public let region: String?
         /// The ID of the stack instance.
@@ -3262,8 +4056,10 @@ extension CloudFormation {
         /// The explanation for the specific status code assigned to this stack instance.
         public let statusReason: String?
 
-        public init(account: String? = nil, region: String? = nil, stackId: String? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
+        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, region: String? = nil, stackId: String? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
+            self.driftStatus = driftStatus
+            self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
             self.region = region
             self.stackId = stackId
             self.stackSetId = stackSetId
@@ -3273,6 +4069,8 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
+            case driftStatus = "DriftStatus"
+            case lastDriftCheckTimestamp = "LastDriftCheckTimestamp"
             case region = "Region"
             case stackId = "StackId"
             case stackSetId = "StackSetId"
@@ -3579,6 +4377,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ExecutionRoleName", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackSetARN", required: false, type: .string), 
+            AWSShapeMember(label: "StackSetDriftDetectionDetails", required: false, type: .structure), 
             AWSShapeMember(label: "StackSetId", required: false, type: .string), 
             AWSShapeMember(label: "StackSetName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
@@ -3598,6 +4397,8 @@ extension CloudFormation {
         public let parameters: [Parameter]?
         /// The Amazon Resource Number (ARN) of the stack set.
         public let stackSetARN: String?
+        /// Detailed information about the drift status of the stack set. For stack sets, contains information about the last completed drift operation performed on the stack set. Information about drift operations currently in progress is not included.
+        public let stackSetDriftDetectionDetails: StackSetDriftDetectionDetails?
         /// The ID of the stack set.
         public let stackSetId: String?
         /// The name that's associated with the stack set.
@@ -3609,13 +4410,14 @@ extension CloudFormation {
         /// The structure that contains the body of the template that was used to create or update the stack set.
         public let templateBody: String?
 
-        public init(administrationRoleARN: String? = nil, capabilities: [Capability]? = nil, description: String? = nil, executionRoleName: String? = nil, parameters: [Parameter]? = nil, stackSetARN: String? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil, tags: [Tag]? = nil, templateBody: String? = nil) {
+        public init(administrationRoleARN: String? = nil, capabilities: [Capability]? = nil, description: String? = nil, executionRoleName: String? = nil, parameters: [Parameter]? = nil, stackSetARN: String? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil, tags: [Tag]? = nil, templateBody: String? = nil) {
             self.administrationRoleARN = administrationRoleARN
             self.capabilities = capabilities
             self.description = description
             self.executionRoleName = executionRoleName
             self.parameters = parameters
             self.stackSetARN = stackSetARN
+            self.stackSetDriftDetectionDetails = stackSetDriftDetectionDetails
             self.stackSetId = stackSetId
             self.stackSetName = stackSetName
             self.status = status
@@ -3630,12 +4432,81 @@ extension CloudFormation {
             case executionRoleName = "ExecutionRoleName"
             case parameters = "Parameters"
             case stackSetARN = "StackSetARN"
+            case stackSetDriftDetectionDetails = "StackSetDriftDetectionDetails"
             case stackSetId = "StackSetId"
             case stackSetName = "StackSetName"
             case status = "Status"
             case tags = "Tags"
             case templateBody = "TemplateBody"
         }
+    }
+
+    public struct StackSetDriftDetectionDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DriftDetectionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DriftedStackInstancesCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DriftStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "FailedStackInstancesCount", required: false, type: .integer), 
+            AWSShapeMember(label: "InProgressStackInstancesCount", required: false, type: .integer), 
+            AWSShapeMember(label: "InSyncStackInstancesCount", required: false, type: .integer), 
+            AWSShapeMember(label: "LastDriftCheckTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TotalStackInstancesCount", required: false, type: .integer)
+        ]
+
+        /// The status of the stack set drift detection operation.    COMPLETED: The drift detection operation completed without failing on any stack instances.    FAILED: The drift detection operation exceeded the specified failure tolerance.     PARTIAL_SUCCESS: The drift detection operation completed without exceeding the failure tolerance for the operation.    IN_PROGRESS: The drift detection operation is currently being performed.    STOPPED: The user has cancelled the drift detection operation.  
+        public let driftDetectionStatus: StackSetDriftDetectionStatus?
+        /// The number of stack instances that have drifted from the expected template and parameter configuration of the stack set. A stack instance is considered to have drifted if one or more of the resources in the associated stack do not match their expected configuration.
+        public let driftedStackInstancesCount: Int?
+        /// Status of the stack set's actual configuration compared to its expected template and parameter configuration. A stack set is considered to have drifted if one or more of its stack instances have drifted from their expected template and parameter configuration.    DRIFTED: One or more of the stack instances belonging to the stack set stack differs from the expected template and parameter configuration. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.    NOT_CHECKED: AWS CloudFormation has not checked the stack set for drift.    IN_SYNC: All of the stack instances belonging to the stack set stack match from the expected template and parameter configuration.  
+        public let driftStatus: StackSetDriftStatus?
+        /// The number of stack instances for which the drift detection operation failed.
+        public let failedStackInstancesCount: Int?
+        /// The number of stack instances that are currently being checked for drift.
+        public let inProgressStackInstancesCount: Int?
+        /// The number of stack instances which match the expected template and parameter configuration of the stack set.
+        public let inSyncStackInstancesCount: Int?
+        /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection has not yet been performed.
+        public let lastDriftCheckTimestamp: TimeStamp?
+        /// The total number of stack instances belonging to this stack set.  The total number of stack instances is equal to the total of:   Stack instances that match the stack set configuration.    Stack instances that have drifted from the stack set configuration.    Stack instances where the drift detection operation has failed.   Stack instances currently being checked for drift.  
+        public let totalStackInstancesCount: Int?
+
+        public init(driftDetectionStatus: StackSetDriftDetectionStatus? = nil, driftedStackInstancesCount: Int? = nil, driftStatus: StackSetDriftStatus? = nil, failedStackInstancesCount: Int? = nil, inProgressStackInstancesCount: Int? = nil, inSyncStackInstancesCount: Int? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, totalStackInstancesCount: Int? = nil) {
+            self.driftDetectionStatus = driftDetectionStatus
+            self.driftedStackInstancesCount = driftedStackInstancesCount
+            self.driftStatus = driftStatus
+            self.failedStackInstancesCount = failedStackInstancesCount
+            self.inProgressStackInstancesCount = inProgressStackInstancesCount
+            self.inSyncStackInstancesCount = inSyncStackInstancesCount
+            self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
+            self.totalStackInstancesCount = totalStackInstancesCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case driftDetectionStatus = "DriftDetectionStatus"
+            case driftedStackInstancesCount = "DriftedStackInstancesCount"
+            case driftStatus = "DriftStatus"
+            case failedStackInstancesCount = "FailedStackInstancesCount"
+            case inProgressStackInstancesCount = "InProgressStackInstancesCount"
+            case inSyncStackInstancesCount = "InSyncStackInstancesCount"
+            case lastDriftCheckTimestamp = "LastDriftCheckTimestamp"
+            case totalStackInstancesCount = "TotalStackInstancesCount"
+        }
+    }
+
+    public enum StackSetDriftDetectionStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case partialSuccess = "PARTIAL_SUCCESS"
+        case inProgress = "IN_PROGRESS"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackSetDriftStatus: String, CustomStringConvertible, Codable {
+        case drifted = "DRIFTED"
+        case inSync = "IN_SYNC"
+        case notChecked = "NOT_CHECKED"
+        public var description: String { return self.rawValue }
     }
 
     public struct StackSetOperation: AWSShape {
@@ -3648,6 +4519,7 @@ extension CloudFormation {
             AWSShapeMember(label: "OperationId", required: false, type: .string), 
             AWSShapeMember(label: "OperationPreferences", required: false, type: .structure), 
             AWSShapeMember(label: "RetainStacks", required: false, type: .boolean), 
+            AWSShapeMember(label: "StackSetDriftDetectionDetails", required: false, type: .structure), 
             AWSShapeMember(label: "StackSetId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
@@ -3668,12 +4540,14 @@ extension CloudFormation {
         public let operationPreferences: StackSetOperationPreferences?
         /// For stack set operations of action type DELETE, specifies whether to remove the stack instances from the specified stack set, but doesn't delete the stacks. You can't reassociate a retained stack, or add an existing, saved stack to a new stack set.
         public let retainStacks: Bool?
+        /// Detailed information about the drift status of the stack set. This includes information about drift operations currently being performed on the stack set. this information will only be present for stack set operations whose Action type is DETECT_DRIFT. For more information, see Detecting Unmanaged Changes in Stack Sets in the AWS CloudFormation User Guide.
+        public let stackSetDriftDetectionDetails: StackSetDriftDetectionDetails?
         /// The ID of the stack set.
         public let stackSetId: String?
         /// The status of the operation.     FAILED: The operation exceeded the specified failure tolerance. The failure tolerance value that you've set for an operation is applied for each region during stack create and update operations. If the number of failed stacks within a region exceeds the failure tolerance, the status of the operation in the region is set to FAILED. This in turn sets the status of the operation as a whole to FAILED, and AWS CloudFormation cancels the operation in any remaining regions.    RUNNING: The operation is currently being performed.    STOPPED: The user has cancelled the operation.    STOPPING: The operation is in the process of stopping, at user request.     SUCCEEDED: The operation completed creating or updating all the specified stacks without exceeding the failure tolerance for the operation.  
         public let status: StackSetOperationStatus?
 
-        public init(action: StackSetOperationAction? = nil, administrationRoleARN: String? = nil, creationTimestamp: TimeStamp? = nil, endTimestamp: TimeStamp? = nil, executionRoleName: String? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, retainStacks: Bool? = nil, stackSetId: String? = nil, status: StackSetOperationStatus? = nil) {
+        public init(action: StackSetOperationAction? = nil, administrationRoleARN: String? = nil, creationTimestamp: TimeStamp? = nil, endTimestamp: TimeStamp? = nil, executionRoleName: String? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, retainStacks: Bool? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, status: StackSetOperationStatus? = nil) {
             self.action = action
             self.administrationRoleARN = administrationRoleARN
             self.creationTimestamp = creationTimestamp
@@ -3682,6 +4556,7 @@ extension CloudFormation {
             self.operationId = operationId
             self.operationPreferences = operationPreferences
             self.retainStacks = retainStacks
+            self.stackSetDriftDetectionDetails = stackSetDriftDetectionDetails
             self.stackSetId = stackSetId
             self.status = status
         }
@@ -3695,6 +4570,7 @@ extension CloudFormation {
             case operationId = "OperationId"
             case operationPreferences = "OperationPreferences"
             case retainStacks = "RetainStacks"
+            case stackSetDriftDetectionDetails = "StackSetDriftDetectionDetails"
             case stackSetId = "StackSetId"
             case status = "Status"
         }
@@ -3704,6 +4580,7 @@ extension CloudFormation {
         case create = "CREATE"
         case update = "UPDATE"
         case delete = "DELETE"
+        case detectDrift = "DETECT_DRIFT"
         public var description: String { return self.rawValue }
     }
 
@@ -3854,6 +4731,8 @@ extension CloudFormation {
     public struct StackSetSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DriftStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LastDriftCheckTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "StackSetId", required: false, type: .string), 
             AWSShapeMember(label: "StackSetName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
@@ -3861,6 +4740,10 @@ extension CloudFormation {
 
         /// A description of the stack set that you specify when the stack set is created or updated.
         public let description: String?
+        /// Status of the stack set's actual configuration compared to its expected template and parameter configuration. A stack set is considered to have drifted if one or more of its stack instances have drifted from their expected template and parameter configuration.    DRIFTED: One or more of the stack instances belonging to the stack set stack differs from the expected template and parameter configuration. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.    NOT_CHECKED: AWS CloudFormation has not checked the stack set for drift.    IN_SYNC: All of the stack instances belonging to the stack set stack match from the expected template and parameter configuration.    UNKNOWN: This value is reserved for future use.  
+        public let driftStatus: StackDriftStatus?
+        /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection has not yet been performed.
+        public let lastDriftCheckTimestamp: TimeStamp?
         /// The ID of the stack set.
         public let stackSetId: String?
         /// The name of the stack set.
@@ -3868,8 +4751,10 @@ extension CloudFormation {
         /// The status of the stack set.
         public let status: StackSetStatus?
 
-        public init(description: String? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil) {
+        public init(description: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: TimeStamp? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil) {
             self.description = description
+            self.driftStatus = driftStatus
+            self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
             self.stackSetId = stackSetId
             self.stackSetName = stackSetName
             self.status = status
@@ -3877,6 +4762,8 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case driftStatus = "DriftStatus"
+            case lastDriftCheckTimestamp = "LastDriftCheckTimestamp"
             case stackSetId = "StackSetId"
             case stackSetName = "StackSetName"
             case status = "Status"
@@ -4077,6 +4964,90 @@ extension CloudFormation {
         case original = "Original"
         case processed = "Processed"
         public var description: String { return self.rawValue }
+    }
+
+    public struct TypeSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeArn", required: false, type: .string), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string)
+        ]
+
+        /// The ID of the default version of the type. The default version is used when the type version is not specified. To set the default version of a type, use  SetTypeDefaultVersion . 
+        public let defaultVersionId: String?
+        /// The description of the type.
+        public let description: String?
+        /// When the current default version of the type was registered.
+        public let lastUpdated: TimeStamp?
+        /// The kind of type.
+        public let `type`: RegistryType?
+        /// The Amazon Resource Name (ARN) of the type.
+        public let typeArn: String?
+        /// The name of the type.
+        public let typeName: String?
+
+        public init(defaultVersionId: String? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, type: RegistryType? = nil, typeArn: String? = nil, typeName: String? = nil) {
+            self.defaultVersionId = defaultVersionId
+            self.description = description
+            self.lastUpdated = lastUpdated
+            self.`type` = `type`
+            self.typeArn = typeArn
+            self.typeName = typeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultVersionId = "DefaultVersionId"
+            case description = "Description"
+            case lastUpdated = "LastUpdated"
+            case `type` = "Type"
+            case typeArn = "TypeArn"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct TypeVersionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "TimeCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the type version.
+        public let arn: String?
+        /// The description of the type version.
+        public let description: String?
+        /// When the version was registered.
+        public let timeCreated: TimeStamp?
+        /// The kind of type.
+        public let `type`: RegistryType?
+        /// The name of the type.
+        public let typeName: String?
+        /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
+        public let versionId: String?
+
+        public init(arn: String? = nil, description: String? = nil, timeCreated: TimeStamp? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
+            self.arn = arn
+            self.description = description
+            self.timeCreated = timeCreated
+            self.`type` = `type`
+            self.typeName = typeName
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case timeCreated = "TimeCreated"
+            case `type` = "Type"
+            case typeName = "TypeName"
+            case versionId = "VersionId"
+        }
     }
 
     public struct UpdateStackInput: AWSShape {
@@ -4517,5 +5488,11 @@ extension CloudFormation {
             case description = "Description"
             case parameters = "Parameters"
         }
+    }
+
+    public enum Visibility: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
     }
 }

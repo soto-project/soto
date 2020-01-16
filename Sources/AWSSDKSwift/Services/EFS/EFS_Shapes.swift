@@ -5,6 +5,115 @@ import AWSSDKSwiftCore
 
 extension EFS {
 
+    public struct AccessPointDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPointArn", required: false, type: .string), 
+            AWSShapeMember(label: "AccessPointId", required: false, type: .string), 
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", required: false, type: .string), 
+            AWSShapeMember(label: "LifeCycleState", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "PosixUser", required: false, type: .structure), 
+            AWSShapeMember(label: "RootDirectory", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The unique Amazon Resource Name (ARN) associated with the access point.
+        public let accessPointArn: String?
+        /// The ID of the access point, assigned by Amazon EFS.
+        public let accessPointId: String?
+        /// The opaque string specified in the request to ensure idempotent creation.
+        public let clientToken: String?
+        /// The ID of the EFS file system that the access point applies to.
+        public let fileSystemId: String?
+        /// Identifies the lifecycle phase of the access point.
+        public let lifeCycleState: LifeCycleState?
+        /// The name of the access point. This is the value of the Name tag.
+        public let name: String?
+        /// Identified the AWS account that owns the access point resource.
+        public let ownerId: String?
+        /// The full POSIX identity, including the user ID, group ID, and secondary group IDs on the access point that is used for all file operations by NFS clients using the access point.
+        public let posixUser: PosixUser?
+        /// The directory on the Amazon EFS file system that the access point exposes as the root directory to NFS clients using the access point.
+        public let rootDirectory: RootDirectory?
+        /// The tags associated with the access point, presented as an array of Tag objects.
+        public let tags: [Tag]?
+
+        public init(accessPointArn: String? = nil, accessPointId: String? = nil, clientToken: String? = nil, fileSystemId: String? = nil, lifeCycleState: LifeCycleState? = nil, name: String? = nil, ownerId: String? = nil, posixUser: PosixUser? = nil, rootDirectory: RootDirectory? = nil, tags: [Tag]? = nil) {
+            self.accessPointArn = accessPointArn
+            self.accessPointId = accessPointId
+            self.clientToken = clientToken
+            self.fileSystemId = fileSystemId
+            self.lifeCycleState = lifeCycleState
+            self.name = name
+            self.ownerId = ownerId
+            self.posixUser = posixUser
+            self.rootDirectory = rootDirectory
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "AccessPointArn"
+            case accessPointId = "AccessPointId"
+            case clientToken = "ClientToken"
+            case fileSystemId = "FileSystemId"
+            case lifeCycleState = "LifeCycleState"
+            case name = "Name"
+            case ownerId = "OwnerId"
+            case posixUser = "PosixUser"
+            case rootDirectory = "RootDirectory"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAccessPointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "PosixUser", required: false, type: .structure), 
+            AWSShapeMember(label: "RootDirectory", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+        public let clientToken: String
+        /// The ID of the EFS file system that the access point provides access to.
+        public let fileSystemId: String
+        /// The operating system user and group applied to all file system requests made using the access point.
+        public let posixUser: PosixUser?
+        /// Specifies the directory on the Amazon EFS file system that the access point exposes as the root directory of your file system to NFS clients using the access point. The clients using the access point can only access the root directory and below. If the RootDirectory &gt; Path specified does not exist, EFS creates it and applies the CreationInfo settings when a client connects to an access point. When specifying a RootDirectory, you need to provide the Path, and the CreationInfo is optional.
+        public let rootDirectory: RootDirectory?
+        /// Creates tags associated with the access point. Each tag is a key-value pair.
+        public let tags: [Tag]?
+
+        public init(clientToken: String = CreateAccessPointRequest.idempotencyToken(), fileSystemId: String, posixUser: PosixUser? = nil, rootDirectory: RootDirectory? = nil, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.fileSystemId = fileSystemId
+            self.posixUser = posixUser
+            self.rootDirectory = rootDirectory
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 64)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try self.posixUser?.validate(name: "\(name).posixUser")
+            try self.rootDirectory?.validate(name: "\(name).rootDirectory")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case fileSystemId = "FileSystemId"
+            case posixUser = "PosixUser"
+            case rootDirectory = "RootDirectory"
+            case tags = "Tags"
+        }
+    }
+
     public struct CreateFileSystemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationToken", required: true, type: .string), 
@@ -31,7 +140,7 @@ extension EFS {
         /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more, see Specifying Throughput with Provisioned Mode in the Amazon EFS User Guide. 
         public let throughputMode: ThroughputMode?
 
-        public init(creationToken: String, encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
+        public init(creationToken: String = CreateFileSystemRequest.idempotencyToken(), encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
             self.creationToken = creationToken
             self.encrypted = encrypted
             self.kmsKeyId = kmsKeyId
@@ -127,6 +236,75 @@ extension EFS {
         }
     }
 
+    public struct CreationInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OwnerGid", required: true, type: .long), 
+            AWSShapeMember(label: "OwnerUid", required: true, type: .long), 
+            AWSShapeMember(label: "Permissions", required: true, type: .string)
+        ]
+
+        /// Specifies the POSIX group ID to apply to the RootDirectory. Accepts values from 0 to 2^32 (4294967295).
+        public let ownerGid: Int64
+        /// Specifies the POSIX user ID to apply to the RootDirectory. Accepts values from 0 to 2^32 (4294967295).
+        public let ownerUid: Int64
+        /// Specifies the POSIX permissions to apply to the RootDirectory, in the format of an octal number representing the file's mode bits.
+        public let permissions: String
+
+        public init(ownerGid: Int64, ownerUid: Int64, permissions: String) {
+            self.ownerGid = ownerGid
+            self.ownerUid = ownerUid
+            self.permissions = permissions
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.ownerGid, name:"ownerGid", parent: name, max: 4294967295)
+            try validate(self.ownerGid, name:"ownerGid", parent: name, min: 0)
+            try validate(self.ownerUid, name:"ownerUid", parent: name, max: 4294967295)
+            try validate(self.ownerUid, name:"ownerUid", parent: name, min: 0)
+            try validate(self.permissions, name:"permissions", parent: name, pattern: "^[0-7]{3,4}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownerGid = "OwnerGid"
+            case ownerUid = "OwnerUid"
+            case permissions = "Permissions"
+        }
+    }
+
+    public struct DeleteAccessPointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPointId", location: .uri(locationName: "AccessPointId"), required: true, type: .string)
+        ]
+
+        /// The ID of the access point that you want to delete.
+        public let accessPointId: String
+
+        public init(accessPointId: String) {
+            self.accessPointId = accessPointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointId = "AccessPointId"
+        }
+    }
+
+    public struct DeleteFileSystemPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
+        ]
+
+        /// Specifies the EFS file system for which to delete the FileSystemPolicy.
+        public let fileSystemId: String
+
+        public init(fileSystemId: String) {
+            self.fileSystemId = fileSystemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+        }
+    }
+
     public struct DeleteFileSystemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
@@ -182,11 +360,88 @@ extension EFS {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
             case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct DescribeAccessPointsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPointId", location: .querystring(locationName: "AccessPointId"), required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+
+        /// (Optional) Specifies an EFS access point to describe in the response; mutually exclusive with FileSystemId.
+        public let accessPointId: String?
+        /// (Optional) If you provide a FileSystemId, EFS returns all access points for that file system; mutually exclusive with AccessPointId.
+        public let fileSystemId: String?
+        /// (Optional) When retrieving all access points for a file system, you can optionally specify the MaxItems parameter to limit the number of objects returned in a response. The default value is 100. 
+        public let maxResults: Int?
+        ///  NextToken is present if the response is paginated. You can use NextMarker in the subsequent request to fetch the next page of access point descriptions.
+        public let nextToken: String?
+
+        public init(accessPointId: String? = nil, fileSystemId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accessPointId = accessPointId
+            self.fileSystemId = fileSystemId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointId = "AccessPointId"
+            case fileSystemId = "FileSystemId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAccessPointsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPoints", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// An array of access point descriptions.
+        public let accessPoints: [AccessPointDescription]?
+        /// Present if there are more access points than returned in the response. You can use the NextMarker in the subsequent request to fetch the additional descriptions.
+        public let nextToken: String?
+
+        public init(accessPoints: [AccessPointDescription]? = nil, nextToken: String? = nil) {
+            self.accessPoints = accessPoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPoints = "AccessPoints"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFileSystemPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
+        ]
+
+        /// Specifies which EFS file system to retrieve the FileSystemPolicy for.
+        public let fileSystemId: String
+
+        public init(fileSystemId: String) {
+            self.fileSystemId = fileSystemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
         }
     }
 
@@ -204,7 +459,7 @@ extension EFS {
         public let fileSystemId: String?
         /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If present, specifies to continue the list from where the returning call had left off. 
         public let marker: String?
-        /// (Optional) Specifies the maximum number of file systems to return in the response (integer). Currently, this number is automatically set to 10, and other values are ignored. The response is paginated at 10 per page if you have more than 10 file systems. 
+        /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This number is automatically set to 100. The response is paginated at 100 per page if you have more than 100 file systems. 
         public let maxItems: Int?
 
         public init(creationToken: String? = nil, fileSystemId: String? = nil, marker: String? = nil, maxItems: Int? = nil) {
@@ -308,22 +563,26 @@ extension EFS {
 
     public struct DescribeMountTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPointId", location: .querystring(locationName: "AccessPointId"), required: false, type: .string), 
             AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
             AWSShapeMember(label: "MountTargetId", location: .querystring(locationName: "MountTargetId"), required: false, type: .string)
         ]
 
-        /// (Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if MountTargetId is not included.
+        /// (Optional) The ID of the access point whose mount targets that you want to list. It must be included in your request if a FileSystemId or MountTargetId is not included in your request. Accepts either an access point ID or ARN as input.
+        public let accessPointId: String?
+        /// (Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if an AccessPointId or MountTargetId is not included. Accepts either a file system ID or ARN as input.
         public let fileSystemId: String?
         /// (Optional) Opaque pagination token returned from a previous DescribeMountTargets operation (String). If present, it specifies to continue the list from where the previous returning call left off.
         public let marker: String?
-        /// (Optional) Maximum number of mount targets to return in the response. Currently, this number is automatically set to 10, and other values are ignored. The response is paginated at 10 per page if you have more than 10 mount targets.
+        /// (Optional) Maximum number of mount targets to return in the response. Currently, this number is automatically set to 10, and other values are ignored. The response is paginated at 100 per page if you have more than 100 mount targets.
         public let maxItems: Int?
-        /// (Optional) ID of the mount target that you want to have described (String). It must be included in your request if FileSystemId is not included.
+        /// (Optional) ID of the mount target that you want to have described (String). It must be included in your request if FileSystemId is not included. Accepts either a mount target ID or ARN as input.
         public let mountTargetId: String?
 
-        public init(fileSystemId: String? = nil, marker: String? = nil, maxItems: Int? = nil, mountTargetId: String? = nil) {
+        public init(accessPointId: String? = nil, fileSystemId: String? = nil, marker: String? = nil, maxItems: Int? = nil, mountTargetId: String? = nil) {
+            self.accessPointId = accessPointId
             self.fileSystemId = fileSystemId
             self.marker = marker
             self.maxItems = maxItems
@@ -335,6 +594,7 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessPointId = "AccessPointId"
             case fileSystemId = "FileSystemId"
             case marker = "Marker"
             case maxItems = "MaxItems"
@@ -380,7 +640,7 @@ extension EFS {
         public let fileSystemId: String
         /// (Optional) An opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
         public let marker: String?
-        /// (Optional) The maximum number of file system tags to return in the response. Currently, this number is automatically set to 10, and other values are ignored. The response is paginated at 10 per page if you have more than 10 tags.
+        /// (Optional) The maximum number of file system tags to return in the response. Currently, this number is automatically set to 100, and other values are ignored. The response is paginated at 100 per page if you have more than 100 tags.
         public let maxItems: Int?
 
         public init(fileSystemId: String, marker: String? = nil, maxItems: Int? = nil) {
@@ -509,6 +769,28 @@ extension EFS {
         }
     }
 
+    public struct FileSystemPolicyDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", required: false, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .string)
+        ]
+
+        /// Specifies the EFS file system to which the FileSystemPolicy applies.
+        public let fileSystemId: String?
+        /// The JSON formatted FileSystemPolicy for the EFS file system.
+        public let policy: String?
+
+        public init(fileSystemId: String? = nil, policy: String? = nil) {
+            self.fileSystemId = fileSystemId
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+            case policy = "Policy"
+        }
+    }
+
     public struct FileSystemSize: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
@@ -584,6 +866,59 @@ extension EFS {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+        ]
+
+        /// (Optional) Specifies the maximum number of tag objects to return in the response. The default value is 100.
+        public let maxResults: Int?
+        /// You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated.
+        public let nextToken: String?
+        /// Specifies the EFS resource you want to retrieve tags for. You can retrieve tags for EFS file systems and access points using this API endpoint.
+        public let resourceId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        ///  NextToken is present if the response payload is paginated. You can use NextToken in a subsequent request to fetch the next page of access point descriptions.
+        public let nextToken: String?
+        /// An array of the tags for the specified EFS resource.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
     public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string), 
@@ -612,6 +947,8 @@ extension EFS {
 
     public struct MountTargetDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZoneName", required: false, type: .string), 
             AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
             AWSShapeMember(label: "IpAddress", required: false, type: .string), 
             AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
@@ -621,6 +958,10 @@ extension EFS {
             AWSShapeMember(label: "SubnetId", required: true, type: .string)
         ]
 
+        /// The unique and consistent identifier of the Availability Zone (AZ) that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every AWS account.
+        public let availabilityZoneId: String?
+        /// The name of the Availability Zone (AZ) that the mount target resides in. AZs are independently mapped to names for each AWS account. For example, the Availability Zone us-east-1a for your AWS account might not be the same location as us-east-1a for another AWS account.
+        public let availabilityZoneName: String?
         /// The ID of the file system for which the mount target is intended.
         public let fileSystemId: String
         /// Address at which the file system can be mounted by using the mount target.
@@ -636,7 +977,9 @@ extension EFS {
         /// The ID of the mount target's subnet.
         public let subnetId: String
 
-        public init(fileSystemId: String, ipAddress: String? = nil, lifeCycleState: LifeCycleState, mountTargetId: String, networkInterfaceId: String? = nil, ownerId: String? = nil, subnetId: String) {
+        public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, fileSystemId: String, ipAddress: String? = nil, lifeCycleState: LifeCycleState, mountTargetId: String, networkInterfaceId: String? = nil, ownerId: String? = nil, subnetId: String) {
+            self.availabilityZoneId = availabilityZoneId
+            self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
             self.ipAddress = ipAddress
             self.lifeCycleState = lifeCycleState
@@ -647,6 +990,8 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneId = "AvailabilityZoneId"
+            case availabilityZoneName = "AvailabilityZoneName"
             case fileSystemId = "FileSystemId"
             case ipAddress = "IpAddress"
             case lifeCycleState = "LifeCycleState"
@@ -661,6 +1006,73 @@ extension EFS {
         case generalpurpose = "generalPurpose"
         case maxio = "maxIO"
         public var description: String { return self.rawValue }
+    }
+
+    public struct PosixUser: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Gid", required: true, type: .long), 
+            AWSShapeMember(label: "SecondaryGids", required: false, type: .list), 
+            AWSShapeMember(label: "Uid", required: true, type: .long)
+        ]
+
+        /// The POSIX group ID used for all file system operations using this access point.
+        public let gid: Int64
+        /// Secondary POSIX group IDs used for all file system operations using this access point.
+        public let secondaryGids: [Int64]?
+        /// The POSIX user ID used for all file system operations using this access point.
+        public let uid: Int64
+
+        public init(gid: Int64, secondaryGids: [Int64]? = nil, uid: Int64) {
+            self.gid = gid
+            self.secondaryGids = secondaryGids
+            self.uid = uid
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gid, name:"gid", parent: name, max: 4294967295)
+            try validate(self.gid, name:"gid", parent: name, min: 0)
+            try self.secondaryGids?.forEach {
+                try validate($0, name: "secondaryGids[]", parent: name, max: 4294967295)
+                try validate($0, name: "secondaryGids[]", parent: name, min: 0)
+            }
+            try validate(self.secondaryGids, name:"secondaryGids", parent: name, max: 16)
+            try validate(self.secondaryGids, name:"secondaryGids", parent: name, min: 0)
+            try validate(self.uid, name:"uid", parent: name, max: 4294967295)
+            try validate(self.uid, name:"uid", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gid = "Gid"
+            case secondaryGids = "SecondaryGids"
+            case uid = "Uid"
+        }
+    }
+
+    public struct PutFileSystemPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "Policy", required: true, type: .string)
+        ]
+
+        /// (Optional) A flag to indicate whether to bypass the FileSystemPolicy lockout safety check. The policy lockout safety check determines whether the policy in the request will prevent the principal making the request will be locked out from making future PutFileSystemPolicy requests on the file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent the principal that is making the request from making a subsequent PutFileSystemPolicy request on the file system. The default value is False. 
+        public let bypassPolicyLockoutSafetyCheck: Bool?
+        /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
+        public let fileSystemId: String
+        /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. To find out more about the elements that make up a file system policy, see EFS Resource-based Policies. 
+        public let policy: String
+
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, fileSystemId: String, policy: String) {
+            self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
+            self.fileSystemId = fileSystemId
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
+            case fileSystemId = "FileSystemId"
+            case policy = "Policy"
+        }
     }
 
     public struct PutLifecycleConfigurationRequest: AWSShape {
@@ -682,6 +1094,34 @@ extension EFS {
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
             case lifecyclePolicies = "LifecyclePolicies"
+        }
+    }
+
+    public struct RootDirectory: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+
+        /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory. If the RootDirectory &gt; Path specified does not exist, EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties.   If you do not provide CreationInfo and the specified RootDirectory &gt; Path does not exist, attempts to mount the file system using the access point will fail. 
+        public let creationInfo: CreationInfo?
+        /// Specifies the path on the EFS file system to expose as the root directory to NFS clients using the access point to access the EFS file system. A path can have up to four subdirectories. If the specified path does not exist, you are required to provide the CreationInfo.
+        public let path: String?
+
+        public init(creationInfo: CreationInfo? = nil, path: String? = nil) {
+            self.creationInfo = creationInfo
+            self.path = path
+        }
+
+        public func validate(name: String) throws {
+            try self.creationInfo?.validate(name: "\(name).creationInfo")
+            try validate(self.path, name:"path", parent: name, max: 100)
+            try validate(self.path, name:"path", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationInfo = "CreationInfo"
+            case path = "Path"
         }
     }
 
@@ -713,6 +1153,33 @@ extension EFS {
         }
     }
 
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+
+        /// The ID specifying the EFS resource that you want to create a tag for. 
+        public let resourceId: String
+        public let tags: [Tag]
+
+        public init(resourceId: String, tags: [Tag]) {
+            self.resourceId = resourceId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
+        }
+    }
+
     public enum ThroughputMode: String, CustomStringConvertible, Codable {
         case bursting = "bursting"
         case provisioned = "provisioned"
@@ -726,6 +1193,37 @@ extension EFS {
         case after60Days = "AFTER_60_DAYS"
         case after90Days = "AFTER_90_DAYS"
         public var description: String { return self.rawValue }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .list)
+        ]
+
+        /// Specifies the EFS resource that you want to remove tags from.
+        public let resourceId: String
+        /// The keys of the key:value tag pairs that you want to remove from the specified EFS resource.
+        public let tagKeys: [String]?
+
+        public init(resourceId: String, tagKeys: [String]? = nil) {
+            self.resourceId = resourceId
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys?.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagKeys = "TagKeys"
+        }
     }
 
     public struct UpdateFileSystemRequest: AWSShape {

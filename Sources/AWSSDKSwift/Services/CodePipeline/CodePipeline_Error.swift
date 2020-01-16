@@ -25,6 +25,7 @@ public enum CodePipelineErrorType: AWSErrorType {
     case jobNotFoundException(message: String?)
     case limitExceededException(message: String?)
     case notLatestPipelineExecutionException(message: String?)
+    case outputVariablesSizeExceededException(message: String?)
     case pipelineExecutionNotFoundException(message: String?)
     case pipelineNameInUseException(message: String?)
     case pipelineNotFoundException(message: String?)
@@ -86,6 +87,8 @@ extension CodePipelineErrorType {
             self = .limitExceededException(message: message)
         case "NotLatestPipelineExecutionException":
             self = .notLatestPipelineExecutionException(message: message)
+        case "OutputVariablesSizeExceededException":
+            self = .outputVariablesSizeExceededException(message: message)
         case "PipelineExecutionNotFoundException":
             self = .pipelineExecutionNotFoundException(message: message)
         case "PipelineNameInUseException":
@@ -157,6 +160,8 @@ extension CodePipelineErrorType : CustomStringConvertible {
             return "LimitExceededException: \(message ?? "")"
         case .notLatestPipelineExecutionException(let message):
             return "NotLatestPipelineExecutionException: \(message ?? "")"
+        case .outputVariablesSizeExceededException(let message):
+            return "OutputVariablesSizeExceededException: \(message ?? "")"
         case .pipelineExecutionNotFoundException(let message):
             return "PipelineExecutionNotFoundException: \(message ?? "")"
         case .pipelineNameInUseException(let message):

@@ -44,21 +44,26 @@ extension EMR {
 
     public struct AddInstanceFleetOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", required: false, type: .string), 
             AWSShapeMember(label: "ClusterId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceFleetId", required: false, type: .string)
         ]
 
+        /// The Amazon Resource Name of the cluster.
+        public let clusterArn: String?
         /// The unique identifier of the cluster.
         public let clusterId: String?
         /// The unique identifier of the instance fleet.
         public let instanceFleetId: String?
 
-        public init(clusterId: String? = nil, instanceFleetId: String? = nil) {
+        public init(clusterArn: String? = nil, clusterId: String? = nil, instanceFleetId: String? = nil) {
+            self.clusterArn = clusterArn
             self.clusterId = clusterId
             self.instanceFleetId = instanceFleetId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
             case clusterId = "ClusterId"
             case instanceFleetId = "InstanceFleetId"
         }
@@ -97,21 +102,26 @@ extension EMR {
 
     public struct AddInstanceGroupsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", required: false, type: .string), 
             AWSShapeMember(label: "InstanceGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "JobFlowId", required: false, type: .string)
         ]
 
+        /// The Amazon Resource Name of the cluster.
+        public let clusterArn: String?
         /// Instance group IDs of the newly created instance groups.
         public let instanceGroupIds: [String]?
         /// The job flow ID in which the instance groups are added.
         public let jobFlowId: String?
 
-        public init(instanceGroupIds: [String]? = nil, jobFlowId: String? = nil) {
+        public init(clusterArn: String? = nil, instanceGroupIds: [String]? = nil, jobFlowId: String? = nil) {
+            self.clusterArn = clusterArn
             self.instanceGroupIds = instanceGroupIds
             self.jobFlowId = jobFlowId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
             case instanceGroupIds = "InstanceGroupIds"
             case jobFlowId = "JobFlowId"
         }
@@ -475,17 +485,21 @@ extension EMR {
 
     public struct CancelStepsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "StepIds", required: false, type: .list)
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "StepCancellationOption", required: false, type: .enum), 
+            AWSShapeMember(label: "StepIds", required: true, type: .list)
         ]
 
         /// The ClusterID for which specified steps will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. 
-        public let clusterId: String?
+        public let clusterId: String
+        /// The option to choose for cancelling RUNNING steps. By default, the value is SEND_INTERRUPT.
+        public let stepCancellationOption: StepCancellationOption?
         /// The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster.
-        public let stepIds: [String]?
+        public let stepIds: [String]
 
-        public init(clusterId: String? = nil, stepIds: [String]? = nil) {
+        public init(clusterId: String, stepCancellationOption: StepCancellationOption? = nil, stepIds: [String]) {
             self.clusterId = clusterId
+            self.stepCancellationOption = stepCancellationOption
             self.stepIds = stepIds
         }
 
@@ -493,7 +507,7 @@ extension EMR {
             try validate(self.clusterId, name:"clusterId", parent: name, max: 256)
             try validate(self.clusterId, name:"clusterId", parent: name, min: 0)
             try validate(self.clusterId, name:"clusterId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.stepIds?.forEach {
+            try self.stepIds.forEach {
                 try validate($0, name: "stepIds[]", parent: name, max: 256)
                 try validate($0, name: "stepIds[]", parent: name, min: 0)
                 try validate($0, name: "stepIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -502,6 +516,7 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
+            case stepCancellationOption = "StepCancellationOption"
             case stepIds = "StepIds"
         }
     }
@@ -546,7 +561,7 @@ extension EMR {
         public let comparisonOperator: ComparisonOperator
         /// A CloudWatch metric dimension.
         public let dimensions: [MetricDimension]?
-        /// The number of periods, expressed in seconds using Period, during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1.
+        /// The number of periods, in five-minute increments, during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1.
         public let evaluationPeriods: Int?
         /// The name of the CloudWatch metric that is watched to determine an alarm condition.
         public let metricName: String
@@ -595,6 +610,7 @@ extension EMR {
             AWSShapeMember(label: "Applications", required: false, type: .list), 
             AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
             AWSShapeMember(label: "AutoTerminate", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClusterArn", required: false, type: .string), 
             AWSShapeMember(label: "Configurations", required: false, type: .list), 
             AWSShapeMember(label: "CustomAmiId", required: false, type: .string), 
             AWSShapeMember(label: "EbsRootVolumeSize", required: false, type: .integer), 
@@ -606,6 +622,7 @@ extension EMR {
             AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeMember(label: "OutpostArn", required: false, type: .string), 
             AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
             AWSShapeMember(label: "RepoUpgradeOnBoot", required: false, type: .enum), 
             AWSShapeMember(label: "RequestedAmiVersion", required: false, type: .string), 
@@ -614,6 +631,7 @@ extension EMR {
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "StepConcurrencyLevel", required: false, type: .integer), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean), 
             AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean)
@@ -625,6 +643,8 @@ extension EMR {
         public let autoScalingRole: String?
         /// Specifies whether the cluster should terminate after completing all steps.
         public let autoTerminate: Bool?
+        /// The Amazon Resource Name of the cluster.
+        public let clusterArn: String?
         /// Applies only to Amazon EMR releases 4.x and later. The list of Configurations supplied to the EMR cluster.
         public let configurations: [Configuration]?
         /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
@@ -647,6 +667,8 @@ extension EMR {
         public let name: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public let normalizedInstanceHours: Int?
+        ///  The Amazon Resource Name (ARN) of the Outpost where the cluster is launched. 
+        public let outpostArn: String?
         /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
         public let releaseLabel: String?
         /// Applies only when CustomAmiID is used. Specifies the type of updates that are applied from the Amazon Linux AMI package repositories when an instance boots using the AMI.
@@ -663,17 +685,20 @@ extension EMR {
         public let serviceRole: String?
         /// The current status details about the cluster.
         public let status: ClusterStatus?
+        /// Specifies the number of steps that can be executed concurrently.
+        public let stepConcurrencyLevel: Int?
         /// A list of tags associated with a cluster.
         public let tags: [Tag]?
         /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
         public let terminationProtected: Bool?
-        ///  This member will be deprecated.  Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
+        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If this value is false, only the IAM user that created the cluster can perform actions. This value can be changed on a running cluster by using the SetVisibleToAllUsers action. You can override the default value of true when you create a cluster by using the VisibleToAllUsers parameter of the RunJobFlow action.
         public let visibleToAllUsers: Bool?
 
-        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, outpostArn: String? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
             self.applications = applications
             self.autoScalingRole = autoScalingRole
             self.autoTerminate = autoTerminate
+            self.clusterArn = clusterArn
             self.configurations = configurations
             self.customAmiId = customAmiId
             self.ebsRootVolumeSize = ebsRootVolumeSize
@@ -685,6 +710,7 @@ extension EMR {
             self.masterPublicDnsName = masterPublicDnsName
             self.name = name
             self.normalizedInstanceHours = normalizedInstanceHours
+            self.outpostArn = outpostArn
             self.releaseLabel = releaseLabel
             self.repoUpgradeOnBoot = repoUpgradeOnBoot
             self.requestedAmiVersion = requestedAmiVersion
@@ -693,6 +719,7 @@ extension EMR {
             self.securityConfiguration = securityConfiguration
             self.serviceRole = serviceRole
             self.status = status
+            self.stepConcurrencyLevel = stepConcurrencyLevel
             self.tags = tags
             self.terminationProtected = terminationProtected
             self.visibleToAllUsers = visibleToAllUsers
@@ -702,6 +729,7 @@ extension EMR {
             case applications = "Applications"
             case autoScalingRole = "AutoScalingRole"
             case autoTerminate = "AutoTerminate"
+            case clusterArn = "ClusterArn"
             case configurations = "Configurations"
             case customAmiId = "CustomAmiId"
             case ebsRootVolumeSize = "EbsRootVolumeSize"
@@ -713,6 +741,7 @@ extension EMR {
             case masterPublicDnsName = "MasterPublicDnsName"
             case name = "Name"
             case normalizedInstanceHours = "NormalizedInstanceHours"
+            case outpostArn = "OutpostArn"
             case releaseLabel = "ReleaseLabel"
             case repoUpgradeOnBoot = "RepoUpgradeOnBoot"
             case requestedAmiVersion = "RequestedAmiVersion"
@@ -721,6 +750,7 @@ extension EMR {
             case securityConfiguration = "SecurityConfiguration"
             case serviceRole = "ServiceRole"
             case status = "Status"
+            case stepConcurrencyLevel = "StepConcurrencyLevel"
             case tags = "Tags"
             case terminationProtected = "TerminationProtected"
             case visibleToAllUsers = "VisibleToAllUsers"
@@ -801,32 +831,42 @@ extension EMR {
 
     public struct ClusterSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeMember(label: "OutpostArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .structure)
         ]
 
+        /// The Amazon Resource Name of the cluster.
+        public let clusterArn: String?
         /// The unique identifier for the cluster.
         public let id: String?
         /// The name of the cluster.
         public let name: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public let normalizedInstanceHours: Int?
+        ///  The Amazon Resource Name (ARN) of the Outpost where the cluster is launched. 
+        public let outpostArn: String?
         /// The details about the current status of the cluster.
         public let status: ClusterStatus?
 
-        public init(id: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, status: ClusterStatus? = nil) {
+        public init(clusterArn: String? = nil, id: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, outpostArn: String? = nil, status: ClusterStatus? = nil) {
+            self.clusterArn = clusterArn
             self.id = id
             self.name = name
             self.normalizedInstanceHours = normalizedInstanceHours
+            self.outpostArn = outpostArn
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
             case id = "Id"
             case name = "Name"
             case normalizedInstanceHours = "NormalizedInstanceHours"
+            case outpostArn = "OutpostArn"
             case status = "Status"
         }
     }
@@ -1846,7 +1886,7 @@ extension EMR {
 
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicyDescription?
-        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specify the maximum spot price in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
+        /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
@@ -1935,7 +1975,7 @@ extension EMR {
 
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicy?
-        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specify the maximum spot price in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
+        /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
@@ -2008,7 +2048,7 @@ extension EMR {
             AWSShapeMember(label: "State", required: true, type: .enum)
         ]
 
-        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specified in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
+        /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         /// The date/time the instance group was created.
         public let creationDateTime: TimeStamp
@@ -2493,7 +2533,7 @@ extension EMR {
         public let steps: [StepDetail]?
         /// A list of strings set by third party software when the job flow is launched. If you are not using third party software to manage the job flow this value is empty.
         public let supportedProducts: [String]?
-        ///  This member will be deprecated.  Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
+        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If this value is false, only the IAM user that created the cluster can perform actions. This value can be changed on a running cluster by using the SetVisibleToAllUsers action. You can override the default value of true when you create a cluster by using the VisibleToAllUsers parameter of the RunJobFlow action.
         public let visibleToAllUsers: Bool?
 
         public init(amiVersion: String? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionDetail]? = nil, executionStatusDetail: JobFlowExecutionStatusDetail, instances: JobFlowInstancesDetail, jobFlowId: String, jobFlowRole: String? = nil, logUri: String? = nil, name: String, scaleDownBehavior: ScaleDownBehavior? = nil, serviceRole: String? = nil, steps: [StepDetail]? = nil, supportedProducts: [String]? = nil, visibleToAllUsers: Bool? = nil) {
@@ -3200,7 +3240,7 @@ extension EMR {
         public let clusterId: String
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
-        /// The filter to limit the step list based on the identifier of the steps.
+        /// The filter to limit the step list based on the identifier of the steps. You can specify a maximum of ten Step IDs. The character constraint applies to the overall length of the array.
         public let stepIds: [String]?
         /// The filter to limit the step list based on certain states.
         public let stepStates: [StepState]?
@@ -3275,6 +3315,45 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct ModifyClusterInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "StepConcurrencyLevel", required: false, type: .integer)
+        ]
+
+        /// The unique identifier of the cluster.
+        public let clusterId: String
+        /// The number of steps that can be executed concurrently. You can specify a maximum of 256 steps. 
+        public let stepConcurrencyLevel: Int?
+
+        public init(clusterId: String, stepConcurrencyLevel: Int? = nil) {
+            self.clusterId = clusterId
+            self.stepConcurrencyLevel = stepConcurrencyLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case stepConcurrencyLevel = "StepConcurrencyLevel"
+        }
+    }
+
+    public struct ModifyClusterOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StepConcurrencyLevel", required: false, type: .integer)
+        ]
+
+        /// The number of steps that can be executed concurrently.
+        public let stepConcurrencyLevel: Int?
+
+        public init(stepConcurrencyLevel: Int? = nil) {
+            self.stepConcurrencyLevel = stepConcurrencyLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepConcurrencyLevel = "StepConcurrencyLevel"
         }
     }
 
@@ -3428,25 +3507,30 @@ extension EMR {
     public struct PutAutoScalingPolicyOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterArn", required: false, type: .string), 
             AWSShapeMember(label: "ClusterId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceGroupId", required: false, type: .string)
         ]
 
         /// The automatic scaling policy definition.
         public let autoScalingPolicy: AutoScalingPolicyDescription?
+        /// The Amazon Resource Name of the cluster.
+        public let clusterArn: String?
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
         public let clusterId: String?
         /// Specifies the ID of the instance group to which the scaling policy is applied.
         public let instanceGroupId: String?
 
-        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, clusterId: String? = nil, instanceGroupId: String? = nil) {
+        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, clusterArn: String? = nil, clusterId: String? = nil, instanceGroupId: String? = nil) {
             self.autoScalingPolicy = autoScalingPolicy
+            self.clusterArn = clusterArn
             self.clusterId = clusterId
             self.instanceGroupId = instanceGroupId
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingPolicy = "AutoScalingPolicy"
+            case clusterArn = "ClusterArn"
             case clusterId = "ClusterId"
             case instanceGroupId = "InstanceGroupId"
         }
@@ -3568,6 +3652,7 @@ extension EMR {
             AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "StepConcurrencyLevel", required: false, type: .integer), 
             AWSShapeMember(label: "Steps", required: false, type: .list), 
             AWSShapeMember(label: "SupportedProducts", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
@@ -3612,16 +3697,18 @@ extension EMR {
         public let securityConfiguration: String?
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
         public let serviceRole: String?
+        /// Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
+        public let stepConcurrencyLevel: Int?
         /// A list of steps to run.
         public let steps: [StepConfig]?
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use. For more information, see the Amazon EMR Developer Guide. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.  
         public let supportedProducts: [String]?
         /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
         public let tags: [Tag]?
-        ///  This member will be deprecated.  Whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it.
+        /// A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
         public let visibleToAllUsers: Bool?
 
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
@@ -3641,6 +3728,7 @@ extension EMR {
             self.scaleDownBehavior = scaleDownBehavior
             self.securityConfiguration = securityConfiguration
             self.serviceRole = serviceRole
+            self.stepConcurrencyLevel = stepConcurrencyLevel
             self.steps = steps
             self.supportedProducts = supportedProducts
             self.tags = tags
@@ -3716,6 +3804,7 @@ extension EMR {
             case scaleDownBehavior = "ScaleDownBehavior"
             case securityConfiguration = "SecurityConfiguration"
             case serviceRole = "ServiceRole"
+            case stepConcurrencyLevel = "StepConcurrencyLevel"
             case steps = "Steps"
             case supportedProducts = "SupportedProducts"
             case tags = "Tags"
@@ -3725,17 +3814,22 @@ extension EMR {
 
     public struct RunJobFlowOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", required: false, type: .string), 
             AWSShapeMember(label: "JobFlowId", required: false, type: .string)
         ]
 
+        /// The Amazon Resource Name of the cluster.
+        public let clusterArn: String?
         /// An unique identifier for the job flow.
         public let jobFlowId: String?
 
-        public init(jobFlowId: String? = nil) {
+        public init(clusterArn: String? = nil, jobFlowId: String? = nil) {
+            self.clusterArn = clusterArn
             self.jobFlowId = jobFlowId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
             case jobFlowId = "JobFlowId"
         }
     }
@@ -3938,9 +4032,9 @@ extension EMR {
             AWSShapeMember(label: "VisibleToAllUsers", required: true, type: .boolean)
         ]
 
-        /// Identifiers of the job flows to receive the new visibility setting.
+        /// The unique identifier of the job flow (cluster).
         public let jobFlowIds: [String]
-        ///  This member will be deprecated.  Whether the specified clusters are visible to all IAM users of the AWS account associated with the cluster. If this value is set to True, all IAM users of that AWS account can view and, if they have the proper IAM policy permissions set, manage the clusters. If it is set to False, only the IAM user that created a cluster can view and manage it.
+        /// A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
         public let visibleToAllUsers: Bool
 
         public init(jobFlowIds: [String], visibleToAllUsers: Bool) {
@@ -4093,6 +4187,12 @@ extension EMR {
             case name = "Name"
             case status = "Status"
         }
+    }
+
+    public enum StepCancellationOption: String, CustomStringConvertible, Codable {
+        case sendInterrupt = "SEND_INTERRUPT"
+        case terminateProcess = "TERMINATE_PROCESS"
+        public var description: String { return self.rawValue }
     }
 
     public struct StepConfig: AWSShape {

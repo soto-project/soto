@@ -106,6 +106,7 @@ extension Redshift {
 
     public enum ActionType: String, CustomStringConvertible, Codable {
         case restoreCluster = "restore-cluster"
+        case recommendNodeConfig = "recommend-node-config"
         public var description: String { return self.rawValue }
     }
 
@@ -1260,7 +1261,7 @@ extension Redshift {
         public let masterUsername: String
         /// The password associated with the master user account for the cluster that is being created. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to 126) except ' (single quote), " (double quote), \, /, @, or space.  
         public let masterUserPassword: String
-        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds2.xlarge | ds2.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge 
+        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.16xlarge 
         public let nodeType: String
         /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node.  For information about determining how many nodes you need, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1  Constraints: Value must be at least 1 and no more than 100.
         public let numberOfNodes: Int?
@@ -1716,6 +1717,58 @@ extension Redshift {
         }
     }
 
+    public struct CreateScheduledActionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enable", required: false, type: .boolean), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IamRole", required: true, type: .string), 
+            AWSShapeMember(label: "Schedule", required: true, type: .string), 
+            AWSShapeMember(label: "ScheduledActionDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TargetAction", required: true, type: .structure)
+        ]
+
+        /// If true, the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see ScheduledAction. 
+        public let enable: Bool?
+        /// The end time in UTC of the scheduled action. After this time, the scheduled action does not trigger. For more information about this parameter, see ScheduledAction. 
+        public let endTime: TimeStamp?
+        /// The IAM role to assume to run the target action. For more information about this parameter, see ScheduledAction. 
+        public let iamRole: String
+        /// The schedule in at( ) or cron( ) format. For more information about this parameter, see ScheduledAction.
+        public let schedule: String
+        /// The description of the scheduled action. 
+        public let scheduledActionDescription: String?
+        /// The name of the scheduled action. The name must be unique within an account. For more information about this parameter, see ScheduledAction. 
+        public let scheduledActionName: String
+        /// The start time in UTC of the scheduled action. Before this time, the scheduled action does not trigger. For more information about this parameter, see ScheduledAction.
+        public let startTime: TimeStamp?
+        /// A JSON format string of the Amazon Redshift API operation with input parameters. For more information about this parameter, see ScheduledAction. 
+        public let targetAction: ScheduledActionType
+
+        public init(enable: Bool? = nil, endTime: TimeStamp? = nil, iamRole: String, schedule: String, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil, targetAction: ScheduledActionType) {
+            self.enable = enable
+            self.endTime = endTime
+            self.iamRole = iamRole
+            self.schedule = schedule
+            self.scheduledActionDescription = scheduledActionDescription
+            self.scheduledActionName = scheduledActionName
+            self.startTime = startTime
+            self.targetAction = targetAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enable = "Enable"
+            case endTime = "EndTime"
+            case iamRole = "IamRole"
+            case schedule = "Schedule"
+            case scheduledActionDescription = "ScheduledActionDescription"
+            case scheduledActionName = "ScheduledActionName"
+            case startTime = "StartTime"
+            case targetAction = "TargetAction"
+        }
+    }
+
     public struct CreateSnapshotCopyGrantMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
@@ -2124,6 +2177,23 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+        }
+    }
+
+    public struct DeleteScheduledActionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string)
+        ]
+
+        /// The name of the scheduled action to delete. 
+        public let scheduledActionName: String
+
+        public init(scheduledActionName: String) {
+            self.scheduledActionName = scheduledActionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledActionName = "ScheduledActionName"
         }
     }
 
@@ -2775,6 +2845,7 @@ extension Redshift {
     public struct DescribeNodeConfigurationOptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionType", required: true, type: .enum), 
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .list, encoding: .list(member:"NodeConfigurationOptionsFilter")), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
@@ -2782,8 +2853,10 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotIdentifier", required: false, type: .string)
         ]
 
-        /// The action type to evaluate for possible node configurations. Currently, it must be "restore-cluster".
+        /// The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. 
         public let actionType: ActionType
+        /// The identifier of the cluster to evaluate for possible node configurations.
+        public let clusterIdentifier: String?
         /// A set of name, operator, and value items to filter the results.
         public let filters: [NodeConfigurationOptionsFilter]?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeNodeConfigurationOptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2795,8 +2868,9 @@ extension Redshift {
         /// The identifier of the snapshot to evaluate for possible node configurations.
         public let snapshotIdentifier: String?
 
-        public init(actionType: ActionType, filters: [NodeConfigurationOptionsFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil) {
+        public init(actionType: ActionType, clusterIdentifier: String? = nil, filters: [NodeConfigurationOptionsFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil) {
             self.actionType = actionType
+            self.clusterIdentifier = clusterIdentifier
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2806,6 +2880,7 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case actionType = "ActionType"
+            case clusterIdentifier = "ClusterIdentifier"
             case filters = "Filter"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2914,6 +2989,58 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case clusterIdentifier = "ClusterIdentifier"
+        }
+    }
+
+    public struct DescribeScheduledActionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"ScheduledActionFilter")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ScheduledActionName", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TargetActionType", required: false, type: .enum)
+        ]
+
+        /// If true, retrieve only active scheduled actions. If false, retrieve only disabled scheduled actions. 
+        public let active: Bool?
+        /// The end time in UTC of the scheduled action to retrieve. Only active scheduled actions that have invocations before this time are retrieved.
+        public let endTime: TimeStamp?
+        /// List of scheduled action filters. 
+        public let filters: [ScheduledActionFilter]?
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeScheduledActions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
+        public let marker: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
+        public let maxRecords: Int?
+        /// The name of the scheduled action to retrieve. 
+        public let scheduledActionName: String?
+        /// The start time in UTC of the scheduled actions to retrieve. Only active scheduled actions that have invocations after this time are retrieved.
+        public let startTime: TimeStamp?
+        /// The type of the scheduled actions to retrieve. 
+        public let targetActionType: ScheduledActionTypeValues?
+
+        public init(active: Bool? = nil, endTime: TimeStamp? = nil, filters: [ScheduledActionFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, scheduledActionName: String? = nil, startTime: TimeStamp? = nil, targetActionType: ScheduledActionTypeValues? = nil) {
+            self.active = active
+            self.endTime = endTime
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.scheduledActionName = scheduledActionName
+            self.startTime = startTime
+            self.targetActionType = targetActionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active = "Active"
+            case endTime = "EndTime"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case scheduledActionName = "ScheduledActionName"
+            case startTime = "StartTime"
+            case targetActionType = "TargetActionType"
         }
     }
 
@@ -3849,6 +3976,12 @@ extension Redshift {
         }
     }
 
+    public enum Mode: String, CustomStringConvertible, Codable {
+        case standard = "standard"
+        case highPerformance = "high-performance"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ModifyClusterDbRevisionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
@@ -4048,7 +4181,7 @@ extension Redshift {
         public let masterUserPassword: String?
         /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.   Example: examplecluster 
         public let newClusterIdentifier: String?
-        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge 
+        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.16xlarge 
         public let nodeType: String?
         /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: Integer greater than 0.
         public let numberOfNodes: Int?
@@ -4324,6 +4457,58 @@ extension Redshift {
         }
     }
 
+    public struct ModifyScheduledActionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enable", required: false, type: .boolean), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IamRole", required: false, type: .string), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledActionDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TargetAction", required: false, type: .structure)
+        ]
+
+        /// A modified enable flag of the scheduled action. If true, the scheduled action is active. If false, the scheduled action is disabled. 
+        public let enable: Bool?
+        /// A modified end time of the scheduled action. For more information about this parameter, see ScheduledAction. 
+        public let endTime: TimeStamp?
+        /// A different IAM role to assume to run the target action. For more information about this parameter, see ScheduledAction.
+        public let iamRole: String?
+        /// A modified schedule in either at( ) or cron( ) format. For more information about this parameter, see ScheduledAction.
+        public let schedule: String?
+        /// A modified description of the scheduled action. 
+        public let scheduledActionDescription: String?
+        /// The name of the scheduled action to modify. 
+        public let scheduledActionName: String
+        /// A modified start time of the scheduled action. For more information about this parameter, see ScheduledAction. 
+        public let startTime: TimeStamp?
+        /// A modified JSON format of the scheduled action. For more information about this parameter, see ScheduledAction. 
+        public let targetAction: ScheduledActionType?
+
+        public init(enable: Bool? = nil, endTime: TimeStamp? = nil, iamRole: String? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil, targetAction: ScheduledActionType? = nil) {
+            self.enable = enable
+            self.endTime = endTime
+            self.iamRole = iamRole
+            self.schedule = schedule
+            self.scheduledActionDescription = scheduledActionDescription
+            self.scheduledActionName = scheduledActionName
+            self.startTime = startTime
+            self.targetAction = targetAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enable = "Enable"
+            case endTime = "EndTime"
+            case iamRole = "IamRole"
+            case schedule = "Schedule"
+            case scheduledActionDescription = "ScheduledActionDescription"
+            case scheduledActionName = "ScheduledActionName"
+            case startTime = "StartTime"
+            case targetAction = "TargetAction"
+        }
+    }
+
     public struct ModifySnapshotCopyRetentionPeriodMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
@@ -4392,25 +4577,30 @@ extension Redshift {
     public struct NodeConfigurationOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EstimatedDiskUtilizationPercent", required: false, type: .double), 
+            AWSShapeMember(label: "Mode", required: false, type: .enum), 
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer)
         ]
 
         /// The estimated disk utilizaton percentage.
         public let estimatedDiskUtilizationPercent: Double?
+        /// The category of the node configuration recommendation.
+        public let mode: Mode?
         /// The node type, such as, "ds2.8xlarge".
         public let nodeType: String?
         /// The number of nodes.
         public let numberOfNodes: Int?
 
-        public init(estimatedDiskUtilizationPercent: Double? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil) {
+        public init(estimatedDiskUtilizationPercent: Double? = nil, mode: Mode? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil) {
             self.estimatedDiskUtilizationPercent = estimatedDiskUtilizationPercent
+            self.mode = mode
             self.nodeType = nodeType
             self.numberOfNodes = numberOfNodes
         }
 
         private enum CodingKeys: String, CodingKey {
             case estimatedDiskUtilizationPercent = "EstimatedDiskUtilizationPercent"
+            case mode = "Mode"
             case nodeType = "NodeType"
             case numberOfNodes = "NumberOfNodes"
         }
@@ -4447,6 +4637,7 @@ extension Redshift {
         case nodetype = "NodeType"
         case numberofnodes = "NumberOfNodes"
         case estimateddiskutilizationpercent = "EstimatedDiskUtilizationPercent"
+        case mode = "Mode"
         public var description: String { return self.rawValue }
     }
 
@@ -5304,15 +5495,15 @@ extension Redshift {
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
 
-        /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup.
+        /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 and DS2 node types. 
         public let currentRestoreRateInMegaBytesPerSecond: Double?
-        /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish.
+        /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 and DS2 node types. 
         public let elapsedTimeInSeconds: Int64?
-        /// The estimate of the time remaining before the restore will complete. Returns 0 for a completed restore.
+        /// The estimate of the time remaining before the restore will complete. Returns 0 for a completed restore. This field is only updated when you restore to DC2 and DS2 node types. 
         public let estimatedTimeToCompletionInSeconds: Int64?
-        /// The number of megabytes that have been transferred from snapshot storage.
+        /// The number of megabytes that have been transferred from snapshot storage. This field is only updated when you restore to DC2 and DS2 node types. 
         public let progressInMegaBytes: Int64?
-        /// The size of the set of snapshot data used to restore the cluster.
+        /// The size of the set of snapshot data used to restore the cluster. This field is only updated when you restore to DC2 and DS2 node types. 
         public let snapshotSizeInMegaBytes: Int64?
         /// The status of the restore action. Returns starting, restoring, completed, or failed.
         public let status: String?
@@ -5560,6 +5751,141 @@ extension Redshift {
         case active = "ACTIVE"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ScheduledAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IamRole", required: false, type: .string), 
+            AWSShapeMember(label: "NextInvocations", required: false, type: .list, encoding: .list(member:"ScheduledActionTime")), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledActionDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledActionName", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetAction", required: false, type: .structure)
+        ]
+
+        /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger. 
+        public let endTime: TimeStamp?
+        /// The IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Cluster Management Guide. 
+        public let iamRole: String?
+        /// List of times when the scheduled action will run. 
+        public let nextInvocations: [TimeStamp]?
+        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0, 10, *, *, MON, *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
+        public let schedule: String?
+        /// The description of the scheduled action. 
+        public let scheduledActionDescription: String?
+        /// The name of the scheduled action. 
+        public let scheduledActionName: String?
+        /// The start time in UTC when the schedule is active. Before this time, the scheduled action does not trigger. 
+        public let startTime: TimeStamp?
+        /// The state of the scheduled action. For example, DISABLED. 
+        public let state: ScheduledActionState?
+        /// A JSON format string of the Amazon Redshift API operation with input parameters.  "{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}". 
+        public let targetAction: ScheduledActionType?
+
+        public init(endTime: TimeStamp? = nil, iamRole: String? = nil, nextInvocations: [TimeStamp]? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String? = nil, startTime: TimeStamp? = nil, state: ScheduledActionState? = nil, targetAction: ScheduledActionType? = nil) {
+            self.endTime = endTime
+            self.iamRole = iamRole
+            self.nextInvocations = nextInvocations
+            self.schedule = schedule
+            self.scheduledActionDescription = scheduledActionDescription
+            self.scheduledActionName = scheduledActionName
+            self.startTime = startTime
+            self.state = state
+            self.targetAction = targetAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case iamRole = "IamRole"
+            case nextInvocations = "NextInvocations"
+            case schedule = "Schedule"
+            case scheduledActionDescription = "ScheduledActionDescription"
+            case scheduledActionName = "ScheduledActionName"
+            case startTime = "StartTime"
+            case state = "State"
+            case targetAction = "TargetAction"
+        }
+    }
+
+    public struct ScheduledActionFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .enum), 
+            AWSShapeMember(label: "Values", required: true, type: .list, encoding: .list(member:"item"))
+        ]
+
+        /// The type of element to filter. 
+        public let name: ScheduledActionFilterName
+        /// List of values. Compare if the value (of type defined by Name) equals an item in the list of scheduled actions. 
+        public let values: [String]
+
+        public init(name: ScheduledActionFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public enum ScheduledActionFilterName: String, CustomStringConvertible, Codable {
+        case clusterIdentifier = "cluster-identifier"
+        case iamRole = "iam-role"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledActionState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ScheduledActionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResizeCluster", required: false, type: .structure)
+        ]
+
+        /// An action that runs a ResizeCluster API operation. 
+        public let resizeCluster: ResizeClusterMessage?
+
+        public init(resizeCluster: ResizeClusterMessage? = nil) {
+            self.resizeCluster = resizeCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resizeCluster = "ResizeCluster"
+        }
+    }
+
+    public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
+        case resizecluster = "ResizeCluster"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ScheduledActionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledActions", required: false, type: .list, encoding: .list(member:"ScheduledAction"))
+        ]
+
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeScheduledActions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
+        public let marker: String?
+        /// List of retrieved scheduled actions. 
+        public let scheduledActions: [ScheduledAction]?
+
+        public init(marker: String? = nil, scheduledActions: [ScheduledAction]? = nil) {
+            self.marker = marker
+            self.scheduledActions = scheduledActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case scheduledActions = "ScheduledActions"
+        }
     }
 
     public struct Snapshot: AWSShape {
@@ -5928,6 +6254,7 @@ extension Redshift {
         case clusterParameterGroup = "cluster-parameter-group"
         case clusterSecurityGroup = "cluster-security-group"
         case clusterSnapshot = "cluster-snapshot"
+        case scheduledAction = "scheduled-action"
         public var description: String { return self.rawValue }
     }
 

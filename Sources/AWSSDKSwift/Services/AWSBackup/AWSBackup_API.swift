@@ -27,12 +27,12 @@ public struct AWSBackup {
         )
     }
 
-    ///  Backup plans are documents that contain information that AWS Backup uses to schedule tasks that create recovery points of resources. If you call CreateBackupPlan with a plan that already exists, the existing backupPlanId is returned.
+    ///  Backup plans are documents that contain information that AWS Backup uses to schedule tasks that create recovery points of resources. If you call CreateBackupPlan with a plan that already exists, an AlreadyExistsException is returned.
     public func createBackupPlan(_ input: CreateBackupPlanInput) -> Future<CreateBackupPlanOutput> {
         return client.send(operation: "CreateBackupPlan", path: "/backup/plans/", httpMethod: "PUT", input: input)
     }
 
-    ///  Creates a JSON document that specifies a set of resources to assign to a backup plan. Resources can be included by specifying patterns for a ListOfTags and selected Resources.  For example, consider the following patterns:    Resources: "arn:aws:ec2:region:account-id:volume/volume-id"     ConditionKey:"department"   ConditionValue:"finance"   ConditionType:"StringEquals"     ConditionKey:"importance"   ConditionValue:"critical"   ConditionType:"StringEquals"    Using these patterns would back up all Amazon Elastic Block Store (Amazon EBS) volumes that are tagged as "department=finance", "importance=critical", in addition to an EBS volume with the specified volume Id. Resources and conditions are additive in that all resources that match the pattern are selected. This shouldn't be confused with a logical AND, where all conditions must match. The matching patterns are logically 'put together using the OR operator. In other words, all patterns that match are selected for backup.
+    ///  Creates a JSON document that specifies a set of resources to assign to a backup plan. Resources can be included by specifying patterns for a ListOfTags and selected Resources.  For example, consider the following patterns:    Resources: "arn:aws:ec2:region:account-id:volume/volume-id"     ConditionKey:"department"   ConditionValue:"finance"   ConditionType:"STRINGEQUALS"     ConditionKey:"importance"   ConditionValue:"critical"   ConditionType:"STRINGEQUALS"    Using these patterns would back up all Amazon Elastic Block Store (Amazon EBS) volumes that are tagged as "department=finance", "importance=critical", in addition to an EBS volume with the specified volume Id. Resources and conditions are additive in that all resources that match the pattern are selected. This shouldn't be confused with a logical AND, where all conditions must match. The matching patterns are logically 'put together using the OR operator. In other words, all patterns that match are selected for backup.
     public func createBackupSelection(_ input: CreateBackupSelectionInput) -> Future<CreateBackupSelectionOutput> {
         return client.send(operation: "CreateBackupSelection", path: "/backup/plans/{backupPlanId}/selections/", httpMethod: "PUT", input: input)
     }
@@ -80,6 +80,11 @@ public struct AWSBackup {
     ///  Returns metadata about a backup vault specified by its name.
     public func describeBackupVault(_ input: DescribeBackupVaultInput) -> Future<DescribeBackupVaultOutput> {
         return client.send(operation: "DescribeBackupVault", path: "/backup-vaults/{backupVaultName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns metadata associated with creating a copy of a resource.
+    public func describeCopyJob(_ input: DescribeCopyJobInput) -> Future<DescribeCopyJobOutput> {
+        return client.send(operation: "DescribeCopyJob", path: "/copy-jobs/{copyJobId}", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about a saved resource, including the last time it was backed-up, its Amazon Resource Name (ARN), and the AWS service type of the saved resource.
@@ -132,7 +137,7 @@ public struct AWSBackup {
         return client.send(operation: "GetBackupVaultNotifications", path: "/backup-vaults/{backupVaultName}/notification-configuration", httpMethod: "GET", input: input)
     }
 
-    ///  Returns two sets of metadata key-value pairs. The first set lists the metadata that the recovery point was created with. The second set lists the metadata key-value pairs that are required to restore the recovery point. These sets can be the same, or the restore metadata set can contain different values if the target service to be restored has changed since the recovery point was created and now requires additional or different information in order to be restored.
+    ///  Returns a set of metadata key-value pairs that were used to create the backup.
     public func getRecoveryPointRestoreMetadata(_ input: GetRecoveryPointRestoreMetadataInput) -> Future<GetRecoveryPointRestoreMetadataOutput> {
         return client.send(operation: "GetRecoveryPointRestoreMetadata", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}/restore-metadata", httpMethod: "GET", input: input)
     }
@@ -170,6 +175,11 @@ public struct AWSBackup {
     ///  Returns a list of recovery point storage containers along with information about them.
     public func listBackupVaults(_ input: ListBackupVaultsInput) -> Future<ListBackupVaultsOutput> {
         return client.send(operation: "ListBackupVaults", path: "/backup-vaults/", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns metadata about your copy jobs.
+    public func listCopyJobs(_ input: ListCopyJobsInput) -> Future<ListCopyJobsOutput> {
+        return client.send(operation: "ListCopyJobs", path: "/copy-jobs/", httpMethod: "GET", input: input)
     }
 
     ///  Returns an array of resources successfully backed up by AWS Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
@@ -210,6 +220,11 @@ public struct AWSBackup {
     ///  Starts a job to create a one-time backup of the specified resource.
     public func startBackupJob(_ input: StartBackupJobInput) -> Future<StartBackupJobOutput> {
         return client.send(operation: "StartBackupJob", path: "/backup-jobs", httpMethod: "PUT", input: input)
+    }
+
+    ///  Starts a job to create a one-time copy of the specified resource.
+    public func startCopyJob(_ input: StartCopyJobInput) -> Future<StartCopyJobOutput> {
+        return client.send(operation: "StartCopyJob", path: "/copy-jobs", httpMethod: "PUT", input: input)
     }
 
     ///  Recovers the saved resource identified by an Amazon Resource Name (ARN).  If the resource ARN is included in the request, then the last complete backup of that resource is recovered. If the ARN of a recovery point is supplied, then that recovery point is restored.

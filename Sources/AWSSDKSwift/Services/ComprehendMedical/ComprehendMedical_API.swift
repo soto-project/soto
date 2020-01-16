@@ -44,7 +44,7 @@ public struct ComprehendMedical {
         return client.send(operation: "DetectEntities", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types. It does not return the Quality or Quantity entities.
+    ///  Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types. 
     public func detectEntitiesV2(_ input: DetectEntitiesV2Request) -> Future<DetectEntitiesV2Response> {
         return client.send(operation: "DetectEntitiesV2", path: "/", httpMethod: "POST", input: input)
     }
@@ -52,6 +52,16 @@ public struct ComprehendMedical {
     ///   Inspects the clinical text for protected health information (PHI) entities and entity category, location, and confidence score on that information.
     public func detectPHI(_ input: DetectPHIRequest) -> Future<DetectPHIResponse> {
         return client.send(operation: "DetectPHI", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control.
+    public func inferICD10CM(_ input: InferICD10CMRequest) -> Future<InferICD10CMResponse> {
+        return client.send(operation: "InferICD10CM", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  InferRxNorm detects medications as entities listed in a patient record and links to the normalized concept identifiers in the RxNorm database from the National Library of Medicine.
+    public func inferRxNorm(_ input: InferRxNormRequest) -> Future<InferRxNormResponse> {
+        return client.send(operation: "InferRxNorm", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of medical entity detection jobs that you have submitted.

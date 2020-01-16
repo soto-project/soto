@@ -5,6 +5,7 @@ import AWSSDKSwiftCore
 /// Error enum for Rekognition
 public enum RekognitionErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
+    case humanLoopQuotaExceededException(message: String?)
     case idempotentParameterMismatchException(message: String?)
     case imageTooLargeException(message: String?)
     case internalServerError(message: String?)
@@ -17,6 +18,7 @@ public enum RekognitionErrorType: AWSErrorType {
     case resourceAlreadyExistsException(message: String?)
     case resourceInUseException(message: String?)
     case resourceNotFoundException(message: String?)
+    case resourceNotReadyException(message: String?)
     case throttlingException(message: String?)
     case videoTooLargeException(message: String?)
 }
@@ -30,6 +32,8 @@ extension RekognitionErrorType {
         switch errorCode {
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
+        case "HumanLoopQuotaExceededException":
+            self = .humanLoopQuotaExceededException(message: message)
         case "IdempotentParameterMismatchException":
             self = .idempotentParameterMismatchException(message: message)
         case "ImageTooLargeException":
@@ -54,6 +58,8 @@ extension RekognitionErrorType {
             self = .resourceInUseException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "ResourceNotReadyException":
+            self = .resourceNotReadyException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
         case "VideoTooLargeException":
@@ -69,6 +75,8 @@ extension RekognitionErrorType : CustomStringConvertible {
         switch self {
         case .accessDeniedException(let message):
             return "AccessDeniedException: \(message ?? "")"
+        case .humanLoopQuotaExceededException(let message):
+            return "HumanLoopQuotaExceededException: \(message ?? "")"
         case .idempotentParameterMismatchException(let message):
             return "IdempotentParameterMismatchException: \(message ?? "")"
         case .imageTooLargeException(let message):
@@ -93,6 +101,8 @@ extension RekognitionErrorType : CustomStringConvertible {
             return "ResourceInUseException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceNotReadyException(let message):
+            return "ResourceNotReadyException: \(message ?? "")"
         case .throttlingException(let message):
             return "ThrottlingException: \(message ?? "")"
         case .videoTooLargeException(let message):

@@ -121,4 +121,9 @@ public struct Kafka {
     public func updateClusterConfiguration(_ input: UpdateClusterConfigurationRequest) -> Future<UpdateClusterConfigurationResponse> {
         return client.send(operation: "UpdateClusterConfiguration", path: "/v1/clusters/{clusterArn}/configuration", httpMethod: "PUT", input: input)
     }
+
+    ///  Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
+    public func updateMonitoring(_ input: UpdateMonitoringRequest) -> Future<UpdateMonitoringResponse> {
+        return client.send(operation: "UpdateMonitoring", path: "/v1/clusters/{clusterArn}/monitoring", httpMethod: "PUT", input: input)
+    }
 }

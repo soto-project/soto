@@ -29,12 +29,27 @@ public struct S3Control {
         )
     }
 
+    ///  Creates an access point and associates it with the specified bucket.
+    @discardableResult public func createAccessPoint(_ input: CreateAccessPointRequest) -> Future<Void> {
+        return client.send(operation: "CreateAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "PUT", input: input)
+    }
+
     ///  Creates an Amazon S3 batch operations job.
     public func createJob(_ input: CreateJobRequest) -> Future<CreateJobResult> {
         return client.send(operation: "CreateJob", path: "/v20180820/jobs", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the block public access configuration for the specified account.
+    ///  Deletes the specified access point.
+    @discardableResult public func deleteAccessPoint(_ input: DeleteAccessPointRequest) -> Future<Void> {
+        return client.send(operation: "DeleteAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes the access point policy for the specified access point.
+    @discardableResult public func deleteAccessPointPolicy(_ input: DeleteAccessPointPolicyRequest) -> Future<Void> {
+        return client.send(operation: "DeleteAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Removes the PublicAccessBlock configuration for an Amazon Web Services account.
     @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) -> Future<Void> {
         return client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
     }
@@ -44,8 +59,29 @@ public struct S3Control {
         return client.send(operation: "DescribeJob", path: "/v20180820/jobs/{id}", httpMethod: "GET", input: input)
     }
 
+    ///  Returns configuration information about the specified access point.
+    public func getAccessPoint(_ input: GetAccessPointRequest) -> Future<GetAccessPointResult> {
+        return client.send(operation: "GetAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns the access point policy associated with the specified access point.
+    public func getAccessPointPolicy(_ input: GetAccessPointPolicyRequest) -> Future<GetAccessPointPolicyResult> {
+        return client.send(operation: "GetAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "GET", input: input)
+    }
+
+    ///  Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see Managing Data Access with Amazon S3 Access Points in the Amazon Simple Storage Service Developer Guide.
+    public func getAccessPointPolicyStatus(_ input: GetAccessPointPolicyStatusRequest) -> Future<GetAccessPointPolicyStatusResult> {
+        return client.send(operation: "GetAccessPointPolicyStatus", path: "/v20180820/accesspoint/{name}/policyStatus", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves the PublicAccessBlock configuration for an Amazon Web Services account.
     public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) -> Future<GetPublicAccessBlockOutput> {
         return client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1000 access points (or the number specified in maxResults, whichever is less), then the response will include a continuation token that you can use to list the additional access points.
+    public func listAccessPoints(_ input: ListAccessPointsRequest) -> Future<ListAccessPointsResult> {
+        return client.send(operation: "ListAccessPoints", path: "/v20180820/accesspoint", httpMethod: "GET", input: input)
     }
 
     ///  Lists current jobs and jobs that have ended within the last 30 days for the AWS account making the request.
@@ -53,6 +89,12 @@ public struct S3Control {
         return client.send(operation: "ListJobs", path: "/v20180820/jobs", httpMethod: "GET", input: input)
     }
 
+    ///  Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.
+    @discardableResult public func putAccessPointPolicy(_ input: PutAccessPointPolicyRequest) -> Future<Void> {
+        return client.send(operation: "PutAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "PUT", input: input)
+    }
+
+    ///  Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account.
     @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) -> Future<Void> {
         return client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input)
     }

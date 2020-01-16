@@ -31,6 +31,11 @@ public struct EC2 {
         return client.send(operation: "AcceptReservedInstancesExchangeQuote", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Accepts a transit gateway peering attachment request. The peering attachment must be in the pendingAcceptance state.
+    public func acceptTransitGatewayPeeringAttachment(_ input: AcceptTransitGatewayPeeringAttachmentRequest) -> Future<AcceptTransitGatewayPeeringAttachmentResult> {
+        return client.send(operation: "AcceptTransitGatewayPeeringAttachment", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Accepts a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use DescribeTransitGatewayVpcAttachments to view your pending VPC attachment requests. Use RejectTransitGatewayVpcAttachment to reject a VPC attachment request.
     public func acceptTransitGatewayVpcAttachment(_ input: AcceptTransitGatewayVpcAttachmentRequest) -> Future<AcceptTransitGatewayVpcAttachmentResult> {
         return client.send(operation: "AcceptTransitGatewayVpcAttachment", path: "/", httpMethod: "POST", input: input)
@@ -56,7 +61,7 @@ public struct EC2 {
         return client.send(operation: "AllocateAddress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Allocates a Dedicated Host to your account. At a minimum, specify the instance size type, Availability Zone, and quantity of hosts to allocate.
+    ///  Allocates a Dedicated Host to your account. At a minimum, specify the supported instance type or instance family, the Availability Zone in which to allocate the host, and the number of hosts to allocate.
     public func allocateHosts(_ input: AllocateHostsRequest) -> Future<AllocateHostsResult> {
         return client.send(operation: "AllocateHosts", path: "/", httpMethod: "POST", input: input)
     }
@@ -76,7 +81,7 @@ public struct EC2 {
         return client.send(operation: "AssignPrivateIpAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates an Elastic IP address with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account. [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation. You cannot associate an Elastic IP address with an instance or network interface that has an existing Elastic IP address.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2 Pricing. 
+    ///  Associates an Elastic IP address with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account. [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation. You cannot associate an Elastic IP address with an instance or network interface that has an existing Elastic IP address. You cannot associate an Elastic IP address with an interface in a different network border group.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2 Pricing. 
     public func associateAddress(_ input: AssociateAddressRequest) -> Future<AssociateAddressResult> {
         return client.send(operation: "AssociateAddress", path: "/", httpMethod: "POST", input: input)
     }
@@ -96,7 +101,7 @@ public struct EC2 {
         return client.send(operation: "AssociateIamInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates a subnet with a route table. The subnet and route table must be in the same VPC. This association causes traffic originating from the subnet to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table from the subnet later. A route table can be associated with multiple subnets. For more information, see Route Tables in the Amazon Virtual Private Cloud User Guide.
+    ///  Associates a subnet in your VPC or an internet gateway or virtual private gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     public func associateRouteTable(_ input: AssociateRouteTableRequest) -> Future<AssociateRouteTableResult> {
         return client.send(operation: "AssociateRouteTable", path: "/", httpMethod: "POST", input: input)
     }
@@ -104,6 +109,11 @@ public struct EC2 {
     ///  Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR block with your subnet. An IPv6 CIDR block must have a prefix length of /64.
     public func associateSubnetCidrBlock(_ input: AssociateSubnetCidrBlockRequest) -> Future<AssociateSubnetCidrBlockResult> {
         return client.send(operation: "AssociateSubnetCidrBlock", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified subnets and transit gateway attachments with the specified transit gateway multicast domain. The transit gateway attachment must be in the available state before you can add a resource. Use DescribeTransitGatewayAttachments to see the state of the attachment.
+    public func associateTransitGatewayMulticastDomain(_ input: AssociateTransitGatewayMulticastDomainRequest) -> Future<AssociateTransitGatewayMulticastDomainResult> {
+        return client.send(operation: "AssociateTransitGatewayMulticastDomain", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates the specified attachment with the specified transit gateway route table. You can associate only one route table with an attachment.
@@ -121,7 +131,7 @@ public struct EC2 {
         return client.send(operation: "AttachClassicLinkVpc", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches an internet gateway to a VPC, enabling connectivity between the internet and the VPC. For more information about your VPC and internet gateway, see the Amazon Virtual Private Cloud User Guide.
+    ///  Attaches an internet gateway or a virtual private gateway to a VPC, enabling connectivity between the internet and the VPC. For more information about your VPC and internet gateway, see the Amazon Virtual Private Cloud User Guide.
     @discardableResult public func attachInternetGateway(_ input: AttachInternetGatewayRequest) -> Future<Void> {
         return client.send(operation: "AttachInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
@@ -236,7 +246,7 @@ public struct EC2 {
         return client.send(operation: "CreateClientVpnRoute", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Provides information to AWS about your VPN customer gateway device. The customer gateway is the appliance at your end of the VPN connection. (The device on the AWS side of the VPN connection is the virtual private gateway.) You must provide the Internet-routable IP address of the customer gateway's external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System Number (ASN). You can use an existing ASN assigned to your network. If you don't have an ASN already, you can use a private ASN (in the 64512 - 65534 range).  Amazon EC2 supports all 2-byte ASN numbers in the range of 1 - 65534, with the exception of 7224, which is reserved in the us-east-1 Region, and 9059, which is reserved in the eu-west-1 Region.  For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.  You cannot create more than one customer gateway with the same VPN type, IP address, and BGP ASN parameter values. If you run an identical request more than one time, the first request creates the customer gateway, and subsequent requests return information about the existing customer gateway. The subsequent requests do not create new customer gateway resources. 
+    ///  Provides information to AWS about your VPN customer gateway device. The customer gateway is the appliance at your end of the VPN connection. (The device on the AWS side of the VPN connection is the virtual private gateway.) You must provide the Internet-routable IP address of the customer gateway's external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System Number (ASN). You can use an existing ASN assigned to your network. If you don't have an ASN already, you can use a private ASN (in the 64512 - 65534 range).  Amazon EC2 supports all 2-byte ASN numbers in the range of 1 - 65534, with the exception of 7224, which is reserved in the us-east-1 Region, and 9059, which is reserved in the eu-west-1 Region.  For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.  To create more than one customer gateway with the same VPN type, IP address, and BGP ASN, specify a unique device name for each customer gateway. Identical requests return information about the existing customer gateway and do not create new customer gateways. 
     public func createCustomerGateway(_ input: CreateCustomerGatewayRequest) -> Future<CreateCustomerGatewayResult> {
         return client.send(operation: "CreateCustomerGateway", path: "/", httpMethod: "POST", input: input)
     }
@@ -306,6 +316,16 @@ public struct EC2 {
         return client.send(operation: "CreateLaunchTemplateVersion", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a static route for the specified local gateway route table.
+    public func createLocalGatewayRoute(_ input: CreateLocalGatewayRouteRequest) -> Future<CreateLocalGatewayRouteResult> {
+        return client.send(operation: "CreateLocalGatewayRoute", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified VPC with the specified local gateway route table.
+    public func createLocalGatewayRouteTableVpcAssociation(_ input: CreateLocalGatewayRouteTableVpcAssociationRequest) -> Future<CreateLocalGatewayRouteTableVpcAssociationResult> {
+        return client.send(operation: "CreateLocalGatewayRouteTableVpcAssociation", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a NAT gateway in the specified public subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. Internet-bound traffic from a private subnet can be routed to the NAT gateway, therefore enabling instances in the private subnet to connect to the internet. For more information, see NAT Gateways in the Amazon Virtual Private Cloud User Guide.
     public func createNatGateway(_ input: CreateNatGatewayRequest) -> Future<CreateNatGatewayResult> {
         return client.send(operation: "CreateNatGateway", path: "/", httpMethod: "POST", input: input)
@@ -341,7 +361,7 @@ public struct EC2 {
         return client.send(operation: "CreateReservedInstancesListing", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a route in a route table within a VPC. You must specify one of the following targets: internet gateway or virtual private gateway, NAT instance, NAT gateway, VPC peering connection, network interface, or egress-only internet gateway. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3, and the route table includes the following two IPv4 routes:    192.0.2.0/24 (goes to some target A)    192.0.2.0/28 (goes to some target B)   Both routes apply to the traffic destined for 192.0.2.3. However, the second route in the list covers a smaller number of IP addresses and is therefore more specific, so we use that route to determine where to target the traffic. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
+    ///  Creates a route in a route table within a VPC. You must specify one of the following targets: internet gateway or virtual private gateway, NAT instance, NAT gateway, VPC peering connection, network interface, egress-only internet gateway, or transit gateway. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3, and the route table includes the following two IPv4 routes:    192.0.2.0/24 (goes to some target A)    192.0.2.0/28 (goes to some target B)   Both routes apply to the traffic destined for 192.0.2.3. However, the second route in the list covers a smaller number of IP addresses and is therefore more specific, so we use that route to determine where to target the traffic. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     public func createRoute(_ input: CreateRouteRequest) -> Future<CreateRouteResult> {
         return client.send(operation: "CreateRoute", path: "/", httpMethod: "POST", input: input)
     }
@@ -406,6 +426,16 @@ public struct EC2 {
         return client.send(operation: "CreateTransitGateway", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a multicast domain using the specified transit gateway. The transit gateway must be in the available state before you create a domain. Use DescribeTransitGateways to see the state of transit gateway.
+    public func createTransitGatewayMulticastDomain(_ input: CreateTransitGatewayMulticastDomainRequest) -> Future<CreateTransitGatewayMulticastDomainResult> {
+        return client.send(operation: "CreateTransitGatewayMulticastDomain", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Requests a transit gateway peering attachment between the specified transit gateway (requester) and a peer transit gateway (accepter). The transit gateways must be in different Regions. The peer transit gateway can be in your account or a different AWS account.  After you create the peering attachment, the owner of the accepter transit gateway must accept the attachment request.
+    public func createTransitGatewayPeeringAttachment(_ input: CreateTransitGatewayPeeringAttachmentRequest) -> Future<CreateTransitGatewayPeeringAttachmentResult> {
+        return client.send(operation: "CreateTransitGatewayPeeringAttachment", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a static route for the specified transit gateway route table.
     public func createTransitGatewayRoute(_ input: CreateTransitGatewayRouteRequest) -> Future<CreateTransitGatewayRouteResult> {
         return client.send(operation: "CreateTransitGatewayRoute", path: "/", httpMethod: "POST", input: input)
@@ -431,7 +461,7 @@ public struct EC2 {
         return client.send(operation: "CreateVpc", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a VPC endpoint for a specified service. An endpoint enables you to create a private connection between your VPC and the service. The service may be provided by AWS, an AWS Marketplace partner, or another AWS account. For more information, see VPC Endpoints in the Amazon Virtual Private Cloud User Guide. A gateway endpoint serves as a target for a route in your route table for traffic destined for the AWS service. You can specify an endpoint policy to attach to the endpoint that will control access to the service from your VPC. You can also specify the VPC route tables that use the endpoint. An interface endpoint is a network interface in your subnet that serves as an endpoint for communicating with the specified service. You can specify the subnets in which to create an endpoint, and the security groups to associate with the endpoint network interface. Use DescribeVpcEndpointServices to get a list of supported services.
+    ///  Creates a VPC endpoint for a specified service. An endpoint enables you to create a private connection between your VPC and the service. The service may be provided by AWS, an AWS Marketplace Partner, or another AWS account. For more information, see VPC Endpoints in the Amazon Virtual Private Cloud User Guide. A gateway endpoint serves as a target for a route in your route table for traffic destined for the AWS service. You can specify an endpoint policy to attach to the endpoint, which will control access to the service from your VPC. You can also specify the VPC route tables that use the endpoint. An interface endpoint is a network interface in your subnet that serves as an endpoint for communicating with the specified service. You can specify the subnets in which to create an endpoint, and the security groups to associate with the endpoint network interface. Use DescribeVpcEndpointServices to get a list of supported services.
     public func createVpcEndpoint(_ input: CreateVpcEndpointRequest) -> Future<CreateVpcEndpointResult> {
         return client.send(operation: "CreateVpcEndpoint", path: "/", httpMethod: "POST", input: input)
     }
@@ -441,7 +471,7 @@ public struct EC2 {
         return client.send(operation: "CreateVpcEndpointConnectionNotification", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a VPC endpoint service configuration to which service consumers (AWS accounts, IAM users, and IAM roles) can connect. Service consumers can create an interface VPC endpoint to connect to your service. To create an endpoint service configuration, you must first create a Network Load Balancer for your service. For more information, see VPC Endpoint Services in the Amazon Virtual Private Cloud User Guide. 
+    ///  Creates a VPC endpoint service configuration to which service consumers (AWS accounts, IAM users, and IAM roles) can connect. Service consumers can create an interface VPC endpoint to connect to your service. To create an endpoint service configuration, you must first create a Network Load Balancer for your service. For more information, see VPC Endpoint Services in the Amazon Virtual Private Cloud User Guide.  If you set the private DNS name, you must prove that you own the private DNS domain name. For more information, see VPC Endpoint Service Private DNS Name Verification in the Amazon Virtual Private Cloud User Guide.
     public func createVpcEndpointServiceConfiguration(_ input: CreateVpcEndpointServiceConfigurationRequest) -> Future<CreateVpcEndpointServiceConfigurationResult> {
         return client.send(operation: "CreateVpcEndpointServiceConfiguration", path: "/", httpMethod: "POST", input: input)
     }
@@ -524,6 +554,16 @@ public struct EC2 {
     ///  Deletes one or more versions of a launch template. You cannot delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using DeleteLaunchTemplate.
     public func deleteLaunchTemplateVersions(_ input: DeleteLaunchTemplateVersionsRequest) -> Future<DeleteLaunchTemplateVersionsResult> {
         return client.send(operation: "DeleteLaunchTemplateVersions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified route from the specified local gateway route table.
+    public func deleteLocalGatewayRoute(_ input: DeleteLocalGatewayRouteRequest) -> Future<DeleteLocalGatewayRouteResult> {
+        return client.send(operation: "DeleteLocalGatewayRoute", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified association between a VPC and local gateway route table.
+    public func deleteLocalGatewayRouteTableVpcAssociation(_ input: DeleteLocalGatewayRouteTableVpcAssociationRequest) -> Future<DeleteLocalGatewayRouteTableVpcAssociationResult> {
+        return client.send(operation: "DeleteLocalGatewayRouteTableVpcAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified NAT gateway. Deleting a NAT gateway disassociates its Elastic IP address, but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway routes in your route tables.
@@ -621,6 +661,16 @@ public struct EC2 {
         return client.send(operation: "DeleteTransitGateway", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified transit gateway multicast domain.
+    public func deleteTransitGatewayMulticastDomain(_ input: DeleteTransitGatewayMulticastDomainRequest) -> Future<DeleteTransitGatewayMulticastDomainResult> {
+        return client.send(operation: "DeleteTransitGatewayMulticastDomain", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a transit gateway peering attachment.
+    public func deleteTransitGatewayPeeringAttachment(_ input: DeleteTransitGatewayPeeringAttachmentRequest) -> Future<DeleteTransitGatewayPeeringAttachmentResult> {
+        return client.send(operation: "DeleteTransitGatewayPeeringAttachment", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the specified route from the specified transit gateway route table.
     public func deleteTransitGatewayRoute(_ input: DeleteTransitGatewayRouteRequest) -> Future<DeleteTransitGatewayRouteResult> {
         return client.send(operation: "DeleteTransitGatewayRoute", path: "/", httpMethod: "POST", input: input)
@@ -691,7 +741,17 @@ public struct EC2 {
         return client.send(operation: "DeregisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes attributes of your AWS account. The following are the supported account attributes:    supported-platforms: Indicates whether your account can launch instances into EC2-Classic and EC2-VPC, or only into EC2-VPC.    default-vpc: The ID of the default VPC for your account, or none.    max-instances: The maximum number of On-Demand Instances that you can run.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-Classic.     vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-VPC.  
+    ///  Deregisters the specified members (network interfaces) from the transit gateway multicast group.
+    public func deregisterTransitGatewayMulticastGroupMembers(_ input: DeregisterTransitGatewayMulticastGroupMembersRequest) -> Future<DeregisterTransitGatewayMulticastGroupMembersResult> {
+        return client.send(operation: "DeregisterTransitGatewayMulticastGroupMembers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deregisters the specified sources (network interfaces) from the transit gateway multicast group.
+    public func deregisterTransitGatewayMulticastGroupSources(_ input: DeregisterTransitGatewayMulticastGroupSourcesRequest) -> Future<DeregisterTransitGatewayMulticastGroupSourcesResult> {
+        return client.send(operation: "DeregisterTransitGatewayMulticastGroupSources", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes attributes of your AWS account. The following are the supported account attributes:    supported-platforms: Indicates whether your account can launch instances into EC2-Classic and EC2-VPC, or only into EC2-VPC.    default-vpc: The ID of the default VPC for your account, or none.    max-instances: This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-Classic.     vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-VPC.  
     public func describeAccountAttributes(_ input: DescribeAccountAttributesRequest) -> Future<DescribeAccountAttributesResult> {
         return client.send(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", input: input)
     }
@@ -706,7 +766,7 @@ public struct EC2 {
         return client.send(operation: "DescribeAggregateIdFormat", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the Availability Zones that are available to you. The results include zones only for the Region you're currently using. If there is an event impacting an Availability Zone, you can use this request to view the state and any provided message for that Availability Zone. For more information, see Regions and Availability Zones in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the Availability Zones and Local Zones that are available to you. If there is an event impacting an Availability Zone or Local Zone, you can use this request to view the state and any provided messages for that Availability Zone or Local Zone. For more information about Availability Zones and Local Zones, see Regions and Availability Zones in the Amazon Elastic Compute Cloud User Guide.
     public func describeAvailabilityZones(_ input: DescribeAvailabilityZonesRequest) -> Future<DescribeAvailabilityZonesResult> {
         return client.send(operation: "DescribeAvailabilityZones", path: "/", httpMethod: "POST", input: input)
     }
@@ -756,6 +816,11 @@ public struct EC2 {
         return client.send(operation: "DescribeClientVpnTargetNetworks", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the specified customer-owned address pools or all of your customer-owned address pools.
+    public func describeCoipPools(_ input: DescribeCoipPoolsRequest) -> Future<DescribeCoipPoolsResult> {
+        return client.send(operation: "DescribeCoipPools", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes the specified conversion tasks or all your conversion tasks. For more information, see the VM Import/Export User Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.
     public func describeConversionTasks(_ input: DescribeConversionTasksRequest) -> Future<DescribeConversionTasksResult> {
         return client.send(operation: "DescribeConversionTasks", path: "/", httpMethod: "POST", input: input)
@@ -791,7 +856,12 @@ public struct EC2 {
         return client.send(operation: "DescribeExportTasks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the events for the specified EC2 Fleet during the specified time.
+    ///  Describes the state of fast snapshot restores for your snapshots.
+    public func describeFastSnapshotRestores(_ input: DescribeFastSnapshotRestoresRequest) -> Future<DescribeFastSnapshotRestoresResult> {
+        return client.send(operation: "DescribeFastSnapshotRestores", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours.
     public func describeFleetHistory(_ input: DescribeFleetHistoryRequest) -> Future<DescribeFleetHistoryResult> {
         return client.send(operation: "DescribeFleetHistory", path: "/", httpMethod: "POST", input: input)
     }
@@ -801,7 +871,7 @@ public struct EC2 {
         return client.send(operation: "DescribeFleetInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified EC2 Fleets or all your EC2 Fleets.
+    ///  Describes the specified EC2 Fleets or all of your EC2 Fleets.
     public func describeFleets(_ input: DescribeFleetsRequest) -> Future<DescribeFleetsResult> {
         return client.send(operation: "DescribeFleets", path: "/", httpMethod: "POST", input: input)
     }
@@ -821,7 +891,7 @@ public struct EC2 {
         return client.send(operation: "DescribeFpgaImages", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the Dedicated Host reservations that are available to purchase. The results describe all the Dedicated Host reservation offerings, including offerings that may not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated. For more information about supported instance types, see Dedicated Hosts Overview in the Amazon Elastic Compute Cloud User Guide. 
+    ///  Describes the Dedicated Host reservations that are available to purchase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated. For more information about supported instance types, see Dedicated Hosts Overview in the Amazon Elastic Compute Cloud User Guide. 
     public func describeHostReservationOfferings(_ input: DescribeHostReservationOfferingsRequest) -> Future<DescribeHostReservationOfferingsResult> {
         return client.send(operation: "DescribeHostReservationOfferings", path: "/", httpMethod: "POST", input: input)
     }
@@ -876,7 +946,7 @@ public struct EC2 {
         return client.send(operation: "DescribeInstanceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the credit option for CPU usage of the specified T2 or T3 instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns T2 and T3 instances with the unlimited credit option, as well as instances that were previously configured as T2 or T3 with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a T2 or T3 instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see Burstable Performance Instances in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a burstable performance instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see Burstable Performance Instances in the Amazon Elastic Compute Cloud User Guide.
     public func describeInstanceCreditSpecifications(_ input: DescribeInstanceCreditSpecificationsRequest) -> Future<DescribeInstanceCreditSpecificationsResult> {
         return client.send(operation: "DescribeInstanceCreditSpecifications", path: "/", httpMethod: "POST", input: input)
     }
@@ -884,6 +954,16 @@ public struct EC2 {
     ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status Checks for Your Instances and Troubleshooting Instances with Failed Status Checks in the Amazon Elastic Compute Cloud User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled Events for Your Instances in the Amazon Elastic Compute Cloud User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance Lifecycle in the Amazon Elastic Compute Cloud User Guide.  
     public func describeInstanceStatus(_ input: DescribeInstanceStatusRequest) -> Future<DescribeInstanceStatusResult> {
         return client.send(operation: "DescribeInstanceStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of all instance types offered. The results can be filtered by location (Region or Availability Zone). If no location is specified, the instance types offered in the current Region are returned.
+    public func describeInstanceTypeOfferings(_ input: DescribeInstanceTypeOfferingsRequest) -> Future<DescribeInstanceTypeOfferingsResult> {
+        return client.send(operation: "DescribeInstanceTypeOfferings", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of all instance types offered in your current AWS Region. The results can be filtered by the attributes of the instance types.
+    public func describeInstanceTypes(_ input: DescribeInstanceTypesRequest) -> Future<DescribeInstanceTypesResult> {
+        return client.send(operation: "DescribeInstanceTypes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified instances or all of AWS account's instances. If you specify one or more instance IDs, Amazon EC2 returns information for those instances. If you do not specify instance IDs, Amazon EC2 returns information for all relevant instances. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the returned results. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
@@ -909,6 +989,36 @@ public struct EC2 {
     ///  Describes one or more launch templates.
     public func describeLaunchTemplates(_ input: DescribeLaunchTemplatesRequest) -> Future<DescribeLaunchTemplatesResult> {
         return client.send(operation: "DescribeLaunchTemplates", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the associations between virtual interface groups and local gateway route tables.
+    public func describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(_ input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest) -> Future<DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult> {
+        return client.send(operation: "DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified associations between VPCs and local gateway route tables.
+    public func describeLocalGatewayRouteTableVpcAssociations(_ input: DescribeLocalGatewayRouteTableVpcAssociationsRequest) -> Future<DescribeLocalGatewayRouteTableVpcAssociationsResult> {
+        return client.send(operation: "DescribeLocalGatewayRouteTableVpcAssociations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results.
+    public func describeLocalGatewayRouteTables(_ input: DescribeLocalGatewayRouteTablesRequest) -> Future<DescribeLocalGatewayRouteTablesResult> {
+        return client.send(operation: "DescribeLocalGatewayRouteTables", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified local gateway virtual interface groups.
+    public func describeLocalGatewayVirtualInterfaceGroups(_ input: DescribeLocalGatewayVirtualInterfaceGroupsRequest) -> Future<DescribeLocalGatewayVirtualInterfaceGroupsResult> {
+        return client.send(operation: "DescribeLocalGatewayVirtualInterfaceGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified local gateway virtual interfaces.
+    public func describeLocalGatewayVirtualInterfaces(_ input: DescribeLocalGatewayVirtualInterfacesRequest) -> Future<DescribeLocalGatewayVirtualInterfacesResult> {
+        return client.send(operation: "DescribeLocalGatewayVirtualInterfaces", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes one or more local gateways. By default, all local gateways are described. Alternatively, you can filter the results.
+    public func describeLocalGateways(_ input: DescribeLocalGatewaysRequest) -> Future<DescribeLocalGatewaysResult> {
+        return client.send(operation: "DescribeLocalGateways", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes your Elastic IP addresses that are being moved to the EC2-VPC platform, or that are being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account.
@@ -1086,6 +1196,16 @@ public struct EC2 {
         return client.send(operation: "DescribeTransitGatewayAttachments", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes one or more transit gateway multicast domains.
+    public func describeTransitGatewayMulticastDomains(_ input: DescribeTransitGatewayMulticastDomainsRequest) -> Future<DescribeTransitGatewayMulticastDomainsResult> {
+        return client.send(operation: "DescribeTransitGatewayMulticastDomains", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes your transit gateway peering attachments.
+    public func describeTransitGatewayPeeringAttachments(_ input: DescribeTransitGatewayPeeringAttachmentsRequest) -> Future<DescribeTransitGatewayPeeringAttachmentsResult> {
+        return client.send(operation: "DescribeTransitGatewayPeeringAttachments", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results.
     public func describeTransitGatewayRouteTables(_ input: DescribeTransitGatewayRouteTablesRequest) -> Future<DescribeTransitGatewayRouteTablesResult> {
         return client.send(operation: "DescribeTransitGatewayRouteTables", path: "/", httpMethod: "POST", input: input)
@@ -1216,6 +1336,11 @@ public struct EC2 {
         return client.send(operation: "DisableEbsEncryptionByDefault", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Disables fast snapshot restores for the specified snapshots in the specified Availability Zones.
+    public func disableFastSnapshotRestores(_ input: DisableFastSnapshotRestoresRequest) -> Future<DisableFastSnapshotRestoresResult> {
+        return client.send(operation: "DisableFastSnapshotRestores", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Disables the specified resource attachment from propagating routes to the specified propagation route table.
     public func disableTransitGatewayRouteTablePropagation(_ input: DisableTransitGatewayRouteTablePropagationRequest) -> Future<DisableTransitGatewayRouteTablePropagationResult> {
         return client.send(operation: "DisableTransitGatewayRouteTablePropagation", path: "/", httpMethod: "POST", input: input)
@@ -1261,6 +1386,11 @@ public struct EC2 {
         return client.send(operation: "DisassociateSubnetCidrBlock", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Disassociates the specified subnets from the transit gateway multicast domain. 
+    public func disassociateTransitGatewayMulticastDomain(_ input: DisassociateTransitGatewayMulticastDomainRequest) -> Future<DisassociateTransitGatewayMulticastDomainResult> {
+        return client.send(operation: "DisassociateTransitGatewayMulticastDomain", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Disassociates a resource attachment from a transit gateway route table.
     public func disassociateTransitGatewayRouteTable(_ input: DisassociateTransitGatewayRouteTableRequest) -> Future<DisassociateTransitGatewayRouteTableResult> {
         return client.send(operation: "DisassociateTransitGatewayRouteTable", path: "/", httpMethod: "POST", input: input)
@@ -1274,6 +1404,11 @@ public struct EC2 {
     ///  Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are are always encrypted, either using the default CMK or the CMK that you specified when you created each volume. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can specify the default CMK for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported Instance Types.
     public func enableEbsEncryptionByDefault(_ input: EnableEbsEncryptionByDefaultRequest) -> Future<EnableEbsEncryptionByDefaultResult> {
         return client.send(operation: "EnableEbsEncryptionByDefault", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. To get the current state of fast snapshot restores, use DescribeFastSnapshotRestores. To disable fast snapshot restores, use DisableFastSnapshotRestores.
+    public func enableFastSnapshotRestores(_ input: EnableFastSnapshotRestoresRequest) -> Future<EnableFastSnapshotRestoresResult> {
+        return client.send(operation: "EnableFastSnapshotRestores", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables the specified attachment to propagate routes to the specified propagation route table.
@@ -1326,6 +1461,11 @@ public struct EC2 {
         return client.send(operation: "GetCapacityReservationUsage", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the allocations from the specified customer-owned address pool.
+    public func getCoipPoolUsage(_ input: GetCoipPoolUsageRequest) -> Future<GetCoipPoolUsageResult> {
+        return client.send(operation: "GetCoipPoolUsage", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. By default, the console output returns buffered information that was posted shortly after an instance transition state (start, stop, reboot, or terminate). This information is available for at least one hour after the most recent post. Only the most recent 64 KB of console output is available. You can optionally retrieve the latest serial console output at any time during the instance lifecycle. This option is supported on instance types that use the Nitro hypervisor. For more information, see Instance Console Output in the Amazon Elastic Compute Cloud User Guide.
     public func getConsoleOutput(_ input: GetConsoleOutputRequest) -> Future<GetConsoleOutputResult> {
         return client.send(operation: "GetConsoleOutput", path: "/", httpMethod: "POST", input: input)
@@ -1334,6 +1474,11 @@ public struct EC2 {
     ///  Retrieve a JPG-format screenshot of a running instance to help with troubleshooting. The returned content is Base64-encoded.
     public func getConsoleScreenshot(_ input: GetConsoleScreenshotRequest) -> Future<GetConsoleScreenshotResult> {
         return client.send(operation: "GetConsoleScreenshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the default credit option for CPU usage of a burstable performance instance family. For more information, see Burstable Performance Instances in the Amazon Elastic Compute Cloud User Guide.
+    public func getDefaultCreditSpecification(_ input: GetDefaultCreditSpecificationRequest) -> Future<GetDefaultCreditSpecificationResult> {
+        return client.send(operation: "GetDefaultCreditSpecification", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the default customer master key (CMK) for EBS encryption by default for your account in this Region. You can change the default CMK for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
@@ -1369,6 +1514,11 @@ public struct EC2 {
     ///  Lists the route tables to which the specified resource attachment propagates routes.
     public func getTransitGatewayAttachmentPropagations(_ input: GetTransitGatewayAttachmentPropagationsRequest) -> Future<GetTransitGatewayAttachmentPropagationsResult> {
         return client.send(operation: "GetTransitGatewayAttachmentPropagations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the associations for the transit gateway multicast domain.
+    public func getTransitGatewayMulticastDomainAssociations(_ input: GetTransitGatewayMulticastDomainAssociationsRequest) -> Future<GetTransitGatewayMulticastDomainAssociationsResult> {
+        return client.send(operation: "GetTransitGatewayMulticastDomainAssociations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the associations for the specified transit gateway route table.
@@ -1421,7 +1571,12 @@ public struct EC2 {
         return client.send(operation: "ModifyClientVpnEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Changes the default customer master key (CMK) for EBS encryption by default for your account in this Region. AWS creates a unique AWS managed CMK in each Region for use with encryption by default. If you change the default CMK to a customer managed CMK, it is used instead of the AWS managed CMK. To reset the default CMK to the AWS managed CMK for EBS, use ResetEbsDefaultKmsKeyId. If you delete or disable the customer managed CMK that you specified for use with encryption by default, your instances will fail to launch. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+    ///  Modifies the default credit option for CPU usage of burstable performance instances. The default credit option is set at the account level per AWS Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option.  ModifyDefaultCreditSpecification is an asynchronous operation, which works at an AWS Region level and modifies the credit option for each Availability Zone. All zones in a Region are updated within five minutes. But if instances are launched during this operation, they might not get the new credit option until the zone is updated. To verify whether the update has occurred, you can call GetDefaultCreditSpecification and check DefaultCreditSpecification for updates. For more information, see Burstable Performance Instances in the Amazon Elastic Compute Cloud User Guide.
+    public func modifyDefaultCreditSpecification(_ input: ModifyDefaultCreditSpecificationRequest) -> Future<ModifyDefaultCreditSpecificationResult> {
+        return client.send(operation: "ModifyDefaultCreditSpecification", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Changes the default customer master key (CMK) for EBS encryption by default for your account in this Region. AWS creates a unique AWS managed CMK in each Region for use with encryption by default. If you change the default CMK to a symmetric customer managed CMK, it is used instead of the AWS managed CMK. To reset the default CMK to the AWS managed CMK for EBS, use ResetEbsDefaultKmsKeyId. Amazon EBS does not support asymmetric CMKs. If you delete or disable the customer managed CMK that you specified for use with encryption by default, your instances will fail to launch. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
     public func modifyEbsDefaultKmsKeyId(_ input: ModifyEbsDefaultKmsKeyIdRequest) -> Future<ModifyEbsDefaultKmsKeyIdResult> {
         return client.send(operation: "ModifyEbsDefaultKmsKeyId", path: "/", httpMethod: "POST", input: input)
     }
@@ -1436,7 +1591,7 @@ public struct EC2 {
         return client.send(operation: "ModifyFpgaImageAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled.
+    ///  Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use this API action to modify a Dedicated Host to support either multiple instance types in an instance family, or to support a specific instance type only.
     public func modifyHosts(_ input: ModifyHostsRequest) -> Future<ModifyHostsResult> {
         return client.send(operation: "ModifyHosts", path: "/", httpMethod: "POST", input: input)
     }
@@ -1466,7 +1621,7 @@ public struct EC2 {
         return client.send(operation: "ModifyInstanceCapacityReservationAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the credit option for CPU usage on a running or stopped T2 or T3 instance. The credit options are standard and unlimited. For more information, see Burstable Performance Instances in the Amazon Elastic Compute Cloud User Guide.
+    ///  Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and unlimited. For more information, see Burstable Performance Instances in the Amazon Elastic Compute Cloud User Guide.
     public func modifyInstanceCreditSpecification(_ input: ModifyInstanceCreditSpecificationRequest) -> Future<ModifyInstanceCreditSpecificationResult> {
         return client.send(operation: "ModifyInstanceCreditSpecification", path: "/", httpMethod: "POST", input: input)
     }
@@ -1474,6 +1629,11 @@ public struct EC2 {
     ///  Modifies the start time for a scheduled Amazon EC2 instance event.
     public func modifyInstanceEventStartTime(_ input: ModifyInstanceEventStartTimeRequest) -> Future<ModifyInstanceEventStartTimeResult> {
         return client.send(operation: "ModifyInstanceEventStartTime", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modify the instance metadata parameters on a running or stopped instance. When you modify the parameters on a stopped instance, they are applied when the instance is started. When you modify the parameters on a running instance, the API responds with a state of “pending”. After the parameter modifications are successfully applied to the instance, the state of the modifications changes from “pending” to “applied” in subsequent describe-instances API calls. For more information, see Instance Metadata and User Data.
+    public func modifyInstanceMetadataOptions(_ input: ModifyInstanceMetadataOptionsRequest) -> Future<ModifyInstanceMetadataOptionsResult> {
+        return client.send(operation: "ModifyInstanceMetadataOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the placement attributes for a specified instance. You can do the following:   Modify the affinity between an instance and a Dedicated Host. When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is launched, it is automatically associated with the host on which it lands. If the instance is restarted or rebooted, this relationship persists.   Change the Dedicated Host with which an instance is associated.   Change the instance tenancy of an instance from host to dedicated, or from dedicated to host.   Move an instance to or from a placement group.   At least one attribute for affinity, host ID, tenancy, or placement group name must be specified in the request. Affinity and tenancy can be modified in the same request. To modify the host ID, tenancy, placement group, or partition for an instance, the instance must be in the stopped state.
@@ -1556,7 +1716,7 @@ public struct EC2 {
         return client.send(operation: "ModifyVpcEndpointConnectionNotification", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the attributes of your VPC endpoint service configuration. You can change the Network Load Balancers for your service, and you can specify whether acceptance is required for requests to connect to your endpoint service through an interface VPC endpoint.
+    ///  Modifies the attributes of your VPC endpoint service configuration. You can change the Network Load Balancers for your service, and you can specify whether acceptance is required for requests to connect to your endpoint service through an interface VPC endpoint. If you set or modify the private DNS name, you must prove that you own the private DNS domain name. For more information, see VPC Endpoint Service Private DNS Name Verification in the Amazon Virtual Private Cloud User Guide.
     public func modifyVpcEndpointServiceConfiguration(_ input: ModifyVpcEndpointServiceConfigurationRequest) -> Future<ModifyVpcEndpointServiceConfigurationResult> {
         return client.send(operation: "ModifyVpcEndpointServiceConfiguration", path: "/", httpMethod: "POST", input: input)
     }
@@ -1631,6 +1791,21 @@ public struct EC2 {
         return client.send(operation: "RegisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Registers members (network interfaces) with the transit gateway multicast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For information about supported instances, see Multicast Consideration in Amazon VPC Transit Gateways. After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the transit gateway multicast group.
+    public func registerTransitGatewayMulticastGroupMembers(_ input: RegisterTransitGatewayMulticastGroupMembersRequest) -> Future<RegisterTransitGatewayMulticastGroupMembersResult> {
+        return client.send(operation: "RegisterTransitGatewayMulticastGroupMembers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Registers sources (network interfaces) with the specified transit gateway multicast group. A multicast source is a network interface attached to a supported instance that sends multicast traffic. For information about supported instances, see Multicast Considerations in Amazon VPC Transit Gateways. After you add the source, use SearchTransitGatewayMulticastGroups to verify that the source was added to the multicast group.
+    public func registerTransitGatewayMulticastGroupSources(_ input: RegisterTransitGatewayMulticastGroupSourcesRequest) -> Future<RegisterTransitGatewayMulticastGroupSourcesResult> {
+        return client.send(operation: "RegisterTransitGatewayMulticastGroupSources", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Rejects a transit gateway peering attachment request.
+    public func rejectTransitGatewayPeeringAttachment(_ input: RejectTransitGatewayPeeringAttachmentRequest) -> Future<RejectTransitGatewayPeeringAttachmentResult> {
+        return client.send(operation: "RejectTransitGatewayPeeringAttachment", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Rejects a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use DescribeTransitGatewayVpcAttachments to view your pending VPC attachment requests. Use AcceptTransitGatewayVpcAttachment to accept a VPC attachment request.
     public func rejectTransitGatewayVpcAttachment(_ input: RejectTransitGatewayVpcAttachmentRequest) -> Future<RejectTransitGatewayVpcAttachmentResult> {
         return client.send(operation: "RejectTransitGatewayVpcAttachment", path: "/", httpMethod: "POST", input: input)
@@ -1671,12 +1846,12 @@ public struct EC2 {
         return client.send(operation: "ReplaceNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Replaces an existing route within a route table in a VPC. You must provide only one of the following: internet gateway or virtual private gateway, NAT instance, NAT gateway, VPC peering connection, network interface, or egress-only internet gateway. For more information, see Route Tables in the Amazon Virtual Private Cloud User Guide.
+    ///  Replaces an existing route within a route table in a VPC. You must provide only one of the following: internet gateway, virtual private gateway, NAT instance, NAT gateway, VPC peering connection, network interface, egress-only internet gateway, or transit gateway. For more information, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     @discardableResult public func replaceRoute(_ input: ReplaceRouteRequest) -> Future<Void> {
         return client.send(operation: "ReplaceRoute", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Changes the route table associated with a given subnet in a VPC. After the operation completes, the subnet uses the routes in the new route table it's associated with. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide. You can also use ReplaceRouteTableAssociation to change which table is the main route table in the VPC. You just specify the main route table's association ID and the route table to be the new main route table.
+    ///  Changes the route table associated with a given subnet, internet gateway, or virtual private gateway in a VPC. After the operation completes, the subnet or gateway uses the routes in the new route table. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide. You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table.
     public func replaceRouteTableAssociation(_ input: ReplaceRouteTableAssociationRequest) -> Future<ReplaceRouteTableAssociationResult> {
         return client.send(operation: "ReplaceRouteTableAssociation", path: "/", httpMethod: "POST", input: input)
     }
@@ -1761,6 +1936,16 @@ public struct EC2 {
         return client.send(operation: "RunScheduledInstances", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Searches for routes in the specified local gateway route table.
+    public func searchLocalGatewayRoutes(_ input: SearchLocalGatewayRoutesRequest) -> Future<SearchLocalGatewayRoutesResult> {
+        return client.send(operation: "SearchLocalGatewayRoutes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Searches one or more transit gateway multicast groups and returns the group membership information.
+    public func searchTransitGatewayMulticastGroups(_ input: SearchTransitGatewayMulticastGroupsRequest) -> Future<SearchTransitGatewayMulticastGroupsResult> {
+        return client.send(operation: "SearchTransitGatewayMulticastGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Searches for routes in the specified transit gateway route table.
     public func searchTransitGatewayRoutes(_ input: SearchTransitGatewayRoutesRequest) -> Future<SearchTransitGatewayRoutesResult> {
         return client.send(operation: "SearchTransitGatewayRoutes", path: "/", httpMethod: "POST", input: input)
@@ -1774,6 +1959,11 @@ public struct EC2 {
     ///  Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your Windows instance, Amazon EC2 charges you for a full instance hour. If you stop and restart your Windows instance, a new instance hour begins and Amazon EC2 charges you for another full instance hour even if you are still within the same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. For more information, see Stopping Instances in the Amazon Elastic Compute Cloud User Guide.
     public func startInstances(_ input: StartInstancesRequest) -> Future<StartInstancesResult> {
         return client.send(operation: "StartInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Initiates the verification process to prove that the service provider owns the private DNS name domain for the endpoint service. The service provider must successfully perform the verification before the consumer can use the name to access the service. Before the service provider runs this command, they must add a record to the DNS server. For more information, see Adding a TXT Record to Your Domain's DNS Server  in the Amazon VPC User Guide.
+    public func startVpcEndpointServicePrivateDnsVerification(_ input: StartVpcEndpointServicePrivateDnsVerificationRequest) -> Future<StartVpcEndpointServicePrivateDnsVerificationResult> {
+        return client.send(operation: "StartVpcEndpointServicePrivateDnsVerification", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops an Amazon EBS-backed instance. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate Your Instance in the Amazon Elastic Compute Cloud User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your Windows instance, Amazon EC2 charges you for a full instance hour. If you stop and restart your Windows instance, a new instance hour begins and Amazon EC2 charges you for another full instance hour even if you are still within the same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't start, stop, or hibernate Spot Instances, and you can't stop or hibernate instance store-backed instances. For information about using hibernation for Spot Instances, see Hibernating Interrupted Spot Instances in the Amazon Elastic Compute Cloud User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance Lifecycle in the Amazon Elastic Compute Cloud User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshooting Stopping Your Instance in the Amazon Elastic Compute Cloud User Guide.

@@ -734,16 +734,16 @@ extension MediaStore {
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
-        public let key: String?
+        public let key: String
         /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
         public let value: String?
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
         }

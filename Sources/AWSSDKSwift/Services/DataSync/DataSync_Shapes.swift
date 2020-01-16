@@ -171,7 +171,7 @@ extension DataSync {
         public let ec2Config: Ec2Config
         /// The Amazon Resource Name (ARN) for the Amazon EFS file system.
         public let efsFilesystemArn: String
-        /// A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, AWS DataSync uses the root directory.
+        /// A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, AWS DataSync uses the root directory.   Subdirectory must be specified with forward slashes. For example /path/to/folder. 
         public let subdirectory: String?
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
@@ -188,7 +188,7 @@ extension DataSync {
             try validate(self.efsFilesystemArn, name:"efsFilesystemArn", parent: name, max: 128)
             try validate(self.efsFilesystemArn, name:"efsFilesystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):elasticfilesystem:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
             try validate(self.subdirectory, name:"subdirectory", parent: name, max: 4096)
-            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\./]*$")
+            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -254,7 +254,7 @@ extension DataSync {
             try validate(self.serverHostname, name:"serverHostname", parent: name, max: 255)
             try validate(self.serverHostname, name:"serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
             try validate(self.subdirectory, name:"subdirectory", parent: name, max: 4096)
-            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\./]+$")
+            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -320,7 +320,7 @@ extension DataSync {
             try validate(self.s3BucketArn, name:"s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:::([^/]*)$")
             try self.s3Config.validate(name: "\(name).s3Config")
             try validate(self.subdirectory, name:"subdirectory", parent: name, max: 4096)
-            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\./]*$")
+            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -376,7 +376,7 @@ extension DataSync {
         public let password: String
         /// The name of the SMB server. This value is the IP address or Domain Name Service (DNS) name of the SMB server. An agent that is installed on-premises uses this hostname to mount the SMB server in a network.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address. 
         public let serverHostname: String
-        /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network. To transfer all the data in the folder you specified, DataSync needs to have permissions to mount the SMB share, as well as to access all the data in that share. To ensure this, either ensure that the user/password specified belongs to the user who can mount the share, and who has the appropriate permissions for all of the files and directories that you want DataSync to access, or use credentials of a member of the Backup Operators group to mount the share. Doing either enables the agent to access the data. For the agent to access directories, you must additionally enable all execute access.
+        /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network.   Subdirectory must be specified with forward slashes. For example /path/to/folder.  To transfer all the data in the folder you specified, DataSync needs to have permissions to mount the SMB share, as well as to access all the data in that share. To ensure this, either ensure that the user/password specified belongs to the user who can mount the share, and who has the appropriate permissions for all of the files and directories that you want DataSync to access, or use credentials of a member of the Backup Operators group to mount the share. Doing either enables the agent to access the data. For the agent to access directories, you must additionally enable all execute access.
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
@@ -408,14 +408,14 @@ extension DataSync {
             try validate(self.serverHostname, name:"serverHostname", parent: name, max: 255)
             try validate(self.serverHostname, name:"serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
             try validate(self.subdirectory, name:"subdirectory", parent: name, max: 4096)
-            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\./]+$")
+            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try validate(self.tags, name:"tags", parent: name, max: 55)
             try validate(self.tags, name:"tags", parent: name, min: 0)
             try validate(self.user, name:"user", parent: name, max: 104)
-            try validate(self.user, name:"user", parent: name, pattern: "^[^\\\\x5B\\\\x5D\\\\/:;|=,+*?]{1,104}$")
+            try validate(self.user, name:"user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -454,6 +454,7 @@ extension DataSync {
             AWSShapeMember(label: "Excludes", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
             AWSShapeMember(label: "SourceLocationArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
@@ -468,17 +469,20 @@ extension DataSync {
         public let name: String?
         /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group ID (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the OverrideOptions before starting a the task execution. For more information, see the operation. 
         public let options: Options?
+        /// Specifies a schedule used to periodically transfer files from a source to a destination location. The schedule should be specified in UTC time. For more information, see task-scheduling.
+        public let schedule: TaskSchedule?
         /// The Amazon Resource Name (ARN) of the source location for the task.
         public let sourceLocationArn: String
         /// The key-value pair that represents the tag that you want to add to the resource. The value can be an empty string. 
         public let tags: [TagListEntry]?
 
-        public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.destinationLocationArn = destinationLocationArn
             self.excludes = excludes
             self.name = name
             self.options = options
+            self.schedule = schedule
             self.sourceLocationArn = sourceLocationArn
             self.tags = tags
         }
@@ -497,6 +501,7 @@ extension DataSync {
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
             try self.options?.validate(name: "\(name).options")
+            try self.schedule?.validate(name: "\(name).schedule")
             try validate(self.sourceLocationArn, name:"sourceLocationArn", parent: name, max: 128)
             try validate(self.sourceLocationArn, name:"sourceLocationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.tags?.forEach {
@@ -512,6 +517,7 @@ extension DataSync {
             case excludes = "Excludes"
             case name = "Name"
             case options = "Options"
+            case schedule = "Schedule"
             case sourceLocationArn = "SourceLocationArn"
             case tags = "Tags"
         }
@@ -1058,6 +1064,7 @@ extension DataSync {
             AWSShapeMember(label: "Excludes", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
             AWSShapeMember(label: "SourceLocationArn", required: false, type: .string), 
             AWSShapeMember(label: "SourceNetworkInterfaceArns", required: false, type: .list), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
@@ -1084,6 +1091,8 @@ extension DataSync {
         public let name: String?
         /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the overriding OverrideOptions value to operation. 
         public let options: Options?
+        /// The schedule used to periodically transfer files from a source to a destination location.
+        public let schedule: TaskSchedule?
         /// The Amazon Resource Name (ARN) of the source file system's location.
         public let sourceLocationArn: String?
         /// The Amazon Resource Name (ARN) of the source ENIs (Elastic Network Interface) that was created for your subnet.
@@ -1093,7 +1102,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the task that was described.
         public let taskArn: String?
 
-        public init(cloudWatchLogGroupArn: String? = nil, creationTime: TimeStamp? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, creationTime: TimeStamp? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.creationTime = creationTime
             self.currentTaskExecutionArn = currentTaskExecutionArn
@@ -1104,6 +1113,7 @@ extension DataSync {
             self.excludes = excludes
             self.name = name
             self.options = options
+            self.schedule = schedule
             self.sourceLocationArn = sourceLocationArn
             self.sourceNetworkInterfaceArns = sourceNetworkInterfaceArns
             self.status = status
@@ -1121,6 +1131,7 @@ extension DataSync {
             case excludes = "Excludes"
             case name = "Name"
             case options = "Options"
+            case schedule = "Schedule"
             case sourceLocationArn = "SourceLocationArn"
             case sourceNetworkInterfaceArns = "SourceNetworkInterfaceArns"
             case status = "Status"
@@ -1164,6 +1175,7 @@ extension DataSync {
     public enum EndpointType: String, CustomStringConvertible, Codable {
         case `public` = "PUBLIC"
         case privateLink = "PRIVATE_LINK"
+        case fips = "FIPS"
         public var description: String { return self.rawValue }
     }
 
@@ -1586,7 +1598,7 @@ extension DataSync {
         public let preserveDeletedFiles: PreserveDeletedFiles?
         /// A value that determines whether AWS DataSync should preserve the metadata of block and character devices in the source file system, and recreate the files with that device name and metadata on the destination.  AWS DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS. 
         public let preserveDevices: PreserveDevices?
-        /// A value that determines whether tasks should be queued before executing the tasks. If set to Enabled, the tasks will queued. The default is Enabled. If you use the same agent to run multiple tasks you can enable the tasks to run in series. For more information see task-queue.
+        /// A value that determines whether tasks should be queued before executing the tasks. If set to ENABLED, the tasks will be queued. The default is ENABLED. If you use the same agent to run multiple tasks you can enable the tasks to run in series. For more information see queue-task-execution.
         public let taskQueueing: TaskQueueing?
         /// The user ID (UID) of the file's owner.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID. 
         public let uid: Uid?
@@ -1641,7 +1653,6 @@ extension DataSync {
 
     public enum PosixPermissions: String, CustomStringConvertible, Codable {
         case none = "NONE"
-        case bestEffort = "BEST_EFFORT"
         case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
@@ -1899,6 +1910,7 @@ extension DataSync {
             AWSShapeMember(label: "ErrorDetail", required: false, type: .string), 
             AWSShapeMember(label: "PrepareDuration", required: false, type: .long), 
             AWSShapeMember(label: "PrepareStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "TotalDuration", required: false, type: .long), 
             AWSShapeMember(label: "TransferDuration", required: false, type: .long), 
             AWSShapeMember(label: "TransferStatus", required: false, type: .enum), 
             AWSShapeMember(label: "VerifyDuration", required: false, type: .long), 
@@ -1913,6 +1925,8 @@ extension DataSync {
         public let prepareDuration: Int64?
         /// The status of the PREPARING phase.
         public let prepareStatus: PhaseStatus?
+        /// The total time in milliseconds that AWS DataSync took to transfer the file from the source to the destination location.
+        public let totalDuration: Int64?
         /// The total time in milliseconds that AWS DataSync spent in the TRANSFERRING phase.
         public let transferDuration: Int64?
         /// The status of the TRANSFERRING Phase.
@@ -1922,11 +1936,12 @@ extension DataSync {
         /// The status of the VERIFYING Phase.
         public let verifyStatus: PhaseStatus?
 
-        public init(errorCode: String? = nil, errorDetail: String? = nil, prepareDuration: Int64? = nil, prepareStatus: PhaseStatus? = nil, transferDuration: Int64? = nil, transferStatus: PhaseStatus? = nil, verifyDuration: Int64? = nil, verifyStatus: PhaseStatus? = nil) {
+        public init(errorCode: String? = nil, errorDetail: String? = nil, prepareDuration: Int64? = nil, prepareStatus: PhaseStatus? = nil, totalDuration: Int64? = nil, transferDuration: Int64? = nil, transferStatus: PhaseStatus? = nil, verifyDuration: Int64? = nil, verifyStatus: PhaseStatus? = nil) {
             self.errorCode = errorCode
             self.errorDetail = errorDetail
             self.prepareDuration = prepareDuration
             self.prepareStatus = prepareStatus
+            self.totalDuration = totalDuration
             self.transferDuration = transferDuration
             self.transferStatus = transferStatus
             self.verifyDuration = verifyDuration
@@ -1938,6 +1953,7 @@ extension DataSync {
             case errorDetail = "ErrorDetail"
             case prepareDuration = "PrepareDuration"
             case prepareStatus = "PrepareStatus"
+            case totalDuration = "TotalDuration"
             case transferDuration = "TransferDuration"
             case transferStatus = "TransferStatus"
             case verifyDuration = "VerifyDuration"
@@ -1987,6 +2003,28 @@ extension DataSync {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct TaskSchedule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduleExpression", required: true, type: .string)
+        ]
+
+        /// A cron expression that specifies when AWS DataSync initiates a scheduled transfer from a source to a destination location. 
+        public let scheduleExpression: String
+
+        public init(scheduleExpression: String) {
+            self.scheduleExpression = scheduleExpression
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, pattern: "^[a-zA-Z0-9\\ \\_\\*\\?\\,\\|\\^\\-\\/\\#\\s\\(\\)\\+]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleExpression = "ScheduleExpression"
+        }
     }
 
     public enum TaskStatus: String, CustomStringConvertible, Codable {
@@ -2092,6 +2130,7 @@ extension DataSync {
             AWSShapeMember(label: "Excludes", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
             AWSShapeMember(label: "TaskArn", required: true, type: .string)
         ]
 
@@ -2102,14 +2141,17 @@ extension DataSync {
         /// The name of the task to update.
         public let name: String?
         public let options: Options?
+        /// Specifies a schedule used to periodically transfer files from a source to a destination location. You can configure your task to execute hourly, daily, weekly or on specific days of the week. You control when in the day or hour you want the task to execute. The time you specify is UTC time. For more information, see task-scheduling.
+        public let schedule: TaskSchedule?
         /// The Amazon Resource Name (ARN) of the resource name of the task to update.
         public let taskArn: String
 
-        public init(cloudWatchLogGroupArn: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, taskArn: String) {
+        public init(cloudWatchLogGroupArn: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, taskArn: String) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.excludes = excludes
             self.name = name
             self.options = options
+            self.schedule = schedule
             self.taskArn = taskArn
         }
 
@@ -2125,6 +2167,7 @@ extension DataSync {
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
             try self.options?.validate(name: "\(name).options")
+            try self.schedule?.validate(name: "\(name).schedule")
             try validate(self.taskArn, name:"taskArn", parent: name, max: 128)
             try validate(self.taskArn, name:"taskArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
         }
@@ -2134,6 +2177,7 @@ extension DataSync {
             case excludes = "Excludes"
             case name = "Name"
             case options = "Options"
+            case schedule = "Schedule"
             case taskArn = "TaskArn"
         }
     }

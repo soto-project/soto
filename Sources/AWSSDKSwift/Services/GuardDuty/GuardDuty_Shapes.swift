@@ -580,6 +580,62 @@ extension GuardDuty {
         }
     }
 
+    public struct CreatePublishingDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "DestinationProperties", location: .body(locationName: "destinationProperties"), required: true, type: .structure), 
+            AWSShapeMember(label: "DestinationType", location: .body(locationName: "destinationType"), required: true, type: .enum), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+
+        /// The idempotency token for the request.
+        public let clientToken: String?
+        /// Properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption.
+        public let destinationProperties: DestinationProperties
+        /// The type of resource for the publishing destination. Currently only S3 is supported.
+        public let destinationType: DestinationType
+        /// The ID of the GuardDuty detector associated with the publishing destination.
+        public let detectorId: String
+
+        public init(clientToken: String? = CreatePublishingDestinationRequest.idempotencyToken(), destinationProperties: DestinationProperties, destinationType: DestinationType, detectorId: String) {
+            self.clientToken = clientToken
+            self.destinationProperties = destinationProperties
+            self.destinationType = destinationType
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 64)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 0)
+            try validate(self.detectorId, name:"detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case destinationProperties = "destinationProperties"
+            case destinationType = "destinationType"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct CreatePublishingDestinationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationId", location: .body(locationName: "destinationId"), required: true, type: .string)
+        ]
+
+        /// The ID of the publishing destination created.
+        public let destinationId: String
+
+        public init(destinationId: String) {
+            self.destinationId = destinationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationId = "destinationId"
+        }
+    }
+
     public struct CreateSampleFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
@@ -588,7 +644,7 @@ extension GuardDuty {
 
         /// The ID of the detector to create sample findings for.
         public let detectorId: String
-        /// Types of sample findings that you want to generate.
+        /// Types of sample findings to generate.
         public let findingTypes: [String]?
 
         public init(detectorId: String, findingTypes: [String]? = nil) {
@@ -816,9 +872,9 @@ extension GuardDuty {
             AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId"), required: true, type: .string)
         ]
 
-        /// The unique ID of the detector the ipSet is associated with.
+        /// The unique ID of the detector associated with the IPSet.
         public let detectorId: String
-        /// The unique ID of the ipSet you want to delete.
+        /// The unique ID of the IPSet to delete.
         public let ipSetId: String
 
         public init(detectorId: String, ipSetId: String) {
@@ -938,6 +994,41 @@ extension GuardDuty {
         }
     }
 
+    public struct DeletePublishingDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationId", location: .uri(locationName: "destinationId"), required: true, type: .string), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+
+        /// The ID of the publishing destination to delete.
+        public let destinationId: String
+        /// The unique ID of the detector associated with the publishing destination to delete.
+        public let detectorId: String
+
+        public init(destinationId: String, detectorId: String) {
+            self.destinationId = destinationId
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name:"detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationId = "destinationId"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct DeletePublishingDestinationResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteThreatIntelSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
@@ -971,6 +1062,124 @@ extension GuardDuty {
         public init() {
         }
 
+    }
+
+    public struct DescribePublishingDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationId", location: .uri(locationName: "destinationId"), required: true, type: .string), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+
+        /// The ID of the publishing destination to retrieve.
+        public let destinationId: String
+        /// The unique ID of the detector associated with the publishing destination to retrieve.
+        public let detectorId: String
+
+        public init(destinationId: String, detectorId: String) {
+            self.destinationId = destinationId
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name:"detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationId = "destinationId"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct DescribePublishingDestinationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationId", location: .body(locationName: "destinationId"), required: true, type: .string), 
+            AWSShapeMember(label: "DestinationProperties", location: .body(locationName: "destinationProperties"), required: true, type: .structure), 
+            AWSShapeMember(label: "DestinationType", location: .body(locationName: "destinationType"), required: true, type: .enum), 
+            AWSShapeMember(label: "PublishingFailureStartTimestamp", location: .body(locationName: "publishingFailureStartTimestamp"), required: true, type: .long), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
+        ]
+
+        /// The ID of the publishing destination.
+        public let destinationId: String
+        /// A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
+        public let destinationProperties: DestinationProperties
+        /// The type of the publishing destination. Currently, only S3 is supported.
+        public let destinationType: DestinationType
+        /// The time, in epoch millisecond format, at which GuardDuty was first unable to publish findings to the destination.
+        public let publishingFailureStartTimestamp: Int64
+        /// The status of the publishing destination.
+        public let status: PublishingStatus
+
+        public init(destinationId: String, destinationProperties: DestinationProperties, destinationType: DestinationType, publishingFailureStartTimestamp: Int64, status: PublishingStatus) {
+            self.destinationId = destinationId
+            self.destinationProperties = destinationProperties
+            self.destinationType = destinationType
+            self.publishingFailureStartTimestamp = publishingFailureStartTimestamp
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationId = "destinationId"
+            case destinationProperties = "destinationProperties"
+            case destinationType = "destinationType"
+            case publishingFailureStartTimestamp = "publishingFailureStartTimestamp"
+            case status = "status"
+        }
+    }
+
+    public struct Destination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationId", location: .body(locationName: "destinationId"), required: true, type: .string), 
+            AWSShapeMember(label: "DestinationType", location: .body(locationName: "destinationType"), required: true, type: .enum), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
+        ]
+
+        /// The unique ID of the publishing destination.
+        public let destinationId: String
+        /// The type of resource used for the publishing destination. Currently, only S3 is supported.
+        public let destinationType: DestinationType
+        /// The status of the publishing destination.
+        public let status: PublishingStatus
+
+        public init(destinationId: String, destinationType: DestinationType, status: PublishingStatus) {
+            self.destinationId = destinationId
+            self.destinationType = destinationType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationId = "destinationId"
+            case destinationType = "destinationType"
+            case status = "status"
+        }
+    }
+
+    public struct DestinationProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationArn", location: .body(locationName: "destinationArn"), required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyArn", location: .body(locationName: "kmsKeyArn"), required: false, type: .string)
+        ]
+
+        /// The ARN of the resource to publish to.
+        public let destinationArn: String?
+        /// The ARN of the KMS key to use for encryption.
+        public let kmsKeyArn: String?
+
+        public init(destinationArn: String? = nil, kmsKeyArn: String? = nil) {
+            self.destinationArn = destinationArn
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "destinationArn"
+            case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
+    public enum DestinationType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
     }
 
     public enum DetectorStatus: String, CustomStringConvertible, Codable {
@@ -1064,7 +1273,7 @@ extension GuardDuty {
             AWSShapeMember(label: "Domain", location: .body(locationName: "domain"), required: false, type: .string)
         ]
 
-        /// Domain information for the DNS request.
+        /// Domain information for the API request.
         public let domain: String?
 
         public init(domain: String? = nil) {
@@ -1522,7 +1731,7 @@ extension GuardDuty {
 
         /// The unique ID of the detector the ipSet is associated with.
         public let detectorId: String
-        /// The unique ID of the ipSet you want to get.
+        /// The unique ID of the IPSet to retrieve.
         public let ipSetId: String
 
         public init(detectorId: String, ipSetId: String) {
@@ -1554,7 +1763,7 @@ extension GuardDuty {
         public let format: IpSetFormat
         /// The URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
         public let location: String
-        /// The user friendly name to identify the IPSet. This name is displayed in all findings that are triggered by activity that involves IP addresses included in this IPSet.
+        /// The user friendly name for the IPSet.
         public let name: String
         /// The status of ipSet file uploaded.
         public let status: IpSetStatus
@@ -1863,11 +2072,11 @@ extension GuardDuty {
             AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus"), required: false, type: .string)
         ]
 
-        /// Inviter account ID
+        /// The ID of the account from which the invitations was sent.
         public let accountId: String?
-        /// This value is used to validate the inviter account to the member account.
+        /// The ID of the invitation. This value is used to validate the inviter account to the member account.
         public let invitationId: String?
-        /// Timestamp at which the invitation was sent
+        /// Timestamp at which the invitation was sent.
         public let invitedAt: String?
         /// The status of the relationship between the inviter and invitee accounts.
         public let relationshipStatus: String?
@@ -2084,7 +2293,7 @@ extension GuardDuty {
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
         public let detectorId: String
-        /// Represents the criteria used for querying findings.
+        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000  
         public let findingCriteria: FindingCriteria?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -2305,6 +2514,62 @@ extension GuardDuty {
         }
     }
 
+    public struct ListPublishingDestinationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The ID of the detector to retrieve publishing destinations for.
+        public let detectorId: String
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token to use for paginating results returned in the repsonse. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.detectorId = detectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name:"detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPublishingDestinationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// A Destinations obect that includes information about each publishing destination returned.
+        public let destinations: [Destination]
+        /// A token to use for paginating results returned in the repsonse. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+
+        public init(destinations: [Destination], nextToken: String? = nil) {
+            self.destinations = destinations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
@@ -2354,7 +2619,7 @@ extension GuardDuty {
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2730,6 +2995,14 @@ extension GuardDuty {
         }
     }
 
+    public enum PublishingStatus: String, CustomStringConvertible, Codable {
+        case pendingVerification = "PENDING_VERIFICATION"
+        case publishing = "PUBLISHING"
+        case unableToPublishFixDestinationProperty = "UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RemoteIpDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "City", location: .body(locationName: "city"), required: false, type: .structure), 
@@ -2928,9 +3201,9 @@ extension GuardDuty {
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
 
-        /// A list of account IDs of the GuardDuty member accounts whose findings you want the master account to monitor.
+        /// A list of account IDs of the GuardDuty member accounts to start monitoring.
         public let accountIds: [String]
-        /// The unique ID of the detector of the GuardDuty account whom you want to re-enable to monitor members' findings.
+        /// The unique ID of the detector of the GuardDuty master account associated with the member accounts to monitor.
         public let detectorId: String
 
         public init(accountIds: [String], detectorId: String) {
@@ -3050,7 +3323,7 @@ extension GuardDuty {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
         ]
 
-        /// The Amazon Resource Name (ARN) for the given GuardDuty resource 
+        /// The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag to.
         public let resourceArn: String
         /// The tags to be added to a resource.
         public let tags: [String: String]
@@ -3133,9 +3406,9 @@ extension GuardDuty {
             AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"), required: true, type: .list)
         ]
 
-        /// The ID of the detector that specifies the GuardDuty service whose findings you want to unarchive.
+        /// The ID of the detector associated with the findings to unarchive.
         public let detectorId: String
-        /// IDs of the findings that you want to unarchive.
+        /// IDs of the findings to unarchive.
         public let findingIds: [String]
 
         public init(detectorId: String, findingIds: [String]) {
@@ -3196,9 +3469,9 @@ extension GuardDuty {
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
 
-        /// The Amazon Resource Name (ARN) for the given GuardDuty resource 
+        /// The Amazon Resource Name (ARN) for the resource to remove tags from.
         public let resourceArn: String
-        /// The tag keys to remove from a resource.
+        /// The tag keys to remove from the resource.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -3238,11 +3511,11 @@ extension GuardDuty {
             AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum)
         ]
 
-        /// The unique ID of the detector that you want to update.
+        /// The unique ID of the detector to update.
         public let detectorId: String
-        /// Updated boolean value for the detector that specifies whether the detector is enabled.
+        /// Specifies whether the detector is enabled or not enabled.
         public let enable: Bool?
-        /// A enum value that specifies how frequently customer got Finding updates published.
+        /// A enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
         public let findingPublishingFrequency: FindingPublishingFrequency?
 
         public init(detectorId: String, enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
@@ -3349,9 +3622,9 @@ extension GuardDuty {
 
         /// Additional feedback about the GuardDuty findings.
         public let comments: String?
-        /// The ID of the detector that specifies the GuardDuty service whose findings you want to mark as useful or not useful.
+        /// The ID of the detector associated with the findings to update feedback for.
         public let detectorId: String
-        /// Valid values: USEFUL | NOT_USEFUL
+        /// The feedback for the finding.
         public let feedback: Feedback
         /// IDs of the findings that you want to mark as useful or not useful.
         public let findingIds: [String]
@@ -3437,6 +3710,46 @@ extension GuardDuty {
     }
 
     public struct UpdateIPSetResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdatePublishingDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationId", location: .uri(locationName: "destinationId"), required: true, type: .string), 
+            AWSShapeMember(label: "DestinationProperties", location: .body(locationName: "destinationProperties"), required: false, type: .structure), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+
+        /// The ID of the detector associated with the publishing destinations to update.
+        public let destinationId: String
+        /// A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
+        public let destinationProperties: DestinationProperties?
+        /// The ID of the 
+        public let detectorId: String
+
+        public init(destinationId: String, destinationProperties: DestinationProperties? = nil, detectorId: String) {
+            self.destinationId = destinationId
+            self.destinationProperties = destinationProperties
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.detectorId, name:"detectorId", parent: name, max: 300)
+            try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationId = "destinationId"
+            case destinationProperties = "destinationProperties"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct UpdatePublishingDestinationResponse: AWSShape {
 
 
         public init() {

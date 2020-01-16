@@ -5,6 +5,29 @@ import AWSSDKSwiftCore
 
 extension EKS {
 
+    public enum AMITypes: String, CustomStringConvertible, Codable {
+        case al2X8664 = "AL2_x86_64"
+        case al2X8664Gpu = "AL2_x86_64_GPU"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AutoScalingGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+
+        /// The name of the Auto Scaling group associated with an Amazon EKS managed node group.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
     public struct Certificate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "data", required: false, type: .string)
@@ -64,7 +87,7 @@ extension EKS {
         public let roleArn: String?
         /// The current status of the cluster.
         public let status: ClusterStatus?
-        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Cluster tags do not propagate to any other resources associated with the cluster. 
         public let tags: [String: String]?
         /// The Kubernetes server version for the cluster.
         public let version: String?
@@ -109,6 +132,7 @@ extension EKS {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -187,6 +211,192 @@ extension EKS {
         }
     }
 
+    public struct CreateFargateProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "fargateProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "podExecutionRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "selectors", required: false, type: .list), 
+            AWSShapeMember(label: "subnets", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the Amazon EKS cluster to apply the Fargate profile to.
+        public let clusterName: String
+        /// The name of the Fargate profile.
+        public let fargateProfileName: String
+        /// The Amazon Resource Name (ARN) of the pod execution role to use for pods that match the selectors in the Fargate profile. The pod execution role allows Fargate infrastructure to register with your cluster as a node, and it provides read access to Amazon ECR image repositories. For more information, see Pod Execution Role in the Amazon EKS User Guide.
+        public let podExecutionRoleArn: String
+        /// The selectors to match for pods to use this Fargate profile. Each selector must have an associated namespace. Optionally, you can also specify labels for a namespace. You may specify up to five selectors in a Fargate profile.
+        public let selectors: [FargateProfileSelector]?
+        /// The IDs of subnets to launch your pods into. At this time, pods running on Fargate are not assigned public IP addresses, so only private subnets (with no direct route to an Internet Gateway) are accepted for this parameter.
+        public let subnets: [String]?
+        /// The metadata to apply to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
+        public let tags: [String: String]?
+
+        public init(clientRequestToken: String? = CreateFargateProfileRequest.idempotencyToken(), clusterName: String, fargateProfileName: String, podExecutionRoleArn: String, selectors: [FargateProfileSelector]? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.fargateProfileName = fargateProfileName
+            self.podExecutionRoleArn = podExecutionRoleArn
+            self.selectors = selectors
+            self.subnets = subnets
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case clusterName = "name"
+            case fargateProfileName = "fargateProfileName"
+            case podExecutionRoleArn = "podExecutionRoleArn"
+            case selectors = "selectors"
+            case subnets = "subnets"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateFargateProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fargateProfile", required: false, type: .structure)
+        ]
+
+        /// The full description of your new Fargate profile.
+        public let fargateProfile: FargateProfile?
+
+        public init(fargateProfile: FargateProfile? = nil) {
+            self.fargateProfile = fargateProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fargateProfile = "fargateProfile"
+        }
+    }
+
+    public struct CreateNodegroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "amiType", required: false, type: .enum), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "diskSize", required: false, type: .integer), 
+            AWSShapeMember(label: "instanceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "labels", required: false, type: .map), 
+            AWSShapeMember(label: "nodegroupName", required: true, type: .string), 
+            AWSShapeMember(label: "nodeRole", required: true, type: .string), 
+            AWSShapeMember(label: "releaseVersion", required: false, type: .string), 
+            AWSShapeMember(label: "remoteAccess", required: false, type: .structure), 
+            AWSShapeMember(label: "scalingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "subnets", required: true, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+
+        /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type, which uses the Amazon EKS-optimized Linux AMI with GPU support. Non-GPU instances should use the AL2_x86_64 AMI type, which uses the Amazon EKS-optimized Linux AMI.
+        public let amiType: AMITypes?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the cluster to create the node group in.
+        public let clusterName: String
+        /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB.
+        public let diskSize: Int?
+        /// The instance type to use for your node group. Currently, you can specify a single instance type for a node group. The default value for this parameter is t3.medium. If you choose a GPU instance type, be sure to specify the AL2_x86_64_GPU with the amiType parameter.
+        public let instanceTypes: [String]?
+        /// The Kubernetes labels to be applied to the nodes in the node group when they are created.
+        public let labels: [String: String]?
+        /// The unique name to give your node group.
+        public let nodegroupName: String
+        /// The IAM role associated with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide .
+        public let nodeRole: String
+        /// The AMI version of the Amazon EKS-optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide.
+        public let releaseVersion: String?
+        /// The remote access (SSH) configuration to use with your node group.
+        public let remoteAccess: RemoteAccessConfig?
+        /// The scaling configuration details for the Auto Scaling group that is created for your node group.
+        public let scalingConfig: NodegroupScalingConfig?
+        /// The subnets to use for the Auto Scaling group that is created for your node group. These subnets must have the tag key kubernetes.io/cluster/CLUSTER_NAME with a value of shared, where CLUSTER_NAME is replaced with the name of your cluster.
+        public let subnets: [String]
+        /// The metadata to apply to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
+        public let tags: [String: String]?
+        /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value.
+        public let version: String?
+
+        public init(amiType: AMITypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, version: String? = nil) {
+            self.amiType = amiType
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.diskSize = diskSize
+            self.instanceTypes = instanceTypes
+            self.labels = labels
+            self.nodegroupName = nodegroupName
+            self.nodeRole = nodeRole
+            self.releaseVersion = releaseVersion
+            self.remoteAccess = remoteAccess
+            self.scalingConfig = scalingConfig
+            self.subnets = subnets
+            self.tags = tags
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.labels?.forEach {
+                try validate($0.key, name:"labels.key", parent: name, max: 63)
+                try validate($0.key, name:"labels.key", parent: name, min: 1)
+                try validate($0.value, name:"labels[\"\($0.key)\"]", parent: name, max: 253)
+                try validate($0.value, name:"labels[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.scalingConfig?.validate(name: "\(name).scalingConfig")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiType = "amiType"
+            case clientRequestToken = "clientRequestToken"
+            case clusterName = "name"
+            case diskSize = "diskSize"
+            case instanceTypes = "instanceTypes"
+            case labels = "labels"
+            case nodegroupName = "nodegroupName"
+            case nodeRole = "nodeRole"
+            case releaseVersion = "releaseVersion"
+            case remoteAccess = "remoteAccess"
+            case scalingConfig = "scalingConfig"
+            case subnets = "subnets"
+            case tags = "tags"
+            case version = "version"
+        }
+    }
+
+    public struct CreateNodegroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nodegroup", required: false, type: .structure)
+        ]
+
+        /// The full description of your new node group.
+        public let nodegroup: Nodegroup?
+
+        public init(nodegroup: Nodegroup? = nil) {
+            self.nodegroup = nodegroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodegroup = "nodegroup"
+        }
+    }
+
     public struct DeleteClusterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
@@ -218,6 +428,84 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
+        }
+    }
+
+    public struct DeleteFargateProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"), required: true, type: .string)
+        ]
+
+        /// The name of the Amazon EKS cluster associated with the Fargate profile to delete.
+        public let clusterName: String
+        /// The name of the Fargate profile to delete.
+        public let fargateProfileName: String
+
+        public init(clusterName: String, fargateProfileName: String) {
+            self.clusterName = clusterName
+            self.fargateProfileName = fargateProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "name"
+            case fargateProfileName = "fargateProfileName"
+        }
+    }
+
+    public struct DeleteFargateProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fargateProfile", required: false, type: .structure)
+        ]
+
+        /// The deleted Fargate profile.
+        public let fargateProfile: FargateProfile?
+
+        public init(fargateProfile: FargateProfile? = nil) {
+            self.fargateProfile = fargateProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fargateProfile = "fargateProfile"
+        }
+    }
+
+    public struct DeleteNodegroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "nodegroupName", location: .uri(locationName: "nodegroupName"), required: true, type: .string)
+        ]
+
+        /// The name of the Amazon EKS cluster that is associated with your node group.
+        public let clusterName: String
+        /// The name of the node group to delete.
+        public let nodegroupName: String
+
+        public init(clusterName: String, nodegroupName: String) {
+            self.clusterName = clusterName
+            self.nodegroupName = nodegroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "name"
+            case nodegroupName = "nodegroupName"
+        }
+    }
+
+    public struct DeleteNodegroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nodegroup", required: false, type: .structure)
+        ]
+
+        /// The full description of your deleted node group.
+        public let nodegroup: Nodegroup?
+
+        public init(nodegroup: Nodegroup? = nil) {
+            self.nodegroup = nodegroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodegroup = "nodegroup"
         }
     }
 
@@ -255,24 +543,107 @@ extension EKS {
         }
     }
 
+    public struct DescribeFargateProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"), required: true, type: .string)
+        ]
+
+        /// The name of the Amazon EKS cluster associated with the Fargate profile.
+        public let clusterName: String
+        /// The name of the Fargate profile to describe.
+        public let fargateProfileName: String
+
+        public init(clusterName: String, fargateProfileName: String) {
+            self.clusterName = clusterName
+            self.fargateProfileName = fargateProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "name"
+            case fargateProfileName = "fargateProfileName"
+        }
+    }
+
+    public struct DescribeFargateProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fargateProfile", required: false, type: .structure)
+        ]
+
+        /// The full description of your Fargate profile.
+        public let fargateProfile: FargateProfile?
+
+        public init(fargateProfile: FargateProfile? = nil) {
+            self.fargateProfile = fargateProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fargateProfile = "fargateProfile"
+        }
+    }
+
+    public struct DescribeNodegroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "nodegroupName", location: .uri(locationName: "nodegroupName"), required: true, type: .string)
+        ]
+
+        /// The name of the Amazon EKS cluster associated with the node group.
+        public let clusterName: String
+        /// The name of the node group to describe.
+        public let nodegroupName: String
+
+        public init(clusterName: String, nodegroupName: String) {
+            self.clusterName = clusterName
+            self.nodegroupName = nodegroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "name"
+            case nodegroupName = "nodegroupName"
+        }
+    }
+
+    public struct DescribeNodegroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nodegroup", required: false, type: .structure)
+        ]
+
+        /// The full description of your node group.
+        public let nodegroup: Nodegroup?
+
+        public init(nodegroup: Nodegroup? = nil) {
+            self.nodegroup = nodegroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodegroup = "nodegroup"
+        }
+    }
+
     public struct DescribeUpdateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "nodegroupName", location: .querystring(locationName: "nodegroupName"), required: false, type: .string), 
             AWSShapeMember(label: "updateId", location: .uri(locationName: "updateId"), required: true, type: .string)
         ]
 
-        /// The name of the Amazon EKS cluster to update.
+        /// The name of the Amazon EKS cluster associated with the update.
         public let name: String
+        /// The name of the Amazon EKS node group associated with the update.
+        public let nodegroupName: String?
         /// The ID of the update to describe.
         public let updateId: String
 
-        public init(name: String, updateId: String) {
+        public init(name: String, nodegroupName: String? = nil, updateId: String) {
             self.name = name
+            self.nodegroupName = nodegroupName
             self.updateId = updateId
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+            case nodegroupName = "nodegroupName"
             case updateId = "updateId"
         }
     }
@@ -303,6 +674,9 @@ extension EKS {
         case operationnotpermitted = "OperationNotPermitted"
         case vpcidnotfound = "VpcIdNotFound"
         case unknown = "Unknown"
+        case nodecreationfailure = "NodeCreationFailure"
+        case podevictionfailure = "PodEvictionFailure"
+        case insufficientfreeaddresses = "InsufficientFreeAddresses"
         public var description: String { return self.rawValue }
     }
 
@@ -333,6 +707,94 @@ extension EKS {
         }
     }
 
+    public struct FargateProfile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterName", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "fargateProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "fargateProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "podExecutionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "selectors", required: false, type: .list), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "subnets", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        /// The name of the Amazon EKS cluster that the Fargate profile belongs to.
+        public let clusterName: String?
+        /// The Unix epoch timestamp in seconds for when the Fargate profile was created.
+        public let createdAt: TimeStamp?
+        /// The full Amazon Resource Name (ARN) of the Fargate profile.
+        public let fargateProfileArn: String?
+        /// The name of the Fargate profile.
+        public let fargateProfileName: String?
+        /// The Amazon Resource Name (ARN) of the pod execution role to use for pods that match the selectors in the Fargate profile. For more information, see Pod Execution Role in the Amazon EKS User Guide.
+        public let podExecutionRoleArn: String?
+        /// The selectors to match for pods to use this Fargate profile.
+        public let selectors: [FargateProfileSelector]?
+        /// The current status of the Fargate profile.
+        public let status: FargateProfileStatus?
+        /// The IDs of subnets to launch pods into.
+        public let subnets: [String]?
+        /// The metadata applied to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
+        public let tags: [String: String]?
+
+        public init(clusterName: String? = nil, createdAt: TimeStamp? = nil, fargateProfileArn: String? = nil, fargateProfileName: String? = nil, podExecutionRoleArn: String? = nil, selectors: [FargateProfileSelector]? = nil, status: FargateProfileStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
+            self.clusterName = clusterName
+            self.createdAt = createdAt
+            self.fargateProfileArn = fargateProfileArn
+            self.fargateProfileName = fargateProfileName
+            self.podExecutionRoleArn = podExecutionRoleArn
+            self.selectors = selectors
+            self.status = status
+            self.subnets = subnets
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case createdAt = "createdAt"
+            case fargateProfileArn = "fargateProfileArn"
+            case fargateProfileName = "fargateProfileName"
+            case podExecutionRoleArn = "podExecutionRoleArn"
+            case selectors = "selectors"
+            case status = "status"
+            case subnets = "subnets"
+            case tags = "tags"
+        }
+    }
+
+    public struct FargateProfileSelector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "labels", required: false, type: .map), 
+            AWSShapeMember(label: "namespace", required: false, type: .string)
+        ]
+
+        /// The Kubernetes labels that the selector should match. A pod must contain all of the labels that are specified in the selector for it to be considered a match.
+        public let labels: [String: String]?
+        /// The Kubernetes namespace that the selector should match.
+        public let namespace: String?
+
+        public init(labels: [String: String]? = nil, namespace: String? = nil) {
+            self.labels = labels
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labels = "labels"
+            case namespace = "namespace"
+        }
+    }
+
+    public enum FargateProfileStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case createFailed = "CREATE_FAILED"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Identity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "oidc", required: false, type: .structure)
@@ -347,6 +809,33 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case oidc = "oidc"
+        }
+    }
+
+    public struct Issue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "code", required: false, type: .enum), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "resourceIds", required: false, type: .list)
+        ]
+
+        /// A brief description of the error.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient worker node IAM role permissions or lack of outbound internet access for the nodes.     InstanceLimitExceeded: Your AWS account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    AccessDenied: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.  
+        public let code: NodegroupIssueCode?
+        /// The error message associated with the issue.
+        public let message: String?
+        /// The AWS resources that are afflicted by this issue.
+        public let resourceIds: [String]?
+
+        public init(code: NodegroupIssueCode? = nil, message: String? = nil, resourceIds: [String]? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceIds = resourceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case resourceIds = "resourceIds"
         }
     }
 
@@ -399,12 +888,120 @@ extension EKS {
         }
     }
 
+    public struct ListFargateProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The name of the Amazon EKS cluster that you would like to listFargate profiles in.
+        public let clusterName: String
+        /// The maximum number of Fargate profile results returned by ListFargateProfiles in paginated output. When you use this parameter, ListFargateProfiles returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListFargateProfiles request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListFargateProfiles returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListFargateProfiles request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
+        public let nextToken: String?
+
+        public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterName = clusterName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "name"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFargateProfilesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fargateProfileNames", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// A list of all of the Fargate profiles associated with the specified cluster.
+        public let fargateProfileNames: [String]?
+        /// The nextToken value to include in a future ListFargateProfiles request. When the results of a ListFargateProfiles request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(fargateProfileNames: [String]? = nil, nextToken: String? = nil) {
+            self.fargateProfileNames = fargateProfileNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fargateProfileNames = "fargateProfileNames"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNodegroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The name of the Amazon EKS cluster that you would like to list node groups in.
+        public let clusterName: String
+        /// The maximum number of node group results returned by ListNodegroups in paginated output. When you use this parameter, ListNodegroups returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListNodegroups request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListNodegroups returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListNodegroups request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
+        public let nextToken: String?
+
+        public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterName = clusterName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "name"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNodegroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "nodegroups", required: false, type: .list)
+        ]
+
+        /// The nextToken value to include in a future ListNodegroups request. When the results of a ListNodegroups request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// A list of all of the node groups associated with the specified cluster.
+        public let nodegroups: [String]?
+
+        public init(nextToken: String? = nil, nodegroups: [String]? = nil) {
+            self.nextToken = nextToken
+            self.nodegroups = nodegroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case nodegroups = "nodegroups"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon EKS clusters.
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -437,7 +1034,8 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "nodegroupName", location: .querystring(locationName: "nodegroupName"), required: false, type: .string)
         ]
 
         /// The maximum number of update results returned by ListUpdates in paginated output. When you use this parameter, ListUpdates returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListUpdates request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListUpdates returns up to 100 results and a nextToken value if applicable.
@@ -446,11 +1044,14 @@ extension EKS {
         public let name: String
         /// The nextToken value returned from a previous paginated ListUpdates request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
+        /// The name of the Amazon EKS managed node group to list updates for.
+        public let nodegroupName: String?
 
-        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil, nodegroupName: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+            self.nodegroupName = nodegroupName
         }
 
         public func validate(name: String) throws {
@@ -462,6 +1063,7 @@ extension EKS {
             case maxResults = "maxResults"
             case name = "name"
             case nextToken = "nextToken"
+            case nodegroupName = "nodegroupName"
         }
     }
 
@@ -535,6 +1137,212 @@ extension EKS {
         }
     }
 
+    public struct Nodegroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "amiType", required: false, type: .enum), 
+            AWSShapeMember(label: "clusterName", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "diskSize", required: false, type: .integer), 
+            AWSShapeMember(label: "health", required: false, type: .structure), 
+            AWSShapeMember(label: "instanceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "labels", required: false, type: .map), 
+            AWSShapeMember(label: "modifiedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "nodegroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "nodegroupName", required: false, type: .string), 
+            AWSShapeMember(label: "nodeRole", required: false, type: .string), 
+            AWSShapeMember(label: "releaseVersion", required: false, type: .string), 
+            AWSShapeMember(label: "remoteAccess", required: false, type: .structure), 
+            AWSShapeMember(label: "resources", required: false, type: .structure), 
+            AWSShapeMember(label: "scalingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "subnets", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+
+        /// The AMI type associated with your node group. GPU instance types should use the AL2_x86_64_GPU AMI type, which uses the Amazon EKS-optimized Linux AMI with GPU support. Non-GPU instances should use the AL2_x86_64 AMI type, which uses the Amazon EKS-optimized Linux AMI.
+        public let amiType: AMITypes?
+        /// The name of the cluster that the managed node group resides in.
+        public let clusterName: String?
+        /// The Unix epoch timestamp in seconds for when the managed node group was created.
+        public let createdAt: TimeStamp?
+        /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB.
+        public let diskSize: Int?
+        /// The health status of the node group. If there are issues with your node group's health, they are listed here.
+        public let health: NodegroupHealth?
+        /// The instance types associated with your node group.
+        public let instanceTypes: [String]?
+        /// The Kubernetes labels applied to the nodes in the node group.  Only labels that are applied with the Amazon EKS API are shown here. There may be other Kubernetes labels applied to the nodes in this group. 
+        public let labels: [String: String]?
+        /// The Unix epoch timestamp in seconds for when the managed node group was last modified.
+        public let modifiedAt: TimeStamp?
+        /// The Amazon Resource Name (ARN) associated with the managed node group.
+        public let nodegroupArn: String?
+        /// The name associated with an Amazon EKS managed node group.
+        public let nodegroupName: String?
+        /// The IAM role associated with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide .
+        public let nodeRole: String?
+        /// The AMI version of the managed node group. For more information, see Amazon EKS-Optimized Linux AMI Versions  in the Amazon EKS User Guide.
+        public let releaseVersion: String?
+        /// The remote access (SSH) configuration that is associated with the node group.
+        public let remoteAccess: RemoteAccessConfig?
+        /// The resources associated with the node group, such as Auto Scaling groups and security groups for remote access.
+        public let resources: NodegroupResources?
+        /// The scaling configuration details for the Auto Scaling group that is associated with your node group.
+        public let scalingConfig: NodegroupScalingConfig?
+        /// The current status of the managed node group.
+        public let status: NodegroupStatus?
+        /// The subnets allowed for the Auto Scaling group that is associated with your node group. These subnets must have the following tag: kubernetes.io/cluster/CLUSTER_NAME, where CLUSTER_NAME is replaced with the name of your cluster.
+        public let subnets: [String]?
+        /// The metadata applied to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets. 
+        public let tags: [String: String]?
+        /// The Kubernetes version of the managed node group.
+        public let version: String?
+
+        public init(amiType: AMITypes? = nil, clusterName: String? = nil, createdAt: TimeStamp? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, modifiedAt: TimeStamp? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+            self.amiType = amiType
+            self.clusterName = clusterName
+            self.createdAt = createdAt
+            self.diskSize = diskSize
+            self.health = health
+            self.instanceTypes = instanceTypes
+            self.labels = labels
+            self.modifiedAt = modifiedAt
+            self.nodegroupArn = nodegroupArn
+            self.nodegroupName = nodegroupName
+            self.nodeRole = nodeRole
+            self.releaseVersion = releaseVersion
+            self.remoteAccess = remoteAccess
+            self.resources = resources
+            self.scalingConfig = scalingConfig
+            self.status = status
+            self.subnets = subnets
+            self.tags = tags
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiType = "amiType"
+            case clusterName = "clusterName"
+            case createdAt = "createdAt"
+            case diskSize = "diskSize"
+            case health = "health"
+            case instanceTypes = "instanceTypes"
+            case labels = "labels"
+            case modifiedAt = "modifiedAt"
+            case nodegroupArn = "nodegroupArn"
+            case nodegroupName = "nodegroupName"
+            case nodeRole = "nodeRole"
+            case releaseVersion = "releaseVersion"
+            case remoteAccess = "remoteAccess"
+            case resources = "resources"
+            case scalingConfig = "scalingConfig"
+            case status = "status"
+            case subnets = "subnets"
+            case tags = "tags"
+            case version = "version"
+        }
+    }
+
+    public struct NodegroupHealth: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "issues", required: false, type: .list)
+        ]
+
+        /// Any issues that are associated with the node group. 
+        public let issues: [Issue]?
+
+        public init(issues: [Issue]? = nil) {
+            self.issues = issues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issues = "issues"
+        }
+    }
+
+    public enum NodegroupIssueCode: String, CustomStringConvertible, Codable {
+        case autoscalinggroupnotfound = "AutoScalingGroupNotFound"
+        case ec2securitygroupnotfound = "Ec2SecurityGroupNotFound"
+        case ec2securitygroupdeletionfailure = "Ec2SecurityGroupDeletionFailure"
+        case ec2launchtemplatenotfound = "Ec2LaunchTemplateNotFound"
+        case ec2launchtemplateversionmismatch = "Ec2LaunchTemplateVersionMismatch"
+        case iaminstanceprofilenotfound = "IamInstanceProfileNotFound"
+        case iamnoderolenotfound = "IamNodeRoleNotFound"
+        case asginstancelaunchfailures = "AsgInstanceLaunchFailures"
+        case instancelimitexceeded = "InstanceLimitExceeded"
+        case insufficientfreeaddresses = "InsufficientFreeAddresses"
+        case accessdenied = "AccessDenied"
+        case internalfailure = "InternalFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct NodegroupResources: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "remoteAccessSecurityGroup", required: false, type: .string)
+        ]
+
+        /// The Auto Scaling groups associated with the node group.
+        public let autoScalingGroups: [AutoScalingGroup]?
+        /// The remote access security group associated with the node group. This security group controls SSH access to the worker nodes.
+        public let remoteAccessSecurityGroup: String?
+
+        public init(autoScalingGroups: [AutoScalingGroup]? = nil, remoteAccessSecurityGroup: String? = nil) {
+            self.autoScalingGroups = autoScalingGroups
+            self.remoteAccessSecurityGroup = remoteAccessSecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroups = "autoScalingGroups"
+            case remoteAccessSecurityGroup = "remoteAccessSecurityGroup"
+        }
+    }
+
+    public struct NodegroupScalingConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "desiredSize", required: false, type: .integer), 
+            AWSShapeMember(label: "maxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "minSize", required: false, type: .integer)
+        ]
+
+        /// The current number of worker nodes that the managed node group should maintain.
+        public let desiredSize: Int?
+        /// The maximum number of worker nodes that the managed node group can scale out to. Managed node groups can support up to 100 nodes by default.
+        public let maxSize: Int?
+        /// The minimum number of worker nodes that the managed node group can scale in to. This number must be greater than zero.
+        public let minSize: Int?
+
+        public init(desiredSize: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
+            self.desiredSize = desiredSize
+            self.maxSize = maxSize
+            self.minSize = minSize
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.desiredSize, name:"desiredSize", parent: name, min: 1)
+            try validate(self.maxSize, name:"maxSize", parent: name, min: 1)
+            try validate(self.minSize, name:"minSize", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredSize = "desiredSize"
+            case maxSize = "maxSize"
+            case minSize = "minSize"
+        }
+    }
+
+    public enum NodegroupStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case createFailed = "CREATE_FAILED"
+        case deleteFailed = "DELETE_FAILED"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct OIDC: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "issuer", required: false, type: .string)
@@ -552,13 +1360,35 @@ extension EKS {
         }
     }
 
+    public struct RemoteAccessConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ec2SshKey", required: false, type: .string), 
+            AWSShapeMember(label: "sourceSecurityGroups", required: false, type: .list)
+        ]
+
+        /// The Amazon EC2 SSH key that provides access for SSH communication with the worker nodes in the managed node group. For more information, see Amazon EC2 Key Pairs in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
+        public let ec2SshKey: String?
+        /// The security groups that are allowed SSH access (port 22) to the worker nodes. If you specify an Amazon EC2 SSH key but do not specify a source security group when you create a managed node group, then port 22 on the worker nodes is opened to the internet (0.0.0.0/0). For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
+        public let sourceSecurityGroups: [String]?
+
+        public init(ec2SshKey: String? = nil, sourceSecurityGroups: [String]? = nil) {
+            self.ec2SshKey = ec2SshKey
+            self.sourceSecurityGroups = sourceSecurityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2SshKey = "ec2SshKey"
+            case sourceSecurityGroups = "sourceSecurityGroups"
+        }
+    }
+
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .map)
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon EKS clusters.
+        /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs.
         public let tags: [String: String]
@@ -596,7 +1426,7 @@ extension EKS {
             AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resources are Amazon EKS clusters.
+        /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
         public let resourceArn: String
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
@@ -762,6 +1592,153 @@ extension EKS {
         }
     }
 
+    public struct UpdateLabelsPayload: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOrUpdateLabels", required: false, type: .map), 
+            AWSShapeMember(label: "removeLabels", required: false, type: .list)
+        ]
+
+        /// Kubernetes labels to be added or updated.
+        public let addOrUpdateLabels: [String: String]?
+        /// Kubernetes labels to be removed.
+        public let removeLabels: [String]?
+
+        public init(addOrUpdateLabels: [String: String]? = nil, removeLabels: [String]? = nil) {
+            self.addOrUpdateLabels = addOrUpdateLabels
+            self.removeLabels = removeLabels
+        }
+
+        public func validate(name: String) throws {
+            try self.addOrUpdateLabels?.forEach {
+                try validate($0.key, name:"addOrUpdateLabels.key", parent: name, max: 63)
+                try validate($0.key, name:"addOrUpdateLabels.key", parent: name, min: 1)
+                try validate($0.value, name:"addOrUpdateLabels[\"\($0.key)\"]", parent: name, max: 253)
+                try validate($0.value, name:"addOrUpdateLabels[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addOrUpdateLabels = "addOrUpdateLabels"
+            case removeLabels = "removeLabels"
+        }
+    }
+
+    public struct UpdateNodegroupConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "labels", required: false, type: .structure), 
+            AWSShapeMember(label: "nodegroupName", location: .uri(locationName: "nodegroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "scalingConfig", required: false, type: .structure)
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the Amazon EKS cluster that the managed node group resides in.
+        public let clusterName: String
+        /// The Kubernetes labels to be applied to the nodes in the node group after the update.
+        public let labels: UpdateLabelsPayload?
+        /// The name of the managed node group to update.
+        public let nodegroupName: String
+        /// The scaling configuration details for the Auto Scaling group after the update.
+        public let scalingConfig: NodegroupScalingConfig?
+
+        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, scalingConfig: NodegroupScalingConfig? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.labels = labels
+            self.nodegroupName = nodegroupName
+            self.scalingConfig = scalingConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.labels?.validate(name: "\(name).labels")
+            try self.scalingConfig?.validate(name: "\(name).scalingConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case clusterName = "name"
+            case labels = "labels"
+            case nodegroupName = "nodegroupName"
+            case scalingConfig = "scalingConfig"
+        }
+    }
+
+    public struct UpdateNodegroupConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "update", required: false, type: .structure)
+        ]
+
+        public let update: Update?
+
+        public init(update: Update? = nil) {
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case update = "update"
+        }
+    }
+
+    public struct UpdateNodegroupVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "force", required: false, type: .boolean), 
+            AWSShapeMember(label: "nodegroupName", location: .uri(locationName: "nodegroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "releaseVersion", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the Amazon EKS cluster that is associated with the managed node group to update.
+        public let clusterName: String
+        /// Force the update if the existing node group's pods are unable to be drained due to a pod disruption budget issue. If an update fails because pods could not be drained, you can force the update after it fails to terminate the old node whether or not any pods are running on the node.
+        public let force: Bool?
+        /// The name of the managed node group to update.
+        public let nodegroupName: String
+        /// The AMI version of the Amazon EKS-optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions  in the Amazon EKS User Guide.
+        public let releaseVersion: String?
+        /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version.
+        public let version: String?
+
+        public init(clientRequestToken: String? = UpdateNodegroupVersionRequest.idempotencyToken(), clusterName: String, force: Bool? = nil, nodegroupName: String, releaseVersion: String? = nil, version: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.force = force
+            self.nodegroupName = nodegroupName
+            self.releaseVersion = releaseVersion
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case clusterName = "name"
+            case force = "force"
+            case nodegroupName = "nodegroupName"
+            case releaseVersion = "releaseVersion"
+            case version = "version"
+        }
+    }
+
+    public struct UpdateNodegroupVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "update", required: false, type: .structure)
+        ]
+
+        public let update: Update?
+
+        public init(update: Update? = nil) {
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case update = "update"
+        }
+    }
+
     public struct UpdateParam: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .enum), 
@@ -790,6 +1767,13 @@ extension EKS {
         case endpointprivateaccess = "EndpointPrivateAccess"
         case endpointpublicaccess = "EndpointPublicAccess"
         case clusterlogging = "ClusterLogging"
+        case desiredsize = "DesiredSize"
+        case labelstoadd = "LabelsToAdd"
+        case labelstoremove = "LabelsToRemove"
+        case maxsize = "MaxSize"
+        case minsize = "MinSize"
+        case releaseversion = "ReleaseVersion"
+        case publicaccesscidrs = "PublicAccessCidrs"
         public var description: String { return self.rawValue }
     }
 
@@ -805,6 +1789,7 @@ extension EKS {
         case versionupdate = "VersionUpdate"
         case endpointaccessupdate = "EndpointAccessUpdate"
         case loggingupdate = "LoggingUpdate"
+        case configupdate = "ConfigUpdate"
         public var description: String { return self.rawValue }
     }
 
@@ -812,22 +1797,26 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "endpointPrivateAccess", required: false, type: .boolean), 
             AWSShapeMember(label: "endpointPublicAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "publicAccessCidrs", required: false, type: .list), 
             AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "subnetIds", required: false, type: .list)
         ]
 
-        /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have worker nodes or AWS Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the worker nodes or Fargate pods. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
-        /// Set this value to false to disable public access for your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can receive only requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let endpointPublicAccess: Bool?
+        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have worker nodes or AWS Fargate pods in the cluster, then ensure that you specify the necessary CIDR blocks. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        public let publicAccessCidrs: [String]?
         /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane. If you don't specify a security group, the default security group for your VPC is used.
         public let securityGroupIds: [String]?
         /// Specify subnets for your Amazon EKS worker nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your worker nodes and the Kubernetes control plane.
         public let subnetIds: [String]?
 
-        public init(endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+        public init(endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, publicAccessCidrs: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
+            self.publicAccessCidrs = publicAccessCidrs
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -835,6 +1824,7 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case endpointPrivateAccess = "endpointPrivateAccess"
             case endpointPublicAccess = "endpointPublicAccess"
+            case publicAccessCidrs = "publicAccessCidrs"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
         }
@@ -842,17 +1832,23 @@ extension EKS {
 
     public struct VpcConfigResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterSecurityGroupId", required: false, type: .string), 
             AWSShapeMember(label: "endpointPrivateAccess", required: false, type: .boolean), 
             AWSShapeMember(label: "endpointPublicAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "publicAccessCidrs", required: false, type: .list), 
             AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "subnetIds", required: false, type: .list), 
             AWSShapeMember(label: "vpcId", required: false, type: .string)
         ]
 
-        /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet.
+        /// The cluster security group that was created by Amazon EKS for the cluster. Managed node groups use this security group for control-plane-to-data-plane communication.
+        public let clusterSecurityGroupId: String?
+        /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have worker nodes or AWS Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the worker nodes or Fargate pods. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
-        /// This parameter indicates whether the Amazon EKS public API server endpoint is enabled. If the Amazon EKS public API server endpoint is disabled, your cluster's Kubernetes API server can receive only requests that originate from within the cluster VPC. 
+        /// This parameter indicates whether the Amazon EKS public API server endpoint is enabled. If the Amazon EKS public API server endpoint is disabled, your cluster's Kubernetes API server can only receive requests that originate from within the cluster VPC.
         public let endpointPublicAccess: Bool?
+        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the listed CIDR blocks is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have worker nodes or AWS Fargate pods in the cluster, then ensure that the necessary CIDR blocks are listed. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        public let publicAccessCidrs: [String]?
         /// The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your worker nodes and the Kubernetes control plane.
         public let securityGroupIds: [String]?
         /// The subnets associated with your cluster.
@@ -860,17 +1856,21 @@ extension EKS {
         /// The VPC associated with your cluster.
         public let vpcId: String?
 
-        public init(endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(clusterSecurityGroupId: String? = nil, endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, publicAccessCidrs: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.clusterSecurityGroupId = clusterSecurityGroupId
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
+            self.publicAccessCidrs = publicAccessCidrs
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroupId = "clusterSecurityGroupId"
             case endpointPrivateAccess = "endpointPrivateAccess"
             case endpointPublicAccess = "endpointPublicAccess"
+            case publicAccessCidrs = "publicAccessCidrs"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
             case vpcId = "vpcId"

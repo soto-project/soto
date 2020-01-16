@@ -88,6 +88,11 @@ public struct FMS {
         return client.send(operation: "ListPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves the list of tags for the specified AWS resource. 
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Designates the IAM role and Amazon Simple Notification Service (SNS) topic that AWS Firewall Manager uses to record SNS logs.
     @discardableResult public func putNotificationChannel(_ input: PutNotificationChannelRequest) -> Future<Void> {
         return client.send(operation: "PutNotificationChannel", path: "/", httpMethod: "POST", input: input)
@@ -96,5 +101,15 @@ public struct FMS {
     ///  Creates an AWS Firewall Manager policy. Firewall Manager provides the following types of policies:    A Shield Advanced policy, which applies Shield Advanced protection to specified accounts and resources   An AWS WAF policy, which contains a rule group and defines which resources are to be protected by that rule group   A security group policy, which manages VPC security groups across your AWS organization.    Each policy is specific to one of the three types. If you want to enforce more than one policy type across accounts, you can create multiple policies. You can create multiple policies for each type. You must be subscribed to Shield Advanced to create a Shield Advanced policy. For more information about subscribing to Shield Advanced, see CreateSubscription.
     public func putPolicy(_ input: PutPolicyRequest) -> Future<PutPolicyResponse> {
         return client.send(operation: "PutPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds one or more tags to an AWS resource.
+    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes one or more tags from an AWS resource.
+    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 }

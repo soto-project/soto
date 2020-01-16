@@ -92,6 +92,11 @@ public struct CloudSearch {
         return client.send(operation: "DescribeAvailabilityOptions", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide.
+    public func describeDomainEndpointOptions(_ input: DescribeDomainEndpointOptionsRequest) -> Future<DescribeDomainEndpointOptionsResponse> {
+        return client.send(operation: "DescribeDomainEndpointOptions", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about the search domains owned by this account. Can be limited to specific domains. Shows all domains by default. To get the number of searchable documents in a domain, use the console or submit a matchall request to your domain's search endpoint: q=matchall&amp;amp;q.parser=structured&amp;amp;size=0. For more information, see Getting Information about a Search Domain in the Amazon CloudSearch Developer Guide.
     public func describeDomains(_ input: DescribeDomainsRequest) -> Future<DescribeDomainsResponse> {
         return client.send(operation: "DescribeDomains", path: "/", httpMethod: "POST", input: input)
@@ -135,6 +140,11 @@ public struct CloudSearch {
     ///  Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the Amazon CloudSearch Developer Guide.
     public func updateAvailabilityOptions(_ input: UpdateAvailabilityOptionsRequest) -> Future<UpdateAvailabilityOptionsResponse> {
         return client.send(operation: "UpdateAvailabilityOptions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide.
+    public func updateDomainEndpointOptions(_ input: UpdateDomainEndpointOptionsRequest) -> Future<UpdateDomainEndpointOptionsResponse> {
+        return client.send(operation: "UpdateDomainEndpointOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the Amazon CloudSearch Developer Guide. 

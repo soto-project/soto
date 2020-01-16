@@ -55,7 +55,7 @@ extension RDSDataService {
 
         /// The name of the database.
         public let database: String?
-        /// The parameter set for the batch operation.
+        /// The parameter set for the batch operation. The maximum number of parameters in a parameter set is 1,000.
         public let parameterSets: [[SqlParameter]]?
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
@@ -679,21 +679,26 @@ extension RDSDataService {
     public struct SqlParameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "typeHint", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: false, type: .structure)
         ]
 
         /// The name of the parameter.
         public let name: String?
+        /// A hint that specifies the correct object type for data type mapping.  Values:     DECIMAL - The corresponding String parameter value is sent as an object of DECIMAL type to the database.    TIMESTAMP - The corresponding String parameter value is sent as an object of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF].    TIME - The corresponding String parameter value is sent as an object of TIME type to the database. The accepted format is HH:MM:SS[.FFF].    DATE - The corresponding String parameter value is sent as an object of DATE type to the database. The accepted format is YYYY-MM-DD.  
+        public let typeHint: TypeHint?
         /// The value of the parameter.
         public let value: Field?
 
-        public init(name: String? = nil, value: Field? = nil) {
+        public init(name: String? = nil, typeHint: TypeHint? = nil, value: Field? = nil) {
             self.name = name
+            self.typeHint = typeHint
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+            case typeHint = "typeHint"
             case value = "value"
         }
     }
@@ -735,6 +740,14 @@ extension RDSDataService {
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
         }
+    }
+
+    public enum TypeHint: String, CustomStringConvertible, Codable {
+        case date = "DATE"
+        case decimal = "DECIMAL"
+        case time = "TIME"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateResult: AWSShape {

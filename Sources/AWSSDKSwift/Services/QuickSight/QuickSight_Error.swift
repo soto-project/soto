@@ -5,6 +5,8 @@ import AWSSDKSwiftCore
 /// Error enum for QuickSight
 public enum QuickSightErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
+    case concurrentUpdatingException(message: String?)
+    case conflictException(message: String?)
     case domainNotWhitelistedException(message: String?)
     case identityTypeNotSupportedException(message: String?)
     case internalFailureException(message: String?)
@@ -30,6 +32,10 @@ extension QuickSightErrorType {
         switch errorCode {
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
+        case "ConcurrentUpdatingException":
+            self = .concurrentUpdatingException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "DomainNotWhitelistedException":
             self = .domainNotWhitelistedException(message: message)
         case "IdentityTypeNotSupportedException":
@@ -69,6 +75,10 @@ extension QuickSightErrorType : CustomStringConvertible {
         switch self {
         case .accessDeniedException(let message):
             return "AccessDeniedException: \(message ?? "")"
+        case .concurrentUpdatingException(let message):
+            return "ConcurrentUpdatingException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .domainNotWhitelistedException(let message):
             return "DomainNotWhitelistedException: \(message ?? "")"
         case .identityTypeNotSupportedException(let message):

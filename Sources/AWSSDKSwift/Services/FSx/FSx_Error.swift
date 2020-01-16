@@ -9,6 +9,9 @@ public enum FSxErrorType: AWSErrorType {
     case backupNotFound(message: String?)
     case backupRestoring(message: String?)
     case badRequest(message: String?)
+    case dataRepositoryTaskEnded(message: String?)
+    case dataRepositoryTaskExecuting(message: String?)
+    case dataRepositoryTaskNotFound(message: String?)
     case fileSystemNotFound(message: String?)
     case incompatibleParameterError(message: String?)
     case internalServerError(message: String?)
@@ -40,6 +43,12 @@ extension FSxErrorType {
             self = .backupRestoring(message: message)
         case "BadRequest":
             self = .badRequest(message: message)
+        case "DataRepositoryTaskEnded":
+            self = .dataRepositoryTaskEnded(message: message)
+        case "DataRepositoryTaskExecuting":
+            self = .dataRepositoryTaskExecuting(message: message)
+        case "DataRepositoryTaskNotFound":
+            self = .dataRepositoryTaskNotFound(message: message)
         case "FileSystemNotFound":
             self = .fileSystemNotFound(message: message)
         case "IncompatibleParameterError":
@@ -83,6 +92,12 @@ extension FSxErrorType : CustomStringConvertible {
             return "BackupRestoring: \(message ?? "")"
         case .badRequest(let message):
             return "BadRequest: \(message ?? "")"
+        case .dataRepositoryTaskEnded(let message):
+            return "DataRepositoryTaskEnded: \(message ?? "")"
+        case .dataRepositoryTaskExecuting(let message):
+            return "DataRepositoryTaskExecuting: \(message ?? "")"
+        case .dataRepositoryTaskNotFound(let message):
+            return "DataRepositoryTaskNotFound: \(message ?? "")"
         case .fileSystemNotFound(let message):
             return "FileSystemNotFound: \(message ?? "")"
         case .incompatibleParameterError(let message):

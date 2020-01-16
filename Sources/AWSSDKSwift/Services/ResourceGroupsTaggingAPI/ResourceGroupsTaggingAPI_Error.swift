@@ -4,6 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for ResourceGroupsTaggingAPI
 public enum ResourceGroupsTaggingAPIErrorType: AWSErrorType {
+    case concurrentModificationException(message: String?)
+    case constraintViolationException(message: String?)
     case internalServiceException(message: String?)
     case invalidParameterException(message: String?)
     case paginationTokenExpiredException(message: String?)
@@ -17,6 +19,10 @@ extension ResourceGroupsTaggingAPIErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
+        case "ConstraintViolationException":
+            self = .constraintViolationException(message: message)
         case "InternalServiceException":
             self = .internalServiceException(message: message)
         case "InvalidParameterException":
@@ -34,6 +40,10 @@ extension ResourceGroupsTaggingAPIErrorType {
 extension ResourceGroupsTaggingAPIErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .constraintViolationException(let message):
+            return "ConstraintViolationException: \(message ?? "")"
         case .internalServiceException(let message):
             return "InternalServiceException: \(message ?? "")"
         case .invalidParameterException(let message):

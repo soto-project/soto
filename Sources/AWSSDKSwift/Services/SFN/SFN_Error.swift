@@ -13,6 +13,7 @@ public enum SFNErrorType: AWSErrorType {
     case invalidArn(message: String?)
     case invalidDefinition(message: String?)
     case invalidExecutionInput(message: String?)
+    case invalidLoggingConfiguration(message: String?)
     case invalidName(message: String?)
     case invalidOutput(message: String?)
     case invalidToken(message: String?)
@@ -22,6 +23,7 @@ public enum SFNErrorType: AWSErrorType {
     case stateMachineDeleting(message: String?)
     case stateMachineDoesNotExist(message: String?)
     case stateMachineLimitExceeded(message: String?)
+    case stateMachineTypeNotSupported(message: String?)
     case taskDoesNotExist(message: String?)
     case taskTimedOut(message: String?)
     case tooManyTags(message: String?)
@@ -52,6 +54,8 @@ extension SFNErrorType {
             self = .invalidDefinition(message: message)
         case "InvalidExecutionInput":
             self = .invalidExecutionInput(message: message)
+        case "InvalidLoggingConfiguration":
+            self = .invalidLoggingConfiguration(message: message)
         case "InvalidName":
             self = .invalidName(message: message)
         case "InvalidOutput":
@@ -70,6 +74,8 @@ extension SFNErrorType {
             self = .stateMachineDoesNotExist(message: message)
         case "StateMachineLimitExceeded":
             self = .stateMachineLimitExceeded(message: message)
+        case "StateMachineTypeNotSupported":
+            self = .stateMachineTypeNotSupported(message: message)
         case "TaskDoesNotExist":
             self = .taskDoesNotExist(message: message)
         case "TaskTimedOut":
@@ -103,6 +109,8 @@ extension SFNErrorType : CustomStringConvertible {
             return "InvalidDefinition: \(message ?? "")"
         case .invalidExecutionInput(let message):
             return "InvalidExecutionInput: \(message ?? "")"
+        case .invalidLoggingConfiguration(let message):
+            return "InvalidLoggingConfiguration: \(message ?? "")"
         case .invalidName(let message):
             return "InvalidName: \(message ?? "")"
         case .invalidOutput(let message):
@@ -121,6 +129,8 @@ extension SFNErrorType : CustomStringConvertible {
             return "StateMachineDoesNotExist: \(message ?? "")"
         case .stateMachineLimitExceeded(let message):
             return "StateMachineLimitExceeded: \(message ?? "")"
+        case .stateMachineTypeNotSupported(let message):
+            return "StateMachineTypeNotSupported: \(message ?? "")"
         case .taskDoesNotExist(let message):
             return "TaskDoesNotExist: \(message ?? "")"
         case .taskTimedOut(let message):

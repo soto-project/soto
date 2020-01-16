@@ -59,6 +59,7 @@ public enum RedshiftErrorType: AWSErrorType {
     case invalidS3BucketNameFault(message: String?)
     case invalidS3KeyPrefixFault(message: String?)
     case invalidScheduleFault(message: String?)
+    case invalidScheduledActionFault(message: String?)
     case invalidSnapshotCopyGrantStateFault(message: String?)
     case invalidSubnet(message: String?)
     case invalidSubscriptionStateFault(message: String?)
@@ -79,6 +80,10 @@ public enum RedshiftErrorType: AWSErrorType {
     case sNSNoAuthorizationFault(message: String?)
     case sNSTopicArnNotFoundFault(message: String?)
     case scheduleDefinitionTypeUnsupportedFault(message: String?)
+    case scheduledActionAlreadyExistsFault(message: String?)
+    case scheduledActionNotFoundFault(message: String?)
+    case scheduledActionQuotaExceededFault(message: String?)
+    case scheduledActionTypeUnsupportedFault(message: String?)
     case snapshotCopyAlreadyDisabledFault(message: String?)
     case snapshotCopyAlreadyEnabledFault(message: String?)
     case snapshotCopyDisabledFault(message: String?)
@@ -222,6 +227,8 @@ extension RedshiftErrorType {
             self = .invalidS3KeyPrefixFault(message: message)
         case "InvalidSchedule":
             self = .invalidScheduleFault(message: message)
+        case "InvalidScheduledAction":
+            self = .invalidScheduledActionFault(message: message)
         case "InvalidSnapshotCopyGrantStateFault":
             self = .invalidSnapshotCopyGrantStateFault(message: message)
         case "InvalidSubnet":
@@ -262,6 +269,14 @@ extension RedshiftErrorType {
             self = .sNSTopicArnNotFoundFault(message: message)
         case "ScheduleDefinitionTypeUnsupported":
             self = .scheduleDefinitionTypeUnsupportedFault(message: message)
+        case "ScheduledActionAlreadyExists":
+            self = .scheduledActionAlreadyExistsFault(message: message)
+        case "ScheduledActionNotFound":
+            self = .scheduledActionNotFoundFault(message: message)
+        case "ScheduledActionQuotaExceeded":
+            self = .scheduledActionQuotaExceededFault(message: message)
+        case "ScheduledActionTypeUnsupported":
+            self = .scheduledActionTypeUnsupportedFault(message: message)
         case "SnapshotCopyAlreadyDisabledFault":
             self = .snapshotCopyAlreadyDisabledFault(message: message)
         case "SnapshotCopyAlreadyEnabledFault":
@@ -429,6 +444,8 @@ extension RedshiftErrorType : CustomStringConvertible {
             return "InvalidS3KeyPrefixFault: \(message ?? "")"
         case .invalidScheduleFault(let message):
             return "InvalidSchedule: \(message ?? "")"
+        case .invalidScheduledActionFault(let message):
+            return "InvalidScheduledAction: \(message ?? "")"
         case .invalidSnapshotCopyGrantStateFault(let message):
             return "InvalidSnapshotCopyGrantStateFault: \(message ?? "")"
         case .invalidSubnet(let message):
@@ -469,6 +486,14 @@ extension RedshiftErrorType : CustomStringConvertible {
             return "SNSTopicArnNotFound: \(message ?? "")"
         case .scheduleDefinitionTypeUnsupportedFault(let message):
             return "ScheduleDefinitionTypeUnsupported: \(message ?? "")"
+        case .scheduledActionAlreadyExistsFault(let message):
+            return "ScheduledActionAlreadyExists: \(message ?? "")"
+        case .scheduledActionNotFoundFault(let message):
+            return "ScheduledActionNotFound: \(message ?? "")"
+        case .scheduledActionQuotaExceededFault(let message):
+            return "ScheduledActionQuotaExceeded: \(message ?? "")"
+        case .scheduledActionTypeUnsupportedFault(let message):
+            return "ScheduledActionTypeUnsupported: \(message ?? "")"
         case .snapshotCopyAlreadyDisabledFault(let message):
             return "SnapshotCopyAlreadyDisabledFault: \(message ?? "")"
         case .snapshotCopyAlreadyEnabledFault(let message):

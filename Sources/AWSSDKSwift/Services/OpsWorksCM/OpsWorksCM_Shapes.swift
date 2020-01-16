@@ -226,17 +226,21 @@ extension OpsWorksCM {
     public struct CreateBackupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         ///  A user-defined description of the backup. 
         public let description: String?
         /// The name of the server that you want to back up. 
         public let serverName: String
+        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM server backup.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.  
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, serverName: String) {
+        public init(description: String? = nil, serverName: String, tags: [Tag]? = nil) {
             self.description = description
             self.serverName = serverName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -245,11 +249,17 @@ extension OpsWorksCM {
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case serverName = "ServerName"
+            case tags = "Tags"
         }
     }
 
@@ -291,7 +301,8 @@ extension OpsWorksCM {
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "ServerName", required: true, type: .string), 
             AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list)
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         ///  Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true. 
@@ -300,11 +311,11 @@ extension OpsWorksCM {
         public let backupId: String?
         ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1. 
         public let backupRetentionCount: Int?
-        /// A PEM-formatted HTTPS certificate. The value can be be a single, self-signed certificate, or a certificate chain. If you specify a custom certificate, you must also specify values for CustomDomain and CustomPrivateKey. The following are requirements for the CustomCertificate value:   You can provide either a self-signed, custom certificate, or the full certificate chain.   The certificate must be a valid X509 certificate, or a certificate chain in PEM format.   The certificate must be valid at the time of upload. A certificate can't be used before its validity period begins (the certificate's NotBefore date), or after it expires (the certificate's NotAfter date).   The certificate’s common name or subject alternative names (SANs), if present, must match the value of CustomDomain.   The certificate must match the value of CustomPrivateKey.  
+        /// Supported on servers running Chef Automate 2. A PEM-formatted HTTPS certificate. The value can be be a single, self-signed certificate, or a certificate chain. If you specify a custom certificate, you must also specify values for CustomDomain and CustomPrivateKey. The following are requirements for the CustomCertificate value:   You can provide either a self-signed, custom certificate, or the full certificate chain.   The certificate must be a valid X509 certificate, or a certificate chain in PEM format.   The certificate must be valid at the time of upload. A certificate can't be used before its validity period begins (the certificate's NotBefore date), or after it expires (the certificate's NotAfter date).   The certificate’s common name or subject alternative names (SANs), if present, must match the value of CustomDomain.   The certificate must match the value of CustomPrivateKey.  
         public let customCertificate: String?
-        /// An optional public endpoint of a server, such as https://aws.my-company.com. To access the server, create a CNAME DNS record in your preferred DNS service that points the custom domain to the endpoint that is generated when the server is created (the value of the CreateServer Endpoint attribute). You cannot access the server by using the generated Endpoint value if the server is using a custom domain. If you specify a custom domain, you must also specify values for CustomCertificate and CustomPrivateKey.
+        /// Supported on servers running Chef Automate 2. An optional public endpoint of a server, such as https://aws.my-company.com. To access the server, create a CNAME DNS record in your preferred DNS service that points the custom domain to the endpoint that is generated when the server is created (the value of the CreateServer Endpoint attribute). You cannot access the server by using the generated Endpoint value if the server is using a custom domain. If you specify a custom domain, you must also specify values for CustomCertificate and CustomPrivateKey.
         public let customDomain: String?
-        /// A private key in PEM format for connecting to the server by using HTTPS. The private key must not be encrypted; it cannot be protected by a password or passphrase. If you specify a custom private key, you must also specify values for CustomDomain and CustomCertificate.
+        /// Supported on servers running Chef Automate 2. A private key in PEM format for connecting to the server by using HTTPS. The private key must not be encrypted; it cannot be protected by a password or passphrase. If you specify a custom private key, you must also specify values for CustomDomain and CustomCertificate.
         public let customPrivateKey: String?
         ///  Enable or disable scheduled backups. Valid values are true or false. The default value is true. 
         public let disableAutomatedBackup: Bool?
@@ -334,8 +345,10 @@ extension OpsWorksCM {
         public let serviceRoleArn: String
         ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
         public let subnetIds: [String]?
+        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server.  
+        public let tags: [Tag]?
 
-        public init(associatePublicIpAddress: Bool? = nil, backupId: String? = nil, backupRetentionCount: Int? = nil, customCertificate: String? = nil, customDomain: String? = nil, customPrivateKey: String? = nil, disableAutomatedBackup: Bool? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String, instanceType: String, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverName: String, serviceRoleArn: String, subnetIds: [String]? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, backupId: String? = nil, backupRetentionCount: Int? = nil, customCertificate: String? = nil, customDomain: String? = nil, customPrivateKey: String? = nil, disableAutomatedBackup: Bool? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String, instanceType: String, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverName: String, serviceRoleArn: String, subnetIds: [String]? = nil, tags: [Tag]? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.backupId = backupId
             self.backupRetentionCount = backupRetentionCount
@@ -356,6 +369,7 @@ extension OpsWorksCM {
             self.serverName = serverName
             self.serviceRoleArn = serviceRoleArn
             self.subnetIds = subnetIds
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -400,6 +414,11 @@ extension OpsWorksCM {
                 try validate($0, name: "subnetIds[]", parent: name, max: 10000)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "(?s).*")
             }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -423,6 +442,7 @@ extension OpsWorksCM {
             case serverName = "ServerName"
             case serviceRoleArn = "ServiceRoleArn"
             case subnetIds = "SubnetIds"
+            case tags = "Tags"
         }
     }
 
@@ -906,6 +926,62 @@ extension OpsWorksCM {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+
+        /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
+        public let maxResults: Int?
+        /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call ListTagsForResource again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
+        public let nextToken: String?
+        /// The Amazon Resource Number (ARN) of an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server for which you want to show applied tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
+        public let resourceArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "(?s).*")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws.*:opsworks-cm:.*:[0-9]{12}:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// A token that you can use as the value of NextToken in subsequent calls to the API to show more results.
+        public let nextToken: String?
+        /// Tags that have been applied to the resource.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
     public enum MaintenanceStatus: String, CustomStringConvertible, Codable {
         case success = "SUCCESS"
         case failed = "FAILED"
@@ -1158,7 +1234,7 @@ extension OpsWorksCM {
             AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
 
-        /// Engine attributes that are specific to the server on which you want to run maintenance. 
+        /// Engine attributes that are specific to the server on which you want to run maintenance.
         public let engineAttributes: [EngineAttribute]?
         /// The name of the server on which to run maintenance. 
         public let serverName: String
@@ -1198,6 +1274,117 @@ extension OpsWorksCM {
         private enum CodingKeys: String, CodingKey {
             case server = "Server"
         }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// A tag key, such as Stage or Name. A tag key cannot be empty. The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / 
+        public let key: String
+        /// An optional tag value, such as Production or test-owcm-server. The value can be a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / 
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\\\\\-@]*)$")
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\\\\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Number (ARN) of a resource to which you want to apply tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
+        public let resourceArn: String
+        /// A map that contains tag keys and tag values to attach to AWS OpsWorks-CM servers or backups.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server or backup.  
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws.*:opsworks-cm:.*:[0-9]{12}:.*")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Number (ARN) of a resource from which you want to remove tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
+        public let resourceArn: String
+        /// The keys of tags that you want to remove.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws.*:opsworks-cm:.*:[0-9]{12}:.*")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\\\\\-@]*)$")
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateServerEngineAttributesRequest: AWSShape {

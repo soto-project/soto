@@ -97,6 +97,11 @@ public struct ApiGatewayV2 {
         return client.send(operation: "DeleteAuthorizer", path: "/v2/apis/{apiId}/authorizers/{authorizerId}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes a CORS configuration.
+    @discardableResult public func deleteCorsConfiguration(_ input: DeleteCorsConfigurationRequest) -> Future<Void> {
+        return client.send(operation: "DeleteCorsConfiguration", path: "/v2/apis/{apiId}/cors", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes a Deployment.
     @discardableResult public func deleteDeployment(_ input: DeleteDeploymentRequest) -> Future<Void> {
         return client.send(operation: "DeleteDeployment", path: "/v2/apis/{apiId}/deployments/{deploymentId}", httpMethod: "DELETE", input: input)
@@ -132,6 +137,11 @@ public struct ApiGatewayV2 {
         return client.send(operation: "DeleteRouteResponse", path: "/v2/apis/{apiId}/routes/{routeId}/routeresponses/{routeResponseId}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes the RouteSettings for a stage.
+    @discardableResult public func deleteRouteSettings(_ input: DeleteRouteSettingsRequest) -> Future<Void> {
+        return client.send(operation: "DeleteRouteSettings", path: "/v2/apis/{apiId}/stages/{stageName}/routesettings/{routeKey}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes a Stage.
     @discardableResult public func deleteStage(_ input: DeleteStageRequest) -> Future<Void> {
         return client.send(operation: "DeleteStage", path: "/v2/apis/{apiId}/stages/{stageName}", httpMethod: "DELETE", input: input)
@@ -142,12 +152,12 @@ public struct ApiGatewayV2 {
         return client.send(operation: "GetApi", path: "/v2/apis/{apiId}", httpMethod: "GET", input: input)
     }
 
-    ///  The API mapping.
+    ///  Gets an API mapping.
     public func getApiMapping(_ input: GetApiMappingRequest) -> Future<GetApiMappingResponse> {
         return client.send(operation: "GetApiMapping", path: "/v2/domainnames/{domainName}/apimappings/{apiMappingId}", httpMethod: "GET", input: input)
     }
 
-    ///  The API mappings.
+    ///  Gets API mappings.
     public func getApiMappings(_ input: GetApiMappingsRequest) -> Future<GetApiMappingsResponse> {
         return client.send(operation: "GetApiMappings", path: "/v2/domainnames/{domainName}/apimappings", httpMethod: "GET", input: input)
     }
@@ -252,15 +262,27 @@ public struct ApiGatewayV2 {
         return client.send(operation: "GetStages", path: "/v2/apis/{apiId}/stages", httpMethod: "GET", input: input)
     }
 
-    ///  Gets the Tags for a resource.
+    ///  Gets a collection of Tag resources.
     public func getTags(_ input: GetTagsRequest) -> Future<GetTagsResponse> {
         return client.send(operation: "GetTags", path: "/v2/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
 
+    ///  Imports an API.
+    public func importApi(_ input: ImportApiRequest) -> Future<ImportApiResponse> {
+        return client.send(operation: "ImportApi", path: "/v2/apis", httpMethod: "PUT", input: input)
+    }
+
+    ///  Puts an Api resource.
+    public func reimportApi(_ input: ReimportApiRequest) -> Future<ReimportApiResponse> {
+        return client.send(operation: "ReimportApi", path: "/v2/apis/{apiId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Creates a new Tag resource to represent a tag.
     public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/v2/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes a Tag.
     @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
         return client.send(operation: "UntagResource", path: "/v2/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }

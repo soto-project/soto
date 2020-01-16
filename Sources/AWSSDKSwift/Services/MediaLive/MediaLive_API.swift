@@ -47,6 +47,16 @@ public struct MediaLive {
         return client.send(operation: "CreateInputSecurityGroup", path: "/prod/inputSecurityGroups", httpMethod: "POST", input: input)
     }
 
+    ///  Create a new multiplex.
+    public func createMultiplex(_ input: CreateMultiplexRequest) -> Future<CreateMultiplexResponse> {
+        return client.send(operation: "CreateMultiplex", path: "/prod/multiplexes", httpMethod: "POST", input: input)
+    }
+
+    ///  Create a new program in the multiplex.
+    public func createMultiplexProgram(_ input: CreateMultiplexProgramRequest) -> Future<CreateMultiplexProgramResponse> {
+        return client.send(operation: "CreateMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs", httpMethod: "POST", input: input)
+    }
+
     ///  Create tags for a resource
     @discardableResult public func createTags(_ input: CreateTagsRequest) -> Future<Void> {
         return client.send(operation: "CreateTags", path: "/prod/tags/{resource-arn}", httpMethod: "POST", input: input)
@@ -65,6 +75,16 @@ public struct MediaLive {
     ///  Deletes an Input Security Group
     public func deleteInputSecurityGroup(_ input: DeleteInputSecurityGroupRequest) -> Future<DeleteInputSecurityGroupResponse> {
         return client.send(operation: "DeleteInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Delete a multiplex. The multiplex must be idle.
+    public func deleteMultiplex(_ input: DeleteMultiplexRequest) -> Future<DeleteMultiplexResponse> {
+        return client.send(operation: "DeleteMultiplex", path: "/prod/multiplexes/{multiplexId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Delete a program from a multiplex.
+    public func deleteMultiplexProgram(_ input: DeleteMultiplexProgramRequest) -> Future<DeleteMultiplexProgramResponse> {
+        return client.send(operation: "DeleteMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs/{programName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete an expired reservation.
@@ -97,6 +117,16 @@ public struct MediaLive {
         return client.send(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: "GET", input: input)
     }
 
+    ///  Gets details about a multiplex.
+    public func describeMultiplex(_ input: DescribeMultiplexRequest) -> Future<DescribeMultiplexResponse> {
+        return client.send(operation: "DescribeMultiplex", path: "/prod/multiplexes/{multiplexId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Get the details for a program in a multiplex.
+    public func describeMultiplexProgram(_ input: DescribeMultiplexProgramRequest) -> Future<DescribeMultiplexProgramResponse> {
+        return client.send(operation: "DescribeMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs/{programName}", httpMethod: "GET", input: input)
+    }
+
     ///  Get details for an offering.
     public func describeOffering(_ input: DescribeOfferingRequest) -> Future<DescribeOfferingResponse> {
         return client.send(operation: "DescribeOffering", path: "/prod/offerings/{offeringId}", httpMethod: "GET", input: input)
@@ -127,6 +157,16 @@ public struct MediaLive {
         return client.send(operation: "ListInputs", path: "/prod/inputs", httpMethod: "GET", input: input)
     }
 
+    ///  List the programs that currently exist for a specific multiplex.
+    public func listMultiplexPrograms(_ input: ListMultiplexProgramsRequest) -> Future<ListMultiplexProgramsResponse> {
+        return client.send(operation: "ListMultiplexPrograms", path: "/prod/multiplexes/{multiplexId}/programs", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieve a list of the existing multiplexes.
+    public func listMultiplexes(_ input: ListMultiplexesRequest) -> Future<ListMultiplexesResponse> {
+        return client.send(operation: "ListMultiplexes", path: "/prod/multiplexes", httpMethod: "GET", input: input)
+    }
+
     ///  List offerings available for purchase.
     public func listOfferings(_ input: ListOfferingsRequest) -> Future<ListOfferingsResponse> {
         return client.send(operation: "ListOfferings", path: "/prod/offerings", httpMethod: "GET", input: input)
@@ -152,9 +192,19 @@ public struct MediaLive {
         return client.send(operation: "StartChannel", path: "/prod/channels/{channelId}/start", httpMethod: "POST", input: input)
     }
 
+    ///  Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
+    public func startMultiplex(_ input: StartMultiplexRequest) -> Future<StartMultiplexResponse> {
+        return client.send(operation: "StartMultiplex", path: "/prod/multiplexes/{multiplexId}/start", httpMethod: "POST", input: input)
+    }
+
     ///  Stops a running channel
     public func stopChannel(_ input: StopChannelRequest) -> Future<StopChannelResponse> {
         return client.send(operation: "StopChannel", path: "/prod/channels/{channelId}/stop", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops a running multiplex. If the multiplex isn't running, this action has no effect.
+    public func stopMultiplex(_ input: StopMultiplexRequest) -> Future<StopMultiplexResponse> {
+        return client.send(operation: "StopMultiplex", path: "/prod/multiplexes/{multiplexId}/stop", httpMethod: "POST", input: input)
     }
 
     ///  Updates a channel.
@@ -175,6 +225,16 @@ public struct MediaLive {
     ///  Update an Input Security Group's Whilelists.
     public func updateInputSecurityGroup(_ input: UpdateInputSecurityGroupRequest) -> Future<UpdateInputSecurityGroupResponse> {
         return client.send(operation: "UpdateInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates a multiplex.
+    public func updateMultiplex(_ input: UpdateMultiplexRequest) -> Future<UpdateMultiplexResponse> {
+        return client.send(operation: "UpdateMultiplex", path: "/prod/multiplexes/{multiplexId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Update a program in a multiplex.
+    public func updateMultiplexProgram(_ input: UpdateMultiplexProgramRequest) -> Future<UpdateMultiplexProgramResponse> {
+        return client.send(operation: "UpdateMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs/{programName}", httpMethod: "PUT", input: input)
     }
 
     ///  Update reservation.

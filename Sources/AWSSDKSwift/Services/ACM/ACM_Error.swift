@@ -7,12 +7,14 @@ public enum ACMErrorType: AWSErrorType {
     case invalidArgsException(message: String?)
     case invalidArnException(message: String?)
     case invalidDomainValidationOptionsException(message: String?)
+    case invalidParameterException(message: String?)
     case invalidStateException(message: String?)
     case invalidTagException(message: String?)
     case limitExceededException(message: String?)
     case requestInProgressException(message: String?)
     case resourceInUseException(message: String?)
     case resourceNotFoundException(message: String?)
+    case tagPolicyException(message: String?)
     case tooManyTagsException(message: String?)
 }
 
@@ -29,6 +31,8 @@ extension ACMErrorType {
             self = .invalidArnException(message: message)
         case "InvalidDomainValidationOptionsException":
             self = .invalidDomainValidationOptionsException(message: message)
+        case "InvalidParameterException":
+            self = .invalidParameterException(message: message)
         case "InvalidStateException":
             self = .invalidStateException(message: message)
         case "InvalidTagException":
@@ -41,6 +45,8 @@ extension ACMErrorType {
             self = .resourceInUseException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "TagPolicyException":
+            self = .tagPolicyException(message: message)
         case "TooManyTagsException":
             self = .tooManyTagsException(message: message)
         default:
@@ -58,6 +64,8 @@ extension ACMErrorType : CustomStringConvertible {
             return "InvalidArnException: \(message ?? "")"
         case .invalidDomainValidationOptionsException(let message):
             return "InvalidDomainValidationOptionsException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
         case .invalidStateException(let message):
             return "InvalidStateException: \(message ?? "")"
         case .invalidTagException(let message):
@@ -70,6 +78,8 @@ extension ACMErrorType : CustomStringConvertible {
             return "ResourceInUseException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
+        case .tagPolicyException(let message):
+            return "TagPolicyException: \(message ?? "")"
         case .tooManyTagsException(let message):
             return "TooManyTagsException: \(message ?? "")"
         }

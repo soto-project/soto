@@ -158,7 +158,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminUpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Signs out users from all devices, as an administrator. Calling this action requires developer credentials.
+    ///  Signs out users from all devices, as an administrator. It also invalidates all refresh tokens issued to a user. The user's current access and Id tokens remain valid until their expiry. Access and Id tokens expire one hour after they are issued. Calling this action requires developer credentials.
     public func adminUserGlobalSignOut(_ input: AdminUserGlobalSignOutRequest) -> Future<AdminUserGlobalSignOutResponse> {
         return client.send(operation: "AdminUserGlobalSignOut", path: "/", httpMethod: "POST", input: input)
     }
@@ -353,7 +353,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "GetUserPoolMfaConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Signs out users from all devices.
+    ///  Signs out users from all devices. It also invalidates all refresh tokens issued to a user. The user's current access and Id tokens remain valid until their expiry. Access and Id tokens expire one hour after they are issued.
     public func globalSignOut(_ input: GlobalSignOutRequest) -> Future<GlobalSignOutResponse> {
         return client.send(operation: "GlobalSignOut", path: "/", httpMethod: "POST", input: input)
     }
@@ -483,7 +483,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "UpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified group with the specified attributes. Calling this action requires developer credentials.
+    ///  Updates the specified group with the specified attributes. Calling this action requires developer credentials.  If you don't provide a value for an attribute, it will be set to the default value. 
     public func updateGroup(_ input: UpdateGroupRequest) -> Future<UpdateGroupResponse> {
         return client.send(operation: "UpdateGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -493,7 +493,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "UpdateIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the name and scopes of resource server. All other fields are read-only.
+    ///  Updates the name and scopes of resource server. All other fields are read-only.  If you don't provide a value for an attribute, it will be set to the default value. 
     public func updateResourceServer(_ input: UpdateResourceServerRequest) -> Future<UpdateResourceServerResponse> {
         return client.send(operation: "UpdateResourceServer", path: "/", httpMethod: "POST", input: input)
     }
@@ -503,12 +503,12 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "UpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified user pool with the specified attributes. If you don't provide a value for an attribute, it will be set to the default value. You can get a list of the current user pool settings with .
+    ///  Updates the specified user pool with the specified attributes. You can get a list of the current user pool settings with .  If you don't provide a value for an attribute, it will be set to the default value. 
     public func updateUserPool(_ input: UpdateUserPoolRequest) -> Future<UpdateUserPoolResponse> {
         return client.send(operation: "UpdateUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified user pool app client with the specified attributes. If you don't provide a value for an attribute, it will be set to the default value. You can get a list of the current user pool app client settings with .
+    ///  Updates the specified user pool app client with the specified attributes. You can get a list of the current user pool app client settings with .  If you don't provide a value for an attribute, it will be set to the default value. 
     public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest) -> Future<UpdateUserPoolClientResponse> {
         return client.send(operation: "UpdateUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }

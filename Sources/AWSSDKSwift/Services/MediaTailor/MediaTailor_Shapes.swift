@@ -122,6 +122,7 @@ extension MediaTailor {
             AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "DashConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "HlsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "LivePreRollConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "PlaybackConfigurationArn", required: false, type: .string), 
             AWSShapeMember(label: "PlaybackEndpointPrefix", required: false, type: .string), 
@@ -140,6 +141,8 @@ extension MediaTailor {
         public let dashConfiguration: DashConfiguration?
         /// The configuration for HLS content. 
         public let hlsConfiguration: HlsConfiguration?
+        /// The configuration for pre-roll ad insertion.
+        public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The identifier for the playback configuration.
         public let name: String?
         /// The Amazon Resource Name (ARN) for the playback configuration. 
@@ -157,11 +160,12 @@ extension MediaTailor {
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
+            self.livePreRollConfiguration = livePreRollConfiguration
             self.name = name
             self.playbackConfigurationArn = playbackConfigurationArn
             self.playbackEndpointPrefix = playbackEndpointPrefix
@@ -177,6 +181,7 @@ extension MediaTailor {
             case cdnConfiguration = "CdnConfiguration"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
+            case livePreRollConfiguration = "LivePreRollConfiguration"
             case name = "Name"
             case playbackConfigurationArn = "PlaybackConfigurationArn"
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
@@ -284,6 +289,28 @@ extension MediaTailor {
         }
     }
 
+    public struct LivePreRollConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdDecisionServerUrl", required: false, type: .string), 
+            AWSShapeMember(label: "MaxDurationSeconds", required: false, type: .integer)
+        ]
+
+        /// The URL for the ad decision server (ADS) for pre-roll ads. This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
+        public let adDecisionServerUrl: String?
+        /// The maximum allowed duration for the pre-roll ad avail. AWS Elemental MediaTailor won't play pre-roll ads to exceed this duration, regardless of the total duration of ads that the ADS returns.
+        public let maxDurationSeconds: Int?
+
+        public init(adDecisionServerUrl: String? = nil, maxDurationSeconds: Int? = nil) {
+            self.adDecisionServerUrl = adDecisionServerUrl
+            self.maxDurationSeconds = maxDurationSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adDecisionServerUrl = "AdDecisionServerUrl"
+            case maxDurationSeconds = "MaxDurationSeconds"
+        }
+    }
+
     public enum OriginManifestType: String, CustomStringConvertible, Codable {
         case singlePeriod = "SINGLE_PERIOD"
         case multiPeriod = "MULTI_PERIOD"
@@ -355,6 +382,7 @@ extension MediaTailor {
             AWSShapeMember(label: "AdDecisionServerUrl", required: false, type: .string), 
             AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "DashConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "LivePreRollConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "SlateAdUrl", required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
@@ -368,6 +396,8 @@ extension MediaTailor {
         public let cdnConfiguration: CdnConfiguration?
         /// The configuration for DASH content. 
         public let dashConfiguration: DashConfigurationForPut?
+        /// The configuration for pre-roll ad insertion.
+        public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The identifier for the playback configuration.
         public let name: String?
         /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. 
@@ -379,10 +409,11 @@ extension MediaTailor {
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfigurationForPut? = nil, name: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
             self.dashConfiguration = dashConfiguration
+            self.livePreRollConfiguration = livePreRollConfiguration
             self.name = name
             self.slateAdUrl = slateAdUrl
             self.tags = tags
@@ -394,6 +425,7 @@ extension MediaTailor {
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case cdnConfiguration = "CdnConfiguration"
             case dashConfiguration = "DashConfiguration"
+            case livePreRollConfiguration = "LivePreRollConfiguration"
             case name = "Name"
             case slateAdUrl = "SlateAdUrl"
             case tags = "tags"
@@ -408,6 +440,7 @@ extension MediaTailor {
             AWSShapeMember(label: "CdnConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "DashConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "HlsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "LivePreRollConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "PlaybackConfigurationArn", required: false, type: .string), 
             AWSShapeMember(label: "PlaybackEndpointPrefix", required: false, type: .string), 
@@ -422,6 +455,7 @@ extension MediaTailor {
         public let cdnConfiguration: CdnConfiguration?
         public let dashConfiguration: DashConfiguration?
         public let hlsConfiguration: HlsConfiguration?
+        public let livePreRollConfiguration: LivePreRollConfiguration?
         public let name: String?
         public let playbackConfigurationArn: String?
         public let playbackEndpointPrefix: String?
@@ -431,11 +465,12 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
+            self.livePreRollConfiguration = livePreRollConfiguration
             self.name = name
             self.playbackConfigurationArn = playbackConfigurationArn
             self.playbackEndpointPrefix = playbackEndpointPrefix
@@ -451,6 +486,7 @@ extension MediaTailor {
             case cdnConfiguration = "CdnConfiguration"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
+            case livePreRollConfiguration = "LivePreRollConfiguration"
             case name = "Name"
             case playbackConfigurationArn = "PlaybackConfigurationArn"
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"

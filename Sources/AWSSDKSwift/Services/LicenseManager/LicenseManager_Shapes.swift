@@ -5,15 +5,32 @@ import AWSSDKSwiftCore
 
 extension LicenseManager {
 
+    public struct AutomatedDiscoveryInformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastRunTime", required: false, type: .timestamp)
+        ]
+
+        /// Time that automated discovery last ran.
+        public let lastRunTime: TimeStamp?
+
+        public init(lastRunTime: TimeStamp? = nil) {
+            self.lastRunTime = lastRunTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastRunTime = "LastRunTime"
+        }
+    }
+
     public struct ConsumedLicenseSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
 
-        /// Number of licenses consumed by a resource.
+        /// Number of licenses consumed by the resource.
         public let consumedLicenses: Int64?
-        /// Resource type of the resource consuming a license (instance, host, or AMI).
+        /// Resource type of the resource consuming a license.
         public let resourceType: ResourceType?
 
         public init(consumedLicenses: Int64? = nil, resourceType: ResourceType? = nil) {
@@ -35,31 +52,35 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseCountingType", required: true, type: .enum), 
             AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ProductInformationList", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// Human-friendly description of the license configuration.
+        /// Description of the license configuration.
         public let description: String?
         /// Number of licenses managed by the license configuration.
         public let licenseCount: Int64?
-        /// Flag indicating whether hard or soft license enforcement is used. Exceeding a hard limit results in the blocked deployment of new instances.
+        /// Indicates whether hard or soft license enforcement is used. Exceeding a hard limit blocks the launch of new instances.
         public let licenseCountHardLimit: Bool?
-        /// Dimension to use to track the license inventory.
+        /// Dimension used to track the license inventory.
         public let licenseCountingType: LicenseCountingType
-        /// Array of configured License Manager rules.
+        /// License rules. The syntax is #name=value (for example, #allowedTenancy=EC2-DedicatedHost). Available rules vary by dimension.    Cores dimension: allowedTenancy | maximumCores | minimumCores     Instances dimension: allowedTenancy | maximumCores | minimumCores | maximumSockets | minimumSockets | maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy | honorVcpuOptimization | maximumVcpus | minimumVcpus   
         public let licenseRules: [String]?
         /// Name of the license configuration.
         public let name: String
-        /// The tags to apply to the resources during launch. You can only tag instances and volumes on launch. The specified tags are applied to all instances or volumes that are created during launch. To tag a resource after it has been created, see CreateTags . 
+        /// Product information.
+        public let productInformationList: [ProductInformation]?
+        /// Tags to add to the license configuration.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType, licenseRules: [String]? = nil, name: String, tags: [Tag]? = nil) {
+        public init(description: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType, licenseRules: [String]? = nil, name: String, productInformationList: [ProductInformation]? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.licenseCount = licenseCount
             self.licenseCountHardLimit = licenseCountHardLimit
             self.licenseCountingType = licenseCountingType
             self.licenseRules = licenseRules
             self.name = name
+            self.productInformationList = productInformationList
             self.tags = tags
         }
 
@@ -70,6 +91,7 @@ extension LicenseManager {
             case licenseCountingType = "LicenseCountingType"
             case licenseRules = "LicenseRules"
             case name = "Name"
+            case productInformationList = "ProductInformationList"
             case tags = "Tags"
         }
     }
@@ -79,7 +101,7 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseConfigurationArn", required: false, type: .string)
         ]
 
-        /// ARN of the license configuration object after its creation.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
 
         public init(licenseConfigurationArn: String? = nil) {
@@ -96,7 +118,7 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string)
         ]
 
-        /// Unique ID of the configuration object to delete.
+        /// ID of the license configuration.
         public let licenseConfigurationArn: String
 
         public init(licenseConfigurationArn: String) {
@@ -124,7 +146,7 @@ extension LicenseManager {
 
         /// Name of the filter. Filter names are case-sensitive.
         public let name: String?
-        /// One or more filter values. Filter values are case-sensitive.
+        /// Filter values. Filter values are case-sensitive.
         public let values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
@@ -143,7 +165,7 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string)
         ]
 
-        /// ARN of the license configuration being requested.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String
 
         public init(licenseConfigurationArn: String) {
@@ -157,6 +179,7 @@ extension LicenseManager {
 
     public struct GetLicenseConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomatedDiscoveryInformation", required: false, type: .structure), 
             AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
             AWSShapeMember(label: "ConsumedLicenseSummaryList", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -169,17 +192,20 @@ extension LicenseManager {
             AWSShapeMember(label: "ManagedResourceSummaryList", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductInformationList", required: false, type: .list), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
+        /// Automated discovery information.
+        public let automatedDiscoveryInformation: AutomatedDiscoveryInformation?
         /// Number of licenses assigned to resources.
         public let consumedLicenses: Int64?
-        /// List of summaries for consumed licenses used by various resources.
+        /// Summaries of the licenses consumed by resources.
         public let consumedLicenseSummaryList: [ConsumedLicenseSummary]?
         /// Description of the license configuration.
         public let description: String?
-        /// ARN of the license configuration requested.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
         /// Unique ID for the license configuration.
         public let licenseConfigurationId: String?
@@ -187,22 +213,25 @@ extension LicenseManager {
         public let licenseCount: Int64?
         /// Sets the number of available licenses as a hard limit.
         public let licenseCountHardLimit: Bool?
-        /// Dimension on which the licenses are counted (for example, instances, cores, sockets, or VCPUs).
+        /// Dimension on which the licenses are counted.
         public let licenseCountingType: LicenseCountingType?
-        /// List of flexible text strings designating license rules.
+        /// License rules.
         public let licenseRules: [String]?
-        /// List of summaries of managed resources.
+        /// Summaries of the managed resources.
         public let managedResourceSummaryList: [ManagedResourceSummary]?
         /// Name of the license configuration.
         public let name: String?
-        /// Owner account ID for the license configuration.
+        /// Account ID of the owner of the license configuration.
         public let ownerAccountId: String?
-        /// License configuration status (active, etc.).
+        /// Product information.
+        public let productInformationList: [ProductInformation]?
+        /// License configuration status.
         public let status: String?
-        /// List of tags attached to the license configuration.
+        /// Tags for the license configuration.
         public let tags: [Tag]?
 
-        public init(consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
+        public init(automatedDiscoveryInformation: AutomatedDiscoveryInformation? = nil, consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, productInformationList: [ProductInformation]? = nil, status: String? = nil, tags: [Tag]? = nil) {
+            self.automatedDiscoveryInformation = automatedDiscoveryInformation
             self.consumedLicenses = consumedLicenses
             self.consumedLicenseSummaryList = consumedLicenseSummaryList
             self.description = description
@@ -215,11 +244,13 @@ extension LicenseManager {
             self.managedResourceSummaryList = managedResourceSummaryList
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.productInformationList = productInformationList
             self.status = status
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automatedDiscoveryInformation = "AutomatedDiscoveryInformation"
             case consumedLicenses = "ConsumedLicenses"
             case consumedLicenseSummaryList = "ConsumedLicenseSummaryList"
             case description = "Description"
@@ -232,6 +263,7 @@ extension LicenseManager {
             case managedResourceSummaryList = "ManagedResourceSummaryList"
             case name = "Name"
             case ownerAccountId = "OwnerAccountId"
+            case productInformationList = "ProductInformationList"
             case status = "Status"
             case tags = "Tags"
         }
@@ -248,6 +280,7 @@ extension LicenseManager {
     public struct GetServiceSettingsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnableCrossAccountsDiscovery", required: false, type: .boolean), 
+            AWSShapeMember(label: "LicenseManagerResourceShareArn", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "S3BucketArn", required: false, type: .string), 
             AWSShapeMember(label: "SnsTopicArn", required: false, type: .string)
@@ -255,15 +288,18 @@ extension LicenseManager {
 
         /// Indicates whether cross-account discovery has been enabled.
         public let enableCrossAccountsDiscovery: Bool?
+        /// Amazon Resource Name (ARN) of the AWS resource share. The License Manager master account will provide member accounts with access to this share.
+        public let licenseManagerResourceShareArn: String?
         /// Indicates whether AWS Organizations has been integrated with License Manager for cross-account discovery.
         public let organizationConfiguration: OrganizationConfiguration?
-        /// Regional S3 bucket path for storing reports, license trail event data, discovery data, etc.
+        /// Regional S3 bucket path for storing reports, license trail event data, discovery data, and so on.
         public let s3BucketArn: String?
         /// SNS topic configured to receive notifications from License Manager.
         public let snsTopicArn: String?
 
-        public init(enableCrossAccountsDiscovery: Bool? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
+        public init(enableCrossAccountsDiscovery: Bool? = nil, licenseManagerResourceShareArn: String? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
             self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
+            self.licenseManagerResourceShareArn = licenseManagerResourceShareArn
             self.organizationConfiguration = organizationConfiguration
             self.s3BucketArn = s3BucketArn
             self.snsTopicArn = snsTopicArn
@@ -271,6 +307,7 @@ extension LicenseManager {
 
         private enum CodingKeys: String, CodingKey {
             case enableCrossAccountsDiscovery = "EnableCrossAccountsDiscovery"
+            case licenseManagerResourceShareArn = "LicenseManagerResourceShareArn"
             case organizationConfiguration = "OrganizationConfiguration"
             case s3BucketArn = "S3BucketArn"
             case snsTopicArn = "SnsTopicArn"
@@ -284,9 +321,9 @@ extension LicenseManager {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
-        /// The condition of the filter.
+        /// Condition of the filter.
         public let condition: InventoryFilterCondition
-        /// The name of the filter.
+        /// Name of the filter.
         public let name: String
         /// Value of the filter.
         public let value: String?
@@ -314,6 +351,7 @@ extension LicenseManager {
 
     public struct LicenseConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomatedDiscoveryInformation", required: false, type: .structure), 
             AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
             AWSShapeMember(label: "ConsumedLicenseSummaryList", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -326,37 +364,43 @@ extension LicenseManager {
             AWSShapeMember(label: "ManagedResourceSummaryList", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductInformationList", required: false, type: .list), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
 
+        /// Automated discovery information.
+        public let automatedDiscoveryInformation: AutomatedDiscoveryInformation?
         /// Number of licenses consumed. 
         public let consumedLicenses: Int64?
-        /// List of summaries for licenses consumed by various resources.
+        /// Summaries for licenses consumed by various resources.
         public let consumedLicenseSummaryList: [ConsumedLicenseSummary]?
         /// Description of the license configuration.
         public let description: String?
-        /// ARN of the LicenseConfiguration object.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
-        /// Unique ID of the LicenseConfiguration object.
+        /// Unique ID of the license configuration.
         public let licenseConfigurationId: String?
         /// Number of licenses managed by the license configuration.
         public let licenseCount: Int64?
-        /// Sets the number of available licenses as a hard limit.
+        /// Number of available licenses as a hard limit.
         public let licenseCountHardLimit: Bool?
-        /// Dimension to use to track license inventory.
+        /// Dimension to use to track the license inventory.
         public let licenseCountingType: LicenseCountingType?
-        /// Array of configured License Manager rules.
+        /// License rules.
         public let licenseRules: [String]?
-        /// List of summaries for managed resources.
+        /// Summaries for managed resources.
         public let managedResourceSummaryList: [ManagedResourceSummary]?
         /// Name of the license configuration.
         public let name: String?
         /// Account ID of the license configuration's owner.
         public let ownerAccountId: String?
+        /// Product information.
+        public let productInformationList: [ProductInformation]?
         /// Status of the license configuration.
         public let status: String?
 
-        public init(consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, status: String? = nil) {
+        public init(automatedDiscoveryInformation: AutomatedDiscoveryInformation? = nil, consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, productInformationList: [ProductInformation]? = nil, status: String? = nil) {
+            self.automatedDiscoveryInformation = automatedDiscoveryInformation
             self.consumedLicenses = consumedLicenses
             self.consumedLicenseSummaryList = consumedLicenseSummaryList
             self.description = description
@@ -369,10 +413,12 @@ extension LicenseManager {
             self.managedResourceSummaryList = managedResourceSummaryList
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.productInformationList = productInformationList
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automatedDiscoveryInformation = "AutomatedDiscoveryInformation"
             case consumedLicenses = "ConsumedLicenses"
             case consumedLicenseSummaryList = "ConsumedLicenseSummaryList"
             case description = "Description"
@@ -385,6 +431,7 @@ extension LicenseManager {
             case managedResourceSummaryList = "ManagedResourceSummaryList"
             case name = "Name"
             case ownerAccountId = "OwnerAccountId"
+            case productInformationList = "ProductInformationList"
             case status = "Status"
         }
     }
@@ -399,7 +446,7 @@ extension LicenseManager {
 
         /// Time when the license configuration was associated with the resource.
         public let associationTime: TimeStamp?
-        /// ARN of the resource associated with the license configuration.
+        /// Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// ID of the AWS account that owns the resource consuming licenses.
         public let resourceOwnerId: String?
@@ -437,17 +484,17 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
 
-        /// Time when the license configuration was initially associated with a resource.
+        /// Time when the license configuration was initially associated with the resource.
         public let associationTime: TimeStamp?
-        /// Number of licenses consumed out of the total provisioned in the license configuration.
+        /// Number of licenses consumed by the resource.
         public let consumedLicenses: Int64?
-        /// ARN of the resource associated with a license configuration.
+        /// Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
-        /// ID of the account that owns a resource that is associated with the license configuration.
+        /// ID of the account that owns the resource.
         public let resourceOwnerId: String?
-        /// Status of a resource associated with the license configuration.
+        /// Status of the resource.
         public let resourceStatus: String?
-        /// Type of resource associated with athe license configuration.
+        /// Type of resource.
         public let resourceType: ResourceType?
 
         public init(associationTime: TimeStamp? = nil, consumedLicenses: Int64? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceStatus: String? = nil, resourceType: ResourceType? = nil) {
@@ -477,12 +524,64 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
+    public struct LicenseOperationFailure: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "FailureTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MetadataList", required: false, type: .list), 
+            AWSShapeMember(label: "OperationName", required: false, type: .string), 
+            AWSShapeMember(label: "OperationRequestedBy", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
+        ]
+
+        /// Error message.
+        public let errorMessage: String?
+        /// Failure time.
+        public let failureTime: TimeStamp?
+        /// Reserved.
+        public let metadataList: [Metadata]?
+        /// Name of the operation.
+        public let operationName: String?
+        /// The requester is "License Manager Automated Discovery".
+        public let operationRequestedBy: String?
+        /// Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String?
+        /// ID of the AWS account that owns the resource.
+        public let resourceOwnerId: String?
+        /// Resource type.
+        public let resourceType: ResourceType?
+
+        public init(errorMessage: String? = nil, failureTime: TimeStamp? = nil, metadataList: [Metadata]? = nil, operationName: String? = nil, operationRequestedBy: String? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
+            self.errorMessage = errorMessage
+            self.failureTime = failureTime
+            self.metadataList = metadataList
+            self.operationName = operationName
+            self.operationRequestedBy = operationRequestedBy
+            self.resourceArn = resourceArn
+            self.resourceOwnerId = resourceOwnerId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case failureTime = "FailureTime"
+            case metadataList = "MetadataList"
+            case operationName = "OperationName"
+            case operationRequestedBy = "OperationRequestedBy"
+            case resourceArn = "ResourceArn"
+            case resourceOwnerId = "ResourceOwnerId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct LicenseSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string)
         ]
 
-        /// ARN of the LicenseConfiguration object.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String
 
         public init(licenseConfigurationArn: String) {
@@ -501,9 +600,9 @@ extension LicenseManager {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// ARN of a LicenseConfiguration object.
+        /// Amazon Resource Name (ARN) of a license configuration.
         public let licenseConfigurationArn: String
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// Maximum number of results to return in a single call.
         public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
@@ -527,7 +626,7 @@ extension LicenseManager {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Lists association objects for the license configuration, each containing the association time, number of consumed licenses, resource ARN, resource ID, account ID that owns the resource, resource size, and resource type.
+        /// Information about the associations for the license configuration.
         public let licenseConfigurationAssociations: [LicenseConfigurationAssociation]?
         /// Token for the next set of results.
         public let nextToken: String?
@@ -543,6 +642,55 @@ extension LicenseManager {
         }
     }
 
+    public struct ListFailuresForLicenseConfigurationOperationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Amazon Resource Name of the license configuration.
+        public let licenseConfigurationArn: String
+        /// Maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(licenseConfigurationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.licenseConfigurationArn = licenseConfigurationArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseConfigurationArn = "LicenseConfigurationArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFailuresForLicenseConfigurationOperationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LicenseOperationFailureList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// License configuration operations that failed.
+        public let licenseOperationFailureList: [LicenseOperationFailure]?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(licenseOperationFailureList: [LicenseOperationFailure]? = nil, nextToken: String? = nil) {
+            self.licenseOperationFailureList = licenseOperationFailureList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseOperationFailureList = "LicenseOperationFailureList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListLicenseConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filters", required: false, type: .list), 
@@ -551,11 +699,11 @@ extension LicenseManager {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// One or more filters.
+        /// Filters to scope the results. The following filters and logical operators are supported:    licenseCountingType - The dimension on which licenses are counted (vCPU). Logical operators are EQUALS | NOT_EQUALS.    enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used. Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded. Logical operators are EQUALS | NOT_EQUALS.  
         public let filters: [Filter]?
-        /// An array of ARNs for the calling account’s license configurations.
+        /// Amazon Resource Names (ARN) of the license configurations.
         public let licenseConfigurationArns: [String]?
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// Maximum number of results to return in a single call.
         public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
@@ -581,7 +729,7 @@ extension LicenseManager {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Array of license configuration objects.
+        /// Information about the license configurations.
         public let licenseConfigurations: [LicenseConfiguration]?
         /// Token for the next set of results.
         public let nextToken: String?
@@ -604,11 +752,11 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
 
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// Maximum number of results to return in a single call.
         public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
-        /// ARN of an AMI or Amazon EC2 instance that has an associated license configuration.
+        /// Amazon Resource Name (ARN) of a resource that has an associated license configuration.
         public let resourceArn: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
@@ -653,9 +801,9 @@ extension LicenseManager {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// One or more filters.
+        /// Filters to scope the results. The following filters and logical operators are supported:    account_id - The ID of the AWS account that owns the resource. Logical operators are EQUALS | NOT_EQUALS.    application_name - The name of the application. Logical operators are EQUALS | BEGINS_WITH.    license_included - The type of license included. Logical operators are EQUALS | NOT_EQUALS. Possible values are sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.    platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH.    resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS.  
         public let filters: [InventoryFilter]?
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// Maximum number of results to return in a single call.
         public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
@@ -681,7 +829,7 @@ extension LicenseManager {
 
         /// Token for the next set of results.
         public let nextToken: String?
-        /// The detailed list of resources.
+        /// Information about the resources.
         public let resourceInventoryList: [ResourceInventory]?
 
         public init(nextToken: String? = nil, resourceInventoryList: [ResourceInventory]? = nil) {
@@ -700,7 +848,7 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
 
-        /// ARN for the resource.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -717,7 +865,7 @@ extension LicenseManager {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// List of tags attached to the resource.
+        /// Information about the tags.
         public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -737,11 +885,11 @@ extension LicenseManager {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// List of filters to apply.
+        /// Filters to scope the results. The following filters and logical operators are supported:    resourceArn - The ARN of the license configuration resource. Logical operators are EQUALS | NOT_EQUALS.    resourceType - The resource type (EC2_INSTANCE | EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE). Logical operators are EQUALS | NOT_EQUALS.    resourceAccount - The ID of the account that owns the resource. Logical operators are EQUALS | NOT_EQUALS.  
         public let filters: [Filter]?
-        /// ARN of the targeted LicenseConfiguration object.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// Maximum number of results to return in a single call.
         public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
@@ -767,7 +915,7 @@ extension LicenseManager {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// An array of LicenseConfigurationUsage objects.
+        /// Information about the license configurations.
         public let licenseConfigurationUsageList: [LicenseConfigurationUsage]?
         /// Token for the next set of results.
         public let nextToken: String?
@@ -791,7 +939,7 @@ extension LicenseManager {
 
         /// Number of resources associated with licenses.
         public let associationCount: Int64?
-        /// Type of resource associated with a license (instance, host, or AMI).
+        /// Type of resource associated with a license.
         public let resourceType: ResourceType?
 
         public init(associationCount: Int64? = nil, resourceType: ResourceType? = nil) {
@@ -805,12 +953,34 @@ extension LicenseManager {
         }
     }
 
+    public struct Metadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+
+        /// Reserved.
+        public let name: String?
+        /// Reserved.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct OrganizationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnableIntegration", required: true, type: .boolean)
         ]
 
-        /// Flag to activate AWS Organization integration.
+        /// Enables AWS Organization integration.
         public let enableIntegration: Bool
 
         public init(enableIntegration: Bool) {
@@ -819,6 +989,55 @@ extension LicenseManager {
 
         private enum CodingKeys: String, CodingKey {
             case enableIntegration = "EnableIntegration"
+        }
+    }
+
+    public struct ProductInformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductInformationFilterList", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string)
+        ]
+
+        /// Product information filters. The following filters and logical operators are supported:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.  
+        public let productInformationFilterList: [ProductInformationFilter]
+        /// Resource type. The value is SSM_MANAGED.
+        public let resourceType: String
+
+        public init(productInformationFilterList: [ProductInformationFilter], resourceType: String) {
+            self.productInformationFilterList = productInformationFilterList
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productInformationFilterList = "ProductInformationFilterList"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ProductInformationFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductInformationFilterComparator", required: true, type: .string), 
+            AWSShapeMember(label: "ProductInformationFilterName", required: true, type: .string), 
+            AWSShapeMember(label: "ProductInformationFilterValue", required: true, type: .list)
+        ]
+
+        /// Logical operator.
+        public let productInformationFilterComparator: String
+        /// Filter name.
+        public let productInformationFilterName: String
+        /// Filter value.
+        public let productInformationFilterValue: [String]
+
+        public init(productInformationFilterComparator: String, productInformationFilterName: String, productInformationFilterValue: [String]) {
+            self.productInformationFilterComparator = productInformationFilterComparator
+            self.productInformationFilterName = productInformationFilterName
+            self.productInformationFilterValue = productInformationFilterValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productInformationFilterComparator = "ProductInformationFilterComparator"
+            case productInformationFilterName = "ProductInformationFilterName"
+            case productInformationFilterValue = "ProductInformationFilterValue"
         }
     }
 
@@ -832,17 +1051,17 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
 
-        /// The platform of the resource.
+        /// Platform of the resource.
         public let platform: String?
         /// Platform version of the resource in the inventory.
         public let platformVersion: String?
-        /// The ARN of the resource.
+        /// Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
-        /// Unique ID of the resource.
+        /// ID of the resource.
         public let resourceId: String?
-        /// Unique ID of the account that owns the resource.
+        /// ID of the account that owns the resource.
         public let resourceOwningAccountId: String?
-        /// The type of resource.
+        /// Type of resource.
         public let resourceType: ResourceType?
 
         public init(platform: String? = nil, platformVersion: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceOwningAccountId: String? = nil, resourceType: ResourceType? = nil) {
@@ -868,6 +1087,8 @@ extension LicenseManager {
         case ec2Instance = "EC2_INSTANCE"
         case ec2Host = "EC2_HOST"
         case ec2Ami = "EC2_AMI"
+        case rds = "RDS"
+        case systemsManagerManagedInstance = "SYSTEMS_MANAGER_MANAGED_INSTANCE"
         public var description: String { return self.rawValue }
     }
 
@@ -877,9 +1098,9 @@ extension LicenseManager {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
-        /// Key for the resource tag.
+        /// Tag key.
         public let key: String?
-        /// Value for the resource tag.
+        /// Tag value.
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
@@ -899,9 +1120,9 @@ extension LicenseManager {
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
 
-        /// Resource of the ARN to be tagged.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let resourceArn: String
-        /// Names of the tags to attach to the resource.
+        /// One or more tags.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -929,9 +1150,9 @@ extension LicenseManager {
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
-        /// ARN of the resource.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let resourceArn: String
-        /// List keys identifying tags to remove.
+        /// Keys identifying the tags to remove.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -961,25 +1182,28 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseCount", required: false, type: .long), 
             AWSShapeMember(label: "LicenseCountHardLimit", required: false, type: .boolean), 
             AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ProductInformationList", required: false, type: .list)
         ]
 
-        /// New human-friendly description of the license configuration.
+        /// New description of the license configuration.
         public let description: String?
-        /// ARN for a license configuration.
+        /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String
-        /// New status of the license configuration (ACTIVE or INACTIVE).
+        /// New status of the license configuration.
         public let licenseConfigurationStatus: LicenseConfigurationStatus?
         /// New number of licenses managed by the license configuration.
         public let licenseCount: Int64?
-        /// Sets the number of available licenses as a hard limit.
+        /// New hard limit of the number of available licenses.
         public let licenseCountHardLimit: Bool?
-        /// List of flexible text strings designating license rules.
+        /// New license rules.
         public let licenseRules: [String]?
         /// New name of the license configuration.
         public let name: String?
+        /// New product information.
+        public let productInformationList: [ProductInformation]?
 
-        public init(description: String? = nil, licenseConfigurationArn: String, licenseConfigurationStatus: LicenseConfigurationStatus? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseRules: [String]? = nil, name: String? = nil) {
+        public init(description: String? = nil, licenseConfigurationArn: String, licenseConfigurationStatus: LicenseConfigurationStatus? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseRules: [String]? = nil, name: String? = nil, productInformationList: [ProductInformation]? = nil) {
             self.description = description
             self.licenseConfigurationArn = licenseConfigurationArn
             self.licenseConfigurationStatus = licenseConfigurationStatus
@@ -987,6 +1211,7 @@ extension LicenseManager {
             self.licenseCountHardLimit = licenseCountHardLimit
             self.licenseRules = licenseRules
             self.name = name
+            self.productInformationList = productInformationList
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -997,6 +1222,7 @@ extension LicenseManager {
             case licenseCountHardLimit = "LicenseCountHardLimit"
             case licenseRules = "LicenseRules"
             case name = "Name"
+            case productInformationList = "ProductInformationList"
         }
     }
 
@@ -1015,11 +1241,11 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
 
-        /// License configuration ARNs to be added to a resource.
+        /// ARNs of the license configurations to add.
         public let addLicenseSpecifications: [LicenseSpecification]?
-        /// License configuration ARNs to be removed from a resource.
+        /// ARNs of the license configurations to remove.
         public let removeLicenseSpecifications: [LicenseSpecification]?
-        /// ARN for an AWS server resource.
+        /// Amazon Resource Name (ARN) of the AWS resource.
         public let resourceArn: String
 
         public init(addLicenseSpecifications: [LicenseSpecification]? = nil, removeLicenseSpecifications: [LicenseSpecification]? = nil, resourceArn: String) {
@@ -1053,11 +1279,11 @@ extension LicenseManager {
 
         /// Activates cross-account discovery.
         public let enableCrossAccountsDiscovery: Bool?
-        /// Integrates AWS Organizations with License Manager for cross-account discovery.
+        /// Enables integration with AWS Organizations for cross-account discovery.
         public let organizationConfiguration: OrganizationConfiguration?
-        /// ARN of the Amazon S3 bucket where License Manager information is stored.
+        /// Amazon Resource Name (ARN) of the Amazon S3 bucket where the License Manager information is stored.
         public let s3BucketArn: String?
-        /// ARN of the Amazon SNS topic used for License Manager alerts.
+        /// Amazon Resource Name (ARN) of the Amazon SNS topic used for License Manager alerts.
         public let snsTopicArn: String?
 
         public init(enableCrossAccountsDiscovery: Bool? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {

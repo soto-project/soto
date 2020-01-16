@@ -164,6 +164,28 @@ extension SFN {
         }
     }
 
+    public struct CloudWatchLogsLogGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupArn", required: false, type: .string)
+        ]
+
+        /// The ARN of the the CloudWatch log group to which you want your logs emitted to. The ARN must end with :* 
+        public let logGroupArn: String?
+
+        public init(logGroupArn: String? = nil) {
+            self.logGroupArn = logGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.logGroupArn, name:"logGroupArn", parent: name, max: 256)
+            try validate(self.logGroupArn, name:"logGroupArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn = "logGroupArn"
+        }
+    }
+
     public struct CreateActivityInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
@@ -219,30 +241,39 @@ extension SFN {
     public struct CreateStateMachineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "definition", required: true, type: .string), 
+            AWSShapeMember(label: "loggingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
         ]
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
+        /// Defines what execution history events are logged and where they are logged.
+        public let loggingConfiguration: LoggingConfiguration?
         /// The name of the state machine.  A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
         public let roleArn: String
         /// Tags to be added when creating a state machine. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
+        /// Determines whether a Standard or Express state machine is created. If not set, Standard is created.
+        public let `type`: StateMachineType?
 
-        public init(definition: String, name: String, roleArn: String, tags: [Tag]? = nil) {
+        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, tags: [Tag]? = nil, type: StateMachineType? = nil) {
             self.definition = definition
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.roleArn = roleArn
             self.tags = tags
+            self.`type` = `type`
         }
 
         public func validate(name: String) throws {
             try validate(self.definition, name:"definition", parent: name, max: 1048576)
             try validate(self.definition, name:"definition", parent: name, min: 1)
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try validate(self.name, name:"name", parent: name, max: 80)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.roleArn, name:"roleArn", parent: name, max: 256)
@@ -254,9 +285,11 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case roleArn = "roleArn"
             case tags = "tags"
+            case `type` = "type"
         }
     }
 
@@ -550,16 +583,19 @@ extension SFN {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "definition", required: true, type: .string), 
+            AWSShapeMember(label: "loggingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
             AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
         ]
 
         /// The date the state machine is created.
         public let creationDate: TimeStamp
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
+        public let loggingConfiguration: LoggingConfiguration?
         /// The name of the state machine. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to AWS resources.)
@@ -568,23 +604,28 @@ extension SFN {
         public let stateMachineArn: String
         /// The current status of the state machine.
         public let status: StateMachineStatus?
+        public let `type`: StateMachineType
 
-        public init(creationDate: TimeStamp, definition: String, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil) {
+        public init(creationDate: TimeStamp, definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, type: StateMachineType) {
             self.creationDate = creationDate
             self.definition = definition
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
             self.status = status
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationDate = "creationDate"
             case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case roleArn = "roleArn"
             case stateMachineArn = "stateMachineArn"
             case status = "status"
+            case `type` = "type"
         }
     }
 
@@ -1428,6 +1469,68 @@ extension SFN {
         }
     }
 
+    public struct LogDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cloudWatchLogsLogGroup", required: false, type: .structure)
+        ]
+
+        /// An object describing a CloudWatch log group. For more information, see AWS::Logs::LogGroup in the AWS CloudFormation User Guide.
+        public let cloudWatchLogsLogGroup: CloudWatchLogsLogGroup?
+
+        public init(cloudWatchLogsLogGroup: CloudWatchLogsLogGroup? = nil) {
+            self.cloudWatchLogsLogGroup = cloudWatchLogsLogGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLogsLogGroup?.validate(name: "\(name).cloudWatchLogsLogGroup")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsLogGroup = "cloudWatchLogsLogGroup"
+        }
+    }
+
+    public enum LogLevel: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case error = "ERROR"
+        case fatal = "FATAL"
+        case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LoggingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinations", required: false, type: .list), 
+            AWSShapeMember(label: "includeExecutionData", required: false, type: .boolean), 
+            AWSShapeMember(label: "level", required: false, type: .enum)
+        ]
+
+        /// An object that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF.
+        public let destinations: [LogDestination]?
+        /// Determines whether execution history data is included in your log. When set to FALSE, data is excluded.
+        public let includeExecutionData: Bool?
+        /// Defines which category of execution history events are logged.
+        public let level: LogLevel?
+
+        public init(destinations: [LogDestination]? = nil, includeExecutionData: Bool? = nil, level: LogLevel? = nil) {
+            self.destinations = destinations
+            self.includeExecutionData = includeExecutionData
+            self.level = level
+        }
+
+        public func validate(name: String) throws {
+            try self.destinations?.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case includeExecutionData = "includeExecutionData"
+            case level = "level"
+        }
+    }
+
     public struct MapIterationEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "index", required: false, type: .integer), 
@@ -1682,7 +1785,8 @@ extension SFN {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
         ]
 
         /// The date the state machine is created.
@@ -1691,23 +1795,32 @@ extension SFN {
         public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
+        public let `type`: StateMachineType
 
-        public init(creationDate: TimeStamp, name: String, stateMachineArn: String) {
+        public init(creationDate: TimeStamp, name: String, stateMachineArn: String, type: StateMachineType) {
             self.creationDate = creationDate
             self.name = name
             self.stateMachineArn = stateMachineArn
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationDate = "creationDate"
             case name = "name"
             case stateMachineArn = "stateMachineArn"
+            case `type` = "type"
         }
     }
 
     public enum StateMachineStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StateMachineType: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case express = "EXPRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -2114,19 +2227,22 @@ extension SFN {
     public struct UpdateStateMachineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "definition", required: false, type: .string), 
+            AWSShapeMember(label: "loggingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "roleArn", required: false, type: .string), 
             AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
         ]
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String?
+        public let loggingConfiguration: LoggingConfiguration?
         /// The Amazon Resource Name (ARN) of the IAM role of the state machine.
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the state machine.
         public let stateMachineArn: String
 
-        public init(definition: String? = nil, roleArn: String? = nil, stateMachineArn: String) {
+        public init(definition: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, roleArn: String? = nil, stateMachineArn: String) {
             self.definition = definition
+            self.loggingConfiguration = loggingConfiguration
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
         }
@@ -2134,6 +2250,7 @@ extension SFN {
         public func validate(name: String) throws {
             try validate(self.definition, name:"definition", parent: name, max: 1048576)
             try validate(self.definition, name:"definition", parent: name, min: 1)
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try validate(self.roleArn, name:"roleArn", parent: name, max: 256)
             try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
             try validate(self.stateMachineArn, name:"stateMachineArn", parent: name, max: 256)
@@ -2142,6 +2259,7 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
             case roleArn = "roleArn"
             case stateMachineArn = "stateMachineArn"
         }

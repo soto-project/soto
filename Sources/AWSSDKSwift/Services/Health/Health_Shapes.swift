@@ -21,6 +21,7 @@ extension Health {
         public let awsAccountId: String?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
         public let entityArn: String?
+        /// The URL of the affected entity.
         public let entityUrl: String?
         /// The ID of the affected entity.
         public let entityValue: String?
@@ -78,6 +79,140 @@ extension Health {
         }
     }
 
+    public struct DescribeAffectedAccountsForOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventArn", required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
+        public let eventArn: String
+        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        public let maxResults: Int?
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+
+        public init(eventArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.eventArn = eventArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.eventArn, name:"eventArn", parent: name, max: 1600)
+            try validate(self.eventArn, name:"eventArn", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventArn = "eventArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeAffectedAccountsForOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "affectedAccounts", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// A JSON set of elements of the affected accounts.
+        public let affectedAccounts: [String]?
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+
+        public init(affectedAccounts: [String]? = nil, nextToken: String? = nil) {
+            self.affectedAccounts = affectedAccounts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedAccounts = "affectedAccounts"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeAffectedEntitiesForOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "locale", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "organizationEntityFilters", required: true, type: .list)
+        ]
+
+        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
+        public let locale: String?
+        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        public let maxResults: Int?
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+        /// A JSON set of elements including the awsAccountId and the eventArn.
+        public let organizationEntityFilters: [EventAccountFilter]
+
+        public init(locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationEntityFilters: [EventAccountFilter]) {
+            self.locale = locale
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationEntityFilters = organizationEntityFilters
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.locale, name:"locale", parent: name, max: 256)
+            try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.locale, name:"locale", parent: name, pattern: ".{2,256}")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
+            try self.organizationEntityFilters.forEach {
+                try $0.validate(name: "\(name).organizationEntityFilters[]")
+            }
+            try validate(self.organizationEntityFilters, name:"organizationEntityFilters", parent: name, max: 10)
+            try validate(self.organizationEntityFilters, name:"organizationEntityFilters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case organizationEntityFilters = "organizationEntityFilters"
+        }
+    }
+
+    public struct DescribeAffectedEntitiesForOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "entities", required: false, type: .list), 
+            AWSShapeMember(label: "failedSet", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// A JSON set of elements including the awsAccountId and its entityArn, entityValue and its entityArn, lastUpdatedTime, statusCode, and tags.
+        public let entities: [AffectedEntity]?
+        /// A JSON set of elements of the failed response, including the awsAccountId, errorMessage, errorName, and eventArn.
+        public let failedSet: [OrganizationAffectedEntitiesErrorItem]?
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+
+        public init(entities: [AffectedEntity]? = nil, failedSet: [OrganizationAffectedEntitiesErrorItem]? = nil, nextToken: String? = nil) {
+            self.entities = entities
+            self.failedSet = failedSet
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "entities"
+            case failedSet = "failedSet"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeAffectedEntitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "filter", required: true, type: .structure), 
@@ -86,7 +221,7 @@ extension Health {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        /// Values to narrow the results returned. At least one event ARN is required. 
+        /// Values to narrow the results returned. At least one event ARN is required.
         public let filter: EntityFilter
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
@@ -106,9 +241,12 @@ extension Health {
             try self.filter.validate(name: "\(name).filter")
             try validate(self.locale, name:"locale", parent: name, max: 256)
             try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.locale, name:"locale", parent: name, pattern: ".{2,256}")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -212,7 +350,9 @@ extension Health {
             try self.filter?.validate(name: "\(name).filter")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -245,6 +385,61 @@ extension Health {
         }
     }
 
+    public struct DescribeEventDetailsForOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "locale", required: false, type: .string), 
+            AWSShapeMember(label: "organizationEventDetailFilters", required: true, type: .list)
+        ]
+
+        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
+        public let locale: String?
+        /// A set of JSON elements that includes the awsAccountId and the eventArn.
+        public let organizationEventDetailFilters: [EventAccountFilter]
+
+        public init(locale: String? = nil, organizationEventDetailFilters: [EventAccountFilter]) {
+            self.locale = locale
+            self.organizationEventDetailFilters = organizationEventDetailFilters
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.locale, name:"locale", parent: name, max: 256)
+            try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.locale, name:"locale", parent: name, pattern: ".{2,256}")
+            try self.organizationEventDetailFilters.forEach {
+                try $0.validate(name: "\(name).organizationEventDetailFilters[]")
+            }
+            try validate(self.organizationEventDetailFilters, name:"organizationEventDetailFilters", parent: name, max: 10)
+            try validate(self.organizationEventDetailFilters, name:"organizationEventDetailFilters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
+            case organizationEventDetailFilters = "organizationEventDetailFilters"
+        }
+    }
+
+    public struct DescribeEventDetailsForOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedSet", required: false, type: .list), 
+            AWSShapeMember(label: "successfulSet", required: false, type: .list)
+        ]
+
+        /// Error messages for any events that could not be retrieved.
+        public let failedSet: [OrganizationEventDetailsErrorItem]?
+        /// Information about the events that could be retrieved.
+        public let successfulSet: [OrganizationEventDetails]?
+
+        public init(failedSet: [OrganizationEventDetailsErrorItem]? = nil, successfulSet: [OrganizationEventDetails]? = nil) {
+            self.failedSet = failedSet
+            self.successfulSet = successfulSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedSet = "failedSet"
+            case successfulSet = "successfulSet"
+        }
+    }
+
     public struct DescribeEventDetailsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventArns", required: true, type: .list), 
@@ -270,6 +465,7 @@ extension Health {
             try validate(self.eventArns, name:"eventArns", parent: name, min: 1)
             try validate(self.locale, name:"locale", parent: name, max: 256)
             try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.locale, name:"locale", parent: name, pattern: ".{2,256}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -328,9 +524,12 @@ extension Health {
             try self.filter?.validate(name: "\(name).filter")
             try validate(self.locale, name:"locale", parent: name, max: 256)
             try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.locale, name:"locale", parent: name, pattern: ".{2,256}")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -363,6 +562,72 @@ extension Health {
         }
     }
 
+    public struct DescribeEventsForOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "locale", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// Values to narrow the results returned.
+        public let filter: OrganizationEventFilter?
+        /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
+        public let locale: String?
+        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        public let maxResults: Int?
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+
+        public init(filter: OrganizationEventFilter? = nil, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.locale = locale
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.locale, name:"locale", parent: name, max: 256)
+            try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.locale, name:"locale", parent: name, pattern: ".{2,256}")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeEventsForOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "events", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// The events that match the specified filter criteria.
+        public let events: [OrganizationEvent]?
+        /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+
+        public init(events: [OrganizationEvent]? = nil, nextToken: String? = nil) {
+            self.events = events
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "events"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeEventsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "filter", required: false, type: .structure), 
@@ -391,9 +656,12 @@ extension Health {
             try self.filter?.validate(name: "\(name).filter")
             try validate(self.locale, name:"locale", parent: name, max: 256)
             try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.locale, name:"locale", parent: name, pattern: ".{2,256}")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -423,6 +691,23 @@ extension Health {
         private enum CodingKeys: String, CodingKey {
             case events = "events"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeHealthServiceStatusForOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "healthServiceAccessStatusForOrganization", required: false, type: .string)
+        ]
+
+        /// Information about the status of enabling or disabling AWS Health Organizational View in your organization. Valid values are ENABLED | DISABLED | PENDING. 
+        public let healthServiceAccessStatusForOrganization: String?
+
+        public init(healthServiceAccessStatusForOrganization: String? = nil) {
+            self.healthServiceAccessStatusForOrganization = healthServiceAccessStatusForOrganization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthServiceAccessStatusForOrganization = "healthServiceAccessStatusForOrganization"
         }
     }
 
@@ -483,11 +768,13 @@ extension Health {
         public func validate(name: String) throws {
             try self.entityArns?.forEach {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
+                try validate($0, name: "entityArns[]", parent: name, pattern: ".{0,1600}")
             }
             try validate(self.entityArns, name:"entityArns", parent: name, max: 100)
             try validate(self.entityArns, name:"entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 256)
+                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,256}")
             }
             try validate(self.entityValues, name:"entityValues", parent: name, max: 100)
             try validate(self.entityValues, name:"entityValues", parent: name, min: 1)
@@ -573,6 +860,35 @@ extension Health {
             case service = "service"
             case startTime = "startTime"
             case statusCode = "statusCode"
+        }
+    }
+
+    public struct EventAccountFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "eventArn", required: true, type: .string)
+        ]
+
+        /// The 12-digit AWS account numbers that contains the affected entities.
+        public let awsAccountId: String
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
+        public let eventArn: String
+
+        public init(awsAccountId: String, eventArn: String) {
+            self.awsAccountId = awsAccountId
+            self.eventArn = eventArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^\\S+$")
+            try validate(self.eventArn, name:"eventArn", parent: name, max: 1600)
+            try validate(self.eventArn, name:"eventArn", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "awsAccountId"
+            case eventArn = "eventArn"
         }
     }
 
@@ -700,7 +1016,7 @@ extension Health {
         public let eventStatusCodes: [EventStatusCode]?
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
-        /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED" 
+        /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED". 
         public let eventTypeCodes: [String]?
         /// A list of dates and times that the event was last updated.
         public let lastUpdatedTimes: [DateTimeRange]?
@@ -731,17 +1047,21 @@ extension Health {
 
         public func validate(name: String) throws {
             try self.availabilityZones?.forEach {
+                try validate($0, name: "availabilityZones[]", parent: name, max: 18)
+                try validate($0, name: "availabilityZones[]", parent: name, min: 6)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "[a-z]{2}\\-[0-9a-z\\-]{4,16}")
             }
             try validate(self.endTimes, name:"endTimes", parent: name, max: 10)
             try validate(self.endTimes, name:"endTimes", parent: name, min: 1)
             try self.entityArns?.forEach {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
+                try validate($0, name: "entityArns[]", parent: name, pattern: ".{0,1600}")
             }
             try validate(self.entityArns, name:"entityArns", parent: name, max: 100)
             try validate(self.entityArns, name:"entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 256)
+                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,256}")
             }
             try validate(self.entityValues, name:"entityValues", parent: name, max: 100)
             try validate(self.entityValues, name:"entityValues", parent: name, min: 1)
@@ -758,12 +1078,15 @@ extension Health {
             try self.eventTypeCodes?.forEach {
                 try validate($0, name: "eventTypeCodes[]", parent: name, max: 100)
                 try validate($0, name: "eventTypeCodes[]", parent: name, min: 3)
+                try validate($0, name: "eventTypeCodes[]", parent: name, pattern: "[^:/]{3,100}")
             }
             try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, max: 10)
             try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, min: 1)
             try validate(self.lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, max: 10)
             try validate(self.lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, min: 1)
             try self.regions?.forEach {
+                try validate($0, name: "regions[]", parent: name, max: 25)
+                try validate($0, name: "regions[]", parent: name, min: 2)
                 try validate($0, name: "regions[]", parent: name, pattern: "[^:/]{2,25}")
             }
             try validate(self.regions, name:"regions", parent: name, max: 10)
@@ -771,6 +1094,7 @@ extension Health {
             try self.services?.forEach {
                 try validate($0, name: "services[]", parent: name, max: 30)
                 try validate($0, name: "services[]", parent: name, min: 2)
+                try validate($0, name: "services[]", parent: name, pattern: "[^:/]{2,30}")
             }
             try validate(self.services, name:"services", parent: name, max: 10)
             try validate(self.services, name:"services", parent: name, min: 1)
@@ -849,12 +1173,14 @@ extension Health {
             try self.eventTypeCodes?.forEach {
                 try validate($0, name: "eventTypeCodes[]", parent: name, max: 100)
                 try validate($0, name: "eventTypeCodes[]", parent: name, min: 3)
+                try validate($0, name: "eventTypeCodes[]", parent: name, pattern: "[a-zA-Z0-9\\_\\-]{3,100}")
             }
             try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, max: 10)
             try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, min: 1)
             try self.services?.forEach {
                 try validate($0, name: "services[]", parent: name, max: 30)
                 try validate($0, name: "services[]", parent: name, min: 2)
+                try validate($0, name: "services[]", parent: name, pattern: "[^:/]{2,30}")
             }
             try validate(self.services, name:"services", parent: name, max: 10)
             try validate(self.services, name:"services", parent: name, min: 1)
@@ -864,6 +1190,267 @@ extension Health {
             case eventTypeCategories = "eventTypeCategories"
             case eventTypeCodes = "eventTypeCodes"
             case services = "services"
+        }
+    }
+
+    public struct OrganizationAffectedEntitiesErrorItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "errorName", required: false, type: .string), 
+            AWSShapeMember(label: "eventArn", required: false, type: .string)
+        ]
+
+        /// The 12-digit AWS account numbers that contains the affected entities.
+        public let awsAccountId: String?
+        /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION. For example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
+        public let errorMessage: String?
+        /// The name of the error.
+        public let errorName: String?
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
+        public let eventArn: String?
+
+        public init(awsAccountId: String? = nil, errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.errorMessage = errorMessage
+            self.errorName = errorName
+            self.eventArn = eventArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "awsAccountId"
+            case errorMessage = "errorMessage"
+            case errorName = "errorName"
+            case eventArn = "eventArn"
+        }
+    }
+
+    public struct OrganizationEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "eventTypeCategory", required: false, type: .enum), 
+            AWSShapeMember(label: "eventTypeCode", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "service", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "statusCode", required: false, type: .enum)
+        ]
+
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
+        public let arn: String?
+        /// The date and time that the event ended.
+        public let endTime: TimeStamp?
+        /// The category of the event type.
+        public let eventTypeCategory: EventTypeCategory?
+        /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION. For example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
+        public let eventTypeCode: String?
+        /// The most recent date and time that the event was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The AWS Region name of the event.
+        public let region: String?
+        /// The AWS service that is affected by the event. For example, EC2, RDS.
+        public let service: String?
+        /// The date and time that the event began.
+        public let startTime: TimeStamp?
+        /// The most recent status of the event. Possible values are open, closed, and upcoming.
+        public let statusCode: EventStatusCode?
+
+        public init(arn: String? = nil, endTime: TimeStamp? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: TimeStamp? = nil, region: String? = nil, service: String? = nil, startTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil) {
+            self.arn = arn
+            self.endTime = endTime
+            self.eventTypeCategory = eventTypeCategory
+            self.eventTypeCode = eventTypeCode
+            self.lastUpdatedTime = lastUpdatedTime
+            self.region = region
+            self.service = service
+            self.startTime = startTime
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case endTime = "endTime"
+            case eventTypeCategory = "eventTypeCategory"
+            case eventTypeCode = "eventTypeCode"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case region = "region"
+            case service = "service"
+            case startTime = "startTime"
+            case statusCode = "statusCode"
+        }
+    }
+
+    public struct OrganizationEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "event", required: false, type: .structure), 
+            AWSShapeMember(label: "eventDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "eventMetadata", required: false, type: .map)
+        ]
+
+        /// The 12-digit AWS account numbers that contains the affected entities.
+        public let awsAccountId: String?
+        public let event: Event?
+        public let eventDescription: EventDescription?
+        /// Additional metadata about the event.
+        public let eventMetadata: [String: String]?
+
+        public init(awsAccountId: String? = nil, event: Event? = nil, eventDescription: EventDescription? = nil, eventMetadata: [String: String]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.event = event
+            self.eventDescription = eventDescription
+            self.eventMetadata = eventMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "awsAccountId"
+            case event = "event"
+            case eventDescription = "eventDescription"
+            case eventMetadata = "eventMetadata"
+        }
+    }
+
+    public struct OrganizationEventDetailsErrorItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "errorName", required: false, type: .string), 
+            AWSShapeMember(label: "eventArn", required: false, type: .string)
+        ]
+
+        /// Error information returned when a DescribeEventDetailsForOrganization operation cannot find a specified event.
+        public let awsAccountId: String?
+        /// A message that describes the error.
+        public let errorMessage: String?
+        /// The name of the error.
+        public let errorName: String?
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
+        public let eventArn: String?
+
+        public init(awsAccountId: String? = nil, errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.errorMessage = errorMessage
+            self.errorName = errorName
+            self.eventArn = eventArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "awsAccountId"
+            case errorMessage = "errorMessage"
+            case errorName = "errorName"
+            case eventArn = "eventArn"
+        }
+    }
+
+    public struct OrganizationEventFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsAccountIds", required: false, type: .list), 
+            AWSShapeMember(label: "endTime", required: false, type: .structure), 
+            AWSShapeMember(label: "entityArns", required: false, type: .list), 
+            AWSShapeMember(label: "entityValues", required: false, type: .list), 
+            AWSShapeMember(label: "eventStatusCodes", required: false, type: .list), 
+            AWSShapeMember(label: "eventTypeCategories", required: false, type: .list), 
+            AWSShapeMember(label: "eventTypeCodes", required: false, type: .list), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .structure), 
+            AWSShapeMember(label: "regions", required: false, type: .list), 
+            AWSShapeMember(label: "services", required: false, type: .list), 
+            AWSShapeMember(label: "startTime", required: false, type: .structure)
+        ]
+
+        /// A list of 12-digit AWS account numbers that contains the affected entities.
+        public let awsAccountIds: [String]?
+        public let endTime: DateTimeRange?
+        /// REPLACEME
+        public let entityArns: [String]?
+        /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS volumes (vol-426ab23e).
+        public let entityValues: [String]?
+        /// A list of event status codes.
+        public let eventStatusCodes: [EventStatusCode]?
+        /// REPLACEME
+        public let eventTypeCategories: [EventTypeCategory]?
+        /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED". 
+        public let eventTypeCodes: [String]?
+        public let lastUpdatedTime: DateTimeRange?
+        /// A list of AWS Regions.
+        public let regions: [String]?
+        /// The AWS services associated with the event. For example, EC2, RDS.
+        public let services: [String]?
+        public let startTime: DateTimeRange?
+
+        public init(awsAccountIds: [String]? = nil, endTime: DateTimeRange? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTime: DateTimeRange? = nil, regions: [String]? = nil, services: [String]? = nil, startTime: DateTimeRange? = nil) {
+            self.awsAccountIds = awsAccountIds
+            self.endTime = endTime
+            self.entityArns = entityArns
+            self.entityValues = entityValues
+            self.eventStatusCodes = eventStatusCodes
+            self.eventTypeCategories = eventTypeCategories
+            self.eventTypeCodes = eventTypeCodes
+            self.lastUpdatedTime = lastUpdatedTime
+            self.regions = regions
+            self.services = services
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.awsAccountIds?.forEach {
+                try validate($0, name: "awsAccountIds[]", parent: name, max: 12)
+                try validate($0, name: "awsAccountIds[]", parent: name, pattern: "^\\S+$")
+            }
+            try validate(self.awsAccountIds, name:"awsAccountIds", parent: name, max: 50)
+            try validate(self.awsAccountIds, name:"awsAccountIds", parent: name, min: 1)
+            try self.entityArns?.forEach {
+                try validate($0, name: "entityArns[]", parent: name, max: 1600)
+                try validate($0, name: "entityArns[]", parent: name, pattern: ".{0,1600}")
+            }
+            try validate(self.entityArns, name:"entityArns", parent: name, max: 100)
+            try validate(self.entityArns, name:"entityArns", parent: name, min: 1)
+            try self.entityValues?.forEach {
+                try validate($0, name: "entityValues[]", parent: name, max: 256)
+                try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,256}")
+            }
+            try validate(self.entityValues, name:"entityValues", parent: name, max: 100)
+            try validate(self.entityValues, name:"entityValues", parent: name, min: 1)
+            try validate(self.eventStatusCodes, name:"eventStatusCodes", parent: name, max: 6)
+            try validate(self.eventStatusCodes, name:"eventStatusCodes", parent: name, min: 1)
+            try validate(self.eventTypeCategories, name:"eventTypeCategories", parent: name, max: 10)
+            try validate(self.eventTypeCategories, name:"eventTypeCategories", parent: name, min: 1)
+            try self.eventTypeCodes?.forEach {
+                try validate($0, name: "eventTypeCodes[]", parent: name, max: 100)
+                try validate($0, name: "eventTypeCodes[]", parent: name, min: 3)
+                try validate($0, name: "eventTypeCodes[]", parent: name, pattern: "[^:/]{3,100}")
+            }
+            try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, max: 10)
+            try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, min: 1)
+            try self.regions?.forEach {
+                try validate($0, name: "regions[]", parent: name, max: 25)
+                try validate($0, name: "regions[]", parent: name, min: 2)
+                try validate($0, name: "regions[]", parent: name, pattern: "[^:/]{2,25}")
+            }
+            try validate(self.regions, name:"regions", parent: name, max: 10)
+            try validate(self.regions, name:"regions", parent: name, min: 1)
+            try self.services?.forEach {
+                try validate($0, name: "services[]", parent: name, max: 30)
+                try validate($0, name: "services[]", parent: name, min: 2)
+                try validate($0, name: "services[]", parent: name, pattern: "[^:/]{2,30}")
+            }
+            try validate(self.services, name:"services", parent: name, max: 10)
+            try validate(self.services, name:"services", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountIds = "awsAccountIds"
+            case endTime = "endTime"
+            case entityArns = "entityArns"
+            case entityValues = "entityValues"
+            case eventStatusCodes = "eventStatusCodes"
+            case eventTypeCategories = "eventTypeCategories"
+            case eventTypeCodes = "eventTypeCodes"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case regions = "regions"
+            case services = "services"
+            case startTime = "startTime"
         }
     }
 

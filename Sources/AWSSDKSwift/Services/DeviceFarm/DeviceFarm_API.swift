@@ -5,7 +5,7 @@ import Foundation
 import NIO
 
 /**
-AWS Device Farm is a service that enables mobile app developers to test Android, iOS, and Fire OS apps on physical phones, tablets, and other devices in the cloud.
+Welcome to the AWS Device Farm API documentation, which contains APIs for:   Testing on desktop browsers  Device Farm makes it possible for you to test your web applications on desktop browsers using Selenium. The APIs for desktop browser testing contain TestGrid in their names. For more information, see Testing Web Applications on Selenium with Device Farm.   Testing on real mobile devices Device Farm makes it possible for you to test apps on physical phones, tablets, and other devices in the cloud. For more information, see the Device Farm Developer Guide.  
 */
 public struct DeviceFarm {
 
@@ -43,7 +43,7 @@ public struct DeviceFarm {
         return client.send(operation: "CreateNetworkProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new project.
+    ///  Creates a project.
     public func createProject(_ input: CreateProjectRequest) -> Future<CreateProjectResult> {
         return client.send(operation: "CreateProject", path: "/", httpMethod: "POST", input: input)
     }
@@ -51,6 +51,16 @@ public struct DeviceFarm {
     ///  Specifies and starts a remote access session.
     public func createRemoteAccessSession(_ input: CreateRemoteAccessSessionRequest) -> Future<CreateRemoteAccessSessionResult> {
         return client.send(operation: "CreateRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a Selenium testing project. Projects are used to track TestGridSession instances.
+    public func createTestGridProject(_ input: CreateTestGridProjectRequest) -> Future<CreateTestGridProjectResult> {
+        return client.send(operation: "CreateTestGridProject", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor.
+    public func createTestGridUrl(_ input: CreateTestGridUrlRequest) -> Future<CreateTestGridUrlResult> {
+        return client.send(operation: "CreateTestGridUrl", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Uploads an app or test scripts.
@@ -78,7 +88,7 @@ public struct DeviceFarm {
         return client.send(operation: "DeleteNetworkProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an AWS Device Farm project, given the project ARN.  Note Deleting this resource does not stop an in-progress run.
+    ///  Deletes an AWS Device Farm project, given the project ARN.  Deleting this resource does not stop an in-progress run.
     public func deleteProject(_ input: DeleteProjectRequest) -> Future<DeleteProjectResult> {
         return client.send(operation: "DeleteProject", path: "/", httpMethod: "POST", input: input)
     }
@@ -88,9 +98,14 @@ public struct DeviceFarm {
         return client.send(operation: "DeleteRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the run, given the run ARN.  Note Deleting this resource does not stop an in-progress run.
+    ///  Deletes the run, given the run ARN.  Deleting this resource does not stop an in-progress run.
     public func deleteRun(_ input: DeleteRunRequest) -> Future<DeleteRunResult> {
         return client.send(operation: "DeleteRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Deletes a Selenium testing project and all content generated under it.   You cannot undo this operation.   You cannot delete a project if it has active sessions. 
+    public func deleteTestGridProject(_ input: DeleteTestGridProjectRequest) -> Future<DeleteTestGridProjectResult> {
+        return client.send(operation: "DeleteTestGridProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an upload given the upload ARN.
@@ -103,7 +118,7 @@ public struct DeviceFarm {
         return client.send(operation: "DeleteVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the number of unmetered iOS and/or unmetered Android devices that have been purchased by the account.
+    ///  Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
     public func getAccountSettings(_ input: GetAccountSettingsRequest) -> Future<GetAccountSettingsResult> {
         return client.send(operation: "GetAccountSettings", path: "/", httpMethod: "POST", input: input)
     }
@@ -113,7 +128,7 @@ public struct DeviceFarm {
         return client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about a device instance belonging to a private device fleet.
+    ///  Returns information about a device instance that belongs to a private device fleet.
     public func getDeviceInstance(_ input: GetDeviceInstanceRequest) -> Future<GetDeviceInstanceResult> {
         return client.send(operation: "GetDeviceInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -143,7 +158,7 @@ public struct DeviceFarm {
         return client.send(operation: "GetNetworkProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    ///  Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
     public func getOfferingStatus(_ input: GetOfferingStatusRequest) -> Future<GetOfferingStatusResult> {
         return client.send(operation: "GetOfferingStatus", path: "/", httpMethod: "POST", input: input)
     }
@@ -171,6 +186,16 @@ public struct DeviceFarm {
     ///  Gets information about a test.
     public func getTest(_ input: GetTestRequest) -> Future<GetTestResult> {
         return client.send(operation: "GetTest", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves information about a Selenium testing project.
+    public func getTestGridProject(_ input: GetTestGridProjectRequest) -> Future<GetTestGridProjectResult> {
+        return client.send(operation: "GetTestGridProject", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult$url. You can use the following to look up sessions:   The session ARN (GetTestGridSessionRequest$sessionArn).   The project ARN and a session ID (GetTestGridSessionRequest$projectArn and GetTestGridSessionRequest$sessionId).   
+    public func getTestGridSession(_ input: GetTestGridSessionRequest) -> Future<GetTestGridSessionResult> {
+        return client.send(operation: "GetTestGridSession", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an upload.
@@ -223,17 +248,17 @@ public struct DeviceFarm {
         return client.send(operation: "ListNetworkProfiles", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    ///  Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
     public func listOfferingPromotions(_ input: ListOfferingPromotionsRequest) -> Future<ListOfferingPromotionsResult> {
         return client.send(operation: "ListOfferingPromotions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    ///  Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
     public func listOfferingTransactions(_ input: ListOfferingTransactionsRequest) -> Future<ListOfferingTransactionsResult> {
         return client.send(operation: "ListOfferingTransactions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    ///  Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
     public func listOfferings(_ input: ListOfferingsRequest) -> Future<ListOfferingsResult> {
         return client.send(operation: "ListOfferings", path: "/", httpMethod: "POST", input: input)
     }
@@ -268,12 +293,32 @@ public struct DeviceFarm {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets a list of all Selenium testing projects in your account.
+    public func listTestGridProjects(_ input: ListTestGridProjectsRequest) -> Future<ListTestGridProjectsResult> {
+        return client.send(operation: "ListTestGridProjects", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of the actions taken in a TestGridSession.
+    public func listTestGridSessionActions(_ input: ListTestGridSessionActionsRequest) -> Future<ListTestGridSessionActionsResult> {
+        return client.send(operation: "ListTestGridSessionActions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a list of artifacts created during the session.
+    public func listTestGridSessionArtifacts(_ input: ListTestGridSessionArtifactsRequest) -> Future<ListTestGridSessionArtifactsResult> {
+        return client.send(operation: "ListTestGridSessionArtifacts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a list of sessions for a TestGridProject.
+    public func listTestGridSessions(_ input: ListTestGridSessionsRequest) -> Future<ListTestGridSessionsResult> {
+        return client.send(operation: "ListTestGridSessions", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about tests in a given test suite.
     public func listTests(_ input: ListTestsRequest) -> Future<ListTestsResult> {
         return client.send(operation: "ListTests", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about unique problems.
+    ///  Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
     public func listUniqueProblems(_ input: ListUniqueProblemsRequest) -> Future<ListUniqueProblemsResult> {
         return client.send(operation: "ListUniqueProblems", path: "/", httpMethod: "POST", input: input)
     }
@@ -288,12 +333,12 @@ public struct DeviceFarm {
         return client.send(operation: "ListVPCEConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    ///  Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
     public func purchaseOffering(_ input: PurchaseOfferingRequest) -> Future<PurchaseOfferingResult> {
         return client.send(operation: "PurchaseOffering", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    ///  Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
     public func renewOffering(_ input: RenewOfferingRequest) -> Future<RenewOfferingResult> {
         return client.send(operation: "RenewOffering", path: "/", httpMethod: "POST", input: input)
     }
@@ -303,7 +348,7 @@ public struct DeviceFarm {
         return client.send(operation: "ScheduleRun", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Initiates a stop request for the current job. AWS Device Farm will immediately stop the job on the device where tests have not started executing, and you will not be billed for this device. On the device where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on the device. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
+    ///  Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed.
     public func stopJob(_ input: StopJobRequest) -> Future<StopJobResult> {
         return client.send(operation: "StopJob", path: "/", httpMethod: "POST", input: input)
     }
@@ -313,12 +358,12 @@ public struct DeviceFarm {
         return client.send(operation: "StopRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Initiates a stop request for the current test run. AWS Device Farm will immediately stop the run on devices where tests have not started executing, and you will not be billed for these devices. On devices where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on those devices. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
+    ///  Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed.
     public func stopRun(_ input: StopRunRequest) -> Future<StopRunResult> {
         return client.send(operation: "StopRun", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
     public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -328,7 +373,7 @@ public struct DeviceFarm {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates information about an existing private device instance.
+    ///  Updates information about a private device instance.
     public func updateDeviceInstance(_ input: UpdateDeviceInstanceRequest) -> Future<UpdateDeviceInstanceResult> {
         return client.send(operation: "UpdateDeviceInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -343,7 +388,7 @@ public struct DeviceFarm {
         return client.send(operation: "UpdateInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the network profile with specific settings.
+    ///  Updates the network profile.
     public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest) -> Future<UpdateNetworkProfileResult> {
         return client.send(operation: "UpdateNetworkProfile", path: "/", httpMethod: "POST", input: input)
     }
@@ -353,12 +398,17 @@ public struct DeviceFarm {
         return client.send(operation: "UpdateProject", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Update an uploaded test specification (test spec).
+    ///  Change details of a project.
+    public func updateTestGridProject(_ input: UpdateTestGridProjectRequest) -> Future<UpdateTestGridProjectResult> {
+        return client.send(operation: "UpdateTestGridProject", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an uploaded test spec.
     public func updateUpload(_ input: UpdateUploadRequest) -> Future<UpdateUploadResult> {
         return client.send(operation: "UpdateUpload", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates information about an existing Amazon Virtual Private Cloud (VPC) endpoint configuration.
+    ///  Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
     public func updateVPCEConfiguration(_ input: UpdateVPCEConfigurationRequest) -> Future<UpdateVPCEConfigurationResult> {
         return client.send(operation: "UpdateVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
     }

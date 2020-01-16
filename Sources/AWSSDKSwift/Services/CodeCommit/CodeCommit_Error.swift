@@ -5,6 +5,16 @@ import AWSSDKSwiftCore
 /// Error enum for CodeCommit
 public enum CodeCommitErrorType: AWSErrorType {
     case actorDoesNotExistException(message: String?)
+    case approvalRuleContentRequiredException(message: String?)
+    case approvalRuleDoesNotExistException(message: String?)
+    case approvalRuleNameAlreadyExistsException(message: String?)
+    case approvalRuleNameRequiredException(message: String?)
+    case approvalRuleTemplateContentRequiredException(message: String?)
+    case approvalRuleTemplateDoesNotExistException(message: String?)
+    case approvalRuleTemplateInUseException(message: String?)
+    case approvalRuleTemplateNameAlreadyExistsException(message: String?)
+    case approvalRuleTemplateNameRequiredException(message: String?)
+    case approvalStateRequiredException(message: String?)
     case authorDoesNotExistException(message: String?)
     case beforeCommitIdAndAfterCommitIdAreSameException(message: String?)
     case blobIdDoesNotExistException(message: String?)
@@ -13,6 +23,8 @@ public enum CodeCommitErrorType: AWSErrorType {
     case branchNameExistsException(message: String?)
     case branchNameIsTagNameException(message: String?)
     case branchNameRequiredException(message: String?)
+    case cannotDeleteApprovalRuleFromTemplateException(message: String?)
+    case cannotModifyApprovalRuleFromTemplateException(message: String?)
     case clientRequestTokenRequiredException(message: String?)
     case commentContentRequiredException(message: String?)
     case commentContentSizeLimitExceededException(message: String?)
@@ -48,6 +60,12 @@ public enum CodeCommitErrorType: AWSErrorType {
     case folderDoesNotExistException(message: String?)
     case idempotencyParameterMismatchException(message: String?)
     case invalidActorArnException(message: String?)
+    case invalidApprovalRuleContentException(message: String?)
+    case invalidApprovalRuleNameException(message: String?)
+    case invalidApprovalRuleTemplateContentException(message: String?)
+    case invalidApprovalRuleTemplateDescriptionException(message: String?)
+    case invalidApprovalRuleTemplateNameException(message: String?)
+    case invalidApprovalStateException(message: String?)
     case invalidAuthorArnException(message: String?)
     case invalidBlobIdException(message: String?)
     case invalidBranchNameException(message: String?)
@@ -71,6 +89,7 @@ public enum CodeCommitErrorType: AWSErrorType {
     case invalidMaxResultsException(message: String?)
     case invalidMergeOptionException(message: String?)
     case invalidOrderException(message: String?)
+    case invalidOverrideStatusException(message: String?)
     case invalidParentCommitIdException(message: String?)
     case invalidPathException(message: String?)
     case invalidPullRequestEventTypeException(message: String?)
@@ -90,6 +109,8 @@ public enum CodeCommitErrorType: AWSErrorType {
     case invalidRepositoryTriggerNameException(message: String?)
     case invalidRepositoryTriggerRegionException(message: String?)
     case invalidResourceArnException(message: String?)
+    case invalidRevisionIdException(message: String?)
+    case invalidRuleContentSha256Exception(message: String?)
     case invalidSortByException(message: String?)
     case invalidSourceCommitSpecifierException(message: String?)
     case invalidSystemTagUsageException(message: String?)
@@ -105,20 +126,28 @@ public enum CodeCommitErrorType: AWSErrorType {
     case maximumFileContentToLoadExceededException(message: String?)
     case maximumFileEntriesExceededException(message: String?)
     case maximumItemsToCompareExceededException(message: String?)
+    case maximumNumberOfApprovalsExceededException(message: String?)
     case maximumOpenPullRequestsExceededException(message: String?)
     case maximumRepositoryNamesExceededException(message: String?)
     case maximumRepositoryTriggersExceededException(message: String?)
+    case maximumRuleTemplatesAssociatedWithRepositoryException(message: String?)
     case mergeOptionRequiredException(message: String?)
     case multipleConflictResolutionEntriesException(message: String?)
     case multipleRepositoriesInPullRequestException(message: String?)
     case nameLengthExceededException(message: String?)
     case noChangeException(message: String?)
+    case numberOfRuleTemplatesExceededException(message: String?)
+    case numberOfRulesExceededException(message: String?)
+    case overrideAlreadySetException(message: String?)
+    case overrideStatusRequiredException(message: String?)
     case parentCommitDoesNotExistException(message: String?)
     case parentCommitIdOutdatedException(message: String?)
     case parentCommitIdRequiredException(message: String?)
     case pathDoesNotExistException(message: String?)
     case pathRequiredException(message: String?)
     case pullRequestAlreadyClosedException(message: String?)
+    case pullRequestApprovalRulesNotSatisfiedException(message: String?)
+    case pullRequestCannotBeApprovedByAuthorException(message: String?)
     case pullRequestDoesNotExistException(message: String?)
     case pullRequestIdRequiredException(message: String?)
     case pullRequestStatusRequiredException(message: String?)
@@ -141,6 +170,8 @@ public enum CodeCommitErrorType: AWSErrorType {
     case repositoryTriggersListRequiredException(message: String?)
     case resourceArnRequiredException(message: String?)
     case restrictedSourceFileException(message: String?)
+    case revisionIdRequiredException(message: String?)
+    case revisionNotCurrentException(message: String?)
     case sameFileContentException(message: String?)
     case samePathRequestException(message: String?)
     case sourceAndDestinationAreSameException(message: String?)
@@ -165,6 +196,26 @@ extension CodeCommitErrorType {
         switch errorCode {
         case "ActorDoesNotExistException":
             self = .actorDoesNotExistException(message: message)
+        case "ApprovalRuleContentRequiredException":
+            self = .approvalRuleContentRequiredException(message: message)
+        case "ApprovalRuleDoesNotExistException":
+            self = .approvalRuleDoesNotExistException(message: message)
+        case "ApprovalRuleNameAlreadyExistsException":
+            self = .approvalRuleNameAlreadyExistsException(message: message)
+        case "ApprovalRuleNameRequiredException":
+            self = .approvalRuleNameRequiredException(message: message)
+        case "ApprovalRuleTemplateContentRequiredException":
+            self = .approvalRuleTemplateContentRequiredException(message: message)
+        case "ApprovalRuleTemplateDoesNotExistException":
+            self = .approvalRuleTemplateDoesNotExistException(message: message)
+        case "ApprovalRuleTemplateInUseException":
+            self = .approvalRuleTemplateInUseException(message: message)
+        case "ApprovalRuleTemplateNameAlreadyExistsException":
+            self = .approvalRuleTemplateNameAlreadyExistsException(message: message)
+        case "ApprovalRuleTemplateNameRequiredException":
+            self = .approvalRuleTemplateNameRequiredException(message: message)
+        case "ApprovalStateRequiredException":
+            self = .approvalStateRequiredException(message: message)
         case "AuthorDoesNotExistException":
             self = .authorDoesNotExistException(message: message)
         case "BeforeCommitIdAndAfterCommitIdAreSameException":
@@ -181,6 +232,10 @@ extension CodeCommitErrorType {
             self = .branchNameIsTagNameException(message: message)
         case "BranchNameRequiredException":
             self = .branchNameRequiredException(message: message)
+        case "CannotDeleteApprovalRuleFromTemplateException":
+            self = .cannotDeleteApprovalRuleFromTemplateException(message: message)
+        case "CannotModifyApprovalRuleFromTemplateException":
+            self = .cannotModifyApprovalRuleFromTemplateException(message: message)
         case "ClientRequestTokenRequiredException":
             self = .clientRequestTokenRequiredException(message: message)
         case "CommentContentRequiredException":
@@ -251,6 +306,18 @@ extension CodeCommitErrorType {
             self = .idempotencyParameterMismatchException(message: message)
         case "InvalidActorArnException":
             self = .invalidActorArnException(message: message)
+        case "InvalidApprovalRuleContentException":
+            self = .invalidApprovalRuleContentException(message: message)
+        case "InvalidApprovalRuleNameException":
+            self = .invalidApprovalRuleNameException(message: message)
+        case "InvalidApprovalRuleTemplateContentException":
+            self = .invalidApprovalRuleTemplateContentException(message: message)
+        case "InvalidApprovalRuleTemplateDescriptionException":
+            self = .invalidApprovalRuleTemplateDescriptionException(message: message)
+        case "InvalidApprovalRuleTemplateNameException":
+            self = .invalidApprovalRuleTemplateNameException(message: message)
+        case "InvalidApprovalStateException":
+            self = .invalidApprovalStateException(message: message)
         case "InvalidAuthorArnException":
             self = .invalidAuthorArnException(message: message)
         case "InvalidBlobIdException":
@@ -297,6 +364,8 @@ extension CodeCommitErrorType {
             self = .invalidMergeOptionException(message: message)
         case "InvalidOrderException":
             self = .invalidOrderException(message: message)
+        case "InvalidOverrideStatusException":
+            self = .invalidOverrideStatusException(message: message)
         case "InvalidParentCommitIdException":
             self = .invalidParentCommitIdException(message: message)
         case "InvalidPathException":
@@ -335,6 +404,10 @@ extension CodeCommitErrorType {
             self = .invalidRepositoryTriggerRegionException(message: message)
         case "InvalidResourceArnException":
             self = .invalidResourceArnException(message: message)
+        case "InvalidRevisionIdException":
+            self = .invalidRevisionIdException(message: message)
+        case "InvalidRuleContentSha256Exception":
+            self = .invalidRuleContentSha256Exception(message: message)
         case "InvalidSortByException":
             self = .invalidSortByException(message: message)
         case "InvalidSourceCommitSpecifierException":
@@ -365,12 +438,16 @@ extension CodeCommitErrorType {
             self = .maximumFileEntriesExceededException(message: message)
         case "MaximumItemsToCompareExceededException":
             self = .maximumItemsToCompareExceededException(message: message)
+        case "MaximumNumberOfApprovalsExceededException":
+            self = .maximumNumberOfApprovalsExceededException(message: message)
         case "MaximumOpenPullRequestsExceededException":
             self = .maximumOpenPullRequestsExceededException(message: message)
         case "MaximumRepositoryNamesExceededException":
             self = .maximumRepositoryNamesExceededException(message: message)
         case "MaximumRepositoryTriggersExceededException":
             self = .maximumRepositoryTriggersExceededException(message: message)
+        case "MaximumRuleTemplatesAssociatedWithRepositoryException":
+            self = .maximumRuleTemplatesAssociatedWithRepositoryException(message: message)
         case "MergeOptionRequiredException":
             self = .mergeOptionRequiredException(message: message)
         case "MultipleConflictResolutionEntriesException":
@@ -381,6 +458,14 @@ extension CodeCommitErrorType {
             self = .nameLengthExceededException(message: message)
         case "NoChangeException":
             self = .noChangeException(message: message)
+        case "NumberOfRuleTemplatesExceededException":
+            self = .numberOfRuleTemplatesExceededException(message: message)
+        case "NumberOfRulesExceededException":
+            self = .numberOfRulesExceededException(message: message)
+        case "OverrideAlreadySetException":
+            self = .overrideAlreadySetException(message: message)
+        case "OverrideStatusRequiredException":
+            self = .overrideStatusRequiredException(message: message)
         case "ParentCommitDoesNotExistException":
             self = .parentCommitDoesNotExistException(message: message)
         case "ParentCommitIdOutdatedException":
@@ -393,6 +478,10 @@ extension CodeCommitErrorType {
             self = .pathRequiredException(message: message)
         case "PullRequestAlreadyClosedException":
             self = .pullRequestAlreadyClosedException(message: message)
+        case "PullRequestApprovalRulesNotSatisfiedException":
+            self = .pullRequestApprovalRulesNotSatisfiedException(message: message)
+        case "PullRequestCannotBeApprovedByAuthorException":
+            self = .pullRequestCannotBeApprovedByAuthorException(message: message)
         case "PullRequestDoesNotExistException":
             self = .pullRequestDoesNotExistException(message: message)
         case "PullRequestIdRequiredException":
@@ -437,6 +526,10 @@ extension CodeCommitErrorType {
             self = .resourceArnRequiredException(message: message)
         case "RestrictedSourceFileException":
             self = .restrictedSourceFileException(message: message)
+        case "RevisionIdRequiredException":
+            self = .revisionIdRequiredException(message: message)
+        case "RevisionNotCurrentException":
+            self = .revisionNotCurrentException(message: message)
         case "SameFileContentException":
             self = .sameFileContentException(message: message)
         case "SamePathRequestException":
@@ -474,6 +567,26 @@ extension CodeCommitErrorType : CustomStringConvertible {
         switch self {
         case .actorDoesNotExistException(let message):
             return "ActorDoesNotExistException: \(message ?? "")"
+        case .approvalRuleContentRequiredException(let message):
+            return "ApprovalRuleContentRequiredException: \(message ?? "")"
+        case .approvalRuleDoesNotExistException(let message):
+            return "ApprovalRuleDoesNotExistException: \(message ?? "")"
+        case .approvalRuleNameAlreadyExistsException(let message):
+            return "ApprovalRuleNameAlreadyExistsException: \(message ?? "")"
+        case .approvalRuleNameRequiredException(let message):
+            return "ApprovalRuleNameRequiredException: \(message ?? "")"
+        case .approvalRuleTemplateContentRequiredException(let message):
+            return "ApprovalRuleTemplateContentRequiredException: \(message ?? "")"
+        case .approvalRuleTemplateDoesNotExistException(let message):
+            return "ApprovalRuleTemplateDoesNotExistException: \(message ?? "")"
+        case .approvalRuleTemplateInUseException(let message):
+            return "ApprovalRuleTemplateInUseException: \(message ?? "")"
+        case .approvalRuleTemplateNameAlreadyExistsException(let message):
+            return "ApprovalRuleTemplateNameAlreadyExistsException: \(message ?? "")"
+        case .approvalRuleTemplateNameRequiredException(let message):
+            return "ApprovalRuleTemplateNameRequiredException: \(message ?? "")"
+        case .approvalStateRequiredException(let message):
+            return "ApprovalStateRequiredException: \(message ?? "")"
         case .authorDoesNotExistException(let message):
             return "AuthorDoesNotExistException: \(message ?? "")"
         case .beforeCommitIdAndAfterCommitIdAreSameException(let message):
@@ -490,6 +603,10 @@ extension CodeCommitErrorType : CustomStringConvertible {
             return "BranchNameIsTagNameException: \(message ?? "")"
         case .branchNameRequiredException(let message):
             return "BranchNameRequiredException: \(message ?? "")"
+        case .cannotDeleteApprovalRuleFromTemplateException(let message):
+            return "CannotDeleteApprovalRuleFromTemplateException: \(message ?? "")"
+        case .cannotModifyApprovalRuleFromTemplateException(let message):
+            return "CannotModifyApprovalRuleFromTemplateException: \(message ?? "")"
         case .clientRequestTokenRequiredException(let message):
             return "ClientRequestTokenRequiredException: \(message ?? "")"
         case .commentContentRequiredException(let message):
@@ -560,6 +677,18 @@ extension CodeCommitErrorType : CustomStringConvertible {
             return "IdempotencyParameterMismatchException: \(message ?? "")"
         case .invalidActorArnException(let message):
             return "InvalidActorArnException: \(message ?? "")"
+        case .invalidApprovalRuleContentException(let message):
+            return "InvalidApprovalRuleContentException: \(message ?? "")"
+        case .invalidApprovalRuleNameException(let message):
+            return "InvalidApprovalRuleNameException: \(message ?? "")"
+        case .invalidApprovalRuleTemplateContentException(let message):
+            return "InvalidApprovalRuleTemplateContentException: \(message ?? "")"
+        case .invalidApprovalRuleTemplateDescriptionException(let message):
+            return "InvalidApprovalRuleTemplateDescriptionException: \(message ?? "")"
+        case .invalidApprovalRuleTemplateNameException(let message):
+            return "InvalidApprovalRuleTemplateNameException: \(message ?? "")"
+        case .invalidApprovalStateException(let message):
+            return "InvalidApprovalStateException: \(message ?? "")"
         case .invalidAuthorArnException(let message):
             return "InvalidAuthorArnException: \(message ?? "")"
         case .invalidBlobIdException(let message):
@@ -606,6 +735,8 @@ extension CodeCommitErrorType : CustomStringConvertible {
             return "InvalidMergeOptionException: \(message ?? "")"
         case .invalidOrderException(let message):
             return "InvalidOrderException: \(message ?? "")"
+        case .invalidOverrideStatusException(let message):
+            return "InvalidOverrideStatusException: \(message ?? "")"
         case .invalidParentCommitIdException(let message):
             return "InvalidParentCommitIdException: \(message ?? "")"
         case .invalidPathException(let message):
@@ -644,6 +775,10 @@ extension CodeCommitErrorType : CustomStringConvertible {
             return "InvalidRepositoryTriggerRegionException: \(message ?? "")"
         case .invalidResourceArnException(let message):
             return "InvalidResourceArnException: \(message ?? "")"
+        case .invalidRevisionIdException(let message):
+            return "InvalidRevisionIdException: \(message ?? "")"
+        case .invalidRuleContentSha256Exception(let message):
+            return "InvalidRuleContentSha256Exception: \(message ?? "")"
         case .invalidSortByException(let message):
             return "InvalidSortByException: \(message ?? "")"
         case .invalidSourceCommitSpecifierException(let message):
@@ -674,12 +809,16 @@ extension CodeCommitErrorType : CustomStringConvertible {
             return "MaximumFileEntriesExceededException: \(message ?? "")"
         case .maximumItemsToCompareExceededException(let message):
             return "MaximumItemsToCompareExceededException: \(message ?? "")"
+        case .maximumNumberOfApprovalsExceededException(let message):
+            return "MaximumNumberOfApprovalsExceededException: \(message ?? "")"
         case .maximumOpenPullRequestsExceededException(let message):
             return "MaximumOpenPullRequestsExceededException: \(message ?? "")"
         case .maximumRepositoryNamesExceededException(let message):
             return "MaximumRepositoryNamesExceededException: \(message ?? "")"
         case .maximumRepositoryTriggersExceededException(let message):
             return "MaximumRepositoryTriggersExceededException: \(message ?? "")"
+        case .maximumRuleTemplatesAssociatedWithRepositoryException(let message):
+            return "MaximumRuleTemplatesAssociatedWithRepositoryException: \(message ?? "")"
         case .mergeOptionRequiredException(let message):
             return "MergeOptionRequiredException: \(message ?? "")"
         case .multipleConflictResolutionEntriesException(let message):
@@ -690,6 +829,14 @@ extension CodeCommitErrorType : CustomStringConvertible {
             return "NameLengthExceededException: \(message ?? "")"
         case .noChangeException(let message):
             return "NoChangeException: \(message ?? "")"
+        case .numberOfRuleTemplatesExceededException(let message):
+            return "NumberOfRuleTemplatesExceededException: \(message ?? "")"
+        case .numberOfRulesExceededException(let message):
+            return "NumberOfRulesExceededException: \(message ?? "")"
+        case .overrideAlreadySetException(let message):
+            return "OverrideAlreadySetException: \(message ?? "")"
+        case .overrideStatusRequiredException(let message):
+            return "OverrideStatusRequiredException: \(message ?? "")"
         case .parentCommitDoesNotExistException(let message):
             return "ParentCommitDoesNotExistException: \(message ?? "")"
         case .parentCommitIdOutdatedException(let message):
@@ -702,6 +849,10 @@ extension CodeCommitErrorType : CustomStringConvertible {
             return "PathRequiredException: \(message ?? "")"
         case .pullRequestAlreadyClosedException(let message):
             return "PullRequestAlreadyClosedException: \(message ?? "")"
+        case .pullRequestApprovalRulesNotSatisfiedException(let message):
+            return "PullRequestApprovalRulesNotSatisfiedException: \(message ?? "")"
+        case .pullRequestCannotBeApprovedByAuthorException(let message):
+            return "PullRequestCannotBeApprovedByAuthorException: \(message ?? "")"
         case .pullRequestDoesNotExistException(let message):
             return "PullRequestDoesNotExistException: \(message ?? "")"
         case .pullRequestIdRequiredException(let message):
@@ -746,6 +897,10 @@ extension CodeCommitErrorType : CustomStringConvertible {
             return "ResourceArnRequiredException: \(message ?? "")"
         case .restrictedSourceFileException(let message):
             return "RestrictedSourceFileException: \(message ?? "")"
+        case .revisionIdRequiredException(let message):
+            return "RevisionIdRequiredException: \(message ?? "")"
+        case .revisionNotCurrentException(let message):
+            return "RevisionNotCurrentException: \(message ?? "")"
         case .sameFileContentException(let message):
             return "SameFileContentException: \(message ?? "")"
         case .samePathRequestException(let message):

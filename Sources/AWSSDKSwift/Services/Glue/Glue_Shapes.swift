@@ -2421,6 +2421,7 @@ extension Glue {
     public struct CreateMLTransformRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "InputRecordTables", required: true, type: .list), 
             AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
@@ -2434,27 +2435,30 @@ extension Glue {
 
         /// A description of the machine learning transform that is being defined. The default is an empty string.
         public let description: String?
+        /// This value determines which version of AWS Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see AWS Glue Versions in the developer guide.
+        public let glueVersion: String?
         /// A list of AWS Glue table definitions used by the transform.
         public let inputRecordTables: [GlueTable]
-        /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.   MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.   When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only. When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
         public let maxCapacity: Double?
         /// The maximum number of times to retry a task for this transform after a task run fails.
         public let maxRetries: Int?
         /// The unique name that you give the transform when you create it.
         public let name: String
-        /// The number of workers of a defined workerType that are allocated when this task runs.
+        /// The number of workers of a defined workerType that are allocated when this task runs. If WorkerType is set, then NumberOfWorkers is required (and vice versa).
         public let numberOfWorkers: Int?
         /// The algorithmic parameters that are specific to the transform type used. Conditionally dependent on the transform type.
         public let parameters: TransformParameters
-        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. Ensure that this role has permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries that are used by the task run for this transform.
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both AWS Glue service role permissions to AWS Glue resources, and Amazon S3 permissions required by the transform.    This role needs AWS Glue service role permissions to allow access to resources in AWS Glue. See Attach a Policy to IAM Users That Access AWS Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.  
         public let role: String
         /// The timeout of the task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.  
         public let workerType: WorkerType?
 
-        public init(description: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.description = description
+            self.glueVersion = glueVersion
             self.inputRecordTables = inputRecordTables
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
@@ -2470,6 +2474,9 @@ extension Glue {
             try validate(self.description, name:"description", parent: name, max: 2048)
             try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.glueVersion, name:"glueVersion", parent: name, max: 255)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, min: 1)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
             try self.inputRecordTables.forEach {
                 try $0.validate(name: "\(name).inputRecordTables[]")
             }
@@ -2484,6 +2491,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case glueVersion = "GlueVersion"
             case inputRecordTables = "InputRecordTables"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
@@ -5353,6 +5361,7 @@ extension Glue {
             AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "InputRecordTables", required: false, type: .list), 
             AWSShapeMember(label: "LabelCount", required: false, type: .integer), 
             AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
@@ -5375,6 +5384,8 @@ extension Glue {
         public let description: String?
         /// The latest evaluation metrics.
         public let evaluationMetrics: EvaluationMetrics?
+        /// This value determines which version of AWS Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see AWS Glue Versions in the developer guide.
+        public let glueVersion: String?
         /// A list of AWS Glue table definitions used by the transform.
         public let inputRecordTables: [GlueTable]?
         /// The number of labels available for this transform.
@@ -5404,10 +5415,11 @@ extension Glue {
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
         public let workerType: WorkerType?
 
-        public init(createdOn: TimeStamp? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: TimeStamp? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
+        public init(createdOn: TimeStamp? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: TimeStamp? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
             self.createdOn = createdOn
             self.description = description
             self.evaluationMetrics = evaluationMetrics
+            self.glueVersion = glueVersion
             self.inputRecordTables = inputRecordTables
             self.labelCount = labelCount
             self.lastModifiedOn = lastModifiedOn
@@ -5428,6 +5440,7 @@ extension Glue {
             case createdOn = "CreatedOn"
             case description = "Description"
             case evaluationMetrics = "EvaluationMetrics"
+            case glueVersion = "GlueVersion"
             case inputRecordTables = "InputRecordTables"
             case labelCount = "LabelCount"
             case lastModifiedOn = "LastModifiedOn"
@@ -7735,6 +7748,7 @@ extension Glue {
             AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "InputRecordTables", required: false, type: .list), 
             AWSShapeMember(label: "LabelCount", required: false, type: .integer), 
             AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
@@ -7757,23 +7771,25 @@ extension Glue {
         public let description: String?
         /// An EvaluationMetrics object. Evaluation metrics provide an estimate of the quality of your machine learning transform.
         public let evaluationMetrics: EvaluationMetrics?
+        /// This value determines which version of AWS Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see AWS Glue Versions in the developer guide.
+        public let glueVersion: String?
         /// A list of AWS Glue table definitions used by the transform.
         public let inputRecordTables: [GlueTable]?
         /// A count identifier for the labeling files generated by AWS Glue for this transform. As you create a better transform, you can iteratively download, label, and upload the labeling file.
         public let labelCount: Int?
         /// A timestamp. The last point in time when this machine learning transform was modified.
         public let lastModifiedOn: TimeStamp?
-        /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.   MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.   When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
         public let maxCapacity: Double?
         /// The maximum number of times to retry after an MLTaskRun of the machine learning transform fails.
         public let maxRetries: Int?
         /// A user-defined name for the machine learning transform. Names are not guaranteed unique and can be changed at any time.
         public let name: String?
-        /// The number of workers of a defined workerType that are allocated when a task of the transform runs.
+        /// The number of workers of a defined workerType that are allocated when a task of the transform runs. If WorkerType is set, then NumberOfWorkers is required (and vice versa).
         public let numberOfWorkers: Int?
         /// A TransformParameters object. You can use parameters to tune (customize) the behavior of the machine learning transform by specifying what data it learns from and your preference on various tradeoffs (such as precious vs. recall, or accuracy vs. cost).
         public let parameters: TransformParameters?
-        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both AWS Glue service role permissions to AWS Glue resources, and Amazon S3 permissions required by the transform.    This role needs AWS Glue service role permissions to allow access to resources in AWS Glue. See Attach a Policy to IAM Users That Access AWS Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.  
         public let role: String?
         /// A map of key-value pairs representing the columns and data types that this transform can run against. Has an upper bound of 100 columns.
         public let schema: [SchemaColumn]?
@@ -7783,13 +7799,14 @@ extension Glue {
         public let timeout: Int?
         /// The unique transform ID that is generated for the machine learning transform. The ID is guaranteed to be unique and does not change.
         public let transformId: String?
-        /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.  
         public let workerType: WorkerType?
 
-        public init(createdOn: TimeStamp? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: TimeStamp? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
+        public init(createdOn: TimeStamp? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: TimeStamp? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
             self.createdOn = createdOn
             self.description = description
             self.evaluationMetrics = evaluationMetrics
+            self.glueVersion = glueVersion
             self.inputRecordTables = inputRecordTables
             self.labelCount = labelCount
             self.lastModifiedOn = lastModifiedOn
@@ -7810,6 +7827,7 @@ extension Glue {
             case createdOn = "CreatedOn"
             case description = "Description"
             case evaluationMetrics = "EvaluationMetrics"
+            case glueVersion = "GlueVersion"
             case inputRecordTables = "InputRecordTables"
             case labelCount = "LabelCount"
             case lastModifiedOn = "LastModifiedOn"
@@ -9991,6 +10009,7 @@ extension Glue {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
             AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedAfter", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastModifiedBefore", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -10003,6 +10022,8 @@ extension Glue {
         public let createdAfter: TimeStamp?
         /// The time and date before which the transforms were created.
         public let createdBefore: TimeStamp?
+        /// This value determines which version of AWS Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see AWS Glue Versions in the developer guide.
+        public let glueVersion: String?
         /// Filter on transforms last modified after this date.
         public let lastModifiedAfter: TimeStamp?
         /// Filter on transforms last modified before this date.
@@ -10016,9 +10037,10 @@ extension Glue {
         /// The type of machine learning transform that is used to filter the machine learning transforms.
         public let transformType: TransformType?
 
-        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, lastModifiedAfter: TimeStamp? = nil, lastModifiedBefore: TimeStamp? = nil, name: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, transformType: TransformType? = nil) {
+        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, glueVersion: String? = nil, lastModifiedAfter: TimeStamp? = nil, lastModifiedBefore: TimeStamp? = nil, name: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, transformType: TransformType? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
+            self.glueVersion = glueVersion
             self.lastModifiedAfter = lastModifiedAfter
             self.lastModifiedBefore = lastModifiedBefore
             self.name = name
@@ -10028,6 +10050,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try validate(self.glueVersion, name:"glueVersion", parent: name, max: 255)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, min: 1)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
             try validate(self.name, name:"name", parent: name, max: 255)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10040,6 +10065,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case createdAfter = "CreatedAfter"
             case createdBefore = "CreatedBefore"
+            case glueVersion = "GlueVersion"
             case lastModifiedAfter = "LastModifiedAfter"
             case lastModifiedBefore = "LastModifiedBefore"
             case name = "Name"
@@ -10826,6 +10852,7 @@ extension Glue {
     public struct UpdateMLTransformRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -10839,6 +10866,8 @@ extension Glue {
 
         /// A description of the transform. The default is an empty string.
         public let description: String?
+        /// This value determines which version of AWS Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see AWS Glue Versions in the developer guide.
+        public let glueVersion: String?
         /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
         public let maxCapacity: Double?
         /// The maximum number of times to retry a task for this transform after a task run fails.
@@ -10858,8 +10887,9 @@ extension Glue {
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
         public let workerType: WorkerType?
 
-        public init(description: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, timeout: Int? = nil, transformId: String, workerType: WorkerType? = nil) {
+        public init(description: String? = nil, glueVersion: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, timeout: Int? = nil, transformId: String, workerType: WorkerType? = nil) {
             self.description = description
+            self.glueVersion = glueVersion
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
@@ -10875,6 +10905,9 @@ extension Glue {
             try validate(self.description, name:"description", parent: name, max: 2048)
             try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.glueVersion, name:"glueVersion", parent: name, max: 255)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, min: 1)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
             try validate(self.name, name:"name", parent: name, max: 255)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10887,6 +10920,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case glueVersion = "GlueVersion"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case name = "Name"

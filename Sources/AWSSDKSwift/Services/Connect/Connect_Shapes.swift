@@ -7,7 +7,37 @@ extension Connect {
 
     public enum Channel: String, CustomStringConvertible, Codable {
         case voice = "VOICE"
+        case chat = "CHAT"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ChatMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: true, type: .string), 
+            AWSShapeMember(label: "ContentType", required: true, type: .string)
+        ]
+
+        /// The content of the chat message.
+        public let content: String
+        /// The type of the content. Supported types are text/plain.
+        public let contentType: String
+
+        public init(content: String, contentType: String) {
+            self.content = content
+            self.contentType = contentType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.content, name:"content", parent: name, max: 1024)
+            try validate(self.content, name:"content", parent: name, min: 1)
+            try validate(self.contentType, name:"contentType", parent: name, max: 100)
+            try validate(self.contentType, name:"contentType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case contentType = "ContentType"
+        }
     }
 
     public enum Comparison: String, CustomStringConvertible, Codable {
@@ -70,6 +100,7 @@ extension Connect {
             AWSShapeMember(label: "PhoneConfig", required: true, type: .structure), 
             AWSShapeMember(label: "RoutingProfileId", required: true, type: .string), 
             AWSShapeMember(label: "SecurityProfileIds", required: true, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
 
@@ -89,10 +120,12 @@ extension Connect {
         public let routingProfileId: String
         /// The identifier of the security profile for the user.
         public let securityProfileIds: [String]
+        /// One or more tags.
+        public let tags: [String: String]?
         /// The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can include up to 64 characters from [a-zA-Z0-9_-.\@]+.
         public let username: String
 
-        public init(directoryUserId: String? = nil, hierarchyGroupId: String? = nil, identityInfo: UserIdentityInfo? = nil, instanceId: String, password: String? = nil, phoneConfig: UserPhoneConfig, routingProfileId: String, securityProfileIds: [String], username: String) {
+        public init(directoryUserId: String? = nil, hierarchyGroupId: String? = nil, identityInfo: UserIdentityInfo? = nil, instanceId: String, password: String? = nil, phoneConfig: UserPhoneConfig, routingProfileId: String, securityProfileIds: [String], tags: [String: String]? = nil, username: String) {
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
             self.identityInfo = identityInfo
@@ -101,6 +134,7 @@ extension Connect {
             self.phoneConfig = phoneConfig
             self.routingProfileId = routingProfileId
             self.securityProfileIds = securityProfileIds
+            self.tags = tags
             self.username = username
         }
 
@@ -112,9 +146,14 @@ extension Connect {
             try self.phoneConfig.validate(name: "\(name).phoneConfig")
             try validate(self.securityProfileIds, name:"securityProfileIds", parent: name, max: 10)
             try validate(self.securityProfileIds, name:"securityProfileIds", parent: name, min: 1)
-            try validate(self.username, name:"username", parent: name, max: 20)
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try validate(self.username, name:"username", parent: name, max: 100)
             try validate(self.username, name:"username", parent: name, min: 1)
-            try validate(self.username, name:"username", parent: name, pattern: "[a-zA-Z0-9\\_\\-\\.]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -126,6 +165,7 @@ extension Connect {
             case phoneConfig = "PhoneConfig"
             case routingProfileId = "RoutingProfileId"
             case securityProfileIds = "SecurityProfileIds"
+            case tags = "Tags"
             case username = "Username"
         }
     }
@@ -239,6 +279,9 @@ extension Connect {
         case contactsInQueue = "CONTACTS_IN_QUEUE"
         case oldestContactAge = "OLDEST_CONTACT_AGE"
         case contactsScheduled = "CONTACTS_SCHEDULED"
+        case agentsOnContact = "AGENTS_ON_CONTACT"
+        case slotsActive = "SLOTS_ACTIVE"
+        case slotsAvailable = "SLOTS_AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -524,7 +567,7 @@ extension Connect {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available:  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  CONTACTS_SCHEDULED  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  
+        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available:  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_ON_CONTACT  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  CONTACTS_SCHEDULED  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  SLOTS_ACTIVE  Unit: COUNT  SLOTS_AVAILABLE  Unit: COUNT  
         public let currentMetrics: [CurrentMetric]
         /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. The only supported channel is VOICE.
         public let filters: Filters
@@ -1377,6 +1420,40 @@ extension Connect {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        /// Information about the tags.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct ListUserHierarchyGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
@@ -1486,6 +1563,28 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case userSummaryList = "UserSummaryList"
+        }
+    }
+
+    public struct ParticipantDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: true, type: .string)
+        ]
+
+        /// Display name of the participant.
+        public let displayName: String
+
+        public init(displayName: String) {
+            self.displayName = displayName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.displayName, name:"displayName", parent: name, max: 256)
+            try validate(self.displayName, name:"displayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
         }
     }
 
@@ -1893,6 +1992,90 @@ extension Connect {
         }
     }
 
+    public struct StartChatContactRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "ContactFlowId", required: true, type: .string), 
+            AWSShapeMember(label: "InitialMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "ParticipantDetails", required: true, type: .structure)
+        ]
+
+        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        public let attributes: [String: String]?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The identifier of the contact flow for the chat.
+        public let contactFlowId: String
+        /// The initial message to be sent to the newly created chat.
+        public let initialMessage: ChatMessage?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// Information identifying the participant.
+        public let participantDetails: ParticipantDetails
+
+        public init(attributes: [String: String]? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, initialMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails) {
+            self.attributes = attributes
+            self.clientToken = clientToken
+            self.contactFlowId = contactFlowId
+            self.initialMessage = initialMessage
+            self.instanceId = instanceId
+            self.participantDetails = participantDetails
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try validate($0.key, name:"attributes.key", parent: name, max: 32767)
+                try validate($0.key, name:"attributes.key", parent: name, min: 1)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 32767)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 0)
+            }
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 500)
+            try validate(self.contactFlowId, name:"contactFlowId", parent: name, max: 500)
+            try self.initialMessage?.validate(name: "\(name).initialMessage")
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+            try self.participantDetails.validate(name: "\(name).participantDetails")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case clientToken = "ClientToken"
+            case contactFlowId = "ContactFlowId"
+            case initialMessage = "InitialMessage"
+            case instanceId = "InstanceId"
+            case participantDetails = "ParticipantDetails"
+        }
+    }
+
+    public struct StartChatContactResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactId", required: false, type: .string), 
+            AWSShapeMember(label: "ParticipantId", required: false, type: .string), 
+            AWSShapeMember(label: "ParticipantToken", required: false, type: .string)
+        ]
+
+        /// The identifier of this contact within the Amazon Connect instance. 
+        public let contactId: String?
+        /// The identifier for a chat participant. The participantId for a chat participant is the same throughout the chat lifecycle.
+        public let participantId: String?
+        /// The token used by the chat participant to call CreateParticipantConnection. The participant token is valid for the lifetime of a chat participant.
+        public let participantToken: String?
+
+        public init(contactId: String? = nil, participantId: String? = nil, participantToken: String? = nil) {
+            self.contactId = contactId
+            self.participantId = participantId
+            self.participantToken = participantToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case participantId = "ParticipantId"
+            case participantToken = "ParticipantToken"
+        }
+    }
+
     public struct StartOutboundVoiceContactRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
@@ -2014,6 +2197,37 @@ extension Connect {
 
     }
 
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        /// One or more tags. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
     public struct Threshold: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comparison", required: false, type: .enum), 
@@ -2041,6 +2255,38 @@ extension Connect {
         case count = "COUNT"
         case percent = "PERCENT"
         public var description: String { return self.rawValue }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
     }
 
     public struct UpdateContactAttributesRequest: AWSShape {
@@ -2265,6 +2511,7 @@ extension Connect {
             AWSShapeMember(label: "PhoneConfig", required: false, type: .structure), 
             AWSShapeMember(label: "RoutingProfileId", required: false, type: .string), 
             AWSShapeMember(label: "SecurityProfileIds", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
 
@@ -2284,10 +2531,12 @@ extension Connect {
         public let routingProfileId: String?
         /// The identifiers of the security profiles for the user.
         public let securityProfileIds: [String]?
+        /// The tags.
+        public let tags: [String: String]?
         /// The user name assigned to the user account.
         public let username: String?
 
-        public init(arn: String? = nil, directoryUserId: String? = nil, hierarchyGroupId: String? = nil, id: String? = nil, identityInfo: UserIdentityInfo? = nil, phoneConfig: UserPhoneConfig? = nil, routingProfileId: String? = nil, securityProfileIds: [String]? = nil, username: String? = nil) {
+        public init(arn: String? = nil, directoryUserId: String? = nil, hierarchyGroupId: String? = nil, id: String? = nil, identityInfo: UserIdentityInfo? = nil, phoneConfig: UserPhoneConfig? = nil, routingProfileId: String? = nil, securityProfileIds: [String]? = nil, tags: [String: String]? = nil, username: String? = nil) {
             self.arn = arn
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
@@ -2296,6 +2545,7 @@ extension Connect {
             self.phoneConfig = phoneConfig
             self.routingProfileId = routingProfileId
             self.securityProfileIds = securityProfileIds
+            self.tags = tags
             self.username = username
         }
 
@@ -2308,6 +2558,7 @@ extension Connect {
             case phoneConfig = "PhoneConfig"
             case routingProfileId = "RoutingProfileId"
             case securityProfileIds = "SecurityProfileIds"
+            case tags = "Tags"
             case username = "Username"
         }
     }

@@ -10,6 +10,7 @@ extension ELBV2 {
             AWSShapeMember(label: "AuthenticateCognitoConfig", required: false, type: .structure), 
             AWSShapeMember(label: "AuthenticateOidcConfig", required: false, type: .structure), 
             AWSShapeMember(label: "FixedResponseConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ForwardConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Order", required: false, type: .integer), 
             AWSShapeMember(label: "RedirectConfig", required: false, type: .structure), 
             AWSShapeMember(label: "TargetGroupArn", required: false, type: .string), 
@@ -22,19 +23,22 @@ extension ELBV2 {
         public let authenticateOidcConfig: AuthenticateOidcActionConfig?
         /// [Application Load Balancer] Information for creating an action that returns a custom HTTP response. Specify only when Type is fixed-response.
         public let fixedResponseConfig: FixedResponseActionConfig?
-        /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first. The final action to be performed must be a forward or a fixed-response action.
+        /// Information for creating an action that distributes requests among one or more target groups. For Network Load Balancers, you can specify a single target group. Specify only when Type is forward. If you specify both ForwardConfig and TargetGroupArn, you can specify only one target group using ForwardConfig and it must be the same target group specified in TargetGroupArn.
+        public let forwardConfig: ForwardActionConfig?
+        /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first. The last action to be performed must be one of the following types of actions: a forward, fixed-response, or redirect.
         public let order: Int?
         /// [Application Load Balancer] Information for creating a redirect action. Specify only when Type is redirect.
         public let redirectConfig: RedirectActionConfig?
-        /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward.
+        /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward and you want to route to a single target group. To route to one or more target groups, use ForwardConfig instead.
         public let targetGroupArn: String?
-        /// The type of action. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect.
+        /// The type of action.
         public let `type`: ActionTypeEnum
 
-        public init(authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, order: Int? = nil, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, type: ActionTypeEnum) {
+        public init(authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, forwardConfig: ForwardActionConfig? = nil, order: Int? = nil, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, type: ActionTypeEnum) {
             self.authenticateCognitoConfig = authenticateCognitoConfig
             self.authenticateOidcConfig = authenticateOidcConfig
             self.fixedResponseConfig = fixedResponseConfig
+            self.forwardConfig = forwardConfig
             self.order = order
             self.redirectConfig = redirectConfig
             self.targetGroupArn = targetGroupArn
@@ -52,6 +56,7 @@ extension ELBV2 {
             case authenticateCognitoConfig = "AuthenticateCognitoConfig"
             case authenticateOidcConfig = "AuthenticateOidcConfig"
             case fixedResponseConfig = "FixedResponseConfig"
+            case forwardConfig = "ForwardConfig"
             case order = "Order"
             case redirectConfig = "RedirectConfig"
             case targetGroupArn = "TargetGroupArn"
@@ -289,7 +294,7 @@ extension ELBV2 {
             AWSShapeMember(label: "ZoneName", required: false, type: .string)
         ]
 
-        /// [Network Load Balancers] If you need static IP addresses for your load balancer, you can specify one Elastic IP address per Availability Zone when you create the load balancer.
+        /// [Network Load Balancers] If you need static IP addresses for your load balancer, you can specify one Elastic IP address per Availability Zone when you create an internal-facing load balancer. For internal load balancers, you can specify a private IP address from the IPv4 range of the subnet.
         public let loadBalancerAddresses: [LoadBalancerAddress]?
         /// The ID of the subnet. You can specify one subnet per Availability Zone.
         public let subnetId: String?
@@ -365,7 +370,7 @@ extension ELBV2 {
 
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list for the listener, use AddListenerCertificates.
         public let certificates: [Certificate]?
-        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         public let defaultActions: [Action]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -436,11 +441,11 @@ extension ELBV2 {
         public let ipAddressType: IpAddressType?
         /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
         public let name: String
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
+        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
         public let scheme: LoadBalancerSchemeEnum?
         /// [Application Load Balancers] The IDs of the security groups for the load balancer.
         public let securityGroups: [String]?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your load balancer.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
         public let subnetMappings: [SubnetMapping]?
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
         public let subnets: [String]?
@@ -504,7 +509,7 @@ extension ELBV2 {
             AWSShapeMember(label: "Priority", required: true, type: .integer)
         ]
 
-        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         public let actions: [Action]
         /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
         public let conditions: [RuleCondition]
@@ -1386,6 +1391,28 @@ extension ELBV2 {
         }
     }
 
+    public struct ForwardActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "TargetGroupStickinessConfig", required: false, type: .structure)
+        ]
+
+        /// One or more target groups. For Network Load Balancers, you can specify a single target group.
+        public let targetGroups: [TargetGroupTuple]?
+        /// The target group stickiness for the rule.
+        public let targetGroupStickinessConfig: TargetGroupStickinessConfig?
+
+        public init(targetGroups: [TargetGroupTuple]? = nil, targetGroupStickinessConfig: TargetGroupStickinessConfig? = nil) {
+            self.targetGroups = targetGroups
+            self.targetGroupStickinessConfig = targetGroupStickinessConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetGroups = "TargetGroups"
+            case targetGroupStickinessConfig = "TargetGroupStickinessConfig"
+        }
+    }
+
     public struct HostHeaderConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
@@ -1456,7 +1483,7 @@ extension ELBV2 {
 
         /// The maximum value of the limit.
         public let max: String?
-        /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   targets-per-application-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer  
+        /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   target-groups-per-action-on-application-load-balancer   target-groups-per-action-on-network-load-balancer   target-groups-per-application-load-balancer   targets-per-application-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer  
         public let name: String?
 
         public init(max: String? = nil, name: String? = nil) {
@@ -1547,7 +1574,7 @@ extension ELBV2 {
         public let loadBalancerArn: String?
         /// The name of the load balancer.
         public let loadBalancerName: String?
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer.
+        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer.
         public let scheme: LoadBalancerSchemeEnum?
         /// The IDs of the security groups for the load balancer.
         public let securityGroups: [String]?
@@ -1592,22 +1619,27 @@ extension ELBV2 {
     public struct LoadBalancerAddress: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllocationId", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string)
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIPv4Address", required: false, type: .string)
         ]
 
-        /// [Network Load Balancers] The allocation ID of the Elastic IP address.
+        /// [Network Load Balancers] The allocation ID of the Elastic IP address for an internal-facing load balancer.
         public let allocationId: String?
         /// The static IP address.
         public let ipAddress: String?
+        /// [Network Load Balancers] The private IPv4 address for an internal load balancer.
+        public let privateIPv4Address: String?
 
-        public init(allocationId: String? = nil, ipAddress: String? = nil) {
+        public init(allocationId: String? = nil, ipAddress: String? = nil, privateIPv4Address: String? = nil) {
             self.allocationId = allocationId
             self.ipAddress = ipAddress
+            self.privateIPv4Address = privateIPv4Address
         }
 
         private enum CodingKeys: String, CodingKey {
             case allocationId = "AllocationId"
             case ipAddress = "IpAddress"
+            case privateIPv4Address = "PrivateIPv4Address"
         }
     }
 
@@ -1617,7 +1649,7 @@ extension ELBV2 {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
-        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.  
+        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.  
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -1710,7 +1742,7 @@ extension ELBV2 {
 
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
         public let certificates: [Certificate]?
-        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         public let defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -1818,7 +1850,7 @@ extension ELBV2 {
             AWSShapeMember(label: "RuleArn", required: true, type: .string)
         ]
 
-        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         public let actions: [Action]?
         /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
         public let conditions: [RuleCondition]?
@@ -1925,19 +1957,19 @@ extension ELBV2 {
 
         /// Indicates whether health checks are enabled.
         public let healthCheckEnabled: Bool?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. If the protocol of the target group is TCP, you can't modify this setting.
+        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. With Network Load Balancers, you can't modify this setting.
         public let healthCheckIntervalSeconds: Int?
         /// [HTTP/HTTPS health checks] The ping path that is the destination for the health check request.
         public let healthCheckPath: String?
         /// The port the load balancer uses when performing health checks on targets.
         public let healthCheckPort: String?
-        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The TLS, UDP, and TCP_UDP protocols are not supported for health checks. If the protocol of the target group is TCP, you can't modify this setting.
+        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The TLS, UDP, and TCP_UDP protocols are not supported for health checks. With Network Load Balancers, you can't modify this setting.
         public let healthCheckProtocol: ProtocolEnum?
-        /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check. If the protocol of the target group is TCP, you can't modify this setting.
+        /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check. With Network Load Balancers, you can't modify this setting.
         public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
         public let healthyThresholdCount: Int?
-        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target. If the protocol of the target group is TCP, you can't modify this setting.
+        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target. With Network Load Balancers, you can't modify this setting.
         public let matcher: Matcher?
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -2476,7 +2508,7 @@ extension ELBV2 {
 
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
-        /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. You cannot specify Elastic IP addresses for your subnets.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. If you need static IP addresses for your internet-facing load balancer, you can specify one Elastic IP address per subnet. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
         public let subnetMappings: [SubnetMapping]?
         /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
         public let subnets: [String]?
@@ -2558,21 +2590,26 @@ extension ELBV2 {
     public struct SubnetMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllocationId", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIPv4Address", required: false, type: .string), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string)
         ]
 
-        /// [Network Load Balancers] The allocation ID of the Elastic IP address.
+        /// [Network Load Balancers] The allocation ID of the Elastic IP address for an internet-facing load balancer.
         public let allocationId: String?
+        /// [Network Load Balancers] The private IPv4 address for an internal load balancer.
+        public let privateIPv4Address: String?
         /// The ID of the subnet.
         public let subnetId: String?
 
-        public init(allocationId: String? = nil, subnetId: String? = nil) {
+        public init(allocationId: String? = nil, privateIPv4Address: String? = nil, subnetId: String? = nil) {
             self.allocationId = allocationId
+            self.privateIPv4Address = privateIPv4Address
             self.subnetId = subnetId
         }
 
         private enum CodingKeys: String, CodingKey {
             case allocationId = "AllocationId"
+            case privateIPv4Address = "PrivateIPv4Address"
             case subnetId = "SubnetId"
         }
     }
@@ -2641,7 +2678,7 @@ extension ELBV2 {
         public let availabilityZone: String?
         /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function.
         public let id: String
-        /// The port on which the target is listening.
+        /// The port on which the target is listening. Not used if the target is a Lambda function.
         public let port: Int?
 
         public init(availabilityZone: String? = nil, id: String, port: Int? = nil) {
@@ -2700,7 +2737,7 @@ extension ELBV2 {
         public let loadBalancerArns: [String]?
         /// The HTTP codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
-        /// The port on which the targets are listening.
+        /// The port on which the targets are listening. Not used if the target is a Lambda function.
         public let port: Int?
         /// The protocol to use for routing traffic to the targets.
         public let `protocol`: ProtocolEnum?
@@ -2760,7 +2797,7 @@ extension ELBV2 {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
-        /// The name of the attribute. The following attribute is supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.   The following attributes are supported by Application Load Balancers if the target is not a Lambda function:    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives a linearly increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the target is a Lambda function.    lambda.multi_value_headers.enabled - Indicates whether the request and response headers exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
+        /// The name of the attribute. The following attribute is supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.   The following attributes are supported by Application Load Balancers if the target is not a Lambda function:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives a linearly increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the target is a Lambda function.    lambda.multi_value_headers.enabled - Indicates whether the request and response headers exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -2781,6 +2818,50 @@ extension ELBV2 {
         }
     }
 
+    public struct TargetGroupStickinessConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+
+        /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days).
+        public let durationSeconds: Int?
+        /// Indicates whether target group stickiness is enabled.
+        public let enabled: Bool?
+
+        public init(durationSeconds: Int? = nil, enabled: Bool? = nil) {
+            self.durationSeconds = durationSeconds
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationSeconds = "DurationSeconds"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct TargetGroupTuple: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "Weight", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String?
+        /// The weight. The range is 0 to 999.
+        public let weight: Int?
+
+        public init(targetGroupArn: String? = nil, weight: Int? = nil) {
+            self.targetGroupArn = targetGroupArn
+            self.weight = weight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetGroupArn = "TargetGroupArn"
+            case weight = "Weight"
+        }
+    }
+
     public struct TargetHealth: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -2790,7 +2871,7 @@ extension ELBV2 {
 
         /// A description of the target health that provides additional details. If the state is healthy, a description is not provided.
         public let description: String?
-        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The load balancer received an error while establishing a connection to the target or the target response was malformed.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.IpUnusable - The target IP address is reserved for use by a load balancer.    Target.InvalidState - The target is in the stopped or terminated state.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.   If the target state is unavailable, the reason code can be the following value:    Target.HealthCheckDisabled - Health checks are disabled for the target group.  
+        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code. Applies only to Application Load Balancers.    Target.Timeout - The health check requests timed out. Applies only to Application Load Balancers.    Target.FailedHealthChecks - The load balancer received an error while establishing a connection to the target or the target response was malformed.    Elb.InternalError - The health checks failed due to an internal error. Applies only to Application Load Balancers.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.    Target.IpUnusable - The target IP address is reserved for use by a load balancer.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.   If the target state is unavailable, the reason code can be the following value:    Target.HealthCheckDisabled - Health checks are disabled for the target group. Applies only to Application Load Balancers.    Elb.InternalError - Target health is unavailable due to an internal error. Applies only to Network Load Balancers.  
         public let reason: TargetHealthReasonEnum?
         /// The state of the target.
         public let state: TargetHealthStateEnum?

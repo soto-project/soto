@@ -46,7 +46,7 @@ extension S3 {
             AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
         ]
 
-        /// Name of the bucket to which the multipart upload was initiated.
+        /// The bucket name to which the upload was taking place.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// Key of the object for which the multipart upload was initiated.
         public let key: String
@@ -392,7 +392,7 @@ extension S3 {
             AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: true, type: .list, encoding: .flatList)
         ]
 
-        /// A set of allowed origins and methods.
+        /// A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration.
         public let cORSRules: [CORSRule]
 
         public init(cORSRules: [CORSRule]) {
@@ -454,17 +454,17 @@ extension S3 {
 
         /// Specifies that CSV field values may contain quoted record delimiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance.
         public let allowQuotedRecordDelimiter: Bool?
-        /// The single character used to indicate a row should be ignored when present at the start of a row.
+        /// A single character used to indicate that a row should be ignored when the character is present at the start of that row. You can specify any character to indicate a comment line.
         public let comments: String?
-        /// The value used to separate individual fields in a record.
+        /// A single character used to separate individual fields in a record. You can specify an arbitrary delimiter.
         public let fieldDelimiter: String?
-        /// Describes the first line of input. Valid values: None, Ignore, Use.
+        /// Describes the first line of input. Valid values are:    NONE: First line is not a header.    IGNORE: First line is a header, but you can't use the header values to indicate the column in an expression. You can use column position (such as _1, _2, …) to indicate the column (SELECT s._1 FROM OBJECT s).    Use: First line is a header, and you can use the header value to identify a column in an expression (SELECT "name" FROM OBJECT).   
         public let fileHeaderInfo: FileHeaderInfo?
-        /// Value used for escaping where the field delimiter is part of the value.
+        /// A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b, Amazon S3 wraps this field value in quotation marks, as follows: " a , b ". Type: String Default: "  Ancestors: CSV 
         public let quoteCharacter: String?
-        /// The single character used for escaping the quote character inside an already escaped value.
+        /// A single character used for escaping the quotation mark character inside an already escaped value. For example, the value """ a , b """ is parsed as " a , b ".
         public let quoteEscapeCharacter: String?
-        /// The value used to separate individual records.
+        /// A single character used to separate individual records in the input. Instead of the default value, you can specify an arbitrary delimiter.
         public let recordDelimiter: String?
 
         public init(allowQuotedRecordDelimiter: Bool? = nil, comments: String? = nil, fieldDelimiter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, recordDelimiter: String? = nil) {
@@ -497,15 +497,15 @@ extension S3 {
             AWSShapeMember(label: "RecordDelimiter", required: false, type: .string)
         ]
 
-        /// The value used to separate individual fields in a record.
+        /// The value used to separate individual fields in a record. You can specify an arbitrary delimiter.
         public let fieldDelimiter: String?
-        /// The value used for escaping where the field delimiter is part of the value.
+        /// A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b, Amazon S3 wraps this field value in quotation marks, as follows: " a , b ".
         public let quoteCharacter: String?
-        /// Th single character used for escaping the quote character inside an already escaped value.
+        /// The single character used for escaping the quote character inside an already escaped value.
         public let quoteEscapeCharacter: String?
-        /// Indicates whether or not all output fields should be quoted.
+        /// Indicates whether to use quotation marks around output fields.     ALWAYS: Always use quotation marks for output fields.    ASNEEDED: Use quotation marks for output fields when needed.  
         public let quoteFields: QuoteFields?
-        /// The value used to separate individual records.
+        /// A single character used to separate individual records in the output. Instead of the default value, you can specify an arbitrary delimiter.
         public let recordDelimiter: String?
 
         public init(fieldDelimiter: String? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, quoteFields: QuoteFields? = nil, recordDelimiter: String? = nil) {
@@ -533,9 +533,12 @@ extension S3 {
             AWSShapeMember(label: "InvocationRole", required: false, type: .string)
         ]
 
+        /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events of the specified type.
         public let cloudFunction: String?
+        /// Bucket events for which to send notifications.
         public let events: [Event]?
         public let id: String?
+        /// The role supporting the invocation of the Lambda function
         public let invocationRole: String?
 
         public init(cloudFunction: String? = nil, events: [Event]? = nil, id: String? = nil, invocationRole: String? = nil) {
@@ -558,6 +561,7 @@ extension S3 {
             AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
 
+        /// Container for the specified common prefix.
         public let prefix: String?
 
         public init(prefix: String? = nil) {
@@ -582,19 +586,22 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
 
+        /// The name of the bucket that contains the newly created object.
         public let bucket: String?
-        /// Entity tag of the object.
+        /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits.
         public let eTag: String?
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
         public let expiration: String?
+        /// The object key of the newly created object.
         public let key: String?
+        /// The URI that identifies the newly created object.
         public let location: String?
         public let requestCharged: RequestCharged?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// If you specified server-side encryption either with an Amazon S3-managed encryption key or an AWS KMS customer master key (CMK) in your initiate multipart upload request, the response includes this header. It confirms the encryption algorithm that Amazon S3 used to encrypt the object.
         public let serverSideEncryption: ServerSideEncryption?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
         public let sSEKMSKeyId: String?
-        /// Version of the object.
+        /// Version ID of the newly created object, in case the bucket has versioning turned on.
         public let versionId: String?
 
         public init(bucket: String? = nil, eTag: String? = nil, expiration: String? = nil, key: String? = nil, location: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
@@ -634,10 +641,14 @@ extension S3 {
             AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
         ]
 
+        /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String
+        /// Object key for which the multipart upload was initiated.
         public let key: String
+        /// The container for the multipart upload request information.
         public let multipartUpload: CompletedMultipartUpload?
         public let requestPayer: RequestPayer?
+        /// ID for the initiated multipart upload.
         public let uploadId: String
 
         public init(bucket: String, key: String, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
@@ -666,6 +677,7 @@ extension S3 {
             AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list, encoding: .flatList)
         ]
 
+        /// Array of CompletedPart data types.
         public let parts: [CompletedPart]?
 
         public init(parts: [CompletedPart]? = nil) {
@@ -744,20 +756,22 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
 
+        /// Container for all response elements.
         public let copyObjectResult: CopyObjectResult?
+        /// Version of the copied object in the destination bucket.
         public let copySourceVersionId: String?
         /// If the object expiration is configured, the response includes this header.
         public let expiration: String?
         public let requestCharged: RequestCharged?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
         /// If present, specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let sSEKMSEncryptionContext: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
         public let sSEKMSKeyId: String?
         /// Version ID of the newly created copy.
         public let versionId: String?
@@ -832,6 +846,7 @@ extension S3 {
 
         /// The canned ACL to apply to the object.
         public let acl: ObjectCannedACL?
+        /// The name of the destination bucket.
         public let bucket: String
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
@@ -853,11 +868,11 @@ extension S3 {
         public let copySourceIfNoneMatch: String?
         /// Copies the object if it hasn't been modified since the specified time.
         public let copySourceIfUnmodifiedSince: TimeStamp?
-        /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
+        /// Specifies the algorithm to use when decrypting the source object (for example, AES256).
         public let copySourceSSECustomerAlgorithm: String?
         /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
         public let copySourceSSECustomerKey: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let copySourceSSECustomerKeyMD5: String?
         /// The date and time at which the object is no longer cacheable.
         public let expires: TimeStamp?
@@ -869,6 +884,7 @@ extension S3 {
         public let grantReadACP: String?
         /// Allows grantee to write the ACL for the applicable object.
         public let grantWriteACP: String?
+        /// The key of the destination object.
         public let key: String
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
@@ -876,26 +892,26 @@ extension S3 {
         public let metadataDirective: MetadataDirective?
         /// Specifies whether you want to apply a Legal Hold to the copied object.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        /// The object lock mode that you want to apply to the copied object.
+        /// The Object Lock mode that you want to apply to the copied object.
         public let objectLockMode: ObjectLockMode?
-        /// The date and time when you want the copied object's object lock to expire.
+        /// The date and time when you want the copied object's Object Lock to expire.
         public let objectLockRetainUntilDate: TimeStamp?
         public let requestPayer: RequestPayer?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
         public let sSECustomerKey: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let sSEKMSEncryptionContext: String?
-        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. For information about configuring using any of the officially supported AWS SDKs and AWS CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 Developer Guide.
         public let sSEKMSKeyId: String?
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
         public let storageClass: StorageClass?
-        /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters
+        /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters.
         public let tagging: String?
         /// Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
         public let taggingDirective: TaggingDirective?
@@ -994,7 +1010,9 @@ extension S3 {
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp)
         ]
 
+        /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata. The source and destination ETag is identical for a successfully copied object.
         public let eTag: String?
+        /// Returns the date that the object was last modified.
         public let lastModified: TimeStamp?
 
         public init(eTag: String? = nil, lastModified: TimeStamp? = nil) {
@@ -1035,7 +1053,7 @@ extension S3 {
             AWSShapeMember(label: "LocationConstraint", required: false, type: .enum)
         ]
 
-        /// Specifies the region where the bucket will be created. If you don't specify a region, the bucket is created in US East (N. Virginia) Region (us-east-1).
+        /// Specifies the Region where the bucket will be created. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1).
         public let locationConstraint: BucketLocationConstraint?
 
         public init(locationConstraint: BucketLocationConstraint? = nil) {
@@ -1052,6 +1070,7 @@ extension S3 {
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
         ]
 
+        /// Specifies the Region where the bucket will be created. If you are creating a bucket on the US East (N. Virginia) Region (us-east-1), you do not need to specify the location.
         public let location: String?
 
         public init(location: String? = nil) {
@@ -1081,7 +1100,9 @@ extension S3 {
 
         /// The canned ACL to apply to the bucket.
         public let acl: BucketCannedACL?
+        /// The name of the bucket to create.
         public let bucket: String
+        /// The configuration information for the bucket.
         public let createBucketConfiguration: CreateBucketConfiguration?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
         public let grantFullControl: String?
@@ -1093,7 +1114,7 @@ extension S3 {
         public let grantWrite: String?
         /// Allows grantee to write the ACL for the applicable bucket.
         public let grantWriteACP: String?
-        /// Specifies whether you want Amazon S3 object lock to be enabled for the new bucket.
+        /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.
         public let objectLockEnabledForBucket: Bool?
 
         public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil) {
@@ -1136,24 +1157,24 @@ extension S3 {
             AWSShapeMember(label: "UploadId", required: false, type: .string)
         ]
 
-        /// Date when multipart upload will become eligible for abort operation by lifecycle.
+        /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, the response includes this header. The header indicates when the initiated multipart upload becomes eligible for an abort operation. For more information, see  Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy. The response also includes the x-amz-abort-rule-id header that provides the ID of the lifecycle configuration rule that defines this action.
         public let abortDate: TimeStamp?
-        /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
+        /// This header is returned along with the x-amz-abort-date header. It identifies the applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
         public let abortRuleId: String?
-        /// Name of the bucket to which the multipart upload was initiated.
+        /// Name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String?
         /// Object key for which the multipart upload was initiated.
         public let key: String?
         public let requestCharged: RequestCharged?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
         /// If present, specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let sSEKMSEncryptionContext: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
         public let sSEKMSKeyId: String?
         /// ID for the initiated multipart upload.
         public let uploadId: String?
@@ -1220,6 +1241,7 @@ extension S3 {
 
         /// The canned ACL to apply to the object.
         public let acl: ObjectCannedACL?
+        /// The name of the bucket to which to initiate the upload
         public let bucket: String
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
@@ -1241,31 +1263,32 @@ extension S3 {
         public let grantReadACP: String?
         /// Allows grantee to write the ACL for the applicable object.
         public let grantWriteACP: String?
+        /// Object key for which the multipart upload is to be initiated.
         public let key: String
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
         /// Specifies whether you want to apply a Legal Hold to the uploaded object.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        /// Specifies the object lock mode that you want to apply to the uploaded object.
+        /// Specifies the Object Lock mode that you want to apply to the uploaded object.
         public let objectLockMode: ObjectLockMode?
-        /// Specifies the date and time when you want the object lock to expire.
+        /// Specifies the date and time when you want the Object Lock to expire.
         public let objectLockRetainUntilDate: TimeStamp?
         public let requestPayer: RequestPayer?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
         public let sSECustomerKey: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let sSEKMSEncryptionContext: String?
-        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+        /// Specifies the ID of the symmetric customer managed AWS KMS CMK to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. For information about configuring using any of the officially supported AWS SDKs and AWS CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 Developer Guide.
         public let sSEKMSKeyId: String?
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
         public let storageClass: StorageClass?
-        /// The tag-set for the object. The tag-set must be encoded as URL Query parameters
+        /// The tag-set for the object. The tag-set must be encoded as URL Query parameters.
         public let tagging: String?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
@@ -1344,7 +1367,7 @@ extension S3 {
 
         /// The number of days that you want to specify for the default retention period.
         public let days: Int?
-        /// The default object lock retention mode you want to apply to new objects placed in the specified bucket.
+        /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket.
         public let mode: ObjectLockRetentionMode?
         /// The number of years that you want to specify for the default retention period.
         public let years: Int?
@@ -1368,6 +1391,7 @@ extension S3 {
             AWSShapeMember(label: "Quiet", required: false, type: .boolean)
         ]
 
+        /// The objects to delete.
         public let objects: [ObjectIdentifier]
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
         public let quiet: Bool?
@@ -1416,6 +1440,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// Specifies the bucket whose cors configuration is being deleted.
         public let bucket: String
 
         public init(bucket: String) {
@@ -1471,6 +1496,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket name of the lifecycle to delete.
         public let bucket: String
 
         public init(bucket: String) {
@@ -1509,6 +1535,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket name.
         public let bucket: String
 
         public init(bucket: String) {
@@ -1525,7 +1552,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
-        ///  The bucket name.   It can take a while to propagate the deletion of a replication configuration to all Amazon S3 systems. 
+        ///  The bucket name. 
         public let bucket: String
 
         public init(bucket: String) {
@@ -1542,6 +1569,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// Specifies the bucket being deleted.
         public let bucket: String
 
         public init(bucket: String) {
@@ -1558,6 +1586,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket that has the tag set to be removed.
         public let bucket: String
 
         public init(bucket: String) {
@@ -1574,6 +1603,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket name for which you want to remove the website configuration. 
         public let bucket: String
 
         public init(bucket: String) {
@@ -1600,6 +1630,7 @@ extension S3 {
         public let key: String?
         /// Date and time the object was last modified.
         public let lastModified: TimeStamp?
+        /// The account that created the delete marker.&gt;
         public let owner: Owner?
         /// Version ID of an object.
         public let versionId: String?
@@ -1626,7 +1657,7 @@ extension S3 {
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
 
-        /// The status of the delete marker replication.   In the current implementation, Amazon S3 doesn't replicate the delete markers. The status must be Disabled.  
+        /// Indicates whether to replicate delete markers.   In the current implementation, Amazon S3 doesn't replicate the delete markers. The status must be Disabled.  
         public let status: DeleteMarkerReplicationStatus?
 
         public init(status: DeleteMarkerReplicationStatus? = nil) {
@@ -1680,11 +1711,13 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
+        /// The bucket name of the bucket containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// Indicates whether Amazon S3 object lock should bypass governance-mode restrictions to process this operation.
+        /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation.
         public let bypassGovernanceRetention: Bool?
+        /// Key name of the object to delete.
         public let key: String
-        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled.
         public let mfa: String?
         public let requestPayer: RequestPayer?
         /// VersionId used to reference a specific version of the object.
@@ -1737,7 +1770,9 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
+        /// The bucket name containing the objects from which to remove the tags.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// Name of the tag.
         public let key: String
         /// The versionId of the object that the tag-set will be removed from.
         public let versionId: String?
@@ -1766,7 +1801,9 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
 
+        /// Container element for a successful delete. It identifies the object that was successfully deleted.
         public let deleted: [DeletedObject]?
+        /// Container for a failed delete operation that describes the object that Amazon S3 attempted to delete and the error it encountered.
         public let errors: [Error]?
         public let requestCharged: RequestCharged?
 
@@ -1795,11 +1832,13 @@ extension S3 {
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
 
+        /// The bucket name containing the objects to delete.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// Specifies whether you want to delete this object even if it has a Governance-type object lock in place. You must have sufficient permissions to perform this operation.
+        /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. You must have sufficient permissions to perform this operation.
         public let bypassGovernanceRetention: Bool?
+        /// Container for the request.
         public let delete: Delete
-        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled.
         public let mfa: String?
         public let requestPayer: RequestPayer?
 
@@ -1849,9 +1888,13 @@ extension S3 {
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
+        /// Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker. In a simple DELETE, this header indicates whether (true) or not (false) a delete marker was created.
         public let deleteMarker: Bool?
+        /// The version ID of the delete marker created as a result of the DELETE operation. If you delete a specific object version, the value returned by this header is the version ID of the object version deleted.
         public let deleteMarkerVersionId: String?
+        /// The name of the deleted object.
         public let key: String?
+        /// The version ID of the deleted object.
         public let versionId: String?
 
         public init(deleteMarker: Bool? = nil, deleteMarkerVersionId: String? = nil, key: String? = nil, versionId: String? = nil) {
@@ -1875,25 +1918,33 @@ extension S3 {
             AWSShapeMember(label: "Account", required: false, type: .string), 
             AWSShapeMember(label: "Bucket", required: true, type: .string), 
             AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Metrics", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicationTime", required: false, type: .structure), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum)
         ]
 
         /// Specify this only in a cross-account scenario (where source and destination bucket owners are not the same), and you want to change replica ownership to the AWS account that owns the destination bucket. If this is not specified in the replication configuration, the replicas are owned by same AWS account that owns the source object.
         public let accessControlTranslation: AccessControlTranslation?
-        /// Destination bucket owner account ID. In a cross-account scenario, if you direct Amazon S3 to change replica ownership to the AWS account that owns the destination bucket by specifying the AccessControlTranslation property, this is the account ID of the destination bucket owner. For more information, see Cross-Region Replication Additional Configuration: Change Replica Owner in the Amazon Simple Storage Service Developer Guide.
+        /// Destination bucket owner account ID. In a cross-account scenario, if you direct Amazon S3 to change replica ownership to the AWS account that owns the destination bucket by specifying the AccessControlTranslation property, this is the account ID of the destination bucket owner. For more information, see Replication Additional Configuration: Changing the Replica Owner in the Amazon Simple Storage Service Developer Guide.
         public let account: String?
-        ///  The Amazon Resource Name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule. A replication configuration can replicate objects to only one destination bucket. If there are multiple rules in your replication configuration, all rules must specify the same destination bucket.
+        ///  The Amazon Resource Name (ARN) of the bucket where you want Amazon S3 to store the results.
         public let bucket: String
         /// A container that provides information about encryption. If SourceSelectionCriteria is specified, you must specify this element.
         public let encryptionConfiguration: EncryptionConfiguration?
+        ///  A container specifying replication metrics-related settings enabling metrics and Amazon S3 events for S3 Replication Time Control (S3 RTC). Must be specified together with a ReplicationTime block. 
+        public let metrics: Metrics?
+        ///  A container specifying S3 Replication Time Control (S3 RTC), including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block. 
+        public let replicationTime: ReplicationTime?
         ///  The storage class to use when replicating objects, such as standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica.  For valid values, see the StorageClass element of the PUT Bucket replication action in the Amazon Simple Storage Service API Reference.
         public let storageClass: StorageClass?
 
-        public init(accessControlTranslation: AccessControlTranslation? = nil, account: String? = nil, bucket: String, encryptionConfiguration: EncryptionConfiguration? = nil, storageClass: StorageClass? = nil) {
+        public init(accessControlTranslation: AccessControlTranslation? = nil, account: String? = nil, bucket: String, encryptionConfiguration: EncryptionConfiguration? = nil, metrics: Metrics? = nil, replicationTime: ReplicationTime? = nil, storageClass: StorageClass? = nil) {
             self.accessControlTranslation = accessControlTranslation
             self.account = account
             self.bucket = bucket
             self.encryptionConfiguration = encryptionConfiguration
+            self.metrics = metrics
+            self.replicationTime = replicationTime
             self.storageClass = storageClass
         }
 
@@ -1902,6 +1953,8 @@ extension S3 {
             case account = "Account"
             case bucket = "Bucket"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case metrics = "Metrics"
+            case replicationTime = "ReplicationTime"
             case storageClass = "StorageClass"
         }
     }
@@ -1918,11 +1971,11 @@ extension S3 {
             AWSShapeMember(label: "KMSKeyId", required: false, type: .string)
         ]
 
-        /// The server-side encryption algorithm used when storing job results in Amazon S3 (e.g., AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing job results in Amazon S3 (for example, AES256, aws:kms).
         public let encryptionType: ServerSideEncryption
         /// If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
         public let kMSContext: String?
-        /// If the encryption type is aws:kms, this optional value specifies the AWS KMS key ID to use for encryption of job results.
+        /// If the encryption type is aws:kms, this optional value specifies the ID of the symmetric customer managed AWS KMS CMK to use for encryption of job results. Amazon S3 only supports symmetric CMKs. For more information, see Using Symmetric and Asymmetric Keys in the AWS Key Management Service Developer Guide.
         public let kMSKeyId: String?
 
         public init(encryptionType: ServerSideEncryption, kMSContext: String? = nil, kMSKeyId: String? = nil) {
@@ -1943,7 +1996,7 @@ extension S3 {
             AWSShapeMember(label: "ReplicaKmsKeyID", required: false, type: .string)
         ]
 
-        /// Specifies the AWS KMS Key ID (Key ARN or Alias ARN) for the destination bucket. Amazon S3 uses this key to encrypt replica objects.
+        /// Specifies the ID (Key ARN or Alias ARN) of the customer managed customer master key (CMK) stored in AWS Key Management Service (KMS) for the destination bucket. Amazon S3 uses this key to encrypt replica objects. Amazon S3 only supports symmetric customer managed CMKs. For more information, see Using Symmetric and Asymmetric Keys in the AWS Key Management Service Developer Guide.
         public let replicaKmsKeyID: String?
 
         public init(replicaKmsKeyID: String? = nil) {
@@ -1963,9 +2016,13 @@ extension S3 {
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
+        /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.   Amazon S3 error codes       Code: AccessDenied     Description: Access Denied    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AccountProblem    Description: There is a problem with your AWS account that prevents the operation from completing successfully. Contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AllAccessDisabled    Description: All access to this Amazon S3 resource has been disabled. Contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AmbiguousGrantByEmailAddress    Description: The email address you provided is associated with more than one account.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: AuthorizationHeaderMalformed    Description: The authorization header you provided is invalid.    HTTP Status Code: 400 Bad Request    HTTP Status Code: N/A        Code: BadDigest    Description: The Content-MD5 you specified did not match what we received.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: BucketAlreadyExists    Description: The requested bucket name is not available. The bucket namespace is shared by all users of the system. Please select a different name and try again.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: BucketAlreadyOwnedByYou    Description: The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all AWS Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).    Code: 409 Conflict (in all Regions except the North Virginia Region)     SOAP Fault Code Prefix: Client        Code: BucketNotEmpty    Description: The bucket you tried to delete is not empty.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: CredentialsNotSupported    Description: This request does not support credentials.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: CrossLocationLoggingProhibited    Description: Cross-location logging not allowed. Buckets in one geographic location cannot log information to a bucket in another location.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: EntityTooSmall    Description: Your proposed upload is smaller than the minimum allowed object size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: EntityTooLarge    Description: Your proposed upload exceeds the maximum allowed object size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: ExpiredToken    Description: The provided token has expired.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IllegalVersioningConfigurationException     Description: Indicates that the versioning configuration specified in the request is invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IncompleteBody    Description: You did not provide the number of bytes specified by the Content-Length HTTP header    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IncorrectNumberOfFilesInPostRequest    Description: POST requires exactly one file upload per request.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InlineDataTooLarge    Description: Inline data exceeds the maximum allowed size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InternalError    Description: We encountered an internal error. Please try again.    HTTP Status Code: 500 Internal Server Error    SOAP Fault Code Prefix: Server        Code: InvalidAccessKeyId    Description: The AWS access key ID you provided does not exist in our records.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidAddressingHeader    Description: You must specify the Anonymous role.    HTTP Status Code: N/A    SOAP Fault Code Prefix: Client        Code: InvalidArgument    Description: Invalid Argument    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidBucketName    Description: The specified bucket is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidBucketState    Description: The request is not valid with the current state of the bucket.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: InvalidDigest    Description: The Content-MD5 you specified is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidEncryptionAlgorithmError    Description: The encryption request you specified is not valid. The valid value is AES256.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidLocationConstraint    Description: The specified location constraint is not valid. For more information about Regions, see How to Select a Region for Your Buckets.     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidObjectState    Description: The operation is not valid for the current state of the object.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidPart    Description: One or more of the specified parts could not be found. The part might not have been uploaded, or the specified entity tag might not have matched the part's entity tag.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidPartOrder    Description: The list of parts was not in ascending order. Parts list must be specified in order by part number.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidPayer    Description: All access to this object has been disabled. Please contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidPolicyDocument    Description: The content of the form does not meet the conditions specified in the policy document.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidRange    Description: The requested range cannot be satisfied.    HTTP Status Code: 416 Requested Range Not Satisfiable    SOAP Fault Code Prefix: Client        Code: InvalidRequest    Description: Please use AWS4-HMAC-SHA256.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: SOAP requests must be made over an HTTPS connection.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported for buckets with non-DNS compliant names.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported for buckets with periods (.) in their names.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate endpoint only supports virtual style requests.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate is not configured on this bucket.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate is disabled on this bucket.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported on this bucket. Contact AWS Support for more information.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration cannot be enabled on this bucket. Contact AWS Support for more information.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidSecurity    Description: The provided security credentials are not valid.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidSOAPRequest    Description: The SOAP request body is invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidStorageClass    Description: The storage class you specified is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidTargetBucketForLogging    Description: The target bucket for logging does not exist, is not owned by you, or does not have the appropriate grants for the log-delivery group.     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidToken    Description: The provided token is malformed or otherwise invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidURI    Description: Couldn't parse the specified URI.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: KeyTooLongError    Description: Your key is too long.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedACLError    Description: The XML you provided was not well-formed or did not validate against our published schema.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedPOSTRequest     Description: The body of your POST request is not well-formed multipart/form-data.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedXML    Description: This happens when the user sends malformed XML (XML that doesn't conform to the published XSD) for the configuration. The error message is, "The XML you provided was not well-formed or did not validate against our published schema."     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MaxMessageLengthExceeded    Description: Your request was too big.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MaxPostPreDataLengthExceededError    Description: Your POST request fields preceding the upload file were too large.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MetadataTooLarge    Description: Your metadata headers exceed the maximum allowed metadata size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MethodNotAllowed    Description: The specified method is not allowed against this resource.    HTTP Status Code: 405 Method Not Allowed    SOAP Fault Code Prefix: Client        Code: MissingAttachment    Description: A SOAP attachment was expected, but none were found.    HTTP Status Code: N/A    SOAP Fault Code Prefix: Client        Code: MissingContentLength    Description: You must provide the Content-Length HTTP header.    HTTP Status Code: 411 Length Required    SOAP Fault Code Prefix: Client        Code: MissingRequestBodyError    Description: This happens when the user sends an empty XML document as a request. The error message is, "Request body is empty."     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MissingSecurityElement    Description: The SOAP 1.1 request is missing a security element.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MissingSecurityHeader    Description: Your request is missing a required header.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: NoLoggingStatusForKey    Description: There is no such thing as a logging status subresource for a key.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: NoSuchBucket    Description: The specified bucket does not exist.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchBucketPolicy    Description: The specified bucket does not have a bucket policy.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchKey    Description: The specified key does not exist.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.     HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchUpload    Description: The specified multipart upload does not exist. The upload ID might be invalid, or the multipart upload might have been aborted or completed.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchVersion     Description: Indicates that the version ID specified in the request does not match an existing version.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NotImplemented    Description: A header you provided implies functionality that is not implemented.    HTTP Status Code: 501 Not Implemented    SOAP Fault Code Prefix: Server        Code: NotSignedUp    Description: Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: OperationAborted    Description: A conflicting conditional operation is currently in progress against this resource. Try again.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: PermanentRedirect    Description: The bucket you are attempting to access must be addressed using the specified endpoint. Send all future requests to this endpoint.    HTTP Status Code: 301 Moved Permanently    SOAP Fault Code Prefix: Client        Code: PreconditionFailed    Description: At least one of the preconditions you specified did not hold.    HTTP Status Code: 412 Precondition Failed    SOAP Fault Code Prefix: Client        Code: Redirect    Description: Temporary redirect.    HTTP Status Code: 307 Moved Temporarily    SOAP Fault Code Prefix: Client        Code: RestoreAlreadyInProgress    Description: Object restore is already in progress.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: RequestIsNotMultiPartContent    Description: Bucket POST must be of the enclosure-type multipart/form-data.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: RequestTimeout    Description: Your socket connection to the server was not read from or written to within the timeout period.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: RequestTimeTooSkewed    Description: The difference between the request time and the server's time is too large.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: RequestTorrentOfBucketError    Description: Requesting the torrent file of a bucket is not permitted.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: SignatureDoesNotMatch    Description: The request signature we calculated does not match the signature you provided. Check your AWS secret access key and signing method. For more information, see REST Authentication and SOAP Authentication for details.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: ServiceUnavailable    Description: Reduce your request rate.    HTTP Status Code: 503 Service Unavailable    SOAP Fault Code Prefix: Server        Code: SlowDown    Description: Reduce your request rate.    HTTP Status Code: 503 Slow Down    SOAP Fault Code Prefix: Server        Code: TemporaryRedirect    Description: You are being redirected to the bucket while DNS updates.    HTTP Status Code: 307 Moved Temporarily    SOAP Fault Code Prefix: Client        Code: TokenRefreshRequired    Description: The provided token must be refreshed.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: TooManyBuckets    Description: You have attempted to create more buckets than allowed.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UnexpectedContent    Description: This request does not support content.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UnresolvableGrantByEmailAddress    Description: The email address you provided does not match any account on record.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UserKeyMustBeSpecified    Description: The bucket POST must contain the specified field name. If it is specified, check the order of the fields.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client     
         public let code: String?
+        /// The error key.
         public let key: String?
+        /// The error message contains a generic description of the error condition in English. It is intended for a human audience. Simple programs display the message directly to the end user if they encounter an error condition they don't know how or don't care to handle. Sophisticated programs with more exhaustive error handling and proper internationalization are more likely to ignore the error message.
         public let message: String?
+        /// The version ID of the error.
         public let versionId: String?
 
         public init(code: String? = nil, key: String? = nil, message: String? = nil, versionId: String? = nil) {
@@ -2014,8 +2071,36 @@ extension S3 {
         case s3ObjectremovedAll = "s3:ObjectRemoved:*"
         case s3ObjectremovedDelete = "s3:ObjectRemoved:Delete"
         case s3ObjectremovedDeletemarkercreated = "s3:ObjectRemoved:DeleteMarkerCreated"
+        case s3ObjectrestoreAll = "s3:ObjectRestore:*"
         case s3ObjectrestorePost = "s3:ObjectRestore:Post"
         case s3ObjectrestoreCompleted = "s3:ObjectRestore:Completed"
+        case s3ReplicationAll = "s3:Replication:*"
+        case s3ReplicationOperationfailedreplication = "s3:Replication:OperationFailedReplication"
+        case s3ReplicationOperationnottracked = "s3:Replication:OperationNotTracked"
+        case s3ReplicationOperationmissedthreshold = "s3:Replication:OperationMissedThreshold"
+        case s3ReplicationOperationreplicatedafterthreshold = "s3:Replication:OperationReplicatedAfterThreshold"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ExistingObjectReplication: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .enum)
+        ]
+
+        public let status: ExistingObjectReplicationStatus
+
+        public init(status: ExistingObjectReplicationStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public enum ExistingObjectReplicationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
         public var description: String { return self.rawValue }
     }
 
@@ -2107,6 +2192,7 @@ extension S3 {
 
         /// A list of grants.
         public let grants: [Grant]?
+        /// Container for the bucket owner's display name and ID.
         public let owner: Owner?
 
         public init(grants: [Grant]? = nil, owner: Owner? = nil) {
@@ -2125,6 +2211,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// Specifies the S3 bucket whose ACL is being requested.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2182,6 +2269,7 @@ extension S3 {
             AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: false, type: .list, encoding: .flatList)
         ]
 
+        /// A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration.
         public let cORSRules: [CORSRule]?
 
         public init(cORSRules: [CORSRule]? = nil) {
@@ -2198,6 +2286,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket name for which to get the cors configuration.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2290,6 +2379,7 @@ extension S3 {
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list, encoding: .flatList)
         ]
 
+        /// Container for a lifecycle rule.
         public let rules: [LifecycleRule]?
 
         public init(rules: [LifecycleRule]? = nil) {
@@ -2306,6 +2396,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The name of the bucket for which to get the lifecycle information.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2322,6 +2413,7 @@ extension S3 {
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list, encoding: .flatList)
         ]
 
+        /// Container for a lifecycle rule.
         public let rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
@@ -2338,6 +2430,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The name of the bucket for which to get the lifecycle information.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2354,6 +2447,7 @@ extension S3 {
             AWSShapeMember(label: "LocationConstraint", required: false, type: .enum)
         ]
 
+        /// Specifies the Region where the bucket resides. For a list of all the Amazon S3 supported location constraints by Region, see Regions and Endpoints.
         public let locationConstraint: BucketLocationConstraint?
 
         public init(locationConstraint: BucketLocationConstraint? = nil) {
@@ -2370,6 +2464,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The name of the bucket for which to get the location.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2402,6 +2497,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket name for which to get the logging information.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2459,7 +2555,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
-        /// Name of the bucket to get the notification configuration for.
+        /// Name of the bucket for which to get the notification configuration
         public let bucket: String
 
         public init(bucket: String) {
@@ -2495,6 +2591,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket name for which to get the bucket policy.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2565,6 +2662,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket name for which to get the replication information.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2598,6 +2696,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The name of the bucket for which to get the payment request configuration
         public let bucket: String
 
         public init(bucket: String) {
@@ -2614,6 +2713,7 @@ extension S3 {
             AWSShapeMember(label: "TagSet", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
 
+        /// Contains the tag set.
         public let tagSet: [Tag]
 
         public init(tagSet: [Tag]) {
@@ -2630,6 +2730,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The name of the bucket for which to get the tagging information.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2668,6 +2769,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The name of the bucket for which to get the versioning information.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2687,9 +2789,13 @@ extension S3 {
             AWSShapeMember(label: "RoutingRules", required: false, type: .list, encoding: .list(member:"RoutingRule"))
         ]
 
+        /// The name of the error document for the website.
         public let errorDocument: ErrorDocument?
+        /// The name of the index document for the website.
         public let indexDocument: IndexDocument?
+        /// Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3 bucket.
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
+        /// Rules that define when a redirect is applied and the redirect behavior.
         public let routingRules: [RoutingRule]?
 
         public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: [RoutingRule]? = nil) {
@@ -2712,6 +2818,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket name for which to get the website configuration.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2732,6 +2839,7 @@ extension S3 {
 
         /// A list of grants.
         public let grants: [Grant]?
+        ///  Container for the bucket owner's display name and ID.
         public let owner: Owner?
         public let requestCharged: RequestCharged?
 
@@ -2756,7 +2864,9 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
+        /// The bucket name that contains the object for which to get the ACL information.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The key of the object for which to get the ACL information.
         public let key: String
         public let requestPayer: RequestPayer?
         /// VersionId used to reference a specific version of the object.
@@ -2808,7 +2918,7 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
-        /// The bucket containing the object whose Legal Hold status you want to retrieve.
+        /// The bucket name containing the object whose Legal Hold status you want to retrieve.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The key name for the object whose Legal Hold status you want to retrieve.
         public let key: String
@@ -2842,7 +2952,7 @@ extension S3 {
             AWSShapeMember(label: "ObjectLockConfiguration", required: false, type: .structure)
         ]
 
-        /// The specified bucket's object lock configuration.
+        /// The specified bucket's Object Lock configuration.
         public let objectLockConfiguration: ObjectLockConfiguration?
 
         public init(objectLockConfiguration: ObjectLockConfiguration? = nil) {
@@ -2859,7 +2969,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
-        /// The bucket whose object lock configuration you want to retrieve.
+        /// The bucket whose Object Lock configuration you want to retrieve.
         public let bucket: String
 
         public init(bucket: String) {
@@ -2908,6 +3018,7 @@ extension S3 {
             AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string)
         ]
 
+        /// Indicates that a range of bytes was specified.
         public let acceptRanges: String?
         /// Object data.
         public let body: Data?
@@ -2927,9 +3038,9 @@ extension S3 {
         public let contentType: String?
         /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
         public let deleteMarker: Bool?
-        /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
+        /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL.
         public let eTag: String?
-        /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
+        /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL encoded.
         public let expiration: String?
         /// The date and time at which the object is no longer cacheable.
         public let expires: TimeStamp?
@@ -2939,26 +3050,28 @@ extension S3 {
         public let metadata: [String: String]?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
         public let missingMeta: Int?
-        /// Indicates whether this object has an active legal hold. This field is only returned if you have permission to view an object's legal hold status.
+        /// Indicates whether this object has an active legal hold. This field is only returned if you have permission to view an object's legal hold status. 
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        /// The object lock mode currently in place for this object.
+        /// The Object Lock mode currently in place for this object.
         public let objectLockMode: ObjectLockMode?
-        /// The date and time when this object's object lock will expire.
+        /// The date and time when this object's Object Lock will expire.
         public let objectLockRetainUntilDate: TimeStamp?
         /// The count of parts this object has.
         public let partsCount: Int?
+        /// Amazon S3 can return this if your request involves a bucket that is either a source or destination in a replication rule.
         public let replicationStatus: ReplicationStatus?
         public let requestCharged: RequestCharged?
         /// Provides information about object restoration operation and expiration time of the restored object copy.
         public let restore: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
         public let sSEKMSKeyId: String?
+        /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for Standard storage class objects.
         public let storageClass: StorageClass?
         /// The number of tags, if any, on the object.
         public let tagCount: Int?
@@ -3059,6 +3172,7 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
+        /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
@@ -3068,10 +3182,11 @@ extension S3 {
         public let ifNoneMatch: String?
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
         public let ifUnmodifiedSince: TimeStamp?
+        /// Key of the object to get.
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
         public let partNumber: Int?
-        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
         public let range: String?
         public let requestPayer: RequestPayer?
         /// Sets the Cache-Control header of the response.
@@ -3086,11 +3201,11 @@ extension S3 {
         public let responseContentType: String?
         /// Sets the Expires header of the response.
         public let responseExpires: TimeStamp?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
         public let sSECustomerKey: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
@@ -3171,7 +3286,7 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
-        /// The bucket containing the object whose retention settings you want to retrieve.
+        /// The bucket name containing the object whose retention settings you want to retrieve.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The key name for the object whose retention settings you want to retrieve.
         public let key: String
@@ -3204,7 +3319,9 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
 
+        /// Contains the tag set.
         public let tagSet: [Tag]
+        /// The versionId of the object for which you got the tagging information.
         public let versionId: String?
 
         public init(tagSet: [Tag], versionId: String? = nil) {
@@ -3225,8 +3342,11 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
+        /// The bucket name containing the object for which to get the tagging information.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// Object key for which to get the tagging information.
         public let key: String
+        /// The versionId of the object for which to get the tagging information.
         public let versionId: String?
 
         public init(bucket: String, key: String, versionId: String? = nil) {
@@ -3254,6 +3374,7 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
 
+        /// A Bencoded dictionary as defined by the BitTorrent specification
         public let body: Data?
         public let requestCharged: RequestCharged?
 
@@ -3275,7 +3396,9 @@ extension S3 {
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
 
+        /// The name of the bucket containing the object for which to get the torrent files.
         public let bucket: String
+        /// The object key for which to get the information.
         public let key: String
         public let requestPayer: RequestPayer?
 
@@ -3355,6 +3478,7 @@ extension S3 {
             AWSShapeMember(label: "Permission", required: false, type: .enum)
         ]
 
+        /// The person being granted permissions.
         public let grantee: Grantee?
         /// Specifies the permission given to the grantee.
         public let permission: Permission?
@@ -3412,6 +3536,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
+        /// The bucket name.
         public let bucket: String
 
         public init(bucket: String) {
@@ -3455,6 +3580,7 @@ extension S3 {
             AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string)
         ]
 
+        /// Indicates that a range of bytes was specified.
         public let acceptRanges: String?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
@@ -3470,9 +3596,9 @@ extension S3 {
         public let contentType: String?
         /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
         public let deleteMarker: Bool?
-        /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
+        /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL.
         public let eTag: String?
-        /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
+        /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL encoded.
         public let expiration: String?
         /// The date and time at which the object is no longer cacheable.
         public let expires: TimeStamp?
@@ -3482,26 +3608,28 @@ extension S3 {
         public let metadata: [String: String]?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
         public let missingMeta: Int?
-        /// The Legal Hold status for the specified object.
+        /// Specifies whether a legal hold is in effect for this object. This header is only returned if the requester has the s3:GetObjectLegalHold permission. This header is not returned if the specified version of this object has never had a legal hold applied. For more information about S3 Object Lock, see Object Lock.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        /// The object lock mode currently in place for this object.
+        /// The Object Lock mode, if any, that's in effect for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. For more information about S3 Object Lock, see Object Lock. 
         public let objectLockMode: ObjectLockMode?
-        /// The date and time when this object's object lock expires.
+        /// The date and time when the Object Lock retention period expires. This header is only returned if the requester has the s3:GetObjectRetention permission.
         public let objectLockRetainUntilDate: TimeStamp?
         /// The count of parts this object has.
         public let partsCount: Int?
+        /// Amazon S3 can return this header if your request involves a bucket that is either a source or destination in a replication rule. In replication, you have a source bucket on which you configure replication and destination bucket where Amazon S3 stores object replicas. When you request an object (GetObject) or object metadata (HeadObject) from these buckets, Amazon S3 will return the x-amz-replication-status header in the response as follows:   If requesting an object from the source bucket — Amazon S3 will return the x-amz-replication-status header if the object in your request is eligible for replication.  For example, suppose that in your replication configuration, you specify object prefix TaxDocs requesting Amazon S3 to replicate objects with key prefix TaxDocs. Any objects you upload with this key name prefix, for example TaxDocs/document1.pdf, are eligible for replication. For any object request with this key name prefix, Amazon S3 will return the x-amz-replication-status header with value PENDING, COMPLETED or FAILED indicating object replication status.   If requesting an object from the destination bucket — Amazon S3 will return the x-amz-replication-status header with value REPLICA if the object in your request is a replica that Amazon S3 created.   For more information, see Replication.
         public let replicationStatus: ReplicationStatus?
         public let requestCharged: RequestCharged?
-        /// Provides information about object restoration operation and expiration time of the restored object copy.
+        /// If the object is an archived object (an object whose storage class is GLACIER), the response includes this header if either the archive restoration is in progress (see RestoreObject or an archive copy is already restored.  If an archive copy is already restored, the header value indicates when Amazon S3 is scheduled to delete the object copy. For example:  x-amz-restore: ongoing-request="false", expiry-date="Fri, 23 Dec 2012 00:00:00 GMT"  If the object restoration is in progress, the header returns the value ongoing-request="true". For more information about archiving objects, see Transitioning Objects: General Considerations.
         public let restore: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// If the object is stored using server-side encryption either with an AWS KMS customer master key (CMK) or an Amazon S3-managed encryption key, the response includes this header with the value of the server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
         public let sSEKMSKeyId: String?
+        /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for Standard storage class objects. For more information, see Storage Classes.
         public let storageClass: StorageClass?
         /// Version of the object.
         public let versionId: String?
@@ -3588,6 +3716,7 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
+        /// The name of the bucket containing the object.
         public let bucket: String
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
@@ -3597,17 +3726,18 @@ extension S3 {
         public let ifNoneMatch: String?
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
         public let ifUnmodifiedSince: TimeStamp?
+        /// The object key.
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
         public let partNumber: Int?
-        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
         public let range: String?
         public let requestPayer: RequestPayer?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
         public let sSECustomerKey: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
@@ -3654,7 +3784,7 @@ extension S3 {
             AWSShapeMember(label: "Suffix", required: true, type: .string)
         ]
 
-        /// A suffix that is appended to a request that is for a directory on the website endpoint (e.g. if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
+        /// A suffix that is appended to a request that is for a directory on the website endpoint (for example,if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
         public let suffix: String
 
         public init(suffix: String) {
@@ -3790,9 +3920,9 @@ extension S3 {
             AWSShapeMember(label: "SSES3", location: .body(locationName: "SSE-S3"), required: false, type: .structure)
         ]
 
-        /// Specifies the use of SSE-KMS to encrypt delivered Inventory reports.
+        /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
         public let ssekms: SSEKMS?
-        /// Specifies the use of SSE-S3 to encrypt delivered Inventory reports.
+        /// Specifies the use of SSE-S3 to encrypt delivered inventory reports.
         public let sses3: SSES3?
 
         public init(ssekms: SSEKMS? = nil, sses3: SSES3? = nil) {
@@ -3868,7 +3998,7 @@ extension S3 {
 
         /// The ID of the account that owns the destination bucket.
         public let accountId: String?
-        /// The Amazon resource name (ARN) of the bucket where inventory results will be published.
+        /// The Amazon Resource Name (ARN) of the bucket where inventory results will be published.
         public let bucket: String
         /// Contains the type of server-side encryption used to encrypt the inventory results.
         public let encryption: InventoryEncryption?
@@ -3986,6 +4116,7 @@ extension S3 {
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list, encoding: .flatList)
         ]
 
+        /// Specifies lifecycle configuration rules for an Amazon S3 bucket. 
         public let rules: [Rule]
 
         public init(rules: [Rule]) {
@@ -4037,14 +4168,17 @@ extension S3 {
         ]
 
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
+        /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public let expiration: LifecycleExpiration?
         public let filter: LifecycleRuleFilter?
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
+        ///  Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime. 
         public let noncurrentVersionTransitions: [NoncurrentVersionTransition]?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
         public let status: ExpirationStatus
+        /// Specifies when an Amazon S3 object transitions to a specified storage class.
         public let transitions: [Transition]?
 
         public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
@@ -4080,6 +4214,7 @@ extension S3 {
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .list, encoding: .flatList)
         ]
 
+        /// Prefix identifying one or more objects to which the rule applies.
         public let prefix: String?
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
         public let tags: [Tag]?
@@ -4142,11 +4277,11 @@ extension S3 {
 
         /// The list of analytics configurations for a bucket.
         public let analyticsConfigurationList: [AnalyticsConfiguration]?
-        /// The ContinuationToken that represents where this request began.
+        /// The marker that is used as a starting point for this analytics configuration list response. This value is present if it was sent in the request.
         public let continuationToken: String?
         /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
         public let isTruncated: Bool?
-        /// NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
+        ///  NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
         public let nextContinuationToken: String?
 
         public init(analyticsConfigurationList: [AnalyticsConfiguration]? = nil, continuationToken: String? = nil, isTruncated: Bool? = nil, nextContinuationToken: String? = nil) {
@@ -4198,7 +4333,7 @@ extension S3 {
         public let continuationToken: String?
         /// The list of inventory configurations for a bucket.
         public let inventoryConfigurationList: [InventoryConfiguration]?
-        /// Indicates whether the returned list of inventory configurations is truncated in this response. A value of true indicates that the list is truncated.
+        /// Tells whether the returned list of inventory configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken is provided for a subsequent request.
         public let isTruncated: Bool?
         /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
         public let nextContinuationToken: String?
@@ -4300,7 +4435,9 @@ extension S3 {
             AWSShapeMember(label: "Owner", required: false, type: .structure)
         ]
 
+        /// The list of buckets owned by the requestor.
         public let buckets: [Bucket]?
+        /// The owner of the buckets listed.
         public let owner: Owner?
 
         public init(buckets: [Bucket]? = nil, owner: Owner? = nil) {
@@ -4332,9 +4469,11 @@ extension S3 {
 
         /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String?
+        /// If you specify a delimiter in the request, then the result returns each distinct key prefix containing the delimiter in a CommonPrefixes element. The distinct key prefixes are returned in the Prefix child element.
         public let commonPrefixes: [CommonPrefix]?
+        /// Contains the delimiter you specified in the request. If you don't specify a delimiter in your request, this element is absent from the response.
         public let delimiter: String?
-        /// Encoding type used by Amazon S3 to encode object keys in the response.
+        /// Encoding type used by Amazon S3 to encode object keys in the response. If you specify encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements:  Delimiter, KeyMarker, Prefix, NextKeyMarker, Key.
         public let encodingType: EncodingType?
         /// Indicates whether the returned list of multipart uploads is truncated. A value of true indicates that the list was truncated. The list can be truncated if the number of multipart uploads exceeds the limit allowed or specified by max uploads.
         public let isTruncated: Bool?
@@ -4350,6 +4489,7 @@ extension S3 {
         public let prefix: String?
         /// Upload ID after which listing began.
         public let uploadIdMarker: String?
+        /// Container for elements related to a particular multipart upload. A response can contain zero or more Upload elements.
         public let uploads: [MultipartUpload]?
 
         public init(bucket: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxUploads: Int? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil, prefix: String? = nil, uploadIdMarker: String? = nil, uploads: [MultipartUpload]? = nil) {
@@ -4394,17 +4534,18 @@ extension S3 {
             AWSShapeMember(label: "UploadIdMarker", location: .querystring(locationName: "upload-id-marker"), required: false, type: .string)
         ]
 
+        /// Name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// Character you use to group keys.
+        /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response.
         public let delimiter: String?
         public let encodingType: EncodingType?
-        /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin.
+        /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin. If upload-id-marker is not specified, only the keys lexicographically greater than the specified key-marker will be included in the list. If upload-id-marker is specified, any multipart uploads for a key equal to the key-marker might also be included, provided those multipart uploads have upload IDs lexicographically greater than the specified upload-id-marker.
         public let keyMarker: String?
         /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
         public let maxUploads: Int?
-        /// Lists in-progress uploads only for those keys that begin with the specified prefix.
+        /// Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.)
         public let prefix: String?
-        /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
+        /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker.
         public let uploadIdMarker: String?
 
         public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil, maxUploads: Int? = nil, prefix: String? = nil, uploadIdMarker: String? = nil) {
@@ -4445,23 +4586,31 @@ extension S3 {
             AWSShapeMember(label: "Versions", location: .body(locationName: "Version"), required: false, type: .list, encoding: .flatList)
         ]
 
+        /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
+        /// Container for an object that is a delete marker.
         public let deleteMarkers: [DeleteMarkerEntry]?
+        /// The delimiter grouping the included keys. A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
         public let delimiter: String?
-        /// Encoding type used by Amazon S3 to encode object keys in the response.
+        ///  Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements:  KeyMarker, NextKeyMarker, Prefix, Key, and Delimiter.
         public let encodingType: EncodingType?
-        /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
+        /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
         public let isTruncated: Bool?
-        /// Marks the last Key returned in a truncated response.
+        /// Marks the last key returned in a truncated response.
         public let keyMarker: String?
+        /// Specifies the maximum number of objects to return.
         public let maxKeys: Int?
+        /// Bucket name.
         public let name: String?
-        /// Use this value for the key marker request parameter in a subsequent request.
+        /// When the number of responses exceeds the value of MaxKeys, NextKeyMarker specifies the first key not returned that satisfies the search criteria. Use this value for the key-marker request parameter in a subsequent request.
         public let nextKeyMarker: String?
-        /// Use this value for the next version id marker parameter in a subsequent request.
+        /// When the number of responses exceeds the value of MaxKeys, NextVersionIdMarker specifies the first object version not returned that satisfies the search criteria. Use this value for the version-id-marker request parameter in a subsequent request.
         public let nextVersionIdMarker: String?
+        /// Selects objects that start with the value supplied by this parameter.
         public let prefix: String?
+        /// Marks the last version of the key returned in a truncated response.
         public let versionIdMarker: String?
+        /// Container for version information.
         public let versions: [ObjectVersion]?
 
         public init(commonPrefixes: [CommonPrefix]? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxKeys: Int? = nil, name: String? = nil, nextKeyMarker: String? = nil, nextVersionIdMarker: String? = nil, prefix: String? = nil, versionIdMarker: String? = nil, versions: [ObjectVersion]? = nil) {
@@ -4508,15 +4657,16 @@ extension S3 {
             AWSShapeMember(label: "VersionIdMarker", location: .querystring(locationName: "version-id-marker"), required: false, type: .string)
         ]
 
+        /// The bucket name that contains the objects.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// A delimiter is a character you use to group keys.
+        /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
         public let delimiter: String?
         public let encodingType: EncodingType?
         /// Specifies the key to start with when listing objects in a bucket.
         public let keyMarker: String?
-        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more. If additional keys satisfy the search criteria, but were not returned because max-keys was exceeded, the response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;. To return the additional keys, see key-marker and version-id-marker.
         public let maxKeys: Int?
-        /// Limits the response to keys that begin with the specified prefix.
+        /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes. 
         public let prefix: String?
         /// Specifies the object version you want to start listing from.
         public let versionIdMarker: String?
@@ -4556,18 +4706,25 @@ extension S3 {
             AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
 
+        /// All of the keys rolled up in a common prefix count as a single return when calculating the number of returns.  A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
+        /// Metadata about each object returned.
         public let contents: [Object]?
+        /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value.
         public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
         public let encodingType: EncodingType?
-        /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
+        /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria.
         public let isTruncated: Bool?
+        /// Indicates where in the bucket listing begins. Marker is included in the response if it was sent with the request.
         public let marker: String?
+        /// The maximum number of keys returned in the response body.
         public let maxKeys: Int?
+        /// Bucket name.
         public let name: String?
         /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMaker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
         public let nextMarker: String?
+        /// Keys that begin with the indicated prefix.
         public let prefix: String?
 
         public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, marker: String? = nil, maxKeys: Int? = nil, name: String? = nil, nextMarker: String? = nil, prefix: String? = nil) {
@@ -4608,6 +4765,7 @@ extension S3 {
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
         ]
 
+        /// The name of the bucket containing the objects.
         public let bucket: String
         /// A delimiter is a character you use to group keys.
         public let delimiter: String?
@@ -4658,29 +4816,29 @@ extension S3 {
             AWSShapeMember(label: "StartAfter", required: false, type: .string)
         ]
 
-        /// CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by delimiter
+        /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter.  CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns. 
         public let commonPrefixes: [CommonPrefix]?
         /// Metadata about each object returned.
         public let contents: [Object]?
-        /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
+        ///  If ContinuationToken was sent with the request, it is included in the response.
         public let continuationToken: String?
-        /// A delimiter is a character you use to group keys.
+        /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value.
         public let delimiter: String?
-        /// Encoding type used by Amazon S3 to encode object keys in the response.
+        /// Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements:  Delimiter, Prefix, Key, and StartAfter.
         public let encodingType: EncodingType?
-        /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
+        /// Set to false if all of the results were returned. Set to true if more keys are available to return. If the number of results exceeds that specified by MaxKeys, all of the results might not be returned.
         public let isTruncated: Bool?
         /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys 
         public let keyCount: Int?
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
         public let maxKeys: Int?
-        /// Name of the bucket to list.
+        /// Bucket name.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let name: String?
-        /// NextContinuationToken is sent when isTruncated is true which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
+        ///  NextContinuationToken is sent when isTruncated is true, which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
         public let nextContinuationToken: String?
-        /// Limits the response to keys that begin with the specified prefix.
+        ///  Keys that begin with the indicated prefix.
         public let prefix: String?
-        /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
+        /// If StartAfter was sent with the request, it is included in the response.
         public let startAfter: String?
 
         public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyCount: Int? = nil, maxKeys: Int? = nil, name: String? = nil, nextContinuationToken: String? = nil, prefix: String? = nil, startAfter: String? = nil) {
@@ -4727,15 +4885,15 @@ extension S3 {
             AWSShapeMember(label: "StartAfter", location: .querystring(locationName: "start-after"), required: false, type: .string)
         ]
 
-        /// Name of the bucket to list.
+        /// Bucket name to list.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
+        /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key.
         public let continuationToken: String?
         /// A delimiter is a character you use to group keys.
         public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
         public let encodingType: EncodingType?
-        /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true
+        /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true.
         public let fetchOwner: Bool?
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
         public let maxKeys: Int?
@@ -4743,7 +4901,7 @@ extension S3 {
         public let prefix: String?
         /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
         public let requestPayer: RequestPayer?
-        /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
+        /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket.
         public let startAfter: String?
 
         public init(bucket: String, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, fetchOwner: Bool? = nil, maxKeys: Int? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil, startAfter: String? = nil) {
@@ -4789,15 +4947,15 @@ extension S3 {
             AWSShapeMember(label: "UploadId", required: false, type: .string)
         ]
 
-        /// Date when multipart upload will become eligible for abort operation by lifecycle.
+        /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, then the response includes this header indicating when the initiated multipart upload will become eligible for abort operation. For more information, see Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy. The response will also include the x-amz-abort-rule-id header that will provide the ID of the lifecycle configuration rule that defines this action.
         public let abortDate: TimeStamp?
-        /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
+        /// This header is returned along with the x-amz-abort-date header. It identifies applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
         public let abortRuleId: String?
         /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String?
-        /// Identifies who initiated the multipart upload.
+        /// Container element that identifies who initiated the multipart upload. If the initiator is an AWS account, this element provides the same information as the Owner element. If the initiator is an IAM User, this element provides the user ARN and display name.
         public let initiator: Initiator?
-        /// Indicates whether the returned list of parts is truncated.
+        ///  Indicates whether the returned list of parts is truncated. A true value indicates that the list was truncated. A list can be truncated if the number of parts exceeds the limit returned in the MaxParts element.
         public let isTruncated: Bool?
         /// Object key for which the multipart upload was initiated.
         public let key: String?
@@ -4805,12 +4963,14 @@ extension S3 {
         public let maxParts: Int?
         /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
         public let nextPartNumberMarker: Int?
+        ///  Container element that identifies the object owner, after the object is created. If multipart upload is initiated by an IAM user, this element provides the parent account ID and display name.
         public let owner: Owner?
-        /// Part number after which listing begins.
+        /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
         public let partNumberMarker: Int?
+        ///  Container for elements related to a particular part. A response can contain zero or more Part elements.
         public let parts: [Part]?
         public let requestCharged: RequestCharged?
-        /// The class of storage used to store the object.
+        /// Class of storage (STANDARD or REDUCED_REDUNDANCY) used to store the uploaded object.
         public let storageClass: StorageClass?
         /// Upload ID identifying the multipart upload whose parts are being listed.
         public let uploadId: String?
@@ -4860,7 +5020,9 @@ extension S3 {
             AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
         ]
 
+        /// Name of the bucket to which the parts are being uploaded.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// Object key for which the multipart upload was initiated.
         public let key: String
         /// Sets the maximum number of parts to return.
         public let maxParts: Int?
@@ -4900,8 +5062,9 @@ extension S3 {
             AWSShapeMember(label: "TargetPrefix", required: true, type: .string)
         ]
 
-        /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
+        /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case, you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
         public let targetBucket: String
+        /// Container for granting information.
         public let targetGrants: [TargetGrant]?
         /// A prefix for all log object keys. If you store log files from multiple Amazon S3 buckets in a single bucket, you can use a prefix to distinguish which log files came from which bucket.
         public let targetPrefix: String
@@ -4943,7 +5106,9 @@ extension S3 {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
+        /// Name of the Object.
         public let name: String?
+        /// Value of the Object.
         public let value: String?
 
         public init(name: String? = nil, value: String? = nil) {
@@ -4954,6 +5119,28 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct Metrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventThreshold", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .enum)
+        ]
+
+        ///  A container specifying the time threshold for emitting the s3:Replication:OperationMissedThreshold event. 
+        public let eventThreshold: ReplicationTimeValue
+        ///  Specifies whether the replication metrics are enabled. 
+        public let status: MetricsStatus
+
+        public init(eventThreshold: ReplicationTimeValue, status: MetricsStatus) {
+            self.eventThreshold = eventThreshold
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventThreshold = "EventThreshold"
+            case status = "Status"
         }
     }
 
@@ -5043,6 +5230,12 @@ extension S3 {
         }
     }
 
+    public enum MetricsStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public struct MultipartUpload: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Initiated", required: false, type: .timestamp), 
@@ -5059,6 +5252,7 @@ extension S3 {
         public let initiator: Initiator?
         /// Key of the object for which the multipart upload was initiated.
         public let key: String?
+        /// Specifies the owner of the object that is part of the multipart upload. 
         public let owner: Owner?
         /// The class of storage used to store the object.
         public let storageClass: StorageClass?
@@ -5107,7 +5301,7 @@ extension S3 {
             AWSShapeMember(label: "StorageClass", required: false, type: .enum)
         ]
 
-        /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
+        /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates How Long an Object Has Been Noncurrent in the Amazon Simple Storage Service Developer Guide.
         public let noncurrentDays: Int?
         /// The class of storage used to store the object.
         public let storageClass: TransitionStorageClass?
@@ -5157,8 +5351,11 @@ extension S3 {
             AWSShapeMember(label: "TopicConfiguration", required: false, type: .structure)
         ]
 
+        /// Container for specifying the AWS Lambda notification configuration.
         public let cloudFunctionConfiguration: CloudFunctionConfiguration?
+        /// This data type is deprecated. This data type specifies the configuration for publishing messages to an Amazon Simple Queue Service (Amazon SQS) queue when Amazon S3 detects specified events. 
         public let queueConfiguration: QueueConfigurationDeprecated?
+        /// This data type is deprecated. A container for specifying the configuration for publication of messages to an Amazon Simple Notification Service (Amazon SNS) topic when Amazon S3 detects specified events. 
         public let topicConfiguration: TopicConfigurationDeprecated?
 
         public init(cloudFunctionConfiguration: CloudFunctionConfiguration? = nil, queueConfiguration: QueueConfigurationDeprecated? = nil, topicConfiguration: TopicConfigurationDeprecated? = nil) {
@@ -5200,10 +5397,15 @@ extension S3 {
             AWSShapeMember(label: "StorageClass", required: false, type: .enum)
         ]
 
+        /// The entity tag is an MD5 hash of the object. ETag reflects only changes to the contents of an object, not its metadata.
         public let eTag: String?
+        /// The name that you assign to an object. You use the object key to retrieve the object.
         public let key: String?
+        /// The date the Object was Last Modified
         public let lastModified: TimeStamp?
+        /// The owner of the object
         public let owner: Owner?
+        /// Size in bytes of the object
         public let size: Int64?
         /// The class of storage used to store the object.
         public let storageClass: ObjectStorageClass?
@@ -5270,9 +5472,9 @@ extension S3 {
             AWSShapeMember(label: "Rule", required: false, type: .structure)
         ]
 
-        /// Indicates whether this bucket has an object lock configuration enabled.
+        /// Indicates whether this bucket has an Object Lock configuration enabled.
         public let objectLockEnabled: ObjectLockEnabled?
-        /// The object lock rule in place for the specified object.
+        /// The Object Lock rule in place for the specified object.
         public let rule: ObjectLockRule?
 
         public init(objectLockEnabled: ObjectLockEnabled? = nil, rule: ObjectLockRule? = nil) {
@@ -5328,7 +5530,7 @@ extension S3 {
 
         /// Indicates the Retention mode for the specified object.
         public let mode: ObjectLockRetentionMode?
-        /// The date on which this object lock retention expires.
+        /// The date on which this Object Lock Retention will expire.
         public let retainUntilDate: TimeStamp?
 
         public init(mode: ObjectLockRetentionMode? = nil, retainUntilDate: TimeStamp? = nil) {
@@ -5388,6 +5590,7 @@ extension S3 {
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
+        /// The entity tag is an MD5 hash of that version of the object.
         public let eTag: String?
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
         public let isLatest: Bool?
@@ -5395,6 +5598,7 @@ extension S3 {
         public let key: String?
         /// Date and time the object was last modified.
         public let lastModified: TimeStamp?
+        /// Specifies the owner of the object.
         public let owner: Owner?
         /// Size in bytes of the object.
         public let size: Int64?
@@ -5480,7 +5684,9 @@ extension S3 {
             AWSShapeMember(label: "ID", required: false, type: .string)
         ]
 
+        /// Container for the display name of the owner.
         public let displayName: String?
+        /// Container for the ID of the owner.
         public let id: String?
 
         public init(displayName: String? = nil, id: String? = nil) {
@@ -5585,7 +5791,7 @@ extension S3 {
             AWSShapeMember(label: "RestrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"), required: false, type: .boolean)
         ]
 
-        /// Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs.
+        /// Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   PUT Bucket calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs.
         public let blockPublicAcls: Bool?
         /// Specifies whether Amazon S3 should block public bucket policies for this bucket. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Enabling this setting doesn't affect existing bucket policies.
         public let blockPublicPolicy: Bool?
@@ -5618,7 +5824,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
 
-        /// Specifies the Accelerate Configuration you want to set for the bucket.
+        /// Container for setting the transfer acceleration state.
         public let accelerateConfiguration: AccelerateConfiguration
         /// Name of the bucket for which the accelerate configuration is set.
         public let bucket: String
@@ -5654,7 +5860,9 @@ extension S3 {
         public let accessControlPolicy: AccessControlPolicy?
         /// The canned ACL to apply to the bucket.
         public let acl: BucketCannedACL?
+        /// The bucket to which to apply the ACL.
         public let bucket: String
+        /// The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864. 
         public let contentMD5: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
         public let grantFullControl: String?
@@ -5736,8 +5944,11 @@ extension S3 {
             AWSShapeMember(label: "CORSConfiguration", location: .body(locationName: "CORSConfiguration"), required: true, type: .structure)
         ]
 
+        /// Specifies the bucket impacted by the corsconfiguration.
         public let bucket: String
+        /// The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864. 
         public let contentMD5: String?
+        /// Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon Simple Storage Service Developer Guide.
         public let cORSConfiguration: CORSConfiguration
 
         public init(bucket: String, contentMD5: String? = nil, cORSConfiguration: CORSConfiguration) {
@@ -5763,7 +5974,7 @@ extension S3 {
             AWSShapeMember(label: "ServerSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"), required: true, type: .structure)
         ]
 
-        /// Specifies default encryption for a bucket using server-side encryption with Amazon S3-managed keys (SSE-S3) or AWS KMS-managed keys (SSE-KMS). For information about the Amazon S3 default encryption feature, see Amazon S3 Default Bucket Encryption in the Amazon Simple Storage Service Developer Guide.
+        /// Specifies default encryption for a bucket using server-side encryption with Amazon S3-managed keys (SSE-S3) or customer master keys stored in AWS KMS (SSE-KMS). For information about the Amazon S3 default encryption feature, see Amazon S3 Default Bucket Encryption in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The base64-encoded 128-bit MD5 digest of the server-side encryption configuration. This parameter is auto-populated when using the command from the CLI.
         public let contentMD5: String?
@@ -5821,7 +6032,9 @@ extension S3 {
             AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure)
         ]
 
+        /// The name of the bucket for which to set the configuration.
         public let bucket: String
+        /// Container for lifecycle rules. You can add as many as 1,000 rules.
         public let lifecycleConfiguration: BucketLifecycleConfiguration?
 
         public init(bucket: String, lifecycleConfiguration: BucketLifecycleConfiguration? = nil) {
@@ -5876,8 +6089,11 @@ extension S3 {
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
 
+        /// The name of the bucket for which to set the logging parameters.
         public let bucket: String
+        /// Container for logging status information.
         public let bucketLoggingStatus: BucketLoggingStatus
+        /// The MD5 hash of the PutBucketLogging request body.
         public let contentMD5: String?
 
         public init(bucket: String, bucketLoggingStatus: BucketLoggingStatus, contentMD5: String? = nil) {
@@ -5936,6 +6152,7 @@ extension S3 {
             AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure)
         ]
 
+        /// The name of the bucket.
         public let bucket: String
         public let notificationConfiguration: NotificationConfiguration
 
@@ -5960,8 +6177,11 @@ extension S3 {
             AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure)
         ]
 
+        /// The name of the bucket.
         public let bucket: String
+        /// The MD5 hash of the PutPublicAccessBlock request body.
         public let contentMD5: String?
+        /// The container for the configuration.
         public let notificationConfiguration: NotificationConfigurationDeprecated
 
         public init(bucket: String, contentMD5: String? = nil, notificationConfiguration: NotificationConfigurationDeprecated) {
@@ -5987,9 +6207,11 @@ extension S3 {
             AWSShapeMember(label: "Policy", required: true, type: .string)
         ]
 
+        /// The name of the bucket.
         public let bucket: String
         /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
         public let confirmRemoveSelfBucketAccess: Bool?
+        /// The MD5 hash of the request body.
         public let contentMD5: String?
         /// The bucket policy as a JSON document.
         public let policy: String
@@ -6020,11 +6242,11 @@ extension S3 {
             AWSShapeMember(label: "Token", location: .header(locationName: "x-amz-bucket-object-lock-token"), required: false, type: .string)
         ]
 
+        /// The name of the bucket
         public let bucket: String
-        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit.
+        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
         public let contentMD5: String?
         public let replicationConfiguration: ReplicationConfiguration
-        /// A token that allows Amazon S3 object lock to be enabled for an existing bucket.
         public let token: String?
 
         public init(bucket: String, contentMD5: String? = nil, replicationConfiguration: ReplicationConfiguration, token: String? = nil) {
@@ -6056,8 +6278,11 @@ extension S3 {
             AWSShapeMember(label: "RequestPaymentConfiguration", location: .body(locationName: "RequestPaymentConfiguration"), required: true, type: .structure)
         ]
 
+        /// The bucket name.
         public let bucket: String
+        /// &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
         public let contentMD5: String?
+        /// Container for Payer.
         public let requestPaymentConfiguration: RequestPaymentConfiguration
 
         public init(bucket: String, contentMD5: String? = nil, requestPaymentConfiguration: RequestPaymentConfiguration) {
@@ -6083,8 +6308,11 @@ extension S3 {
             AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure)
         ]
 
+        /// The bucket name.
         public let bucket: String
+        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
         public let contentMD5: String?
+        /// Container for the TagSet and Tag elements.
         public let tagging: Tagging
 
         public init(bucket: String, contentMD5: String? = nil, tagging: Tagging) {
@@ -6115,10 +6343,13 @@ extension S3 {
             AWSShapeMember(label: "VersioningConfiguration", location: .body(locationName: "VersioningConfiguration"), required: true, type: .structure)
         ]
 
+        /// The bucket name.
         public let bucket: String
+        /// &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
         public let contentMD5: String?
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
         public let mfa: String?
+        /// Container for setting the versioning state.
         public let versioningConfiguration: VersioningConfiguration
 
         public init(bucket: String, contentMD5: String? = nil, mfa: String? = nil, versioningConfiguration: VersioningConfiguration) {
@@ -6146,8 +6377,11 @@ extension S3 {
             AWSShapeMember(label: "WebsiteConfiguration", location: .body(locationName: "WebsiteConfiguration"), required: true, type: .structure)
         ]
 
+        /// The bucket name.
         public let bucket: String
+        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
         public let contentMD5: String?
+        /// Container for the request.
         public let websiteConfiguration: WebsiteConfiguration
 
         public init(bucket: String, contentMD5: String? = nil, websiteConfiguration: WebsiteConfiguration) {
@@ -6204,9 +6438,11 @@ extension S3 {
 
         /// Contains the elements that set the ACL permissions for an object per grantee.
         public let accessControlPolicy: AccessControlPolicy?
-        /// The canned ACL to apply to the object.
+        /// The canned ACL to apply to the object. For more information, see Canned ACL.
         public let acl: ObjectCannedACL?
+        /// The bucket name that contains the object to which you want to attach the ACL.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864.&gt; 
         public let contentMD5: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
         public let grantFullControl: String?
@@ -6218,6 +6454,7 @@ extension S3 {
         public let grantWrite: String?
         /// Allows grantee to write the ACL for the applicable bucket.
         public let grantWriteACP: String?
+        /// Key for which the PUT operation was initiated.
         public let key: String
         public let requestPayer: RequestPayer?
         /// VersionId used to reference a specific version of the object.
@@ -6287,7 +6524,7 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
-        /// The bucket containing the object that you want to place a Legal Hold on.
+        /// The bucket name containing the object that you want to place a Legal Hold on.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         /// The MD5 hash for the request body.
         public let contentMD5: String?
@@ -6350,14 +6587,14 @@ extension S3 {
             AWSShapeMember(label: "Token", location: .header(locationName: "x-amz-bucket-object-lock-token"), required: false, type: .string)
         ]
 
-        /// The bucket whose object lock configuration you want to create or replace.
+        /// The bucket whose Object Lock configuration you want to create or replace.
         public let bucket: String
         /// The MD5 hash for the request body.
         public let contentMD5: String?
-        /// The object lock configuration that you want to apply to the specified bucket.
+        /// The Object Lock configuration that you want to apply to the specified bucket.
         public let objectLockConfiguration: ObjectLockConfiguration?
         public let requestPayer: RequestPayer?
-        /// A token to allow Amazon S3 object lock to be enabled for an existing bucket.
+        /// A token to allow Object Lock to be enabled for an existing bucket.
         public let token: String?
 
         public init(bucket: String, contentMD5: String? = nil, objectLockConfiguration: ObjectLockConfiguration? = nil, requestPayer: RequestPayer? = nil, token: String? = nil) {
@@ -6392,18 +6629,18 @@ extension S3 {
 
         /// Entity tag for the uploaded object.
         public let eTag: String?
-        /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
+        ///  If the expiration is configured for the object (see PutBucketLifecycleConfiguration), the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide information about object expiration. The value of the rule-id is URL encoded.
         public let expiration: String?
         public let requestCharged: RequestCharged?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// If you specified server-side encryption either with an AWS KMS customer master key (CMK) or Amazon S3-managed encryption key in your PUT request, the response includes this header. It confirms the encryption algorithm that Amazon S3 used to encrypt the object.
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
         /// If present, specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let sSEKMSEncryptionContext: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        /// If x-amz-server-side-encryption is present and has the value of aws:kms, this header specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object. 
         public let sSEKMSKeyId: String?
         /// Version of the object.
         public let versionId: String?
@@ -6469,27 +6706,27 @@ extension S3 {
             AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string)
         ]
 
-        /// The canned ACL to apply to the object.
+        /// The canned ACL to apply to the object. For more information, see Canned ACL.
         public let acl: ObjectCannedACL?
         /// Object data.
         public let body: Data?
-        /// Name of the bucket to which the PUT operation was initiated.
+        /// Bucket name to which the PUT operation was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// Specifies caching behavior along the request/reply chain.
+        ///  Can be used to specify caching behavior along the request/reply chain. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
         public let cacheControl: String?
-        /// Specifies presentational information for the object.
+        /// Specifies presentational information for the object. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.5.1.
         public let contentDisposition: String?
-        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.11.
         public let contentEncoding: String?
         /// The language the content is in.
         public let contentLanguage: String?
-        /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
+        /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13.
         public let contentLength: Int64?
-        /// The base64-encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameted is required if object lock parameters are specified.
+        /// The base64-encoded 128-bit MD5 digest of the message (without the headers) according to RFC 1864. This header can be used as a message integrity check to verify that the data is the same data that was originally sent. Although it is optional, we recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more information about REST request authentication, see REST Authentication.
         public let contentMD5: String?
-        /// A standard MIME type describing the format of the object data.
+        /// A standard MIME type describing the format of the contents. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17.
         public let contentType: String?
-        /// The date and time at which the object is no longer cacheable.
+        /// The date and time at which the object is no longer cacheable. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21.
         public let expires: TimeStamp?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
         public let grantFullControl: String?
@@ -6503,30 +6740,30 @@ extension S3 {
         public let key: String
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
-        /// The Legal Hold status that you want to apply to the specified object.
+        /// Specifies whether a legal hold will be applied to this object. For more information about S3 Object Lock, see Object Lock.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        /// The object lock mode that you want to apply to this object.
+        /// The Object Lock mode that you want to apply to this object.
         public let objectLockMode: ObjectLockMode?
-        /// The date and time when you want this object's object lock to expire.
+        /// The date and time when you want this object's Object Lock to expire.
         public let objectLockRetainUntilDate: TimeStamp?
         public let requestPayer: RequestPayer?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
         public let sSECustomerKey: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let sSEKMSEncryptionContext: String?
-        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+        /// If x-amz-server-side-encryption is present and has the value of aws:kms, this header specifies the ID of the AWS Key Management Service (AWS KMS) symmetrical customer managed customer master key (CMK) that was used for the object.  If the value of x-amz-server-side-encryption is aws:kms, this header specifies the ID of the symmetric customer managed AWS KMS CMK that will be used for the object. If you specify x-amz-server-side-encryption:aws:kms, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the AWS managed CMK in AWS to protect the data.
         public let sSEKMSKeyId: String?
-        /// The type of storage to use for the object. Defaults to 'STANDARD'.
+        /// If you don't specify, Standard is the default storage class. Amazon S3 supports other storage classes.
         public let storageClass: StorageClass?
         /// The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, "Key1=Value1")
         public let tagging: String?
-        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects. 
         public let websiteRedirectLocation: String?
 
         public init(acl: ObjectCannedACL? = nil, body: Data? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
@@ -6630,9 +6867,9 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
-        /// The bucket that contains the object you want to apply this Object Retention configuration to.
+        /// The bucket name that contains the object you want to apply this Object Retention configuration to.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
-        /// Indicates whether this operation should bypass Governance-mode restrictions.j
+        /// Indicates whether this operation should bypass Governance-mode restrictions.
         public let bypassGovernanceRetention: Bool?
         /// The MD5 hash for the request body.
         public let contentMD5: String?
@@ -6674,6 +6911,7 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
 
+        /// The versionId of the object the tag-set was added to.
         public let versionId: String?
 
         public init(versionId: String? = nil) {
@@ -6697,10 +6935,15 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
+        /// The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// The MD5 hash for the request body.
         public let contentMD5: String?
+        /// Name of the tag.
         public let key: String
+        /// Container for the TagSet and Tag elements
         public let tagging: Tagging
+        /// The versionId of the object that the tag-set will be added to.
         public let versionId: String?
 
         public init(bucket: String, contentMD5: String? = nil, key: String, tagging: Tagging, versionId: String? = nil) {
@@ -6763,6 +7006,7 @@ extension S3 {
             AWSShapeMember(label: "QueueArn", location: .body(locationName: "Queue"), required: true, type: .string)
         ]
 
+        /// A collection of bucket events for which to send notifications
         public let events: [Event]
         public let filter: NotificationConfigurationFilter?
         public let id: String?
@@ -6791,8 +7035,10 @@ extension S3 {
             AWSShapeMember(label: "Queue", required: false, type: .string)
         ]
 
+        /// A collection of bucket events for which to send notifications
         public let events: [Event]?
         public let id: String?
+        /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3 publishes a message when it detects events of the specified type. 
         public let queue: String?
 
         public init(events: [Event]? = nil, id: String? = nil, queue: String? = nil) {
@@ -6879,7 +7125,7 @@ extension S3 {
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list, encoding: .flatList)
         ]
 
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that Amazon S3 assumes when replicating objects. For more information, see How to Set Up Cross-Region Replication in the Amazon Simple Storage Service Developer Guide.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that Amazon S3 assumes when replicating objects. For more information, see How to Set Up Replication in the Amazon Simple Storage Service Developer Guide.
         public let role: String
         /// A container for one or more replication rules. A replication configuration must have at least one rule and can contain a maximum of 1,000 rules. 
         public let rules: [ReplicationRule]
@@ -6905,6 +7151,7 @@ extension S3 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeleteMarkerReplication", required: false, type: .structure), 
             AWSShapeMember(label: "Destination", required: true, type: .structure), 
+            AWSShapeMember(label: "ExistingObjectReplication", required: false, type: .structure), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "ID", required: false, type: .string), 
             AWSShapeMember(label: "Priority", required: false, type: .integer), 
@@ -6913,21 +7160,23 @@ extension S3 {
         ]
 
         public let deleteMarkerReplication: DeleteMarkerReplication?
-        /// A container for information about the replication destination.
+        /// A container for information about the replication destination and its configurations including enabling the S3 Replication Time Control (S3 RTC).
         public let destination: Destination
+        public let existingObjectReplication: ExistingObjectReplication?
         public let filter: ReplicationRuleFilter?
         /// A unique identifier for the rule. The maximum value is 255 characters.
         public let id: String?
-        /// The priority associated with the rule. If you specify multiple rules in a replication configuration, Amazon S3 prioritizes the rules to prevent conflicts when filtering. If two or more rules identify the same object based on a specified filter, the rule with higher priority takes precedence. For example:   Same object quality prefix based filter criteria If prefixes you specified in multiple rules overlap    Same object qualify tag based filter criteria specified in multiple rules   For more information, see Cross-Region Replication (CRR) in the Amazon S3 Developer Guide.
+        /// The priority associated with the rule. If you specify multiple rules in a replication configuration, Amazon S3 prioritizes the rules to prevent conflicts when filtering. If two or more rules identify the same object based on a specified filter, the rule with higher priority takes precedence. For example:   Same object quality prefix-based filter criteria if prefixes you specified in multiple rules overlap    Same object qualify tag-based filter criteria specified in multiple rules   For more information, see Replication in the Amazon Simple Storage Service Developer Guide.
         public let priority: Int?
-        /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects. Currently, Amazon S3 supports only the filter that you can specify for objects created with server-side encryption using an AWS KMS-Managed Key (SSE-KMS).
+        /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects. Currently, Amazon S3 supports only the filter that you can specify for objects created with server-side encryption using a customer master key (CMK) stored in AWS Key Management Service (SSE-KMS).
         public let sourceSelectionCriteria: SourceSelectionCriteria?
         /// Specifies whether the rule is enabled.
         public let status: ReplicationRuleStatus
 
-        public init(deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, filter: ReplicationRuleFilter? = nil, id: String? = nil, priority: Int? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
+        public init(deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, existingObjectReplication: ExistingObjectReplication? = nil, filter: ReplicationRuleFilter? = nil, id: String? = nil, priority: Int? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
             self.deleteMarkerReplication = deleteMarkerReplication
             self.destination = destination
+            self.existingObjectReplication = existingObjectReplication
             self.filter = filter
             self.id = id
             self.priority = priority
@@ -6942,6 +7191,7 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case deleteMarkerReplication = "DeleteMarkerReplication"
             case destination = "Destination"
+            case existingObjectReplication = "ExistingObjectReplication"
             case filter = "Filter"
             case id = "ID"
             case priority = "Priority"
@@ -6956,7 +7206,9 @@ extension S3 {
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .list, encoding: .flatList)
         ]
 
+        /// An object key name prefix that identifies the subset of objects to which the rule applies.
         public let prefix: String?
+        /// An array of tags containing key and value pairs.
         public let tags: [Tag]?
 
         public init(prefix: String? = nil, tags: [Tag]? = nil) {
@@ -6985,7 +7237,7 @@ extension S3 {
 
         /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:    If you specify both a Prefix and a Tag filter, wrap these filters in an And tag.   If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.  
         public let and: ReplicationRuleAndOperator?
-        /// An object keyname prefix that identifies the subset of objects to which the rule applies.
+        /// An object key name prefix that identifies the subset of objects to which the rule applies.
         public let prefix: String?
         /// A container for specifying a tag key and value.  The rule applies only to objects that have the tag in their tag set.
         public let tag: Tag?
@@ -7020,6 +7272,51 @@ extension S3 {
         case failed = "FAILED"
         case replica = "REPLICA"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ReplicationTime: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "Time", required: true, type: .structure)
+        ]
+
+        ///  Specifies whether the replication time is enabled. 
+        public let status: ReplicationTimeStatus
+        ///  A container specifying the time by which replication should be complete for all objects and operations on objects. 
+        public let time: ReplicationTimeValue
+
+        public init(status: ReplicationTimeStatus, time: ReplicationTimeValue) {
+            self.status = status
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case time = "Time"
+        }
+    }
+
+    public enum ReplicationTimeStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ReplicationTimeValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Minutes", required: false, type: .integer)
+        ]
+
+        ///  Contains an integer specifying time in minutes.   Valid values: 15 minutes. 
+        public let minutes: Int?
+
+        public init(minutes: Int? = nil) {
+            self.minutes = minutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minutes = "Minutes"
+        }
     }
 
     public enum RequestCharged: String, CustomStringConvertible, Codable {
@@ -7099,10 +7396,13 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
+        /// The bucket name or containing the object to restore.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// Object key for which the operation was initiated.
         public let key: String
         public let requestPayer: RequestPayer?
         public let restoreRequest: RestoreRequest?
+        /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
         public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, restoreRequest: RestoreRequest? = nil, versionId: String? = nil) {
@@ -7218,6 +7518,7 @@ extension S3 {
         ]
 
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
+        /// Specifies the expiration for the lifecycle of the object.
         public let expiration: LifecycleExpiration?
         /// Unique identifier for the rule. The value can't be longer than 255 characters.
         public let id: String?
@@ -7227,6 +7528,7 @@ extension S3 {
         public let prefix: String
         /// If Enabled, the rule is currently being applied. If Disabled, the rule is not currently being applied.
         public let status: ExpirationStatus
+        /// Specifies when an object transitions to a specified storage class.
         public let transition: Transition?
 
         public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, prefix: String, status: ExpirationStatus, transition: Transition? = nil) {
@@ -7328,7 +7630,7 @@ extension S3 {
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
 
-        /// Specifies the ID of the AWS Key Management Service (KMS) master encryption key to use for encrypting Inventory reports.
+        /// Specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) to use for encrypting inventory reports.
         public let keyId: String
 
         public init(keyId: String) {
@@ -7354,9 +7656,9 @@ extension S3 {
             AWSShapeMember(label: "Start", required: false, type: .long)
         ]
 
-        /// Specifies the end of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is one less than the size of the object being queried.
+        /// Specifies the end of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is one less than the size of the object being queried. If only the End parameter is supplied, it is interpreted to mean scan the last N bytes of the file. For example, &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; means scan the last 50 bytes.
         public let end: Int64?
-        /// Specifies the start of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is 0.
+        /// Specifies the start of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is 0. If only start is supplied, it means scan from that point to the end of the file.For example; &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt; means scan from byte 50 until the end of the file.
         public let start: Int64?
 
         public init(end: Int64? = nil, start: Int64? = nil) {
@@ -7389,7 +7691,7 @@ extension S3 {
         public let bucket: String
         /// The expression that is used to query the object.
         public let expression: String
-        /// The type of the provided expression (for example., SQL).
+        /// The type of the provided expression (for example, SQL).
         public let expressionType: ExpressionType
         /// Describes the format of the data in the object that is being queried.
         public let inputSerialization: InputSerialization
@@ -7399,13 +7701,13 @@ extension S3 {
         public let outputSerialization: OutputSerialization
         /// Specifies if periodic request progress information should be enabled.
         public let requestProgress: RequestProgress?
-        /// Specifies the byte range of the object to get the records from. A record is processed when its first byte is contained by the range. This parameter is optional, but when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify the start and end of the range.
+        /// Specifies the byte range of the object to get the records from. A record is processed when its first byte is contained by the range. This parameter is optional, but when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify the start and end of the range.  ScanRangemay be used in the following ways:    &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;end&gt;100&lt;/end&gt;&lt;/scanrange&gt; - process only the records starting between the bytes 50 and 100 (inclusive, counting from zero)    &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt; - process only the records starting after the byte 50    &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; - process only the records within the last 50 bytes of the file.  
         public let scanRange: ScanRange?
-        /// The SSE Algorithm used to encrypt the object. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        /// The SSE Algorithm used to encrypt the object. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerAlgorithm: String?
-        /// The SSE Customer Key. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        /// The SSE Customer Key. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerKey: String?
-        /// The SSE Customer Key MD5. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        /// The SSE Customer Key MD5. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerKeyMD5: String?
 
         public init(bucket: String, expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, key: String, outputSerialization: OutputSerialization, requestProgress: RequestProgress? = nil, scanRange: ScanRange? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil) {
@@ -7451,7 +7753,7 @@ extension S3 {
 
         /// The expression that is used to query the object.
         public let expression: String
-        /// The type of the provided expression (e.g., SQL).
+        /// The type of the provided expression (for example, SQL).
         public let expressionType: ExpressionType
         /// Describes the serialization format of the object.
         public let inputSerialization: InputSerialization
@@ -7557,7 +7859,7 @@ extension S3 {
             AWSShapeMember(label: "Status", required: true, type: .enum)
         ]
 
-        /// Specifies whether Amazon S3 replicates objects created with server-side encryption using an AWS KMS-managed key.
+        /// Specifies whether Amazon S3 replicates objects created with server-side encryption using a customer master key (CMK) stored in AWS Key Management Service.
         public let status: SseKmsEncryptedObjectsStatus
 
         public init(status: SseKmsEncryptedObjectsStatus) {
@@ -7661,6 +7963,7 @@ extension S3 {
             AWSShapeMember(label: "TagSet", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
 
+        /// A collection for a set of tags
         public let tagSet: [Tag]
 
         public init(tagSet: [Tag]) {
@@ -7690,6 +7993,7 @@ extension S3 {
             AWSShapeMember(label: "Permission", required: false, type: .enum)
         ]
 
+        /// Container for the person being granted permissions.
         public let grantee: Grantee?
         /// Logging permissions assigned to the Grantee for the bucket.
         public let permission: BucketLogsPermission?
@@ -7749,6 +8053,7 @@ extension S3 {
             AWSShapeMember(label: "Topic", required: false, type: .string)
         ]
 
+        /// A collection of events related to objects
         public let events: [Event]?
         public let id: String?
         /// Amazon SNS topic to which Amazon S3 will publish a message to report the specified events for the bucket.
@@ -7823,17 +8128,18 @@ extension S3 {
             AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string)
         ]
 
+        /// Container for all response elements.
         public let copyPartResult: CopyPartResult?
         /// The version of the source object that was copied, if you have enabled versioning on the source bucket.
         public let copySourceVersionId: String?
         public let requestCharged: RequestCharged?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
         public let sSEKMSKeyId: String?
 
         public init(copyPartResult: CopyPartResult? = nil, copySourceVersionId: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil) {
@@ -7878,6 +8184,7 @@ extension S3 {
             AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
         ]
 
+        /// The bucket name.
         public let bucket: String
         /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
         public let copySource: String
@@ -7889,23 +8196,24 @@ extension S3 {
         public let copySourceIfNoneMatch: String?
         /// Copies the object if it hasn't been modified since the specified time.
         public let copySourceIfUnmodifiedSince: TimeStamp?
-        /// The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first ten bytes of the source. You can copy a range only if the source object is greater than 5 MB.
+        /// The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first 10 bytes of the source. You can copy a range only if the source object is greater than 5 MB.
         public let copySourceRange: String?
-        /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
+        /// Specifies the algorithm to use when decrypting the source object (for example, AES256).
         public let copySourceSSECustomerAlgorithm: String?
         /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
         public let copySourceSSECustomerKey: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let copySourceSSECustomerKeyMD5: String?
+        /// Object key for which the multipart upload was initiated.
         public let key: String
         /// Part number of part being copied. This is a positive integer between 1 and 10,000.
         public let partNumber: Int
         public let requestPayer: RequestPayer?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
         public let sSECustomerKey: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Upload ID identifying the multipart upload whose part is being copied.
         public let uploadId: String
@@ -7969,13 +8277,13 @@ extension S3 {
         /// Entity tag for the uploaded object.
         public let eTag: String?
         public let requestCharged: RequestCharged?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) was used for the object.
         public let sSEKMSKeyId: String?
 
         public init(eTag: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil) {
@@ -8020,18 +8328,18 @@ extension S3 {
         public let bucket: String
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
         public let contentLength: Int64?
-        /// The base64-encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameted is required if object lock parameters are specified.
+        /// The base64-encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameter is required if object lock parameters are specified.
         public let contentMD5: String?
         /// Object key for which the multipart upload was initiated.
         public let key: String
         /// Part number of part being uploaded. This is a positive integer between 1 and 10,000.
         public let partNumber: Int
         public let requestPayer: RequestPayer?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
         public let sSECustomerKey: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Upload ID identifying the multipart upload whose part is being uploaded.
         public let uploadId: String

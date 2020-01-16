@@ -18,6 +18,137 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public struct CostCategory: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategoryArn", required: true, type: .string), 
+            AWSShapeMember(label: "EffectiveEnd", required: false, type: .string), 
+            AWSShapeMember(label: "EffectiveStart", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Rules", required: true, type: .list), 
+            AWSShapeMember(label: "RuleVersion", required: true, type: .enum)
+        ]
+
+        ///  The unique identifier for your Cost Category. 
+        public let costCategoryArn: String
+        ///  The Cost Category's effective end date.
+        public let effectiveEnd: String?
+        ///  The Cost Category's effective start date.
+        public let effectiveStart: String
+        public let name: String
+        ///  Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value. 
+        public let rules: [CostCategoryRule]
+        public let ruleVersion: CostCategoryRuleVersion
+
+        public init(costCategoryArn: String, effectiveEnd: String? = nil, effectiveStart: String, name: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+            self.costCategoryArn = costCategoryArn
+            self.effectiveEnd = effectiveEnd
+            self.effectiveStart = effectiveStart
+            self.name = name
+            self.rules = rules
+            self.ruleVersion = ruleVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+            case effectiveEnd = "EffectiveEnd"
+            case effectiveStart = "EffectiveStart"
+            case name = "Name"
+            case rules = "Rules"
+            case ruleVersion = "RuleVersion"
+        }
+    }
+
+    public struct CostCategoryReference: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategoryArn", required: false, type: .string), 
+            AWSShapeMember(label: "EffectiveEnd", required: false, type: .string), 
+            AWSShapeMember(label: "EffectiveStart", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        ///  The unique identifier for your Cost Category Reference. 
+        public let costCategoryArn: String?
+        ///  The Cost Category's effective end date.
+        public let effectiveEnd: String?
+        ///  The Cost Category's effective start date.
+        public let effectiveStart: String?
+        public let name: String?
+
+        public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil) {
+            self.costCategoryArn = costCategoryArn
+            self.effectiveEnd = effectiveEnd
+            self.effectiveStart = effectiveStart
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+            case effectiveEnd = "EffectiveEnd"
+            case effectiveStart = "EffectiveStart"
+            case name = "Name"
+        }
+    }
+
+    public struct CostCategoryRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rule", required: true, type: .structure), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// An Expression object used to categorize costs. This supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead.
+        public let rule: Expression
+        public let value: String
+
+        public init(rule: Expression, value: String) {
+            self.rule = rule
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.rule.validate(name: "\(name).rule")
+            try validate(self.value, name:"value", parent: name, max: 255)
+            try validate(self.value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
+            case value = "Value"
+        }
+    }
+
+    public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable {
+        case costcategoryexpressionV1 = "CostCategoryExpression.v1"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CostCategoryValues: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+
+        public let key: String?
+        /// The specific value of the Cost Category.
+        public let values: [String]?
+
+        public init(key: String? = nil, values: [String]? = nil) {
+            self.key = key
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 255)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
+        }
+    }
+
     public struct Coverage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CoverageCost", required: false, type: .structure), 
@@ -153,6 +284,64 @@ extension CostExplorer {
         }
     }
 
+    public struct CreateCostCategoryDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Rules", required: true, type: .list), 
+            AWSShapeMember(label: "RuleVersion", required: true, type: .enum)
+        ]
+
+        public let name: String
+        ///  CreateCostCategoryDefinition supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead. Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value. 
+        public let rules: [CostCategoryRule]
+        public let ruleVersion: CostCategoryRuleVersion
+
+        public init(name: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+            self.name = name
+            self.rules = rules
+            self.ruleVersion = ruleVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try validate(self.rules, name:"rules", parent: name, max: 500)
+            try validate(self.rules, name:"rules", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case rules = "Rules"
+            case ruleVersion = "RuleVersion"
+        }
+    }
+
+    public struct CreateCostCategoryDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategoryArn", required: false, type: .string), 
+            AWSShapeMember(label: "EffectiveStart", required: false, type: .string)
+        ]
+
+        ///  The unique identifier for your newly created Cost Category. 
+        public let costCategoryArn: String?
+        ///  The Cost Category's effective start date. 
+        public let effectiveStart: String?
+
+        public init(costCategoryArn: String? = nil, effectiveStart: String? = nil) {
+            self.costCategoryArn = costCategoryArn
+            self.effectiveStart = effectiveStart
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+            case effectiveStart = "EffectiveStart"
+        }
+    }
+
     public struct CurrentInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
@@ -239,6 +428,98 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case end = "End"
             case start = "Start"
+        }
+    }
+
+    public struct DeleteCostCategoryDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategoryArn", required: true, type: .string)
+        ]
+
+        ///  The unique identifier for your Cost Category. 
+        public let costCategoryArn: String
+
+        public init(costCategoryArn: String) {
+            self.costCategoryArn = costCategoryArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.costCategoryArn, name:"costCategoryArn", parent: name, max: 2048)
+            try validate(self.costCategoryArn, name:"costCategoryArn", parent: name, min: 20)
+            try validate(self.costCategoryArn, name:"costCategoryArn", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+        }
+    }
+
+    public struct DeleteCostCategoryDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategoryArn", required: false, type: .string), 
+            AWSShapeMember(label: "EffectiveEnd", required: false, type: .string)
+        ]
+
+        ///  The unique identifier for your Cost Category. 
+        public let costCategoryArn: String?
+        ///  The effective end date of the Cost Category as a result of deleting it. No costs after this date will be categorized by the deleted Cost Category. 
+        public let effectiveEnd: String?
+
+        public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil) {
+            self.costCategoryArn = costCategoryArn
+            self.effectiveEnd = effectiveEnd
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+            case effectiveEnd = "EffectiveEnd"
+        }
+    }
+
+    public struct DescribeCostCategoryDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategoryArn", required: true, type: .string), 
+            AWSShapeMember(label: "EffectiveOn", required: false, type: .string)
+        ]
+
+        ///  The unique identifier for your Cost Category. 
+        public let costCategoryArn: String
+        ///  The date when the Cost Category was effective. 
+        public let effectiveOn: String?
+
+        public init(costCategoryArn: String, effectiveOn: String? = nil) {
+            self.costCategoryArn = costCategoryArn
+            self.effectiveOn = effectiveOn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.costCategoryArn, name:"costCategoryArn", parent: name, max: 2048)
+            try validate(self.costCategoryArn, name:"costCategoryArn", parent: name, min: 20)
+            try validate(self.costCategoryArn, name:"costCategoryArn", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
+            try validate(self.effectiveOn, name:"effectiveOn", parent: name, max: 25)
+            try validate(self.effectiveOn, name:"effectiveOn", parent: name, min: 20)
+            try validate(self.effectiveOn, name:"effectiveOn", parent: name, pattern: "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(([+-]\\d\\d:\\d\\d)|Z)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+            case effectiveOn = "EffectiveOn"
+        }
+    }
+
+    public struct DescribeCostCategoryDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategory", required: false, type: .structure)
+        ]
+
+        public let costCategory: CostCategory?
+
+        public init(costCategory: CostCategory? = nil) {
+            self.costCategory = costCategory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategory = "CostCategory"
         }
     }
 
@@ -552,6 +833,7 @@ extension CostExplorer {
     public class Expression: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "And", required: false, type: .list), 
+            AWSShapeMember(label: "CostCategories", required: false, type: .structure), 
             AWSShapeMember(label: "Dimensions", required: false, type: .structure), 
             AWSShapeMember(label: "Not", required: false, type: .structure), 
             AWSShapeMember(label: "Or", required: false, type: .list), 
@@ -560,6 +842,8 @@ extension CostExplorer {
 
         /// Return results that match both Dimension objects.
         public let and: [Expression]?
+        ///   Cost Category is in public beta for AWS Billing and Cost Management and is subject to change. Your use of Cost Categories is subject to the Beta Service Participation terms of the AWS Service Terms (Section 1.10).   The specific CostCategory used for Expression.
+        public let costCategories: CostCategoryValues?
         /// The specific Dimension to use for Expression.
         public let dimensions: DimensionValues?
         /// Return results that don't match a Dimension object.
@@ -569,16 +853,29 @@ extension CostExplorer {
         /// The specific Tag to use for Expression.
         public let tags: TagValues?
 
-        public init(and: [Expression]? = nil, dimensions: DimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, tags: TagValues? = nil) {
+        public init(and: [Expression]? = nil, costCategories: CostCategoryValues? = nil, dimensions: DimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, tags: TagValues? = nil) {
             self.and = and
+            self.costCategories = costCategories
             self.dimensions = dimensions
             self.not = not
             self.or = or
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.and?.forEach {
+                try $0.validate(name: "\(name).and[]")
+            }
+            try self.costCategories?.validate(name: "\(name).costCategories")
+            try self.not?.validate(name: "\(name).not")
+            try self.or?.forEach {
+                try $0.validate(name: "\(name).or[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case and = "And"
+            case costCategories = "CostCategories"
             case dimensions = "Dimensions"
             case not = "Not"
             case or = "Or"
@@ -630,9 +927,9 @@ extension CostExplorer {
 
         /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression. 
         public let filter: Expression?
-        /// Sets the AWS cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.  The GetCostAndUsageRequest operation supports only DAILY and MONTHLY granularities.
+        /// Sets the AWS cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY. 
         public let granularity: Granularity?
-        /// You can group AWS costs using up to two different groups, either dimensions, tag keys, or both. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, and USAGE_TYPE.
+        /// You can group AWS costs using up to two different groups, either dimensions, tag keys, or both. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, RECORD_TYPE, and USAGE_TYPE.
         public let groupBy: [GroupDefinition]?
         /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
         public let metrics: [String]?
@@ -651,6 +948,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -724,6 +1022,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -793,6 +1092,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try validate(self.predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, max: 99)
             try validate(self.predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, min: 51)
             try self.timePeriod.validate(name: "\(name).timePeriod")
@@ -935,6 +1235,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1072,7 +1373,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
 
-        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
+        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
         public let filter: Expression?
         /// If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY. The GetReservationUtilization operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
@@ -1092,6 +1393,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1155,6 +1457,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try validate(self.pageSize, name:"pageSize", parent: name, min: 0)
         }
 
@@ -1235,6 +1538,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
@@ -1370,6 +1674,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
@@ -1434,6 +1739,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1563,6 +1869,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try validate(self.predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, max: 99)
             try validate(self.predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, min: 51)
             try self.timePeriod.validate(name: "\(name).timePeriod")
@@ -1653,6 +1960,7 @@ extension CostExplorer {
     public enum GroupDefinitionType: String, CustomStringConvertible, Codable {
         case dimension = "DIMENSION"
         case tag = "TAG"
+        case costCategory = "COST_CATEGORY"
         public var description: String { return self.rawValue }
     }
 
@@ -1690,6 +1998,56 @@ extension CostExplorer {
             case eSInstanceDetails = "ESInstanceDetails"
             case rDSInstanceDetails = "RDSInstanceDetails"
             case redshiftInstanceDetails = "RedshiftInstanceDetails"
+        }
+    }
+
+    public struct ListCostCategoryDefinitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EffectiveOn", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        ///  The date when the Cost Category was effective. 
+        public let effectiveOn: String?
+        ///  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.  You can use this information to retrieve the full Cost Category information using DescribeCostCategory.
+        public let nextToken: String?
+
+        public init(effectiveOn: String? = nil, nextToken: String? = nil) {
+            self.effectiveOn = effectiveOn
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.effectiveOn, name:"effectiveOn", parent: name, max: 25)
+            try validate(self.effectiveOn, name:"effectiveOn", parent: name, min: 20)
+            try validate(self.effectiveOn, name:"effectiveOn", parent: name, pattern: "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(([+-]\\d\\d:\\d\\d)|Z)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effectiveOn = "EffectiveOn"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCostCategoryDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategoryReferences", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        ///  A reference to a Cost Category containing enough information to identify the Cost Category. 
+        public let costCategoryReferences: [CostCategoryReference]?
+        ///  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size. 
+        public let nextToken: String?
+
+        public init(costCategoryReferences: [CostCategoryReference]? = nil, nextToken: String? = nil) {
+            self.costCategoryReferences = costCategoryReferences
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryReferences = "CostCategoryReferences"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1738,7 +2096,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TargetInstances", required: false, type: .list)
         ]
 
-        ///  Identifies whether this instance type is the Amazon Web Services default recommendation.
+        /// Identifies whether this instance type is the Amazon Web Services default recommendation.
         public let targetInstances: [TargetInstance]?
 
         public init(targetInstances: [TargetInstance]? = nil) {
@@ -2531,6 +2889,7 @@ extension CostExplorer {
             AWSShapeMember(label: "EstimatedAverageUtilization", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedMonthlySavingsAmount", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedOnDemandCost", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedOnDemandCostWithCurrentCommitment", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedROI", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedSavingsAmount", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedSavingsPercentage", required: false, type: .string), 
@@ -2556,6 +2915,8 @@ extension CostExplorer {
         public let estimatedMonthlySavingsAmount: String?
         /// The remaining On-Demand cost estimated to not be covered by the recommended Savings Plans, over the length of the lookback period.
         public let estimatedOnDemandCost: String?
+        ///  The estimated On-Demand costs you would expect with no additional commitment, based on your usage of the selected time period and the Savings Plans you own. 
+        public let estimatedOnDemandCostWithCurrentCommitment: String?
         /// The estimated return on investment based on the recommended Savings Plans purchased. This is calculated as estimatedSavingsAmount/ estimatedSPCost*100.
         public let estimatedROI: String?
         /// The estimated savings amount based on the recommended Savings Plans over the length of the lookback period.
@@ -2571,7 +2932,7 @@ extension CostExplorer {
         /// The upfront cost of the recommended Savings Plans, based on the selected payment option.
         public let upfrontCost: String?
 
-        public init(accountId: String? = nil, currencyCode: String? = nil, currentAverageHourlyOnDemandSpend: String? = nil, currentMaximumHourlyOnDemandSpend: String? = nil, currentMinimumHourlyOnDemandSpend: String? = nil, estimatedAverageUtilization: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCost: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedSPCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, savingsPlansDetails: SavingsPlansDetails? = nil, upfrontCost: String? = nil) {
+        public init(accountId: String? = nil, currencyCode: String? = nil, currentAverageHourlyOnDemandSpend: String? = nil, currentMaximumHourlyOnDemandSpend: String? = nil, currentMinimumHourlyOnDemandSpend: String? = nil, estimatedAverageUtilization: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCost: String? = nil, estimatedOnDemandCostWithCurrentCommitment: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedSPCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, savingsPlansDetails: SavingsPlansDetails? = nil, upfrontCost: String? = nil) {
             self.accountId = accountId
             self.currencyCode = currencyCode
             self.currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpend
@@ -2580,6 +2941,7 @@ extension CostExplorer {
             self.estimatedAverageUtilization = estimatedAverageUtilization
             self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
             self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.estimatedOnDemandCostWithCurrentCommitment = estimatedOnDemandCostWithCurrentCommitment
             self.estimatedROI = estimatedROI
             self.estimatedSavingsAmount = estimatedSavingsAmount
             self.estimatedSavingsPercentage = estimatedSavingsPercentage
@@ -2598,6 +2960,7 @@ extension CostExplorer {
             case estimatedAverageUtilization = "EstimatedAverageUtilization"
             case estimatedMonthlySavingsAmount = "EstimatedMonthlySavingsAmount"
             case estimatedOnDemandCost = "EstimatedOnDemandCost"
+            case estimatedOnDemandCostWithCurrentCommitment = "EstimatedOnDemandCostWithCurrentCommitment"
             case estimatedROI = "EstimatedROI"
             case estimatedSavingsAmount = "EstimatedSavingsAmount"
             case estimatedSavingsPercentage = "EstimatedSavingsPercentage"
@@ -2636,6 +2999,7 @@ extension CostExplorer {
             AWSShapeMember(label: "CurrentOnDemandSpend", required: false, type: .string), 
             AWSShapeMember(label: "DailyCommitmentToPurchase", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedMonthlySavingsAmount", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedOnDemandCostWithCurrentCommitment", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedROI", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedSavingsAmount", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedSavingsPercentage", required: false, type: .string), 
@@ -2652,6 +3016,8 @@ extension CostExplorer {
         public let dailyCommitmentToPurchase: String?
         /// The estimated monthly savings amount, based on the recommended Savings Plans purchase.
         public let estimatedMonthlySavingsAmount: String?
+        ///  The estimated On-Demand costs you would expect with no additional commitment, based on your usage of the selected time period and the Savings Plans you own. 
+        public let estimatedOnDemandCostWithCurrentCommitment: String?
         /// The estimated return on investment based on the recommended Savings Plans and estimated savings.
         public let estimatedROI: String?
         /// The estimated total savings over the lookback period, based on the purchase of the recommended Savings Plans.
@@ -2665,11 +3031,12 @@ extension CostExplorer {
         /// The aggregate number of Savings Plans recommendations that exist for your account.
         public let totalRecommendationCount: String?
 
-        public init(currencyCode: String? = nil, currentOnDemandSpend: String? = nil, dailyCommitmentToPurchase: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedTotalCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, totalRecommendationCount: String? = nil) {
+        public init(currencyCode: String? = nil, currentOnDemandSpend: String? = nil, dailyCommitmentToPurchase: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCostWithCurrentCommitment: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedTotalCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, totalRecommendationCount: String? = nil) {
             self.currencyCode = currencyCode
             self.currentOnDemandSpend = currentOnDemandSpend
             self.dailyCommitmentToPurchase = dailyCommitmentToPurchase
             self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
+            self.estimatedOnDemandCostWithCurrentCommitment = estimatedOnDemandCostWithCurrentCommitment
             self.estimatedROI = estimatedROI
             self.estimatedSavingsAmount = estimatedSavingsAmount
             self.estimatedSavingsPercentage = estimatedSavingsPercentage
@@ -2683,6 +3050,7 @@ extension CostExplorer {
             case currentOnDemandSpend = "CurrentOnDemandSpend"
             case dailyCommitmentToPurchase = "DailyCommitmentToPurchase"
             case estimatedMonthlySavingsAmount = "EstimatedMonthlySavingsAmount"
+            case estimatedOnDemandCostWithCurrentCommitment = "EstimatedOnDemandCostWithCurrentCommitment"
             case estimatedROI = "EstimatedROI"
             case estimatedSavingsAmount = "EstimatedSavingsAmount"
             case estimatedSavingsPercentage = "EstimatedSavingsPercentage"
@@ -2953,6 +3321,65 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case currencyCode = "CurrencyCode"
             case estimatedMonthlySavings = "EstimatedMonthlySavings"
+        }
+    }
+
+    public struct UpdateCostCategoryDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategoryArn", required: true, type: .string), 
+            AWSShapeMember(label: "Rules", required: true, type: .list), 
+            AWSShapeMember(label: "RuleVersion", required: true, type: .enum)
+        ]
+
+        /// The unique identifier for your Cost Category.
+        public let costCategoryArn: String
+        ///  UpdateCostCategoryDefinition supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead. Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value. 
+        public let rules: [CostCategoryRule]
+        public let ruleVersion: CostCategoryRuleVersion
+
+        public init(costCategoryArn: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+            self.costCategoryArn = costCategoryArn
+            self.rules = rules
+            self.ruleVersion = ruleVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.costCategoryArn, name:"costCategoryArn", parent: name, max: 2048)
+            try validate(self.costCategoryArn, name:"costCategoryArn", parent: name, min: 20)
+            try validate(self.costCategoryArn, name:"costCategoryArn", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try validate(self.rules, name:"rules", parent: name, max: 500)
+            try validate(self.rules, name:"rules", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+            case rules = "Rules"
+            case ruleVersion = "RuleVersion"
+        }
+    }
+
+    public struct UpdateCostCategoryDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CostCategoryArn", required: false, type: .string), 
+            AWSShapeMember(label: "EffectiveStart", required: false, type: .string)
+        ]
+
+        ///  The unique identifier for your Cost Category. 
+        public let costCategoryArn: String?
+        ///  The Cost Category's effective start date. 
+        public let effectiveStart: String?
+
+        public init(costCategoryArn: String? = nil, effectiveStart: String? = nil) {
+            self.costCategoryArn = costCategoryArn
+            self.effectiveStart = effectiveStart
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+            case effectiveStart = "EffectiveStart"
         }
     }
 

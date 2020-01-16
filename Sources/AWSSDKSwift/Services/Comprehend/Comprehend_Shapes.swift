@@ -100,7 +100,7 @@ extension Comprehend {
             AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
 
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer than 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
@@ -172,7 +172,7 @@ extension Comprehend {
             AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
 
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
@@ -249,7 +249,7 @@ extension Comprehend {
             AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
 
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
@@ -321,7 +321,7 @@ extension Comprehend {
             AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
 
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: SyntaxLanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
@@ -396,6 +396,10 @@ extension Comprehend {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Accuracy", required: false, type: .double), 
             AWSShapeMember(label: "F1Score", required: false, type: .double), 
+            AWSShapeMember(label: "HammingLoss", required: false, type: .double), 
+            AWSShapeMember(label: "MicroF1Score", required: false, type: .double), 
+            AWSShapeMember(label: "MicroPrecision", required: false, type: .double), 
+            AWSShapeMember(label: "MicroRecall", required: false, type: .double), 
             AWSShapeMember(label: "Precision", required: false, type: .double), 
             AWSShapeMember(label: "Recall", required: false, type: .double)
         ]
@@ -404,14 +408,26 @@ extension Comprehend {
         public let accuracy: Double?
         /// A measure of how accurate the classifier results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
         public let f1Score: Double?
+        /// Indicates the fraction of labels that are incorrectly predicted. Also seen as the fraction of wrong labels compared to the total number of labels. Scores closer to zero are better.
+        public let hammingLoss: Double?
+        /// A measure of how accurate the classifier results are for the test data. It is a combination of the Micro Precision and Micro Recall values. The Micro F1Score is the harmonic mean of the two scores. The highest score is 1, and the worst score is 0.
+        public let microF1Score: Double?
+        /// A measure of the usefulness of the recognizer results in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones. Unlike the Precision metric which comes from averaging the precision of all available labels, this is based on the overall score of all precision scores added together.
+        public let microPrecision: Double?
+        /// A measure of how complete the classifier results are for the test data. High recall means that the classifier returned most of the relevant results. Specifically, this indicates how many of the correct categories in the text that the model can predict. It is a percentage of correct categories in the text that can found. Instead of averaging the recall scores of all labels (as with Recall), micro Recall is based on the overall score of all recall scores added together.
+        public let microRecall: Double?
         /// A measure of the usefulness of the classifier results in the test data. High precision means that the classifier returned substantially more relevant results than irrelevant ones.
         public let precision: Double?
         /// A measure of how complete the classifier results are for the test data. High recall means that the classifier returned most of the relevant results. 
         public let recall: Double?
 
-        public init(accuracy: Double? = nil, f1Score: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
+        public init(accuracy: Double? = nil, f1Score: Double? = nil, hammingLoss: Double? = nil, microF1Score: Double? = nil, microPrecision: Double? = nil, microRecall: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
             self.accuracy = accuracy
             self.f1Score = f1Score
+            self.hammingLoss = hammingLoss
+            self.microF1Score = microF1Score
+            self.microPrecision = microPrecision
+            self.microRecall = microRecall
             self.precision = precision
             self.recall = recall
         }
@@ -419,6 +435,10 @@ extension Comprehend {
         private enum CodingKeys: String, CodingKey {
             case accuracy = "Accuracy"
             case f1Score = "F1Score"
+            case hammingLoss = "HammingLoss"
+            case microF1Score = "MicroF1Score"
+            case microPrecision = "MicroPrecision"
+            case microRecall = "MicroRecall"
             case precision = "Precision"
             case recall = "Recall"
         }
@@ -456,6 +476,56 @@ extension Comprehend {
         }
     }
 
+    public struct ClassifyDocumentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "Text", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Number (ARN) of the endpoint.
+        public let endpointArn: String
+        /// The document text to be analyzed.
+        public let text: String
+
+        public init(endpointArn: String, text: String) {
+            self.endpointArn = endpointArn
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endpointArn, name:"endpointArn", parent: name, max: 256)
+            try validate(self.endpointArn, name:"endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.text, name:"text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+            case text = "Text"
+        }
+    }
+
+    public struct ClassifyDocumentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classes", required: false, type: .list), 
+            AWSShapeMember(label: "Labels", required: false, type: .list)
+        ]
+
+        /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time. 
+        public let classes: [DocumentClass]?
+        /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not multually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time. 
+        public let labels: [DocumentLabel]?
+
+        public init(classes: [DocumentClass]? = nil, labels: [DocumentLabel]? = nil) {
+            self.classes = classes
+            self.labels = labels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classes = "Classes"
+            case labels = "Labels"
+        }
+    }
+
     public struct CreateDocumentClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
@@ -463,6 +533,7 @@ extension Comprehend {
             AWSShapeMember(label: "DocumentClassifierName", required: true, type: .string), 
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "Mode", required: false, type: .enum), 
             AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
@@ -477,8 +548,10 @@ extension Comprehend {
         public let documentClassifierName: String
         /// Specifies the format and location of the input data for the job.
         public let inputDataConfig: DocumentClassifierInputDataConfig
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
+        /// Indicates the mode in which the classifier will be trained. The classifier can be trained in multi-class mode, which identifies one and only one class for each document, or multi-label mode, which identifies one or more labels for each document. In multi-label mode, multiple labels for an individual document are separated by a delimiter. The default delimiter between labels is a pipe (|).
+        public let mode: DocumentClassifierMode?
         /// Enables the addition of output results configuration parameters for custom classifier jobs.
         public let outputDataConfig: DocumentClassifierOutputDataConfig?
         /// Tags to be associated with the document classifier being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. 
@@ -488,12 +561,13 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = CreateDocumentClassifierRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = CreateDocumentClassifierRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, mode: DocumentClassifierMode? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierName = documentClassifierName
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
+            self.mode = mode
             self.outputDataConfig = outputDataConfig
             self.tags = tags
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -524,6 +598,7 @@ extension Comprehend {
             case documentClassifierName = "DocumentClassifierName"
             case inputDataConfig = "InputDataConfig"
             case languageCode = "LanguageCode"
+            case mode = "Mode"
             case outputDataConfig = "OutputDataConfig"
             case tags = "Tags"
             case volumeKmsKeyId = "VolumeKmsKeyId"
@@ -545,6 +620,74 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case documentClassifierArn = "DocumentClassifierArn"
+        }
+    }
+
+    public struct CreateEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "DesiredInferenceUnits", required: true, type: .integer), 
+            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
+            AWSShapeMember(label: "ModelArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// An idempotency token provided by the customer. If this token matches a previous endpoint creation request, Amazon Comprehend will not return a ResourceInUseException. 
+        public let clientRequestToken: String?
+        ///  The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
+        public let desiredInferenceUnits: Int
+        /// This is the descriptive suffix that becomes part of the EndpointArn used for all subsequent requests to this resource. 
+        public let endpointName: String
+        /// The Amazon Resource Number (ARN) of the model to which the endpoint will be attached.
+        public let modelArn: String
+        /// Tags associated with the endpoint being created. A tag is a key-value pair that adds metadata to the endpoint. For example, a tag with "Sales" as the key might be added to an endpoint to indicate its use by the sales department. 
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = CreateEndpointRequest.idempotencyToken(), desiredInferenceUnits: Int, endpointName: String, modelArn: String, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.desiredInferenceUnits = desiredInferenceUnits
+            self.endpointName = endpointName
+            self.modelArn = modelArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(self.desiredInferenceUnits, name:"desiredInferenceUnits", parent: name, min: 1)
+            try validate(self.endpointName, name:"endpointName", parent: name, max: 40)
+            try validate(self.endpointName, name:"endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try validate(self.modelArn, name:"modelArn", parent: name, max: 256)
+            try validate(self.modelArn, name:"modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case desiredInferenceUnits = "DesiredInferenceUnits"
+            case endpointName = "EndpointName"
+            case modelArn = "ModelArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Number (ARN) of the endpoint being created.
+        public let endpointArn: String?
+
+        public init(endpointArn: String? = nil) {
+            self.endpointArn = endpointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
         }
     }
 
@@ -657,6 +800,36 @@ extension Comprehend {
     }
 
     public struct DeleteDocumentClassifierResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Number (ARN) of the endpoint being deleted.
+        public let endpointArn: String
+
+        public init(endpointArn: String) {
+            self.endpointArn = endpointArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endpointArn, name:"endpointArn", parent: name, max: 256)
+            try validate(self.endpointArn, name:"endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+        }
+    }
+
+    public struct DeleteEndpointResponse: AWSShape {
 
 
         public init() {
@@ -810,6 +983,45 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case dominantLanguageDetectionJobProperties = "DominantLanguageDetectionJobProperties"
+        }
+    }
+
+    public struct DescribeEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Number (ARN) of the endpoint being described.
+        public let endpointArn: String
+
+        public init(endpointArn: String) {
+            self.endpointArn = endpointArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endpointArn, name:"endpointArn", parent: name, max: 256)
+            try validate(self.endpointArn, name:"endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+        }
+    }
+
+    public struct DescribeEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointProperties", required: false, type: .structure)
+        ]
+
+        /// Describes information associated with the specific endpoint.
+        public let endpointProperties: EndpointProperties?
+
+        public init(endpointProperties: EndpointProperties? = nil) {
+            self.endpointProperties = endpointProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointProperties = "EndpointProperties"
         }
     }
 
@@ -1056,7 +1268,7 @@ extension Comprehend {
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
 
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
@@ -1099,7 +1311,7 @@ extension Comprehend {
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
 
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
@@ -1142,7 +1354,7 @@ extension Comprehend {
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
 
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
@@ -1190,7 +1402,7 @@ extension Comprehend {
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
 
-        /// The language code of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt").
+        /// The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt").
         public let languageCode: SyntaxLanguageCode
         /// A UTF-8 string. Each string must contain fewer that 5,000 bytes of UTF encoded characters.
         public let text: String
@@ -1224,6 +1436,28 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case syntaxTokens = "SyntaxTokens"
+        }
+    }
+
+    public struct DocumentClass: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Score", required: false, type: .float)
+        ]
+
+        /// The name of the class.
+        public let name: String?
+        /// The confidence score that Amazon Comprehend has this class correctly attributed.
+        public let score: Float?
+
+        public init(name: String? = nil, score: Float? = nil) {
+            self.name = name
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case score = "Score"
         }
     }
 
@@ -1366,24 +1600,38 @@ extension Comprehend {
 
     public struct DocumentClassifierInputDataConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LabelDelimiter", required: false, type: .string), 
             AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
 
+        /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
+        public let labelDelimiter: String?
         /// The Amazon S3 URI for the input data. The S3 bucket must be in the same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input.
         public let s3Uri: String
 
-        public init(s3Uri: String) {
+        public init(labelDelimiter: String? = nil, s3Uri: String) {
+            self.labelDelimiter = labelDelimiter
             self.s3Uri = s3Uri
         }
 
         public func validate(name: String) throws {
+            try validate(self.labelDelimiter, name:"labelDelimiter", parent: name, max: 1)
+            try validate(self.labelDelimiter, name:"labelDelimiter", parent: name, min: 1)
+            try validate(self.labelDelimiter, name:"labelDelimiter", parent: name, pattern: "^[ ~!@#$%^*\\-_+=|\\\\:;\\t>?/]$")
             try validate(self.s3Uri, name:"s3Uri", parent: name, max: 1024)
             try validate(self.s3Uri, name:"s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case labelDelimiter = "LabelDelimiter"
             case s3Uri = "S3Uri"
         }
+    }
+
+    public enum DocumentClassifierMode: String, CustomStringConvertible, Codable {
+        case multiClass = "MULTI_CLASS"
+        case multiLabel = "MULTI_LABEL"
+        public var description: String { return self.rawValue }
     }
 
     public struct DocumentClassifierOutputDataConfig: AWSShape {
@@ -1423,6 +1671,7 @@ extension Comprehend {
             AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Mode", required: false, type: .enum), 
             AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
@@ -1446,6 +1695,8 @@ extension Comprehend {
         public let languageCode: LanguageCode?
         /// Additional information about the status of the classifier.
         public let message: String?
+        /// Indicates the mode in which the specific classifier was trained. This also indicates the format of input documents and the format of the confusion matrix. Each classifier can only be trained in one mode and this cannot be changed once the classifier is trained.
+        public let mode: DocumentClassifierMode?
         ///  Provides output results configuration parameters for custom classifier jobs.
         public let outputDataConfig: DocumentClassifierOutputDataConfig?
         /// The status of the document classifier. If the status is TRAINED the classifier is ready to use. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
@@ -1461,7 +1712,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
-        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, status: ModelStatus? = nil, submitTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingStartTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: DocumentClassifierMode? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, status: ModelStatus? = nil, submitTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingStartTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.classifierMetadata = classifierMetadata
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
@@ -1469,6 +1720,7 @@ extension Comprehend {
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
             self.message = message
+            self.mode = mode
             self.outputDataConfig = outputDataConfig
             self.status = status
             self.submitTime = submitTime
@@ -1486,6 +1738,7 @@ extension Comprehend {
             case inputDataConfig = "InputDataConfig"
             case languageCode = "LanguageCode"
             case message = "Message"
+            case mode = "Mode"
             case outputDataConfig = "OutputDataConfig"
             case status = "Status"
             case submitTime = "SubmitTime"
@@ -1493,6 +1746,28 @@ extension Comprehend {
             case trainingStartTime = "TrainingStartTime"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct DocumentLabel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Score", required: false, type: .float)
+        ]
+
+        /// The name of the label.
+        public let name: String?
+        /// The confidence score that Amazon Comprehend has this label correctly attributed.
+        public let score: Float?
+
+        public init(name: String? = nil, score: Float? = nil) {
+            self.name = name
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case score = "Score"
         }
     }
 
@@ -1621,6 +1896,104 @@ extension Comprehend {
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
+    }
+
+    public struct EndpointFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ModelArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// Specifies a date after which the returned endpoint or endpoints were created.
+        public let creationTimeAfter: TimeStamp?
+        /// Specifies a date before which the returned endpoint or endpoints were created.
+        public let creationTimeBefore: TimeStamp?
+        /// The Amazon Resource Number (ARN) of the model to which the endpoint is attached.
+        public let modelArn: String?
+        /// Specifies the status of the endpoint being returned. Possible values are: Creating, Ready, Updating, Deleting, Failed.
+        public let status: EndpointStatus?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.modelArn = modelArn
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.modelArn, name:"modelArn", parent: name, max: 256)
+            try validate(self.modelArn, name:"modelArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case modelArn = "ModelArn"
+            case status = "Status"
+        }
+    }
+
+    public struct EndpointProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CurrentInferenceUnits", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredInferenceUnits", required: false, type: .integer), 
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "ModelArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The creation date and time of the endpoint.
+        public let creationTime: TimeStamp?
+        /// The number of inference units currently used by the model using this endpoint.
+        public let currentInferenceUnits: Int?
+        /// The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
+        public let desiredInferenceUnits: Int?
+        /// The Amazon Resource Number (ARN) of the endpoint.
+        public let endpointArn: String?
+        /// The date and time that the endpoint was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// Specifies a reason for failure in cases of Failed status.
+        public let message: String?
+        /// The Amazon Resource Number (ARN) of the model to which the endpoint is attached.
+        public let modelArn: String?
+        /// Specifies the status of the endpoint. Because the endpoint updates and creation are asynchronous, so customers will need to wait for the endpoint to be Ready status before making inference requests.
+        public let status: EndpointStatus?
+
+        public init(creationTime: TimeStamp? = nil, currentInferenceUnits: Int? = nil, desiredInferenceUnits: Int? = nil, endpointArn: String? = nil, lastModifiedTime: TimeStamp? = nil, message: String? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
+            self.creationTime = creationTime
+            self.currentInferenceUnits = currentInferenceUnits
+            self.desiredInferenceUnits = desiredInferenceUnits
+            self.endpointArn = endpointArn
+            self.lastModifiedTime = lastModifiedTime
+            self.message = message
+            self.modelArn = modelArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case currentInferenceUnits = "CurrentInferenceUnits"
+            case desiredInferenceUnits = "DesiredInferenceUnits"
+            case endpointArn = "EndpointArn"
+            case lastModifiedTime = "LastModifiedTime"
+            case message = "Message"
+            case modelArn = "ModelArn"
+            case status = "Status"
+        }
+    }
+
+    public enum EndpointStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case inService = "IN_SERVICE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
     }
 
     public struct EntitiesDetectionJobFilter: AWSShape {
@@ -2502,6 +2875,62 @@ extension Comprehend {
         }
     }
 
+    public struct ListEndpointsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Filters the endpoints that are returned. You can filter endpoints on their name, model, status, or the date and time that they were created. You can only set one filter at a time. 
+        public let filter: EndpointFilter?
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: EndpointFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEndpointsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointPropertiesList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Displays a list of endpoint properties being retrieved by the service in response to the request.
+        public let endpointPropertiesList: [EndpointProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(endpointPropertiesList: [EndpointProperties]? = nil, nextToken: String? = nil) {
+            self.endpointPropertiesList = endpointPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointPropertiesList = "EndpointPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListEntitiesDetectionJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
@@ -3258,7 +3687,7 @@ extension Comprehend {
         public let inputDataConfig: InputDataConfig
         /// The identifier of the job.
         public let jobName: String?
-        /// The language of the input documents. All documents must be in the same language. You can specify any of the languages supported by Amazon Comprehend: English ("en"), Spanish ("es"), French ("fr"), German ("de"), Italian ("it"), or Portuguese ("pt"). If custom entities recognition is used, this parameter is ignored and the language used for training the model is used instead.
+        /// The language of the input documents. All documents must be in the same language. You can specify any of the languages supported by Amazon Comprehend. If custom entities recognition is used, this parameter is ignored and the language used for training the model is used instead.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
@@ -3352,7 +3781,7 @@ extension Comprehend {
         public let inputDataConfig: InputDataConfig
         /// The identifier of the job.
         public let jobName: String?
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
@@ -3442,7 +3871,7 @@ extension Comprehend {
         public let inputDataConfig: InputDataConfig
         /// The identifier of the job.
         public let jobName: String?
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files. 
         public let outputDataConfig: OutputDataConfig
@@ -4099,6 +4528,42 @@ extension Comprehend {
     }
 
     public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredInferenceUnits", required: true, type: .integer), 
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
+        ]
+
+        ///  The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
+        public let desiredInferenceUnits: Int
+        /// The Amazon Resource Number (ARN) of the endpoint being updated.
+        public let endpointArn: String
+
+        public init(desiredInferenceUnits: Int, endpointArn: String) {
+            self.desiredInferenceUnits = desiredInferenceUnits
+            self.endpointArn = endpointArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.desiredInferenceUnits, name:"desiredInferenceUnits", parent: name, min: 1)
+            try validate(self.endpointArn, name:"endpointArn", parent: name, max: 256)
+            try validate(self.endpointArn, name:"endpointArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredInferenceUnits = "DesiredInferenceUnits"
+            case endpointArn = "EndpointArn"
+        }
+    }
+
+    public struct UpdateEndpointResponse: AWSShape {
 
 
         public init() {

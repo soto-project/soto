@@ -252,7 +252,7 @@ extension CloudTrail {
             AWSShapeMember(label: "trailList", required: false, type: .list)
         ]
 
-        /// The list of trail objects.
+        /// The list of trail objects. Trail objects with string values are only returned if values for the objects exist in a trail's configuration. For example, SNSTopicName and SNSTopicARN are only returned in results if a trail is configured to send SNS notifications. Similarly, KMSKeyId only appears in results if a trail's log files are encrypted with AWS KMS-managed keys.
         public let trailList: [Trail]?
 
         public init(trailList: [Trail]? = nil) {
@@ -321,28 +321,38 @@ extension CloudTrail {
         }
     }
 
+    public enum EventCategory: String, CustomStringConvertible, Codable {
+        case insight = "insight"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EventSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataResources", required: false, type: .list), 
+            AWSShapeMember(label: "ExcludeManagementEventSources", required: false, type: .list), 
             AWSShapeMember(label: "IncludeManagementEvents", required: false, type: .boolean), 
             AWSShapeMember(label: "ReadWriteType", required: false, type: .enum)
         ]
 
         /// CloudTrail supports data event logging for Amazon S3 objects and AWS Lambda functions. You can specify up to 250 resources for an individual event selector, but the total number of data resources cannot exceed 250 across all event selectors in a trail. This limit does not apply if you configure resource logging for all data events.  For more information, see Data Events and Limits in AWS CloudTrail in the AWS CloudTrail User Guide.
         public let dataResources: [DataResource]?
+        /// An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out AWS Key Management Service events by containing "kms.amazonaws.com". By default, ExcludeManagementEventSources is empty, and AWS KMS events are included in events that are logged to your trail. 
+        public let excludeManagementEventSources: [String]?
         /// Specify if you want your event selector to include management events for your trail.  For more information, see Management Events in the AWS CloudTrail User Guide. By default, the value is true.
         public let includeManagementEvents: Bool?
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.  By default, the value is All.
         public let readWriteType: ReadWriteType?
 
-        public init(dataResources: [DataResource]? = nil, includeManagementEvents: Bool? = nil, readWriteType: ReadWriteType? = nil) {
+        public init(dataResources: [DataResource]? = nil, excludeManagementEventSources: [String]? = nil, includeManagementEvents: Bool? = nil, readWriteType: ReadWriteType? = nil) {
             self.dataResources = dataResources
+            self.excludeManagementEventSources = excludeManagementEventSources
             self.includeManagementEvents = includeManagementEvents
             self.readWriteType = readWriteType
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataResources = "DataResources"
+            case excludeManagementEventSources = "ExcludeManagementEventSources"
             case includeManagementEvents = "IncludeManagementEvents"
             case readWriteType = "ReadWriteType"
         }
@@ -383,6 +393,45 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case eventSelectors = "EventSelectors"
+            case trailARN = "TrailARN"
+        }
+    }
+
+    public struct GetInsightSelectorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrailName", required: true, type: .string)
+        ]
+
+        /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let trailName: String
+
+        public init(trailName: String) {
+            self.trailName = trailName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trailName = "TrailName"
+        }
+    }
+
+    public struct GetInsightSelectorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightSelectors", required: false, type: .list), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string)
+        ]
+
+        /// A JSON string that contains the insight types you want to log on a trail. In this release, only ApiCallRateInsight is supported as an insight type.
+        public let insightSelectors: [InsightSelector]?
+        /// The Amazon Resource Name (ARN) of a trail for which you want to get Insights selectors.
+        public let trailARN: String?
+
+        public init(insightSelectors: [InsightSelector]? = nil, trailARN: String? = nil) {
+            self.insightSelectors = insightSelectors
+            self.trailARN = trailARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightSelectors = "InsightSelectors"
             case trailARN = "TrailARN"
         }
     }
@@ -534,6 +583,28 @@ extension CloudTrail {
         }
     }
 
+    public struct InsightSelector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightType", required: false, type: .enum)
+        ]
+
+        /// The type of insights to log on a trail. In this release, only ApiCallRateInsight is supported as an insight type.
+        public let insightType: InsightType?
+
+        public init(insightType: InsightType? = nil) {
+            self.insightType = insightType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightType = "InsightType"
+        }
+    }
+
+    public enum InsightType: String, CustomStringConvertible, Codable {
+        case apicallrateinsight = "ApiCallRateInsight"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListPublicKeysRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
@@ -632,6 +703,7 @@ extension CloudTrail {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
+        /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
@@ -649,6 +721,7 @@ extension CloudTrail {
             AWSShapeMember(label: "Trails", required: false, type: .list)
         ]
 
+        /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
         /// Returns the name, ARN, and home region of trails in the current account.
         public let trails: [TrailInfo]?
@@ -701,6 +774,7 @@ extension CloudTrail {
     public struct LookupEventsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EventCategory", required: false, type: .enum), 
             AWSShapeMember(label: "LookupAttributes", required: false, type: .list), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -709,6 +783,8 @@ extension CloudTrail {
 
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
         public let endTime: TimeStamp?
+        /// Specifies the event category. If you do not specify an event category, events of the category are not returned in the response. For example, if you do not specify insight as the value of EventCategory, no Insights events are returned.
+        public let eventCategory: EventCategory?
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
         public let lookupAttributes: [LookupAttribute]?
         /// The number of events to return. Possible values are 1 through 50. The default is 50.
@@ -718,8 +794,9 @@ extension CloudTrail {
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
         public let startTime: TimeStamp?
 
-        public init(endTime: TimeStamp? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: TimeStamp? = nil, eventCategory: EventCategory? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
             self.endTime = endTime
+            self.eventCategory = eventCategory
             self.lookupAttributes = lookupAttributes
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -733,6 +810,7 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
+            case eventCategory = "EventCategory"
             case lookupAttributes = "LookupAttributes"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -834,6 +912,50 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case eventSelectors = "EventSelectors"
+            case trailARN = "TrailARN"
+        }
+    }
+
+    public struct PutInsightSelectorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightSelectors", required: true, type: .list), 
+            AWSShapeMember(label: "TrailName", required: true, type: .string)
+        ]
+
+        /// A JSON string that contains the insight types you want to log on a trail. In this release, only ApiCallRateInsight is supported as an insight type.
+        public let insightSelectors: [InsightSelector]
+        /// The name of the CloudTrail trail for which you want to change or add Insights selectors.
+        public let trailName: String
+
+        public init(insightSelectors: [InsightSelector], trailName: String) {
+            self.insightSelectors = insightSelectors
+            self.trailName = trailName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightSelectors = "InsightSelectors"
+            case trailName = "TrailName"
+        }
+    }
+
+    public struct PutInsightSelectorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InsightSelectors", required: false, type: .list), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string)
+        ]
+
+        /// A JSON string that contains the insight types you want to log on a trail. In this release, only ApiCallRateInsight is supported as an insight type.
+        public let insightSelectors: [InsightSelector]?
+        /// The Amazon Resource Name (ARN) of a trail for which you want to change or add Insights selectors.
+        public let trailARN: String?
+
+        public init(insightSelectors: [InsightSelector]? = nil, trailARN: String? = nil) {
+            self.insightSelectors = insightSelectors
+            self.trailARN = trailARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightSelectors = "InsightSelectors"
             case trailARN = "TrailARN"
         }
     }
@@ -996,6 +1118,7 @@ extension CloudTrail {
             AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
             AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "HasCustomEventSelectors", required: false, type: .boolean), 
+            AWSShapeMember(label: "HasInsightSelectors", required: false, type: .boolean), 
             AWSShapeMember(label: "HomeRegion", required: false, type: .string), 
             AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
             AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
@@ -1015,6 +1138,8 @@ extension CloudTrail {
         public let cloudWatchLogsRoleArn: String?
         /// Specifies if the trail has custom event selectors.
         public let hasCustomEventSelectors: Bool?
+        /// Specifies whether a trail has insight types specified in an InsightSelector list.
+        public let hasInsightSelectors: Bool?
         /// The region in which the trail was created.
         public let homeRegion: String?
         /// Set to True to include AWS API calls from AWS global services such as IAM. Otherwise, False.
@@ -1038,10 +1163,11 @@ extension CloudTrail {
         /// Specifies the ARN of the trail. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailARN: String?
 
-        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, hasInsightSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.hasCustomEventSelectors = hasCustomEventSelectors
+            self.hasInsightSelectors = hasInsightSelectors
             self.homeRegion = homeRegion
             self.includeGlobalServiceEvents = includeGlobalServiceEvents
             self.isMultiRegionTrail = isMultiRegionTrail
@@ -1059,6 +1185,7 @@ extension CloudTrail {
             case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
             case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
             case hasCustomEventSelectors = "HasCustomEventSelectors"
+            case hasInsightSelectors = "HasInsightSelectors"
             case homeRegion = "HomeRegion"
             case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
             case isMultiRegionTrail = "IsMultiRegionTrail"

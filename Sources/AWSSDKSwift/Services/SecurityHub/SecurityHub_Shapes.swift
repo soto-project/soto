@@ -93,6 +93,183 @@ extension SecurityHub {
         }
     }
 
+    public struct AvailabilityZone: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "ZoneName", required: false, type: .string)
+        ]
+
+        /// The ID of the subnet. You can specify one subnet per Availability Zone.
+        public let subnetId: String?
+        /// The name of the Availability Zone.
+        public let zoneName: String?
+
+        public init(subnetId: String? = nil, zoneName: String? = nil) {
+            self.subnetId = subnetId
+            self.zoneName = zoneName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.subnetId, name:"subnetId", parent: name, pattern: ".*\\S.*")
+            try validate(self.zoneName, name:"zoneName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+            case zoneName = "ZoneName"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .string), 
+            AWSShapeMember(label: "Logging", required: false, type: .structure), 
+            AWSShapeMember(label: "Origins", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "WebAclId", required: false, type: .string)
+        ]
+
+        /// The domain name corresponding to the distribution.
+        public let domainName: String?
+        /// The entity tag is a hash of the object.
+        public let eTag: String?
+        /// The date and time that the distribution was last modified.
+        public let lastModifiedTime: String?
+        /// A complex type that controls whether access logs are written for the distribution.
+        public let logging: AwsCloudFrontDistributionLogging?
+        /// A complex type that contains information about origins for this distribution.
+        public let origins: AwsCloudFrontDistributionOrigins?
+        /// Indicates the current status of the distribution.
+        public let status: String?
+        /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution.
+        public let webAclId: String?
+
+        public init(domainName: String? = nil, eTag: String? = nil, lastModifiedTime: String? = nil, logging: AwsCloudFrontDistributionLogging? = nil, origins: AwsCloudFrontDistributionOrigins? = nil, status: String? = nil, webAclId: String? = nil) {
+            self.domainName = domainName
+            self.eTag = eTag
+            self.lastModifiedTime = lastModifiedTime
+            self.logging = logging
+            self.origins = origins
+            self.status = status
+            self.webAclId = webAclId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, pattern: ".*\\S.*")
+            try validate(self.eTag, name:"eTag", parent: name, pattern: ".*\\S.*")
+            try validate(self.lastModifiedTime, name:"lastModifiedTime", parent: name, pattern: ".*\\S.*")
+            try self.logging?.validate(name: "\(name).logging")
+            try self.origins?.validate(name: "\(name).origins")
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+            try validate(self.webAclId, name:"webAclId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case eTag = "ETag"
+            case lastModifiedTime = "LastModifiedTime"
+            case logging = "Logging"
+            case origins = "Origins"
+            case status = "Status"
+            case webAclId = "WebAclId"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionLogging: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeCookies", required: false, type: .boolean), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string)
+        ]
+
+        /// The Amazon S3 bucket to store the access logs in.
+        public let bucket: String?
+        /// With this field, you can enable or disable the selected distribution.
+        public let enabled: Bool?
+        /// Specifies whether you want CloudFront to include cookies in access logs.
+        public let includeCookies: Bool?
+        /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution.
+        public let prefix: String?
+
+        public init(bucket: String? = nil, enabled: Bool? = nil, includeCookies: Bool? = nil, prefix: String? = nil) {
+            self.bucket = bucket
+            self.enabled = enabled
+            self.includeCookies = includeCookies
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bucket, name:"bucket", parent: name, pattern: ".*\\S.*")
+            try validate(self.prefix, name:"prefix", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case enabled = "Enabled"
+            case includeCookies = "IncludeCookies"
+            case prefix = "Prefix"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionOriginItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "OriginPath", required: false, type: .string)
+        ]
+
+        /// Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin.
+        public let domainName: String?
+        /// A unique identifier for the origin or origin group.
+        public let id: String?
+        /// An optional element that causes CloudFront to request your content from a directory in your Amazon S3 bucket or your custom origin.
+        public let originPath: String?
+
+        public init(domainName: String? = nil, id: String? = nil, originPath: String? = nil) {
+            self.domainName = domainName
+            self.id = id
+            self.originPath = originPath
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, pattern: ".*\\S.*")
+            try validate(self.id, name:"id", parent: name, pattern: ".*\\S.*")
+            try validate(self.originPath, name:"originPath", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case id = "Id"
+            case originPath = "OriginPath"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionOrigins: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .list)
+        ]
+
+        /// A complex type that contains origins or origin groups for this distribution.
+        public let items: [AwsCloudFrontDistributionOriginItem]?
+
+        public init(items: [AwsCloudFrontDistributionOriginItem]? = nil) {
+            self.items = items
+        }
+
+        public func validate(name: String) throws {
+            try self.items?.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+        }
+    }
+
     public struct AwsEc2InstanceDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamInstanceProfileArn", required: false, type: .string), 
@@ -166,35 +343,126 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsElbv2LoadBalancerDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "CanonicalHostedZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .string), 
+            AWSShapeMember(label: "DNSName", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddressType", required: false, type: .string), 
+            AWSShapeMember(label: "Scheme", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "State", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+
+        /// The Availability Zones for the load balancer.
+        public let availabilityZones: [AvailabilityZone]?
+        /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
+        public let canonicalHostedZoneId: String?
+        /// The date and time the load balancer was created.
+        public let createdTime: String?
+        /// The public DNS name of the load balancer.
+        public let dNSName: String?
+        /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+        public let ipAddressType: String?
+        /// The nodes of an Internet-facing load balancer have public IP addresses.
+        public let scheme: String?
+        /// The IDs of the security groups for the load balancer.
+        public let securityGroups: [String]?
+        /// The state of the load balancer.
+        public let state: LoadBalancerState?
+        /// The type of load balancer.
+        public let `type`: String?
+        /// The ID of the VPC for the load balancer.
+        public let vpcId: String?
+
+        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: String? = nil, dNSName: String? = nil, ipAddressType: String? = nil, scheme: String? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: String? = nil, vpcId: String? = nil) {
+            self.availabilityZones = availabilityZones
+            self.canonicalHostedZoneId = canonicalHostedZoneId
+            self.createdTime = createdTime
+            self.dNSName = dNSName
+            self.ipAddressType = ipAddressType
+            self.scheme = scheme
+            self.securityGroups = securityGroups
+            self.state = state
+            self.`type` = `type`
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.availabilityZones?.forEach {
+                try $0.validate(name: "\(name).availabilityZones[]")
+            }
+            try validate(self.canonicalHostedZoneId, name:"canonicalHostedZoneId", parent: name, pattern: ".*\\S.*")
+            try validate(self.createdTime, name:"createdTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.dNSName, name:"dNSName", parent: name, pattern: ".*\\S.*")
+            try validate(self.ipAddressType, name:"ipAddressType", parent: name, pattern: ".*\\S.*")
+            try validate(self.scheme, name:"scheme", parent: name, pattern: ".*\\S.*")
+            try self.securityGroups?.forEach {
+                try validate($0, name: "securityGroups[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.state?.validate(name: "\(name).state")
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+            try validate(self.vpcId, name:"vpcId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case canonicalHostedZoneId = "CanonicalHostedZoneId"
+            case createdTime = "CreatedTime"
+            case dNSName = "DNSName"
+            case ipAddressType = "IpAddressType"
+            case scheme = "Scheme"
+            case securityGroups = "SecurityGroups"
+            case state = "State"
+            case `type` = "Type"
+            case vpcId = "VpcId"
+        }
+    }
+
     public struct AwsIamAccessKeyDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
+            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalName", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalType", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
 
         /// The creation date/time of the IAM access key related to a finding.
         public let createdAt: String?
+        /// The ID of the principal associated with an access key.
+        public let principalId: String?
+        /// The name of the principal.
+        public let principalName: String?
+        /// The type of principal associated with an access key.
+        public let principalType: String?
         /// The status of the IAM access key related to a finding.
         public let status: AwsIamAccessKeyStatus?
-        /// The user associated with the IAM access key related to a finding.
-        public let userName: String?
 
-        public init(createdAt: String? = nil, status: AwsIamAccessKeyStatus? = nil, userName: String? = nil) {
+        public init(createdAt: String? = nil, principalId: String? = nil, principalName: String? = nil, principalType: String? = nil, status: AwsIamAccessKeyStatus? = nil) {
             self.createdAt = createdAt
+            self.principalId = principalId
+            self.principalName = principalName
+            self.principalType = principalType
             self.status = status
-            self.userName = userName
         }
 
         public func validate(name: String) throws {
             try validate(self.createdAt, name:"createdAt", parent: name, pattern: ".*\\S.*")
-            try validate(self.userName, name:"userName", parent: name, pattern: ".*\\S.*")
+            try validate(self.principalId, name:"principalId", parent: name, pattern: ".*\\S.*")
+            try validate(self.principalName, name:"principalName", parent: name, pattern: ".*\\S.*")
+            try validate(self.principalType, name:"principalType", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case principalId = "PrincipalId"
+            case principalName = "PrincipalName"
+            case principalType = "PrincipalType"
             case status = "Status"
-            case userName = "UserName"
         }
     }
 
@@ -202,6 +470,432 @@ extension SecurityHub {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
+    }
+
+    public struct AwsIamRoleDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssumeRolePolicyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .string), 
+            AWSShapeMember(label: "MaxSessionDuration", required: false, type: .integer), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "RoleId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleName", required: false, type: .string)
+        ]
+
+        /// The trust policy that grants permission to assume the role.
+        public let assumeRolePolicyDocument: String?
+        /// The date and time, in ISO 8601 date-time format, when the role was created.
+        public let createDate: String?
+        /// The maximum session duration (in seconds) that you want to set for the specified role.
+        public let maxSessionDuration: Int?
+        /// The path to the role.
+        public let path: String?
+        /// The stable and unique string identifying the role.
+        public let roleId: String?
+        /// The friendly name that identifies the role.
+        public let roleName: String?
+
+        public init(assumeRolePolicyDocument: String? = nil, createDate: String? = nil, maxSessionDuration: Int? = nil, path: String? = nil, roleId: String? = nil, roleName: String? = nil) {
+            self.assumeRolePolicyDocument = assumeRolePolicyDocument
+            self.createDate = createDate
+            self.maxSessionDuration = maxSessionDuration
+            self.path = path
+            self.roleId = roleId
+            self.roleName = roleName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.assumeRolePolicyDocument, name:"assumeRolePolicyDocument", parent: name, max: 131072)
+            try validate(self.assumeRolePolicyDocument, name:"assumeRolePolicyDocument", parent: name, min: 1)
+            try validate(self.assumeRolePolicyDocument, name:"assumeRolePolicyDocument", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+")
+            try validate(self.createDate, name:"createDate", parent: name, pattern: ".*\\S.*")
+            try validate(self.path, name:"path", parent: name, pattern: ".*\\S.*")
+            try validate(self.roleId, name:"roleId", parent: name, pattern: ".*\\S.*")
+            try validate(self.roleName, name:"roleName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assumeRolePolicyDocument = "AssumeRolePolicyDocument"
+            case createDate = "CreateDate"
+            case maxSessionDuration = "MaxSessionDuration"
+            case path = "Path"
+            case roleId = "RoleId"
+            case roleName = "RoleName"
+        }
+    }
+
+    public struct AwsKmsKeyDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AWSAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .double), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "KeyManager", required: false, type: .string), 
+            AWSShapeMember(label: "KeyState", required: false, type: .string), 
+            AWSShapeMember(label: "Origin", required: false, type: .string)
+        ]
+
+        /// The twelve-digit account ID of the AWS account that owns the CMK.
+        public let aWSAccountId: String?
+        /// The date and time when the CMK was created.
+        public let creationDate: Double?
+        /// The globally unique identifier for the CMK.
+        public let keyId: String?
+        /// The manager of the CMK. CMKs in your AWS account are either customer managed or AWS managed.
+        public let keyManager: String?
+        /// The state of the CMK.
+        public let keyState: String?
+        /// The source of the CMK's key material. When this value is AWS_KMS, AWS KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the CMK lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the AWS CloudHSM cluster associated with a custom key store.
+        public let origin: String?
+
+        public init(aWSAccountId: String? = nil, creationDate: Double? = nil, keyId: String? = nil, keyManager: String? = nil, keyState: String? = nil, origin: String? = nil) {
+            self.aWSAccountId = aWSAccountId
+            self.creationDate = creationDate
+            self.keyId = keyId
+            self.keyManager = keyManager
+            self.keyState = keyState
+            self.origin = origin
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aWSAccountId, name:"aWSAccountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.keyId, name:"keyId", parent: name, pattern: ".*\\S.*")
+            try validate(self.keyManager, name:"keyManager", parent: name, pattern: ".*\\S.*")
+            try validate(self.keyState, name:"keyState", parent: name, pattern: ".*\\S.*")
+            try validate(self.origin, name:"origin", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aWSAccountId = "AWSAccountId"
+            case creationDate = "CreationDate"
+            case keyId = "KeyId"
+            case keyManager = "KeyManager"
+            case keyState = "KeyState"
+            case origin = "Origin"
+        }
+    }
+
+    public struct AwsLambdaFunctionCode: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "S3Key", required: false, type: .string), 
+            AWSShapeMember(label: "S3ObjectVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ZipFile", required: false, type: .string)
+        ]
+
+        /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.
+        public let s3Bucket: String?
+        /// The Amazon S3 key of the deployment package.
+        public let s3Key: String?
+        /// For versioned objects, the version of the deployment package object to use.
+        public let s3ObjectVersion: String?
+        /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI clients handle the encoding for you.
+        public let zipFile: String?
+
+        public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+            self.s3ObjectVersion = s3ObjectVersion
+            self.zipFile = zipFile
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: ".*\\S.*")
+            try validate(self.s3Key, name:"s3Key", parent: name, pattern: ".*\\S.*")
+            try validate(self.s3ObjectVersion, name:"s3ObjectVersion", parent: name, pattern: ".*\\S.*")
+            try validate(self.zipFile, name:"zipFile", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+            case s3Key = "S3Key"
+            case s3ObjectVersion = "S3ObjectVersion"
+            case zipFile = "ZipFile"
+        }
+    }
+
+    public struct AwsLambdaFunctionDeadLetterConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
+        public let targetArn: String?
+
+        public init(targetArn: String? = nil) {
+            self.targetArn = targetArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.targetArn, name:"targetArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetArn = "TargetArn"
+        }
+    }
+
+    public struct AwsLambdaFunctionDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .structure), 
+            AWSShapeMember(label: "CodeSha256", required: false, type: .string), 
+            AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Environment", required: false, type: .structure), 
+            AWSShapeMember(label: "FunctionName", required: false, type: .string), 
+            AWSShapeMember(label: "Handler", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .string), 
+            AWSShapeMember(label: "Layers", required: false, type: .list), 
+            AWSShapeMember(label: "MasterArn", required: false, type: .string), 
+            AWSShapeMember(label: "MemorySize", required: false, type: .integer), 
+            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Runtime", required: false, type: .string), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "TracingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
+        ]
+
+        /// An AwsLambdaFunctionCode object.
+        public let code: AwsLambdaFunctionCode?
+        /// The SHA256 hash of the function's deployment package.
+        public let codeSha256: String?
+        /// The function's dead letter queue.
+        public let deadLetterConfig: AwsLambdaFunctionDeadLetterConfig?
+        /// The function's environment variables.
+        public let environment: AwsLambdaFunctionEnvironment?
+        /// The name of the function.
+        public let functionName: String?
+        /// The function that Lambda calls to begin executing your function.
+        public let handler: String?
+        /// The KMS key that's used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed CMK.
+        public let kmsKeyArn: String?
+        /// The date and time that the function was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        public let lastModified: String?
+        /// The function's layers.
+        public let layers: [AwsLambdaFunctionLayer]?
+        /// For Lambda@Edge functions, the ARN of the master function.
+        public let masterArn: String?
+        /// The memory that's allocated to the function.
+        public let memorySize: Int?
+        /// The latest updated revision of the function or alias.
+        public let revisionId: String?
+        /// The function's execution role.
+        public let role: String?
+        /// The runtime environment for the Lambda function.
+        public let runtime: String?
+        /// The amount of time that Lambda allows a function to run before stopping it.
+        public let timeout: Int?
+        /// The function's AWS X-Ray tracing configuration.
+        public let tracingConfig: AwsLambdaFunctionTracingConfig?
+        /// The version of the Lambda function.
+        public let version: String?
+        /// The function's networking configuration.
+        public let vpcConfig: AwsLambdaFunctionVpcConfig?
+
+        public init(code: AwsLambdaFunctionCode? = nil, codeSha256: String? = nil, deadLetterConfig: AwsLambdaFunctionDeadLetterConfig? = nil, environment: AwsLambdaFunctionEnvironment? = nil, functionName: String? = nil, handler: String? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, layers: [AwsLambdaFunctionLayer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: String? = nil, timeout: Int? = nil, tracingConfig: AwsLambdaFunctionTracingConfig? = nil, version: String? = nil, vpcConfig: AwsLambdaFunctionVpcConfig? = nil) {
+            self.code = code
+            self.codeSha256 = codeSha256
+            self.deadLetterConfig = deadLetterConfig
+            self.environment = environment
+            self.functionName = functionName
+            self.handler = handler
+            self.kmsKeyArn = kmsKeyArn
+            self.lastModified = lastModified
+            self.layers = layers
+            self.masterArn = masterArn
+            self.memorySize = memorySize
+            self.revisionId = revisionId
+            self.role = role
+            self.runtime = runtime
+            self.timeout = timeout
+            self.tracingConfig = tracingConfig
+            self.version = version
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.code?.validate(name: "\(name).code")
+            try validate(self.codeSha256, name:"codeSha256", parent: name, pattern: ".*\\S.*")
+            try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
+            try self.environment?.validate(name: "\(name).environment")
+            try validate(self.functionName, name:"functionName", parent: name, pattern: ".*\\S.*")
+            try validate(self.handler, name:"handler", parent: name, pattern: ".*\\S.*")
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.lastModified, name:"lastModified", parent: name, pattern: ".*\\S.*")
+            try self.layers?.forEach {
+                try $0.validate(name: "\(name).layers[]")
+            }
+            try validate(self.masterArn, name:"masterArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.revisionId, name:"revisionId", parent: name, pattern: ".*\\S.*")
+            try validate(self.role, name:"role", parent: name, pattern: ".*\\S.*")
+            try validate(self.runtime, name:"runtime", parent: name, pattern: ".*\\S.*")
+            try self.tracingConfig?.validate(name: "\(name).tracingConfig")
+            try validate(self.version, name:"version", parent: name, pattern: ".*\\S.*")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case codeSha256 = "CodeSha256"
+            case deadLetterConfig = "DeadLetterConfig"
+            case environment = "Environment"
+            case functionName = "FunctionName"
+            case handler = "Handler"
+            case kmsKeyArn = "KmsKeyArn"
+            case lastModified = "LastModified"
+            case layers = "Layers"
+            case masterArn = "MasterArn"
+            case memorySize = "MemorySize"
+            case revisionId = "RevisionId"
+            case role = "Role"
+            case runtime = "Runtime"
+            case timeout = "Timeout"
+            case tracingConfig = "TracingConfig"
+            case version = "Version"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct AwsLambdaFunctionEnvironment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Error", required: false, type: .structure), 
+            AWSShapeMember(label: "Variables", required: false, type: .map)
+        ]
+
+        /// An AwsLambdaFunctionEnvironmentError object.
+        public let error: AwsLambdaFunctionEnvironmentError?
+        /// Environment variable key-value pairs.
+        public let variables: [String: String]?
+
+        public init(error: AwsLambdaFunctionEnvironmentError? = nil, variables: [String: String]? = nil) {
+            self.error = error
+            self.variables = variables
+        }
+
+        public func validate(name: String) throws {
+            try self.error?.validate(name: "\(name).error")
+            try self.variables?.forEach {
+                try validate($0.key, name:"variables.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name:"variables[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case variables = "Variables"
+        }
+    }
+
+    public struct AwsLambdaFunctionEnvironmentError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+
+        /// The error code.
+        public let errorCode: String?
+        /// The error message.
+        public let message: String?
+
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.errorCode, name:"errorCode", parent: name, pattern: ".*\\S.*")
+            try validate(self.message, name:"message", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
+    }
+
+    public struct AwsLambdaFunctionLayer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CodeSize", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the function layer.
+        public let arn: String?
+        /// The size of the layer archive in bytes.
+        public let codeSize: Int?
+
+        public init(arn: String? = nil, codeSize: Int? = nil) {
+            self.arn = arn
+            self.codeSize = codeSize
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case codeSize = "CodeSize"
+        }
+    }
+
+    public struct AwsLambdaFunctionTracingConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Mode", required: false, type: .string)
+        ]
+
+        /// The tracing mode.
+        public let mode: String?
+
+        public init(mode: String? = nil) {
+            self.mode = mode
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.mode, name:"mode", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+        }
+    }
+
+    public struct AwsLambdaFunctionVpcConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+
+        /// A list of VPC security groups IDs.
+        public let securityGroupIds: [String]?
+        /// A list of VPC subnet IDs.
+        public let subnetIds: [String]?
+        /// The ID of the VPC.
+        public let vpcId: String?
+
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.vpcId, name:"vpcId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
+        }
     }
 
     public struct AwsS3BucketDetails: AWSShape {
@@ -1090,6 +1784,112 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsSnsTopicDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsMasterKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "Subscription", required: false, type: .list), 
+            AWSShapeMember(label: "TopicName", required: false, type: .string)
+        ]
+
+        /// The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK.
+        public let kmsMasterKeyId: String?
+        /// The subscription's owner.
+        public let owner: String?
+        /// Subscription is an embedded property that describes the subscription endpoints of an Amazon SNS topic.
+        public let subscription: [AwsSnsTopicSubscription]?
+        /// The name of the topic.
+        public let topicName: String?
+
+        public init(kmsMasterKeyId: String? = nil, owner: String? = nil, subscription: [AwsSnsTopicSubscription]? = nil, topicName: String? = nil) {
+            self.kmsMasterKeyId = kmsMasterKeyId
+            self.owner = owner
+            self.subscription = subscription
+            self.topicName = topicName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kmsMasterKeyId, name:"kmsMasterKeyId", parent: name, pattern: ".*\\S.*")
+            try validate(self.owner, name:"owner", parent: name, pattern: ".*\\S.*")
+            try self.subscription?.forEach {
+                try $0.validate(name: "\(name).subscription[]")
+            }
+            try validate(self.topicName, name:"topicName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsMasterKeyId = "KmsMasterKeyId"
+            case owner = "Owner"
+            case subscription = "Subscription"
+            case topicName = "TopicName"
+        }
+    }
+
+    public struct AwsSnsTopicSubscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string)
+        ]
+
+        /// The subscription's endpoint (format depends on the protocol).
+        public let endpoint: String?
+        /// The subscription's protocol.
+        public let `protocol`: String?
+
+        public init(endpoint: String? = nil, protocol: String? = nil) {
+            self.endpoint = endpoint
+            self.`protocol` = `protocol`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endpoint, name:"endpoint", parent: name, pattern: ".*\\S.*")
+            try validate(self.`protocol`, name:"`protocol`", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct AwsSqsQueueDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeadLetterTargetArn", required: false, type: .string), 
+            AWSShapeMember(label: "KmsDataKeyReusePeriodSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "KmsMasterKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "QueueName", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded. 
+        public let deadLetterTargetArn: String?
+        /// The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again.
+        public let kmsDataKeyReusePeriodSeconds: Int?
+        /// The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK.
+        public let kmsMasterKeyId: String?
+        /// The name of the new queue.
+        public let queueName: String?
+
+        public init(deadLetterTargetArn: String? = nil, kmsDataKeyReusePeriodSeconds: Int? = nil, kmsMasterKeyId: String? = nil, queueName: String? = nil) {
+            self.deadLetterTargetArn = deadLetterTargetArn
+            self.kmsDataKeyReusePeriodSeconds = kmsDataKeyReusePeriodSeconds
+            self.kmsMasterKeyId = kmsMasterKeyId
+            self.queueName = queueName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.deadLetterTargetArn, name:"deadLetterTargetArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.kmsMasterKeyId, name:"kmsMasterKeyId", parent: name, pattern: ".*\\S.*")
+            try validate(self.queueName, name:"queueName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deadLetterTargetArn = "DeadLetterTargetArn"
+            case kmsDataKeyReusePeriodSeconds = "KmsDataKeyReusePeriodSeconds"
+            case kmsMasterKeyId = "KmsMasterKeyId"
+            case queueName = "QueueName"
+        }
+    }
+
     public struct BatchDisableStandardsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StandardsSubscriptionArns", required: true, type: .list)
@@ -1179,7 +1979,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Findings", required: true, type: .list)
         ]
 
-        /// A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format.
+        /// A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format. Maximum of 100 findings per request.
         public let findings: [AwsSecurityFinding]
 
         public init(findings: [AwsSecurityFinding]) {
@@ -1286,6 +2086,12 @@ extension SecurityHub {
             case launchedAt = "LaunchedAt"
             case name = "Name"
         }
+    }
+
+    public enum ControlStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateActionTargetRequest: AWSShape {
@@ -1829,6 +2635,61 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case products = "Products"
+        }
+    }
+
+    public struct DescribeStandardsControlsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "StandardsSubscriptionArn", location: .uri(locationName: "StandardsSubscriptionArn"), required: true, type: .string)
+        ]
+
+        /// The maximum number of compliance standard controls to return.
+        public let maxResults: Int?
+        /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
+        public let nextToken: String?
+        /// The ARN of a resource that represents your subscription to a supported standard.
+        public let standardsSubscriptionArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, standardsSubscriptionArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.standardsSubscriptionArn = standardsSubscriptionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.standardsSubscriptionArn, name:"standardsSubscriptionArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case standardsSubscriptionArn = "StandardsSubscriptionArn"
+        }
+    }
+
+    public struct DescribeStandardsControlsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Controls", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of compliance standards controls.
+        public let controls: [StandardsControl]?
+        /// If there are more compliance standards control remaining in the results, then this is the pagination token to use to request the next page of compliance standard controls.
+        public let nextToken: String?
+
+        public init(controls: [StandardsControl]? = nil, nextToken: String? = nil) {
+            self.controls = controls
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controls = "Controls"
+            case nextToken = "NextToken"
         }
     }
 
@@ -2720,6 +3581,33 @@ extension SecurityHub {
         }
     }
 
+    public struct LoadBalancerState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .string), 
+            AWSShapeMember(label: "Reason", required: false, type: .string)
+        ]
+
+        /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed. 
+        public let code: String?
+        /// A description of the state.
+        public let reason: String?
+
+        public init(code: String? = nil, reason: String? = nil) {
+            self.code = code
+            self.reason = reason
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.code, name:"code", parent: name, pattern: ".*\\S.*")
+            try validate(self.reason, name:"reason", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case reason = "Reason"
+        }
+    }
+
     public struct Malware: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -3277,36 +4165,71 @@ extension SecurityHub {
 
     public struct ResourceDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsCloudFrontDistribution", required: false, type: .structure), 
             AWSShapeMember(label: "AwsEc2Instance", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsElbv2LoadBalancer", required: false, type: .structure), 
             AWSShapeMember(label: "AwsIamAccessKey", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsIamRole", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsKmsKey", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsLambdaFunction", required: false, type: .structure), 
             AWSShapeMember(label: "AwsS3Bucket", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsSnsTopic", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsSqsQueue", required: false, type: .structure), 
             AWSShapeMember(label: "Container", required: false, type: .structure), 
             AWSShapeMember(label: "Other", required: false, type: .map)
         ]
 
+        /// Details about a CloudFront distribution.
+        public let awsCloudFrontDistribution: AwsCloudFrontDistributionDetails?
         /// Details about an Amazon EC2 instance related to a finding.
         public let awsEc2Instance: AwsEc2InstanceDetails?
+        /// Details about a load balancer.
+        public let awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails?
         /// Details about an IAM access key related to a finding.
         public let awsIamAccessKey: AwsIamAccessKeyDetails?
+        /// Details about an IAM role.
+        public let awsIamRole: AwsIamRoleDetails?
+        /// Details about a KMS key.
+        public let awsKmsKey: AwsKmsKeyDetails?
+        /// Details about a Lambda function.
+        public let awsLambdaFunction: AwsLambdaFunctionDetails?
         /// Details about an Amazon S3 Bucket related to a finding.
         public let awsS3Bucket: AwsS3BucketDetails?
+        /// Details about an SNS topic.
+        public let awsSnsTopic: AwsSnsTopicDetails?
+        /// Details about an SQS queue.
+        public let awsSqsQueue: AwsSqsQueueDetails?
         /// Details about a container resource related to a finding.
         public let container: ContainerDetails?
         /// Details about a resource that doesn't have a specific type defined.
         public let other: [String: String]?
 
-        public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+            self.awsCloudFrontDistribution = awsCloudFrontDistribution
             self.awsEc2Instance = awsEc2Instance
+            self.awsElbv2LoadBalancer = awsElbv2LoadBalancer
             self.awsIamAccessKey = awsIamAccessKey
+            self.awsIamRole = awsIamRole
+            self.awsKmsKey = awsKmsKey
+            self.awsLambdaFunction = awsLambdaFunction
             self.awsS3Bucket = awsS3Bucket
+            self.awsSnsTopic = awsSnsTopic
+            self.awsSqsQueue = awsSqsQueue
             self.container = container
             self.other = other
         }
 
         public func validate(name: String) throws {
+            try self.awsCloudFrontDistribution?.validate(name: "\(name).awsCloudFrontDistribution")
             try self.awsEc2Instance?.validate(name: "\(name).awsEc2Instance")
+            try self.awsElbv2LoadBalancer?.validate(name: "\(name).awsElbv2LoadBalancer")
             try self.awsIamAccessKey?.validate(name: "\(name).awsIamAccessKey")
+            try self.awsIamRole?.validate(name: "\(name).awsIamRole")
+            try self.awsKmsKey?.validate(name: "\(name).awsKmsKey")
+            try self.awsLambdaFunction?.validate(name: "\(name).awsLambdaFunction")
             try self.awsS3Bucket?.validate(name: "\(name).awsS3Bucket")
+            try self.awsSnsTopic?.validate(name: "\(name).awsSnsTopic")
+            try self.awsSqsQueue?.validate(name: "\(name).awsSqsQueue")
             try self.container?.validate(name: "\(name).container")
             try self.other?.forEach {
                 try validate($0.key, name:"other.key", parent: name, pattern: ".*\\S.*")
@@ -3315,9 +4238,16 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsCloudFrontDistribution = "AwsCloudFrontDistribution"
             case awsEc2Instance = "AwsEc2Instance"
+            case awsElbv2LoadBalancer = "AwsElbv2LoadBalancer"
             case awsIamAccessKey = "AwsIamAccessKey"
+            case awsIamRole = "AwsIamRole"
+            case awsKmsKey = "AwsKmsKey"
+            case awsLambdaFunction = "AwsLambdaFunction"
             case awsS3Bucket = "AwsS3Bucket"
+            case awsSnsTopic = "AwsSnsTopic"
+            case awsSqsQueue = "AwsSqsQueue"
             case container = "Container"
             case other = "Other"
         }
@@ -3367,6 +4297,14 @@ extension SecurityHub {
         }
     }
 
+    public enum SeverityRating: String, CustomStringConvertible, Codable {
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        case critical = "CRITICAL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SortCriterion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Field", required: false, type: .string), 
@@ -3397,6 +4335,63 @@ extension SecurityHub {
         case asc = "asc"
         case desc = "desc"
         public var description: String { return self.rawValue }
+    }
+
+    public struct StandardsControl: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ControlId", required: false, type: .string), 
+            AWSShapeMember(label: "ControlStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ControlStatusUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisabledReason", required: false, type: .string), 
+            AWSShapeMember(label: "RemediationUrl", required: false, type: .string), 
+            AWSShapeMember(label: "SeverityRating", required: false, type: .enum), 
+            AWSShapeMember(label: "StandardsControlArn", required: false, type: .string), 
+            AWSShapeMember(label: "Title", required: false, type: .string)
+        ]
+
+        /// The identifier of the compliance standard control.
+        public let controlId: String?
+        /// The current status of the compliance standard control. Indicates whether the control is enabled or disabled. Security Hub does not check against disabled controls.
+        public let controlStatus: ControlStatus?
+        /// The date and time that the status of the compliance standard control was most recently updated.
+        public let controlStatusUpdatedAt: TimeStamp?
+        /// The longer description of the compliance standard control. Provides information about what the control is checking for.
+        public let description: String?
+        /// The reason provided for the most recent change in status for the control.
+        public let disabledReason: String?
+        /// A link to remediation information for the control in the Security Hub user documentation
+        public let remediationUrl: String?
+        /// The severity of findings generated from this compliance standard control. The finding severity is based on an assessment of how easy it would be to compromise AWS resources if the compliance issue is detected.
+        public let severityRating: SeverityRating?
+        /// The ARN of the compliance standard control.
+        public let standardsControlArn: String?
+        /// The title of the compliance standard control.
+        public let title: String?
+
+        public init(controlId: String? = nil, controlStatus: ControlStatus? = nil, controlStatusUpdatedAt: TimeStamp? = nil, description: String? = nil, disabledReason: String? = nil, remediationUrl: String? = nil, severityRating: SeverityRating? = nil, standardsControlArn: String? = nil, title: String? = nil) {
+            self.controlId = controlId
+            self.controlStatus = controlStatus
+            self.controlStatusUpdatedAt = controlStatusUpdatedAt
+            self.description = description
+            self.disabledReason = disabledReason
+            self.remediationUrl = remediationUrl
+            self.severityRating = severityRating
+            self.standardsControlArn = standardsControlArn
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlId = "ControlId"
+            case controlStatus = "ControlStatus"
+            case controlStatusUpdatedAt = "ControlStatusUpdatedAt"
+            case description = "Description"
+            case disabledReason = "DisabledReason"
+            case remediationUrl = "RemediationUrl"
+            case severityRating = "SeverityRating"
+            case standardsControlArn = "StandardsControlArn"
+            case title = "Title"
+        }
     }
 
     public enum StandardsStatus: String, CustomStringConvertible, Codable {
@@ -3778,6 +4773,46 @@ extension SecurityHub {
     }
 
     public struct UpdateInsightResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateStandardsControlRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ControlStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DisabledReason", required: false, type: .string), 
+            AWSShapeMember(label: "StandardsControlArn", location: .uri(locationName: "StandardsControlArn"), required: true, type: .string)
+        ]
+
+        /// The updated status of the compliance standard control.
+        public let controlStatus: ControlStatus?
+        /// A description of the reason why you are disabling a compliance standard control.
+        public let disabledReason: String?
+        /// The ARN of the compliance standard control to enable or disable.
+        public let standardsControlArn: String
+
+        public init(controlStatus: ControlStatus? = nil, disabledReason: String? = nil, standardsControlArn: String) {
+            self.controlStatus = controlStatus
+            self.disabledReason = disabledReason
+            self.standardsControlArn = standardsControlArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.disabledReason, name:"disabledReason", parent: name, pattern: ".*\\S.*")
+            try validate(self.standardsControlArn, name:"standardsControlArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlStatus = "ControlStatus"
+            case disabledReason = "DisabledReason"
+            case standardsControlArn = "StandardsControlArn"
+        }
+    }
+
+    public struct UpdateStandardsControlResponse: AWSShape {
 
 
         public init() {

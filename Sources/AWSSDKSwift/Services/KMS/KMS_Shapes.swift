@@ -308,6 +308,7 @@ extension KMS {
     public struct CreateKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
+            AWSShapeMember(label: "CustomerMasterKeySpec", required: false, type: .enum), 
             AWSShapeMember(label: "CustomKeyStoreId", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "KeyUsage", required: false, type: .enum), 
@@ -318,21 +319,24 @@ extension KMS {
 
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the  AWS Key Management Service Developer Guide .  Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
-        /// Creates the CMK in the specified custom key store and the key material in its associated AWS CloudHSM cluster. To create a CMK in a custom key store, you must also specify the Origin parameter with a value of AWS_CLOUDHSM. The AWS CloudHSM cluster that is associated with the custom key store must have at least two active HSMs, each in a different Availability Zone in the Region. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. The response includes the custom key store ID and the ID of the AWS CloudHSM cluster. This operation is part of the Custom Key Store feature feature in AWS KMS, which combines the convenience and extensive integration of AWS KMS with the isolation and control of a single-tenant key store.
+        /// Specifies the type of CMK to create. The CustomerMasterKeySpec determines whether the CMK contains a symmetric key or an asymmetric key pair. It also determines the encryption algorithms or signing algorithms that the CMK supports. You can't change the CustomerMasterKeySpec after the CMK is created. To further restrict the algorithms that can be used with the CMK, use its key policy or IAM policy. For help with choosing a key spec for your CMK, see Selecting a Customer Master Key Spec in the AWS Key Management Service Developer Guide. The default value, SYMMETRIC_DEFAULT, creates a CMK with a 256-bit symmetric key. AWS KMS supports the following key specs for CMKs:   Symmetric key (default)    SYMMETRIC_DEFAULT (AES-256-GCM)     Asymmetric RSA key pairs    RSA_2048     RSA_3072     RSA_4096      Asymmetric NIST-recommended elliptic curve key pairs    ECC_NIST_P256 (secp256r1)    ECC_NIST_P384 (secp384r1)    ECC_NIST_P521 (secp521r1)     Other asymmetric elliptic curve key pairs    ECC_SECG_P256K1 (secp256k1), commonly used for cryptocurrencies.    
+        public let customerMasterKeySpec: CustomerMasterKeySpec?
+        /// Creates the CMK in the specified custom key store and the key material in its associated AWS CloudHSM cluster. To create a CMK in a custom key store, you must also specify the Origin parameter with a value of AWS_CLOUDHSM. The AWS CloudHSM cluster that is associated with the custom key store must have at least two active HSMs, each in a different Availability Zone in the Region. This parameter is valid only for symmetric CMKs. You cannot create an asymmetric CMK in a custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. The response includes the custom key store ID and the ID of the AWS CloudHSM cluster. This operation is part of the Custom Key Store feature feature in AWS KMS, which combines the convenience and extensive integration of AWS KMS with the isolation and control of a single-tenant key store.
         public let customKeyStoreId: String?
         /// A description of the CMK. Use a description that helps you decide whether the CMK is appropriate for a task.
         public let description: String?
-        /// The cryptographic operations for which you can use the CMK. The only valid value is ENCRYPT_DECRYPT, which means you can use the CMK to encrypt and decrypt data.
+        /// Determines the cryptographic operations for which you can use the CMK. The default value is ENCRYPT_DECRYPT. This parameter is required only for asymmetric CMKs. You can't change the KeyUsage value after the CMK is created. Select only one valid value.   For symmetric CMKs, omit the parameter or specify ENCRYPT_DECRYPT.   For asymmetric CMKs with RSA key material, specify ENCRYPT_DECRYPT or SIGN_VERIFY.   For asymmetric CMKs with ECC key material, specify SIGN_VERIFY.  
         public let keyUsage: KeyUsageType?
-        /// The source of the key material for the CMK. You cannot change the origin after you create the CMK. The default is AWS_KMS, which means AWS KMS creates the key material in its own key store. When the parameter value is EXTERNAL, AWS KMS creates a CMK without key material so that you can import key material from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide. When the parameter value is AWS_CLOUDHSM, AWS KMS creates the CMK in an AWS KMS custom key store and creates its key material in the associated AWS CloudHSM cluster. You must also use the CustomKeyStoreId parameter to identify the custom key store.
+        /// The source of the key material for the CMK. You cannot change the origin after you create the CMK. The default is AWS_KMS, which means AWS KMS creates the key material. When the parameter value is EXTERNAL, AWS KMS creates a CMK without key material so that you can import key material from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide. This value is valid only for symmetric CMKs. When the parameter value is AWS_CLOUDHSM, AWS KMS creates the CMK in an AWS KMS custom key store and creates its key material in the associated AWS CloudHSM cluster. You must also use the CustomKeyStoreId parameter to identify the custom key store. This value is valid only for symmetric CMKs.
         public let origin: OriginType?
         /// The key policy to attach to the CMK. If you provide a key policy, it must meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section of the  AWS Key Management Service Developer Guide .   Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the AWS Identity and Access Management User Guide.   If you do not provide a key policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide. The key policy size limit is 32 kilobytes (32768 bytes).
         public let policy: String?
-        /// One or more tags. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. Use this parameter to tag the CMK when it is created. Alternately, you can omit this parameter and instead tag the CMK after it is created using TagResource.
+        /// One or more tags. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. When you add tags to an AWS resource, AWS generates a cost allocation report with usage and costs aggregated by tags. For information about adding, changing, deleting and listing tags for CMKs, see Tagging Keys. Use this parameter to tag the CMK when it is created. To add tags to an existing CMK, use the TagResource operation.
         public let tags: [Tag]?
 
-        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, customKeyStoreId: String? = nil, description: String? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, policy: String? = nil, tags: [Tag]? = nil) {
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, description: String? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, policy: String? = nil, tags: [Tag]? = nil) {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
+            self.customerMasterKeySpec = customerMasterKeySpec
             self.customKeyStoreId = customKeyStoreId
             self.description = description
             self.keyUsage = keyUsage
@@ -356,6 +360,7 @@ extension KMS {
 
         private enum CodingKeys: String, CodingKey {
             case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
+            case customerMasterKeySpec = "CustomerMasterKeySpec"
             case customKeyStoreId = "CustomKeyStoreId"
             case description = "Description"
             case keyUsage = "KeyUsage"
@@ -429,6 +434,29 @@ extension KMS {
         }
     }
 
+    public enum CustomerMasterKeySpec: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        case rsa3072 = "RSA_3072"
+        case rsa4096 = "RSA_4096"
+        case eccNistP256 = "ECC_NIST_P256"
+        case eccNistP384 = "ECC_NIST_P384"
+        case eccNistP521 = "ECC_NIST_P521"
+        case eccSecgP256K1 = "ECC_SECG_P256K1"
+        case symmetricDefault = "SYMMETRIC_DEFAULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataKeyPairSpec: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        case rsa3072 = "RSA_3072"
+        case rsa4096 = "RSA_4096"
+        case eccNistP256 = "ECC_NIST_P256"
+        case eccNistP384 = "ECC_NIST_P384"
+        case eccNistP521 = "ECC_NIST_P521"
+        case eccSecgP256K1 = "ECC_SECG_P256K1"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataKeySpec: String, CustomStringConvertible, Codable {
         case aes256 = "AES_256"
         case aes128 = "AES_128"
@@ -438,21 +466,29 @@ extension KMS {
     public struct DecryptRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CiphertextBlob", required: true, type: .blob), 
+            AWSShapeMember(label: "EncryptionAlgorithm", required: false, type: .enum), 
             AWSShapeMember(label: "EncryptionContext", required: false, type: .map), 
-            AWSShapeMember(label: "GrantTokens", required: false, type: .list)
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
 
         /// Ciphertext to be decrypted. The blob includes metadata.
         public let ciphertextBlob: Data
-        /// The encryption context. If this was specified in the Encrypt function, it must be specified here or the decryption operation will fail. For more information, see Encryption Context.
+        /// Specifies the encryption algorithm that will be used to decrypt the ciphertext. Specify the same algorithm that was used to encrypt the data. If you specify a different algorithm, the Decrypt operation fails. This parameter is required only when the ciphertext was encrypted under an asymmetric CMK. The default value, SYMMETRIC_DEFAULT, represents the only supported algorithm that is valid for symmetric CMKs.
+        public let encryptionAlgorithm: EncryptionAlgorithmSpec?
+        /// Specifies the encryption context to use when decrypting the data. An encryption context is valid only for cryptographic operations with a symmetric CMK. The standard asymmetric encryption algorithms that AWS KMS uses do not support an encryption context. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
+        /// Specifies the customer master key (CMK) that AWS KMS will use to decrypt the ciphertext. Enter a key ID of the CMK that was used to encrypt the ciphertext. If you specify a KeyId value, the Decrypt operation succeeds only if the specified CMK was used to encrypt the ciphertext. This parameter is required only when the ciphertext was encrypted under an asymmetric CMK. Otherwise, AWS KMS uses the metadata that it adds to the ciphertext blob to determine which CMK was used to encrypt the ciphertext. However, you can use this parameter to ensure that a particular CMK (of any kind) is used to decrypt the ciphertext. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let keyId: String?
 
-        public init(ciphertextBlob: Data, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil) {
+        public init(ciphertextBlob: Data, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
+            self.encryptionAlgorithm = encryptionAlgorithm
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
+            self.keyId = keyId
         }
 
         public func validate(name: String) throws {
@@ -464,32 +500,41 @@ extension KMS {
             }
             try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
             try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
+            case encryptionAlgorithm = "EncryptionAlgorithm"
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
+            case keyId = "KeyId"
         }
     }
 
     public struct DecryptResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionAlgorithm", required: false, type: .enum), 
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "Plaintext", required: false, type: .blob)
         ]
 
-        /// ARN of the key used to perform the decryption. This value is returned if no errors are encountered during the operation.
+        /// The encryption algorithm that was used to decrypt the ciphertext.
+        public let encryptionAlgorithm: EncryptionAlgorithmSpec?
+        /// The ARN of the customer master key that was used to perform the decryption.
         public let keyId: String?
-        /// Decrypted plaintext data. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
+        /// Decrypted plaintext data. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let plaintext: Data?
 
-        public init(keyId: String? = nil, plaintext: Data? = nil) {
+        public init(encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, keyId: String? = nil, plaintext: Data? = nil) {
+            self.encryptionAlgorithm = encryptionAlgorithm
             self.keyId = keyId
             self.plaintext = plaintext
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionAlgorithm = "EncryptionAlgorithm"
             case keyId = "KeyId"
             case plaintext = "Plaintext"
         }
@@ -718,7 +763,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
 
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies a symmetric customer master key (CMK). You cannot enable automatic rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key store. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
@@ -792,7 +837,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
 
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies a symmetric customer master key (CMK). You cannot enable automatic rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key store. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
@@ -811,13 +856,16 @@ extension KMS {
 
     public struct EncryptRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionAlgorithm", required: false, type: .enum), 
             AWSShapeMember(label: "EncryptionContext", required: false, type: .map), 
             AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
             AWSShapeMember(label: "KeyId", required: true, type: .string), 
             AWSShapeMember(label: "Plaintext", required: true, type: .blob)
         ]
 
-        /// Name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the Decrypt API or decryption will fail. For more information, see Encryption Context.
+        /// Specifies the encryption algorithm that AWS KMS will use to encrypt the plaintext message. The algorithm must be compatible with the CMK that you specify. This parameter is required only for asymmetric CMKs. The default value, SYMMETRIC_DEFAULT, is the algorithm used for symmetric CMKs. If you are using an asymmetric CMK, we recommend RSAES_OAEP_SHA_256.
+        public let encryptionAlgorithm: EncryptionAlgorithmSpec?
+        /// Specifies the encryption context that will be used to encrypt the data. An encryption context is valid only for cryptographic operations with a symmetric CMK. The standard asymmetric encryption algorithms that AWS KMS uses do not support an encryption context.  An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
@@ -826,7 +874,8 @@ extension KMS {
         /// Data to be encrypted.
         public let plaintext: Data
 
-        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, plaintext: Data) {
+        public init(encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, plaintext: Data) {
+            self.encryptionAlgorithm = encryptionAlgorithm
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -847,6 +896,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionAlgorithm = "EncryptionAlgorithm"
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
@@ -857,29 +907,196 @@ extension KMS {
     public struct EncryptResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeMember(label: "EncryptionAlgorithm", required: false, type: .enum), 
             AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
 
-        /// The encrypted plaintext. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
+        /// The encrypted plaintext. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let ciphertextBlob: Data?
+        /// The encryption algorithm that was used to encrypt the plaintext.
+        public let encryptionAlgorithm: EncryptionAlgorithmSpec?
         /// The ID of the key used during encryption.
         public let keyId: String?
 
-        public init(ciphertextBlob: Data? = nil, keyId: String? = nil) {
+        public init(ciphertextBlob: Data? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, keyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
+            self.encryptionAlgorithm = encryptionAlgorithm
             self.keyId = keyId
         }
 
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
+            case encryptionAlgorithm = "EncryptionAlgorithm"
             case keyId = "KeyId"
         }
+    }
+
+    public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable {
+        case symmetricDefault = "SYMMETRIC_DEFAULT"
+        case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
+        case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
+        public var description: String { return self.rawValue }
     }
 
     public enum ExpirationModelType: String, CustomStringConvertible, Codable {
         case keyMaterialExpires = "KEY_MATERIAL_EXPIRES"
         case keyMaterialDoesNotExpire = "KEY_MATERIAL_DOES_NOT_EXPIRE"
         public var description: String { return self.rawValue }
+    }
+
+    public struct GenerateDataKeyPairRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "KeyPairSpec", required: true, type: .enum)
+        ]
+
+        /// Specifies the encryption context that will be used when encrypting the private key in the data key pair. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
+        public let encryptionContext: [String: String]?
+        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        public let grantTokens: [String]?
+        /// Specifies the symmetric CMK that encrypts the private key in the data key pair. You cannot specify an asymmetric CMKs. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let keyId: String
+        /// Determines the type of data key pair that is generated.  The AWS KMS rule that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC CMKs only to sign and verify, are not effective outside of AWS KMS.
+        public let keyPairSpec: DataKeyPairSpec
+
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keyPairSpec: DataKeyPairSpec) {
+            self.encryptionContext = encryptionContext
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+            self.keyPairSpec = keyPairSpec
+        }
+
+        public func validate(name: String) throws {
+            try self.grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContext = "EncryptionContext"
+            case grantTokens = "GrantTokens"
+            case keyId = "KeyId"
+            case keyPairSpec = "KeyPairSpec"
+        }
+    }
+
+    public struct GenerateDataKeyPairResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPairSpec", required: false, type: .enum), 
+            AWSShapeMember(label: "PrivateKeyCiphertextBlob", required: false, type: .blob), 
+            AWSShapeMember(label: "PrivateKeyPlaintext", required: false, type: .blob), 
+            AWSShapeMember(label: "PublicKey", required: false, type: .blob)
+        ]
+
+        /// The identifier of the CMK that encrypted the private key.
+        public let keyId: String?
+        /// The type of data key pair that was generated.
+        public let keyPairSpec: DataKeyPairSpec?
+        /// The encrypted copy of the private key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
+        public let privateKeyCiphertextBlob: Data?
+        /// The plaintext copy of the private key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
+        public let privateKeyPlaintext: Data?
+        /// The public key (in plaintext).
+        public let publicKey: Data?
+
+        public init(keyId: String? = nil, keyPairSpec: DataKeyPairSpec? = nil, privateKeyCiphertextBlob: Data? = nil, privateKeyPlaintext: Data? = nil, publicKey: Data? = nil) {
+            self.keyId = keyId
+            self.keyPairSpec = keyPairSpec
+            self.privateKeyCiphertextBlob = privateKeyCiphertextBlob
+            self.privateKeyPlaintext = privateKeyPlaintext
+            self.publicKey = publicKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case keyPairSpec = "KeyPairSpec"
+            case privateKeyCiphertextBlob = "PrivateKeyCiphertextBlob"
+            case privateKeyPlaintext = "PrivateKeyPlaintext"
+            case publicKey = "PublicKey"
+        }
+    }
+
+    public struct GenerateDataKeyPairWithoutPlaintextRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "KeyPairSpec", required: true, type: .enum)
+        ]
+
+        /// Specifies the encryption context that will be used when encrypting the private key in the data key pair. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
+        public let encryptionContext: [String: String]?
+        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        public let grantTokens: [String]?
+        /// Specifies the CMK that encrypts the private key in the data key pair. You must specify a symmetric CMK. You cannot use an asymmetric CMK.  To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let keyId: String
+        /// Determines the type of data key pair that is generated. The AWS KMS rule that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC CMKs only to sign and verify, are not effective outside of AWS KMS.
+        public let keyPairSpec: DataKeyPairSpec
+
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keyPairSpec: DataKeyPairSpec) {
+            self.encryptionContext = encryptionContext
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+            self.keyPairSpec = keyPairSpec
+        }
+
+        public func validate(name: String) throws {
+            try self.grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContext = "EncryptionContext"
+            case grantTokens = "GrantTokens"
+            case keyId = "KeyId"
+            case keyPairSpec = "KeyPairSpec"
+        }
+    }
+
+    public struct GenerateDataKeyPairWithoutPlaintextResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPairSpec", required: false, type: .enum), 
+            AWSShapeMember(label: "PrivateKeyCiphertextBlob", required: false, type: .blob), 
+            AWSShapeMember(label: "PublicKey", required: false, type: .blob)
+        ]
+
+        /// Specifies the CMK that encrypted the private key in the data key pair. You must specify a symmetric CMK. You cannot use an asymmetric CMK.  To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let keyId: String?
+        /// The type of data key pair that was generated.
+        public let keyPairSpec: DataKeyPairSpec?
+        /// The encrypted copy of the private key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
+        public let privateKeyCiphertextBlob: Data?
+        /// The public key (in plaintext).
+        public let publicKey: Data?
+
+        public init(keyId: String? = nil, keyPairSpec: DataKeyPairSpec? = nil, privateKeyCiphertextBlob: Data? = nil, publicKey: Data? = nil) {
+            self.keyId = keyId
+            self.keyPairSpec = keyPairSpec
+            self.privateKeyCiphertextBlob = privateKeyCiphertextBlob
+            self.publicKey = publicKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case keyPairSpec = "KeyPairSpec"
+            case privateKeyCiphertextBlob = "PrivateKeyCiphertextBlob"
+            case publicKey = "PublicKey"
+        }
     }
 
     public struct GenerateDataKeyRequest: AWSShape {
@@ -891,15 +1108,15 @@ extension KMS {
             AWSShapeMember(label: "NumberOfBytes", required: false, type: .integer)
         ]
 
-        /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
+        /// Specifies the encryption context that will be used when encrypting the data key. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// An identifier for the CMK that encrypts the data key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Identifies the symmetric CMK that encrypts the data key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
-        /// The length of the data key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
+        /// Specifies the length of the data key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key. You must specify either the KeySpec or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
         public let keySpec: DataKeySpec?
-        /// The length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
+        /// Specifies the length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For 128-bit (16-byte) and 256-bit (32-byte) data keys, use the KeySpec parameter. You must specify either the KeySpec or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
         public let numberOfBytes: Int?
 
         public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
@@ -939,11 +1156,11 @@ extension KMS {
             AWSShapeMember(label: "Plaintext", required: false, type: .blob)
         ]
 
-        /// The encrypted copy of the data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
+        /// The encrypted copy of the data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let ciphertextBlob: Data?
         /// The identifier of the CMK that encrypted the data key.
         public let keyId: String?
-        /// The plaintext data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded. Use this data key to encrypt your data outside of KMS. Then, remove it from memory as soon as possible.
+        /// The plaintext data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. Use this data key to encrypt your data outside of KMS. Then, remove it from memory as soon as possible.
         public let plaintext: Data?
 
         public init(ciphertextBlob: Data? = nil, keyId: String? = nil, plaintext: Data? = nil) {
@@ -968,11 +1185,11 @@ extension KMS {
             AWSShapeMember(label: "NumberOfBytes", required: false, type: .integer)
         ]
 
-        /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
+        /// Specifies the encryption context that will be used when encrypting the data key. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// The identifier of the customer master key (CMK) that encrypts the data key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// The identifier of the symmetric customer master key (CMK) that encrypts the data key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// The length of the data key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
         public let keySpec: DataKeySpec?
@@ -1015,7 +1232,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
 
-        /// The encrypted data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
+        /// The encrypted data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let ciphertextBlob: Data?
         /// The identifier of the CMK that encrypted the data key.
         public let keyId: String?
@@ -1065,7 +1282,7 @@ extension KMS {
             AWSShapeMember(label: "Plaintext", required: false, type: .blob)
         ]
 
-        /// The random byte string. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
+        /// The random byte string. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let plaintext: Data?
 
         public init(plaintext: Data? = nil) {
@@ -1170,7 +1387,7 @@ extension KMS {
             AWSShapeMember(label: "WrappingKeySpec", required: true, type: .enum)
         ]
 
-        /// The identifier of the CMK into which you will import key material. The CMK's Origin must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// The identifier of the symmetric CMK into which you will import key material. The Origin of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// The algorithm you will use to encrypt the key material before importing it with ImportKeyMaterial. For more information, see Encrypt the Key Material in the AWS Key Management Service Developer Guide.
         public let wrappingAlgorithm: AlgorithmSpec
@@ -1224,6 +1441,81 @@ extension KMS {
             case keyId = "KeyId"
             case parametersValidTo = "ParametersValidTo"
             case publicKey = "PublicKey"
+        }
+    }
+
+    public struct GetPublicKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
+        ]
+
+        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        public let grantTokens: [String]?
+        /// Identifies the asymmetric CMK that includes the public key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let keyId: String
+
+        public init(grantTokens: [String]? = nil, keyId: String) {
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try self.grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantTokens = "GrantTokens"
+            case keyId = "KeyId"
+        }
+    }
+
+    public struct GetPublicKeyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomerMasterKeySpec", required: false, type: .enum), 
+            AWSShapeMember(label: "EncryptionAlgorithms", required: false, type: .list), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "KeyUsage", required: false, type: .enum), 
+            AWSShapeMember(label: "PublicKey", required: false, type: .blob), 
+            AWSShapeMember(label: "SigningAlgorithms", required: false, type: .list)
+        ]
+
+        /// The type of the of the public key that was downloaded.
+        public let customerMasterKeySpec: CustomerMasterKeySpec?
+        /// The encryption algorithms that AWS KMS supports for this key.  This information is critical. If a public key encrypts data outside of AWS KMS by using an unsupported encryption algorithm, the ciphertext cannot be decrypted.  This field appears in the response only when the KeyUsage of the public key is ENCRYPT_DECRYPT.
+        public let encryptionAlgorithms: [EncryptionAlgorithmSpec]?
+        /// The identifier of the asymmetric CMK from which the public key was downloaded.
+        public let keyId: String?
+        /// The permitted use of the public key. Valid values are ENCRYPT_DECRYPT or SIGN_VERIFY.  This information is critical. If a public key with SIGN_VERIFY key usage encrypts data outside of AWS KMS, the ciphertext cannot be decrypted. 
+        public let keyUsage: KeyUsageType?
+        /// The exported public key.  This value is returned as a binary Distinguished Encoding Rules (DER)-encoded object. To decode it, use an ASN.1 parsing tool, such as OpenSSL asn1parse.
+        public let publicKey: Data?
+        /// The signing algorithms that AWS KMS supports for this key. This field appears in the response only when the KeyUsage of the public key is SIGN_VERIFY.
+        public let signingAlgorithms: [SigningAlgorithmSpec]?
+
+        public init(customerMasterKeySpec: CustomerMasterKeySpec? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, keyId: String? = nil, keyUsage: KeyUsageType? = nil, publicKey: Data? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil) {
+            self.customerMasterKeySpec = customerMasterKeySpec
+            self.encryptionAlgorithms = encryptionAlgorithms
+            self.keyId = keyId
+            self.keyUsage = keyUsage
+            self.publicKey = publicKey
+            self.signingAlgorithms = signingAlgorithms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerMasterKeySpec = "CustomerMasterKeySpec"
+            case encryptionAlgorithms = "EncryptionAlgorithms"
+            case keyId = "KeyId"
+            case keyUsage = "KeyUsage"
+            case publicKey = "PublicKey"
+            case signingAlgorithms = "SigningAlgorithms"
         }
     }
 
@@ -1313,9 +1605,14 @@ extension KMS {
         case generatedatakeywithoutplaintext = "GenerateDataKeyWithoutPlaintext"
         case reencryptfrom = "ReEncryptFrom"
         case reencryptto = "ReEncryptTo"
+        case sign = "Sign"
+        case verify = "Verify"
+        case getpublickey = "GetPublicKey"
         case creategrant = "CreateGrant"
         case retiregrant = "RetireGrant"
         case describekey = "DescribeKey"
+        case generatedatakeypair = "GenerateDataKeyPair"
+        case generatedatakeypairwithoutplaintext = "GenerateDataKeyPairWithoutPlaintext"
         public var description: String { return self.rawValue }
     }
 
@@ -1328,13 +1625,13 @@ extension KMS {
             AWSShapeMember(label: "ValidTo", required: false, type: .timestamp)
         ]
 
-        /// The encrypted key material to import. It must be encrypted with the public key that you received in the response to a previous GetParametersForImport request, using the wrapping algorithm that you specified in that request.
+        /// The encrypted key material to import. The key material must be encrypted with the public wrapping key that GetParametersForImport returned, using the wrapping algorithm that you specified in the same GetParametersForImport request.
         public let encryptedKeyMaterial: Data
         /// Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES, in which case you must include the ValidTo parameter. When this parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter.
         public let expirationModel: ExpirationModelType?
         /// The import token that you received in the response to a previous GetParametersForImport request. It must be from the same response that contained the public key that you used to encrypt the key material.
         public let importToken: Data
-        /// The identifier of the CMK to import the key material into. The CMK's Origin must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// The identifier of the symmetric CMK that receives the imported key material. The CMK's Origin must be EXTERNAL. This must be the same CMK specified in the KeyID parameter of the corresponding GetParametersForImport request. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE. Otherwise it is required.
         public let validTo: TimeStamp?
@@ -1407,16 +1704,19 @@ extension KMS {
             AWSShapeMember(label: "AWSAccountId", required: false, type: .string), 
             AWSShapeMember(label: "CloudHsmClusterId", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CustomerMasterKeySpec", required: false, type: .enum), 
             AWSShapeMember(label: "CustomKeyStoreId", required: false, type: .string), 
             AWSShapeMember(label: "DeletionDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "EncryptionAlgorithms", required: false, type: .list), 
             AWSShapeMember(label: "ExpirationModel", required: false, type: .enum), 
             AWSShapeMember(label: "KeyId", required: true, type: .string), 
             AWSShapeMember(label: "KeyManager", required: false, type: .enum), 
             AWSShapeMember(label: "KeyState", required: false, type: .enum), 
             AWSShapeMember(label: "KeyUsage", required: false, type: .enum), 
             AWSShapeMember(label: "Origin", required: false, type: .enum), 
+            AWSShapeMember(label: "SigningAlgorithms", required: false, type: .list), 
             AWSShapeMember(label: "ValidTo", required: false, type: .timestamp)
         ]
 
@@ -1428,6 +1728,8 @@ extension KMS {
         public let cloudHsmClusterId: String?
         /// The date and time when the CMK was created.
         public let creationDate: TimeStamp?
+        /// Describes the type of key material in the CMK.
+        public let customerMasterKeySpec: CustomerMasterKeySpec?
         /// A unique identifier for the custom key store that contains the CMK. This value is present only when the CMK is created in a custom key store.
         public let customKeyStoreId: String?
         /// The date and time after which AWS KMS deletes the CMK. This value is present only when KeyState is PendingDeletion.
@@ -1436,6 +1738,8 @@ extension KMS {
         public let description: String?
         /// Specifies whether the CMK is enabled. When KeyState is Enabled this value is true, otherwise it is false.
         public let enabled: Bool?
+        /// A list of encryption algorithms that the CMK supports. You cannot use the CMK with other encryption algorithms within AWS KMS. This field appears only when the KeyUsage of the CMK is ENCRYPT_DECRYPT.
+        public let encryptionAlgorithms: [EncryptionAlgorithmSpec]?
         /// Specifies whether the CMK's key material expires. This value is present only when Origin is EXTERNAL, otherwise this value is omitted.
         public let expirationModel: ExpirationModelType?
         /// The globally unique identifier for the CMK.
@@ -1444,28 +1748,33 @@ extension KMS {
         public let keyManager: KeyManagerType?
         /// The state of the CMK. For more information about how key state affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
         public let keyState: KeyState?
-        /// The cryptographic operations for which you can use the CMK. The only valid value is ENCRYPT_DECRYPT, which means you can use the CMK to encrypt and decrypt data.
+        /// The cryptographic operations for which you can use the CMK.
         public let keyUsage: KeyUsageType?
         /// The source of the CMK's key material. When this value is AWS_KMS, AWS KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the CMK lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the AWS CloudHSM cluster associated with a custom key store.
         public let origin: OriginType?
+        /// A list of signing algorithms that the CMK supports. You cannot use the CMK with other signing algorithms within AWS KMS. This field appears only when the KeyUsage of the CMK is SIGN_VERIFY.
+        public let signingAlgorithms: [SigningAlgorithmSpec]?
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. This value is present only for CMKs whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
         public let validTo: TimeStamp?
 
-        public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: TimeStamp? = nil, customKeyStoreId: String? = nil, deletionDate: TimeStamp? = nil, description: String? = nil, enabled: Bool? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, validTo: TimeStamp? = nil) {
+        public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: TimeStamp? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: TimeStamp? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: TimeStamp? = nil) {
             self.arn = arn
             self.aWSAccountId = aWSAccountId
             self.cloudHsmClusterId = cloudHsmClusterId
             self.creationDate = creationDate
+            self.customerMasterKeySpec = customerMasterKeySpec
             self.customKeyStoreId = customKeyStoreId
             self.deletionDate = deletionDate
             self.description = description
             self.enabled = enabled
+            self.encryptionAlgorithms = encryptionAlgorithms
             self.expirationModel = expirationModel
             self.keyId = keyId
             self.keyManager = keyManager
             self.keyState = keyState
             self.keyUsage = keyUsage
             self.origin = origin
+            self.signingAlgorithms = signingAlgorithms
             self.validTo = validTo
         }
 
@@ -1474,16 +1783,19 @@ extension KMS {
             case aWSAccountId = "AWSAccountId"
             case cloudHsmClusterId = "CloudHsmClusterId"
             case creationDate = "CreationDate"
+            case customerMasterKeySpec = "CustomerMasterKeySpec"
             case customKeyStoreId = "CustomKeyStoreId"
             case deletionDate = "DeletionDate"
             case description = "Description"
             case enabled = "Enabled"
+            case encryptionAlgorithms = "EncryptionAlgorithms"
             case expirationModel = "ExpirationModel"
             case keyId = "KeyId"
             case keyManager = "KeyManager"
             case keyState = "KeyState"
             case keyUsage = "KeyUsage"
             case origin = "Origin"
+            case signingAlgorithms = "SigningAlgorithms"
             case validTo = "ValidTo"
         }
     }
@@ -1498,6 +1810,7 @@ extension KMS {
     }
 
     public enum KeyUsageType: String, CustomStringConvertible, Codable {
+        case signVerify = "SIGN_VERIFY"
         case encryptDecrypt = "ENCRYPT_DECRYPT"
         public var description: String { return self.rawValue }
     }
@@ -1853,6 +2166,12 @@ extension KMS {
         }
     }
 
+    public enum MessageType: String, CustomStringConvertible, Codable {
+        case raw = "RAW"
+        case digest = "DIGEST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OriginType: String, CustomStringConvertible, Codable {
         case awsKms = "AWS_KMS"
         case external = "EXTERNAL"
@@ -1906,29 +2225,41 @@ extension KMS {
     public struct ReEncryptRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CiphertextBlob", required: true, type: .blob), 
+            AWSShapeMember(label: "DestinationEncryptionAlgorithm", required: false, type: .enum), 
             AWSShapeMember(label: "DestinationEncryptionContext", required: false, type: .map), 
             AWSShapeMember(label: "DestinationKeyId", required: true, type: .string), 
             AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
-            AWSShapeMember(label: "SourceEncryptionContext", required: false, type: .map)
+            AWSShapeMember(label: "SourceEncryptionAlgorithm", required: false, type: .enum), 
+            AWSShapeMember(label: "SourceEncryptionContext", required: false, type: .map), 
+            AWSShapeMember(label: "SourceKeyId", required: false, type: .string)
         ]
 
         /// Ciphertext of the data to reencrypt.
         public let ciphertextBlob: Data
-        /// Encryption context to use when the data is reencrypted.
+        /// Specifies the encryption algorithm that AWS KMS will use to reecrypt the data after it has decrypted it. The default value, SYMMETRIC_DEFAULT, represents the encryption algorithm used for symmetric CMKs. This parameter is required only when the destination CMK is an asymmetric CMK.
+        public let destinationEncryptionAlgorithm: EncryptionAlgorithmSpec?
+        /// Specifies that encryption context to use when the reencrypting the data. A destination encryption context is valid only when the destination CMK is a symmetric CMK. The standard ciphertext format for asymmetric CMKs does not include fields for metadata. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let destinationEncryptionContext: [String: String]?
-        /// A unique identifier for the CMK that is used to reencrypt the data. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// A unique identifier for the CMK that is used to reencrypt the data. Specify a symmetric or asymmetric CMK with a KeyUsage value of ENCRYPT_DECRYPT. To find the KeyUsage value of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let destinationKeyId: String
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Encryption context used to encrypt and decrypt the data specified in the CiphertextBlob parameter.
+        /// Specifies the encryption algorithm that AWS KMS will use to decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT, represents the algorithm used for symmetric CMKs. Specify the same algorithm that was used to encrypt the ciphertext. If you specify a different algorithm, the decrypt attempt fails. This parameter is required only when the ciphertext was encrypted under an asymmetric CMK.
+        public let sourceEncryptionAlgorithm: EncryptionAlgorithmSpec?
+        /// Specifies the encryption context to use to decrypt the ciphertext. Enter the same encryption context that was used to encrypt the ciphertext. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let sourceEncryptionContext: [String: String]?
+        /// A unique identifier for the CMK that is used to decrypt the ciphertext before it reencrypts it using the destination CMK. This parameter is required only when the ciphertext was encrypted under an asymmetric CMK. Otherwise, AWS KMS uses the metadata that it adds to the ciphertext blob to determine which CMK was used to encrypt the ciphertext. However, you can use this parameter to ensure that a particular CMK (of any kind) is used to decrypt the ciphertext before it is reencrypted. If you specify a KeyId value, the decrypt part of the ReEncrypt operation succeeds only if the specified CMK was used to encrypt the ciphertext. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let sourceKeyId: String?
 
-        public init(ciphertextBlob: Data, destinationEncryptionContext: [String: String]? = nil, destinationKeyId: String, grantTokens: [String]? = nil, sourceEncryptionContext: [String: String]? = nil) {
+        public init(ciphertextBlob: Data, destinationEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, destinationEncryptionContext: [String: String]? = nil, destinationKeyId: String, grantTokens: [String]? = nil, sourceEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, sourceEncryptionContext: [String: String]? = nil, sourceKeyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
+            self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
             self.destinationEncryptionContext = destinationEncryptionContext
             self.destinationKeyId = destinationKeyId
             self.grantTokens = grantTokens
+            self.sourceEncryptionAlgorithm = sourceEncryptionAlgorithm
             self.sourceEncryptionContext = sourceEncryptionContext
+            self.sourceKeyId = sourceKeyId
         }
 
         public func validate(name: String) throws {
@@ -1942,40 +2273,55 @@ extension KMS {
             }
             try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
             try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.sourceKeyId, name:"sourceKeyId", parent: name, max: 2048)
+            try validate(self.sourceKeyId, name:"sourceKeyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
+            case destinationEncryptionAlgorithm = "DestinationEncryptionAlgorithm"
             case destinationEncryptionContext = "DestinationEncryptionContext"
             case destinationKeyId = "DestinationKeyId"
             case grantTokens = "GrantTokens"
+            case sourceEncryptionAlgorithm = "SourceEncryptionAlgorithm"
             case sourceEncryptionContext = "SourceEncryptionContext"
+            case sourceKeyId = "SourceKeyId"
         }
     }
 
     public struct ReEncryptResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeMember(label: "DestinationEncryptionAlgorithm", required: false, type: .enum), 
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEncryptionAlgorithm", required: false, type: .enum), 
             AWSShapeMember(label: "SourceKeyId", required: false, type: .string)
         ]
 
-        /// The reencrypted data. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
+        /// The reencrypted data. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let ciphertextBlob: Data?
+        /// The encryption algorithm that was used to reencrypt the data.
+        public let destinationEncryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Unique identifier of the CMK used to reencrypt the data.
         public let keyId: String?
+        /// The encryption algorithm that was used to decrypt the ciphertext before it was reencrypted.
+        public let sourceEncryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Unique identifier of the CMK used to originally encrypt the data.
         public let sourceKeyId: String?
 
-        public init(ciphertextBlob: Data? = nil, keyId: String? = nil, sourceKeyId: String? = nil) {
+        public init(ciphertextBlob: Data? = nil, destinationEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, keyId: String? = nil, sourceEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, sourceKeyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
+            self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
             self.keyId = keyId
+            self.sourceEncryptionAlgorithm = sourceEncryptionAlgorithm
             self.sourceKeyId = sourceKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
+            case destinationEncryptionAlgorithm = "DestinationEncryptionAlgorithm"
             case keyId = "KeyId"
+            case sourceEncryptionAlgorithm = "SourceEncryptionAlgorithm"
             case sourceKeyId = "SourceKeyId"
         }
     }
@@ -2096,6 +2442,96 @@ extension KMS {
         }
     }
 
+    public struct SignRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "Message", required: true, type: .blob), 
+            AWSShapeMember(label: "MessageType", required: false, type: .enum), 
+            AWSShapeMember(label: "SigningAlgorithm", required: true, type: .enum)
+        ]
+
+        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        public let grantTokens: [String]?
+        /// Identifies an asymmetric CMK. AWS KMS uses the private key in the asymmetric CMK to sign the message. The KeyUsage type of the CMK must be SIGN_VERIFY. To find the KeyUsage of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let keyId: String
+        /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide the message digest. If you provide a message, AWS KMS generates a hash digest of the message and then signs it.
+        public let message: Data
+        /// Tells AWS KMS whether the value of the Message parameter is a message or message digest. To indicate a message, enter RAW. To indicate a message digest, enter DIGEST.
+        public let messageType: MessageType?
+        /// Specifies the signing algorithm to use when signing the message.  Choose an algorithm that is compatible with the type and size of the specified asymmetric CMK.
+        public let signingAlgorithm: SigningAlgorithmSpec
+
+        public init(grantTokens: [String]? = nil, keyId: String, message: Data, messageType: MessageType? = nil, signingAlgorithm: SigningAlgorithmSpec) {
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+            self.message = message
+            self.messageType = messageType
+            self.signingAlgorithm = signingAlgorithm
+        }
+
+        public func validate(name: String) throws {
+            try self.grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.message, name:"message", parent: name, max: 4096)
+            try validate(self.message, name:"message", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantTokens = "GrantTokens"
+            case keyId = "KeyId"
+            case message = "Message"
+            case messageType = "MessageType"
+            case signingAlgorithm = "SigningAlgorithm"
+        }
+    }
+
+    public struct SignResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Signature", required: false, type: .blob), 
+            AWSShapeMember(label: "SigningAlgorithm", required: false, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the asymmetric CMK that was used to sign the message.
+        public let keyId: String?
+        /// The cryptographic signature that was generated for the message.
+        public let signature: Data?
+        /// The signing algorithm that was used to sign the message.
+        public let signingAlgorithm: SigningAlgorithmSpec?
+
+        public init(keyId: String? = nil, signature: Data? = nil, signingAlgorithm: SigningAlgorithmSpec? = nil) {
+            self.keyId = keyId
+            self.signature = signature
+            self.signingAlgorithm = signingAlgorithm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case signature = "Signature"
+            case signingAlgorithm = "SigningAlgorithm"
+        }
+    }
+
+    public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable {
+        case rsassaPssSha256 = "RSASSA_PSS_SHA_256"
+        case rsassaPssSha384 = "RSASSA_PSS_SHA_384"
+        case rsassaPssSha512 = "RSASSA_PSS_SHA_512"
+        case rsassaPkcs1V15Sha256 = "RSASSA_PKCS1_V1_5_SHA_256"
+        case rsassaPkcs1V15Sha384 = "RSASSA_PKCS1_V1_5_SHA_384"
+        case rsassaPkcs1V15Sha512 = "RSASSA_PKCS1_V1_5_SHA_512"
+        case ecdsaSha256 = "ECDSA_SHA_256"
+        case ecdsaSha384 = "ECDSA_SHA_384"
+        case ecdsaSha512 = "ECDSA_SHA_512"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagKey", required: true, type: .string), 
@@ -2192,9 +2628,9 @@ extension KMS {
             AWSShapeMember(label: "TargetKeyId", required: true, type: .string)
         ]
 
-        /// Specifies the name of the alias to change. This value must begin with alias/ followed by the alias name, such as alias/ExampleAlias.
+        /// Identifies the alias that is changing its CMK. This value must begin with alias/ followed by the alias name, such as alias/ExampleAlias. You cannot use UpdateAlias to change the alias name.
         public let aliasName: String
-        /// Unique identifier of the customer master key (CMK) to be mapped to the alias. When the update operation completes, the alias will point to this CMK. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To verify that the alias is mapped to the correct CMK, use ListAliases.
+        /// Identifies the CMK to associate with the alias. When the update operation completes, the alias will point to this CMK.  The CMK must be in the same AWS account and Region as the alias. Also, the new target CMK must be the same type as the current target CMK (both symmetric or both asymmetric) and they must have the same key usage.  Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To verify that the alias is mapped to the correct CMK, use ListAliases.
         public let targetKeyId: String
 
         public init(aliasName: String, targetKeyId: String) {
@@ -2292,6 +2728,90 @@ extension KMS {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case keyId = "KeyId"
+        }
+    }
+
+    public struct VerifyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "Message", required: true, type: .blob), 
+            AWSShapeMember(label: "MessageType", required: false, type: .enum), 
+            AWSShapeMember(label: "Signature", required: true, type: .blob), 
+            AWSShapeMember(label: "SigningAlgorithm", required: true, type: .enum)
+        ]
+
+        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        public let grantTokens: [String]?
+        /// Identifies the asymmetric CMK that will be used to verify the signature. This must be the same CMK that was used to generate the signature. If you specify a different CMK, the signature verification fails. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let keyId: String
+        /// Specifies the message that was signed, or a hash digest of that message. Messages can be 0-4096 bytes. To verify a larger message, provide a hash digest of the message. If the digest of the message specified here is different from the message digest that was signed, the signature verification fails.
+        public let message: Data
+        /// Tells AWS KMS whether the value of the Message parameter is a message or message digest. To indicate a message, enter RAW. To indicate a message digest, enter DIGEST.
+        public let messageType: MessageType?
+        /// The signature that the Sign operation generated.
+        public let signature: Data
+        /// The signing algorithm that was used to sign the message. If you submit a different algorithm, the signature verification fails.
+        public let signingAlgorithm: SigningAlgorithmSpec
+
+        public init(grantTokens: [String]? = nil, keyId: String, message: Data, messageType: MessageType? = nil, signature: Data, signingAlgorithm: SigningAlgorithmSpec) {
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+            self.message = message
+            self.messageType = messageType
+            self.signature = signature
+            self.signingAlgorithm = signingAlgorithm
+        }
+
+        public func validate(name: String) throws {
+            try self.grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.message, name:"message", parent: name, max: 4096)
+            try validate(self.message, name:"message", parent: name, min: 1)
+            try validate(self.signature, name:"signature", parent: name, max: 6144)
+            try validate(self.signature, name:"signature", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantTokens = "GrantTokens"
+            case keyId = "KeyId"
+            case message = "Message"
+            case messageType = "MessageType"
+            case signature = "Signature"
+            case signingAlgorithm = "SigningAlgorithm"
+        }
+    }
+
+    public struct VerifyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SignatureValid", required: false, type: .boolean), 
+            AWSShapeMember(label: "SigningAlgorithm", required: false, type: .enum)
+        ]
+
+        /// The unique identifier for the asymmetric CMK that was used to verify the signature.
+        public let keyId: String?
+        /// A Boolean value that indicates whether the signature was verified. A value of True indicates that the Signature was produced by signing the Message with the specified KeyID and SigningAlgorithm. If the signature is not verified, the Verify operation fails with a KMSInvalidSignatureException exception. 
+        public let signatureValid: Bool?
+        /// The signing algorithm that was used to verify the signature.
+        public let signingAlgorithm: SigningAlgorithmSpec?
+
+        public init(keyId: String? = nil, signatureValid: Bool? = nil, signingAlgorithm: SigningAlgorithmSpec? = nil) {
+            self.keyId = keyId
+            self.signatureValid = signatureValid
+            self.signingAlgorithm = signingAlgorithm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case signatureValid = "SignatureValid"
+            case signingAlgorithm = "SigningAlgorithm"
         }
     }
 

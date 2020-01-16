@@ -10,7 +10,7 @@ extension Organizations {
             AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
 
         public init(handshakeId: String) {
@@ -56,7 +56,7 @@ extension Organizations {
 
         /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
-        /// The email address associated with the AWS account. The regex pattern for this parameter is a string of characters that represents a standard Internet email address.
+        /// The email address associated with the AWS account. The regex pattern for this parameter is a string of characters that represents a standard internet email address.
         public let email: String?
         /// The unique identifier (ID) of the account. The regex pattern for an account ID string requires exactly 12 digits.
         public let id: String?
@@ -116,9 +116,9 @@ extension Organizations {
             AWSShapeMember(label: "TargetId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
-        /// The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let targetId: String
 
         public init(policyId: String, targetId: String) {
@@ -142,7 +142,7 @@ extension Organizations {
             AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
 
         public init(handshakeId: String) {
@@ -181,7 +181,7 @@ extension Organizations {
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
 
-        /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: A string that consists of exactly 12 digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let id: String?
         /// The type of this child entity.
         public let `type`: ChildType?
@@ -210,6 +210,7 @@ extension Organizations {
         case invalidEmail = "INVALID_EMAIL"
         case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
         case internalFailure = "INTERNAL_FAILURE"
+        case govcloudAccountAlreadyExists = "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
         public var description: String { return self.rawValue }
     }
 
@@ -225,9 +226,9 @@ extension Organizations {
         public let accountName: String
         /// The email address of the owner to assign to the new member account. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address.
         public let email: String
-        /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
+        /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW. This value allows IAM users and roles with the required permissions to access billing information for the new account.
         public let iamUserAccessToBilling: IAMUserAccessToBilling?
-        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member account. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide, and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide.  The regex pattern that is used to validate this parameter is a string of characters that can consist of uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
+        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member account. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide. Also see steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide.  The regex pattern that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
         public let roleName: String?
 
         public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil) {
@@ -297,11 +298,11 @@ extension Organizations {
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
         public let completedTimestamp: TimeStamp?
-        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.  
+        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact AWS Support.  
         public let failureReason: CreateAccountFailureReason?
         /// If the account was created successfully, the unique identifier (ID) of the new account in the AWS GovCloud (US) Region.
         public let govCloudAccountId: String?
-        /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
         /// The date and time that the request was made for the account creation.
         public let requestedTimestamp: TimeStamp?
@@ -341,11 +342,11 @@ extension Organizations {
 
         /// The friendly name of the member account.
         public let accountName: String
-        /// The email address of the owner to assign to the new member account in the commercial Region. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address. Like all request parameters for CreateGovCloudAccount, the request for the email address for the AWS GovCloud (US) account originates from the commercial Region, not from the AWS GovCloud (US) Region.
+        /// The email address of the owner to assign to the new member account in the commercial Region. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address. Like all request parameters for CreateGovCloudAccount, the request for the email address for the AWS GovCloud (US) account originates from the commercial Region. It does not come from the AWS GovCloud (US) Region.
         public let email: String
         /// If set to ALLOW, the new linked account in the commercial Region enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.  If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
         public let iamUserAccessToBilling: IAMUserAccessToBilling?
-        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member accounts in both the AWS GovCloud (US) Region and in the commercial Region. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide.  The regex pattern that is used to validate this parameter is a string of characters that can consist of uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
+        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member accounts in both the AWS GovCloud (US) Region and in the commercial Region. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide. See also steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide.  The regex pattern that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
         public let roleName: String?
 
         public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil) {
@@ -394,7 +395,7 @@ extension Organizations {
             AWSShapeMember(label: "FeatureSet", required: false, type: .enum)
         ]
 
-        /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated billing in the AWS Organizations User Guide.   The consolidated billing feature subset isn't available for organizations in the AWS GovCloud (US) Region.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any policy type to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.   
+        /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated billing in the AWS Organizations User Guide.   The consolidated billing feature subset isn't available for organizations in the AWS GovCloud (US) Region.    ALL: In addition to all the features that consolidated billing feature set supports, the master account can also apply any policy type to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.   
         public let featureSet: OrganizationFeatureSet?
 
         public init(featureSet: OrganizationFeatureSet? = nil) {
@@ -431,7 +432,7 @@ extension Organizations {
 
         /// The friendly name to assign to the new OU.
         public let name: String
-        /// The unique identifier (ID) of the parent root or OU that you want to create the new OU in. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the parent root or OU that you want to create the new OU in. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let parentId: String
 
         public init(name: String, parentId: String) {
@@ -476,13 +477,13 @@ extension Organizations {
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
-        /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide. 
+        /// The policy content to add to the new policy. For example, you could create a service control policy (SCP) that specifies the permissions that administrators in attached accounts can delegate to their users, groups, and roles. The string for this SCP must be JSON text. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide. 
         public let content: String
         /// An optional description to assign to the policy.
         public let description: String
         /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String
-        /// The type of policy to create.  In the current release, the only type of policy that you can create is a service control policy (SCP). 
+        /// The type of policy to create.
         public let `type`: PolicyType
 
         public init(content: String, description: String, name: String, type: PolicyType) {
@@ -530,7 +531,7 @@ extension Organizations {
             AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
 
         public init(handshakeId: String) {
@@ -568,7 +569,7 @@ extension Organizations {
             AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let organizationalUnitId: String
 
         public init(organizationalUnitId: String) {
@@ -589,7 +590,7 @@ extension Organizations {
             AWSShapeMember(label: "PolicyId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
 
         public init(policyId: String) {
@@ -648,7 +649,7 @@ extension Organizations {
             AWSShapeMember(label: "CreateAccountRequestId", required: true, type: .string)
         ]
 
-        /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
+        /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits.
         public let createAccountRequestId: String
 
         public init(createAccountRequestId: String) {
@@ -681,12 +682,55 @@ extension Organizations {
         }
     }
 
+    public struct DescribeEffectivePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeMember(label: "TargetId", required: false, type: .string)
+        ]
+
+        /// The type of policy that you want information about.
+        public let policyType: EffectivePolicyType
+        /// When you're signed in as the master account, specify the ID of the account that you want details about. Specifying an organization root or OU as the target is not supported. 
+        public let targetId: String?
+
+        public init(policyType: EffectivePolicyType, targetId: String? = nil) {
+            self.policyType = policyType
+            self.targetId = targetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyType = "PolicyType"
+            case targetId = "TargetId"
+        }
+    }
+
+    public struct DescribeEffectivePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EffectivePolicy", required: false, type: .structure)
+        ]
+
+        /// The contents of the effective policy.
+        public let effectivePolicy: EffectivePolicy?
+
+        public init(effectivePolicy: EffectivePolicy? = nil) {
+            self.effectivePolicy = effectivePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effectivePolicy = "EffectivePolicy"
+        }
+    }
+
     public struct DescribeHandshakeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
 
         public init(handshakeId: String) {
@@ -741,7 +785,7 @@ extension Organizations {
             AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let organizationalUnitId: String
 
         public init(organizationalUnitId: String) {
@@ -779,7 +823,7 @@ extension Organizations {
             AWSShapeMember(label: "PolicyId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
 
         public init(policyId: String) {
@@ -818,9 +862,9 @@ extension Organizations {
             AWSShapeMember(label: "TargetId", required: true, type: .string)
         ]
 
-        /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
-        /// The unique identifier (ID) of the root, OU, or account that you want to detach the policy from. You can get the ID from the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the root, OU, or account that you want to detach the policy from. You can get the ID from the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let targetId: String
 
         public init(policyId: String, targetId: String) {
@@ -870,7 +914,7 @@ extension Organizations {
 
         /// The policy type that you want to disable in this root.
         public let policyType: PolicyType
-        /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
         public let rootId: String
 
         public init(policyType: PolicyType, rootId: String) {
@@ -903,6 +947,43 @@ extension Organizations {
         private enum CodingKeys: String, CodingKey {
             case root = "Root"
         }
+    }
+
+    public struct EffectivePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PolicyContent", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetId", required: false, type: .string)
+        ]
+
+        /// The time of the last update to this policy.
+        public let lastUpdatedTimestamp: TimeStamp?
+        /// The text content of the policy.
+        public let policyContent: String?
+        /// The policy type.
+        public let policyType: EffectivePolicyType?
+        /// The account ID of the policy target. 
+        public let targetId: String?
+
+        public init(lastUpdatedTimestamp: TimeStamp? = nil, policyContent: String? = nil, policyType: EffectivePolicyType? = nil, targetId: String? = nil) {
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.policyContent = policyContent
+            self.policyType = policyType
+            self.targetId = targetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case policyContent = "PolicyContent"
+            case policyType = "PolicyType"
+            case targetId = "TargetId"
+        }
+    }
+
+    public enum EffectivePolicyType: String, CustomStringConvertible, Codable {
+        case tagPolicy = "TAG_POLICY"
+        public var description: String { return self.rawValue }
     }
 
     public struct EnableAWSServiceAccessRequest: AWSShape {
@@ -961,7 +1042,7 @@ extension Organizations {
 
         /// The policy type that you want to enable.
         public let policyType: PolicyType
-        /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
         public let rootId: String
 
         public init(policyType: PolicyType, rootId: String) {
@@ -1396,7 +1477,7 @@ extension Organizations {
         public let maxResults: Int?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
-        /// The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let parentId: String
 
         public init(childType: ChildType, maxResults: Int? = nil, nextToken: String? = nil, parentId: String) {
@@ -1503,7 +1584,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, for the ENABLE_ALL_FEATURES handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
+        /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, you can specify the ENABLE_ALL_FEATURES handshake, which generates a separate child handshake for each member account. When you do specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
         public let filter: HandshakeFilter?
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1558,7 +1639,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member account, you can specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
+        /// A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, you can specify the ENABLE-ALL-FEATURES handshake, which generates a separate child handshake for each member account. When you do, specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
         public let filter: HandshakeFilter?
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1617,7 +1698,7 @@ extension Organizations {
         public let maxResults: Int?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
-        /// The unique identifier (ID) of the root or OU whose child OUs you want to list. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the root or OU whose child OUs you want to list. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let parentId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, parentId: String) {
@@ -1668,7 +1749,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Don't specify a root. The regex pattern for a child ID string requires one of the following:    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Don't specify a root. The regex pattern for a child ID string requires one of the following:    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let childId: String
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1730,7 +1811,7 @@ extension Organizations {
         public let maxResults: Int?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
-        /// The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let targetId: String
 
         public init(filter: PolicyType, maxResults: Int? = nil, nextToken: String? = nil, targetId: String) {
@@ -1938,7 +2019,7 @@ extension Organizations {
         public let maxResults: Int?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
-        /// The unique identifier (ID) of the policy whose attachments you want to know. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// The unique identifier (ID) of the policy whose attachments you want to know. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, policyId: String) {
@@ -1991,9 +2072,9 @@ extension Organizations {
 
         /// The unique identifier (ID) of the account that you want to move. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
-        /// The unique identifier (ID) of the root or organizational unit that you want to move the account to. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the root or organizational unit that you want to move the account to. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let destinationParentId: String
-        /// The unique identifier (ID) of the root or organizational unit that you want to move the account from. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the root or organizational unit that you want to move the account from. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let sourceParentId: String
 
         public init(accountId: String, destinationParentId: String, sourceParentId: String) {
@@ -2077,7 +2158,7 @@ extension Organizations {
 
         /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
-        /// The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        /// The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let id: String?
         /// The friendly name of this OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
@@ -2101,7 +2182,7 @@ extension Organizations {
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
 
-        /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let id: String?
         /// The type of the parent entity.
         public let `type`: ParentType?
@@ -2157,7 +2238,7 @@ extension Organizations {
 
         /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
-        /// A boolean value that indicates whether the specified policy is an AWS managed policy. If true, then you can attach the policy to roots, OUs, or accounts, but you cannot edit it.
+        /// A Boolean value that indicates whether the specified policy is an AWS managed policy. If true, then you can attach the policy to roots, OUs, or accounts, but you cannot edit it.
         public let awsManaged: Bool?
         /// The description of the policy.
         public let description: String?
@@ -2199,7 +2280,7 @@ extension Organizations {
         public let arn: String?
         /// The friendly name of the policy target. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
-        /// The unique identifier (ID) of the policy target. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the policy target. The regex pattern for a target ID string requires one of the following:   Root: A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: A string that consists of exactly 12 digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let targetId: String?
         /// The type of the policy target.
         public let `type`: TargetType?
@@ -2221,6 +2302,7 @@ extension Organizations {
 
     public enum PolicyType: String, CustomStringConvertible, Codable {
         case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
+        case tagPolicy = "TAG_POLICY"
         public var description: String { return self.rawValue }
     }
 
@@ -2237,7 +2319,7 @@ extension Organizations {
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
 
-        /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
+        /// The status of the policy type as it relates to the associated root. You can attach a policy of the specified type to a root or to an OU or account in that root. To do so, the policy must be available in the organization and enabled for that root.
         public let status: PolicyTypeStatus?
         /// The name of the policy type.
         public let `type`: PolicyType?
@@ -2412,7 +2494,7 @@ extension Organizations {
 
         /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
-        /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let organizationalUnitId: String
 
         public init(name: String? = nil, organizationalUnitId: String) {
@@ -2463,7 +2545,7 @@ extension Organizations {
         public let description: String?
         /// If provided, the new name for the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
-        /// The unique identifier (ID) of the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// The unique identifier (ID) of the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
 
         public init(content: String? = nil, description: String? = nil, name: String? = nil, policyId: String) {

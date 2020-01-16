@@ -4,6 +4,9 @@ import AWSSDKSwiftCore
 
 /// Error enum for EFS
 public enum EFSErrorType: AWSErrorType {
+    case accessPointAlreadyExists(message: String?)
+    case accessPointLimitExceeded(message: String?)
+    case accessPointNotFound(message: String?)
     case badRequest(message: String?)
     case dependencyTimeout(message: String?)
     case fileSystemAlreadyExists(message: String?)
@@ -14,11 +17,13 @@ public enum EFSErrorType: AWSErrorType {
     case incorrectMountTargetState(message: String?)
     case insufficientThroughputCapacity(message: String?)
     case internalServerError(message: String?)
+    case invalidPolicyException(message: String?)
     case ipAddressInUse(message: String?)
     case mountTargetConflict(message: String?)
     case mountTargetNotFound(message: String?)
     case networkInterfaceLimitExceeded(message: String?)
     case noFreeAddressesInSubnet(message: String?)
+    case policyNotFound(message: String?)
     case securityGroupLimitExceeded(message: String?)
     case securityGroupNotFound(message: String?)
     case subnetNotFound(message: String?)
@@ -34,6 +39,12 @@ extension EFSErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "AccessPointAlreadyExists":
+            self = .accessPointAlreadyExists(message: message)
+        case "AccessPointLimitExceeded":
+            self = .accessPointLimitExceeded(message: message)
+        case "AccessPointNotFound":
+            self = .accessPointNotFound(message: message)
         case "BadRequest":
             self = .badRequest(message: message)
         case "DependencyTimeout":
@@ -54,6 +65,8 @@ extension EFSErrorType {
             self = .insufficientThroughputCapacity(message: message)
         case "InternalServerError":
             self = .internalServerError(message: message)
+        case "InvalidPolicyException":
+            self = .invalidPolicyException(message: message)
         case "IpAddressInUse":
             self = .ipAddressInUse(message: message)
         case "MountTargetConflict":
@@ -64,6 +77,8 @@ extension EFSErrorType {
             self = .networkInterfaceLimitExceeded(message: message)
         case "NoFreeAddressesInSubnet":
             self = .noFreeAddressesInSubnet(message: message)
+        case "PolicyNotFound":
+            self = .policyNotFound(message: message)
         case "SecurityGroupLimitExceeded":
             self = .securityGroupLimitExceeded(message: message)
         case "SecurityGroupNotFound":
@@ -85,6 +100,12 @@ extension EFSErrorType {
 extension EFSErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .accessPointAlreadyExists(let message):
+            return "AccessPointAlreadyExists: \(message ?? "")"
+        case .accessPointLimitExceeded(let message):
+            return "AccessPointLimitExceeded: \(message ?? "")"
+        case .accessPointNotFound(let message):
+            return "AccessPointNotFound: \(message ?? "")"
         case .badRequest(let message):
             return "BadRequest: \(message ?? "")"
         case .dependencyTimeout(let message):
@@ -105,6 +126,8 @@ extension EFSErrorType : CustomStringConvertible {
             return "InsufficientThroughputCapacity: \(message ?? "")"
         case .internalServerError(let message):
             return "InternalServerError: \(message ?? "")"
+        case .invalidPolicyException(let message):
+            return "InvalidPolicyException: \(message ?? "")"
         case .ipAddressInUse(let message):
             return "IpAddressInUse: \(message ?? "")"
         case .mountTargetConflict(let message):
@@ -115,6 +138,8 @@ extension EFSErrorType : CustomStringConvertible {
             return "NetworkInterfaceLimitExceeded: \(message ?? "")"
         case .noFreeAddressesInSubnet(let message):
             return "NoFreeAddressesInSubnet: \(message ?? "")"
+        case .policyNotFound(let message):
+            return "PolicyNotFound: \(message ?? "")"
         case .securityGroupLimitExceeded(let message):
             return "SecurityGroupLimitExceeded: \(message ?? "")"
         case .securityGroupNotFound(let message):

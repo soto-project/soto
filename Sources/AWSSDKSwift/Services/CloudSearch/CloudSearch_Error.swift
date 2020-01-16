@@ -10,6 +10,7 @@ public enum CloudSearchErrorType: AWSErrorType {
     case invalidTypeException(message: String?)
     case limitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
+    case validationException(message: String?)
 }
 
 extension CloudSearchErrorType {
@@ -31,6 +32,8 @@ extension CloudSearchErrorType {
             self = .limitExceededException(message: message)
         case "ResourceNotFound":
             self = .resourceNotFoundException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
         default:
             return nil
         }
@@ -52,6 +55,8 @@ extension CloudSearchErrorType : CustomStringConvertible {
             return "LimitExceeded: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFound: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
         }
     }
 }

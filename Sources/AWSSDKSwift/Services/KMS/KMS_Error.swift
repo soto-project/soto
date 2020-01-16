@@ -17,6 +17,7 @@ public enum KMSErrorType: AWSErrorType {
     case dependencyTimeoutException(message: String?)
     case disabledException(message: String?)
     case expiredImportTokenException(message: String?)
+    case incorrectKeyException(message: String?)
     case incorrectKeyMaterialException(message: String?)
     case incorrectTrustAnchorException(message: String?)
     case invalidAliasNameException(message: String?)
@@ -28,6 +29,7 @@ public enum KMSErrorType: AWSErrorType {
     case invalidKeyUsageException(message: String?)
     case invalidMarkerException(message: String?)
     case kMSInternalException(message: String?)
+    case kMSInvalidSignatureException(message: String?)
     case kMSInvalidStateException(message: String?)
     case keyUnavailableException(message: String?)
     case limitExceededException(message: String?)
@@ -70,6 +72,8 @@ extension KMSErrorType {
             self = .disabledException(message: message)
         case "ExpiredImportTokenException":
             self = .expiredImportTokenException(message: message)
+        case "IncorrectKeyException":
+            self = .incorrectKeyException(message: message)
         case "IncorrectKeyMaterialException":
             self = .incorrectKeyMaterialException(message: message)
         case "IncorrectTrustAnchorException":
@@ -92,6 +96,8 @@ extension KMSErrorType {
             self = .invalidMarkerException(message: message)
         case "KMSInternalException":
             self = .kMSInternalException(message: message)
+        case "KMSInvalidSignatureException":
+            self = .kMSInvalidSignatureException(message: message)
         case "KMSInvalidStateException":
             self = .kMSInvalidStateException(message: message)
         case "KeyUnavailableException":
@@ -141,6 +147,8 @@ extension KMSErrorType : CustomStringConvertible {
             return "DisabledException: \(message ?? "")"
         case .expiredImportTokenException(let message):
             return "ExpiredImportTokenException: \(message ?? "")"
+        case .incorrectKeyException(let message):
+            return "IncorrectKeyException: \(message ?? "")"
         case .incorrectKeyMaterialException(let message):
             return "IncorrectKeyMaterialException: \(message ?? "")"
         case .incorrectTrustAnchorException(let message):
@@ -163,6 +171,8 @@ extension KMSErrorType : CustomStringConvertible {
             return "InvalidMarkerException: \(message ?? "")"
         case .kMSInternalException(let message):
             return "KMSInternalException: \(message ?? "")"
+        case .kMSInvalidSignatureException(let message):
+            return "KMSInvalidSignatureException: \(message ?? "")"
         case .kMSInvalidStateException(let message):
             return "KMSInvalidStateException: \(message ?? "")"
         case .keyUnavailableException(let message):

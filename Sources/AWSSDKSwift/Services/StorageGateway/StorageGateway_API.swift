@@ -113,12 +113,12 @@ public struct StorageGateway {
         return client.send(operation: "CreateTapes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the bandwidth rate limits of a gateway. You can delete either the upload and download bandwidth rate limit, or you can delete both. If you delete only one of the limits, the other limit remains unchanged. To specify which gateway to work with, use the Amazon Resource Name (ARN) of the gateway in your request.
+    ///  Deletes the bandwidth rate limits of a gateway. You can delete either the upload and download bandwidth rate limit, or you can delete both. If you delete only one of the limits, the other limit remains unchanged. To specify which gateway to work with, use the Amazon Resource Name (ARN) of the gateway in your request. This operation is supported for the stored volume, cached volume and tape gateway types.
     public func deleteBandwidthRateLimit(_ input: DeleteBandwidthRateLimitInput) -> Future<DeleteBandwidthRateLimitOutput> {
         return client.send(operation: "DeleteBandwidthRateLimit", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target and initiator pair.
+    ///  Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target and initiator pair. This operation is supported in volume and tape gateway types.
     public func deleteChapCredentials(_ input: DeleteChapCredentialsInput) -> Future<DeleteChapCredentialsOutput> {
         return client.send(operation: "DeleteChapCredentials", path: "/", httpMethod: "POST", input: input)
     }
@@ -153,7 +153,12 @@ public struct StorageGateway {
         return client.send(operation: "DeleteVolume", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the bandwidth rate limits of a gateway. By default, these limits are not set, which means no bandwidth rate limiting is in effect. This operation only returns a value for a bandwidth rate limit only if the limit is set. If no limits are set for the gateway, then this operation returns only the gateway ARN in the response body. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
+    ///  Returns information about the most recent High Availability monitoring test that was performed on the host in a cluster. If a test isn't performed, the status and start time in the response would be null.
+    public func describeAvailabilityMonitorTest(_ input: DescribeAvailabilityMonitorTestInput) -> Future<DescribeAvailabilityMonitorTestOutput> {
+        return client.send(operation: "DescribeAvailabilityMonitorTest", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the bandwidth rate limits of a gateway. By default, these limits are not set, which means no bandwidth rate limiting is in effect. This operation is supported for the stored volume, cached volume and tape gateway types.' This operation only returns a value for a bandwidth rate limit only if the limit is set. If no limits are set for the gateway, then this operation returns only the gateway ARN in the response body. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
     public func describeBandwidthRateLimit(_ input: DescribeBandwidthRateLimitInput) -> Future<DescribeBandwidthRateLimitOutput> {
         return client.send(operation: "DescribeBandwidthRateLimit", path: "/", httpMethod: "POST", input: input)
     }
@@ -168,7 +173,7 @@ public struct StorageGateway {
         return client.send(operation: "DescribeCachediSCSIVolumes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns an array of Challenge-Handshake Authentication Protocol (CHAP) credentials information for a specified iSCSI target, one for each target-initiator pair.
+    ///  Returns an array of Challenge-Handshake Authentication Protocol (CHAP) credentials information for a specified iSCSI target, one for each target-initiator pair. This operation is supported in the volume and tape gateway types.
     public func describeChapCredentials(_ input: DescribeChapCredentialsInput) -> Future<DescribeChapCredentialsOutput> {
         return client.send(operation: "DescribeChapCredentials", path: "/", httpMethod: "POST", input: input)
     }
@@ -238,7 +243,7 @@ public struct StorageGateway {
         return client.send(operation: "DescribeWorkingStorage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disconnects a volume from an iSCSI connection and then detaches the volume from the specified gateway. Detaching and attaching a volume enables you to recover your data from one gateway to a different gateway without creating a snapshot. It also makes it easier to move your volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance.
+    ///  Disconnects a volume from an iSCSI connection and then detaches the volume from the specified gateway. Detaching and attaching a volume enables you to recover your data from one gateway to a different gateway without creating a snapshot. It also makes it easier to move your volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance. This operation is only supported in the volume gateway type.
     public func detachVolume(_ input: DetachVolumeInput) -> Future<DetachVolumeOutput> {
         return client.send(operation: "DetachVolume", path: "/", httpMethod: "POST", input: input)
     }
@@ -268,7 +273,7 @@ public struct StorageGateway {
         return client.send(operation: "ListLocalDisks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the tags that have been added to the specified resource. This operation is only supported in the cached volume, stored volume and tape gateway type.
+    ///  Lists the tags that have been added to the specified resource. This operation is supported in storage gateways of all types.
     public func listTagsForResource(_ input: ListTagsForResourceInput) -> Future<ListTagsForResourceOutput> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -298,12 +303,12 @@ public struct StorageGateway {
         return client.send(operation: "NotifyWhenUploaded", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Refreshes the cache for the specified file share. This operation finds objects in the Amazon S3 bucket that were added, removed or replaced since the gateway last listed the bucket's contents and cached the results. This operation is only supported in the file gateway type. You can subscribe to be notified through an Amazon CloudWatch event when your RefreshCache operation completes. For more information, see Getting Notified About File Operations. When this API is called, it only initiates the refresh operation. When the API call completes and returns a success code, it doesn't necessarily mean that the file refresh has completed. You should use the refresh-complete notification to determine that the operation has completed before you check for new files on the gateway file share. You can subscribe to be notified through an CloudWatch event when your RefreshCache operation completes. 
+    ///  Refreshes the cache for the specified file share. This operation finds objects in the Amazon S3 bucket that were added, removed or replaced since the gateway last listed the bucket's contents and cached the results. This operation is only supported in the file gateway type. You can subscribe to be notified through an Amazon CloudWatch event when your RefreshCache operation completes. For more information, see Getting Notified About File Operations. When this API is called, it only initiates the refresh operation. When the API call completes and returns a success code, it doesn't necessarily mean that the file refresh has completed. You should use the refresh-complete notification to determine that the operation has completed before you check for new files on the gateway file share. You can subscribe to be notified through an CloudWatch event when your RefreshCache operation completes.  Throttle limit: This API is asynchronous so the gateway will accept no more than two refreshes at any time. We recommend using the refresh-complete CloudWatch event notification before issuing additional requests. For more information, see Getting Notified About File Operations. If you invoke the RefreshCache API when two requests are already being processed, any new request will cause an InvalidGatewayRequestException error because too many requests were sent to the server. For more information, see "https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification".
     public func refreshCache(_ input: RefreshCacheInput) -> Future<RefreshCacheOutput> {
         return client.send(operation: "RefreshCache", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes one or more tags from the specified resource. This operation is only supported in the cached volume, stored volume and tape gateway types.
+    ///  Removes one or more tags from the specified resource. This operation is supported in storage gateways of all types.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceInput) -> Future<RemoveTagsFromResourceOutput> {
         return client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -338,17 +343,22 @@ public struct StorageGateway {
         return client.send(operation: "ShutdownGateway", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Start a test that verifies that the specified gateway is configured for High Availability monitoring in your host environment. This request only initiates the test and that a successful response only indicates that the test was started. It doesn't indicate that the test passed. For the status of the test, invoke the DescribeAvailabilityMonitorTest API.   Starting this test will cause your gateway to go offline for a brief period. 
+    public func startAvailabilityMonitorTest(_ input: StartAvailabilityMonitorTestInput) -> Future<StartAvailabilityMonitorTestOutput> {
+        return client.send(operation: "StartAvailabilityMonitorTest", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Starts a gateway that you previously shut down (see ShutdownGateway). After the gateway starts, you can then make other API calls, your applications can read from or write to the gateway's storage volumes and you will be able to take snapshot backups.  When you make a request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to be ready. You should call DescribeGatewayInformation and check the status before making any additional API calls. For more information, see ActivateGateway.  To specify which gateway to start, use the Amazon Resource Name (ARN) of the gateway in your request.
     public func startGateway(_ input: StartGatewayInput) -> Future<StartGatewayOutput> {
         return client.send(operation: "StartGateway", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the bandwidth rate limits of a gateway. You can update both the upload and download bandwidth rate limit or specify only one of the two. If you don't set a bandwidth rate limit, the existing rate limit remains. By default, a gateway's bandwidth rate limits are not set. If you don't set any limit, the gateway does not have any limitations on its bandwidth usage and could potentially use the maximum available bandwidth. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.
+    ///  Updates the bandwidth rate limits of a gateway. You can update both the upload and download bandwidth rate limit or specify only one of the two. If you don't set a bandwidth rate limit, the existing rate limit remains. This operation is supported for the stored volume, cached volume and tape gateway types.' By default, a gateway's bandwidth rate limits are not set. If you don't set any limit, the gateway does not have any limitations on its bandwidth usage and could potentially use the maximum available bandwidth. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.
     public func updateBandwidthRateLimit(_ input: UpdateBandwidthRateLimitInput) -> Future<UpdateBandwidthRateLimitOutput> {
         return client.send(operation: "UpdateBandwidthRateLimit", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target. By default, a gateway does not have CHAP enabled; however, for added security, you might use it.  When you update CHAP credentials, all existing connections on the target are closed and initiators must reconnect with the new credentials. 
+    ///  Updates the Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target. By default, a gateway does not have CHAP enabled; however, for added security, you might use it. This operation is supported in the volume and tape gateway types.  When you update CHAP credentials, all existing connections on the target are closed and initiators must reconnect with the new credentials. 
     public func updateChapCredentials(_ input: UpdateChapCredentialsInput) -> Future<UpdateChapCredentialsOutput> {
         return client.send(operation: "UpdateChapCredentials", path: "/", httpMethod: "POST", input: input)
     }

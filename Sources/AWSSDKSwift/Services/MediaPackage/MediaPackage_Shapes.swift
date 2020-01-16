@@ -20,6 +20,28 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
+    public struct Authorization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CdnIdentifierSecret", location: .body(locationName: "cdnIdentifierSecret"), required: true, type: .string), 
+            AWSShapeMember(label: "SecretsRoleArn", location: .body(locationName: "secretsRoleArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the secret in Secrets Manager that your Content Distribution Network (CDN) uses for authorization to access your endpoint.
+        public let cdnIdentifierSecret: String
+        /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to communicate with AWS Secrets Manager.
+        public let secretsRoleArn: String
+
+        public init(cdnIdentifierSecret: String, secretsRoleArn: String) {
+            self.cdnIdentifierSecret = cdnIdentifierSecret
+            self.secretsRoleArn = secretsRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdnIdentifierSecret = "cdnIdentifierSecret"
+            case secretsRoleArn = "secretsRoleArn"
+        }
+    }
+
     public struct Channel: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
@@ -286,6 +308,7 @@ extension MediaPackage {
 
     public struct CreateOriginEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: true, type: .string), 
             AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
@@ -301,6 +324,7 @@ extension MediaPackage {
             AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
         ]
 
+        public let authorization: Authorization?
         public let channelId: String
         public let cmafPackage: CmafPackageCreateOrUpdateParameters?
         public let dashPackage: DashPackage?
@@ -315,7 +339,8 @@ extension MediaPackage {
         public let timeDelaySeconds: Int?
         public let whitelist: [String]?
 
-        public init(channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
+        public init(authorization: Authorization? = nil, channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
+            self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -332,6 +357,7 @@ extension MediaPackage {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
             case channelId = "channelId"
             case cmafPackage = "cmafPackage"
             case dashPackage = "dashPackage"
@@ -351,6 +377,7 @@ extension MediaPackage {
     public struct CreateOriginEndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
             AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
@@ -368,6 +395,7 @@ extension MediaPackage {
         ]
 
         public let arn: String?
+        public let authorization: Authorization?
         public let channelId: String?
         public let cmafPackage: CmafPackage?
         public let dashPackage: DashPackage?
@@ -383,8 +411,9 @@ extension MediaPackage {
         public let url: String?
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -403,6 +432,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case channelId = "channelId"
             case cmafPackage = "cmafPackage"
             case dashPackage = "dashPackage"
@@ -697,6 +727,7 @@ extension MediaPackage {
     public struct DescribeOriginEndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
             AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
@@ -714,6 +745,7 @@ extension MediaPackage {
         ]
 
         public let arn: String?
+        public let authorization: Authorization?
         public let channelId: String?
         public let cmafPackage: CmafPackage?
         public let dashPackage: DashPackage?
@@ -729,8 +761,9 @@ extension MediaPackage {
         public let url: String?
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -749,6 +782,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case channelId = "channelId"
             case cmafPackage = "cmafPackage"
             case dashPackage = "dashPackage"
@@ -1368,6 +1402,7 @@ extension MediaPackage {
     public struct OriginEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
             AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
@@ -1386,6 +1421,7 @@ extension MediaPackage {
 
         /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
         public let arn: String?
+        public let authorization: Authorization?
         /// The ID of the Channel the OriginEndpoint is associated with.
         public let channelId: String?
         public let cmafPackage: CmafPackage?
@@ -1414,8 +1450,9 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -1434,6 +1471,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case channelId = "channelId"
             case cmafPackage = "cmafPackage"
             case dashPackage = "dashPackage"
@@ -1779,6 +1817,7 @@ extension MediaPackage {
 
     public struct UpdateOriginEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
@@ -1792,6 +1831,7 @@ extension MediaPackage {
             AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
         ]
 
+        public let authorization: Authorization?
         public let cmafPackage: CmafPackageCreateOrUpdateParameters?
         public let dashPackage: DashPackage?
         public let description: String?
@@ -1804,7 +1844,8 @@ extension MediaPackage {
         public let timeDelaySeconds: Int?
         public let whitelist: [String]?
 
-        public init(cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
+        public init(authorization: Authorization? = nil, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
+            self.authorization = authorization
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
             self.description = description
@@ -1819,6 +1860,7 @@ extension MediaPackage {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
             case cmafPackage = "cmafPackage"
             case dashPackage = "dashPackage"
             case description = "description"
@@ -1836,6 +1878,7 @@ extension MediaPackage {
     public struct UpdateOriginEndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization"), required: false, type: .structure), 
             AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
             AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage"), required: false, type: .structure), 
@@ -1853,6 +1896,7 @@ extension MediaPackage {
         ]
 
         public let arn: String?
+        public let authorization: Authorization?
         public let channelId: String?
         public let cmafPackage: CmafPackage?
         public let dashPackage: DashPackage?
@@ -1868,8 +1912,9 @@ extension MediaPackage {
         public let url: String?
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
+            self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -1888,6 +1933,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authorization = "authorization"
             case channelId = "channelId"
             case cmafPackage = "cmafPackage"
             case dashPackage = "dashPackage"

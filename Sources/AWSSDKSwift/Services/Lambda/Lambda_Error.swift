@@ -21,10 +21,12 @@ public enum LambdaErrorType: AWSErrorType {
     case kMSNotFoundException(message: String?)
     case policyLengthExceededException(message: String?)
     case preconditionFailedException(message: String?)
+    case provisionedConcurrencyConfigNotFoundException(message: String?)
     case requestTooLargeException(message: String?)
     case resourceConflictException(message: String?)
     case resourceInUseException(message: String?)
     case resourceNotFoundException(message: String?)
+    case resourceNotReadyException(message: String?)
     case serviceException(message: String?)
     case subnetIPAddressLimitReachedException(message: String?)
     case tooManyRequestsException(message: String?)
@@ -72,6 +74,8 @@ extension LambdaErrorType {
             self = .policyLengthExceededException(message: message)
         case "PreconditionFailedException":
             self = .preconditionFailedException(message: message)
+        case "ProvisionedConcurrencyConfigNotFoundException":
+            self = .provisionedConcurrencyConfigNotFoundException(message: message)
         case "RequestTooLargeException":
             self = .requestTooLargeException(message: message)
         case "ResourceConflictException":
@@ -80,6 +84,8 @@ extension LambdaErrorType {
             self = .resourceInUseException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "ResourceNotReadyException":
+            self = .resourceNotReadyException(message: message)
         case "ServiceException":
             self = .serviceException(message: message)
         case "SubnetIPAddressLimitReachedException":
@@ -131,6 +137,8 @@ extension LambdaErrorType : CustomStringConvertible {
             return "PolicyLengthExceededException: \(message ?? "")"
         case .preconditionFailedException(let message):
             return "PreconditionFailedException: \(message ?? "")"
+        case .provisionedConcurrencyConfigNotFoundException(let message):
+            return "ProvisionedConcurrencyConfigNotFoundException: \(message ?? "")"
         case .requestTooLargeException(let message):
             return "RequestTooLargeException: \(message ?? "")"
         case .resourceConflictException(let message):
@@ -139,6 +147,8 @@ extension LambdaErrorType : CustomStringConvertible {
             return "ResourceInUseException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceNotReadyException(let message):
+            return "ResourceNotReadyException: \(message ?? "")"
         case .serviceException(let message):
             return "ServiceException: \(message ?? "")"
         case .subnetIPAddressLimitReachedException(let message):
