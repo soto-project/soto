@@ -3,12 +3,13 @@
 AWS SDK for the Swift programming language working on Linux, macOS and iOS.
 
 [<img src="http://img.shields.io/badge/swift-5.0-brightgreen.svg" alt="Swift 5.0" />](https://swift.org)
+[<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
 [<img src="https://travis-ci.org/swift-aws/aws-sdk-swift.svg?branch=master">](https://travis-ci.org/swift-aws/aws-sdk-swift)
 
 
 ## Compatibility
 
-AWSSDKSwift works on both Linux, macOS and iOS. Version 4 is dependent on swift-nio 2. Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
+AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio](https://github.com/apple/swift-nio) 2. Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
 
 | Version | Swift | MacOS | iOS    | Linux              | Vapor  |
 |---------|-------|-------|--------|--------------------|--------|
@@ -36,19 +37,7 @@ Then add target dependencies for each of the AWSSDKSwift targets you want to use
     ]
 )
 ```
-Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to AWSSDKSwift through that. 
-
-## Contributing
-
-All developers should feel welcome and encouraged to contribute to `aws-sdk-swift`.
-
-As contributors and maintainers of this project, and in the interest of fostering an open and welcoming community, we pledge to respect all people who contribute through reporting issues, posting feature requests, updating documentation, submitting pull requests or patches, and other activities.
-
-To contribute a feature or idea to `aws-sdk-swift`, submit an issue and fill in the template. If the request is approved, you or one of the members of the community can start working on it.
-
-If you find a bug, please submit a pull request with a failing test case displaying the bug or create an issue.
-
-If you find a security vulnerability, please contact <yuki@miketokyo.com> and reach out on the [**#aws** channel on the Vapor Discord](https://discordapp.com/channels/431917998102675485/472522745067077632) as soon as possible. We take these matters seriously.
+Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to AWSSDKSwift through that.
 
 ## Configuring Credentials
 
@@ -72,7 +61,7 @@ You can [set shared credentials in the home directory for the user running the a
 
 in ~/.aws/credentials,
 
-```
+```ini
 [default]
 aws_access_key_id = YOUR_AWS_ACCESS_KEY_ID
 aws_secret_access_key = YOUR_AWS_SECRET_ACCESS_KEY
@@ -82,7 +71,7 @@ aws_secret_access_key = YOUR_AWS_SECRET_ACCESS_KEY
 
 Alternatively, you can set the following environment variables:
 
-```
+```bash
 AWS_ACCESS_KEY_ID=YOUR_AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_ACCESS_KEY
 ```
@@ -185,7 +174,7 @@ final class MyController {
 }
 ```
 <!--
-## Using the `aws-sdk-swift` with the swift REPL (OS X)
+## Using the `aws-sdk-swift` with the swift REPL (macOS)
 
 
 ```swift
