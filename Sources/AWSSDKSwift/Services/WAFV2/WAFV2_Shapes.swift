@@ -2401,7 +2401,7 @@ extension WAFV2 {
 
     }
 
-    public struct NotStatement: AWSShape {
+    public class NotStatement: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Statement", required: true, type: .structure)
         ]
@@ -2520,7 +2520,7 @@ extension WAFV2 {
 
     }
 
-    public struct RateBasedStatement: AWSShape {
+    public class RateBasedStatement: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AggregateKeyType", required: true, type: .enum), 
             AWSShapeMember(label: "Limit", required: true, type: .long), 
@@ -3095,7 +3095,7 @@ extension WAFV2 {
         }
     }
 
-    public struct Statement: AWSShape {
+    public class Statement: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AndStatement", required: false, type: .structure), 
             AWSShapeMember(label: "ByteMatchStatement", required: false, type: .structure), 
