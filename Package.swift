@@ -454,9 +454,10 @@ let package = Package(
         .target(name: "WorkMailMessageFlow", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkMailMessageFlow"),
         .target(name: "WorkSpaces", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkSpaces"),
         .target(name: "XRay", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/XRay"),
+
         .target(name: "GlacierMiddleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/Glacier"),
         .target(name: "S3Middleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/S3"),
 
-        .testTarget(name: "AWSSDKSwiftTests", dependencies: ["ACM", "APIGateway", "CloudFront", "EC2", "DynamoDB", "IAM", "S3", "SES", "SNS", "SQS", "SSM"])
+        .testTarget(name: "AWSSDKSwiftTests", dependencies: ["ACM","APIGateway","CloudFront","DynamoDB","EC2","IAM","S3","SES","SNS","SQS","SSM"])
     ]
 )
