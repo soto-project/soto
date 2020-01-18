@@ -10,7 +10,7 @@ To contribute a feature or idea to `aws-sdk-swift`, submit an issue and fill in 
 
 If you find a bug, please submit a pull request with a failing test case displaying the bug or create an issue.
 
-If you find a security vulnerability, please contact <yuki@miketokyo.com> and reach out on the [**#aws** channel on the Vapor Discord](https://discordapp.com/channels/431917998102675485/472522745067077632) as soon as possible. We take these matters seriously.
+If you find a security vulnerability, please contact <swift-aws-maintainers@googlegroups.com> and reach out on the [**#aws** channel on the Vapor Discord](https://discordapp.com/channels/431917998102675485/472522745067077632) as soon as possible. We take these matters seriously.
 
 ### Creating, Updating, and Patching Service Modules
 
