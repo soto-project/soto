@@ -3,8 +3,14 @@
 import Foundation
 
 enum GenerationError: Error {
+    case noAWSSDKSwiftCoreVersion
     case directoryLocation(String)
 }
+
+if CommandLine.arguments.count <= 1 {
+    throw GenerationError.noAWSSDKSwiftCoreVersion
+}
+let awsSdkSwiftCoreVersion = CommandLine.arguments[1]
 
 let manager = FileManager.default
 
@@ -75,7 +81,7 @@ print(libraries)
 print("""
           ],
           dependencies: [
-              .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .upToNextMinor(from: "4.1.0"))
+              .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .upToNextMinor(from: "\(awsSdkSwiftCoreVersion)"))
           ],
           targets: [
       """)
@@ -89,5 +95,3 @@ print("""
           ]
       )
       """)
-
-
