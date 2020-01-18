@@ -414,11 +414,6 @@ extension AWSService {
 
     /// Generate the context for outputting a single AWSShape
     func generateStructureContext(_ shape: Shape, type: StructureShape) -> StructureContext {
-        let hasRecursiveOwnReference = type.members.contains(where: {
-            return $0.shape.swiftTypeName == shape.swiftTypeName
-                || $0.shape.swiftTypeName == "[\(shape.swiftTypeName)]"
-        })
-
         var memberContexts : [MemberContext] = []
         var validationContexts : [ValidationContext] = []
         var usedLocationPath : [String] = []
@@ -444,7 +439,7 @@ extension AWSService {
         }
 
         return StructureContext(
-            object: hasRecursiveOwnReference ? "class" : "struct",
+            object: doesShapeHaveRecursiveOwnReference(shape, type: type) ? "class" : "struct",
             name: shape.swiftTypeName,
             payload: type.payload,
             namespace: type.xmlNamespace,
@@ -452,6 +447,26 @@ extension AWSService {
             validation: validationContexts)
     }
 
+    /// return if shape has a recursive reference (function only tests 2 levels)
+    func doesShapeHaveRecursiveOwnReference(_ shape: Shape, type: StructureShape) -> Bool {
+        let hasRecursiveOwnReference = type.members.contains(where: { member in
+            // does shape have a member of same type as itself
+            if member.shape.swiftTypeName == shape.swiftTypeName || member.shape.swiftTypeName == "[\(shape.swiftTypeName)]" {
+                return true
+            } else if case .structure(let type) = member.shape.type {
+                // test children structures as well to see if they contain a member of same type as the parent shape
+                if type.members.contains(where: {
+                    return $0.shape.swiftTypeName == shape.swiftTypeName || $0.shape.swiftTypeName == "[\(shape.swiftTypeName)]"
+                }) {
+                    return true
+                }
+            }
+            return false
+        })
+        
+        return hasRecursiveOwnReference
+    }
+    
     /// Generate the context for outputting all the AWSShape (enums and structures)
     func generateShapesContext() -> [String: Any] {
         var context: [String: Any] = [:]
