@@ -5,8 +5,7 @@
 //
 import XCTest
 import Foundation
-@testable import AWSSDKSwiftCore
-@testable import APIGateway
+@testable import AWSAPIGateway
 
 enum APIGatewayTestsError : Error {
     case noRestApi

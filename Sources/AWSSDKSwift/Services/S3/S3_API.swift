@@ -4,7 +4,7 @@
 import Foundation
 import NIO
 
-import S3Middleware
+import AWSS3Middleware
 
 public struct S3 {
 

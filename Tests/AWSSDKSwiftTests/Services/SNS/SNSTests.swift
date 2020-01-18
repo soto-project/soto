@@ -5,8 +5,7 @@
 //
 import XCTest
 import Foundation
-@testable import AWSSDKSwiftCore
-@testable import SNS
+@testable import AWSSNS
 
 enum SNSTestsError : Error {
     case noTopicArn

@@ -5,8 +5,7 @@
 //
 import XCTest
 import Foundation
-@testable import AWSSDKSwiftCore
-@testable import SSM
+@testable import AWSSSM
 
 enum SSMTestsError : Error {
     case noTopicArn

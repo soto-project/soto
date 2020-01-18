@@ -5,8 +5,7 @@
 //
 import XCTest
 import Foundation
-@testable import AWSSDKSwiftCore
-@testable import SQS
+@testable import AWSSQS
 
 enum SQSTestsError : Error {
     case noQueueUrl

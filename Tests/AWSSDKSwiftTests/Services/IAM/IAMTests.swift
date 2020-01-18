@@ -5,8 +5,7 @@
 //
 import XCTest
 import Foundation
-@testable import AWSSDKSwiftCore
-@testable import IAM
+@testable import AWSIAM
 
 //testing query service
 

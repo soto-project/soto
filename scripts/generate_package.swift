@@ -42,21 +42,21 @@ testsSet.insert("SNS")
 // list of modules
 let modules = services + middlewares.map { "\($0)Middleware" }
 // dependencies for AWSSDKSwift lib
-let sdkDependencies = modules.map { "\"\($0)\"" }.sorted().joined(separator: ",")
+let sdkDependencies = modules.map { "\"AWS\($0)\"" }.sorted().joined(separator: ",")
 // list of libraries
-let libraries = services.map( { "        .library(name: \"\($0)\", targets: [\"\($0)\"])" }).sorted().joined(separator: ",\n")
+let libraries = services.map( { "        .library(name: \"AWS\($0)\", targets: [\"AWS\($0)\"])" }).sorted().joined(separator: ",\n")
 // list of targets
 let serviceTargets = services.map { (serviceName) -> String in
     if let middleware = middlewares.first(where: { $0 == serviceName }) {
-        return "        .target(name: \"\(serviceName)\", dependencies: [\"AWSSDKSwiftCore\", \"\(middleware)Middleware\"], path: \"\(servicesBasePath)/\(serviceName)\")"
+        return "        .target(name: \"AWS\(serviceName)\", dependencies: [\"AWSSDKSwiftCore\", \"AWS\(middleware)Middleware\"], path: \"\(servicesBasePath)/\(serviceName)\")"
     } else {
-        return "        .target(name: \"\(serviceName)\", dependencies: [\"AWSSDKSwiftCore\"], path: \"\(servicesBasePath)/\(serviceName)\")"
+        return "        .target(name: \"AWS\(serviceName)\", dependencies: [\"AWSSDKSwiftCore\"], path: \"\(servicesBasePath)/\(serviceName)\")"
     }
 }.sorted().joined(separator: ",\n")
 // list of middleware targets
-let middlewareTargets = middlewares.map { "        .target(name: \"\($0)Middleware\", dependencies: [\"AWSSDKSwiftCore\"], path: \"\(middlewaresBasePath)/\($0)\")" }.sorted().joined(separator: ",\n")
+let middlewareTargets = middlewares.map { "        .target(name: \"AWS\($0)Middleware\", dependencies: [\"AWSSDKSwiftCore\"], path: \"\(middlewaresBasePath)/\($0)\")" }.sorted().joined(separator: ",\n")
 // test dependencies
-let testDependencies = testsSet.map { "\"\($0)\"" }.sorted().joined(separator: ",")
+let testDependencies = testsSet.map { "\"AWS\($0)\"" }.sorted().joined(separator: ",")
 
 // Output the Package.swift
 print("""
