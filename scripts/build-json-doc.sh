@@ -21,5 +21,5 @@ chunkEnd=$(( (($chunkIndex+1)*$moduleArraySize/$numberOfChunks)-1 ))
 for index in $(seq $chunkStart $chunkEnd)
 do
     moduleName=${moduleArray[$index]}
-    sourcekitten doc --spm-module "$moduleName" > sourcekitten/"$moduleName".json
+    sourcekitten doc --spm-module "$moduleName" -- --target "$moduleName" > sourcekitten/"$moduleName".json
 done
