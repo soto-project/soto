@@ -30,172 +30,172 @@ public struct CodeBuild {
     }
 
     ///  Deletes one or more builds.
-    public func batchDeleteBuilds(_ input: BatchDeleteBuildsInput) -> Future<BatchDeleteBuildsOutput> {
+    public func batchDeleteBuilds(_ input: BatchDeleteBuildsInput) -> EventLoopFuture<BatchDeleteBuildsOutput> {
         return client.send(operation: "BatchDeleteBuilds", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more builds.
-    public func batchGetBuilds(_ input: BatchGetBuildsInput) -> Future<BatchGetBuildsOutput> {
+    public func batchGetBuilds(_ input: BatchGetBuildsInput) -> EventLoopFuture<BatchGetBuildsOutput> {
         return client.send(operation: "BatchGetBuilds", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more build projects.
-    public func batchGetProjects(_ input: BatchGetProjectsInput) -> Future<BatchGetProjectsOutput> {
+    public func batchGetProjects(_ input: BatchGetProjectsInput) -> EventLoopFuture<BatchGetProjectsOutput> {
         return client.send(operation: "BatchGetProjects", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns an array of report groups. 
-    public func batchGetReportGroups(_ input: BatchGetReportGroupsInput) -> Future<BatchGetReportGroupsOutput> {
+    public func batchGetReportGroups(_ input: BatchGetReportGroupsInput) -> EventLoopFuture<BatchGetReportGroupsOutput> {
         return client.send(operation: "BatchGetReportGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns an array of reports. 
-    public func batchGetReports(_ input: BatchGetReportsInput) -> Future<BatchGetReportsOutput> {
+    public func batchGetReports(_ input: BatchGetReportsInput) -> EventLoopFuture<BatchGetReportsOutput> {
         return client.send(operation: "BatchGetReports", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a build project.
-    public func createProject(_ input: CreateProjectInput) -> Future<CreateProjectOutput> {
+    public func createProject(_ input: CreateProjectInput) -> EventLoopFuture<CreateProjectOutput> {
         return client.send(operation: "CreateProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Creates a report group. A report group contains a collection of reports. 
-    public func createReportGroup(_ input: CreateReportGroupInput) -> Future<CreateReportGroupOutput> {
+    public func createReportGroup(_ input: CreateReportGroupInput) -> EventLoopFuture<CreateReportGroupOutput> {
         return client.send(operation: "CreateReportGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables AWS CodeBuild to start rebuilding the source code every time a code change is pushed to the repository.  If you enable webhooks for an AWS CodeBuild project, and the project is used as a build step in AWS CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through AWS CodePipeline. Because billing is on a per-build basis, you are billed for both builds. Therefore, if you are using AWS CodePipeline, we recommend that you disable webhooks in AWS CodeBuild. In the AWS CodeBuild console, clear the Webhook box. For more information, see step 5 in Change a Build Project's Settings. 
-    public func createWebhook(_ input: CreateWebhookInput) -> Future<CreateWebhookOutput> {
+    public func createWebhook(_ input: CreateWebhookInput) -> EventLoopFuture<CreateWebhookOutput> {
         return client.send(operation: "CreateWebhook", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Deletes a build project. When you delete a project, its builds are not deleted. 
-    public func deleteProject(_ input: DeleteProjectInput) -> Future<DeleteProjectOutput> {
+    public func deleteProject(_ input: DeleteProjectInput) -> EventLoopFuture<DeleteProjectOutput> {
         return client.send(operation: "DeleteProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Deletes a report. 
-    public func deleteReport(_ input: DeleteReportInput) -> Future<DeleteReportOutput> {
+    public func deleteReport(_ input: DeleteReportInput) -> EventLoopFuture<DeleteReportOutput> {
         return client.send(operation: "DeleteReport", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   DeleteReportGroup: Deletes a report group. Before you delete a report group, you must delete its reports. Use ListReportsForReportGroup to get the reports in a report group. Use DeleteReport to delete the reports. If you call DeleteReportGroup for a report group that contains one or more reports, an exception is thrown. 
-    public func deleteReportGroup(_ input: DeleteReportGroupInput) -> Future<DeleteReportGroupOutput> {
+    public func deleteReportGroup(_ input: DeleteReportGroupInput) -> EventLoopFuture<DeleteReportGroupOutput> {
         return client.send(operation: "DeleteReportGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Deletes a resource policy that is identified by its resource ARN. 
-    public func deleteResourcePolicy(_ input: DeleteResourcePolicyInput) -> Future<DeleteResourcePolicyOutput> {
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyInput) -> EventLoopFuture<DeleteResourcePolicyOutput> {
         return client.send(operation: "DeleteResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials. 
-    public func deleteSourceCredentials(_ input: DeleteSourceCredentialsInput) -> Future<DeleteSourceCredentialsOutput> {
+    public func deleteSourceCredentials(_ input: DeleteSourceCredentialsInput) -> EventLoopFuture<DeleteSourceCredentialsOutput> {
         return client.send(operation: "DeleteSourceCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops AWS CodeBuild from rebuilding the source code every time a code change is pushed to the repository.
-    public func deleteWebhook(_ input: DeleteWebhookInput) -> Future<DeleteWebhookOutput> {
+    public func deleteWebhook(_ input: DeleteWebhookInput) -> EventLoopFuture<DeleteWebhookOutput> {
         return client.send(operation: "DeleteWebhook", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of details about test cases for a report. 
-    public func describeTestCases(_ input: DescribeTestCasesInput) -> Future<DescribeTestCasesOutput> {
+    public func describeTestCases(_ input: DescribeTestCasesInput) -> EventLoopFuture<DescribeTestCasesOutput> {
         return client.send(operation: "DescribeTestCases", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Gets a resource policy that is identified by its resource ARN. 
-    public func getResourcePolicy(_ input: GetResourcePolicyInput) -> Future<GetResourcePolicyOutput> {
+    public func getResourcePolicy(_ input: GetResourcePolicyInput) -> EventLoopFuture<GetResourcePolicyOutput> {
         return client.send(operation: "GetResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Imports the source repository credentials for an AWS CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository. 
-    public func importSourceCredentials(_ input: ImportSourceCredentialsInput) -> Future<ImportSourceCredentialsOutput> {
+    public func importSourceCredentials(_ input: ImportSourceCredentialsInput) -> EventLoopFuture<ImportSourceCredentialsOutput> {
         return client.send(operation: "ImportSourceCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets the cache for a project.
-    public func invalidateProjectCache(_ input: InvalidateProjectCacheInput) -> Future<InvalidateProjectCacheOutput> {
+    public func invalidateProjectCache(_ input: InvalidateProjectCacheInput) -> EventLoopFuture<InvalidateProjectCacheOutput> {
         return client.send(operation: "InvalidateProjectCache", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of build IDs, with each build ID representing a single build.
-    public func listBuilds(_ input: ListBuildsInput) -> Future<ListBuildsOutput> {
+    public func listBuilds(_ input: ListBuildsInput) -> EventLoopFuture<ListBuildsOutput> {
         return client.send(operation: "ListBuilds", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of build IDs for the specified build project, with each build ID representing a single build.
-    public func listBuildsForProject(_ input: ListBuildsForProjectInput) -> Future<ListBuildsForProjectOutput> {
+    public func listBuildsForProject(_ input: ListBuildsForProjectInput) -> EventLoopFuture<ListBuildsForProjectOutput> {
         return client.send(operation: "ListBuildsForProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about Docker images that are managed by AWS CodeBuild.
-    public func listCuratedEnvironmentImages(_ input: ListCuratedEnvironmentImagesInput) -> Future<ListCuratedEnvironmentImagesOutput> {
+    public func listCuratedEnvironmentImages(_ input: ListCuratedEnvironmentImagesInput) -> EventLoopFuture<ListCuratedEnvironmentImagesOutput> {
         return client.send(operation: "ListCuratedEnvironmentImages", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of build project names, with each build project name representing a single build project.
-    public func listProjects(_ input: ListProjectsInput) -> Future<ListProjectsOutput> {
+    public func listProjects(_ input: ListProjectsInput) -> EventLoopFuture<ListProjectsOutput> {
         return client.send(operation: "ListProjects", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Gets a list ARNs for the report groups in the current AWS account. 
-    public func listReportGroups(_ input: ListReportGroupsInput) -> Future<ListReportGroupsOutput> {
+    public func listReportGroups(_ input: ListReportGroupsInput) -> EventLoopFuture<ListReportGroupsOutput> {
         return client.send(operation: "ListReportGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of ARNs for the reports in the current AWS account. 
-    public func listReports(_ input: ListReportsInput) -> Future<ListReportsOutput> {
+    public func listReports(_ input: ListReportsInput) -> EventLoopFuture<ListReportsOutput> {
         return client.send(operation: "ListReports", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of ARNs for the reports that belong to a ReportGroup. 
-    public func listReportsForReportGroup(_ input: ListReportsForReportGroupInput) -> Future<ListReportsForReportGroupOutput> {
+    public func listReportsForReportGroup(_ input: ListReportsForReportGroupInput) -> EventLoopFuture<ListReportsForReportGroupOutput> {
         return client.send(operation: "ListReportsForReportGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Gets a list of projects that are shared with other AWS accounts or users. 
-    public func listSharedProjects(_ input: ListSharedProjectsInput) -> Future<ListSharedProjectsOutput> {
+    public func listSharedProjects(_ input: ListSharedProjectsInput) -> EventLoopFuture<ListSharedProjectsOutput> {
         return client.send(operation: "ListSharedProjects", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Gets a list of report groups that are shared with other AWS accounts or users. 
-    public func listSharedReportGroups(_ input: ListSharedReportGroupsInput) -> Future<ListSharedReportGroupsOutput> {
+    public func listSharedReportGroups(_ input: ListSharedReportGroupsInput) -> EventLoopFuture<ListSharedReportGroupsOutput> {
         return client.send(operation: "ListSharedReportGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of SourceCredentialsInfo objects. 
-    public func listSourceCredentials(_ input: ListSourceCredentialsInput) -> Future<ListSourceCredentialsOutput> {
+    public func listSourceCredentials(_ input: ListSourceCredentialsInput) -> EventLoopFuture<ListSourceCredentialsOutput> {
         return client.send(operation: "ListSourceCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Stores a resource policy for the ARN of a Project or ReportGroup object. 
-    public func putResourcePolicy(_ input: PutResourcePolicyInput) -> Future<PutResourcePolicyOutput> {
+    public func putResourcePolicy(_ input: PutResourcePolicyInput) -> EventLoopFuture<PutResourcePolicyOutput> {
         return client.send(operation: "PutResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts running a build.
-    public func startBuild(_ input: StartBuildInput) -> Future<StartBuildOutput> {
+    public func startBuild(_ input: StartBuildInput) -> EventLoopFuture<StartBuildOutput> {
         return client.send(operation: "StartBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attempts to stop running a build.
-    public func stopBuild(_ input: StopBuildInput) -> Future<StopBuildOutput> {
+    public func stopBuild(_ input: StopBuildInput) -> EventLoopFuture<StopBuildOutput> {
         return client.send(operation: "StopBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the settings of a build project.
-    public func updateProject(_ input: UpdateProjectInput) -> Future<UpdateProjectOutput> {
+    public func updateProject(_ input: UpdateProjectInput) -> EventLoopFuture<UpdateProjectOutput> {
         return client.send(operation: "UpdateProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Updates a report group. 
-    public func updateReportGroup(_ input: UpdateReportGroupInput) -> Future<UpdateReportGroupOutput> {
+    public func updateReportGroup(_ input: UpdateReportGroupInput) -> EventLoopFuture<UpdateReportGroupOutput> {
         return client.send(operation: "UpdateReportGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Updates the webhook associated with an AWS CodeBuild build project.    If you use Bitbucket for your repository, rotateSecret is ignored.  
-    public func updateWebhook(_ input: UpdateWebhookInput) -> Future<UpdateWebhookOutput> {
+    public func updateWebhook(_ input: UpdateWebhookInput) -> EventLoopFuture<UpdateWebhookOutput> {
         return client.send(operation: "UpdateWebhook", path: "/", httpMethod: "POST", input: input)
     }
 }

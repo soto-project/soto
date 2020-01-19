@@ -30,82 +30,82 @@ public struct S3Control {
     }
 
     ///  Creates an access point and associates it with the specified bucket.
-    @discardableResult public func createAccessPoint(_ input: CreateAccessPointRequest) -> Future<Void> {
+    @discardableResult public func createAccessPoint(_ input: CreateAccessPointRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "CreateAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates an Amazon S3 batch operations job.
-    public func createJob(_ input: CreateJobRequest) -> Future<CreateJobResult> {
+    public func createJob(_ input: CreateJobRequest) -> EventLoopFuture<CreateJobResult> {
         return client.send(operation: "CreateJob", path: "/v20180820/jobs", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified access point.
-    @discardableResult public func deleteAccessPoint(_ input: DeleteAccessPointRequest) -> Future<Void> {
+    @discardableResult public func deleteAccessPoint(_ input: DeleteAccessPointRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the access point policy for the specified access point.
-    @discardableResult public func deleteAccessPointPolicy(_ input: DeleteAccessPointPolicyRequest) -> Future<Void> {
+    @discardableResult public func deleteAccessPointPolicy(_ input: DeleteAccessPointPolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes the PublicAccessBlock configuration for an Amazon Web Services account.
-    @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) -> Future<Void> {
+    @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves the configuration parameters and status for a batch operations job.
-    public func describeJob(_ input: DescribeJobRequest) -> Future<DescribeJobResult> {
+    public func describeJob(_ input: DescribeJobRequest) -> EventLoopFuture<DescribeJobResult> {
         return client.send(operation: "DescribeJob", path: "/v20180820/jobs/{id}", httpMethod: "GET", input: input)
     }
 
     ///  Returns configuration information about the specified access point.
-    public func getAccessPoint(_ input: GetAccessPointRequest) -> Future<GetAccessPointResult> {
+    public func getAccessPoint(_ input: GetAccessPointRequest) -> EventLoopFuture<GetAccessPointResult> {
         return client.send(operation: "GetAccessPoint", path: "/v20180820/accesspoint/{name}", httpMethod: "GET", input: input)
     }
 
     ///  Returns the access point policy associated with the specified access point.
-    public func getAccessPointPolicy(_ input: GetAccessPointPolicyRequest) -> Future<GetAccessPointPolicyResult> {
+    public func getAccessPointPolicy(_ input: GetAccessPointPolicyRequest) -> EventLoopFuture<GetAccessPointPolicyResult> {
         return client.send(operation: "GetAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "GET", input: input)
     }
 
     ///  Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see Managing Data Access with Amazon S3 Access Points in the Amazon Simple Storage Service Developer Guide.
-    public func getAccessPointPolicyStatus(_ input: GetAccessPointPolicyStatusRequest) -> Future<GetAccessPointPolicyStatusResult> {
+    public func getAccessPointPolicyStatus(_ input: GetAccessPointPolicyStatusRequest) -> EventLoopFuture<GetAccessPointPolicyStatusResult> {
         return client.send(operation: "GetAccessPointPolicyStatus", path: "/v20180820/accesspoint/{name}/policyStatus", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the PublicAccessBlock configuration for an Amazon Web Services account.
-    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) -> Future<GetPublicAccessBlockOutput> {
+    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) -> EventLoopFuture<GetPublicAccessBlockOutput> {
         return client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1000 access points (or the number specified in maxResults, whichever is less), then the response will include a continuation token that you can use to list the additional access points.
-    public func listAccessPoints(_ input: ListAccessPointsRequest) -> Future<ListAccessPointsResult> {
+    public func listAccessPoints(_ input: ListAccessPointsRequest) -> EventLoopFuture<ListAccessPointsResult> {
         return client.send(operation: "ListAccessPoints", path: "/v20180820/accesspoint", httpMethod: "GET", input: input)
     }
 
     ///  Lists current jobs and jobs that have ended within the last 30 days for the AWS account making the request.
-    public func listJobs(_ input: ListJobsRequest) -> Future<ListJobsResult> {
+    public func listJobs(_ input: ListJobsRequest) -> EventLoopFuture<ListJobsResult> {
         return client.send(operation: "ListJobs", path: "/v20180820/jobs", httpMethod: "GET", input: input)
     }
 
     ///  Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.
-    @discardableResult public func putAccessPointPolicy(_ input: PutAccessPointPolicyRequest) -> Future<Void> {
+    @discardableResult public func putAccessPointPolicy(_ input: PutAccessPointPolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "PutAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "PUT", input: input)
     }
 
     ///  Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account.
-    @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) -> Future<Void> {
+    @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing job's priority.
-    public func updateJobPriority(_ input: UpdateJobPriorityRequest) -> Future<UpdateJobPriorityResult> {
+    public func updateJobPriority(_ input: UpdateJobPriorityRequest) -> EventLoopFuture<UpdateJobPriorityResult> {
         return client.send(operation: "UpdateJobPriority", path: "/v20180820/jobs/{id}/priority", httpMethod: "POST", input: input)
     }
 
     ///  Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job.
-    public func updateJobStatus(_ input: UpdateJobStatusRequest) -> Future<UpdateJobStatusResult> {
+    public func updateJobStatus(_ input: UpdateJobStatusRequest) -> EventLoopFuture<UpdateJobStatusResult> {
         return client.send(operation: "UpdateJobStatus", path: "/v20180820/jobs/{id}/status", httpMethod: "POST", input: input)
     }
 }

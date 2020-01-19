@@ -28,67 +28,67 @@ public struct CodeStarNotifications {
     }
 
     ///  Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as SNS topics) where you want to receive them.
-    public func createNotificationRule(_ input: CreateNotificationRuleRequest) -> Future<CreateNotificationRuleResult> {
+    public func createNotificationRule(_ input: CreateNotificationRuleRequest) -> EventLoopFuture<CreateNotificationRuleResult> {
         return client.send(operation: "CreateNotificationRule", path: "/createNotificationRule", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a notification rule for a resource.
-    public func deleteNotificationRule(_ input: DeleteNotificationRuleRequest) -> Future<DeleteNotificationRuleResult> {
+    public func deleteNotificationRule(_ input: DeleteNotificationRuleRequest) -> EventLoopFuture<DeleteNotificationRuleResult> {
         return client.send(operation: "DeleteNotificationRule", path: "/deleteNotificationRule", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified target for notifications.
-    public func deleteTarget(_ input: DeleteTargetRequest) -> Future<DeleteTargetResult> {
+    public func deleteTarget(_ input: DeleteTargetRequest) -> EventLoopFuture<DeleteTargetResult> {
         return client.send(operation: "DeleteTarget", path: "/deleteTarget", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a specified notification rule.
-    public func describeNotificationRule(_ input: DescribeNotificationRuleRequest) -> Future<DescribeNotificationRuleResult> {
+    public func describeNotificationRule(_ input: DescribeNotificationRuleRequest) -> EventLoopFuture<DescribeNotificationRuleResult> {
         return client.send(operation: "DescribeNotificationRule", path: "/describeNotificationRule", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the event types available for configuring notifications.
-    public func listEventTypes(_ input: ListEventTypesRequest) -> Future<ListEventTypesResult> {
+    public func listEventTypes(_ input: ListEventTypesRequest) -> EventLoopFuture<ListEventTypesResult> {
         return client.send(operation: "ListEventTypes", path: "/listEventTypes", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of the notification rules for an AWS account.
-    public func listNotificationRules(_ input: ListNotificationRulesRequest) -> Future<ListNotificationRulesResult> {
+    public func listNotificationRules(_ input: ListNotificationRulesRequest) -> EventLoopFuture<ListNotificationRulesResult> {
         return client.send(operation: "ListNotificationRules", path: "/listNotificationRules", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of the tags associated with a notification rule.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResult> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
         return client.send(operation: "ListTagsForResource", path: "/listTagsForResource", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of the notification rule targets for an AWS account.
-    public func listTargets(_ input: ListTargetsRequest) -> Future<ListTargetsResult> {
+    public func listTargets(_ input: ListTargetsRequest) -> EventLoopFuture<ListTargetsResult> {
         return client.send(operation: "ListTargets", path: "/listTargets", httpMethod: "POST", input: input)
     }
 
     ///  Creates an association between a notification rule and an SNS topic so that the associated target can receive notifications when the events described in the rule are triggered.
-    public func subscribe(_ input: SubscribeRequest) -> Future<SubscribeResult> {
+    public func subscribe(_ input: SubscribeRequest) -> EventLoopFuture<SubscribeResult> {
         return client.send(operation: "Subscribe", path: "/subscribe", httpMethod: "POST", input: input)
     }
 
     ///  Associates a set of provided tags with a notification rule.
-    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResult> {
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResult> {
         return client.send(operation: "TagResource", path: "/tagResource", httpMethod: "POST", input: input)
     }
 
     ///  Removes an association between a notification rule and an Amazon SNS topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
-    public func unsubscribe(_ input: UnsubscribeRequest) -> Future<UnsubscribeResult> {
+    public func unsubscribe(_ input: UnsubscribeRequest) -> EventLoopFuture<UnsubscribeResult> {
         return client.send(operation: "Unsubscribe", path: "/unsubscribe", httpMethod: "POST", input: input)
     }
 
     ///  Removes the association between one or more provided tags and a notification rule.
-    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResult> {
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResult> {
         return client.send(operation: "UntagResource", path: "/untagResource", httpMethod: "POST", input: input)
     }
 
     ///  Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications.  To add or remove tags for a notification rule, you must use TagResource and UntagResource. 
-    public func updateNotificationRule(_ input: UpdateNotificationRuleRequest) -> Future<UpdateNotificationRuleResult> {
+    public func updateNotificationRule(_ input: UpdateNotificationRuleRequest) -> EventLoopFuture<UpdateNotificationRuleResult> {
         return client.send(operation: "UpdateNotificationRule", path: "/updateNotificationRule", httpMethod: "POST", input: input)
     }
 }

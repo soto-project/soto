@@ -28,152 +28,152 @@ public struct WorkLink {
     }
 
     ///  Specifies a domain to be associated to Amazon WorkLink.
-    public func associateDomain(_ input: AssociateDomainRequest) -> Future<AssociateDomainResponse> {
+    public func associateDomain(_ input: AssociateDomainRequest) -> EventLoopFuture<AssociateDomainResponse> {
         return client.send(operation: "AssociateDomain", path: "/associateDomain", httpMethod: "POST", input: input)
     }
 
     ///  Associates a website authorization provider with a specified fleet. This is used to authorize users against associated websites in the company network.
-    public func associateWebsiteAuthorizationProvider(_ input: AssociateWebsiteAuthorizationProviderRequest) -> Future<AssociateWebsiteAuthorizationProviderResponse> {
+    public func associateWebsiteAuthorizationProvider(_ input: AssociateWebsiteAuthorizationProviderRequest) -> EventLoopFuture<AssociateWebsiteAuthorizationProviderResponse> {
         return client.send(operation: "AssociateWebsiteAuthorizationProvider", path: "/associateWebsiteAuthorizationProvider", httpMethod: "POST", input: input)
     }
 
     ///  Imports the root certificate of a certificate authority (CA) used to obtain TLS certificates used by associated websites within the company network.
-    public func associateWebsiteCertificateAuthority(_ input: AssociateWebsiteCertificateAuthorityRequest) -> Future<AssociateWebsiteCertificateAuthorityResponse> {
+    public func associateWebsiteCertificateAuthority(_ input: AssociateWebsiteCertificateAuthorityRequest) -> EventLoopFuture<AssociateWebsiteCertificateAuthorityResponse> {
         return client.send(operation: "AssociateWebsiteCertificateAuthority", path: "/associateWebsiteCertificateAuthority", httpMethod: "POST", input: input)
     }
 
     ///  Creates a fleet. A fleet consists of resources and the configuration that delivers associated websites to authorized users who download and set up the Amazon WorkLink app.
-    public func createFleet(_ input: CreateFleetRequest) -> Future<CreateFleetResponse> {
+    public func createFleet(_ input: CreateFleetRequest) -> EventLoopFuture<CreateFleetResponse> {
         return client.send(operation: "CreateFleet", path: "/createFleet", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a fleet. Prevents users from accessing previously associated websites. 
-    public func deleteFleet(_ input: DeleteFleetRequest) -> Future<DeleteFleetResponse> {
+    public func deleteFleet(_ input: DeleteFleetRequest) -> EventLoopFuture<DeleteFleetResponse> {
         return client.send(operation: "DeleteFleet", path: "/deleteFleet", httpMethod: "POST", input: input)
     }
 
     ///  Describes the configuration for delivering audit streams to the customer account.
-    public func describeAuditStreamConfiguration(_ input: DescribeAuditStreamConfigurationRequest) -> Future<DescribeAuditStreamConfigurationResponse> {
+    public func describeAuditStreamConfiguration(_ input: DescribeAuditStreamConfigurationRequest) -> EventLoopFuture<DescribeAuditStreamConfigurationResponse> {
         return client.send(operation: "DescribeAuditStreamConfiguration", path: "/describeAuditStreamConfiguration", httpMethod: "POST", input: input)
     }
 
     ///  Describes the networking configuration to access the internal websites associated with the specified fleet.
-    public func describeCompanyNetworkConfiguration(_ input: DescribeCompanyNetworkConfigurationRequest) -> Future<DescribeCompanyNetworkConfigurationResponse> {
+    public func describeCompanyNetworkConfiguration(_ input: DescribeCompanyNetworkConfigurationRequest) -> EventLoopFuture<DescribeCompanyNetworkConfigurationResponse> {
         return client.send(operation: "DescribeCompanyNetworkConfiguration", path: "/describeCompanyNetworkConfiguration", httpMethod: "POST", input: input)
     }
 
     ///  Provides information about a user's device.
-    public func describeDevice(_ input: DescribeDeviceRequest) -> Future<DescribeDeviceResponse> {
+    public func describeDevice(_ input: DescribeDeviceRequest) -> EventLoopFuture<DescribeDeviceResponse> {
         return client.send(operation: "DescribeDevice", path: "/describeDevice", httpMethod: "POST", input: input)
     }
 
     ///  Describes the device policy configuration for the specified fleet.
-    public func describeDevicePolicyConfiguration(_ input: DescribeDevicePolicyConfigurationRequest) -> Future<DescribeDevicePolicyConfigurationResponse> {
+    public func describeDevicePolicyConfiguration(_ input: DescribeDevicePolicyConfigurationRequest) -> EventLoopFuture<DescribeDevicePolicyConfigurationResponse> {
         return client.send(operation: "DescribeDevicePolicyConfiguration", path: "/describeDevicePolicyConfiguration", httpMethod: "POST", input: input)
     }
 
     ///  Provides information about the domain.
-    public func describeDomain(_ input: DescribeDomainRequest) -> Future<DescribeDomainResponse> {
+    public func describeDomain(_ input: DescribeDomainRequest) -> EventLoopFuture<DescribeDomainResponse> {
         return client.send(operation: "DescribeDomain", path: "/describeDomain", httpMethod: "POST", input: input)
     }
 
     ///  Provides basic information for the specified fleet, excluding identity provider, networking, and device configuration details.
-    public func describeFleetMetadata(_ input: DescribeFleetMetadataRequest) -> Future<DescribeFleetMetadataResponse> {
+    public func describeFleetMetadata(_ input: DescribeFleetMetadataRequest) -> EventLoopFuture<DescribeFleetMetadataResponse> {
         return client.send(operation: "DescribeFleetMetadata", path: "/describeFleetMetadata", httpMethod: "POST", input: input)
     }
 
     ///  Describes the identity provider configuration of the specified fleet.
-    public func describeIdentityProviderConfiguration(_ input: DescribeIdentityProviderConfigurationRequest) -> Future<DescribeIdentityProviderConfigurationResponse> {
+    public func describeIdentityProviderConfiguration(_ input: DescribeIdentityProviderConfigurationRequest) -> EventLoopFuture<DescribeIdentityProviderConfigurationResponse> {
         return client.send(operation: "DescribeIdentityProviderConfiguration", path: "/describeIdentityProviderConfiguration", httpMethod: "POST", input: input)
     }
 
     ///  Provides information about the certificate authority.
-    public func describeWebsiteCertificateAuthority(_ input: DescribeWebsiteCertificateAuthorityRequest) -> Future<DescribeWebsiteCertificateAuthorityResponse> {
+    public func describeWebsiteCertificateAuthority(_ input: DescribeWebsiteCertificateAuthorityRequest) -> EventLoopFuture<DescribeWebsiteCertificateAuthorityResponse> {
         return client.send(operation: "DescribeWebsiteCertificateAuthority", path: "/describeWebsiteCertificateAuthority", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a domain from Amazon WorkLink. End users lose the ability to access the domain with Amazon WorkLink. 
-    public func disassociateDomain(_ input: DisassociateDomainRequest) -> Future<DisassociateDomainResponse> {
+    public func disassociateDomain(_ input: DisassociateDomainRequest) -> EventLoopFuture<DisassociateDomainResponse> {
         return client.send(operation: "DisassociateDomain", path: "/disassociateDomain", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a website authorization provider from a specified fleet. After the disassociation, users can't load any associated websites that require this authorization provider.
-    public func disassociateWebsiteAuthorizationProvider(_ input: DisassociateWebsiteAuthorizationProviderRequest) -> Future<DisassociateWebsiteAuthorizationProviderResponse> {
+    public func disassociateWebsiteAuthorizationProvider(_ input: DisassociateWebsiteAuthorizationProviderRequest) -> EventLoopFuture<DisassociateWebsiteAuthorizationProviderResponse> {
         return client.send(operation: "DisassociateWebsiteAuthorizationProvider", path: "/disassociateWebsiteAuthorizationProvider", httpMethod: "POST", input: input)
     }
 
     ///  Removes a certificate authority (CA).
-    public func disassociateWebsiteCertificateAuthority(_ input: DisassociateWebsiteCertificateAuthorityRequest) -> Future<DisassociateWebsiteCertificateAuthorityResponse> {
+    public func disassociateWebsiteCertificateAuthority(_ input: DisassociateWebsiteCertificateAuthorityRequest) -> EventLoopFuture<DisassociateWebsiteCertificateAuthorityResponse> {
         return client.send(operation: "DisassociateWebsiteCertificateAuthority", path: "/disassociateWebsiteCertificateAuthority", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of devices registered with the specified fleet.
-    public func listDevices(_ input: ListDevicesRequest) -> Future<ListDevicesResponse> {
+    public func listDevices(_ input: ListDevicesRequest) -> EventLoopFuture<ListDevicesResponse> {
         return client.send(operation: "ListDevices", path: "/listDevices", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of domains associated to a specified fleet.
-    public func listDomains(_ input: ListDomainsRequest) -> Future<ListDomainsResponse> {
+    public func listDomains(_ input: ListDomainsRequest) -> EventLoopFuture<ListDomainsResponse> {
         return client.send(operation: "ListDomains", path: "/listDomains", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of fleets for the current account and Region.
-    public func listFleets(_ input: ListFleetsRequest) -> Future<ListFleetsResponse> {
+    public func listFleets(_ input: ListFleetsRequest) -> EventLoopFuture<ListFleetsResponse> {
         return client.send(operation: "ListFleets", path: "/listFleets", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of website authorization providers associated with a specified fleet.
-    public func listWebsiteAuthorizationProviders(_ input: ListWebsiteAuthorizationProvidersRequest) -> Future<ListWebsiteAuthorizationProvidersResponse> {
+    public func listWebsiteAuthorizationProviders(_ input: ListWebsiteAuthorizationProvidersRequest) -> EventLoopFuture<ListWebsiteAuthorizationProvidersResponse> {
         return client.send(operation: "ListWebsiteAuthorizationProviders", path: "/listWebsiteAuthorizationProviders", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of certificate authorities added for the current account and Region.
-    public func listWebsiteCertificateAuthorities(_ input: ListWebsiteCertificateAuthoritiesRequest) -> Future<ListWebsiteCertificateAuthoritiesResponse> {
+    public func listWebsiteCertificateAuthorities(_ input: ListWebsiteCertificateAuthoritiesRequest) -> EventLoopFuture<ListWebsiteCertificateAuthoritiesResponse> {
         return client.send(operation: "ListWebsiteCertificateAuthorities", path: "/listWebsiteCertificateAuthorities", httpMethod: "POST", input: input)
     }
 
     ///  Moves a domain to ACTIVE status if it was in the INACTIVE status.
-    public func restoreDomainAccess(_ input: RestoreDomainAccessRequest) -> Future<RestoreDomainAccessResponse> {
+    public func restoreDomainAccess(_ input: RestoreDomainAccessRequest) -> EventLoopFuture<RestoreDomainAccessResponse> {
         return client.send(operation: "RestoreDomainAccess", path: "/restoreDomainAccess", httpMethod: "POST", input: input)
     }
 
     ///  Moves a domain to INACTIVE status if it was in the ACTIVE status.
-    public func revokeDomainAccess(_ input: RevokeDomainAccessRequest) -> Future<RevokeDomainAccessResponse> {
+    public func revokeDomainAccess(_ input: RevokeDomainAccessRequest) -> EventLoopFuture<RevokeDomainAccessResponse> {
         return client.send(operation: "RevokeDomainAccess", path: "/revokeDomainAccess", httpMethod: "POST", input: input)
     }
 
     ///  Signs the user out from all of their devices. The user can sign in again if they have valid credentials.
-    public func signOutUser(_ input: SignOutUserRequest) -> Future<SignOutUserResponse> {
+    public func signOutUser(_ input: SignOutUserRequest) -> EventLoopFuture<SignOutUserResponse> {
         return client.send(operation: "SignOutUser", path: "/signOutUser", httpMethod: "POST", input: input)
     }
 
     ///  Updates the audit stream configuration for the fleet.
-    public func updateAuditStreamConfiguration(_ input: UpdateAuditStreamConfigurationRequest) -> Future<UpdateAuditStreamConfigurationResponse> {
+    public func updateAuditStreamConfiguration(_ input: UpdateAuditStreamConfigurationRequest) -> EventLoopFuture<UpdateAuditStreamConfigurationResponse> {
         return client.send(operation: "UpdateAuditStreamConfiguration", path: "/updateAuditStreamConfiguration", httpMethod: "POST", input: input)
     }
 
     ///  Updates the company network configuration for the fleet.
-    public func updateCompanyNetworkConfiguration(_ input: UpdateCompanyNetworkConfigurationRequest) -> Future<UpdateCompanyNetworkConfigurationResponse> {
+    public func updateCompanyNetworkConfiguration(_ input: UpdateCompanyNetworkConfigurationRequest) -> EventLoopFuture<UpdateCompanyNetworkConfigurationResponse> {
         return client.send(operation: "UpdateCompanyNetworkConfiguration", path: "/updateCompanyNetworkConfiguration", httpMethod: "POST", input: input)
     }
 
     ///  Updates the device policy configuration for the fleet.
-    public func updateDevicePolicyConfiguration(_ input: UpdateDevicePolicyConfigurationRequest) -> Future<UpdateDevicePolicyConfigurationResponse> {
+    public func updateDevicePolicyConfiguration(_ input: UpdateDevicePolicyConfigurationRequest) -> EventLoopFuture<UpdateDevicePolicyConfigurationResponse> {
         return client.send(operation: "UpdateDevicePolicyConfiguration", path: "/updateDevicePolicyConfiguration", httpMethod: "POST", input: input)
     }
 
     ///  Updates domain metadata, such as DisplayName.
-    public func updateDomainMetadata(_ input: UpdateDomainMetadataRequest) -> Future<UpdateDomainMetadataResponse> {
+    public func updateDomainMetadata(_ input: UpdateDomainMetadataRequest) -> EventLoopFuture<UpdateDomainMetadataResponse> {
         return client.send(operation: "UpdateDomainMetadata", path: "/updateDomainMetadata", httpMethod: "POST", input: input)
     }
 
     ///  Updates fleet metadata, such as DisplayName.
-    public func updateFleetMetadata(_ input: UpdateFleetMetadataRequest) -> Future<UpdateFleetMetadataResponse> {
+    public func updateFleetMetadata(_ input: UpdateFleetMetadataRequest) -> EventLoopFuture<UpdateFleetMetadataResponse> {
         return client.send(operation: "UpdateFleetMetadata", path: "/UpdateFleetMetadata", httpMethod: "POST", input: input)
     }
 
     ///  Updates the identity provider configuration for the fleet.
-    public func updateIdentityProviderConfiguration(_ input: UpdateIdentityProviderConfigurationRequest) -> Future<UpdateIdentityProviderConfigurationResponse> {
+    public func updateIdentityProviderConfiguration(_ input: UpdateIdentityProviderConfigurationRequest) -> EventLoopFuture<UpdateIdentityProviderConfigurationResponse> {
         return client.send(operation: "UpdateIdentityProviderConfiguration", path: "/updateIdentityProviderConfiguration", httpMethod: "POST", input: input)
     }
 }

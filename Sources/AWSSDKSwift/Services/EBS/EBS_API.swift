@@ -28,17 +28,17 @@ public struct EBS {
     }
 
     ///  Returns the data in a block in an Amazon Elastic Block Store snapshot.
-    public func getSnapshotBlock(_ input: GetSnapshotBlockRequest) -> Future<GetSnapshotBlockResponse> {
+    public func getSnapshotBlock(_ input: GetSnapshotBlockRequest) -> EventLoopFuture<GetSnapshotBlockResponse> {
         return client.send(operation: "GetSnapshotBlock", path: "/snapshots/{snapshotId}/blocks/{blockIndex}", httpMethod: "GET", input: input)
     }
 
     ///  Returns the block indexes and block tokens for blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
-    public func listChangedBlocks(_ input: ListChangedBlocksRequest) -> Future<ListChangedBlocksResponse> {
+    public func listChangedBlocks(_ input: ListChangedBlocksRequest) -> EventLoopFuture<ListChangedBlocksResponse> {
         return client.send(operation: "ListChangedBlocks", path: "/snapshots/{secondSnapshotId}/changedblocks", httpMethod: "GET", input: input)
     }
 
     ///  Returns the block indexes and block tokens for blocks in an Amazon Elastic Block Store snapshot.
-    public func listSnapshotBlocks(_ input: ListSnapshotBlocksRequest) -> Future<ListSnapshotBlocksResponse> {
+    public func listSnapshotBlocks(_ input: ListSnapshotBlocksRequest) -> EventLoopFuture<ListSnapshotBlocksResponse> {
         return client.send(operation: "ListSnapshotBlocks", path: "/snapshots/{snapshotId}/blocks", httpMethod: "GET", input: input)
     }
 }
