@@ -337,7 +337,7 @@ struct AWSService {
     private func parseOperation(shapes: [Shape]) throws -> ([Operation], [ErrorShape])  {
         var operations: [Operation] = []
         var errorShapeNames: [String] = []
-        for (_, json) in apiJSON["operations"].dictionaryValue {
+        for (name, json) in apiJSON["operations"].dictionaryValue {
             for json in json["errors"].arrayValue {
                 let shape = json["shape"].stringValue
                 if !errorShapeNames.contains(shape) {
@@ -371,7 +371,8 @@ struct AWSService {
             }
 
             let operation = Operation(
-                name: json["name"].stringValue,
+                name: name,
+                operationName: json["name"].stringValue,
                 httpMethod: json["http"]["method"].stringValue,
                 path: json["http"]["requestUri"].stringValue,
                 inputShape: inputShape,
