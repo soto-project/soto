@@ -21,5 +21,11 @@ chunkEnd=$(( (($chunkIndex+1)*$moduleArraySize/$numberOfChunks)-1 ))
 for index in $(seq $chunkStart $chunkEnd)
 do
     moduleName=${moduleArray[$index]}
-    sourcekitten doc --spm-module "$moduleName" -- --target "$moduleName" > sourcekitten/"$moduleName".json
+    # if already prefixed with AWS dont add prefix
+    if [[ $moduleName != AWS* ]] ;
+    then
+        sourcekitten doc --spm-module "AWS$moduleName" -- --target "AWS$moduleName" > sourcekitten/"$moduleName".json
+    else
+        sourcekitten doc --spm-module "$moduleName" -- --target "$moduleName" > sourcekitten/"$moduleName".json
+    fi
 done

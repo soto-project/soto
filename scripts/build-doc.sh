@@ -1,30 +1,11 @@
 #!/bin/bash
-
+# This is run assuming build-json-doc.sh has already been run
 set -eux
 
 create_jazzy_yaml() {
     cd jazzy
     node create-jazzy.yaml.js
     cd ..
-}
-
-create_aws_sdk_swift_core_docs_json() {
-    git clone https://github.com/swift-aws/aws-sdk-swift-core.git
-    cd aws-sdk-swift-core
-    sourcekitten doc --spm-module "AWSSDKSwiftCore" > ../sourcekitten/AWSSDKSwiftCore.json;
-    cd ..
-    rm -rf aws-sdk-swift-core
-}
-
-create_aws_sdk_swift_docs_json() {
-    for d in Sources/AWSSDKSwift/Services/*; do
-        moduleName="$(basename "$d")";
-        sourcekitten doc --spm-module "$moduleName" > sourcekitten/"$moduleName".json
-    done;
-}
-
-combine_docs_json() {
-    jq -s '[.[][]]' sourcekitten/*.json > sourcekitten/awssdkswift.json;
 }
 
 run_jazzy() {
