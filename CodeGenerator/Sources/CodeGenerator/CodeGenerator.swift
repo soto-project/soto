@@ -234,6 +234,15 @@ extension AWSService {
         let validation : [ValidationContext]
     }
 
+    struct PaginatorContext {
+        let operation: OperationContext
+        let result: String
+        let resultShape: String
+        let input: String
+        let output: String
+        let initParams: [String]
+    }
+
     /// Generate the context information for outputting the error enums
     func generateErrorContext() -> [String: Any] {
         var context: [String: Any] = [:]
@@ -251,6 +260,20 @@ extension AWSService {
         return context
     }
 
+    /// generate operations context
+    func generateOperationContext(_ operation: Operation) -> OperationContext {
+        return OperationContext(
+            comment: docJSON["operations"][operation.name].stringValue.tagStriped().split(separator: "\n"),
+            funcName: operation.name.toSwiftVariableCase(),
+            inputShape: operation.inputShape?.swiftTypeName,
+            outputShape: operation.outputShape?.swiftTypeName,
+            name: operation.operationName,
+            path: operation.path,
+            httpMethod: operation.httpMethod,
+            deprecated: operation.deprecatedMessage
+        )
+    }
+    
     /// Generate the context information for outputting the service api calls
     func generateServiceContext() -> [String: Any] {
         var context: [String: Any] = [:]
@@ -287,15 +310,7 @@ extension AWSService {
         // Operations
         var operationContexts: [OperationContext] = []
         for operation in operations {
-            operationContexts.append(OperationContext(
-                comment: docJSON["operations"][operation.name].stringValue.tagStriped().split(separator: "\n"),
-                funcName: operation.name.toSwiftVariableCase(),
-                inputShape: operation.inputShape?.swiftTypeName,
-                outputShape: operation.outputShape?.swiftTypeName,
-                name: operation.operationName,
-                path: operation.path,
-                httpMethod: operation.httpMethod,
-                deprecated: operation.deprecatedMessage))
+            operationContexts.append(generateOperationContext(operation))
         }
         context["operations"] = operationContexts
         return context
@@ -499,6 +514,51 @@ extension AWSService {
         return context
     }
 
+    /// Generate paginator context
+    func generatePaginatorContext() -> [String: Any] {
+        var context: [String: Any] = [:]
+        context["name"] = serviceName
+
+        var paginatorContexts: [PaginatorContext] = []
+        
+        for paginator in paginators {
+            guard let operation = operations.first(where: {$0.name == paginator.methodName}) else { continue }
+            guard let inputShape = operation.inputShape else { continue }
+            guard let outputShape = operation.outputShape else { continue }
+            guard case .structure(let inputShapeStruct) = inputShape.type else { continue }
+            guard case .structure(let outputShapeStruct) = outputShape.type else { continue }
+            guard paginator.resultKeys.count > 0 else { continue }
+            guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == paginator.resultKeys[0]}) else { continue }
+            guard case .list(let listShape,_,_) = resultsMember.shape.type else { continue }
+            guard paginator.inputTokens.count > 0 else { continue }
+            guard paginator.outputTokens.count > 0 else { continue }
+            guard let inputTokenMember = inputShapeStruct.members.first(where: {$0.name == paginator.inputTokens[0]}) else { continue }
+            guard case .string = inputTokenMember.shape.type else { continue }
+
+            var initParams: [String: String] = [:]
+            for member in inputShapeStruct.members {
+                initParams[member.name.toSwiftVariableCase()] = "original.\(member.name.toSwiftVariableCase())"
+            }
+            initParams[paginator.inputTokens[0].toSwiftVariableCase()] = "token"
+            let initParamsArray = initParams.map {"\($0.key): \($0.value)"}.sorted()
+            paginatorContexts.append(
+                PaginatorContext(
+                    operation: generateOperationContext(operation),
+                    result: paginator.resultKeys[0].toSwiftVariableCase(),
+                    resultShape: listShape.name,
+                    input: paginator.inputTokens[0].toSwiftVariableCase(),
+                    output: paginator.outputTokens[0].toSwiftVariableCase(),
+                    initParams: initParamsArray
+                )
+            )
+        }
+        
+        if paginatorContexts.count > 0 {
+            context["paginators"] = paginatorContexts
+        }
+        return context
+    }
+    
     func getCustomTemplates() -> [String] {
         return Glob.entries(pattern: "\(rootPath())/CodeGenerator/Templates/Custom/\(endpointPrefix)/*.stencil")
     }

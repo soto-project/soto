@@ -52,6 +52,15 @@ for model in models {
                 )
             }
 
+            let paginatorContext = service.generatePaginatorContext()
+            if paginatorContext["paginators"] != nil {
+                try environment.renderTemplate(name: "paginator.stencil", context: paginatorContext).write(
+                    toFile: "\(basePath)/\(service.serviceName)_Paginator.swift",
+                    atomically: true,
+                    encoding: .utf8
+                )
+            }
+
             let customTemplates = service.getCustomTemplates()
             for template in customTemplates {
                 let templateName = URL(fileURLWithPath: template).deletingPathExtension().lastPathComponent

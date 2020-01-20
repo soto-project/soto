@@ -32,6 +32,7 @@ enum AWSServiceError: Error {
 
 struct AWSService {
     let apiJSON: JSON
+    let paginatorJSON: JSON
     let docJSON: JSON
     let endpointJSON: JSON
     var shapes: [Shape] = []
@@ -110,10 +111,12 @@ struct AWSService {
     ///   - endpointJSON: endpoint json
     init(fromAPIJSON apiJSON: JSON, paginatorJSON: JSON, docJSON: JSON, endpointJSON: JSON) throws {
         self.apiJSON = patch(apiJSON)
+        self.paginatorJSON = paginatorJSON
         self.docJSON = docJSON
         self.endpointJSON = endpointJSON
         self.shapes = try parseShapes()
         (self.operations, self.errors) = try parseOperation(shapes: shapes)
+        self.paginators = try parsePaginators()
         self.shapeDoc = parseDoc()
     }
 
@@ -289,8 +292,43 @@ struct AWSService {
         return shapeDoc
     }
 
+    private func parsePaginators() throws -> [Paginator] {
+        var paginators: [Paginator] = []
+        for (key, json) in paginatorJSON["pagination"].dictionaryValue {
+            let resultKeys: [String]
+            let inputTokens: [String]
+            var outputTokens: [String]
+            if let resultKey = json["result_key"].string {
+                resultKeys = [resultKey]
+            } else {
+                resultKeys = json["result_key"].arrayValue.compactMap { $0.string }
+            }
+            if let inputToken = json["input_token"].string {
+                inputTokens = [inputToken]
+            } else {
+                inputTokens = json["input_token"].arrayValue.compactMap { $0.string }
+            }
+            if let outputToken = json["output_token"].string {
+                outputTokens = [outputToken]
+            } else {
+                outputTokens = json["output_token"].arrayValue.compactMap { $0.string }
+            }
+            // some output Tokens are in form "this || that". Just assume we can use "this"
+            outputTokens = outputTokens.map { String($0.split(separator: "|")[0]).trimmingCharacters(in: CharacterSet.whitespaces) }
+            let paginator = Paginator(
+                methodName: key,
+                resultKeys: resultKeys,
+                inputTokens: inputTokens,
+                outputTokens: outputTokens,
+                limitKey: json["limit_key"].stringValue
+            )
+            paginators.append(paginator)
+        }
+        return paginators.sorted{ $0.methodName < $1.methodName }
+    }
+    
     private func parseShapes() throws -> [Shape] {
-        var shapes = [Shape]()
+        var shapes: [Shape] = []
         for (key, json) in apiJSON["shapes"].dictionaryValue {
             do {
                 let shape = try Shape(name: key, type: shapeType(from: json))

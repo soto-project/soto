@@ -7,8 +7,9 @@
 //
 
 struct Paginator {
+    let methodName: String
     let resultKeys: [String]
-    let outputTokens: [String]
     let inputTokens: [String]
+    let outputTokens: [String]
     let limitKey: String
 }
