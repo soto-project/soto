@@ -61,7 +61,7 @@ extension Rekognition {
     
 }
 
-extension Rekognition.DescribeProjectVersionsRequest: AWSPaginateable {
+extension Rekognition.DescribeProjectVersionsRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.DescribeProjectVersionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -72,7 +72,7 @@ extension Rekognition.DescribeProjectVersionsRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.DescribeProjectsRequest: AWSPaginateable {
+extension Rekognition.DescribeProjectsRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.DescribeProjectsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -81,7 +81,7 @@ extension Rekognition.DescribeProjectsRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.GetCelebrityRecognitionRequest: AWSPaginateable {
+extension Rekognition.GetCelebrityRecognitionRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.GetCelebrityRecognitionRequest, token: String) {
         self.init(
             jobId: original.jobId, 
@@ -92,7 +92,7 @@ extension Rekognition.GetCelebrityRecognitionRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.GetContentModerationRequest: AWSPaginateable {
+extension Rekognition.GetContentModerationRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.GetContentModerationRequest, token: String) {
         self.init(
             jobId: original.jobId, 
@@ -103,7 +103,7 @@ extension Rekognition.GetContentModerationRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.GetFaceDetectionRequest: AWSPaginateable {
+extension Rekognition.GetFaceDetectionRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.GetFaceDetectionRequest, token: String) {
         self.init(
             jobId: original.jobId, 
@@ -113,7 +113,7 @@ extension Rekognition.GetFaceDetectionRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.GetFaceSearchRequest: AWSPaginateable {
+extension Rekognition.GetFaceSearchRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.GetFaceSearchRequest, token: String) {
         self.init(
             jobId: original.jobId, 
@@ -124,7 +124,7 @@ extension Rekognition.GetFaceSearchRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.GetLabelDetectionRequest: AWSPaginateable {
+extension Rekognition.GetLabelDetectionRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.GetLabelDetectionRequest, token: String) {
         self.init(
             jobId: original.jobId, 
@@ -135,7 +135,7 @@ extension Rekognition.GetLabelDetectionRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.GetPersonTrackingRequest: AWSPaginateable {
+extension Rekognition.GetPersonTrackingRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.GetPersonTrackingRequest, token: String) {
         self.init(
             jobId: original.jobId, 
@@ -146,7 +146,7 @@ extension Rekognition.GetPersonTrackingRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.ListCollectionsRequest: AWSPaginateable {
+extension Rekognition.ListCollectionsRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.ListCollectionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -155,7 +155,7 @@ extension Rekognition.ListCollectionsRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.ListFacesRequest: AWSPaginateable {
+extension Rekognition.ListFacesRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.ListFacesRequest, token: String) {
         self.init(
             collectionId: original.collectionId, 
@@ -165,7 +165,7 @@ extension Rekognition.ListFacesRequest: AWSPaginateable {
     }
 }
 
-extension Rekognition.ListStreamProcessorsRequest: AWSPaginateable {
+extension Rekognition.ListStreamProcessorsRequest: AWSPaginateStringToken {
     public init(_ original: Rekognition.ListStreamProcessorsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

@@ -86,7 +86,7 @@ extension DeviceFarm {
     
 }
 
-extension DeviceFarm.ListArtifactsRequest: AWSPaginateable {
+extension DeviceFarm.ListArtifactsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListArtifactsRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -96,7 +96,7 @@ extension DeviceFarm.ListArtifactsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListDevicePoolsRequest: AWSPaginateable {
+extension DeviceFarm.ListDevicePoolsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListDevicePoolsRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -106,7 +106,7 @@ extension DeviceFarm.ListDevicePoolsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListDevicesRequest: AWSPaginateable {
+extension DeviceFarm.ListDevicesRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListDevicesRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -116,7 +116,7 @@ extension DeviceFarm.ListDevicesRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListJobsRequest: AWSPaginateable {
+extension DeviceFarm.ListJobsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListJobsRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -125,7 +125,7 @@ extension DeviceFarm.ListJobsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListOfferingTransactionsRequest: AWSPaginateable {
+extension DeviceFarm.ListOfferingTransactionsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListOfferingTransactionsRequest, token: String) {
         self.init(
             nextToken: token
@@ -133,7 +133,7 @@ extension DeviceFarm.ListOfferingTransactionsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListOfferingsRequest: AWSPaginateable {
+extension DeviceFarm.ListOfferingsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListOfferingsRequest, token: String) {
         self.init(
             nextToken: token
@@ -141,7 +141,7 @@ extension DeviceFarm.ListOfferingsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListProjectsRequest: AWSPaginateable {
+extension DeviceFarm.ListProjectsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListProjectsRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -150,7 +150,7 @@ extension DeviceFarm.ListProjectsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListRunsRequest: AWSPaginateable {
+extension DeviceFarm.ListRunsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListRunsRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -159,7 +159,7 @@ extension DeviceFarm.ListRunsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListSamplesRequest: AWSPaginateable {
+extension DeviceFarm.ListSamplesRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListSamplesRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -168,7 +168,7 @@ extension DeviceFarm.ListSamplesRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListSuitesRequest: AWSPaginateable {
+extension DeviceFarm.ListSuitesRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListSuitesRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -177,7 +177,7 @@ extension DeviceFarm.ListSuitesRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListTestGridProjectsRequest: AWSPaginateable {
+extension DeviceFarm.ListTestGridProjectsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListTestGridProjectsRequest, token: String) {
         self.init(
             maxResult: original.maxResult, 
@@ -186,7 +186,7 @@ extension DeviceFarm.ListTestGridProjectsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListTestGridSessionActionsRequest: AWSPaginateable {
+extension DeviceFarm.ListTestGridSessionActionsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListTestGridSessionActionsRequest, token: String) {
         self.init(
             maxResult: original.maxResult, 
@@ -196,7 +196,7 @@ extension DeviceFarm.ListTestGridSessionActionsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListTestGridSessionArtifactsRequest: AWSPaginateable {
+extension DeviceFarm.ListTestGridSessionArtifactsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListTestGridSessionArtifactsRequest, token: String) {
         self.init(
             maxResult: original.maxResult, 
@@ -207,7 +207,7 @@ extension DeviceFarm.ListTestGridSessionArtifactsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListTestGridSessionsRequest: AWSPaginateable {
+extension DeviceFarm.ListTestGridSessionsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListTestGridSessionsRequest, token: String) {
         self.init(
             creationTimeAfter: original.creationTimeAfter, 
@@ -222,7 +222,7 @@ extension DeviceFarm.ListTestGridSessionsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListTestsRequest: AWSPaginateable {
+extension DeviceFarm.ListTestsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListTestsRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -231,7 +231,7 @@ extension DeviceFarm.ListTestsRequest: AWSPaginateable {
     }
 }
 
-extension DeviceFarm.ListUploadsRequest: AWSPaginateable {
+extension DeviceFarm.ListUploadsRequest: AWSPaginateStringToken {
     public init(_ original: DeviceFarm.ListUploadsRequest, token: String) {
         self.init(
             arn: original.arn, 

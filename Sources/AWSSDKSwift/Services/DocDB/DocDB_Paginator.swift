@@ -36,7 +36,7 @@ extension DocDB {
     
 }
 
-extension DocDB.DescribeDBClustersMessage: AWSPaginateable {
+extension DocDB.DescribeDBClustersMessage: AWSPaginateStringToken {
     public init(_ original: DocDB.DescribeDBClustersMessage, token: String) {
         self.init(
             dBClusterIdentifier: original.dBClusterIdentifier, 
@@ -47,7 +47,7 @@ extension DocDB.DescribeDBClustersMessage: AWSPaginateable {
     }
 }
 
-extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateable {
+extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
     public init(_ original: DocDB.DescribeDBEngineVersionsMessage, token: String) {
         self.init(
             dBParameterGroupFamily: original.dBParameterGroupFamily, 
@@ -63,7 +63,7 @@ extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateable {
     }
 }
 
-extension DocDB.DescribeDBInstancesMessage: AWSPaginateable {
+extension DocDB.DescribeDBInstancesMessage: AWSPaginateStringToken {
     public init(_ original: DocDB.DescribeDBInstancesMessage, token: String) {
         self.init(
             dBInstanceIdentifier: original.dBInstanceIdentifier, 
@@ -74,7 +74,7 @@ extension DocDB.DescribeDBInstancesMessage: AWSPaginateable {
     }
 }
 
-extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateable {
+extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateStringToken {
     public init(_ original: DocDB.DescribeDBSubnetGroupsMessage, token: String) {
         self.init(
             dBSubnetGroupName: original.dBSubnetGroupName, 
@@ -85,7 +85,7 @@ extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateable {
     }
 }
 
-extension DocDB.DescribeEventsMessage: AWSPaginateable {
+extension DocDB.DescribeEventsMessage: AWSPaginateStringToken {
     public init(_ original: DocDB.DescribeEventsMessage, token: String) {
         self.init(
             duration: original.duration, 
@@ -101,7 +101,7 @@ extension DocDB.DescribeEventsMessage: AWSPaginateable {
     }
 }
 
-extension DocDB.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateable {
+extension DocDB.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToken {
     public init(_ original: DocDB.DescribeOrderableDBInstanceOptionsMessage, token: String) {
         self.init(
             dBInstanceClass: original.dBInstanceClass, 

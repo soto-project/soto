@@ -26,7 +26,7 @@ extension Batch {
     
 }
 
-extension Batch.DescribeComputeEnvironmentsRequest: AWSPaginateable {
+extension Batch.DescribeComputeEnvironmentsRequest: AWSPaginateStringToken {
     public init(_ original: Batch.DescribeComputeEnvironmentsRequest, token: String) {
         self.init(
             computeEnvironments: original.computeEnvironments, 
@@ -36,7 +36,7 @@ extension Batch.DescribeComputeEnvironmentsRequest: AWSPaginateable {
     }
 }
 
-extension Batch.DescribeJobDefinitionsRequest: AWSPaginateable {
+extension Batch.DescribeJobDefinitionsRequest: AWSPaginateStringToken {
     public init(_ original: Batch.DescribeJobDefinitionsRequest, token: String) {
         self.init(
             jobDefinitionName: original.jobDefinitionName, 
@@ -48,7 +48,7 @@ extension Batch.DescribeJobDefinitionsRequest: AWSPaginateable {
     }
 }
 
-extension Batch.DescribeJobQueuesRequest: AWSPaginateable {
+extension Batch.DescribeJobQueuesRequest: AWSPaginateStringToken {
     public init(_ original: Batch.DescribeJobQueuesRequest, token: String) {
         self.init(
             jobQueues: original.jobQueues, 
@@ -58,7 +58,7 @@ extension Batch.DescribeJobQueuesRequest: AWSPaginateable {
     }
 }
 
-extension Batch.ListJobsRequest: AWSPaginateable {
+extension Batch.ListJobsRequest: AWSPaginateStringToken {
     public init(_ original: Batch.ListJobsRequest, token: String) {
         self.init(
             arrayJobId: original.arrayJobId, 

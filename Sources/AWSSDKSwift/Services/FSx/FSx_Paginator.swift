@@ -21,7 +21,7 @@ extension FSx {
     
 }
 
-extension FSx.DescribeBackupsRequest: AWSPaginateable {
+extension FSx.DescribeBackupsRequest: AWSPaginateStringToken {
     public init(_ original: FSx.DescribeBackupsRequest, token: String) {
         self.init(
             backupIds: original.backupIds, 
@@ -32,7 +32,7 @@ extension FSx.DescribeBackupsRequest: AWSPaginateable {
     }
 }
 
-extension FSx.DescribeDataRepositoryTasksRequest: AWSPaginateable {
+extension FSx.DescribeDataRepositoryTasksRequest: AWSPaginateStringToken {
     public init(_ original: FSx.DescribeDataRepositoryTasksRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -43,7 +43,7 @@ extension FSx.DescribeDataRepositoryTasksRequest: AWSPaginateable {
     }
 }
 
-extension FSx.DescribeFileSystemsRequest: AWSPaginateable {
+extension FSx.DescribeFileSystemsRequest: AWSPaginateStringToken {
     public init(_ original: FSx.DescribeFileSystemsRequest, token: String) {
         self.init(
             fileSystemIds: original.fileSystemIds, 

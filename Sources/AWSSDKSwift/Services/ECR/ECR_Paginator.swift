@@ -26,7 +26,7 @@ extension ECR {
     
 }
 
-extension ECR.DescribeImagesRequest: AWSPaginateable {
+extension ECR.DescribeImagesRequest: AWSPaginateStringToken {
     public init(_ original: ECR.DescribeImagesRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -39,7 +39,7 @@ extension ECR.DescribeImagesRequest: AWSPaginateable {
     }
 }
 
-extension ECR.DescribeRepositoriesRequest: AWSPaginateable {
+extension ECR.DescribeRepositoriesRequest: AWSPaginateStringToken {
     public init(_ original: ECR.DescribeRepositoriesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -50,7 +50,7 @@ extension ECR.DescribeRepositoriesRequest: AWSPaginateable {
     }
 }
 
-extension ECR.GetLifecyclePolicyPreviewRequest: AWSPaginateable {
+extension ECR.GetLifecyclePolicyPreviewRequest: AWSPaginateStringToken {
     public init(_ original: ECR.GetLifecyclePolicyPreviewRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -63,7 +63,7 @@ extension ECR.GetLifecyclePolicyPreviewRequest: AWSPaginateable {
     }
 }
 
-extension ECR.ListImagesRequest: AWSPaginateable {
+extension ECR.ListImagesRequest: AWSPaginateStringToken {
     public init(_ original: ECR.ListImagesRequest, token: String) {
         self.init(
             filter: original.filter, 

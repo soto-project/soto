@@ -36,7 +36,7 @@ extension ManagedBlockchain {
     
 }
 
-extension ManagedBlockchain.ListInvitationsInput: AWSPaginateable {
+extension ManagedBlockchain.ListInvitationsInput: AWSPaginateStringToken {
     public init(_ original: ManagedBlockchain.ListInvitationsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -45,7 +45,7 @@ extension ManagedBlockchain.ListInvitationsInput: AWSPaginateable {
     }
 }
 
-extension ManagedBlockchain.ListMembersInput: AWSPaginateable {
+extension ManagedBlockchain.ListMembersInput: AWSPaginateStringToken {
     public init(_ original: ManagedBlockchain.ListMembersInput, token: String) {
         self.init(
             isOwned: original.isOwned, 
@@ -58,7 +58,7 @@ extension ManagedBlockchain.ListMembersInput: AWSPaginateable {
     }
 }
 
-extension ManagedBlockchain.ListNetworksInput: AWSPaginateable {
+extension ManagedBlockchain.ListNetworksInput: AWSPaginateStringToken {
     public init(_ original: ManagedBlockchain.ListNetworksInput, token: String) {
         self.init(
             framework: original.framework, 
@@ -70,7 +70,7 @@ extension ManagedBlockchain.ListNetworksInput: AWSPaginateable {
     }
 }
 
-extension ManagedBlockchain.ListNodesInput: AWSPaginateable {
+extension ManagedBlockchain.ListNodesInput: AWSPaginateStringToken {
     public init(_ original: ManagedBlockchain.ListNodesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -82,7 +82,7 @@ extension ManagedBlockchain.ListNodesInput: AWSPaginateable {
     }
 }
 
-extension ManagedBlockchain.ListProposalVotesInput: AWSPaginateable {
+extension ManagedBlockchain.ListProposalVotesInput: AWSPaginateStringToken {
     public init(_ original: ManagedBlockchain.ListProposalVotesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -93,7 +93,7 @@ extension ManagedBlockchain.ListProposalVotesInput: AWSPaginateable {
     }
 }
 
-extension ManagedBlockchain.ListProposalsInput: AWSPaginateable {
+extension ManagedBlockchain.ListProposalsInput: AWSPaginateStringToken {
     public init(_ original: ManagedBlockchain.ListProposalsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

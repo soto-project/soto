@@ -41,7 +41,7 @@ extension RAM {
     
 }
 
-extension RAM.GetResourcePoliciesRequest: AWSPaginateable {
+extension RAM.GetResourcePoliciesRequest: AWSPaginateStringToken {
     public init(_ original: RAM.GetResourcePoliciesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -52,7 +52,7 @@ extension RAM.GetResourcePoliciesRequest: AWSPaginateable {
     }
 }
 
-extension RAM.GetResourceShareAssociationsRequest: AWSPaginateable {
+extension RAM.GetResourceShareAssociationsRequest: AWSPaginateStringToken {
     public init(_ original: RAM.GetResourceShareAssociationsRequest, token: String) {
         self.init(
             associationStatus: original.associationStatus, 
@@ -66,7 +66,7 @@ extension RAM.GetResourceShareAssociationsRequest: AWSPaginateable {
     }
 }
 
-extension RAM.GetResourceShareInvitationsRequest: AWSPaginateable {
+extension RAM.GetResourceShareInvitationsRequest: AWSPaginateStringToken {
     public init(_ original: RAM.GetResourceShareInvitationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -77,7 +77,7 @@ extension RAM.GetResourceShareInvitationsRequest: AWSPaginateable {
     }
 }
 
-extension RAM.GetResourceSharesRequest: AWSPaginateable {
+extension RAM.GetResourceSharesRequest: AWSPaginateStringToken {
     public init(_ original: RAM.GetResourceSharesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -91,7 +91,7 @@ extension RAM.GetResourceSharesRequest: AWSPaginateable {
     }
 }
 
-extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateable {
+extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateStringToken {
     public init(_ original: RAM.ListPendingInvitationResourcesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -101,7 +101,7 @@ extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateable {
     }
 }
 
-extension RAM.ListPrincipalsRequest: AWSPaginateable {
+extension RAM.ListPrincipalsRequest: AWSPaginateStringToken {
     public init(_ original: RAM.ListPrincipalsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -115,7 +115,7 @@ extension RAM.ListPrincipalsRequest: AWSPaginateable {
     }
 }
 
-extension RAM.ListResourcesRequest: AWSPaginateable {
+extension RAM.ListResourcesRequest: AWSPaginateStringToken {
     public init(_ original: RAM.ListResourcesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

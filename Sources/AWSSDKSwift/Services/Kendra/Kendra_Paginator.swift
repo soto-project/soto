@@ -21,7 +21,7 @@ extension Kendra {
     
 }
 
-extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateable {
+extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateStringToken {
     public init(_ original: Kendra.ListDataSourceSyncJobsRequest, token: String) {
         self.init(
             id: original.id, 
@@ -34,7 +34,7 @@ extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateable {
     }
 }
 
-extension Kendra.ListDataSourcesRequest: AWSPaginateable {
+extension Kendra.ListDataSourcesRequest: AWSPaginateStringToken {
     public init(_ original: Kendra.ListDataSourcesRequest, token: String) {
         self.init(
             indexId: original.indexId, 
@@ -44,7 +44,7 @@ extension Kendra.ListDataSourcesRequest: AWSPaginateable {
     }
 }
 
-extension Kendra.ListIndicesRequest: AWSPaginateable {
+extension Kendra.ListIndicesRequest: AWSPaginateStringToken {
     public init(_ original: Kendra.ListIndicesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

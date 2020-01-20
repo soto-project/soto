@@ -11,7 +11,7 @@ extension ELB {
     
 }
 
-extension ELB.DescribeAccessPointsInput: AWSPaginateable {
+extension ELB.DescribeAccessPointsInput: AWSPaginateStringToken {
     public init(_ original: ELB.DescribeAccessPointsInput, token: String) {
         self.init(
             loadBalancerNames: original.loadBalancerNames, 

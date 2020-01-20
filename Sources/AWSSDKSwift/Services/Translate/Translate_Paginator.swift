@@ -16,7 +16,7 @@ extension Translate {
     
 }
 
-extension Translate.ListTerminologiesRequest: AWSPaginateable {
+extension Translate.ListTerminologiesRequest: AWSPaginateStringToken {
     public init(_ original: Translate.ListTerminologiesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -25,7 +25,7 @@ extension Translate.ListTerminologiesRequest: AWSPaginateable {
     }
 }
 
-extension Translate.ListTextTranslationJobsRequest: AWSPaginateable {
+extension Translate.ListTextTranslationJobsRequest: AWSPaginateStringToken {
     public init(_ original: Translate.ListTextTranslationJobsRequest, token: String) {
         self.init(
             filter: original.filter, 

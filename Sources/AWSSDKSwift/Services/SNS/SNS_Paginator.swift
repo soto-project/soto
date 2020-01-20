@@ -31,7 +31,7 @@ extension SNS {
     
 }
 
-extension SNS.ListEndpointsByPlatformApplicationInput: AWSPaginateable {
+extension SNS.ListEndpointsByPlatformApplicationInput: AWSPaginateStringToken {
     public init(_ original: SNS.ListEndpointsByPlatformApplicationInput, token: String) {
         self.init(
             nextToken: token, 
@@ -40,7 +40,7 @@ extension SNS.ListEndpointsByPlatformApplicationInput: AWSPaginateable {
     }
 }
 
-extension SNS.ListPlatformApplicationsInput: AWSPaginateable {
+extension SNS.ListPlatformApplicationsInput: AWSPaginateStringToken {
     public init(_ original: SNS.ListPlatformApplicationsInput, token: String) {
         self.init(
             nextToken: token
@@ -48,7 +48,7 @@ extension SNS.ListPlatformApplicationsInput: AWSPaginateable {
     }
 }
 
-extension SNS.ListSubscriptionsInput: AWSPaginateable {
+extension SNS.ListSubscriptionsInput: AWSPaginateStringToken {
     public init(_ original: SNS.ListSubscriptionsInput, token: String) {
         self.init(
             nextToken: token
@@ -56,7 +56,7 @@ extension SNS.ListSubscriptionsInput: AWSPaginateable {
     }
 }
 
-extension SNS.ListSubscriptionsByTopicInput: AWSPaginateable {
+extension SNS.ListSubscriptionsByTopicInput: AWSPaginateStringToken {
     public init(_ original: SNS.ListSubscriptionsByTopicInput, token: String) {
         self.init(
             nextToken: token, 
@@ -65,7 +65,7 @@ extension SNS.ListSubscriptionsByTopicInput: AWSPaginateable {
     }
 }
 
-extension SNS.ListTopicsInput: AWSPaginateable {
+extension SNS.ListTopicsInput: AWSPaginateStringToken {
     public init(_ original: SNS.ListTopicsInput, token: String) {
         self.init(
             nextToken: token

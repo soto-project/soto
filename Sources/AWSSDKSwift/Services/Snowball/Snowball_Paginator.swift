@@ -16,7 +16,7 @@ extension Snowball {
     
 }
 
-extension Snowball.DescribeAddressesRequest: AWSPaginateable {
+extension Snowball.DescribeAddressesRequest: AWSPaginateStringToken {
     public init(_ original: Snowball.DescribeAddressesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -25,7 +25,7 @@ extension Snowball.DescribeAddressesRequest: AWSPaginateable {
     }
 }
 
-extension Snowball.ListJobsRequest: AWSPaginateable {
+extension Snowball.ListJobsRequest: AWSPaginateStringToken {
     public init(_ original: Snowball.ListJobsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

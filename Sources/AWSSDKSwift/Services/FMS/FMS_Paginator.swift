@@ -21,7 +21,7 @@ extension FMS {
     
 }
 
-extension FMS.ListComplianceStatusRequest: AWSPaginateable {
+extension FMS.ListComplianceStatusRequest: AWSPaginateStringToken {
     public init(_ original: FMS.ListComplianceStatusRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -31,7 +31,7 @@ extension FMS.ListComplianceStatusRequest: AWSPaginateable {
     }
 }
 
-extension FMS.ListMemberAccountsRequest: AWSPaginateable {
+extension FMS.ListMemberAccountsRequest: AWSPaginateStringToken {
     public init(_ original: FMS.ListMemberAccountsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -40,7 +40,7 @@ extension FMS.ListMemberAccountsRequest: AWSPaginateable {
     }
 }
 
-extension FMS.ListPoliciesRequest: AWSPaginateable {
+extension FMS.ListPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: FMS.ListPoliciesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

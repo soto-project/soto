@@ -16,7 +16,7 @@ extension ApplicationDiscoveryService {
     
 }
 
-extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPaginateable {
+extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationDiscoveryService.DescribeContinuousExportsRequest, token: String) {
         self.init(
             exportIds: original.exportIds, 
@@ -26,7 +26,7 @@ extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPagin
     }
 }
 
-extension ApplicationDiscoveryService.DescribeImportTasksRequest: AWSPaginateable {
+extension ApplicationDiscoveryService.DescribeImportTasksRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationDiscoveryService.DescribeImportTasksRequest, token: String) {
         self.init(
             filters: original.filters, 

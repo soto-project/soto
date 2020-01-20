@@ -11,7 +11,7 @@ extension ImportExport {
     
 }
 
-extension ImportExport.ListJobsInput: AWSPaginateable {
+extension ImportExport.ListJobsInput: AWSPaginateStringToken {
     public init(_ original: ImportExport.ListJobsInput, token: String) {
         self.init(
             aPIVersion: original.aPIVersion, 

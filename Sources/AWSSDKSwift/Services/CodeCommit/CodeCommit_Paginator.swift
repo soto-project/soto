@@ -66,7 +66,7 @@ extension CodeCommit {
     
 }
 
-extension CodeCommit.DescribeMergeConflictsInput: AWSPaginateable {
+extension CodeCommit.DescribeMergeConflictsInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.DescribeMergeConflictsInput, token: String) {
         self.init(
             conflictDetailLevel: original.conflictDetailLevel, 
@@ -82,7 +82,7 @@ extension CodeCommit.DescribeMergeConflictsInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.DescribePullRequestEventsInput: AWSPaginateable {
+extension CodeCommit.DescribePullRequestEventsInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.DescribePullRequestEventsInput, token: String) {
         self.init(
             actorArn: original.actorArn, 
@@ -94,7 +94,7 @@ extension CodeCommit.DescribePullRequestEventsInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.GetCommentsForComparedCommitInput: AWSPaginateable {
+extension CodeCommit.GetCommentsForComparedCommitInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.GetCommentsForComparedCommitInput, token: String) {
         self.init(
             afterCommitId: original.afterCommitId, 
@@ -106,7 +106,7 @@ extension CodeCommit.GetCommentsForComparedCommitInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.GetCommentsForPullRequestInput: AWSPaginateable {
+extension CodeCommit.GetCommentsForPullRequestInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.GetCommentsForPullRequestInput, token: String) {
         self.init(
             afterCommitId: original.afterCommitId, 
@@ -119,7 +119,7 @@ extension CodeCommit.GetCommentsForPullRequestInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.GetDifferencesInput: AWSPaginateable {
+extension CodeCommit.GetDifferencesInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.GetDifferencesInput, token: String) {
         self.init(
             afterCommitSpecifier: original.afterCommitSpecifier, 
@@ -133,7 +133,7 @@ extension CodeCommit.GetDifferencesInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.GetMergeConflictsInput: AWSPaginateable {
+extension CodeCommit.GetMergeConflictsInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.GetMergeConflictsInput, token: String) {
         self.init(
             conflictDetailLevel: original.conflictDetailLevel, 
@@ -148,7 +148,7 @@ extension CodeCommit.GetMergeConflictsInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.ListApprovalRuleTemplatesInput: AWSPaginateable {
+extension CodeCommit.ListApprovalRuleTemplatesInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.ListApprovalRuleTemplatesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -157,7 +157,7 @@ extension CodeCommit.ListApprovalRuleTemplatesInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSPaginateable {
+extension CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -167,7 +167,7 @@ extension CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSP
     }
 }
 
-extension CodeCommit.ListBranchesInput: AWSPaginateable {
+extension CodeCommit.ListBranchesInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.ListBranchesInput, token: String) {
         self.init(
             nextToken: token, 
@@ -176,7 +176,7 @@ extension CodeCommit.ListBranchesInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.ListPullRequestsInput: AWSPaginateable {
+extension CodeCommit.ListPullRequestsInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.ListPullRequestsInput, token: String) {
         self.init(
             authorArn: original.authorArn, 
@@ -188,7 +188,7 @@ extension CodeCommit.ListPullRequestsInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.ListRepositoriesInput: AWSPaginateable {
+extension CodeCommit.ListRepositoriesInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.ListRepositoriesInput, token: String) {
         self.init(
             nextToken: token, 
@@ -198,7 +198,7 @@ extension CodeCommit.ListRepositoriesInput: AWSPaginateable {
     }
 }
 
-extension CodeCommit.ListRepositoriesForApprovalRuleTemplateInput: AWSPaginateable {
+extension CodeCommit.ListRepositoriesForApprovalRuleTemplateInput: AWSPaginateStringToken {
     public init(_ original: CodeCommit.ListRepositoriesForApprovalRuleTemplateInput, token: String) {
         self.init(
             approvalRuleTemplateName: original.approvalRuleTemplateName, 

@@ -11,7 +11,7 @@ extension ElasticBeanstalk {
     
 }
 
-extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateable {
+extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateStringToken {
     public init(_ original: ElasticBeanstalk.DescribeEventsMessage, token: String) {
         self.init(
             applicationName: original.applicationName, 

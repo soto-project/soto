@@ -96,7 +96,7 @@ extension CloudDirectory {
     
 }
 
-extension CloudDirectory.ListAppliedSchemaArnsRequest: AWSPaginateable {
+extension CloudDirectory.ListAppliedSchemaArnsRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListAppliedSchemaArnsRequest, token: String) {
         self.init(
             directoryArn: original.directoryArn, 
@@ -107,7 +107,7 @@ extension CloudDirectory.ListAppliedSchemaArnsRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListAttachedIndicesRequest: AWSPaginateable {
+extension CloudDirectory.ListAttachedIndicesRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListAttachedIndicesRequest, token: String) {
         self.init(
             consistencyLevel: original.consistencyLevel, 
@@ -119,7 +119,7 @@ extension CloudDirectory.ListAttachedIndicesRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListDevelopmentSchemaArnsRequest: AWSPaginateable {
+extension CloudDirectory.ListDevelopmentSchemaArnsRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListDevelopmentSchemaArnsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -128,7 +128,7 @@ extension CloudDirectory.ListDevelopmentSchemaArnsRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListDirectoriesRequest: AWSPaginateable {
+extension CloudDirectory.ListDirectoriesRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListDirectoriesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -138,7 +138,7 @@ extension CloudDirectory.ListDirectoriesRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListFacetAttributesRequest: AWSPaginateable {
+extension CloudDirectory.ListFacetAttributesRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListFacetAttributesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -149,7 +149,7 @@ extension CloudDirectory.ListFacetAttributesRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListFacetNamesRequest: AWSPaginateable {
+extension CloudDirectory.ListFacetNamesRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListFacetNamesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -159,7 +159,7 @@ extension CloudDirectory.ListFacetNamesRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListIndexRequest: AWSPaginateable {
+extension CloudDirectory.ListIndexRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListIndexRequest, token: String) {
         self.init(
             consistencyLevel: original.consistencyLevel, 
@@ -172,7 +172,7 @@ extension CloudDirectory.ListIndexRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListManagedSchemaArnsRequest: AWSPaginateable {
+extension CloudDirectory.ListManagedSchemaArnsRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListManagedSchemaArnsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -182,7 +182,7 @@ extension CloudDirectory.ListManagedSchemaArnsRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListObjectAttributesRequest: AWSPaginateable {
+extension CloudDirectory.ListObjectAttributesRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListObjectAttributesRequest, token: String) {
         self.init(
             consistencyLevel: original.consistencyLevel, 
@@ -195,7 +195,7 @@ extension CloudDirectory.ListObjectAttributesRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListObjectParentPathsRequest: AWSPaginateable {
+extension CloudDirectory.ListObjectParentPathsRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListObjectParentPathsRequest, token: String) {
         self.init(
             directoryArn: original.directoryArn, 
@@ -206,7 +206,7 @@ extension CloudDirectory.ListObjectParentPathsRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListObjectParentsRequest: AWSPaginateable {
+extension CloudDirectory.ListObjectParentsRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListObjectParentsRequest, token: String) {
         self.init(
             consistencyLevel: original.consistencyLevel, 
@@ -219,7 +219,7 @@ extension CloudDirectory.ListObjectParentsRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListObjectPoliciesRequest: AWSPaginateable {
+extension CloudDirectory.ListObjectPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListObjectPoliciesRequest, token: String) {
         self.init(
             consistencyLevel: original.consistencyLevel, 
@@ -231,7 +231,7 @@ extension CloudDirectory.ListObjectPoliciesRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListPolicyAttachmentsRequest: AWSPaginateable {
+extension CloudDirectory.ListPolicyAttachmentsRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListPolicyAttachmentsRequest, token: String) {
         self.init(
             consistencyLevel: original.consistencyLevel, 
@@ -243,7 +243,7 @@ extension CloudDirectory.ListPolicyAttachmentsRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListPublishedSchemaArnsRequest: AWSPaginateable {
+extension CloudDirectory.ListPublishedSchemaArnsRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListPublishedSchemaArnsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -253,7 +253,7 @@ extension CloudDirectory.ListPublishedSchemaArnsRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListTagsForResourceRequest: AWSPaginateable {
+extension CloudDirectory.ListTagsForResourceRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListTagsForResourceRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -263,7 +263,7 @@ extension CloudDirectory.ListTagsForResourceRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListTypedLinkFacetAttributesRequest: AWSPaginateable {
+extension CloudDirectory.ListTypedLinkFacetAttributesRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListTypedLinkFacetAttributesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -274,7 +274,7 @@ extension CloudDirectory.ListTypedLinkFacetAttributesRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.ListTypedLinkFacetNamesRequest: AWSPaginateable {
+extension CloudDirectory.ListTypedLinkFacetNamesRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.ListTypedLinkFacetNamesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -284,7 +284,7 @@ extension CloudDirectory.ListTypedLinkFacetNamesRequest: AWSPaginateable {
     }
 }
 
-extension CloudDirectory.LookupPolicyRequest: AWSPaginateable {
+extension CloudDirectory.LookupPolicyRequest: AWSPaginateStringToken {
     public init(_ original: CloudDirectory.LookupPolicyRequest, token: String) {
         self.init(
             directoryArn: original.directoryArn, 

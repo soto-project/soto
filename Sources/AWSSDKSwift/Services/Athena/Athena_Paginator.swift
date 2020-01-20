@@ -21,7 +21,7 @@ extension Athena {
     
 }
 
-extension Athena.ListNamedQueriesInput: AWSPaginateable {
+extension Athena.ListNamedQueriesInput: AWSPaginateStringToken {
     public init(_ original: Athena.ListNamedQueriesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -31,7 +31,7 @@ extension Athena.ListNamedQueriesInput: AWSPaginateable {
     }
 }
 
-extension Athena.ListQueryExecutionsInput: AWSPaginateable {
+extension Athena.ListQueryExecutionsInput: AWSPaginateStringToken {
     public init(_ original: Athena.ListQueryExecutionsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -41,7 +41,7 @@ extension Athena.ListQueryExecutionsInput: AWSPaginateable {
     }
 }
 
-extension Athena.ListWorkGroupsInput: AWSPaginateable {
+extension Athena.ListWorkGroupsInput: AWSPaginateStringToken {
     public init(_ original: Athena.ListWorkGroupsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

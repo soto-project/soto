@@ -21,7 +21,7 @@ extension ResourceGroups {
     
 }
 
-extension ResourceGroups.ListGroupResourcesInput: AWSPaginateable {
+extension ResourceGroups.ListGroupResourcesInput: AWSPaginateStringToken {
     public init(_ original: ResourceGroups.ListGroupResourcesInput, token: String) {
         self.init(
             filters: original.filters, 
@@ -32,7 +32,7 @@ extension ResourceGroups.ListGroupResourcesInput: AWSPaginateable {
     }
 }
 
-extension ResourceGroups.ListGroupsInput: AWSPaginateable {
+extension ResourceGroups.ListGroupsInput: AWSPaginateStringToken {
     public init(_ original: ResourceGroups.ListGroupsInput, token: String) {
         self.init(
             filters: original.filters, 
@@ -42,7 +42,7 @@ extension ResourceGroups.ListGroupsInput: AWSPaginateable {
     }
 }
 
-extension ResourceGroups.SearchResourcesInput: AWSPaginateable {
+extension ResourceGroups.SearchResourcesInput: AWSPaginateStringToken {
     public init(_ original: ResourceGroups.SearchResourcesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

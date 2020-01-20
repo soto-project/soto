@@ -21,7 +21,7 @@ extension ServerlessApplicationRepository {
     
 }
 
-extension ServerlessApplicationRepository.ListApplicationDependenciesRequest: AWSPaginateable {
+extension ServerlessApplicationRepository.ListApplicationDependenciesRequest: AWSPaginateStringToken {
     public init(_ original: ServerlessApplicationRepository.ListApplicationDependenciesRequest, token: String) {
         self.init(
             applicationId: original.applicationId, 
@@ -32,7 +32,7 @@ extension ServerlessApplicationRepository.ListApplicationDependenciesRequest: AW
     }
 }
 
-extension ServerlessApplicationRepository.ListApplicationVersionsRequest: AWSPaginateable {
+extension ServerlessApplicationRepository.ListApplicationVersionsRequest: AWSPaginateStringToken {
     public init(_ original: ServerlessApplicationRepository.ListApplicationVersionsRequest, token: String) {
         self.init(
             applicationId: original.applicationId, 
@@ -42,7 +42,7 @@ extension ServerlessApplicationRepository.ListApplicationVersionsRequest: AWSPag
     }
 }
 
-extension ServerlessApplicationRepository.ListApplicationsRequest: AWSPaginateable {
+extension ServerlessApplicationRepository.ListApplicationsRequest: AWSPaginateStringToken {
     public init(_ original: ServerlessApplicationRepository.ListApplicationsRequest, token: String) {
         self.init(
             maxItems: original.maxItems, 

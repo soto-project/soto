@@ -51,7 +51,7 @@ extension StorageGateway {
     
 }
 
-extension StorageGateway.DescribeTapeArchivesInput: AWSPaginateable {
+extension StorageGateway.DescribeTapeArchivesInput: AWSPaginateStringToken {
     public init(_ original: StorageGateway.DescribeTapeArchivesInput, token: String) {
         self.init(
             limit: original.limit, 
@@ -61,7 +61,7 @@ extension StorageGateway.DescribeTapeArchivesInput: AWSPaginateable {
     }
 }
 
-extension StorageGateway.DescribeTapeRecoveryPointsInput: AWSPaginateable {
+extension StorageGateway.DescribeTapeRecoveryPointsInput: AWSPaginateStringToken {
     public init(_ original: StorageGateway.DescribeTapeRecoveryPointsInput, token: String) {
         self.init(
             gatewayARN: original.gatewayARN, 
@@ -71,7 +71,7 @@ extension StorageGateway.DescribeTapeRecoveryPointsInput: AWSPaginateable {
     }
 }
 
-extension StorageGateway.DescribeTapesInput: AWSPaginateable {
+extension StorageGateway.DescribeTapesInput: AWSPaginateStringToken {
     public init(_ original: StorageGateway.DescribeTapesInput, token: String) {
         self.init(
             gatewayARN: original.gatewayARN, 
@@ -82,7 +82,7 @@ extension StorageGateway.DescribeTapesInput: AWSPaginateable {
     }
 }
 
-extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateable {
+extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateStringToken {
     public init(_ original: StorageGateway.DescribeVTLDevicesInput, token: String) {
         self.init(
             gatewayARN: original.gatewayARN, 
@@ -93,7 +93,7 @@ extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateable {
     }
 }
 
-extension StorageGateway.ListFileSharesInput: AWSPaginateable {
+extension StorageGateway.ListFileSharesInput: AWSPaginateStringToken {
     public init(_ original: StorageGateway.ListFileSharesInput, token: String) {
         self.init(
             gatewayARN: original.gatewayARN, 
@@ -103,7 +103,7 @@ extension StorageGateway.ListFileSharesInput: AWSPaginateable {
     }
 }
 
-extension StorageGateway.ListGatewaysInput: AWSPaginateable {
+extension StorageGateway.ListGatewaysInput: AWSPaginateStringToken {
     public init(_ original: StorageGateway.ListGatewaysInput, token: String) {
         self.init(
             limit: original.limit, 
@@ -112,7 +112,7 @@ extension StorageGateway.ListGatewaysInput: AWSPaginateable {
     }
 }
 
-extension StorageGateway.ListTagsForResourceInput: AWSPaginateable {
+extension StorageGateway.ListTagsForResourceInput: AWSPaginateStringToken {
     public init(_ original: StorageGateway.ListTagsForResourceInput, token: String) {
         self.init(
             limit: original.limit, 
@@ -122,7 +122,7 @@ extension StorageGateway.ListTagsForResourceInput: AWSPaginateable {
     }
 }
 
-extension StorageGateway.ListTapesInput: AWSPaginateable {
+extension StorageGateway.ListTapesInput: AWSPaginateStringToken {
     public init(_ original: StorageGateway.ListTapesInput, token: String) {
         self.init(
             limit: original.limit, 
@@ -132,7 +132,7 @@ extension StorageGateway.ListTapesInput: AWSPaginateable {
     }
 }
 
-extension StorageGateway.ListVolumesInput: AWSPaginateable {
+extension StorageGateway.ListVolumesInput: AWSPaginateStringToken {
     public init(_ original: StorageGateway.ListVolumesInput, token: String) {
         self.init(
             gatewayARN: original.gatewayARN, 

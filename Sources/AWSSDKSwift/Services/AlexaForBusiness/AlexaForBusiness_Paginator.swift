@@ -96,7 +96,7 @@ extension AlexaForBusiness {
     
 }
 
-extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateable {
+extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListBusinessReportSchedulesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -105,7 +105,7 @@ extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.ListConferenceProvidersRequest: AWSPaginateable {
+extension AlexaForBusiness.ListConferenceProvidersRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListConferenceProvidersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -114,7 +114,7 @@ extension AlexaForBusiness.ListConferenceProvidersRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.ListDeviceEventsRequest: AWSPaginateable {
+extension AlexaForBusiness.ListDeviceEventsRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListDeviceEventsRequest, token: String) {
         self.init(
             deviceArn: original.deviceArn, 
@@ -125,7 +125,7 @@ extension AlexaForBusiness.ListDeviceEventsRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.ListGatewayGroupsRequest: AWSPaginateable {
+extension AlexaForBusiness.ListGatewayGroupsRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListGatewayGroupsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -134,7 +134,7 @@ extension AlexaForBusiness.ListGatewayGroupsRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.ListGatewaysRequest: AWSPaginateable {
+extension AlexaForBusiness.ListGatewaysRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListGatewaysRequest, token: String) {
         self.init(
             gatewayGroupArn: original.gatewayGroupArn, 
@@ -144,7 +144,7 @@ extension AlexaForBusiness.ListGatewaysRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.ListSkillsRequest: AWSPaginateable {
+extension AlexaForBusiness.ListSkillsRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListSkillsRequest, token: String) {
         self.init(
             enablementType: original.enablementType, 
@@ -156,7 +156,7 @@ extension AlexaForBusiness.ListSkillsRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.ListSkillsStoreCategoriesRequest: AWSPaginateable {
+extension AlexaForBusiness.ListSkillsStoreCategoriesRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListSkillsStoreCategoriesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -165,7 +165,7 @@ extension AlexaForBusiness.ListSkillsStoreCategoriesRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest: AWSPaginateable {
+extension AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest, token: String) {
         self.init(
             categoryId: original.categoryId, 
@@ -175,7 +175,7 @@ extension AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest: AWSPaginateab
     }
 }
 
-extension AlexaForBusiness.ListSmartHomeAppliancesRequest: AWSPaginateable {
+extension AlexaForBusiness.ListSmartHomeAppliancesRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListSmartHomeAppliancesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -185,7 +185,7 @@ extension AlexaForBusiness.ListSmartHomeAppliancesRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.ListTagsRequest: AWSPaginateable {
+extension AlexaForBusiness.ListTagsRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.ListTagsRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -195,7 +195,7 @@ extension AlexaForBusiness.ListTagsRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.SearchAddressBooksRequest: AWSPaginateable {
+extension AlexaForBusiness.SearchAddressBooksRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.SearchAddressBooksRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -206,7 +206,7 @@ extension AlexaForBusiness.SearchAddressBooksRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.SearchContactsRequest: AWSPaginateable {
+extension AlexaForBusiness.SearchContactsRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.SearchContactsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -217,7 +217,7 @@ extension AlexaForBusiness.SearchContactsRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.SearchDevicesRequest: AWSPaginateable {
+extension AlexaForBusiness.SearchDevicesRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.SearchDevicesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -228,7 +228,7 @@ extension AlexaForBusiness.SearchDevicesRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.SearchNetworkProfilesRequest: AWSPaginateable {
+extension AlexaForBusiness.SearchNetworkProfilesRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.SearchNetworkProfilesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -239,7 +239,7 @@ extension AlexaForBusiness.SearchNetworkProfilesRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.SearchProfilesRequest: AWSPaginateable {
+extension AlexaForBusiness.SearchProfilesRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.SearchProfilesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -250,7 +250,7 @@ extension AlexaForBusiness.SearchProfilesRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.SearchRoomsRequest: AWSPaginateable {
+extension AlexaForBusiness.SearchRoomsRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.SearchRoomsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -261,7 +261,7 @@ extension AlexaForBusiness.SearchRoomsRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.SearchSkillGroupsRequest: AWSPaginateable {
+extension AlexaForBusiness.SearchSkillGroupsRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.SearchSkillGroupsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -272,7 +272,7 @@ extension AlexaForBusiness.SearchSkillGroupsRequest: AWSPaginateable {
     }
 }
 
-extension AlexaForBusiness.SearchUsersRequest: AWSPaginateable {
+extension AlexaForBusiness.SearchUsersRequest: AWSPaginateStringToken {
     public init(_ original: AlexaForBusiness.SearchUsersRequest, token: String) {
         self.init(
             filters: original.filters, 

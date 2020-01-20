@@ -26,7 +26,7 @@ extension Route53Resolver {
     
 }
 
-extension Route53Resolver.ListResolverEndpointIpAddressesRequest: AWSPaginateable {
+extension Route53Resolver.ListResolverEndpointIpAddressesRequest: AWSPaginateStringToken {
     public init(_ original: Route53Resolver.ListResolverEndpointIpAddressesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -36,7 +36,7 @@ extension Route53Resolver.ListResolverEndpointIpAddressesRequest: AWSPaginateabl
     }
 }
 
-extension Route53Resolver.ListResolverEndpointsRequest: AWSPaginateable {
+extension Route53Resolver.ListResolverEndpointsRequest: AWSPaginateStringToken {
     public init(_ original: Route53Resolver.ListResolverEndpointsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -46,7 +46,7 @@ extension Route53Resolver.ListResolverEndpointsRequest: AWSPaginateable {
     }
 }
 
-extension Route53Resolver.ListResolverRuleAssociationsRequest: AWSPaginateable {
+extension Route53Resolver.ListResolverRuleAssociationsRequest: AWSPaginateStringToken {
     public init(_ original: Route53Resolver.ListResolverRuleAssociationsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -56,7 +56,7 @@ extension Route53Resolver.ListResolverRuleAssociationsRequest: AWSPaginateable {
     }
 }
 
-extension Route53Resolver.ListResolverRulesRequest: AWSPaginateable {
+extension Route53Resolver.ListResolverRulesRequest: AWSPaginateStringToken {
     public init(_ original: Route53Resolver.ListResolverRulesRequest, token: String) {
         self.init(
             filters: original.filters, 

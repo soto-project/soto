@@ -26,7 +26,7 @@ extension ApplicationAutoScaling {
     
 }
 
-extension ApplicationAutoScaling.DescribeScalableTargetsRequest: AWSPaginateable {
+extension ApplicationAutoScaling.DescribeScalableTargetsRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationAutoScaling.DescribeScalableTargetsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -38,7 +38,7 @@ extension ApplicationAutoScaling.DescribeScalableTargetsRequest: AWSPaginateable
     }
 }
 
-extension ApplicationAutoScaling.DescribeScalingActivitiesRequest: AWSPaginateable {
+extension ApplicationAutoScaling.DescribeScalingActivitiesRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationAutoScaling.DescribeScalingActivitiesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -50,7 +50,7 @@ extension ApplicationAutoScaling.DescribeScalingActivitiesRequest: AWSPaginateab
     }
 }
 
-extension ApplicationAutoScaling.DescribeScalingPoliciesRequest: AWSPaginateable {
+extension ApplicationAutoScaling.DescribeScalingPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationAutoScaling.DescribeScalingPoliciesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -63,7 +63,7 @@ extension ApplicationAutoScaling.DescribeScalingPoliciesRequest: AWSPaginateable
     }
 }
 
-extension ApplicationAutoScaling.DescribeScheduledActionsRequest: AWSPaginateable {
+extension ApplicationAutoScaling.DescribeScheduledActionsRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationAutoScaling.DescribeScheduledActionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

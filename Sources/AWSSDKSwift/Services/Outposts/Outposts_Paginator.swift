@@ -16,7 +16,7 @@ extension Outposts {
     
 }
 
-extension Outposts.ListOutpostsInput: AWSPaginateable {
+extension Outposts.ListOutpostsInput: AWSPaginateStringToken {
     public init(_ original: Outposts.ListOutpostsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -25,7 +25,7 @@ extension Outposts.ListOutpostsInput: AWSPaginateable {
     }
 }
 
-extension Outposts.ListSitesInput: AWSPaginateable {
+extension Outposts.ListSitesInput: AWSPaginateStringToken {
     public init(_ original: Outposts.ListSitesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

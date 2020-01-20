@@ -21,7 +21,7 @@ extension ELBV2 {
     
 }
 
-extension ELBV2.DescribeListenersInput: AWSPaginateable {
+extension ELBV2.DescribeListenersInput: AWSPaginateStringToken {
     public init(_ original: ELBV2.DescribeListenersInput, token: String) {
         self.init(
             listenerArns: original.listenerArns, 
@@ -32,7 +32,7 @@ extension ELBV2.DescribeListenersInput: AWSPaginateable {
     }
 }
 
-extension ELBV2.DescribeLoadBalancersInput: AWSPaginateable {
+extension ELBV2.DescribeLoadBalancersInput: AWSPaginateStringToken {
     public init(_ original: ELBV2.DescribeLoadBalancersInput, token: String) {
         self.init(
             loadBalancerArns: original.loadBalancerArns, 
@@ -43,7 +43,7 @@ extension ELBV2.DescribeLoadBalancersInput: AWSPaginateable {
     }
 }
 
-extension ELBV2.DescribeTargetGroupsInput: AWSPaginateable {
+extension ELBV2.DescribeTargetGroupsInput: AWSPaginateStringToken {
     public init(_ original: ELBV2.DescribeTargetGroupsInput, token: String) {
         self.init(
             loadBalancerArn: original.loadBalancerArn, 

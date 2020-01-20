@@ -31,7 +31,7 @@ extension Kafka {
     
 }
 
-extension Kafka.ListClusterOperationsRequest: AWSPaginateable {
+extension Kafka.ListClusterOperationsRequest: AWSPaginateStringToken {
     public init(_ original: Kafka.ListClusterOperationsRequest, token: String) {
         self.init(
             clusterArn: original.clusterArn, 
@@ -41,7 +41,7 @@ extension Kafka.ListClusterOperationsRequest: AWSPaginateable {
     }
 }
 
-extension Kafka.ListClustersRequest: AWSPaginateable {
+extension Kafka.ListClustersRequest: AWSPaginateStringToken {
     public init(_ original: Kafka.ListClustersRequest, token: String) {
         self.init(
             clusterNameFilter: original.clusterNameFilter, 
@@ -51,7 +51,7 @@ extension Kafka.ListClustersRequest: AWSPaginateable {
     }
 }
 
-extension Kafka.ListConfigurationRevisionsRequest: AWSPaginateable {
+extension Kafka.ListConfigurationRevisionsRequest: AWSPaginateStringToken {
     public init(_ original: Kafka.ListConfigurationRevisionsRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -61,7 +61,7 @@ extension Kafka.ListConfigurationRevisionsRequest: AWSPaginateable {
     }
 }
 
-extension Kafka.ListConfigurationsRequest: AWSPaginateable {
+extension Kafka.ListConfigurationsRequest: AWSPaginateStringToken {
     public init(_ original: Kafka.ListConfigurationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -70,7 +70,7 @@ extension Kafka.ListConfigurationsRequest: AWSPaginateable {
     }
 }
 
-extension Kafka.ListNodesRequest: AWSPaginateable {
+extension Kafka.ListNodesRequest: AWSPaginateStringToken {
     public init(_ original: Kafka.ListNodesRequest, token: String) {
         self.init(
             clusterArn: original.clusterArn, 

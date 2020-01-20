@@ -36,7 +36,7 @@ extension RoboMaker {
     
 }
 
-extension RoboMaker.ListDeploymentJobsRequest: AWSPaginateable {
+extension RoboMaker.ListDeploymentJobsRequest: AWSPaginateStringToken {
     public init(_ original: RoboMaker.ListDeploymentJobsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -46,7 +46,7 @@ extension RoboMaker.ListDeploymentJobsRequest: AWSPaginateable {
     }
 }
 
-extension RoboMaker.ListFleetsRequest: AWSPaginateable {
+extension RoboMaker.ListFleetsRequest: AWSPaginateStringToken {
     public init(_ original: RoboMaker.ListFleetsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -56,7 +56,7 @@ extension RoboMaker.ListFleetsRequest: AWSPaginateable {
     }
 }
 
-extension RoboMaker.ListRobotApplicationsRequest: AWSPaginateable {
+extension RoboMaker.ListRobotApplicationsRequest: AWSPaginateStringToken {
     public init(_ original: RoboMaker.ListRobotApplicationsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -67,7 +67,7 @@ extension RoboMaker.ListRobotApplicationsRequest: AWSPaginateable {
     }
 }
 
-extension RoboMaker.ListRobotsRequest: AWSPaginateable {
+extension RoboMaker.ListRobotsRequest: AWSPaginateStringToken {
     public init(_ original: RoboMaker.ListRobotsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -77,7 +77,7 @@ extension RoboMaker.ListRobotsRequest: AWSPaginateable {
     }
 }
 
-extension RoboMaker.ListSimulationApplicationsRequest: AWSPaginateable {
+extension RoboMaker.ListSimulationApplicationsRequest: AWSPaginateStringToken {
     public init(_ original: RoboMaker.ListSimulationApplicationsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -88,7 +88,7 @@ extension RoboMaker.ListSimulationApplicationsRequest: AWSPaginateable {
     }
 }
 
-extension RoboMaker.ListSimulationJobsRequest: AWSPaginateable {
+extension RoboMaker.ListSimulationJobsRequest: AWSPaginateStringToken {
     public init(_ original: RoboMaker.ListSimulationJobsRequest, token: String) {
         self.init(
             filters: original.filters, 

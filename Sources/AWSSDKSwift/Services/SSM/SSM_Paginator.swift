@@ -51,7 +51,7 @@ extension SSM {
     
 }
 
-extension SSM.DescribeActivationsRequest: AWSPaginateable {
+extension SSM.DescribeActivationsRequest: AWSPaginateStringToken {
     public init(_ original: SSM.DescribeActivationsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -61,7 +61,7 @@ extension SSM.DescribeActivationsRequest: AWSPaginateable {
     }
 }
 
-extension SSM.DescribeInstanceInformationRequest: AWSPaginateable {
+extension SSM.DescribeInstanceInformationRequest: AWSPaginateStringToken {
     public init(_ original: SSM.DescribeInstanceInformationRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -72,7 +72,7 @@ extension SSM.DescribeInstanceInformationRequest: AWSPaginateable {
     }
 }
 
-extension SSM.DescribeParametersRequest: AWSPaginateable {
+extension SSM.DescribeParametersRequest: AWSPaginateStringToken {
     public init(_ original: SSM.DescribeParametersRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -83,7 +83,7 @@ extension SSM.DescribeParametersRequest: AWSPaginateable {
     }
 }
 
-extension SSM.GetParameterHistoryRequest: AWSPaginateable {
+extension SSM.GetParameterHistoryRequest: AWSPaginateStringToken {
     public init(_ original: SSM.GetParameterHistoryRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -94,7 +94,7 @@ extension SSM.GetParameterHistoryRequest: AWSPaginateable {
     }
 }
 
-extension SSM.GetParametersByPathRequest: AWSPaginateable {
+extension SSM.GetParametersByPathRequest: AWSPaginateStringToken {
     public init(_ original: SSM.GetParametersByPathRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -107,7 +107,7 @@ extension SSM.GetParametersByPathRequest: AWSPaginateable {
     }
 }
 
-extension SSM.ListAssociationsRequest: AWSPaginateable {
+extension SSM.ListAssociationsRequest: AWSPaginateStringToken {
     public init(_ original: SSM.ListAssociationsRequest, token: String) {
         self.init(
             associationFilterList: original.associationFilterList, 
@@ -117,7 +117,7 @@ extension SSM.ListAssociationsRequest: AWSPaginateable {
     }
 }
 
-extension SSM.ListCommandInvocationsRequest: AWSPaginateable {
+extension SSM.ListCommandInvocationsRequest: AWSPaginateStringToken {
     public init(_ original: SSM.ListCommandInvocationsRequest, token: String) {
         self.init(
             commandId: original.commandId, 
@@ -130,7 +130,7 @@ extension SSM.ListCommandInvocationsRequest: AWSPaginateable {
     }
 }
 
-extension SSM.ListCommandsRequest: AWSPaginateable {
+extension SSM.ListCommandsRequest: AWSPaginateStringToken {
     public init(_ original: SSM.ListCommandsRequest, token: String) {
         self.init(
             commandId: original.commandId, 
@@ -142,7 +142,7 @@ extension SSM.ListCommandsRequest: AWSPaginateable {
     }
 }
 
-extension SSM.ListDocumentsRequest: AWSPaginateable {
+extension SSM.ListDocumentsRequest: AWSPaginateStringToken {
     public init(_ original: SSM.ListDocumentsRequest, token: String) {
         self.init(
             documentFilterList: original.documentFilterList, 

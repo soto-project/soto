@@ -121,7 +121,7 @@ extension RDS {
     
 }
 
-extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateable {
+extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeCustomAvailabilityZonesMessage, token: String) {
         self.init(
             customAvailabilityZoneId: original.customAvailabilityZoneId, 
@@ -132,7 +132,7 @@ extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBClustersMessage: AWSPaginateable {
+extension RDS.DescribeDBClustersMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBClustersMessage, token: String) {
         self.init(
             dBClusterIdentifier: original.dBClusterIdentifier, 
@@ -144,7 +144,7 @@ extension RDS.DescribeDBClustersMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBEngineVersionsMessage: AWSPaginateable {
+extension RDS.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBEngineVersionsMessage, token: String) {
         self.init(
             dBParameterGroupFamily: original.dBParameterGroupFamily, 
@@ -161,7 +161,7 @@ extension RDS.DescribeDBEngineVersionsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBInstanceAutomatedBackupsMessage: AWSPaginateable {
+extension RDS.DescribeDBInstanceAutomatedBackupsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBInstanceAutomatedBackupsMessage, token: String) {
         self.init(
             dBInstanceIdentifier: original.dBInstanceIdentifier, 
@@ -173,7 +173,7 @@ extension RDS.DescribeDBInstanceAutomatedBackupsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBInstancesMessage: AWSPaginateable {
+extension RDS.DescribeDBInstancesMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBInstancesMessage, token: String) {
         self.init(
             dBInstanceIdentifier: original.dBInstanceIdentifier, 
@@ -184,7 +184,7 @@ extension RDS.DescribeDBInstancesMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBLogFilesMessage: AWSPaginateable {
+extension RDS.DescribeDBLogFilesMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBLogFilesMessage, token: String) {
         self.init(
             dBInstanceIdentifier: original.dBInstanceIdentifier, 
@@ -198,7 +198,7 @@ extension RDS.DescribeDBLogFilesMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBParameterGroupsMessage: AWSPaginateable {
+extension RDS.DescribeDBParameterGroupsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBParameterGroupsMessage, token: String) {
         self.init(
             dBParameterGroupName: original.dBParameterGroupName, 
@@ -209,7 +209,7 @@ extension RDS.DescribeDBParameterGroupsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBParametersMessage: AWSPaginateable {
+extension RDS.DescribeDBParametersMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBParametersMessage, token: String) {
         self.init(
             dBParameterGroupName: original.dBParameterGroupName, 
@@ -221,7 +221,7 @@ extension RDS.DescribeDBParametersMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBProxiesRequest: AWSPaginateable {
+extension RDS.DescribeDBProxiesRequest: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBProxiesRequest, token: String) {
         self.init(
             dBProxyName: original.dBProxyName, 
@@ -232,7 +232,7 @@ extension RDS.DescribeDBProxiesRequest: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBProxyTargetGroupsRequest: AWSPaginateable {
+extension RDS.DescribeDBProxyTargetGroupsRequest: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBProxyTargetGroupsRequest, token: String) {
         self.init(
             dBProxyName: original.dBProxyName, 
@@ -244,7 +244,7 @@ extension RDS.DescribeDBProxyTargetGroupsRequest: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBProxyTargetsRequest: AWSPaginateable {
+extension RDS.DescribeDBProxyTargetsRequest: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBProxyTargetsRequest, token: String) {
         self.init(
             dBProxyName: original.dBProxyName, 
@@ -256,7 +256,7 @@ extension RDS.DescribeDBProxyTargetsRequest: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBSecurityGroupsMessage: AWSPaginateable {
+extension RDS.DescribeDBSecurityGroupsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBSecurityGroupsMessage, token: String) {
         self.init(
             dBSecurityGroupName: original.dBSecurityGroupName, 
@@ -267,7 +267,7 @@ extension RDS.DescribeDBSecurityGroupsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBSnapshotsMessage: AWSPaginateable {
+extension RDS.DescribeDBSnapshotsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBSnapshotsMessage, token: String) {
         self.init(
             dBInstanceIdentifier: original.dBInstanceIdentifier, 
@@ -283,7 +283,7 @@ extension RDS.DescribeDBSnapshotsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeDBSubnetGroupsMessage: AWSPaginateable {
+extension RDS.DescribeDBSubnetGroupsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeDBSubnetGroupsMessage, token: String) {
         self.init(
             dBSubnetGroupName: original.dBSubnetGroupName, 
@@ -294,7 +294,7 @@ extension RDS.DescribeDBSubnetGroupsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeEventSubscriptionsMessage: AWSPaginateable {
+extension RDS.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeEventSubscriptionsMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -305,7 +305,7 @@ extension RDS.DescribeEventSubscriptionsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeEventsMessage: AWSPaginateable {
+extension RDS.DescribeEventsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeEventsMessage, token: String) {
         self.init(
             duration: original.duration, 
@@ -321,7 +321,7 @@ extension RDS.DescribeEventsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeGlobalClustersMessage: AWSPaginateable {
+extension RDS.DescribeGlobalClustersMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeGlobalClustersMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -332,7 +332,7 @@ extension RDS.DescribeGlobalClustersMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeInstallationMediaMessage: AWSPaginateable {
+extension RDS.DescribeInstallationMediaMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeInstallationMediaMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -343,7 +343,7 @@ extension RDS.DescribeInstallationMediaMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeOptionGroupOptionsMessage: AWSPaginateable {
+extension RDS.DescribeOptionGroupOptionsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeOptionGroupOptionsMessage, token: String) {
         self.init(
             engineName: original.engineName, 
@@ -355,7 +355,7 @@ extension RDS.DescribeOptionGroupOptionsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeOptionGroupsMessage: AWSPaginateable {
+extension RDS.DescribeOptionGroupsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeOptionGroupsMessage, token: String) {
         self.init(
             engineName: original.engineName, 
@@ -368,7 +368,7 @@ extension RDS.DescribeOptionGroupsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateable {
+extension RDS.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeOrderableDBInstanceOptionsMessage, token: String) {
         self.init(
             dBInstanceClass: original.dBInstanceClass, 
@@ -383,7 +383,7 @@ extension RDS.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeReservedDBInstancesMessage: AWSPaginateable {
+extension RDS.DescribeReservedDBInstancesMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeReservedDBInstancesMessage, token: String) {
         self.init(
             dBInstanceClass: original.dBInstanceClass, 
@@ -401,7 +401,7 @@ extension RDS.DescribeReservedDBInstancesMessage: AWSPaginateable {
     }
 }
 
-extension RDS.DescribeReservedDBInstancesOfferingsMessage: AWSPaginateable {
+extension RDS.DescribeReservedDBInstancesOfferingsMessage: AWSPaginateStringToken {
     public init(_ original: RDS.DescribeReservedDBInstancesOfferingsMessage, token: String) {
         self.init(
             dBInstanceClass: original.dBInstanceClass, 

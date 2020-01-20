@@ -26,7 +26,7 @@ extension SMS {
     
 }
 
-extension SMS.GetConnectorsRequest: AWSPaginateable {
+extension SMS.GetConnectorsRequest: AWSPaginateStringToken {
     public init(_ original: SMS.GetConnectorsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -35,7 +35,7 @@ extension SMS.GetConnectorsRequest: AWSPaginateable {
     }
 }
 
-extension SMS.GetReplicationJobsRequest: AWSPaginateable {
+extension SMS.GetReplicationJobsRequest: AWSPaginateStringToken {
     public init(_ original: SMS.GetReplicationJobsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -45,7 +45,7 @@ extension SMS.GetReplicationJobsRequest: AWSPaginateable {
     }
 }
 
-extension SMS.GetReplicationRunsRequest: AWSPaginateable {
+extension SMS.GetReplicationRunsRequest: AWSPaginateStringToken {
     public init(_ original: SMS.GetReplicationRunsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -55,7 +55,7 @@ extension SMS.GetReplicationRunsRequest: AWSPaginateable {
     }
 }
 
-extension SMS.GetServersRequest: AWSPaginateable {
+extension SMS.GetServersRequest: AWSPaginateStringToken {
     public init(_ original: SMS.GetServersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

@@ -11,7 +11,7 @@ extension IoTSecureTunneling {
     
 }
 
-extension IoTSecureTunneling.ListTunnelsRequest: AWSPaginateable {
+extension IoTSecureTunneling.ListTunnelsRequest: AWSPaginateStringToken {
     public init(_ original: IoTSecureTunneling.ListTunnelsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

@@ -21,7 +21,7 @@ extension WorkDocs {
     
 }
 
-extension WorkDocs.DescribeDocumentVersionsRequest: AWSPaginateable {
+extension WorkDocs.DescribeDocumentVersionsRequest: AWSPaginateStringToken {
     public init(_ original: WorkDocs.DescribeDocumentVersionsRequest, token: String) {
         self.init(
             authenticationToken: original.authenticationToken, 
@@ -34,7 +34,7 @@ extension WorkDocs.DescribeDocumentVersionsRequest: AWSPaginateable {
     }
 }
 
-extension WorkDocs.DescribeFolderContentsRequest: AWSPaginateable {
+extension WorkDocs.DescribeFolderContentsRequest: AWSPaginateStringToken {
     public init(_ original: WorkDocs.DescribeFolderContentsRequest, token: String) {
         self.init(
             authenticationToken: original.authenticationToken, 
@@ -49,7 +49,7 @@ extension WorkDocs.DescribeFolderContentsRequest: AWSPaginateable {
     }
 }
 
-extension WorkDocs.DescribeUsersRequest: AWSPaginateable {
+extension WorkDocs.DescribeUsersRequest: AWSPaginateStringToken {
     public init(_ original: WorkDocs.DescribeUsersRequest, token: String) {
         self.init(
             authenticationToken: original.authenticationToken, 

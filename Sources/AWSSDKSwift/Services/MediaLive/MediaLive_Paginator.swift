@@ -46,7 +46,7 @@ extension MediaLive {
     
 }
 
-extension MediaLive.DescribeScheduleRequest: AWSPaginateable {
+extension MediaLive.DescribeScheduleRequest: AWSPaginateStringToken {
     public init(_ original: MediaLive.DescribeScheduleRequest, token: String) {
         self.init(
             channelId: original.channelId, 
@@ -56,7 +56,7 @@ extension MediaLive.DescribeScheduleRequest: AWSPaginateable {
     }
 }
 
-extension MediaLive.ListChannelsRequest: AWSPaginateable {
+extension MediaLive.ListChannelsRequest: AWSPaginateStringToken {
     public init(_ original: MediaLive.ListChannelsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -65,7 +65,7 @@ extension MediaLive.ListChannelsRequest: AWSPaginateable {
     }
 }
 
-extension MediaLive.ListInputSecurityGroupsRequest: AWSPaginateable {
+extension MediaLive.ListInputSecurityGroupsRequest: AWSPaginateStringToken {
     public init(_ original: MediaLive.ListInputSecurityGroupsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -74,7 +74,7 @@ extension MediaLive.ListInputSecurityGroupsRequest: AWSPaginateable {
     }
 }
 
-extension MediaLive.ListInputsRequest: AWSPaginateable {
+extension MediaLive.ListInputsRequest: AWSPaginateStringToken {
     public init(_ original: MediaLive.ListInputsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -83,7 +83,7 @@ extension MediaLive.ListInputsRequest: AWSPaginateable {
     }
 }
 
-extension MediaLive.ListMultiplexProgramsRequest: AWSPaginateable {
+extension MediaLive.ListMultiplexProgramsRequest: AWSPaginateStringToken {
     public init(_ original: MediaLive.ListMultiplexProgramsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -93,7 +93,7 @@ extension MediaLive.ListMultiplexProgramsRequest: AWSPaginateable {
     }
 }
 
-extension MediaLive.ListMultiplexesRequest: AWSPaginateable {
+extension MediaLive.ListMultiplexesRequest: AWSPaginateStringToken {
     public init(_ original: MediaLive.ListMultiplexesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -102,7 +102,7 @@ extension MediaLive.ListMultiplexesRequest: AWSPaginateable {
     }
 }
 
-extension MediaLive.ListOfferingsRequest: AWSPaginateable {
+extension MediaLive.ListOfferingsRequest: AWSPaginateStringToken {
     public init(_ original: MediaLive.ListOfferingsRequest, token: String) {
         self.init(
             channelClass: original.channelClass, 
@@ -121,7 +121,7 @@ extension MediaLive.ListOfferingsRequest: AWSPaginateable {
     }
 }
 
-extension MediaLive.ListReservationsRequest: AWSPaginateable {
+extension MediaLive.ListReservationsRequest: AWSPaginateStringToken {
     public init(_ original: MediaLive.ListReservationsRequest, token: String) {
         self.init(
             channelClass: original.channelClass, 

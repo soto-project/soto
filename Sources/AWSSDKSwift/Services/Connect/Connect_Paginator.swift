@@ -56,7 +56,7 @@ extension Connect {
     
 }
 
-extension Connect.GetCurrentMetricDataRequest: AWSPaginateable {
+extension Connect.GetCurrentMetricDataRequest: AWSPaginateStringToken {
     public init(_ original: Connect.GetCurrentMetricDataRequest, token: String) {
         self.init(
             currentMetrics: original.currentMetrics, 
@@ -69,7 +69,7 @@ extension Connect.GetCurrentMetricDataRequest: AWSPaginateable {
     }
 }
 
-extension Connect.GetMetricDataRequest: AWSPaginateable {
+extension Connect.GetMetricDataRequest: AWSPaginateStringToken {
     public init(_ original: Connect.GetMetricDataRequest, token: String) {
         self.init(
             endTime: original.endTime, 
@@ -84,7 +84,7 @@ extension Connect.GetMetricDataRequest: AWSPaginateable {
     }
 }
 
-extension Connect.ListContactFlowsRequest: AWSPaginateable {
+extension Connect.ListContactFlowsRequest: AWSPaginateStringToken {
     public init(_ original: Connect.ListContactFlowsRequest, token: String) {
         self.init(
             contactFlowTypes: original.contactFlowTypes, 
@@ -95,7 +95,7 @@ extension Connect.ListContactFlowsRequest: AWSPaginateable {
     }
 }
 
-extension Connect.ListHoursOfOperationsRequest: AWSPaginateable {
+extension Connect.ListHoursOfOperationsRequest: AWSPaginateStringToken {
     public init(_ original: Connect.ListHoursOfOperationsRequest, token: String) {
         self.init(
             instanceId: original.instanceId, 
@@ -105,7 +105,7 @@ extension Connect.ListHoursOfOperationsRequest: AWSPaginateable {
     }
 }
 
-extension Connect.ListPhoneNumbersRequest: AWSPaginateable {
+extension Connect.ListPhoneNumbersRequest: AWSPaginateStringToken {
     public init(_ original: Connect.ListPhoneNumbersRequest, token: String) {
         self.init(
             instanceId: original.instanceId, 
@@ -117,7 +117,7 @@ extension Connect.ListPhoneNumbersRequest: AWSPaginateable {
     }
 }
 
-extension Connect.ListQueuesRequest: AWSPaginateable {
+extension Connect.ListQueuesRequest: AWSPaginateStringToken {
     public init(_ original: Connect.ListQueuesRequest, token: String) {
         self.init(
             instanceId: original.instanceId, 
@@ -128,7 +128,7 @@ extension Connect.ListQueuesRequest: AWSPaginateable {
     }
 }
 
-extension Connect.ListRoutingProfilesRequest: AWSPaginateable {
+extension Connect.ListRoutingProfilesRequest: AWSPaginateStringToken {
     public init(_ original: Connect.ListRoutingProfilesRequest, token: String) {
         self.init(
             instanceId: original.instanceId, 
@@ -138,7 +138,7 @@ extension Connect.ListRoutingProfilesRequest: AWSPaginateable {
     }
 }
 
-extension Connect.ListSecurityProfilesRequest: AWSPaginateable {
+extension Connect.ListSecurityProfilesRequest: AWSPaginateStringToken {
     public init(_ original: Connect.ListSecurityProfilesRequest, token: String) {
         self.init(
             instanceId: original.instanceId, 
@@ -148,7 +148,7 @@ extension Connect.ListSecurityProfilesRequest: AWSPaginateable {
     }
 }
 
-extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateable {
+extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateStringToken {
     public init(_ original: Connect.ListUserHierarchyGroupsRequest, token: String) {
         self.init(
             instanceId: original.instanceId, 
@@ -158,7 +158,7 @@ extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateable {
     }
 }
 
-extension Connect.ListUsersRequest: AWSPaginateable {
+extension Connect.ListUsersRequest: AWSPaginateStringToken {
     public init(_ original: Connect.ListUsersRequest, token: String) {
         self.init(
             instanceId: original.instanceId, 

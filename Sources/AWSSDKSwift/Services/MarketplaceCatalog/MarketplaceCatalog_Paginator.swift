@@ -16,7 +16,7 @@ extension MarketplaceCatalog {
     
 }
 
-extension MarketplaceCatalog.ListChangeSetsRequest: AWSPaginateable {
+extension MarketplaceCatalog.ListChangeSetsRequest: AWSPaginateStringToken {
     public init(_ original: MarketplaceCatalog.ListChangeSetsRequest, token: String) {
         self.init(
             catalog: original.catalog, 
@@ -28,7 +28,7 @@ extension MarketplaceCatalog.ListChangeSetsRequest: AWSPaginateable {
     }
 }
 
-extension MarketplaceCatalog.ListEntitiesRequest: AWSPaginateable {
+extension MarketplaceCatalog.ListEntitiesRequest: AWSPaginateStringToken {
     public init(_ original: MarketplaceCatalog.ListEntitiesRequest, token: String) {
         self.init(
             catalog: original.catalog, 

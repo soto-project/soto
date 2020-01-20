@@ -46,7 +46,7 @@ extension Lambda {
     
 }
 
-extension Lambda.ListAliasesRequest: AWSPaginateable {
+extension Lambda.ListAliasesRequest: AWSPaginateStringToken {
     public init(_ original: Lambda.ListAliasesRequest, token: String) {
         self.init(
             functionName: original.functionName, 
@@ -57,7 +57,7 @@ extension Lambda.ListAliasesRequest: AWSPaginateable {
     }
 }
 
-extension Lambda.ListEventSourceMappingsRequest: AWSPaginateable {
+extension Lambda.ListEventSourceMappingsRequest: AWSPaginateStringToken {
     public init(_ original: Lambda.ListEventSourceMappingsRequest, token: String) {
         self.init(
             eventSourceArn: original.eventSourceArn, 
@@ -68,7 +68,7 @@ extension Lambda.ListEventSourceMappingsRequest: AWSPaginateable {
     }
 }
 
-extension Lambda.ListFunctionEventInvokeConfigsRequest: AWSPaginateable {
+extension Lambda.ListFunctionEventInvokeConfigsRequest: AWSPaginateStringToken {
     public init(_ original: Lambda.ListFunctionEventInvokeConfigsRequest, token: String) {
         self.init(
             functionName: original.functionName, 
@@ -78,7 +78,7 @@ extension Lambda.ListFunctionEventInvokeConfigsRequest: AWSPaginateable {
     }
 }
 
-extension Lambda.ListFunctionsRequest: AWSPaginateable {
+extension Lambda.ListFunctionsRequest: AWSPaginateStringToken {
     public init(_ original: Lambda.ListFunctionsRequest, token: String) {
         self.init(
             functionVersion: original.functionVersion, 
@@ -89,7 +89,7 @@ extension Lambda.ListFunctionsRequest: AWSPaginateable {
     }
 }
 
-extension Lambda.ListLayerVersionsRequest: AWSPaginateable {
+extension Lambda.ListLayerVersionsRequest: AWSPaginateStringToken {
     public init(_ original: Lambda.ListLayerVersionsRequest, token: String) {
         self.init(
             compatibleRuntime: original.compatibleRuntime, 
@@ -100,7 +100,7 @@ extension Lambda.ListLayerVersionsRequest: AWSPaginateable {
     }
 }
 
-extension Lambda.ListLayersRequest: AWSPaginateable {
+extension Lambda.ListLayersRequest: AWSPaginateStringToken {
     public init(_ original: Lambda.ListLayersRequest, token: String) {
         self.init(
             compatibleRuntime: original.compatibleRuntime, 
@@ -110,7 +110,7 @@ extension Lambda.ListLayersRequest: AWSPaginateable {
     }
 }
 
-extension Lambda.ListProvisionedConcurrencyConfigsRequest: AWSPaginateable {
+extension Lambda.ListProvisionedConcurrencyConfigsRequest: AWSPaginateStringToken {
     public init(_ original: Lambda.ListProvisionedConcurrencyConfigsRequest, token: String) {
         self.init(
             functionName: original.functionName, 
@@ -120,7 +120,7 @@ extension Lambda.ListProvisionedConcurrencyConfigsRequest: AWSPaginateable {
     }
 }
 
-extension Lambda.ListVersionsByFunctionRequest: AWSPaginateable {
+extension Lambda.ListVersionsByFunctionRequest: AWSPaginateStringToken {
     public init(_ original: Lambda.ListVersionsByFunctionRequest, token: String) {
         self.init(
             functionName: original.functionName, 

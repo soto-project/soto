@@ -16,7 +16,7 @@ extension Cloud9 {
     
 }
 
-extension Cloud9.DescribeEnvironmentMembershipsRequest: AWSPaginateable {
+extension Cloud9.DescribeEnvironmentMembershipsRequest: AWSPaginateStringToken {
     public init(_ original: Cloud9.DescribeEnvironmentMembershipsRequest, token: String) {
         self.init(
             environmentId: original.environmentId, 
@@ -28,7 +28,7 @@ extension Cloud9.DescribeEnvironmentMembershipsRequest: AWSPaginateable {
     }
 }
 
-extension Cloud9.ListEnvironmentsRequest: AWSPaginateable {
+extension Cloud9.ListEnvironmentsRequest: AWSPaginateStringToken {
     public init(_ original: Cloud9.ListEnvironmentsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

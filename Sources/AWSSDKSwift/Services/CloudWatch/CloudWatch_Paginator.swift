@@ -36,7 +36,7 @@ extension CloudWatch {
     
 }
 
-extension CloudWatch.DescribeAlarmHistoryInput: AWSPaginateable {
+extension CloudWatch.DescribeAlarmHistoryInput: AWSPaginateStringToken {
     public init(_ original: CloudWatch.DescribeAlarmHistoryInput, token: String) {
         self.init(
             alarmName: original.alarmName, 
@@ -49,7 +49,7 @@ extension CloudWatch.DescribeAlarmHistoryInput: AWSPaginateable {
     }
 }
 
-extension CloudWatch.DescribeAlarmsInput: AWSPaginateable {
+extension CloudWatch.DescribeAlarmsInput: AWSPaginateStringToken {
     public init(_ original: CloudWatch.DescribeAlarmsInput, token: String) {
         self.init(
             actionPrefix: original.actionPrefix, 
@@ -62,7 +62,7 @@ extension CloudWatch.DescribeAlarmsInput: AWSPaginateable {
     }
 }
 
-extension CloudWatch.DescribeInsightRulesInput: AWSPaginateable {
+extension CloudWatch.DescribeInsightRulesInput: AWSPaginateStringToken {
     public init(_ original: CloudWatch.DescribeInsightRulesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -71,7 +71,7 @@ extension CloudWatch.DescribeInsightRulesInput: AWSPaginateable {
     }
 }
 
-extension CloudWatch.GetMetricDataInput: AWSPaginateable {
+extension CloudWatch.GetMetricDataInput: AWSPaginateStringToken {
     public init(_ original: CloudWatch.GetMetricDataInput, token: String) {
         self.init(
             endTime: original.endTime, 
@@ -84,7 +84,7 @@ extension CloudWatch.GetMetricDataInput: AWSPaginateable {
     }
 }
 
-extension CloudWatch.ListDashboardsInput: AWSPaginateable {
+extension CloudWatch.ListDashboardsInput: AWSPaginateStringToken {
     public init(_ original: CloudWatch.ListDashboardsInput, token: String) {
         self.init(
             dashboardNamePrefix: original.dashboardNamePrefix, 
@@ -93,7 +93,7 @@ extension CloudWatch.ListDashboardsInput: AWSPaginateable {
     }
 }
 
-extension CloudWatch.ListMetricsInput: AWSPaginateable {
+extension CloudWatch.ListMetricsInput: AWSPaginateStringToken {
     public init(_ original: CloudWatch.ListMetricsInput, token: String) {
         self.init(
             dimensions: original.dimensions, 

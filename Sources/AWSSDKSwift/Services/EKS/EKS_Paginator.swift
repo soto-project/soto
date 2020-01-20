@@ -26,7 +26,7 @@ extension EKS {
     
 }
 
-extension EKS.ListClustersRequest: AWSPaginateable {
+extension EKS.ListClustersRequest: AWSPaginateStringToken {
     public init(_ original: EKS.ListClustersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -35,7 +35,7 @@ extension EKS.ListClustersRequest: AWSPaginateable {
     }
 }
 
-extension EKS.ListFargateProfilesRequest: AWSPaginateable {
+extension EKS.ListFargateProfilesRequest: AWSPaginateStringToken {
     public init(_ original: EKS.ListFargateProfilesRequest, token: String) {
         self.init(
             clusterName: original.clusterName, 
@@ -45,7 +45,7 @@ extension EKS.ListFargateProfilesRequest: AWSPaginateable {
     }
 }
 
-extension EKS.ListNodegroupsRequest: AWSPaginateable {
+extension EKS.ListNodegroupsRequest: AWSPaginateStringToken {
     public init(_ original: EKS.ListNodegroupsRequest, token: String) {
         self.init(
             clusterName: original.clusterName, 
@@ -55,7 +55,7 @@ extension EKS.ListNodegroupsRequest: AWSPaginateable {
     }
 }
 
-extension EKS.ListUpdatesRequest: AWSPaginateable {
+extension EKS.ListUpdatesRequest: AWSPaginateStringToken {
     public init(_ original: EKS.ListUpdatesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

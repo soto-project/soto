@@ -71,7 +71,7 @@ extension ElastiCache {
     
 }
 
-extension ElastiCache.DescribeCacheClustersMessage: AWSPaginateable {
+extension ElastiCache.DescribeCacheClustersMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeCacheClustersMessage, token: String) {
         self.init(
             cacheClusterId: original.cacheClusterId, 
@@ -83,7 +83,7 @@ extension ElastiCache.DescribeCacheClustersMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeCacheEngineVersionsMessage: AWSPaginateable {
+extension ElastiCache.DescribeCacheEngineVersionsMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeCacheEngineVersionsMessage, token: String) {
         self.init(
             cacheParameterGroupFamily: original.cacheParameterGroupFamily, 
@@ -96,7 +96,7 @@ extension ElastiCache.DescribeCacheEngineVersionsMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeCacheParameterGroupsMessage: AWSPaginateable {
+extension ElastiCache.DescribeCacheParameterGroupsMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeCacheParameterGroupsMessage, token: String) {
         self.init(
             cacheParameterGroupName: original.cacheParameterGroupName, 
@@ -106,7 +106,7 @@ extension ElastiCache.DescribeCacheParameterGroupsMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeCacheParametersMessage: AWSPaginateable {
+extension ElastiCache.DescribeCacheParametersMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeCacheParametersMessage, token: String) {
         self.init(
             cacheParameterGroupName: original.cacheParameterGroupName, 
@@ -117,7 +117,7 @@ extension ElastiCache.DescribeCacheParametersMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeCacheSecurityGroupsMessage: AWSPaginateable {
+extension ElastiCache.DescribeCacheSecurityGroupsMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeCacheSecurityGroupsMessage, token: String) {
         self.init(
             cacheSecurityGroupName: original.cacheSecurityGroupName, 
@@ -127,7 +127,7 @@ extension ElastiCache.DescribeCacheSecurityGroupsMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeCacheSubnetGroupsMessage: AWSPaginateable {
+extension ElastiCache.DescribeCacheSubnetGroupsMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeCacheSubnetGroupsMessage, token: String) {
         self.init(
             cacheSubnetGroupName: original.cacheSubnetGroupName, 
@@ -137,7 +137,7 @@ extension ElastiCache.DescribeCacheSubnetGroupsMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeEventsMessage: AWSPaginateable {
+extension ElastiCache.DescribeEventsMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeEventsMessage, token: String) {
         self.init(
             duration: original.duration, 
@@ -151,7 +151,7 @@ extension ElastiCache.DescribeEventsMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeReplicationGroupsMessage: AWSPaginateable {
+extension ElastiCache.DescribeReplicationGroupsMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeReplicationGroupsMessage, token: String) {
         self.init(
             marker: token, 
@@ -161,7 +161,7 @@ extension ElastiCache.DescribeReplicationGroupsMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeReservedCacheNodesMessage: AWSPaginateable {
+extension ElastiCache.DescribeReservedCacheNodesMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeReservedCacheNodesMessage, token: String) {
         self.init(
             cacheNodeType: original.cacheNodeType, 
@@ -176,7 +176,7 @@ extension ElastiCache.DescribeReservedCacheNodesMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeReservedCacheNodesOfferingsMessage: AWSPaginateable {
+extension ElastiCache.DescribeReservedCacheNodesOfferingsMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeReservedCacheNodesOfferingsMessage, token: String) {
         self.init(
             cacheNodeType: original.cacheNodeType, 
@@ -190,7 +190,7 @@ extension ElastiCache.DescribeReservedCacheNodesOfferingsMessage: AWSPaginateabl
     }
 }
 
-extension ElastiCache.DescribeServiceUpdatesMessage: AWSPaginateable {
+extension ElastiCache.DescribeServiceUpdatesMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeServiceUpdatesMessage, token: String) {
         self.init(
             marker: token, 
@@ -201,7 +201,7 @@ extension ElastiCache.DescribeServiceUpdatesMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeSnapshotsMessage: AWSPaginateable {
+extension ElastiCache.DescribeSnapshotsMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeSnapshotsMessage, token: String) {
         self.init(
             cacheClusterId: original.cacheClusterId, 
@@ -215,7 +215,7 @@ extension ElastiCache.DescribeSnapshotsMessage: AWSPaginateable {
     }
 }
 
-extension ElastiCache.DescribeUpdateActionsMessage: AWSPaginateable {
+extension ElastiCache.DescribeUpdateActionsMessage: AWSPaginateStringToken {
     public init(_ original: ElastiCache.DescribeUpdateActionsMessage, token: String) {
         self.init(
             cacheClusterIds: original.cacheClusterIds, 

@@ -11,7 +11,7 @@ extension AWSDirectoryService {
     
 }
 
-extension AWSDirectoryService.DescribeDomainControllersRequest: AWSPaginateable {
+extension AWSDirectoryService.DescribeDomainControllersRequest: AWSPaginateStringToken {
     public init(_ original: AWSDirectoryService.DescribeDomainControllersRequest, token: String) {
         self.init(
             directoryId: original.directoryId, 

@@ -41,7 +41,7 @@ extension EMR {
     
 }
 
-extension EMR.ListBootstrapActionsInput: AWSPaginateable {
+extension EMR.ListBootstrapActionsInput: AWSPaginateStringToken {
     public init(_ original: EMR.ListBootstrapActionsInput, token: String) {
         self.init(
             clusterId: original.clusterId, 
@@ -50,7 +50,7 @@ extension EMR.ListBootstrapActionsInput: AWSPaginateable {
     }
 }
 
-extension EMR.ListClustersInput: AWSPaginateable {
+extension EMR.ListClustersInput: AWSPaginateStringToken {
     public init(_ original: EMR.ListClustersInput, token: String) {
         self.init(
             clusterStates: original.clusterStates, 
@@ -61,7 +61,7 @@ extension EMR.ListClustersInput: AWSPaginateable {
     }
 }
 
-extension EMR.ListInstanceFleetsInput: AWSPaginateable {
+extension EMR.ListInstanceFleetsInput: AWSPaginateStringToken {
     public init(_ original: EMR.ListInstanceFleetsInput, token: String) {
         self.init(
             clusterId: original.clusterId, 
@@ -70,7 +70,7 @@ extension EMR.ListInstanceFleetsInput: AWSPaginateable {
     }
 }
 
-extension EMR.ListInstanceGroupsInput: AWSPaginateable {
+extension EMR.ListInstanceGroupsInput: AWSPaginateStringToken {
     public init(_ original: EMR.ListInstanceGroupsInput, token: String) {
         self.init(
             clusterId: original.clusterId, 
@@ -79,7 +79,7 @@ extension EMR.ListInstanceGroupsInput: AWSPaginateable {
     }
 }
 
-extension EMR.ListInstancesInput: AWSPaginateable {
+extension EMR.ListInstancesInput: AWSPaginateStringToken {
     public init(_ original: EMR.ListInstancesInput, token: String) {
         self.init(
             clusterId: original.clusterId, 
@@ -93,7 +93,7 @@ extension EMR.ListInstancesInput: AWSPaginateable {
     }
 }
 
-extension EMR.ListSecurityConfigurationsInput: AWSPaginateable {
+extension EMR.ListSecurityConfigurationsInput: AWSPaginateStringToken {
     public init(_ original: EMR.ListSecurityConfigurationsInput, token: String) {
         self.init(
             marker: token
@@ -101,7 +101,7 @@ extension EMR.ListSecurityConfigurationsInput: AWSPaginateable {
     }
 }
 
-extension EMR.ListStepsInput: AWSPaginateable {
+extension EMR.ListStepsInput: AWSPaginateStringToken {
     public init(_ original: EMR.ListStepsInput, token: String) {
         self.init(
             clusterId: original.clusterId, 

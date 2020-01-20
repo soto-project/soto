@@ -26,7 +26,7 @@ extension SFN {
     
 }
 
-extension SFN.GetExecutionHistoryInput: AWSPaginateable {
+extension SFN.GetExecutionHistoryInput: AWSPaginateStringToken {
     public init(_ original: SFN.GetExecutionHistoryInput, token: String) {
         self.init(
             executionArn: original.executionArn, 
@@ -37,7 +37,7 @@ extension SFN.GetExecutionHistoryInput: AWSPaginateable {
     }
 }
 
-extension SFN.ListActivitiesInput: AWSPaginateable {
+extension SFN.ListActivitiesInput: AWSPaginateStringToken {
     public init(_ original: SFN.ListActivitiesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -46,7 +46,7 @@ extension SFN.ListActivitiesInput: AWSPaginateable {
     }
 }
 
-extension SFN.ListExecutionsInput: AWSPaginateable {
+extension SFN.ListExecutionsInput: AWSPaginateStringToken {
     public init(_ original: SFN.ListExecutionsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -57,7 +57,7 @@ extension SFN.ListExecutionsInput: AWSPaginateable {
     }
 }
 
-extension SFN.ListStateMachinesInput: AWSPaginateable {
+extension SFN.ListStateMachinesInput: AWSPaginateStringToken {
     public init(_ original: SFN.ListStateMachinesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

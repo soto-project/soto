@@ -11,7 +11,7 @@ extension ConnectParticipant {
     
 }
 
-extension ConnectParticipant.GetTranscriptRequest: AWSPaginateable {
+extension ConnectParticipant.GetTranscriptRequest: AWSPaginateStringToken {
     public init(_ original: ConnectParticipant.GetTranscriptRequest, token: String) {
         self.init(
             connectionToken: original.connectionToken, 

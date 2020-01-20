@@ -51,7 +51,7 @@ extension Imagebuilder {
     
 }
 
-extension Imagebuilder.ListComponentBuildVersionsRequest: AWSPaginateable {
+extension Imagebuilder.ListComponentBuildVersionsRequest: AWSPaginateStringToken {
     public init(_ original: Imagebuilder.ListComponentBuildVersionsRequest, token: String) {
         self.init(
             componentVersionArn: original.componentVersionArn, 
@@ -61,7 +61,7 @@ extension Imagebuilder.ListComponentBuildVersionsRequest: AWSPaginateable {
     }
 }
 
-extension Imagebuilder.ListComponentsRequest: AWSPaginateable {
+extension Imagebuilder.ListComponentsRequest: AWSPaginateStringToken {
     public init(_ original: Imagebuilder.ListComponentsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -72,7 +72,7 @@ extension Imagebuilder.ListComponentsRequest: AWSPaginateable {
     }
 }
 
-extension Imagebuilder.ListDistributionConfigurationsRequest: AWSPaginateable {
+extension Imagebuilder.ListDistributionConfigurationsRequest: AWSPaginateStringToken {
     public init(_ original: Imagebuilder.ListDistributionConfigurationsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -82,7 +82,7 @@ extension Imagebuilder.ListDistributionConfigurationsRequest: AWSPaginateable {
     }
 }
 
-extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateable {
+extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateStringToken {
     public init(_ original: Imagebuilder.ListImageBuildVersionsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -93,7 +93,7 @@ extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateable {
     }
 }
 
-extension Imagebuilder.ListImagePipelineImagesRequest: AWSPaginateable {
+extension Imagebuilder.ListImagePipelineImagesRequest: AWSPaginateStringToken {
     public init(_ original: Imagebuilder.ListImagePipelineImagesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -104,7 +104,7 @@ extension Imagebuilder.ListImagePipelineImagesRequest: AWSPaginateable {
     }
 }
 
-extension Imagebuilder.ListImagePipelinesRequest: AWSPaginateable {
+extension Imagebuilder.ListImagePipelinesRequest: AWSPaginateStringToken {
     public init(_ original: Imagebuilder.ListImagePipelinesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -114,7 +114,7 @@ extension Imagebuilder.ListImagePipelinesRequest: AWSPaginateable {
     }
 }
 
-extension Imagebuilder.ListImageRecipesRequest: AWSPaginateable {
+extension Imagebuilder.ListImageRecipesRequest: AWSPaginateStringToken {
     public init(_ original: Imagebuilder.ListImageRecipesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -125,7 +125,7 @@ extension Imagebuilder.ListImageRecipesRequest: AWSPaginateable {
     }
 }
 
-extension Imagebuilder.ListImagesRequest: AWSPaginateable {
+extension Imagebuilder.ListImagesRequest: AWSPaginateStringToken {
     public init(_ original: Imagebuilder.ListImagesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -136,7 +136,7 @@ extension Imagebuilder.ListImagesRequest: AWSPaginateable {
     }
 }
 
-extension Imagebuilder.ListInfrastructureConfigurationsRequest: AWSPaginateable {
+extension Imagebuilder.ListInfrastructureConfigurationsRequest: AWSPaginateStringToken {
     public init(_ original: Imagebuilder.ListInfrastructureConfigurationsRequest, token: String) {
         self.init(
             filters: original.filters, 

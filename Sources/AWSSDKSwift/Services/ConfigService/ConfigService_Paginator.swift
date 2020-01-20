@@ -21,7 +21,7 @@ extension ConfigService {
     
 }
 
-extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateable {
+extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateStringToken {
     public init(_ original: ConfigService.DescribeRemediationExceptionsRequest, token: String) {
         self.init(
             configRuleName: original.configRuleName, 
@@ -32,7 +32,7 @@ extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateable {
     }
 }
 
-extension ConfigService.DescribeRemediationExecutionStatusRequest: AWSPaginateable {
+extension ConfigService.DescribeRemediationExecutionStatusRequest: AWSPaginateStringToken {
     public init(_ original: ConfigService.DescribeRemediationExecutionStatusRequest, token: String) {
         self.init(
             configRuleName: original.configRuleName, 
@@ -43,7 +43,7 @@ extension ConfigService.DescribeRemediationExecutionStatusRequest: AWSPaginateab
     }
 }
 
-extension ConfigService.GetResourceConfigHistoryRequest: AWSPaginateable {
+extension ConfigService.GetResourceConfigHistoryRequest: AWSPaginateStringToken {
     public init(_ original: ConfigService.GetResourceConfigHistoryRequest, token: String) {
         self.init(
             chronologicalOrder: original.chronologicalOrder, 

@@ -56,7 +56,7 @@ extension Inspector {
     
 }
 
-extension Inspector.GetExclusionsPreviewRequest: AWSPaginateable {
+extension Inspector.GetExclusionsPreviewRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.GetExclusionsPreviewRequest, token: String) {
         self.init(
             assessmentTemplateArn: original.assessmentTemplateArn, 
@@ -68,7 +68,7 @@ extension Inspector.GetExclusionsPreviewRequest: AWSPaginateable {
     }
 }
 
-extension Inspector.ListAssessmentRunAgentsRequest: AWSPaginateable {
+extension Inspector.ListAssessmentRunAgentsRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.ListAssessmentRunAgentsRequest, token: String) {
         self.init(
             assessmentRunArn: original.assessmentRunArn, 
@@ -79,7 +79,7 @@ extension Inspector.ListAssessmentRunAgentsRequest: AWSPaginateable {
     }
 }
 
-extension Inspector.ListAssessmentRunsRequest: AWSPaginateable {
+extension Inspector.ListAssessmentRunsRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.ListAssessmentRunsRequest, token: String) {
         self.init(
             assessmentTemplateArns: original.assessmentTemplateArns, 
@@ -90,7 +90,7 @@ extension Inspector.ListAssessmentRunsRequest: AWSPaginateable {
     }
 }
 
-extension Inspector.ListAssessmentTargetsRequest: AWSPaginateable {
+extension Inspector.ListAssessmentTargetsRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.ListAssessmentTargetsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -100,7 +100,7 @@ extension Inspector.ListAssessmentTargetsRequest: AWSPaginateable {
     }
 }
 
-extension Inspector.ListAssessmentTemplatesRequest: AWSPaginateable {
+extension Inspector.ListAssessmentTemplatesRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.ListAssessmentTemplatesRequest, token: String) {
         self.init(
             assessmentTargetArns: original.assessmentTargetArns, 
@@ -111,7 +111,7 @@ extension Inspector.ListAssessmentTemplatesRequest: AWSPaginateable {
     }
 }
 
-extension Inspector.ListEventSubscriptionsRequest: AWSPaginateable {
+extension Inspector.ListEventSubscriptionsRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.ListEventSubscriptionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -121,7 +121,7 @@ extension Inspector.ListEventSubscriptionsRequest: AWSPaginateable {
     }
 }
 
-extension Inspector.ListExclusionsRequest: AWSPaginateable {
+extension Inspector.ListExclusionsRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.ListExclusionsRequest, token: String) {
         self.init(
             assessmentRunArn: original.assessmentRunArn, 
@@ -131,7 +131,7 @@ extension Inspector.ListExclusionsRequest: AWSPaginateable {
     }
 }
 
-extension Inspector.ListFindingsRequest: AWSPaginateable {
+extension Inspector.ListFindingsRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.ListFindingsRequest, token: String) {
         self.init(
             assessmentRunArns: original.assessmentRunArns, 
@@ -142,7 +142,7 @@ extension Inspector.ListFindingsRequest: AWSPaginateable {
     }
 }
 
-extension Inspector.ListRulesPackagesRequest: AWSPaginateable {
+extension Inspector.ListRulesPackagesRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.ListRulesPackagesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -151,7 +151,7 @@ extension Inspector.ListRulesPackagesRequest: AWSPaginateable {
     }
 }
 
-extension Inspector.PreviewAgentsRequest: AWSPaginateable {
+extension Inspector.PreviewAgentsRequest: AWSPaginateStringToken {
     public init(_ original: Inspector.PreviewAgentsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

@@ -19,8 +19,8 @@ extension {{name}} {
 }
 
 {%for page in paginators %}
-extension {{name}}.{{page.operation.inputShape}}: AWSPaginateable {
-    public init(_ original: {{name}}.{{page.operation.inputShape}}, token: String) {
+extension {{name}}.{{page.operation.inputShape}}: {{page.paginatorProtocol}} {
+    public init(_ original: {{name}}.{{page.operation.inputShape}}, token: {{page.tokenType}}) {
         self.init(
 {%for param in page.initParams %}
             {{param}}{%if not forloop.last %}, {%endif +%}

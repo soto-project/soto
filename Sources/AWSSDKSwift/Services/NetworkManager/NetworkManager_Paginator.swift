@@ -41,7 +41,7 @@ extension NetworkManager {
     
 }
 
-extension NetworkManager.DescribeGlobalNetworksRequest: AWSPaginateable {
+extension NetworkManager.DescribeGlobalNetworksRequest: AWSPaginateStringToken {
     public init(_ original: NetworkManager.DescribeGlobalNetworksRequest, token: String) {
         self.init(
             globalNetworkIds: original.globalNetworkIds, 
@@ -51,7 +51,7 @@ extension NetworkManager.DescribeGlobalNetworksRequest: AWSPaginateable {
     }
 }
 
-extension NetworkManager.GetCustomerGatewayAssociationsRequest: AWSPaginateable {
+extension NetworkManager.GetCustomerGatewayAssociationsRequest: AWSPaginateStringToken {
     public init(_ original: NetworkManager.GetCustomerGatewayAssociationsRequest, token: String) {
         self.init(
             customerGatewayArns: original.customerGatewayArns, 
@@ -62,7 +62,7 @@ extension NetworkManager.GetCustomerGatewayAssociationsRequest: AWSPaginateable 
     }
 }
 
-extension NetworkManager.GetDevicesRequest: AWSPaginateable {
+extension NetworkManager.GetDevicesRequest: AWSPaginateStringToken {
     public init(_ original: NetworkManager.GetDevicesRequest, token: String) {
         self.init(
             deviceIds: original.deviceIds, 
@@ -74,7 +74,7 @@ extension NetworkManager.GetDevicesRequest: AWSPaginateable {
     }
 }
 
-extension NetworkManager.GetLinkAssociationsRequest: AWSPaginateable {
+extension NetworkManager.GetLinkAssociationsRequest: AWSPaginateStringToken {
     public init(_ original: NetworkManager.GetLinkAssociationsRequest, token: String) {
         self.init(
             deviceId: original.deviceId, 
@@ -86,7 +86,7 @@ extension NetworkManager.GetLinkAssociationsRequest: AWSPaginateable {
     }
 }
 
-extension NetworkManager.GetLinksRequest: AWSPaginateable {
+extension NetworkManager.GetLinksRequest: AWSPaginateStringToken {
     public init(_ original: NetworkManager.GetLinksRequest, token: String) {
         self.init(
             globalNetworkId: original.globalNetworkId, 
@@ -100,7 +100,7 @@ extension NetworkManager.GetLinksRequest: AWSPaginateable {
     }
 }
 
-extension NetworkManager.GetSitesRequest: AWSPaginateable {
+extension NetworkManager.GetSitesRequest: AWSPaginateStringToken {
     public init(_ original: NetworkManager.GetSitesRequest, token: String) {
         self.init(
             globalNetworkId: original.globalNetworkId, 
@@ -111,7 +111,7 @@ extension NetworkManager.GetSitesRequest: AWSPaginateable {
     }
 }
 
-extension NetworkManager.GetTransitGatewayRegistrationsRequest: AWSPaginateable {
+extension NetworkManager.GetTransitGatewayRegistrationsRequest: AWSPaginateStringToken {
     public init(_ original: NetworkManager.GetTransitGatewayRegistrationsRequest, token: String) {
         self.init(
             globalNetworkId: original.globalNetworkId, 

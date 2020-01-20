@@ -121,7 +121,7 @@ extension Glue {
     
 }
 
-extension Glue.GetClassifiersRequest: AWSPaginateable {
+extension Glue.GetClassifiersRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetClassifiersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -130,7 +130,7 @@ extension Glue.GetClassifiersRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetConnectionsRequest: AWSPaginateable {
+extension Glue.GetConnectionsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetConnectionsRequest, token: String) {
         self.init(
             catalogId: original.catalogId, 
@@ -142,7 +142,7 @@ extension Glue.GetConnectionsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetCrawlerMetricsRequest: AWSPaginateable {
+extension Glue.GetCrawlerMetricsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetCrawlerMetricsRequest, token: String) {
         self.init(
             crawlerNameList: original.crawlerNameList, 
@@ -152,7 +152,7 @@ extension Glue.GetCrawlerMetricsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetCrawlersRequest: AWSPaginateable {
+extension Glue.GetCrawlersRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetCrawlersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -161,7 +161,7 @@ extension Glue.GetCrawlersRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetDatabasesRequest: AWSPaginateable {
+extension Glue.GetDatabasesRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetDatabasesRequest, token: String) {
         self.init(
             catalogId: original.catalogId, 
@@ -171,7 +171,7 @@ extension Glue.GetDatabasesRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetDevEndpointsRequest: AWSPaginateable {
+extension Glue.GetDevEndpointsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetDevEndpointsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -180,7 +180,7 @@ extension Glue.GetDevEndpointsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetJobRunsRequest: AWSPaginateable {
+extension Glue.GetJobRunsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetJobRunsRequest, token: String) {
         self.init(
             jobName: original.jobName, 
@@ -190,7 +190,7 @@ extension Glue.GetJobRunsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetJobsRequest: AWSPaginateable {
+extension Glue.GetJobsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetJobsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -199,7 +199,7 @@ extension Glue.GetJobsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetMLTaskRunsRequest: AWSPaginateable {
+extension Glue.GetMLTaskRunsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetMLTaskRunsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -211,7 +211,7 @@ extension Glue.GetMLTaskRunsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetMLTransformsRequest: AWSPaginateable {
+extension Glue.GetMLTransformsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetMLTransformsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -222,7 +222,7 @@ extension Glue.GetMLTransformsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetPartitionsRequest: AWSPaginateable {
+extension Glue.GetPartitionsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetPartitionsRequest, token: String) {
         self.init(
             catalogId: original.catalogId, 
@@ -236,7 +236,7 @@ extension Glue.GetPartitionsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetSecurityConfigurationsRequest: AWSPaginateable {
+extension Glue.GetSecurityConfigurationsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetSecurityConfigurationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -245,7 +245,7 @@ extension Glue.GetSecurityConfigurationsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetTableVersionsRequest: AWSPaginateable {
+extension Glue.GetTableVersionsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetTableVersionsRequest, token: String) {
         self.init(
             catalogId: original.catalogId, 
@@ -257,7 +257,7 @@ extension Glue.GetTableVersionsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetTablesRequest: AWSPaginateable {
+extension Glue.GetTablesRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetTablesRequest, token: String) {
         self.init(
             catalogId: original.catalogId, 
@@ -269,7 +269,7 @@ extension Glue.GetTablesRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetTriggersRequest: AWSPaginateable {
+extension Glue.GetTriggersRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetTriggersRequest, token: String) {
         self.init(
             dependentJobName: original.dependentJobName, 
@@ -279,7 +279,7 @@ extension Glue.GetTriggersRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetUserDefinedFunctionsRequest: AWSPaginateable {
+extension Glue.GetUserDefinedFunctionsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetUserDefinedFunctionsRequest, token: String) {
         self.init(
             catalogId: original.catalogId, 
@@ -291,7 +291,7 @@ extension Glue.GetUserDefinedFunctionsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.GetWorkflowRunsRequest: AWSPaginateable {
+extension Glue.GetWorkflowRunsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.GetWorkflowRunsRequest, token: String) {
         self.init(
             includeGraph: original.includeGraph, 
@@ -302,7 +302,7 @@ extension Glue.GetWorkflowRunsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.ListCrawlersRequest: AWSPaginateable {
+extension Glue.ListCrawlersRequest: AWSPaginateStringToken {
     public init(_ original: Glue.ListCrawlersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -312,7 +312,7 @@ extension Glue.ListCrawlersRequest: AWSPaginateable {
     }
 }
 
-extension Glue.ListDevEndpointsRequest: AWSPaginateable {
+extension Glue.ListDevEndpointsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.ListDevEndpointsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -322,7 +322,7 @@ extension Glue.ListDevEndpointsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.ListJobsRequest: AWSPaginateable {
+extension Glue.ListJobsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.ListJobsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -332,7 +332,7 @@ extension Glue.ListJobsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.ListTriggersRequest: AWSPaginateable {
+extension Glue.ListTriggersRequest: AWSPaginateStringToken {
     public init(_ original: Glue.ListTriggersRequest, token: String) {
         self.init(
             dependentJobName: original.dependentJobName, 
@@ -343,7 +343,7 @@ extension Glue.ListTriggersRequest: AWSPaginateable {
     }
 }
 
-extension Glue.ListWorkflowsRequest: AWSPaginateable {
+extension Glue.ListWorkflowsRequest: AWSPaginateStringToken {
     public init(_ original: Glue.ListWorkflowsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -352,7 +352,7 @@ extension Glue.ListWorkflowsRequest: AWSPaginateable {
     }
 }
 
-extension Glue.SearchTablesRequest: AWSPaginateable {
+extension Glue.SearchTablesRequest: AWSPaginateStringToken {
     public init(_ original: Glue.SearchTablesRequest, token: String) {
         self.init(
             catalogId: original.catalogId, 

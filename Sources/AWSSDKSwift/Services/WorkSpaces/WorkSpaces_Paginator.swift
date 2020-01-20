@@ -21,7 +21,7 @@ extension WorkSpaces {
     
 }
 
-extension WorkSpaces.DescribeWorkspaceBundlesRequest: AWSPaginateable {
+extension WorkSpaces.DescribeWorkspaceBundlesRequest: AWSPaginateStringToken {
     public init(_ original: WorkSpaces.DescribeWorkspaceBundlesRequest, token: String) {
         self.init(
             bundleIds: original.bundleIds, 
@@ -31,7 +31,7 @@ extension WorkSpaces.DescribeWorkspaceBundlesRequest: AWSPaginateable {
     }
 }
 
-extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateable {
+extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateStringToken {
     public init(_ original: WorkSpaces.DescribeWorkspaceDirectoriesRequest, token: String) {
         self.init(
             directoryIds: original.directoryIds, 
@@ -41,7 +41,7 @@ extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateable {
     }
 }
 
-extension WorkSpaces.DescribeWorkspacesRequest: AWSPaginateable {
+extension WorkSpaces.DescribeWorkspacesRequest: AWSPaginateStringToken {
     public init(_ original: WorkSpaces.DescribeWorkspacesRequest, token: String) {
         self.init(
             bundleId: original.bundleId, 

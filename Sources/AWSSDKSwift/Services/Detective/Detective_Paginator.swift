@@ -21,7 +21,7 @@ extension Detective {
     
 }
 
-extension Detective.ListGraphsRequest: AWSPaginateable {
+extension Detective.ListGraphsRequest: AWSPaginateStringToken {
     public init(_ original: Detective.ListGraphsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -30,7 +30,7 @@ extension Detective.ListGraphsRequest: AWSPaginateable {
     }
 }
 
-extension Detective.ListInvitationsRequest: AWSPaginateable {
+extension Detective.ListInvitationsRequest: AWSPaginateStringToken {
     public init(_ original: Detective.ListInvitationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -39,7 +39,7 @@ extension Detective.ListInvitationsRequest: AWSPaginateable {
     }
 }
 
-extension Detective.ListMembersRequest: AWSPaginateable {
+extension Detective.ListMembersRequest: AWSPaginateStringToken {
     public init(_ original: Detective.ListMembersRequest, token: String) {
         self.init(
             graphArn: original.graphArn, 

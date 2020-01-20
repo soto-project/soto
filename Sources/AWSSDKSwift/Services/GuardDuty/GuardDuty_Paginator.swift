@@ -46,7 +46,7 @@ extension GuardDuty {
     
 }
 
-extension GuardDuty.ListDetectorsRequest: AWSPaginateable {
+extension GuardDuty.ListDetectorsRequest: AWSPaginateStringToken {
     public init(_ original: GuardDuty.ListDetectorsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -55,7 +55,7 @@ extension GuardDuty.ListDetectorsRequest: AWSPaginateable {
     }
 }
 
-extension GuardDuty.ListFiltersRequest: AWSPaginateable {
+extension GuardDuty.ListFiltersRequest: AWSPaginateStringToken {
     public init(_ original: GuardDuty.ListFiltersRequest, token: String) {
         self.init(
             detectorId: original.detectorId, 
@@ -65,7 +65,7 @@ extension GuardDuty.ListFiltersRequest: AWSPaginateable {
     }
 }
 
-extension GuardDuty.ListFindingsRequest: AWSPaginateable {
+extension GuardDuty.ListFindingsRequest: AWSPaginateStringToken {
     public init(_ original: GuardDuty.ListFindingsRequest, token: String) {
         self.init(
             detectorId: original.detectorId, 
@@ -77,7 +77,7 @@ extension GuardDuty.ListFindingsRequest: AWSPaginateable {
     }
 }
 
-extension GuardDuty.ListIPSetsRequest: AWSPaginateable {
+extension GuardDuty.ListIPSetsRequest: AWSPaginateStringToken {
     public init(_ original: GuardDuty.ListIPSetsRequest, token: String) {
         self.init(
             detectorId: original.detectorId, 
@@ -87,7 +87,7 @@ extension GuardDuty.ListIPSetsRequest: AWSPaginateable {
     }
 }
 
-extension GuardDuty.ListInvitationsRequest: AWSPaginateable {
+extension GuardDuty.ListInvitationsRequest: AWSPaginateStringToken {
     public init(_ original: GuardDuty.ListInvitationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -96,7 +96,7 @@ extension GuardDuty.ListInvitationsRequest: AWSPaginateable {
     }
 }
 
-extension GuardDuty.ListMembersRequest: AWSPaginateable {
+extension GuardDuty.ListMembersRequest: AWSPaginateStringToken {
     public init(_ original: GuardDuty.ListMembersRequest, token: String) {
         self.init(
             detectorId: original.detectorId, 
@@ -107,7 +107,7 @@ extension GuardDuty.ListMembersRequest: AWSPaginateable {
     }
 }
 
-extension GuardDuty.ListPublishingDestinationsRequest: AWSPaginateable {
+extension GuardDuty.ListPublishingDestinationsRequest: AWSPaginateStringToken {
     public init(_ original: GuardDuty.ListPublishingDestinationsRequest, token: String) {
         self.init(
             detectorId: original.detectorId, 
@@ -117,7 +117,7 @@ extension GuardDuty.ListPublishingDestinationsRequest: AWSPaginateable {
     }
 }
 
-extension GuardDuty.ListThreatIntelSetsRequest: AWSPaginateable {
+extension GuardDuty.ListThreatIntelSetsRequest: AWSPaginateStringToken {
     public init(_ original: GuardDuty.ListThreatIntelSetsRequest, token: String) {
         self.init(
             detectorId: original.detectorId, 

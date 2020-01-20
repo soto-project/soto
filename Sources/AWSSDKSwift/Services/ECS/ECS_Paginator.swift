@@ -41,7 +41,7 @@ extension ECS {
     
 }
 
-extension ECS.ListAttributesRequest: AWSPaginateable {
+extension ECS.ListAttributesRequest: AWSPaginateStringToken {
     public init(_ original: ECS.ListAttributesRequest, token: String) {
         self.init(
             attributeName: original.attributeName, 
@@ -54,7 +54,7 @@ extension ECS.ListAttributesRequest: AWSPaginateable {
     }
 }
 
-extension ECS.ListClustersRequest: AWSPaginateable {
+extension ECS.ListClustersRequest: AWSPaginateStringToken {
     public init(_ original: ECS.ListClustersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -63,7 +63,7 @@ extension ECS.ListClustersRequest: AWSPaginateable {
     }
 }
 
-extension ECS.ListContainerInstancesRequest: AWSPaginateable {
+extension ECS.ListContainerInstancesRequest: AWSPaginateStringToken {
     public init(_ original: ECS.ListContainerInstancesRequest, token: String) {
         self.init(
             cluster: original.cluster, 
@@ -75,7 +75,7 @@ extension ECS.ListContainerInstancesRequest: AWSPaginateable {
     }
 }
 
-extension ECS.ListServicesRequest: AWSPaginateable {
+extension ECS.ListServicesRequest: AWSPaginateStringToken {
     public init(_ original: ECS.ListServicesRequest, token: String) {
         self.init(
             cluster: original.cluster, 
@@ -87,7 +87,7 @@ extension ECS.ListServicesRequest: AWSPaginateable {
     }
 }
 
-extension ECS.ListTaskDefinitionFamiliesRequest: AWSPaginateable {
+extension ECS.ListTaskDefinitionFamiliesRequest: AWSPaginateStringToken {
     public init(_ original: ECS.ListTaskDefinitionFamiliesRequest, token: String) {
         self.init(
             familyPrefix: original.familyPrefix, 
@@ -98,7 +98,7 @@ extension ECS.ListTaskDefinitionFamiliesRequest: AWSPaginateable {
     }
 }
 
-extension ECS.ListTaskDefinitionsRequest: AWSPaginateable {
+extension ECS.ListTaskDefinitionsRequest: AWSPaginateStringToken {
     public init(_ original: ECS.ListTaskDefinitionsRequest, token: String) {
         self.init(
             familyPrefix: original.familyPrefix, 
@@ -110,7 +110,7 @@ extension ECS.ListTaskDefinitionsRequest: AWSPaginateable {
     }
 }
 
-extension ECS.ListTasksRequest: AWSPaginateable {
+extension ECS.ListTasksRequest: AWSPaginateStringToken {
     public init(_ original: ECS.ListTasksRequest, token: String) {
         self.init(
             cluster: original.cluster, 

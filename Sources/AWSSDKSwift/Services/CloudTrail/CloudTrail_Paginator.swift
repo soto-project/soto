@@ -26,7 +26,7 @@ extension CloudTrail {
     
 }
 
-extension CloudTrail.ListPublicKeysRequest: AWSPaginateable {
+extension CloudTrail.ListPublicKeysRequest: AWSPaginateStringToken {
     public init(_ original: CloudTrail.ListPublicKeysRequest, token: String) {
         self.init(
             endTime: original.endTime, 
@@ -36,7 +36,7 @@ extension CloudTrail.ListPublicKeysRequest: AWSPaginateable {
     }
 }
 
-extension CloudTrail.ListTagsRequest: AWSPaginateable {
+extension CloudTrail.ListTagsRequest: AWSPaginateStringToken {
     public init(_ original: CloudTrail.ListTagsRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -45,7 +45,7 @@ extension CloudTrail.ListTagsRequest: AWSPaginateable {
     }
 }
 
-extension CloudTrail.ListTrailsRequest: AWSPaginateable {
+extension CloudTrail.ListTrailsRequest: AWSPaginateStringToken {
     public init(_ original: CloudTrail.ListTrailsRequest, token: String) {
         self.init(
             nextToken: token
@@ -53,7 +53,7 @@ extension CloudTrail.ListTrailsRequest: AWSPaginateable {
     }
 }
 
-extension CloudTrail.LookupEventsRequest: AWSPaginateable {
+extension CloudTrail.LookupEventsRequest: AWSPaginateStringToken {
     public init(_ original: CloudTrail.LookupEventsRequest, token: String) {
         self.init(
             endTime: original.endTime, 

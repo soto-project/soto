@@ -41,7 +41,7 @@ extension SESV2 {
     
 }
 
-extension SESV2.GetDedicatedIpsRequest: AWSPaginateable {
+extension SESV2.GetDedicatedIpsRequest: AWSPaginateStringToken {
     public init(_ original: SESV2.GetDedicatedIpsRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -51,7 +51,7 @@ extension SESV2.GetDedicatedIpsRequest: AWSPaginateable {
     }
 }
 
-extension SESV2.ListConfigurationSetsRequest: AWSPaginateable {
+extension SESV2.ListConfigurationSetsRequest: AWSPaginateStringToken {
     public init(_ original: SESV2.ListConfigurationSetsRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -60,7 +60,7 @@ extension SESV2.ListConfigurationSetsRequest: AWSPaginateable {
     }
 }
 
-extension SESV2.ListDedicatedIpPoolsRequest: AWSPaginateable {
+extension SESV2.ListDedicatedIpPoolsRequest: AWSPaginateStringToken {
     public init(_ original: SESV2.ListDedicatedIpPoolsRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -69,7 +69,7 @@ extension SESV2.ListDedicatedIpPoolsRequest: AWSPaginateable {
     }
 }
 
-extension SESV2.ListDeliverabilityTestReportsRequest: AWSPaginateable {
+extension SESV2.ListDeliverabilityTestReportsRequest: AWSPaginateStringToken {
     public init(_ original: SESV2.ListDeliverabilityTestReportsRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -78,7 +78,7 @@ extension SESV2.ListDeliverabilityTestReportsRequest: AWSPaginateable {
     }
 }
 
-extension SESV2.ListDomainDeliverabilityCampaignsRequest: AWSPaginateable {
+extension SESV2.ListDomainDeliverabilityCampaignsRequest: AWSPaginateStringToken {
     public init(_ original: SESV2.ListDomainDeliverabilityCampaignsRequest, token: String) {
         self.init(
             endDate: original.endDate, 
@@ -90,7 +90,7 @@ extension SESV2.ListDomainDeliverabilityCampaignsRequest: AWSPaginateable {
     }
 }
 
-extension SESV2.ListEmailIdentitiesRequest: AWSPaginateable {
+extension SESV2.ListEmailIdentitiesRequest: AWSPaginateStringToken {
     public init(_ original: SESV2.ListEmailIdentitiesRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -99,7 +99,7 @@ extension SESV2.ListEmailIdentitiesRequest: AWSPaginateable {
     }
 }
 
-extension SESV2.ListSuppressedDestinationsRequest: AWSPaginateable {
+extension SESV2.ListSuppressedDestinationsRequest: AWSPaginateStringToken {
     public init(_ original: SESV2.ListSuppressedDestinationsRequest, token: String) {
         self.init(
             endDate: original.endDate, 

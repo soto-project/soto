@@ -31,7 +31,7 @@ extension WorkLink {
     
 }
 
-extension WorkLink.ListDevicesRequest: AWSPaginateable {
+extension WorkLink.ListDevicesRequest: AWSPaginateStringToken {
     public init(_ original: WorkLink.ListDevicesRequest, token: String) {
         self.init(
             fleetArn: original.fleetArn, 
@@ -41,7 +41,7 @@ extension WorkLink.ListDevicesRequest: AWSPaginateable {
     }
 }
 
-extension WorkLink.ListDomainsRequest: AWSPaginateable {
+extension WorkLink.ListDomainsRequest: AWSPaginateStringToken {
     public init(_ original: WorkLink.ListDomainsRequest, token: String) {
         self.init(
             fleetArn: original.fleetArn, 
@@ -51,7 +51,7 @@ extension WorkLink.ListDomainsRequest: AWSPaginateable {
     }
 }
 
-extension WorkLink.ListFleetsRequest: AWSPaginateable {
+extension WorkLink.ListFleetsRequest: AWSPaginateStringToken {
     public init(_ original: WorkLink.ListFleetsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -60,7 +60,7 @@ extension WorkLink.ListFleetsRequest: AWSPaginateable {
     }
 }
 
-extension WorkLink.ListWebsiteAuthorizationProvidersRequest: AWSPaginateable {
+extension WorkLink.ListWebsiteAuthorizationProvidersRequest: AWSPaginateStringToken {
     public init(_ original: WorkLink.ListWebsiteAuthorizationProvidersRequest, token: String) {
         self.init(
             fleetArn: original.fleetArn, 
@@ -70,7 +70,7 @@ extension WorkLink.ListWebsiteAuthorizationProvidersRequest: AWSPaginateable {
     }
 }
 
-extension WorkLink.ListWebsiteCertificateAuthoritiesRequest: AWSPaginateable {
+extension WorkLink.ListWebsiteCertificateAuthoritiesRequest: AWSPaginateStringToken {
     public init(_ original: WorkLink.ListWebsiteCertificateAuthoritiesRequest, token: String) {
         self.init(
             fleetArn: original.fleetArn, 

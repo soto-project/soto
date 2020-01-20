@@ -46,7 +46,7 @@ extension WorkMail {
     
 }
 
-extension WorkMail.ListAliasesRequest: AWSPaginateable {
+extension WorkMail.ListAliasesRequest: AWSPaginateStringToken {
     public init(_ original: WorkMail.ListAliasesRequest, token: String) {
         self.init(
             entityId: original.entityId, 
@@ -57,7 +57,7 @@ extension WorkMail.ListAliasesRequest: AWSPaginateable {
     }
 }
 
-extension WorkMail.ListGroupMembersRequest: AWSPaginateable {
+extension WorkMail.ListGroupMembersRequest: AWSPaginateStringToken {
     public init(_ original: WorkMail.ListGroupMembersRequest, token: String) {
         self.init(
             groupId: original.groupId, 
@@ -68,7 +68,7 @@ extension WorkMail.ListGroupMembersRequest: AWSPaginateable {
     }
 }
 
-extension WorkMail.ListGroupsRequest: AWSPaginateable {
+extension WorkMail.ListGroupsRequest: AWSPaginateStringToken {
     public init(_ original: WorkMail.ListGroupsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -78,7 +78,7 @@ extension WorkMail.ListGroupsRequest: AWSPaginateable {
     }
 }
 
-extension WorkMail.ListMailboxPermissionsRequest: AWSPaginateable {
+extension WorkMail.ListMailboxPermissionsRequest: AWSPaginateStringToken {
     public init(_ original: WorkMail.ListMailboxPermissionsRequest, token: String) {
         self.init(
             entityId: original.entityId, 
@@ -89,7 +89,7 @@ extension WorkMail.ListMailboxPermissionsRequest: AWSPaginateable {
     }
 }
 
-extension WorkMail.ListOrganizationsRequest: AWSPaginateable {
+extension WorkMail.ListOrganizationsRequest: AWSPaginateStringToken {
     public init(_ original: WorkMail.ListOrganizationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -98,7 +98,7 @@ extension WorkMail.ListOrganizationsRequest: AWSPaginateable {
     }
 }
 
-extension WorkMail.ListResourceDelegatesRequest: AWSPaginateable {
+extension WorkMail.ListResourceDelegatesRequest: AWSPaginateStringToken {
     public init(_ original: WorkMail.ListResourceDelegatesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -109,7 +109,7 @@ extension WorkMail.ListResourceDelegatesRequest: AWSPaginateable {
     }
 }
 
-extension WorkMail.ListResourcesRequest: AWSPaginateable {
+extension WorkMail.ListResourcesRequest: AWSPaginateStringToken {
     public init(_ original: WorkMail.ListResourcesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -119,7 +119,7 @@ extension WorkMail.ListResourcesRequest: AWSPaginateable {
     }
 }
 
-extension WorkMail.ListUsersRequest: AWSPaginateable {
+extension WorkMail.ListUsersRequest: AWSPaginateStringToken {
     public init(_ original: WorkMail.ListUsersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

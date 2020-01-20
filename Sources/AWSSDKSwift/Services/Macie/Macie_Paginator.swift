@@ -16,7 +16,7 @@ extension Macie {
     
 }
 
-extension Macie.ListMemberAccountsRequest: AWSPaginateable {
+extension Macie.ListMemberAccountsRequest: AWSPaginateStringToken {
     public init(_ original: Macie.ListMemberAccountsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -25,7 +25,7 @@ extension Macie.ListMemberAccountsRequest: AWSPaginateable {
     }
 }
 
-extension Macie.ListS3ResourcesRequest: AWSPaginateable {
+extension Macie.ListS3ResourcesRequest: AWSPaginateStringToken {
     public init(_ original: Macie.ListS3ResourcesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

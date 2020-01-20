@@ -41,7 +41,7 @@ extension CloudWatchLogs {
     
 }
 
-extension CloudWatchLogs.DescribeDestinationsRequest: AWSPaginateable {
+extension CloudWatchLogs.DescribeDestinationsRequest: AWSPaginateStringToken {
     public init(_ original: CloudWatchLogs.DescribeDestinationsRequest, token: String) {
         self.init(
             destinationNamePrefix: original.destinationNamePrefix, 
@@ -51,7 +51,7 @@ extension CloudWatchLogs.DescribeDestinationsRequest: AWSPaginateable {
     }
 }
 
-extension CloudWatchLogs.DescribeLogGroupsRequest: AWSPaginateable {
+extension CloudWatchLogs.DescribeLogGroupsRequest: AWSPaginateStringToken {
     public init(_ original: CloudWatchLogs.DescribeLogGroupsRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -61,7 +61,7 @@ extension CloudWatchLogs.DescribeLogGroupsRequest: AWSPaginateable {
     }
 }
 
-extension CloudWatchLogs.DescribeLogStreamsRequest: AWSPaginateable {
+extension CloudWatchLogs.DescribeLogStreamsRequest: AWSPaginateStringToken {
     public init(_ original: CloudWatchLogs.DescribeLogStreamsRequest, token: String) {
         self.init(
             descending: original.descending, 
@@ -74,7 +74,7 @@ extension CloudWatchLogs.DescribeLogStreamsRequest: AWSPaginateable {
     }
 }
 
-extension CloudWatchLogs.DescribeMetricFiltersRequest: AWSPaginateable {
+extension CloudWatchLogs.DescribeMetricFiltersRequest: AWSPaginateStringToken {
     public init(_ original: CloudWatchLogs.DescribeMetricFiltersRequest, token: String) {
         self.init(
             filterNamePrefix: original.filterNamePrefix, 
@@ -87,7 +87,7 @@ extension CloudWatchLogs.DescribeMetricFiltersRequest: AWSPaginateable {
     }
 }
 
-extension CloudWatchLogs.DescribeSubscriptionFiltersRequest: AWSPaginateable {
+extension CloudWatchLogs.DescribeSubscriptionFiltersRequest: AWSPaginateStringToken {
     public init(_ original: CloudWatchLogs.DescribeSubscriptionFiltersRequest, token: String) {
         self.init(
             filterNamePrefix: original.filterNamePrefix, 
@@ -98,7 +98,7 @@ extension CloudWatchLogs.DescribeSubscriptionFiltersRequest: AWSPaginateable {
     }
 }
 
-extension CloudWatchLogs.FilterLogEventsRequest: AWSPaginateable {
+extension CloudWatchLogs.FilterLogEventsRequest: AWSPaginateStringToken {
     public init(_ original: CloudWatchLogs.FilterLogEventsRequest, token: String) {
         self.init(
             endTime: original.endTime, 
@@ -113,7 +113,7 @@ extension CloudWatchLogs.FilterLogEventsRequest: AWSPaginateable {
     }
 }
 
-extension CloudWatchLogs.GetLogEventsRequest: AWSPaginateable {
+extension CloudWatchLogs.GetLogEventsRequest: AWSPaginateStringToken {
     public init(_ original: CloudWatchLogs.GetLogEventsRequest, token: String) {
         self.init(
             endTime: original.endTime, 

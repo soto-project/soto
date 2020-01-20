@@ -31,7 +31,7 @@ extension AppConfig {
     
 }
 
-extension AppConfig.ListApplicationsRequest: AWSPaginateable {
+extension AppConfig.ListApplicationsRequest: AWSPaginateStringToken {
     public init(_ original: AppConfig.ListApplicationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -40,7 +40,7 @@ extension AppConfig.ListApplicationsRequest: AWSPaginateable {
     }
 }
 
-extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateable {
+extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateStringToken {
     public init(_ original: AppConfig.ListConfigurationProfilesRequest, token: String) {
         self.init(
             applicationId: original.applicationId, 
@@ -50,7 +50,7 @@ extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateable {
     }
 }
 
-extension AppConfig.ListDeploymentStrategiesRequest: AWSPaginateable {
+extension AppConfig.ListDeploymentStrategiesRequest: AWSPaginateStringToken {
     public init(_ original: AppConfig.ListDeploymentStrategiesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -59,7 +59,7 @@ extension AppConfig.ListDeploymentStrategiesRequest: AWSPaginateable {
     }
 }
 
-extension AppConfig.ListDeploymentsRequest: AWSPaginateable {
+extension AppConfig.ListDeploymentsRequest: AWSPaginateStringToken {
     public init(_ original: AppConfig.ListDeploymentsRequest, token: String) {
         self.init(
             applicationId: original.applicationId, 
@@ -70,7 +70,7 @@ extension AppConfig.ListDeploymentsRequest: AWSPaginateable {
     }
 }
 
-extension AppConfig.ListEnvironmentsRequest: AWSPaginateable {
+extension AppConfig.ListEnvironmentsRequest: AWSPaginateStringToken {
     public init(_ original: AppConfig.ListEnvironmentsRequest, token: String) {
         self.init(
             applicationId: original.applicationId, 

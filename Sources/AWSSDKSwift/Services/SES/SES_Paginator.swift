@@ -16,7 +16,7 @@ extension SES {
     
 }
 
-extension SES.ListCustomVerificationEmailTemplatesRequest: AWSPaginateable {
+extension SES.ListCustomVerificationEmailTemplatesRequest: AWSPaginateStringToken {
     public init(_ original: SES.ListCustomVerificationEmailTemplatesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -25,7 +25,7 @@ extension SES.ListCustomVerificationEmailTemplatesRequest: AWSPaginateable {
     }
 }
 
-extension SES.ListIdentitiesRequest: AWSPaginateable {
+extension SES.ListIdentitiesRequest: AWSPaginateStringToken {
     public init(_ original: SES.ListIdentitiesRequest, token: String) {
         self.init(
             identityType: original.identityType, 

@@ -39,7 +39,7 @@ extension GroundStation {
     
 }
 
-extension GroundStation.ListConfigsRequest: AWSPaginateable {
+extension GroundStation.ListConfigsRequest: AWSPaginateStringToken {
     public init(_ original: GroundStation.ListConfigsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -48,7 +48,7 @@ extension GroundStation.ListConfigsRequest: AWSPaginateable {
     }
 }
 
-extension GroundStation.ListContactsRequest: AWSPaginateable {
+extension GroundStation.ListContactsRequest: AWSPaginateStringToken {
     public init(_ original: GroundStation.ListContactsRequest, token: String) {
         self.init(
             endTime: original.endTime, 
@@ -63,7 +63,7 @@ extension GroundStation.ListContactsRequest: AWSPaginateable {
     }
 }
 
-extension GroundStation.ListDataflowEndpointGroupsRequest: AWSPaginateable {
+extension GroundStation.ListDataflowEndpointGroupsRequest: AWSPaginateStringToken {
     public init(_ original: GroundStation.ListDataflowEndpointGroupsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -72,7 +72,7 @@ extension GroundStation.ListDataflowEndpointGroupsRequest: AWSPaginateable {
     }
 }
 
-extension GroundStation.ListGroundStationsRequest: AWSPaginateable {
+extension GroundStation.ListGroundStationsRequest: AWSPaginateStringToken {
     public init(_ original: GroundStation.ListGroundStationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -81,7 +81,7 @@ extension GroundStation.ListGroundStationsRequest: AWSPaginateable {
     }
 }
 
-extension GroundStation.ListMissionProfilesRequest: AWSPaginateable {
+extension GroundStation.ListMissionProfilesRequest: AWSPaginateStringToken {
     public init(_ original: GroundStation.ListMissionProfilesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -90,7 +90,7 @@ extension GroundStation.ListMissionProfilesRequest: AWSPaginateable {
     }
 }
 
-extension GroundStation.ListSatellitesRequest: AWSPaginateable {
+extension GroundStation.ListSatellitesRequest: AWSPaginateStringToken {
     public init(_ original: GroundStation.ListSatellitesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

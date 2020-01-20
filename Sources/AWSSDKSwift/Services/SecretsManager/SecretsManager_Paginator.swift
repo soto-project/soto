@@ -16,7 +16,7 @@ extension SecretsManager {
     
 }
 
-extension SecretsManager.ListSecretVersionIdsRequest: AWSPaginateable {
+extension SecretsManager.ListSecretVersionIdsRequest: AWSPaginateStringToken {
     public init(_ original: SecretsManager.ListSecretVersionIdsRequest, token: String) {
         self.init(
             includeDeprecated: original.includeDeprecated, 
@@ -27,7 +27,7 @@ extension SecretsManager.ListSecretVersionIdsRequest: AWSPaginateable {
     }
 }
 
-extension SecretsManager.ListSecretsRequest: AWSPaginateable {
+extension SecretsManager.ListSecretsRequest: AWSPaginateStringToken {
     public init(_ original: SecretsManager.ListSecretsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

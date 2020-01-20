@@ -26,7 +26,7 @@ extension KMS {
     
 }
 
-extension KMS.ListAliasesRequest: AWSPaginateable {
+extension KMS.ListAliasesRequest: AWSPaginateStringToken {
     public init(_ original: KMS.ListAliasesRequest, token: String) {
         self.init(
             keyId: original.keyId, 
@@ -36,7 +36,7 @@ extension KMS.ListAliasesRequest: AWSPaginateable {
     }
 }
 
-extension KMS.ListGrantsRequest: AWSPaginateable {
+extension KMS.ListGrantsRequest: AWSPaginateStringToken {
     public init(_ original: KMS.ListGrantsRequest, token: String) {
         self.init(
             keyId: original.keyId, 
@@ -46,7 +46,7 @@ extension KMS.ListGrantsRequest: AWSPaginateable {
     }
 }
 
-extension KMS.ListKeyPoliciesRequest: AWSPaginateable {
+extension KMS.ListKeyPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: KMS.ListKeyPoliciesRequest, token: String) {
         self.init(
             keyId: original.keyId, 
@@ -56,7 +56,7 @@ extension KMS.ListKeyPoliciesRequest: AWSPaginateable {
     }
 }
 
-extension KMS.ListKeysRequest: AWSPaginateable {
+extension KMS.ListKeysRequest: AWSPaginateStringToken {
     public init(_ original: KMS.ListKeysRequest, token: String) {
         self.init(
             limit: original.limit, 

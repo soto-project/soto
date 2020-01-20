@@ -36,7 +36,7 @@ extension CodePipeline {
     
 }
 
-extension CodePipeline.ListActionExecutionsInput: AWSPaginateable {
+extension CodePipeline.ListActionExecutionsInput: AWSPaginateStringToken {
     public init(_ original: CodePipeline.ListActionExecutionsInput, token: String) {
         self.init(
             filter: original.filter, 
@@ -47,7 +47,7 @@ extension CodePipeline.ListActionExecutionsInput: AWSPaginateable {
     }
 }
 
-extension CodePipeline.ListActionTypesInput: AWSPaginateable {
+extension CodePipeline.ListActionTypesInput: AWSPaginateStringToken {
     public init(_ original: CodePipeline.ListActionTypesInput, token: String) {
         self.init(
             actionOwnerFilter: original.actionOwnerFilter, 
@@ -56,7 +56,7 @@ extension CodePipeline.ListActionTypesInput: AWSPaginateable {
     }
 }
 
-extension CodePipeline.ListPipelineExecutionsInput: AWSPaginateable {
+extension CodePipeline.ListPipelineExecutionsInput: AWSPaginateStringToken {
     public init(_ original: CodePipeline.ListPipelineExecutionsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -66,7 +66,7 @@ extension CodePipeline.ListPipelineExecutionsInput: AWSPaginateable {
     }
 }
 
-extension CodePipeline.ListPipelinesInput: AWSPaginateable {
+extension CodePipeline.ListPipelinesInput: AWSPaginateStringToken {
     public init(_ original: CodePipeline.ListPipelinesInput, token: String) {
         self.init(
             nextToken: token
@@ -74,7 +74,7 @@ extension CodePipeline.ListPipelinesInput: AWSPaginateable {
     }
 }
 
-extension CodePipeline.ListTagsForResourceInput: AWSPaginateable {
+extension CodePipeline.ListTagsForResourceInput: AWSPaginateStringToken {
     public init(_ original: CodePipeline.ListTagsForResourceInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -84,7 +84,7 @@ extension CodePipeline.ListTagsForResourceInput: AWSPaginateable {
     }
 }
 
-extension CodePipeline.ListWebhooksInput: AWSPaginateable {
+extension CodePipeline.ListWebhooksInput: AWSPaginateStringToken {
     public init(_ original: CodePipeline.ListWebhooksInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

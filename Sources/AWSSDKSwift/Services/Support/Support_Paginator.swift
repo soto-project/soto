@@ -16,7 +16,7 @@ extension Support {
     
 }
 
-extension Support.DescribeCasesRequest: AWSPaginateable {
+extension Support.DescribeCasesRequest: AWSPaginateStringToken {
     public init(_ original: Support.DescribeCasesRequest, token: String) {
         self.init(
             afterTime: original.afterTime, 
@@ -32,7 +32,7 @@ extension Support.DescribeCasesRequest: AWSPaginateable {
     }
 }
 
-extension Support.DescribeCommunicationsRequest: AWSPaginateable {
+extension Support.DescribeCommunicationsRequest: AWSPaginateStringToken {
     public init(_ original: Support.DescribeCommunicationsRequest, token: String) {
         self.init(
             afterTime: original.afterTime, 

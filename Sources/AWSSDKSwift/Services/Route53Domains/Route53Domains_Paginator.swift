@@ -16,7 +16,7 @@ extension Route53Domains {
     
 }
 
-extension Route53Domains.ListDomainsRequest: AWSPaginateable {
+extension Route53Domains.ListDomainsRequest: AWSPaginateStringToken {
     public init(_ original: Route53Domains.ListDomainsRequest, token: String) {
         self.init(
             marker: token, 
@@ -25,7 +25,7 @@ extension Route53Domains.ListDomainsRequest: AWSPaginateable {
     }
 }
 
-extension Route53Domains.ListOperationsRequest: AWSPaginateable {
+extension Route53Domains.ListOperationsRequest: AWSPaginateStringToken {
     public init(_ original: Route53Domains.ListOperationsRequest, token: String) {
         self.init(
             marker: token, 

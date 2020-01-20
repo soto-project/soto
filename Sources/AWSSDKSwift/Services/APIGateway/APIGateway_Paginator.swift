@@ -61,7 +61,7 @@ extension APIGateway {
     
 }
 
-extension APIGateway.GetApiKeysRequest: AWSPaginateable {
+extension APIGateway.GetApiKeysRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetApiKeysRequest, token: String) {
         self.init(
             customerId: original.customerId, 
@@ -73,7 +73,7 @@ extension APIGateway.GetApiKeysRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetBasePathMappingsRequest: AWSPaginateable {
+extension APIGateway.GetBasePathMappingsRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetBasePathMappingsRequest, token: String) {
         self.init(
             domainName: original.domainName, 
@@ -83,7 +83,7 @@ extension APIGateway.GetBasePathMappingsRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetClientCertificatesRequest: AWSPaginateable {
+extension APIGateway.GetClientCertificatesRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetClientCertificatesRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -92,7 +92,7 @@ extension APIGateway.GetClientCertificatesRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetDeploymentsRequest: AWSPaginateable {
+extension APIGateway.GetDeploymentsRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetDeploymentsRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -102,7 +102,7 @@ extension APIGateway.GetDeploymentsRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetDomainNamesRequest: AWSPaginateable {
+extension APIGateway.GetDomainNamesRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetDomainNamesRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -111,7 +111,7 @@ extension APIGateway.GetDomainNamesRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetModelsRequest: AWSPaginateable {
+extension APIGateway.GetModelsRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetModelsRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -121,7 +121,7 @@ extension APIGateway.GetModelsRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetResourcesRequest: AWSPaginateable {
+extension APIGateway.GetResourcesRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetResourcesRequest, token: String) {
         self.init(
             embed: original.embed, 
@@ -132,7 +132,7 @@ extension APIGateway.GetResourcesRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetRestApisRequest: AWSPaginateable {
+extension APIGateway.GetRestApisRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetRestApisRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -141,7 +141,7 @@ extension APIGateway.GetRestApisRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetUsagePlanKeysRequest: AWSPaginateable {
+extension APIGateway.GetUsagePlanKeysRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetUsagePlanKeysRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -152,7 +152,7 @@ extension APIGateway.GetUsagePlanKeysRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetUsagePlansRequest: AWSPaginateable {
+extension APIGateway.GetUsagePlansRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetUsagePlansRequest, token: String) {
         self.init(
             keyId: original.keyId, 
@@ -162,7 +162,7 @@ extension APIGateway.GetUsagePlansRequest: AWSPaginateable {
     }
 }
 
-extension APIGateway.GetVpcLinksRequest: AWSPaginateable {
+extension APIGateway.GetVpcLinksRequest: AWSPaginateStringToken {
     public init(_ original: APIGateway.GetVpcLinksRequest, token: String) {
         self.init(
             limit: original.limit, 

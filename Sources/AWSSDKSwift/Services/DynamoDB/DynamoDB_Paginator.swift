@@ -16,7 +16,7 @@ extension DynamoDB {
     
 }
 
-extension DynamoDB.ListContributorInsightsInput: AWSPaginateable {
+extension DynamoDB.ListContributorInsightsInput: AWSPaginateStringToken {
     public init(_ original: DynamoDB.ListContributorInsightsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -26,7 +26,7 @@ extension DynamoDB.ListContributorInsightsInput: AWSPaginateable {
     }
 }
 
-extension DynamoDB.ListTablesInput: AWSPaginateable {
+extension DynamoDB.ListTablesInput: AWSPaginateStringToken {
     public init(_ original: DynamoDB.ListTablesInput, token: String) {
         self.init(
             exclusiveStartTableName: token, 

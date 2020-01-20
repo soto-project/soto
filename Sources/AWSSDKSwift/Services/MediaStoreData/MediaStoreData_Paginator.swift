@@ -11,7 +11,7 @@ extension MediaStoreData {
     
 }
 
-extension MediaStoreData.ListItemsRequest: AWSPaginateable {
+extension MediaStoreData.ListItemsRequest: AWSPaginateStringToken {
     public init(_ original: MediaStoreData.ListItemsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

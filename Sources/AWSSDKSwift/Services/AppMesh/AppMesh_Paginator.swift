@@ -36,7 +36,7 @@ extension AppMesh {
     
 }
 
-extension AppMesh.ListMeshesInput: AWSPaginateable {
+extension AppMesh.ListMeshesInput: AWSPaginateStringToken {
     public init(_ original: AppMesh.ListMeshesInput, token: String) {
         self.init(
             limit: original.limit, 
@@ -45,7 +45,7 @@ extension AppMesh.ListMeshesInput: AWSPaginateable {
     }
 }
 
-extension AppMesh.ListRoutesInput: AWSPaginateable {
+extension AppMesh.ListRoutesInput: AWSPaginateStringToken {
     public init(_ original: AppMesh.ListRoutesInput, token: String) {
         self.init(
             limit: original.limit, 
@@ -56,7 +56,7 @@ extension AppMesh.ListRoutesInput: AWSPaginateable {
     }
 }
 
-extension AppMesh.ListTagsForResourceInput: AWSPaginateable {
+extension AppMesh.ListTagsForResourceInput: AWSPaginateStringToken {
     public init(_ original: AppMesh.ListTagsForResourceInput, token: String) {
         self.init(
             limit: original.limit, 
@@ -66,7 +66,7 @@ extension AppMesh.ListTagsForResourceInput: AWSPaginateable {
     }
 }
 
-extension AppMesh.ListVirtualNodesInput: AWSPaginateable {
+extension AppMesh.ListVirtualNodesInput: AWSPaginateStringToken {
     public init(_ original: AppMesh.ListVirtualNodesInput, token: String) {
         self.init(
             limit: original.limit, 
@@ -76,7 +76,7 @@ extension AppMesh.ListVirtualNodesInput: AWSPaginateable {
     }
 }
 
-extension AppMesh.ListVirtualRoutersInput: AWSPaginateable {
+extension AppMesh.ListVirtualRoutersInput: AWSPaginateStringToken {
     public init(_ original: AppMesh.ListVirtualRoutersInput, token: String) {
         self.init(
             limit: original.limit, 
@@ -86,7 +86,7 @@ extension AppMesh.ListVirtualRoutersInput: AWSPaginateable {
     }
 }
 
-extension AppMesh.ListVirtualServicesInput: AWSPaginateable {
+extension AppMesh.ListVirtualServicesInput: AWSPaginateStringToken {
     public init(_ original: AppMesh.ListVirtualServicesInput, token: String) {
         self.init(
             limit: original.limit, 

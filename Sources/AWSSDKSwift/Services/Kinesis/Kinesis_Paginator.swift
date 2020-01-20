@@ -16,7 +16,7 @@ extension Kinesis {
     
 }
 
-extension Kinesis.ListStreamConsumersInput: AWSPaginateable {
+extension Kinesis.ListStreamConsumersInput: AWSPaginateStringToken {
     public init(_ original: Kinesis.ListStreamConsumersInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -27,7 +27,7 @@ extension Kinesis.ListStreamConsumersInput: AWSPaginateable {
     }
 }
 
-extension Kinesis.ListStreamsInput: AWSPaginateable {
+extension Kinesis.ListStreamsInput: AWSPaginateStringToken {
     public init(_ original: Kinesis.ListStreamsInput, token: String) {
         self.init(
             exclusiveStartStreamName: token, 

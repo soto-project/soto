@@ -51,7 +51,7 @@ extension CognitoIdentityProvider {
     
 }
 
-extension CognitoIdentityProvider.AdminListGroupsForUserRequest: AWSPaginateable {
+extension CognitoIdentityProvider.AdminListGroupsForUserRequest: AWSPaginateStringToken {
     public init(_ original: CognitoIdentityProvider.AdminListGroupsForUserRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -62,7 +62,7 @@ extension CognitoIdentityProvider.AdminListGroupsForUserRequest: AWSPaginateable
     }
 }
 
-extension CognitoIdentityProvider.AdminListUserAuthEventsRequest: AWSPaginateable {
+extension CognitoIdentityProvider.AdminListUserAuthEventsRequest: AWSPaginateStringToken {
     public init(_ original: CognitoIdentityProvider.AdminListUserAuthEventsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -73,7 +73,7 @@ extension CognitoIdentityProvider.AdminListUserAuthEventsRequest: AWSPaginateabl
     }
 }
 
-extension CognitoIdentityProvider.ListGroupsRequest: AWSPaginateable {
+extension CognitoIdentityProvider.ListGroupsRequest: AWSPaginateStringToken {
     public init(_ original: CognitoIdentityProvider.ListGroupsRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -83,7 +83,7 @@ extension CognitoIdentityProvider.ListGroupsRequest: AWSPaginateable {
     }
 }
 
-extension CognitoIdentityProvider.ListIdentityProvidersRequest: AWSPaginateable {
+extension CognitoIdentityProvider.ListIdentityProvidersRequest: AWSPaginateStringToken {
     public init(_ original: CognitoIdentityProvider.ListIdentityProvidersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -93,7 +93,7 @@ extension CognitoIdentityProvider.ListIdentityProvidersRequest: AWSPaginateable 
     }
 }
 
-extension CognitoIdentityProvider.ListResourceServersRequest: AWSPaginateable {
+extension CognitoIdentityProvider.ListResourceServersRequest: AWSPaginateStringToken {
     public init(_ original: CognitoIdentityProvider.ListResourceServersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -103,7 +103,7 @@ extension CognitoIdentityProvider.ListResourceServersRequest: AWSPaginateable {
     }
 }
 
-extension CognitoIdentityProvider.ListUserPoolClientsRequest: AWSPaginateable {
+extension CognitoIdentityProvider.ListUserPoolClientsRequest: AWSPaginateStringToken {
     public init(_ original: CognitoIdentityProvider.ListUserPoolClientsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -113,7 +113,7 @@ extension CognitoIdentityProvider.ListUserPoolClientsRequest: AWSPaginateable {
     }
 }
 
-extension CognitoIdentityProvider.ListUserPoolsRequest: AWSPaginateable {
+extension CognitoIdentityProvider.ListUserPoolsRequest: AWSPaginateStringToken {
     public init(_ original: CognitoIdentityProvider.ListUserPoolsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -122,7 +122,7 @@ extension CognitoIdentityProvider.ListUserPoolsRequest: AWSPaginateable {
     }
 }
 
-extension CognitoIdentityProvider.ListUsersRequest: AWSPaginateable {
+extension CognitoIdentityProvider.ListUsersRequest: AWSPaginateStringToken {
     public init(_ original: CognitoIdentityProvider.ListUsersRequest, token: String) {
         self.init(
             attributesToGet: original.attributesToGet, 
@@ -134,7 +134,7 @@ extension CognitoIdentityProvider.ListUsersRequest: AWSPaginateable {
     }
 }
 
-extension CognitoIdentityProvider.ListUsersInGroupRequest: AWSPaginateable {
+extension CognitoIdentityProvider.ListUsersInGroupRequest: AWSPaginateStringToken {
     public init(_ original: CognitoIdentityProvider.ListUsersInGroupRequest, token: String) {
         self.init(
             groupName: original.groupName, 

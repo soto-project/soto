@@ -11,7 +11,7 @@ extension AugmentedAIRuntime {
     
 }
 
-extension AugmentedAIRuntime.ListHumanLoopsRequest: AWSPaginateable {
+extension AugmentedAIRuntime.ListHumanLoopsRequest: AWSPaginateStringToken {
     public init(_ original: AugmentedAIRuntime.ListHumanLoopsRequest, token: String) {
         self.init(
             creationTimeAfter: original.creationTimeAfter, 

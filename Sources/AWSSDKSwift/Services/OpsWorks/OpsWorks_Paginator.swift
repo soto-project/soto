@@ -11,7 +11,7 @@ extension OpsWorks {
     
 }
 
-extension OpsWorks.DescribeEcsClustersRequest: AWSPaginateable {
+extension OpsWorks.DescribeEcsClustersRequest: AWSPaginateStringToken {
     public init(_ original: OpsWorks.DescribeEcsClustersRequest, token: String) {
         self.init(
             ecsClusterArns: original.ecsClusterArns, 

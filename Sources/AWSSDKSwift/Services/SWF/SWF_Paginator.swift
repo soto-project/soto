@@ -41,7 +41,7 @@ extension SWF {
     
 }
 
-extension SWF.GetWorkflowExecutionHistoryInput: AWSPaginateable {
+extension SWF.GetWorkflowExecutionHistoryInput: AWSPaginateStringToken {
     public init(_ original: SWF.GetWorkflowExecutionHistoryInput, token: String) {
         self.init(
             domain: original.domain, 
@@ -53,7 +53,7 @@ extension SWF.GetWorkflowExecutionHistoryInput: AWSPaginateable {
     }
 }
 
-extension SWF.ListActivityTypesInput: AWSPaginateable {
+extension SWF.ListActivityTypesInput: AWSPaginateStringToken {
     public init(_ original: SWF.ListActivityTypesInput, token: String) {
         self.init(
             domain: original.domain, 
@@ -66,7 +66,7 @@ extension SWF.ListActivityTypesInput: AWSPaginateable {
     }
 }
 
-extension SWF.ListClosedWorkflowExecutionsInput: AWSPaginateable {
+extension SWF.ListClosedWorkflowExecutionsInput: AWSPaginateStringToken {
     public init(_ original: SWF.ListClosedWorkflowExecutionsInput, token: String) {
         self.init(
             closeStatusFilter: original.closeStatusFilter, 
@@ -83,7 +83,7 @@ extension SWF.ListClosedWorkflowExecutionsInput: AWSPaginateable {
     }
 }
 
-extension SWF.ListDomainsInput: AWSPaginateable {
+extension SWF.ListDomainsInput: AWSPaginateStringToken {
     public init(_ original: SWF.ListDomainsInput, token: String) {
         self.init(
             maximumPageSize: original.maximumPageSize, 
@@ -94,7 +94,7 @@ extension SWF.ListDomainsInput: AWSPaginateable {
     }
 }
 
-extension SWF.ListOpenWorkflowExecutionsInput: AWSPaginateable {
+extension SWF.ListOpenWorkflowExecutionsInput: AWSPaginateStringToken {
     public init(_ original: SWF.ListOpenWorkflowExecutionsInput, token: String) {
         self.init(
             domain: original.domain, 
@@ -109,7 +109,7 @@ extension SWF.ListOpenWorkflowExecutionsInput: AWSPaginateable {
     }
 }
 
-extension SWF.ListWorkflowTypesInput: AWSPaginateable {
+extension SWF.ListWorkflowTypesInput: AWSPaginateStringToken {
     public init(_ original: SWF.ListWorkflowTypesInput, token: String) {
         self.init(
             domain: original.domain, 
@@ -122,7 +122,7 @@ extension SWF.ListWorkflowTypesInput: AWSPaginateable {
     }
 }
 
-extension SWF.PollForDecisionTaskInput: AWSPaginateable {
+extension SWF.PollForDecisionTaskInput: AWSPaginateStringToken {
     public init(_ original: SWF.PollForDecisionTaskInput, token: String) {
         self.init(
             domain: original.domain, 

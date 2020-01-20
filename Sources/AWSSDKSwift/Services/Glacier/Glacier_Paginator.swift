@@ -26,7 +26,7 @@ extension Glacier {
     
 }
 
-extension Glacier.ListJobsInput: AWSPaginateable {
+extension Glacier.ListJobsInput: AWSPaginateStringToken {
     public init(_ original: Glacier.ListJobsInput, token: String) {
         self.init(
             accountId: original.accountId, 
@@ -39,7 +39,7 @@ extension Glacier.ListJobsInput: AWSPaginateable {
     }
 }
 
-extension Glacier.ListMultipartUploadsInput: AWSPaginateable {
+extension Glacier.ListMultipartUploadsInput: AWSPaginateStringToken {
     public init(_ original: Glacier.ListMultipartUploadsInput, token: String) {
         self.init(
             accountId: original.accountId, 
@@ -50,7 +50,7 @@ extension Glacier.ListMultipartUploadsInput: AWSPaginateable {
     }
 }
 
-extension Glacier.ListPartsInput: AWSPaginateable {
+extension Glacier.ListPartsInput: AWSPaginateStringToken {
     public init(_ original: Glacier.ListPartsInput, token: String) {
         self.init(
             accountId: original.accountId, 
@@ -62,7 +62,7 @@ extension Glacier.ListPartsInput: AWSPaginateable {
     }
 }
 
-extension Glacier.ListVaultsInput: AWSPaginateable {
+extension Glacier.ListVaultsInput: AWSPaginateStringToken {
     public init(_ original: Glacier.ListVaultsInput, token: String) {
         self.init(
             accountId: original.accountId, 

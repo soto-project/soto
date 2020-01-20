@@ -21,7 +21,7 @@ extension LakeFormation {
     
 }
 
-extension LakeFormation.GetEffectivePermissionsForPathRequest: AWSPaginateable {
+extension LakeFormation.GetEffectivePermissionsForPathRequest: AWSPaginateStringToken {
     public init(_ original: LakeFormation.GetEffectivePermissionsForPathRequest, token: String) {
         self.init(
             catalogId: original.catalogId, 
@@ -32,7 +32,7 @@ extension LakeFormation.GetEffectivePermissionsForPathRequest: AWSPaginateable {
     }
 }
 
-extension LakeFormation.ListPermissionsRequest: AWSPaginateable {
+extension LakeFormation.ListPermissionsRequest: AWSPaginateStringToken {
     public init(_ original: LakeFormation.ListPermissionsRequest, token: String) {
         self.init(
             catalogId: original.catalogId, 
@@ -45,7 +45,7 @@ extension LakeFormation.ListPermissionsRequest: AWSPaginateable {
     }
 }
 
-extension LakeFormation.ListResourcesRequest: AWSPaginateable {
+extension LakeFormation.ListResourcesRequest: AWSPaginateStringToken {
     public init(_ original: LakeFormation.ListResourcesRequest, token: String) {
         self.init(
             filterConditionList: original.filterConditionList, 

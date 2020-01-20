@@ -31,7 +31,7 @@ extension ApplicationInsights {
     
 }
 
-extension ApplicationInsights.ListApplicationsRequest: AWSPaginateable {
+extension ApplicationInsights.ListApplicationsRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationInsights.ListApplicationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -40,7 +40,7 @@ extension ApplicationInsights.ListApplicationsRequest: AWSPaginateable {
     }
 }
 
-extension ApplicationInsights.ListComponentsRequest: AWSPaginateable {
+extension ApplicationInsights.ListComponentsRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationInsights.ListComponentsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -50,7 +50,7 @@ extension ApplicationInsights.ListComponentsRequest: AWSPaginateable {
     }
 }
 
-extension ApplicationInsights.ListLogPatternSetsRequest: AWSPaginateable {
+extension ApplicationInsights.ListLogPatternSetsRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationInsights.ListLogPatternSetsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -60,7 +60,7 @@ extension ApplicationInsights.ListLogPatternSetsRequest: AWSPaginateable {
     }
 }
 
-extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateable {
+extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationInsights.ListLogPatternsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -71,7 +71,7 @@ extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateable {
     }
 }
 
-extension ApplicationInsights.ListProblemsRequest: AWSPaginateable {
+extension ApplicationInsights.ListProblemsRequest: AWSPaginateStringToken {
     public init(_ original: ApplicationInsights.ListProblemsRequest, token: String) {
         self.init(
             endTime: original.endTime, 

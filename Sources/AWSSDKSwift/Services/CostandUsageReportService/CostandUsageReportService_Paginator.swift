@@ -11,7 +11,7 @@ extension CostandUsageReportService {
     
 }
 
-extension CostandUsageReportService.DescribeReportDefinitionsRequest: AWSPaginateable {
+extension CostandUsageReportService.DescribeReportDefinitionsRequest: AWSPaginateStringToken {
     public init(_ original: CostandUsageReportService.DescribeReportDefinitionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

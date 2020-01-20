@@ -26,7 +26,7 @@ extension ServiceDiscovery {
     
 }
 
-extension ServiceDiscovery.ListInstancesRequest: AWSPaginateable {
+extension ServiceDiscovery.ListInstancesRequest: AWSPaginateStringToken {
     public init(_ original: ServiceDiscovery.ListInstancesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -36,7 +36,7 @@ extension ServiceDiscovery.ListInstancesRequest: AWSPaginateable {
     }
 }
 
-extension ServiceDiscovery.ListNamespacesRequest: AWSPaginateable {
+extension ServiceDiscovery.ListNamespacesRequest: AWSPaginateStringToken {
     public init(_ original: ServiceDiscovery.ListNamespacesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -46,7 +46,7 @@ extension ServiceDiscovery.ListNamespacesRequest: AWSPaginateable {
     }
 }
 
-extension ServiceDiscovery.ListOperationsRequest: AWSPaginateable {
+extension ServiceDiscovery.ListOperationsRequest: AWSPaginateStringToken {
     public init(_ original: ServiceDiscovery.ListOperationsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -56,7 +56,7 @@ extension ServiceDiscovery.ListOperationsRequest: AWSPaginateable {
     }
 }
 
-extension ServiceDiscovery.ListServicesRequest: AWSPaginateable {
+extension ServiceDiscovery.ListServicesRequest: AWSPaginateStringToken {
     public init(_ original: ServiceDiscovery.ListServicesRequest, token: String) {
         self.init(
             filters: original.filters, 

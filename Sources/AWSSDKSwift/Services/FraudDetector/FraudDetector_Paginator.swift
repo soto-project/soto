@@ -41,7 +41,7 @@ extension FraudDetector {
     
 }
 
-extension FraudDetector.DescribeModelVersionsRequest: AWSPaginateable {
+extension FraudDetector.DescribeModelVersionsRequest: AWSPaginateStringToken {
     public init(_ original: FraudDetector.DescribeModelVersionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -53,7 +53,7 @@ extension FraudDetector.DescribeModelVersionsRequest: AWSPaginateable {
     }
 }
 
-extension FraudDetector.GetDetectorsRequest: AWSPaginateable {
+extension FraudDetector.GetDetectorsRequest: AWSPaginateStringToken {
     public init(_ original: FraudDetector.GetDetectorsRequest, token: String) {
         self.init(
             detectorId: original.detectorId, 
@@ -63,7 +63,7 @@ extension FraudDetector.GetDetectorsRequest: AWSPaginateable {
     }
 }
 
-extension FraudDetector.GetExternalModelsRequest: AWSPaginateable {
+extension FraudDetector.GetExternalModelsRequest: AWSPaginateStringToken {
     public init(_ original: FraudDetector.GetExternalModelsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -73,7 +73,7 @@ extension FraudDetector.GetExternalModelsRequest: AWSPaginateable {
     }
 }
 
-extension FraudDetector.GetModelsRequest: AWSPaginateable {
+extension FraudDetector.GetModelsRequest: AWSPaginateStringToken {
     public init(_ original: FraudDetector.GetModelsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -84,7 +84,7 @@ extension FraudDetector.GetModelsRequest: AWSPaginateable {
     }
 }
 
-extension FraudDetector.GetOutcomesRequest: AWSPaginateable {
+extension FraudDetector.GetOutcomesRequest: AWSPaginateStringToken {
     public init(_ original: FraudDetector.GetOutcomesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -94,7 +94,7 @@ extension FraudDetector.GetOutcomesRequest: AWSPaginateable {
     }
 }
 
-extension FraudDetector.GetRulesRequest: AWSPaginateable {
+extension FraudDetector.GetRulesRequest: AWSPaginateStringToken {
     public init(_ original: FraudDetector.GetRulesRequest, token: String) {
         self.init(
             detectorId: original.detectorId, 
@@ -106,7 +106,7 @@ extension FraudDetector.GetRulesRequest: AWSPaginateable {
     }
 }
 
-extension FraudDetector.GetVariablesRequest: AWSPaginateable {
+extension FraudDetector.GetVariablesRequest: AWSPaginateStringToken {
     public init(_ original: FraudDetector.GetVariablesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

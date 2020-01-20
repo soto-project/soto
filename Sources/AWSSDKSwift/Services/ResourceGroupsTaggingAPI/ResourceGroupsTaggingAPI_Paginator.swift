@@ -26,7 +26,7 @@ extension ResourceGroupsTaggingAPI {
     
 }
 
-extension ResourceGroupsTaggingAPI.GetComplianceSummaryInput: AWSPaginateable {
+extension ResourceGroupsTaggingAPI.GetComplianceSummaryInput: AWSPaginateStringToken {
     public init(_ original: ResourceGroupsTaggingAPI.GetComplianceSummaryInput, token: String) {
         self.init(
             groupBy: original.groupBy, 
@@ -40,7 +40,7 @@ extension ResourceGroupsTaggingAPI.GetComplianceSummaryInput: AWSPaginateable {
     }
 }
 
-extension ResourceGroupsTaggingAPI.GetResourcesInput: AWSPaginateable {
+extension ResourceGroupsTaggingAPI.GetResourcesInput: AWSPaginateStringToken {
     public init(_ original: ResourceGroupsTaggingAPI.GetResourcesInput, token: String) {
         self.init(
             excludeCompliantResources: original.excludeCompliantResources, 
@@ -54,7 +54,7 @@ extension ResourceGroupsTaggingAPI.GetResourcesInput: AWSPaginateable {
     }
 }
 
-extension ResourceGroupsTaggingAPI.GetTagKeysInput: AWSPaginateable {
+extension ResourceGroupsTaggingAPI.GetTagKeysInput: AWSPaginateStringToken {
     public init(_ original: ResourceGroupsTaggingAPI.GetTagKeysInput, token: String) {
         self.init(
             paginationToken: token
@@ -62,7 +62,7 @@ extension ResourceGroupsTaggingAPI.GetTagKeysInput: AWSPaginateable {
     }
 }
 
-extension ResourceGroupsTaggingAPI.GetTagValuesInput: AWSPaginateable {
+extension ResourceGroupsTaggingAPI.GetTagValuesInput: AWSPaginateStringToken {
     public init(_ original: ResourceGroupsTaggingAPI.GetTagValuesInput, token: String) {
         self.init(
             key: original.key, 

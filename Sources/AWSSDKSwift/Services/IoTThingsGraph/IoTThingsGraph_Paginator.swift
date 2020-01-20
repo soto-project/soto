@@ -56,7 +56,7 @@ extension IoTThingsGraph {
     
 }
 
-extension IoTThingsGraph.GetFlowTemplateRevisionsRequest: AWSPaginateable {
+extension IoTThingsGraph.GetFlowTemplateRevisionsRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.GetFlowTemplateRevisionsRequest, token: String) {
         self.init(
             id: original.id, 
@@ -66,7 +66,7 @@ extension IoTThingsGraph.GetFlowTemplateRevisionsRequest: AWSPaginateable {
     }
 }
 
-extension IoTThingsGraph.GetSystemTemplateRevisionsRequest: AWSPaginateable {
+extension IoTThingsGraph.GetSystemTemplateRevisionsRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.GetSystemTemplateRevisionsRequest, token: String) {
         self.init(
             id: original.id, 
@@ -76,7 +76,7 @@ extension IoTThingsGraph.GetSystemTemplateRevisionsRequest: AWSPaginateable {
     }
 }
 
-extension IoTThingsGraph.ListFlowExecutionMessagesRequest: AWSPaginateable {
+extension IoTThingsGraph.ListFlowExecutionMessagesRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.ListFlowExecutionMessagesRequest, token: String) {
         self.init(
             flowExecutionId: original.flowExecutionId, 
@@ -86,7 +86,7 @@ extension IoTThingsGraph.ListFlowExecutionMessagesRequest: AWSPaginateable {
     }
 }
 
-extension IoTThingsGraph.ListTagsForResourceRequest: AWSPaginateable {
+extension IoTThingsGraph.ListTagsForResourceRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.ListTagsForResourceRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -96,7 +96,7 @@ extension IoTThingsGraph.ListTagsForResourceRequest: AWSPaginateable {
     }
 }
 
-extension IoTThingsGraph.SearchEntitiesRequest: AWSPaginateable {
+extension IoTThingsGraph.SearchEntitiesRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.SearchEntitiesRequest, token: String) {
         self.init(
             entityTypes: original.entityTypes, 
@@ -108,7 +108,7 @@ extension IoTThingsGraph.SearchEntitiesRequest: AWSPaginateable {
     }
 }
 
-extension IoTThingsGraph.SearchFlowExecutionsRequest: AWSPaginateable {
+extension IoTThingsGraph.SearchFlowExecutionsRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.SearchFlowExecutionsRequest, token: String) {
         self.init(
             endTime: original.endTime, 
@@ -121,7 +121,7 @@ extension IoTThingsGraph.SearchFlowExecutionsRequest: AWSPaginateable {
     }
 }
 
-extension IoTThingsGraph.SearchFlowTemplatesRequest: AWSPaginateable {
+extension IoTThingsGraph.SearchFlowTemplatesRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.SearchFlowTemplatesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -131,7 +131,7 @@ extension IoTThingsGraph.SearchFlowTemplatesRequest: AWSPaginateable {
     }
 }
 
-extension IoTThingsGraph.SearchSystemInstancesRequest: AWSPaginateable {
+extension IoTThingsGraph.SearchSystemInstancesRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.SearchSystemInstancesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -141,7 +141,7 @@ extension IoTThingsGraph.SearchSystemInstancesRequest: AWSPaginateable {
     }
 }
 
-extension IoTThingsGraph.SearchSystemTemplatesRequest: AWSPaginateable {
+extension IoTThingsGraph.SearchSystemTemplatesRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.SearchSystemTemplatesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -151,7 +151,7 @@ extension IoTThingsGraph.SearchSystemTemplatesRequest: AWSPaginateable {
     }
 }
 
-extension IoTThingsGraph.SearchThingsRequest: AWSPaginateable {
+extension IoTThingsGraph.SearchThingsRequest: AWSPaginateStringToken {
     public init(_ original: IoTThingsGraph.SearchThingsRequest, token: String) {
         self.init(
             entityId: original.entityId, 

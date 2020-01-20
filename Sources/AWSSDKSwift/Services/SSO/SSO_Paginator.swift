@@ -16,7 +16,7 @@ extension SSO {
     
 }
 
-extension SSO.ListAccountRolesRequest: AWSPaginateable {
+extension SSO.ListAccountRolesRequest: AWSPaginateStringToken {
     public init(_ original: SSO.ListAccountRolesRequest, token: String) {
         self.init(
             accessToken: original.accessToken, 
@@ -27,7 +27,7 @@ extension SSO.ListAccountRolesRequest: AWSPaginateable {
     }
 }
 
-extension SSO.ListAccountsRequest: AWSPaginateable {
+extension SSO.ListAccountsRequest: AWSPaginateStringToken {
     public init(_ original: SSO.ListAccountsRequest, token: String) {
         self.init(
             accessToken: original.accessToken, 

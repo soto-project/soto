@@ -21,7 +21,7 @@ extension CloudHSMV2 {
     
 }
 
-extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateable {
+extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateStringToken {
     public init(_ original: CloudHSMV2.DescribeBackupsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -32,7 +32,7 @@ extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateable {
     }
 }
 
-extension CloudHSMV2.DescribeClustersRequest: AWSPaginateable {
+extension CloudHSMV2.DescribeClustersRequest: AWSPaginateStringToken {
     public init(_ original: CloudHSMV2.DescribeClustersRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -42,7 +42,7 @@ extension CloudHSMV2.DescribeClustersRequest: AWSPaginateable {
     }
 }
 
-extension CloudHSMV2.ListTagsRequest: AWSPaginateable {
+extension CloudHSMV2.ListTagsRequest: AWSPaginateStringToken {
     public init(_ original: CloudHSMV2.ListTagsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

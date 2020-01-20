@@ -21,7 +21,7 @@ extension MediaPackageVod {
     
 }
 
-extension MediaPackageVod.ListAssetsRequest: AWSPaginateable {
+extension MediaPackageVod.ListAssetsRequest: AWSPaginateStringToken {
     public init(_ original: MediaPackageVod.ListAssetsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -31,7 +31,7 @@ extension MediaPackageVod.ListAssetsRequest: AWSPaginateable {
     }
 }
 
-extension MediaPackageVod.ListPackagingConfigurationsRequest: AWSPaginateable {
+extension MediaPackageVod.ListPackagingConfigurationsRequest: AWSPaginateStringToken {
     public init(_ original: MediaPackageVod.ListPackagingConfigurationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -41,7 +41,7 @@ extension MediaPackageVod.ListPackagingConfigurationsRequest: AWSPaginateable {
     }
 }
 
-extension MediaPackageVod.ListPackagingGroupsRequest: AWSPaginateable {
+extension MediaPackageVod.ListPackagingGroupsRequest: AWSPaginateStringToken {
     public init(_ original: MediaPackageVod.ListPackagingGroupsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

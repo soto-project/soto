@@ -16,7 +16,7 @@ extension AppStream {
     
 }
 
-extension AppStream.DescribeImagePermissionsRequest: AWSPaginateable {
+extension AppStream.DescribeImagePermissionsRequest: AWSPaginateStringToken {
     public init(_ original: AppStream.DescribeImagePermissionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -27,7 +27,7 @@ extension AppStream.DescribeImagePermissionsRequest: AWSPaginateable {
     }
 }
 
-extension AppStream.DescribeImagesRequest: AWSPaginateable {
+extension AppStream.DescribeImagesRequest: AWSPaginateStringToken {
     public init(_ original: AppStream.DescribeImagesRequest, token: String) {
         self.init(
             arns: original.arns, 

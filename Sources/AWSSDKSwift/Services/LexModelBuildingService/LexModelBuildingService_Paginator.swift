@@ -56,7 +56,7 @@ extension LexModelBuildingService {
     
 }
 
-extension LexModelBuildingService.GetBotAliasesRequest: AWSPaginateable {
+extension LexModelBuildingService.GetBotAliasesRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetBotAliasesRequest, token: String) {
         self.init(
             botName: original.botName, 
@@ -67,7 +67,7 @@ extension LexModelBuildingService.GetBotAliasesRequest: AWSPaginateable {
     }
 }
 
-extension LexModelBuildingService.GetBotChannelAssociationsRequest: AWSPaginateable {
+extension LexModelBuildingService.GetBotChannelAssociationsRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetBotChannelAssociationsRequest, token: String) {
         self.init(
             botAlias: original.botAlias, 
@@ -79,7 +79,7 @@ extension LexModelBuildingService.GetBotChannelAssociationsRequest: AWSPaginatea
     }
 }
 
-extension LexModelBuildingService.GetBotVersionsRequest: AWSPaginateable {
+extension LexModelBuildingService.GetBotVersionsRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetBotVersionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -89,7 +89,7 @@ extension LexModelBuildingService.GetBotVersionsRequest: AWSPaginateable {
     }
 }
 
-extension LexModelBuildingService.GetBotsRequest: AWSPaginateable {
+extension LexModelBuildingService.GetBotsRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetBotsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -99,7 +99,7 @@ extension LexModelBuildingService.GetBotsRequest: AWSPaginateable {
     }
 }
 
-extension LexModelBuildingService.GetBuiltinIntentsRequest: AWSPaginateable {
+extension LexModelBuildingService.GetBuiltinIntentsRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetBuiltinIntentsRequest, token: String) {
         self.init(
             locale: original.locale, 
@@ -110,7 +110,7 @@ extension LexModelBuildingService.GetBuiltinIntentsRequest: AWSPaginateable {
     }
 }
 
-extension LexModelBuildingService.GetBuiltinSlotTypesRequest: AWSPaginateable {
+extension LexModelBuildingService.GetBuiltinSlotTypesRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetBuiltinSlotTypesRequest, token: String) {
         self.init(
             locale: original.locale, 
@@ -121,7 +121,7 @@ extension LexModelBuildingService.GetBuiltinSlotTypesRequest: AWSPaginateable {
     }
 }
 
-extension LexModelBuildingService.GetIntentVersionsRequest: AWSPaginateable {
+extension LexModelBuildingService.GetIntentVersionsRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetIntentVersionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -131,7 +131,7 @@ extension LexModelBuildingService.GetIntentVersionsRequest: AWSPaginateable {
     }
 }
 
-extension LexModelBuildingService.GetIntentsRequest: AWSPaginateable {
+extension LexModelBuildingService.GetIntentsRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetIntentsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -141,7 +141,7 @@ extension LexModelBuildingService.GetIntentsRequest: AWSPaginateable {
     }
 }
 
-extension LexModelBuildingService.GetSlotTypeVersionsRequest: AWSPaginateable {
+extension LexModelBuildingService.GetSlotTypeVersionsRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetSlotTypeVersionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -151,7 +151,7 @@ extension LexModelBuildingService.GetSlotTypeVersionsRequest: AWSPaginateable {
     }
 }
 
-extension LexModelBuildingService.GetSlotTypesRequest: AWSPaginateable {
+extension LexModelBuildingService.GetSlotTypesRequest: AWSPaginateStringToken {
     public init(_ original: LexModelBuildingService.GetSlotTypesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

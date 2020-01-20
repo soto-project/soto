@@ -16,7 +16,7 @@ extension EBS {
     
 }
 
-extension EBS.ListChangedBlocksRequest: AWSPaginateable {
+extension EBS.ListChangedBlocksRequest: AWSPaginateStringToken {
     public init(_ original: EBS.ListChangedBlocksRequest, token: String) {
         self.init(
             firstSnapshotId: original.firstSnapshotId, 
@@ -28,7 +28,7 @@ extension EBS.ListChangedBlocksRequest: AWSPaginateable {
     }
 }
 
-extension EBS.ListSnapshotBlocksRequest: AWSPaginateable {
+extension EBS.ListSnapshotBlocksRequest: AWSPaginateStringToken {
     public init(_ original: EBS.ListSnapshotBlocksRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

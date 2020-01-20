@@ -56,7 +56,7 @@ extension CloudFormation {
     
 }
 
-extension CloudFormation.DescribeStackEventsInput: AWSPaginateable {
+extension CloudFormation.DescribeStackEventsInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.DescribeStackEventsInput, token: String) {
         self.init(
             nextToken: token, 
@@ -65,7 +65,7 @@ extension CloudFormation.DescribeStackEventsInput: AWSPaginateable {
     }
 }
 
-extension CloudFormation.DescribeStackResourceDriftsInput: AWSPaginateable {
+extension CloudFormation.DescribeStackResourceDriftsInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.DescribeStackResourceDriftsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -76,7 +76,7 @@ extension CloudFormation.DescribeStackResourceDriftsInput: AWSPaginateable {
     }
 }
 
-extension CloudFormation.DescribeStacksInput: AWSPaginateable {
+extension CloudFormation.DescribeStacksInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.DescribeStacksInput, token: String) {
         self.init(
             nextToken: token, 
@@ -85,7 +85,7 @@ extension CloudFormation.DescribeStacksInput: AWSPaginateable {
     }
 }
 
-extension CloudFormation.ListExportsInput: AWSPaginateable {
+extension CloudFormation.ListExportsInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.ListExportsInput, token: String) {
         self.init(
             nextToken: token
@@ -93,7 +93,7 @@ extension CloudFormation.ListExportsInput: AWSPaginateable {
     }
 }
 
-extension CloudFormation.ListImportsInput: AWSPaginateable {
+extension CloudFormation.ListImportsInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.ListImportsInput, token: String) {
         self.init(
             exportName: original.exportName, 
@@ -102,7 +102,7 @@ extension CloudFormation.ListImportsInput: AWSPaginateable {
     }
 }
 
-extension CloudFormation.ListStackResourcesInput: AWSPaginateable {
+extension CloudFormation.ListStackResourcesInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.ListStackResourcesInput, token: String) {
         self.init(
             nextToken: token, 
@@ -111,7 +111,7 @@ extension CloudFormation.ListStackResourcesInput: AWSPaginateable {
     }
 }
 
-extension CloudFormation.ListStacksInput: AWSPaginateable {
+extension CloudFormation.ListStacksInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.ListStacksInput, token: String) {
         self.init(
             nextToken: token, 
@@ -120,7 +120,7 @@ extension CloudFormation.ListStacksInput: AWSPaginateable {
     }
 }
 
-extension CloudFormation.ListTypeRegistrationsInput: AWSPaginateable {
+extension CloudFormation.ListTypeRegistrationsInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.ListTypeRegistrationsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -133,7 +133,7 @@ extension CloudFormation.ListTypeRegistrationsInput: AWSPaginateable {
     }
 }
 
-extension CloudFormation.ListTypeVersionsInput: AWSPaginateable {
+extension CloudFormation.ListTypeVersionsInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.ListTypeVersionsInput, token: String) {
         self.init(
             arn: original.arn, 
@@ -146,7 +146,7 @@ extension CloudFormation.ListTypeVersionsInput: AWSPaginateable {
     }
 }
 
-extension CloudFormation.ListTypesInput: AWSPaginateable {
+extension CloudFormation.ListTypesInput: AWSPaginateStringToken {
     public init(_ original: CloudFormation.ListTypesInput, token: String) {
         self.init(
             deprecatedStatus: original.deprecatedStatus, 

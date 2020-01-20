@@ -51,7 +51,7 @@ extension MTurk {
     
 }
 
-extension MTurk.ListAssignmentsForHITRequest: AWSPaginateable {
+extension MTurk.ListAssignmentsForHITRequest: AWSPaginateStringToken {
     public init(_ original: MTurk.ListAssignmentsForHITRequest, token: String) {
         self.init(
             assignmentStatuses: original.assignmentStatuses, 
@@ -62,7 +62,7 @@ extension MTurk.ListAssignmentsForHITRequest: AWSPaginateable {
     }
 }
 
-extension MTurk.ListBonusPaymentsRequest: AWSPaginateable {
+extension MTurk.ListBonusPaymentsRequest: AWSPaginateStringToken {
     public init(_ original: MTurk.ListBonusPaymentsRequest, token: String) {
         self.init(
             assignmentId: original.assignmentId, 
@@ -73,7 +73,7 @@ extension MTurk.ListBonusPaymentsRequest: AWSPaginateable {
     }
 }
 
-extension MTurk.ListHITsRequest: AWSPaginateable {
+extension MTurk.ListHITsRequest: AWSPaginateStringToken {
     public init(_ original: MTurk.ListHITsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -82,7 +82,7 @@ extension MTurk.ListHITsRequest: AWSPaginateable {
     }
 }
 
-extension MTurk.ListHITsForQualificationTypeRequest: AWSPaginateable {
+extension MTurk.ListHITsForQualificationTypeRequest: AWSPaginateStringToken {
     public init(_ original: MTurk.ListHITsForQualificationTypeRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -92,7 +92,7 @@ extension MTurk.ListHITsForQualificationTypeRequest: AWSPaginateable {
     }
 }
 
-extension MTurk.ListQualificationRequestsRequest: AWSPaginateable {
+extension MTurk.ListQualificationRequestsRequest: AWSPaginateStringToken {
     public init(_ original: MTurk.ListQualificationRequestsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -102,7 +102,7 @@ extension MTurk.ListQualificationRequestsRequest: AWSPaginateable {
     }
 }
 
-extension MTurk.ListQualificationTypesRequest: AWSPaginateable {
+extension MTurk.ListQualificationTypesRequest: AWSPaginateStringToken {
     public init(_ original: MTurk.ListQualificationTypesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -114,7 +114,7 @@ extension MTurk.ListQualificationTypesRequest: AWSPaginateable {
     }
 }
 
-extension MTurk.ListReviewableHITsRequest: AWSPaginateable {
+extension MTurk.ListReviewableHITsRequest: AWSPaginateStringToken {
     public init(_ original: MTurk.ListReviewableHITsRequest, token: String) {
         self.init(
             hITTypeId: original.hITTypeId, 
@@ -125,7 +125,7 @@ extension MTurk.ListReviewableHITsRequest: AWSPaginateable {
     }
 }
 
-extension MTurk.ListWorkerBlocksRequest: AWSPaginateable {
+extension MTurk.ListWorkerBlocksRequest: AWSPaginateStringToken {
     public init(_ original: MTurk.ListWorkerBlocksRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -134,7 +134,7 @@ extension MTurk.ListWorkerBlocksRequest: AWSPaginateable {
     }
 }
 
-extension MTurk.ListWorkersWithQualificationTypeRequest: AWSPaginateable {
+extension MTurk.ListWorkersWithQualificationTypeRequest: AWSPaginateStringToken {
     public init(_ original: MTurk.ListWorkersWithQualificationTypeRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

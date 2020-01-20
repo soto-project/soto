@@ -11,7 +11,7 @@ extension MediaStore {
     
 }
 
-extension MediaStore.ListContainersInput: AWSPaginateable {
+extension MediaStore.ListContainersInput: AWSPaginateStringToken {
     public init(_ original: MediaStore.ListContainersInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

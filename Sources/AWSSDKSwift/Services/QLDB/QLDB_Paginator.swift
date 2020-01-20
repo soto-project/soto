@@ -21,7 +21,7 @@ extension QLDB {
     
 }
 
-extension QLDB.ListJournalS3ExportsRequest: AWSPaginateable {
+extension QLDB.ListJournalS3ExportsRequest: AWSPaginateStringToken {
     public init(_ original: QLDB.ListJournalS3ExportsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -30,7 +30,7 @@ extension QLDB.ListJournalS3ExportsRequest: AWSPaginateable {
     }
 }
 
-extension QLDB.ListJournalS3ExportsForLedgerRequest: AWSPaginateable {
+extension QLDB.ListJournalS3ExportsForLedgerRequest: AWSPaginateStringToken {
     public init(_ original: QLDB.ListJournalS3ExportsForLedgerRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -40,7 +40,7 @@ extension QLDB.ListJournalS3ExportsForLedgerRequest: AWSPaginateable {
     }
 }
 
-extension QLDB.ListLedgersRequest: AWSPaginateable {
+extension QLDB.ListLedgersRequest: AWSPaginateStringToken {
     public init(_ original: QLDB.ListLedgersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

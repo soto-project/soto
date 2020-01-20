@@ -41,7 +41,7 @@ extension Health {
     
 }
 
-extension Health.DescribeAffectedAccountsForOrganizationRequest: AWSPaginateable {
+extension Health.DescribeAffectedAccountsForOrganizationRequest: AWSPaginateStringToken {
     public init(_ original: Health.DescribeAffectedAccountsForOrganizationRequest, token: String) {
         self.init(
             eventArn: original.eventArn, 
@@ -51,7 +51,7 @@ extension Health.DescribeAffectedAccountsForOrganizationRequest: AWSPaginateable
     }
 }
 
-extension Health.DescribeAffectedEntitiesRequest: AWSPaginateable {
+extension Health.DescribeAffectedEntitiesRequest: AWSPaginateStringToken {
     public init(_ original: Health.DescribeAffectedEntitiesRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -62,7 +62,7 @@ extension Health.DescribeAffectedEntitiesRequest: AWSPaginateable {
     }
 }
 
-extension Health.DescribeAffectedEntitiesForOrganizationRequest: AWSPaginateable {
+extension Health.DescribeAffectedEntitiesForOrganizationRequest: AWSPaginateStringToken {
     public init(_ original: Health.DescribeAffectedEntitiesForOrganizationRequest, token: String) {
         self.init(
             locale: original.locale, 
@@ -73,7 +73,7 @@ extension Health.DescribeAffectedEntitiesForOrganizationRequest: AWSPaginateable
     }
 }
 
-extension Health.DescribeEventAggregatesRequest: AWSPaginateable {
+extension Health.DescribeEventAggregatesRequest: AWSPaginateStringToken {
     public init(_ original: Health.DescribeEventAggregatesRequest, token: String) {
         self.init(
             aggregateField: original.aggregateField, 
@@ -84,7 +84,7 @@ extension Health.DescribeEventAggregatesRequest: AWSPaginateable {
     }
 }
 
-extension Health.DescribeEventTypesRequest: AWSPaginateable {
+extension Health.DescribeEventTypesRequest: AWSPaginateStringToken {
     public init(_ original: Health.DescribeEventTypesRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -95,7 +95,7 @@ extension Health.DescribeEventTypesRequest: AWSPaginateable {
     }
 }
 
-extension Health.DescribeEventsRequest: AWSPaginateable {
+extension Health.DescribeEventsRequest: AWSPaginateStringToken {
     public init(_ original: Health.DescribeEventsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -106,7 +106,7 @@ extension Health.DescribeEventsRequest: AWSPaginateable {
     }
 }
 
-extension Health.DescribeEventsForOrganizationRequest: AWSPaginateable {
+extension Health.DescribeEventsForOrganizationRequest: AWSPaginateStringToken {
     public init(_ original: Health.DescribeEventsForOrganizationRequest, token: String) {
         self.init(
             filter: original.filter, 

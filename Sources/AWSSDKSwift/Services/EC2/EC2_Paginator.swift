@@ -351,7 +351,7 @@ extension EC2 {
     
 }
 
-extension EC2.DescribeByoipCidrsRequest: AWSPaginateable {
+extension EC2.DescribeByoipCidrsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeByoipCidrsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -361,7 +361,7 @@ extension EC2.DescribeByoipCidrsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeCapacityReservationsRequest: AWSPaginateable {
+extension EC2.DescribeCapacityReservationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeCapacityReservationsRequest, token: String) {
         self.init(
             capacityReservationIds: original.capacityReservationIds, 
@@ -373,7 +373,7 @@ extension EC2.DescribeCapacityReservationsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeClassicLinkInstancesRequest: AWSPaginateable {
+extension EC2.DescribeClassicLinkInstancesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeClassicLinkInstancesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -385,7 +385,7 @@ extension EC2.DescribeClassicLinkInstancesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeClientVpnAuthorizationRulesRequest: AWSPaginateable {
+extension EC2.DescribeClientVpnAuthorizationRulesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeClientVpnAuthorizationRulesRequest, token: String) {
         self.init(
             clientVpnEndpointId: original.clientVpnEndpointId, 
@@ -397,7 +397,7 @@ extension EC2.DescribeClientVpnAuthorizationRulesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeClientVpnConnectionsRequest: AWSPaginateable {
+extension EC2.DescribeClientVpnConnectionsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeClientVpnConnectionsRequest, token: String) {
         self.init(
             clientVpnEndpointId: original.clientVpnEndpointId, 
@@ -409,7 +409,7 @@ extension EC2.DescribeClientVpnConnectionsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeClientVpnEndpointsRequest: AWSPaginateable {
+extension EC2.DescribeClientVpnEndpointsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeClientVpnEndpointsRequest, token: String) {
         self.init(
             clientVpnEndpointIds: original.clientVpnEndpointIds, 
@@ -421,7 +421,7 @@ extension EC2.DescribeClientVpnEndpointsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeClientVpnRoutesRequest: AWSPaginateable {
+extension EC2.DescribeClientVpnRoutesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeClientVpnRoutesRequest, token: String) {
         self.init(
             clientVpnEndpointId: original.clientVpnEndpointId, 
@@ -433,7 +433,7 @@ extension EC2.DescribeClientVpnRoutesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeClientVpnTargetNetworksRequest: AWSPaginateable {
+extension EC2.DescribeClientVpnTargetNetworksRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeClientVpnTargetNetworksRequest, token: String) {
         self.init(
             associationIds: original.associationIds, 
@@ -446,7 +446,7 @@ extension EC2.DescribeClientVpnTargetNetworksRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeDhcpOptionsRequest: AWSPaginateable {
+extension EC2.DescribeDhcpOptionsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeDhcpOptionsRequest, token: String) {
         self.init(
             dhcpOptionsIds: original.dhcpOptionsIds, 
@@ -458,7 +458,7 @@ extension EC2.DescribeDhcpOptionsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeEgressOnlyInternetGatewaysRequest: AWSPaginateable {
+extension EC2.DescribeEgressOnlyInternetGatewaysRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeEgressOnlyInternetGatewaysRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -470,7 +470,7 @@ extension EC2.DescribeEgressOnlyInternetGatewaysRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeExportImageTasksRequest: AWSPaginateable {
+extension EC2.DescribeExportImageTasksRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeExportImageTasksRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -482,7 +482,7 @@ extension EC2.DescribeExportImageTasksRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeFastSnapshotRestoresRequest: AWSPaginateable {
+extension EC2.DescribeFastSnapshotRestoresRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeFastSnapshotRestoresRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -493,7 +493,7 @@ extension EC2.DescribeFastSnapshotRestoresRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeFleetsRequest: AWSPaginateable {
+extension EC2.DescribeFleetsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeFleetsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -505,7 +505,7 @@ extension EC2.DescribeFleetsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeFlowLogsRequest: AWSPaginateable {
+extension EC2.DescribeFlowLogsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeFlowLogsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -517,7 +517,7 @@ extension EC2.DescribeFlowLogsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeFpgaImagesRequest: AWSPaginateable {
+extension EC2.DescribeFpgaImagesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeFpgaImagesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -530,7 +530,7 @@ extension EC2.DescribeFpgaImagesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeHostReservationOfferingsRequest: AWSPaginateable {
+extension EC2.DescribeHostReservationOfferingsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeHostReservationOfferingsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -543,7 +543,7 @@ extension EC2.DescribeHostReservationOfferingsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeHostReservationsRequest: AWSPaginateable {
+extension EC2.DescribeHostReservationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeHostReservationsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -554,7 +554,7 @@ extension EC2.DescribeHostReservationsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeHostsRequest: AWSPaginateable {
+extension EC2.DescribeHostsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeHostsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -565,7 +565,7 @@ extension EC2.DescribeHostsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeIamInstanceProfileAssociationsRequest: AWSPaginateable {
+extension EC2.DescribeIamInstanceProfileAssociationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeIamInstanceProfileAssociationsRequest, token: String) {
         self.init(
             associationIds: original.associationIds, 
@@ -576,7 +576,7 @@ extension EC2.DescribeIamInstanceProfileAssociationsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeImportImageTasksRequest: AWSPaginateable {
+extension EC2.DescribeImportImageTasksRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeImportImageTasksRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -588,7 +588,7 @@ extension EC2.DescribeImportImageTasksRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeImportSnapshotTasksRequest: AWSPaginateable {
+extension EC2.DescribeImportSnapshotTasksRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeImportSnapshotTasksRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -600,7 +600,7 @@ extension EC2.DescribeImportSnapshotTasksRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeInstanceCreditSpecificationsRequest: AWSPaginateable {
+extension EC2.DescribeInstanceCreditSpecificationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeInstanceCreditSpecificationsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -612,7 +612,7 @@ extension EC2.DescribeInstanceCreditSpecificationsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeInstanceStatusRequest: AWSPaginateable {
+extension EC2.DescribeInstanceStatusRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeInstanceStatusRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -625,7 +625,7 @@ extension EC2.DescribeInstanceStatusRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeInstancesRequest: AWSPaginateable {
+extension EC2.DescribeInstancesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeInstancesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -637,7 +637,7 @@ extension EC2.DescribeInstancesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeInternetGatewaysRequest: AWSPaginateable {
+extension EC2.DescribeInternetGatewaysRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeInternetGatewaysRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -649,7 +649,7 @@ extension EC2.DescribeInternetGatewaysRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeLaunchTemplateVersionsRequest: AWSPaginateable {
+extension EC2.DescribeLaunchTemplateVersionsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeLaunchTemplateVersionsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -665,7 +665,7 @@ extension EC2.DescribeLaunchTemplateVersionsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeLaunchTemplatesRequest: AWSPaginateable {
+extension EC2.DescribeLaunchTemplatesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeLaunchTemplatesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -678,7 +678,7 @@ extension EC2.DescribeLaunchTemplatesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeMovingAddressesRequest: AWSPaginateable {
+extension EC2.DescribeMovingAddressesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeMovingAddressesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -690,7 +690,7 @@ extension EC2.DescribeMovingAddressesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeNatGatewaysRequest: AWSPaginateable {
+extension EC2.DescribeNatGatewaysRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeNatGatewaysRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -701,7 +701,7 @@ extension EC2.DescribeNatGatewaysRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeNetworkAclsRequest: AWSPaginateable {
+extension EC2.DescribeNetworkAclsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeNetworkAclsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -713,7 +713,7 @@ extension EC2.DescribeNetworkAclsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeNetworkInterfacePermissionsRequest: AWSPaginateable {
+extension EC2.DescribeNetworkInterfacePermissionsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeNetworkInterfacePermissionsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -724,7 +724,7 @@ extension EC2.DescribeNetworkInterfacePermissionsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeNetworkInterfacesRequest: AWSPaginateable {
+extension EC2.DescribeNetworkInterfacesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeNetworkInterfacesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -736,7 +736,7 @@ extension EC2.DescribeNetworkInterfacesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribePrefixListsRequest: AWSPaginateable {
+extension EC2.DescribePrefixListsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribePrefixListsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -748,7 +748,7 @@ extension EC2.DescribePrefixListsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribePrincipalIdFormatRequest: AWSPaginateable {
+extension EC2.DescribePrincipalIdFormatRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribePrincipalIdFormatRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -759,7 +759,7 @@ extension EC2.DescribePrincipalIdFormatRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribePublicIpv4PoolsRequest: AWSPaginateable {
+extension EC2.DescribePublicIpv4PoolsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribePublicIpv4PoolsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -769,7 +769,7 @@ extension EC2.DescribePublicIpv4PoolsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeReservedInstancesModificationsRequest: AWSPaginateable {
+extension EC2.DescribeReservedInstancesModificationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeReservedInstancesModificationsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -779,7 +779,7 @@ extension EC2.DescribeReservedInstancesModificationsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeReservedInstancesOfferingsRequest: AWSPaginateable {
+extension EC2.DescribeReservedInstancesOfferingsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeReservedInstancesOfferingsRequest, token: String) {
         self.init(
             availabilityZone: original.availabilityZone, 
@@ -801,7 +801,7 @@ extension EC2.DescribeReservedInstancesOfferingsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeRouteTablesRequest: AWSPaginateable {
+extension EC2.DescribeRouteTablesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeRouteTablesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -813,7 +813,7 @@ extension EC2.DescribeRouteTablesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeScheduledInstanceAvailabilityRequest: AWSPaginateable {
+extension EC2.DescribeScheduledInstanceAvailabilityRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeScheduledInstanceAvailabilityRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -828,7 +828,7 @@ extension EC2.DescribeScheduledInstanceAvailabilityRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeScheduledInstancesRequest: AWSPaginateable {
+extension EC2.DescribeScheduledInstancesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeScheduledInstancesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -841,7 +841,7 @@ extension EC2.DescribeScheduledInstancesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeSecurityGroupsRequest: AWSPaginateable {
+extension EC2.DescribeSecurityGroupsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeSecurityGroupsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -854,7 +854,7 @@ extension EC2.DescribeSecurityGroupsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeSnapshotsRequest: AWSPaginateable {
+extension EC2.DescribeSnapshotsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeSnapshotsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -868,7 +868,7 @@ extension EC2.DescribeSnapshotsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeSpotFleetRequestsRequest: AWSPaginateable {
+extension EC2.DescribeSpotFleetRequestsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeSpotFleetRequestsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -879,7 +879,7 @@ extension EC2.DescribeSpotFleetRequestsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeSpotInstanceRequestsRequest: AWSPaginateable {
+extension EC2.DescribeSpotInstanceRequestsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeSpotInstanceRequestsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -891,7 +891,7 @@ extension EC2.DescribeSpotInstanceRequestsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeSpotPriceHistoryRequest: AWSPaginateable {
+extension EC2.DescribeSpotPriceHistoryRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeSpotPriceHistoryRequest, token: String) {
         self.init(
             availabilityZone: original.availabilityZone, 
@@ -907,7 +907,7 @@ extension EC2.DescribeSpotPriceHistoryRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeStaleSecurityGroupsRequest: AWSPaginateable {
+extension EC2.DescribeStaleSecurityGroupsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeStaleSecurityGroupsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -918,7 +918,7 @@ extension EC2.DescribeStaleSecurityGroupsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeSubnetsRequest: AWSPaginateable {
+extension EC2.DescribeSubnetsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeSubnetsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -930,7 +930,7 @@ extension EC2.DescribeSubnetsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeTagsRequest: AWSPaginateable {
+extension EC2.DescribeTagsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeTagsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -941,7 +941,7 @@ extension EC2.DescribeTagsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeTrafficMirrorFiltersRequest: AWSPaginateable {
+extension EC2.DescribeTrafficMirrorFiltersRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeTrafficMirrorFiltersRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -953,7 +953,7 @@ extension EC2.DescribeTrafficMirrorFiltersRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeTrafficMirrorSessionsRequest: AWSPaginateable {
+extension EC2.DescribeTrafficMirrorSessionsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeTrafficMirrorSessionsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -965,7 +965,7 @@ extension EC2.DescribeTrafficMirrorSessionsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeTrafficMirrorTargetsRequest: AWSPaginateable {
+extension EC2.DescribeTrafficMirrorTargetsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeTrafficMirrorTargetsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -977,7 +977,7 @@ extension EC2.DescribeTrafficMirrorTargetsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeTransitGatewayAttachmentsRequest: AWSPaginateable {
+extension EC2.DescribeTransitGatewayAttachmentsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeTransitGatewayAttachmentsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -989,7 +989,7 @@ extension EC2.DescribeTransitGatewayAttachmentsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeTransitGatewayRouteTablesRequest: AWSPaginateable {
+extension EC2.DescribeTransitGatewayRouteTablesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeTransitGatewayRouteTablesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1001,7 +1001,7 @@ extension EC2.DescribeTransitGatewayRouteTablesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeTransitGatewayVpcAttachmentsRequest: AWSPaginateable {
+extension EC2.DescribeTransitGatewayVpcAttachmentsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeTransitGatewayVpcAttachmentsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1013,7 +1013,7 @@ extension EC2.DescribeTransitGatewayVpcAttachmentsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeTransitGatewaysRequest: AWSPaginateable {
+extension EC2.DescribeTransitGatewaysRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeTransitGatewaysRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1025,7 +1025,7 @@ extension EC2.DescribeTransitGatewaysRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVolumeStatusRequest: AWSPaginateable {
+extension EC2.DescribeVolumeStatusRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVolumeStatusRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1037,7 +1037,7 @@ extension EC2.DescribeVolumeStatusRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVolumesRequest: AWSPaginateable {
+extension EC2.DescribeVolumesRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVolumesRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1049,7 +1049,7 @@ extension EC2.DescribeVolumesRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVolumesModificationsRequest: AWSPaginateable {
+extension EC2.DescribeVolumesModificationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVolumesModificationsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1061,7 +1061,7 @@ extension EC2.DescribeVolumesModificationsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVpcClassicLinkDnsSupportRequest: AWSPaginateable {
+extension EC2.DescribeVpcClassicLinkDnsSupportRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVpcClassicLinkDnsSupportRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -1071,7 +1071,7 @@ extension EC2.DescribeVpcClassicLinkDnsSupportRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVpcEndpointConnectionNotificationsRequest: AWSPaginateable {
+extension EC2.DescribeVpcEndpointConnectionNotificationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVpcEndpointConnectionNotificationsRequest, token: String) {
         self.init(
             connectionNotificationId: original.connectionNotificationId, 
@@ -1083,7 +1083,7 @@ extension EC2.DescribeVpcEndpointConnectionNotificationsRequest: AWSPaginateable
     }
 }
 
-extension EC2.DescribeVpcEndpointConnectionsRequest: AWSPaginateable {
+extension EC2.DescribeVpcEndpointConnectionsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVpcEndpointConnectionsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1094,7 +1094,7 @@ extension EC2.DescribeVpcEndpointConnectionsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVpcEndpointServiceConfigurationsRequest: AWSPaginateable {
+extension EC2.DescribeVpcEndpointServiceConfigurationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVpcEndpointServiceConfigurationsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1106,7 +1106,7 @@ extension EC2.DescribeVpcEndpointServiceConfigurationsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVpcEndpointServicePermissionsRequest: AWSPaginateable {
+extension EC2.DescribeVpcEndpointServicePermissionsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVpcEndpointServicePermissionsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1118,7 +1118,7 @@ extension EC2.DescribeVpcEndpointServicePermissionsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVpcEndpointsRequest: AWSPaginateable {
+extension EC2.DescribeVpcEndpointsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVpcEndpointsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1130,7 +1130,7 @@ extension EC2.DescribeVpcEndpointsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVpcPeeringConnectionsRequest: AWSPaginateable {
+extension EC2.DescribeVpcPeeringConnectionsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVpcPeeringConnectionsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1142,7 +1142,7 @@ extension EC2.DescribeVpcPeeringConnectionsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.DescribeVpcsRequest: AWSPaginateable {
+extension EC2.DescribeVpcsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.DescribeVpcsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1154,7 +1154,7 @@ extension EC2.DescribeVpcsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.GetTransitGatewayAttachmentPropagationsRequest: AWSPaginateable {
+extension EC2.GetTransitGatewayAttachmentPropagationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.GetTransitGatewayAttachmentPropagationsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1166,7 +1166,7 @@ extension EC2.GetTransitGatewayAttachmentPropagationsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.GetTransitGatewayRouteTableAssociationsRequest: AWSPaginateable {
+extension EC2.GetTransitGatewayRouteTableAssociationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.GetTransitGatewayRouteTableAssociationsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 
@@ -1178,7 +1178,7 @@ extension EC2.GetTransitGatewayRouteTableAssociationsRequest: AWSPaginateable {
     }
 }
 
-extension EC2.GetTransitGatewayRouteTablePropagationsRequest: AWSPaginateable {
+extension EC2.GetTransitGatewayRouteTablePropagationsRequest: AWSPaginateStringToken {
     public init(_ original: EC2.GetTransitGatewayRouteTablePropagationsRequest, token: String) {
         self.init(
             dryRun: original.dryRun, 

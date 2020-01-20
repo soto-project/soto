@@ -11,7 +11,7 @@ extension CodeGuruReviewer {
     
 }
 
-extension CodeGuruReviewer.ListRepositoryAssociationsRequest: AWSPaginateable {
+extension CodeGuruReviewer.ListRepositoryAssociationsRequest: AWSPaginateStringToken {
     public init(_ original: CodeGuruReviewer.ListRepositoryAssociationsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

@@ -11,7 +11,7 @@ extension ACM {
     
 }
 
-extension ACM.ListCertificatesRequest: AWSPaginateable {
+extension ACM.ListCertificatesRequest: AWSPaginateStringToken {
     public init(_ original: ACM.ListCertificatesRequest, token: String) {
         self.init(
             certificateStatuses: original.certificateStatuses, 

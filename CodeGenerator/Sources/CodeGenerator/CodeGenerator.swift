@@ -241,6 +241,8 @@ extension AWSService {
         let input: String
         let output: String
         let initParams: [String]
+        let paginatorProtocol: String
+        let tokenType: String
     }
 
     /// Generate the context information for outputting the error enums
@@ -533,7 +535,20 @@ extension AWSService {
             guard paginator.inputTokens.count > 0 else { continue }
             guard paginator.outputTokens.count > 0 else { continue }
             guard let inputTokenMember = inputShapeStruct.members.first(where: {$0.name == paginator.inputTokens[0]}) else { continue }
-            guard case .string = inputTokenMember.shape.type else { continue }
+            let paginatorProtocol: String
+            let tokenType: String
+            switch inputTokenMember.shape.type {
+            case .string:
+                paginatorProtocol = "AWSPaginateStringToken"
+                tokenType = "String"
+            case .integer:
+                paginatorProtocol = "AWSPaginateIntToken"
+                tokenType = "Int"
+            default:
+                // current this consists of a couple of DynamoDB calls that use dictionaries for keys !?!
+                print("Non Integer/String token \(inputTokenMember.shape.name) in \(serviceName).\(inputShape.name)")
+                continue;
+            }
             
             // get results keys, if one doesn't exist look for the field that isn't the output token
             let resultKeys: [String]
@@ -548,6 +563,12 @@ extension AWSService {
             guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == resultKeys[0]}) else { continue }
             guard case .list(let listShape,_,_) = resultsMember.shape.type else { continue }
 
+            if resultKeys.count == 2 {
+                print("Two result arrays in \(serviceName).\(inputShape.name)")
+            } else if resultKeys.count > 2 {
+                print("More then two result arrays in \(serviceName).\(inputShape.name)")
+            }
+            
             var initParams: [String: String] = [:]
             for member in inputShapeStruct.members {
                 initParams[member.name.toSwiftLabelCase()] = "original.\(member.name.toSwiftLabelCase())"
@@ -561,7 +582,9 @@ extension AWSService {
                     resultShape: listShape.swiftTypeName,
                     input: paginator.inputTokens[0].toSwiftVariableCase(),
                     output: paginator.outputTokens[0].toSwiftVariableCase(),
-                    initParams: initParamsArray
+                    initParams: initParamsArray,
+                    paginatorProtocol: paginatorProtocol,
+                    tokenType: tokenType
                 )
             )
         }

@@ -61,7 +61,7 @@ extension AWSBackup {
     
 }
 
-extension AWSBackup.ListBackupJobsInput: AWSPaginateable {
+extension AWSBackup.ListBackupJobsInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListBackupJobsInput, token: String) {
         self.init(
             byBackupVaultName: original.byBackupVaultName, 
@@ -76,7 +76,7 @@ extension AWSBackup.ListBackupJobsInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListBackupPlanTemplatesInput: AWSPaginateable {
+extension AWSBackup.ListBackupPlanTemplatesInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListBackupPlanTemplatesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -85,7 +85,7 @@ extension AWSBackup.ListBackupPlanTemplatesInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListBackupPlanVersionsInput: AWSPaginateable {
+extension AWSBackup.ListBackupPlanVersionsInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListBackupPlanVersionsInput, token: String) {
         self.init(
             backupPlanId: original.backupPlanId, 
@@ -95,7 +95,7 @@ extension AWSBackup.ListBackupPlanVersionsInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListBackupPlansInput: AWSPaginateable {
+extension AWSBackup.ListBackupPlansInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListBackupPlansInput, token: String) {
         self.init(
             includeDeleted: original.includeDeleted, 
@@ -105,7 +105,7 @@ extension AWSBackup.ListBackupPlansInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListBackupSelectionsInput: AWSPaginateable {
+extension AWSBackup.ListBackupSelectionsInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListBackupSelectionsInput, token: String) {
         self.init(
             backupPlanId: original.backupPlanId, 
@@ -115,7 +115,7 @@ extension AWSBackup.ListBackupSelectionsInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListBackupVaultsInput: AWSPaginateable {
+extension AWSBackup.ListBackupVaultsInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListBackupVaultsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -124,7 +124,7 @@ extension AWSBackup.ListBackupVaultsInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListCopyJobsInput: AWSPaginateable {
+extension AWSBackup.ListCopyJobsInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListCopyJobsInput, token: String) {
         self.init(
             byCreatedAfter: original.byCreatedAfter, 
@@ -139,7 +139,7 @@ extension AWSBackup.ListCopyJobsInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListProtectedResourcesInput: AWSPaginateable {
+extension AWSBackup.ListProtectedResourcesInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListProtectedResourcesInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -148,7 +148,7 @@ extension AWSBackup.ListProtectedResourcesInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListRecoveryPointsByBackupVaultInput: AWSPaginateable {
+extension AWSBackup.ListRecoveryPointsByBackupVaultInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListRecoveryPointsByBackupVaultInput, token: String) {
         self.init(
             backupVaultName: original.backupVaultName, 
@@ -163,7 +163,7 @@ extension AWSBackup.ListRecoveryPointsByBackupVaultInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListRecoveryPointsByResourceInput: AWSPaginateable {
+extension AWSBackup.ListRecoveryPointsByResourceInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListRecoveryPointsByResourceInput, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -173,7 +173,7 @@ extension AWSBackup.ListRecoveryPointsByResourceInput: AWSPaginateable {
     }
 }
 
-extension AWSBackup.ListRestoreJobsInput: AWSPaginateable {
+extension AWSBackup.ListRestoreJobsInput: AWSPaginateStringToken {
     public init(_ original: AWSBackup.ListRestoreJobsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

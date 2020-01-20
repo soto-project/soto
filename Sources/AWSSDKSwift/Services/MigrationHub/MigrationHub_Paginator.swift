@@ -31,7 +31,7 @@ extension MigrationHub {
     
 }
 
-extension MigrationHub.ListApplicationStatesRequest: AWSPaginateable {
+extension MigrationHub.ListApplicationStatesRequest: AWSPaginateStringToken {
     public init(_ original: MigrationHub.ListApplicationStatesRequest, token: String) {
         self.init(
             applicationIds: original.applicationIds, 
@@ -41,7 +41,7 @@ extension MigrationHub.ListApplicationStatesRequest: AWSPaginateable {
     }
 }
 
-extension MigrationHub.ListCreatedArtifactsRequest: AWSPaginateable {
+extension MigrationHub.ListCreatedArtifactsRequest: AWSPaginateStringToken {
     public init(_ original: MigrationHub.ListCreatedArtifactsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -52,7 +52,7 @@ extension MigrationHub.ListCreatedArtifactsRequest: AWSPaginateable {
     }
 }
 
-extension MigrationHub.ListDiscoveredResourcesRequest: AWSPaginateable {
+extension MigrationHub.ListDiscoveredResourcesRequest: AWSPaginateStringToken {
     public init(_ original: MigrationHub.ListDiscoveredResourcesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -63,7 +63,7 @@ extension MigrationHub.ListDiscoveredResourcesRequest: AWSPaginateable {
     }
 }
 
-extension MigrationHub.ListMigrationTasksRequest: AWSPaginateable {
+extension MigrationHub.ListMigrationTasksRequest: AWSPaginateStringToken {
     public init(_ original: MigrationHub.ListMigrationTasksRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -73,7 +73,7 @@ extension MigrationHub.ListMigrationTasksRequest: AWSPaginateable {
     }
 }
 
-extension MigrationHub.ListProgressUpdateStreamsRequest: AWSPaginateable {
+extension MigrationHub.ListProgressUpdateStreamsRequest: AWSPaginateStringToken {
     public init(_ original: MigrationHub.ListProgressUpdateStreamsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

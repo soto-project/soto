@@ -31,7 +31,7 @@ extension ElasticsearchService {
     
 }
 
-extension ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest: AWSPaginateable {
+extension ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest: AWSPaginateStringToken {
     public init(_ original: ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -41,7 +41,7 @@ extension ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsReq
     }
 }
 
-extension ElasticsearchService.DescribeReservedElasticsearchInstancesRequest: AWSPaginateable {
+extension ElasticsearchService.DescribeReservedElasticsearchInstancesRequest: AWSPaginateStringToken {
     public init(_ original: ElasticsearchService.DescribeReservedElasticsearchInstancesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -51,7 +51,7 @@ extension ElasticsearchService.DescribeReservedElasticsearchInstancesRequest: AW
     }
 }
 
-extension ElasticsearchService.GetUpgradeHistoryRequest: AWSPaginateable {
+extension ElasticsearchService.GetUpgradeHistoryRequest: AWSPaginateStringToken {
     public init(_ original: ElasticsearchService.GetUpgradeHistoryRequest, token: String) {
         self.init(
             domainName: original.domainName, 
@@ -61,7 +61,7 @@ extension ElasticsearchService.GetUpgradeHistoryRequest: AWSPaginateable {
     }
 }
 
-extension ElasticsearchService.ListElasticsearchInstanceTypesRequest: AWSPaginateable {
+extension ElasticsearchService.ListElasticsearchInstanceTypesRequest: AWSPaginateStringToken {
     public init(_ original: ElasticsearchService.ListElasticsearchInstanceTypesRequest, token: String) {
         self.init(
             domainName: original.domainName, 
@@ -72,7 +72,7 @@ extension ElasticsearchService.ListElasticsearchInstanceTypesRequest: AWSPaginat
     }
 }
 
-extension ElasticsearchService.ListElasticsearchVersionsRequest: AWSPaginateable {
+extension ElasticsearchService.ListElasticsearchVersionsRequest: AWSPaginateStringToken {
     public init(_ original: ElasticsearchService.ListElasticsearchVersionsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

@@ -11,7 +11,7 @@ extension MigrationHubConfig {
     
 }
 
-extension MigrationHubConfig.DescribeHomeRegionControlsRequest: AWSPaginateable {
+extension MigrationHubConfig.DescribeHomeRegionControlsRequest: AWSPaginateStringToken {
     public init(_ original: MigrationHubConfig.DescribeHomeRegionControlsRequest, token: String) {
         self.init(
             controlId: original.controlId, 

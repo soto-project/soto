@@ -37,7 +37,7 @@ extension CodeDeploy {
     
 }
 
-extension CodeDeploy.ListApplicationRevisionsInput: AWSPaginateable {
+extension CodeDeploy.ListApplicationRevisionsInput: AWSPaginateStringToken {
     public init(_ original: CodeDeploy.ListApplicationRevisionsInput, token: String) {
         self.init(
             applicationName: original.applicationName, 
@@ -51,7 +51,7 @@ extension CodeDeploy.ListApplicationRevisionsInput: AWSPaginateable {
     }
 }
 
-extension CodeDeploy.ListApplicationsInput: AWSPaginateable {
+extension CodeDeploy.ListApplicationsInput: AWSPaginateStringToken {
     public init(_ original: CodeDeploy.ListApplicationsInput, token: String) {
         self.init(
             nextToken: token
@@ -59,7 +59,7 @@ extension CodeDeploy.ListApplicationsInput: AWSPaginateable {
     }
 }
 
-extension CodeDeploy.ListDeploymentConfigsInput: AWSPaginateable {
+extension CodeDeploy.ListDeploymentConfigsInput: AWSPaginateStringToken {
     public init(_ original: CodeDeploy.ListDeploymentConfigsInput, token: String) {
         self.init(
             nextToken: token
@@ -67,7 +67,7 @@ extension CodeDeploy.ListDeploymentConfigsInput: AWSPaginateable {
     }
 }
 
-extension CodeDeploy.ListDeploymentGroupsInput: AWSPaginateable {
+extension CodeDeploy.ListDeploymentGroupsInput: AWSPaginateStringToken {
     public init(_ original: CodeDeploy.ListDeploymentGroupsInput, token: String) {
         self.init(
             applicationName: original.applicationName, 
@@ -76,7 +76,7 @@ extension CodeDeploy.ListDeploymentGroupsInput: AWSPaginateable {
     }
 }
 
-extension CodeDeploy.ListDeploymentInstancesInput: AWSPaginateable {
+extension CodeDeploy.ListDeploymentInstancesInput: AWSPaginateStringToken {
     public init(_ original: CodeDeploy.ListDeploymentInstancesInput, token: String) {
         self.init(
             deploymentId: original.deploymentId, 
@@ -87,7 +87,7 @@ extension CodeDeploy.ListDeploymentInstancesInput: AWSPaginateable {
     }
 }
 
-extension CodeDeploy.ListDeploymentsInput: AWSPaginateable {
+extension CodeDeploy.ListDeploymentsInput: AWSPaginateStringToken {
     public init(_ original: CodeDeploy.ListDeploymentsInput, token: String) {
         self.init(
             applicationName: original.applicationName, 

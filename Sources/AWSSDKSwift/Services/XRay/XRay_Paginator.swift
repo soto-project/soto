@@ -46,7 +46,7 @@ extension XRay {
     
 }
 
-extension XRay.BatchGetTracesRequest: AWSPaginateable {
+extension XRay.BatchGetTracesRequest: AWSPaginateStringToken {
     public init(_ original: XRay.BatchGetTracesRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -55,7 +55,7 @@ extension XRay.BatchGetTracesRequest: AWSPaginateable {
     }
 }
 
-extension XRay.GetGroupsRequest: AWSPaginateable {
+extension XRay.GetGroupsRequest: AWSPaginateStringToken {
     public init(_ original: XRay.GetGroupsRequest, token: String) {
         self.init(
             nextToken: token
@@ -63,7 +63,7 @@ extension XRay.GetGroupsRequest: AWSPaginateable {
     }
 }
 
-extension XRay.GetSamplingRulesRequest: AWSPaginateable {
+extension XRay.GetSamplingRulesRequest: AWSPaginateStringToken {
     public init(_ original: XRay.GetSamplingRulesRequest, token: String) {
         self.init(
             nextToken: token
@@ -71,7 +71,7 @@ extension XRay.GetSamplingRulesRequest: AWSPaginateable {
     }
 }
 
-extension XRay.GetSamplingStatisticSummariesRequest: AWSPaginateable {
+extension XRay.GetSamplingStatisticSummariesRequest: AWSPaginateStringToken {
     public init(_ original: XRay.GetSamplingStatisticSummariesRequest, token: String) {
         self.init(
             nextToken: token
@@ -79,7 +79,7 @@ extension XRay.GetSamplingStatisticSummariesRequest: AWSPaginateable {
     }
 }
 
-extension XRay.GetServiceGraphRequest: AWSPaginateable {
+extension XRay.GetServiceGraphRequest: AWSPaginateStringToken {
     public init(_ original: XRay.GetServiceGraphRequest, token: String) {
         self.init(
             endTime: original.endTime, 
@@ -91,7 +91,7 @@ extension XRay.GetServiceGraphRequest: AWSPaginateable {
     }
 }
 
-extension XRay.GetTimeSeriesServiceStatisticsRequest: AWSPaginateable {
+extension XRay.GetTimeSeriesServiceStatisticsRequest: AWSPaginateStringToken {
     public init(_ original: XRay.GetTimeSeriesServiceStatisticsRequest, token: String) {
         self.init(
             endTime: original.endTime, 
@@ -105,7 +105,7 @@ extension XRay.GetTimeSeriesServiceStatisticsRequest: AWSPaginateable {
     }
 }
 
-extension XRay.GetTraceGraphRequest: AWSPaginateable {
+extension XRay.GetTraceGraphRequest: AWSPaginateStringToken {
     public init(_ original: XRay.GetTraceGraphRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -114,7 +114,7 @@ extension XRay.GetTraceGraphRequest: AWSPaginateable {
     }
 }
 
-extension XRay.GetTraceSummariesRequest: AWSPaginateable {
+extension XRay.GetTraceSummariesRequest: AWSPaginateStringToken {
     public init(_ original: XRay.GetTraceSummariesRequest, token: String) {
         self.init(
             endTime: original.endTime, 

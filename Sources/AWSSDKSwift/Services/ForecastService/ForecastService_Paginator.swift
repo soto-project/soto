@@ -36,7 +36,7 @@ extension ForecastService {
     
 }
 
-extension ForecastService.ListDatasetGroupsRequest: AWSPaginateable {
+extension ForecastService.ListDatasetGroupsRequest: AWSPaginateStringToken {
     public init(_ original: ForecastService.ListDatasetGroupsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -45,7 +45,7 @@ extension ForecastService.ListDatasetGroupsRequest: AWSPaginateable {
     }
 }
 
-extension ForecastService.ListDatasetImportJobsRequest: AWSPaginateable {
+extension ForecastService.ListDatasetImportJobsRequest: AWSPaginateStringToken {
     public init(_ original: ForecastService.ListDatasetImportJobsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -55,7 +55,7 @@ extension ForecastService.ListDatasetImportJobsRequest: AWSPaginateable {
     }
 }
 
-extension ForecastService.ListDatasetsRequest: AWSPaginateable {
+extension ForecastService.ListDatasetsRequest: AWSPaginateStringToken {
     public init(_ original: ForecastService.ListDatasetsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -64,7 +64,7 @@ extension ForecastService.ListDatasetsRequest: AWSPaginateable {
     }
 }
 
-extension ForecastService.ListForecastExportJobsRequest: AWSPaginateable {
+extension ForecastService.ListForecastExportJobsRequest: AWSPaginateStringToken {
     public init(_ original: ForecastService.ListForecastExportJobsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -74,7 +74,7 @@ extension ForecastService.ListForecastExportJobsRequest: AWSPaginateable {
     }
 }
 
-extension ForecastService.ListForecastsRequest: AWSPaginateable {
+extension ForecastService.ListForecastsRequest: AWSPaginateStringToken {
     public init(_ original: ForecastService.ListForecastsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -84,7 +84,7 @@ extension ForecastService.ListForecastsRequest: AWSPaginateable {
     }
 }
 
-extension ForecastService.ListPredictorsRequest: AWSPaginateable {
+extension ForecastService.ListPredictorsRequest: AWSPaginateStringToken {
     public init(_ original: ForecastService.ListPredictorsRequest, token: String) {
         self.init(
             filters: original.filters, 

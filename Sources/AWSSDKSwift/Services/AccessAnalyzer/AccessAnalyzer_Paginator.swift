@@ -26,7 +26,7 @@ extension AccessAnalyzer {
     
 }
 
-extension AccessAnalyzer.ListAnalyzedResourcesRequest: AWSPaginateable {
+extension AccessAnalyzer.ListAnalyzedResourcesRequest: AWSPaginateStringToken {
     public init(_ original: AccessAnalyzer.ListAnalyzedResourcesRequest, token: String) {
         self.init(
             analyzerArn: original.analyzerArn, 
@@ -37,7 +37,7 @@ extension AccessAnalyzer.ListAnalyzedResourcesRequest: AWSPaginateable {
     }
 }
 
-extension AccessAnalyzer.ListAnalyzersRequest: AWSPaginateable {
+extension AccessAnalyzer.ListAnalyzersRequest: AWSPaginateStringToken {
     public init(_ original: AccessAnalyzer.ListAnalyzersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -47,7 +47,7 @@ extension AccessAnalyzer.ListAnalyzersRequest: AWSPaginateable {
     }
 }
 
-extension AccessAnalyzer.ListArchiveRulesRequest: AWSPaginateable {
+extension AccessAnalyzer.ListArchiveRulesRequest: AWSPaginateStringToken {
     public init(_ original: AccessAnalyzer.ListArchiveRulesRequest, token: String) {
         self.init(
             analyzerName: original.analyzerName, 
@@ -57,7 +57,7 @@ extension AccessAnalyzer.ListArchiveRulesRequest: AWSPaginateable {
     }
 }
 
-extension AccessAnalyzer.ListFindingsRequest: AWSPaginateable {
+extension AccessAnalyzer.ListFindingsRequest: AWSPaginateStringToken {
     public init(_ original: AccessAnalyzer.ListFindingsRequest, token: String) {
         self.init(
             analyzerArn: original.analyzerArn, 

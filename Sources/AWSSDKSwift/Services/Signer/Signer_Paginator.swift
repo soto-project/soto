@@ -21,7 +21,7 @@ extension Signer {
     
 }
 
-extension Signer.ListSigningJobsRequest: AWSPaginateable {
+extension Signer.ListSigningJobsRequest: AWSPaginateStringToken {
     public init(_ original: Signer.ListSigningJobsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -33,7 +33,7 @@ extension Signer.ListSigningJobsRequest: AWSPaginateable {
     }
 }
 
-extension Signer.ListSigningPlatformsRequest: AWSPaginateable {
+extension Signer.ListSigningPlatformsRequest: AWSPaginateStringToken {
     public init(_ original: Signer.ListSigningPlatformsRequest, token: String) {
         self.init(
             category: original.category, 
@@ -45,7 +45,7 @@ extension Signer.ListSigningPlatformsRequest: AWSPaginateable {
     }
 }
 
-extension Signer.ListSigningProfilesRequest: AWSPaginateable {
+extension Signer.ListSigningProfilesRequest: AWSPaginateStringToken {
     public init(_ original: Signer.ListSigningProfilesRequest, token: String) {
         self.init(
             includeCanceled: original.includeCanceled, 

@@ -16,7 +16,7 @@ extension SimpleDB {
     
 }
 
-extension SimpleDB.ListDomainsRequest: AWSPaginateable {
+extension SimpleDB.ListDomainsRequest: AWSPaginateStringToken {
     public init(_ original: SimpleDB.ListDomainsRequest, token: String) {
         self.init(
             maxNumberOfDomains: original.maxNumberOfDomains, 
@@ -25,7 +25,7 @@ extension SimpleDB.ListDomainsRequest: AWSPaginateable {
     }
 }
 
-extension SimpleDB.SelectRequest: AWSPaginateable {
+extension SimpleDB.SelectRequest: AWSPaginateStringToken {
     public init(_ original: SimpleDB.SelectRequest, token: String) {
         self.init(
             consistentRead: original.consistentRead, 

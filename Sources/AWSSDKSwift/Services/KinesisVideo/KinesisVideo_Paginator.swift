@@ -16,7 +16,7 @@ extension KinesisVideo {
     
 }
 
-extension KinesisVideo.ListSignalingChannelsInput: AWSPaginateable {
+extension KinesisVideo.ListSignalingChannelsInput: AWSPaginateStringToken {
     public init(_ original: KinesisVideo.ListSignalingChannelsInput, token: String) {
         self.init(
             channelNameCondition: original.channelNameCondition, 
@@ -26,7 +26,7 @@ extension KinesisVideo.ListSignalingChannelsInput: AWSPaginateable {
     }
 }
 
-extension KinesisVideo.ListStreamsInput: AWSPaginateable {
+extension KinesisVideo.ListStreamsInput: AWSPaginateStringToken {
     public init(_ original: KinesisVideo.ListStreamsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

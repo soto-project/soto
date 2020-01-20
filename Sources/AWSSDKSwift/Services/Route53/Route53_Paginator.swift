@@ -21,7 +21,7 @@ extension Route53 {
     
 }
 
-extension Route53.ListHealthChecksRequest: AWSPaginateable {
+extension Route53.ListHealthChecksRequest: AWSPaginateStringToken {
     public init(_ original: Route53.ListHealthChecksRequest, token: String) {
         self.init(
             marker: token, 
@@ -30,7 +30,7 @@ extension Route53.ListHealthChecksRequest: AWSPaginateable {
     }
 }
 
-extension Route53.ListHostedZonesRequest: AWSPaginateable {
+extension Route53.ListHostedZonesRequest: AWSPaginateStringToken {
     public init(_ original: Route53.ListHostedZonesRequest, token: String) {
         self.init(
             delegationSetId: original.delegationSetId, 
@@ -40,7 +40,7 @@ extension Route53.ListHostedZonesRequest: AWSPaginateable {
     }
 }
 
-extension Route53.ListResourceRecordSetsRequest: AWSPaginateable {
+extension Route53.ListResourceRecordSetsRequest: AWSPaginateStringToken {
     public init(_ original: Route53.ListResourceRecordSetsRequest, token: String) {
         self.init(
             hostedZoneId: original.hostedZoneId, 

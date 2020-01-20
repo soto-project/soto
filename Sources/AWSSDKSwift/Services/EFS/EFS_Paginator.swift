@@ -27,7 +27,7 @@ extension EFS {
     
 }
 
-extension EFS.DescribeAccessPointsRequest: AWSPaginateable {
+extension EFS.DescribeAccessPointsRequest: AWSPaginateStringToken {
     public init(_ original: EFS.DescribeAccessPointsRequest, token: String) {
         self.init(
             accessPointId: original.accessPointId, 
@@ -38,7 +38,7 @@ extension EFS.DescribeAccessPointsRequest: AWSPaginateable {
     }
 }
 
-extension EFS.DescribeFileSystemsRequest: AWSPaginateable {
+extension EFS.DescribeFileSystemsRequest: AWSPaginateStringToken {
     public init(_ original: EFS.DescribeFileSystemsRequest, token: String) {
         self.init(
             creationToken: original.creationToken, 
@@ -49,7 +49,7 @@ extension EFS.DescribeFileSystemsRequest: AWSPaginateable {
     }
 }
 
-extension EFS.DescribeTagsRequest: AWSPaginateable {
+extension EFS.DescribeTagsRequest: AWSPaginateStringToken {
     public init(_ original: EFS.DescribeTagsRequest, token: String) {
         self.init(
             fileSystemId: original.fileSystemId, 
@@ -59,7 +59,7 @@ extension EFS.DescribeTagsRequest: AWSPaginateable {
     }
 }
 
-extension EFS.ListTagsForResourceRequest: AWSPaginateable {
+extension EFS.ListTagsForResourceRequest: AWSPaginateStringToken {
     public init(_ original: EFS.ListTagsForResourceRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

@@ -31,7 +31,7 @@ extension IoTAnalytics {
     
 }
 
-extension IoTAnalytics.ListChannelsRequest: AWSPaginateable {
+extension IoTAnalytics.ListChannelsRequest: AWSPaginateStringToken {
     public init(_ original: IoTAnalytics.ListChannelsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -40,7 +40,7 @@ extension IoTAnalytics.ListChannelsRequest: AWSPaginateable {
     }
 }
 
-extension IoTAnalytics.ListDatasetContentsRequest: AWSPaginateable {
+extension IoTAnalytics.ListDatasetContentsRequest: AWSPaginateStringToken {
     public init(_ original: IoTAnalytics.ListDatasetContentsRequest, token: String) {
         self.init(
             datasetName: original.datasetName, 
@@ -52,7 +52,7 @@ extension IoTAnalytics.ListDatasetContentsRequest: AWSPaginateable {
     }
 }
 
-extension IoTAnalytics.ListDatasetsRequest: AWSPaginateable {
+extension IoTAnalytics.ListDatasetsRequest: AWSPaginateStringToken {
     public init(_ original: IoTAnalytics.ListDatasetsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -61,7 +61,7 @@ extension IoTAnalytics.ListDatasetsRequest: AWSPaginateable {
     }
 }
 
-extension IoTAnalytics.ListDatastoresRequest: AWSPaginateable {
+extension IoTAnalytics.ListDatastoresRequest: AWSPaginateStringToken {
     public init(_ original: IoTAnalytics.ListDatastoresRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -70,7 +70,7 @@ extension IoTAnalytics.ListDatastoresRequest: AWSPaginateable {
     }
 }
 
-extension IoTAnalytics.ListPipelinesRequest: AWSPaginateable {
+extension IoTAnalytics.ListPipelinesRequest: AWSPaginateStringToken {
     public init(_ original: IoTAnalytics.ListPipelinesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

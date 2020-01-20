@@ -11,7 +11,7 @@ extension CodeStarconnections {
     
 }
 
-extension CodeStarconnections.ListConnectionsInput: AWSPaginateable {
+extension CodeStarconnections.ListConnectionsInput: AWSPaginateStringToken {
     public init(_ original: CodeStarconnections.ListConnectionsInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

@@ -21,7 +21,7 @@ extension Pricing {
     
 }
 
-extension Pricing.DescribeServicesRequest: AWSPaginateable {
+extension Pricing.DescribeServicesRequest: AWSPaginateStringToken {
     public init(_ original: Pricing.DescribeServicesRequest, token: String) {
         self.init(
             formatVersion: original.formatVersion, 
@@ -32,7 +32,7 @@ extension Pricing.DescribeServicesRequest: AWSPaginateable {
     }
 }
 
-extension Pricing.GetAttributeValuesRequest: AWSPaginateable {
+extension Pricing.GetAttributeValuesRequest: AWSPaginateStringToken {
     public init(_ original: Pricing.GetAttributeValuesRequest, token: String) {
         self.init(
             attributeName: original.attributeName, 
@@ -43,7 +43,7 @@ extension Pricing.GetAttributeValuesRequest: AWSPaginateable {
     }
 }
 
-extension Pricing.GetProductsRequest: AWSPaginateable {
+extension Pricing.GetProductsRequest: AWSPaginateStringToken {
     public init(_ original: Pricing.GetProductsRequest, token: String) {
         self.init(
             filters: original.filters, 

@@ -11,7 +11,7 @@ extension KinesisVideoArchivedMedia {
     
 }
 
-extension KinesisVideoArchivedMedia.ListFragmentsInput: AWSPaginateable {
+extension KinesisVideoArchivedMedia.ListFragmentsInput: AWSPaginateStringToken {
     public init(_ original: KinesisVideoArchivedMedia.ListFragmentsInput, token: String) {
         self.init(
             fragmentSelector: original.fragmentSelector, 

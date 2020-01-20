@@ -31,7 +31,7 @@ extension Schemas {
     
 }
 
-extension Schemas.ListDiscoverersRequest: AWSPaginateable {
+extension Schemas.ListDiscoverersRequest: AWSPaginateStringToken {
     public init(_ original: Schemas.ListDiscoverersRequest, token: String) {
         self.init(
             discovererIdPrefix: original.discovererIdPrefix, 
@@ -42,7 +42,7 @@ extension Schemas.ListDiscoverersRequest: AWSPaginateable {
     }
 }
 
-extension Schemas.ListRegistriesRequest: AWSPaginateable {
+extension Schemas.ListRegistriesRequest: AWSPaginateStringToken {
     public init(_ original: Schemas.ListRegistriesRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -53,7 +53,7 @@ extension Schemas.ListRegistriesRequest: AWSPaginateable {
     }
 }
 
-extension Schemas.ListSchemaVersionsRequest: AWSPaginateable {
+extension Schemas.ListSchemaVersionsRequest: AWSPaginateStringToken {
     public init(_ original: Schemas.ListSchemaVersionsRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -64,7 +64,7 @@ extension Schemas.ListSchemaVersionsRequest: AWSPaginateable {
     }
 }
 
-extension Schemas.ListSchemasRequest: AWSPaginateable {
+extension Schemas.ListSchemasRequest: AWSPaginateStringToken {
     public init(_ original: Schemas.ListSchemasRequest, token: String) {
         self.init(
             limit: original.limit, 
@@ -75,7 +75,7 @@ extension Schemas.ListSchemasRequest: AWSPaginateable {
     }
 }
 
-extension Schemas.SearchSchemasRequest: AWSPaginateable {
+extension Schemas.SearchSchemasRequest: AWSPaginateStringToken {
     public init(_ original: Schemas.SearchSchemasRequest, token: String) {
         self.init(
             keywords: original.keywords, 

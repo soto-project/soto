@@ -46,7 +46,7 @@ extension QuickSight {
     
 }
 
-extension QuickSight.ListDashboardVersionsRequest: AWSPaginateable {
+extension QuickSight.ListDashboardVersionsRequest: AWSPaginateStringToken {
     public init(_ original: QuickSight.ListDashboardVersionsRequest, token: String) {
         self.init(
             awsAccountId: original.awsAccountId, 
@@ -57,7 +57,7 @@ extension QuickSight.ListDashboardVersionsRequest: AWSPaginateable {
     }
 }
 
-extension QuickSight.ListDashboardsRequest: AWSPaginateable {
+extension QuickSight.ListDashboardsRequest: AWSPaginateStringToken {
     public init(_ original: QuickSight.ListDashboardsRequest, token: String) {
         self.init(
             awsAccountId: original.awsAccountId, 
@@ -67,7 +67,7 @@ extension QuickSight.ListDashboardsRequest: AWSPaginateable {
     }
 }
 
-extension QuickSight.ListDataSetsRequest: AWSPaginateable {
+extension QuickSight.ListDataSetsRequest: AWSPaginateStringToken {
     public init(_ original: QuickSight.ListDataSetsRequest, token: String) {
         self.init(
             awsAccountId: original.awsAccountId, 
@@ -77,7 +77,7 @@ extension QuickSight.ListDataSetsRequest: AWSPaginateable {
     }
 }
 
-extension QuickSight.ListDataSourcesRequest: AWSPaginateable {
+extension QuickSight.ListDataSourcesRequest: AWSPaginateStringToken {
     public init(_ original: QuickSight.ListDataSourcesRequest, token: String) {
         self.init(
             awsAccountId: original.awsAccountId, 
@@ -87,7 +87,7 @@ extension QuickSight.ListDataSourcesRequest: AWSPaginateable {
     }
 }
 
-extension QuickSight.ListIngestionsRequest: AWSPaginateable {
+extension QuickSight.ListIngestionsRequest: AWSPaginateStringToken {
     public init(_ original: QuickSight.ListIngestionsRequest, token: String) {
         self.init(
             awsAccountId: original.awsAccountId, 
@@ -98,7 +98,7 @@ extension QuickSight.ListIngestionsRequest: AWSPaginateable {
     }
 }
 
-extension QuickSight.ListTemplateAliasesRequest: AWSPaginateable {
+extension QuickSight.ListTemplateAliasesRequest: AWSPaginateStringToken {
     public init(_ original: QuickSight.ListTemplateAliasesRequest, token: String) {
         self.init(
             awsAccountId: original.awsAccountId, 
@@ -109,7 +109,7 @@ extension QuickSight.ListTemplateAliasesRequest: AWSPaginateable {
     }
 }
 
-extension QuickSight.ListTemplateVersionsRequest: AWSPaginateable {
+extension QuickSight.ListTemplateVersionsRequest: AWSPaginateStringToken {
     public init(_ original: QuickSight.ListTemplateVersionsRequest, token: String) {
         self.init(
             awsAccountId: original.awsAccountId, 
@@ -120,7 +120,7 @@ extension QuickSight.ListTemplateVersionsRequest: AWSPaginateable {
     }
 }
 
-extension QuickSight.ListTemplatesRequest: AWSPaginateable {
+extension QuickSight.ListTemplatesRequest: AWSPaginateStringToken {
     public init(_ original: QuickSight.ListTemplatesRequest, token: String) {
         self.init(
             awsAccountId: original.awsAccountId, 

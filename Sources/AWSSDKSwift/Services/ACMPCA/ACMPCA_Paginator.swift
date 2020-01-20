@@ -21,7 +21,7 @@ extension ACMPCA {
     
 }
 
-extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateable {
+extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateStringToken {
     public init(_ original: ACMPCA.ListCertificateAuthoritiesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -30,7 +30,7 @@ extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateable {
     }
 }
 
-extension ACMPCA.ListPermissionsRequest: AWSPaginateable {
+extension ACMPCA.ListPermissionsRequest: AWSPaginateStringToken {
     public init(_ original: ACMPCA.ListPermissionsRequest, token: String) {
         self.init(
             certificateAuthorityArn: original.certificateAuthorityArn, 
@@ -40,7 +40,7 @@ extension ACMPCA.ListPermissionsRequest: AWSPaginateable {
     }
 }
 
-extension ACMPCA.ListTagsRequest: AWSPaginateable {
+extension ACMPCA.ListTagsRequest: AWSPaginateStringToken {
     public init(_ original: ACMPCA.ListTagsRequest, token: String) {
         self.init(
             certificateAuthorityArn: original.certificateAuthorityArn, 

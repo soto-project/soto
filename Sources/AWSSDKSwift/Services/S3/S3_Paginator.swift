@@ -24,9 +24,14 @@ extension S3 {
         return client.paginate(input: input, command: listObjectsV2, resultKey: "contents", tokenKey: "nextContinuationToken")
     }
     
+    ///  Lists the parts that have been uploaded for a specific multipart upload. This operation must include the upload ID, which you obtain by sending the initiate multipart upload request (see CreateMultipartUpload). This request returns a maximum of 1,000 uploaded parts. The default number of parts returned is 1,000 parts. You can restrict the number of parts returned by specifying the max-parts request parameter. If your multipart upload consists of more than 1,000 parts, the response returns an IsTruncated field with the value of true, and a NextPartNumberMarker element. In subsequent ListParts requests you can include the part-number-marker query string parameter and set its value to the NextPartNumberMarker field value from the previous response. For more information on multipart uploads, see Uploading Objects Using Multipart Upload. For information on permissions required to use the multipart upload API, see Multipart Upload API and Permissions. The following operations are related to ListParts:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload     AbortMultipartUpload     ListMultipartUploads   
+    public func listPartsPaginator(_ input: ListPartsRequest) -> EventLoopFuture<[Part]> {
+        return client.paginate(input: input, command: listParts, resultKey: "parts", tokenKey: "nextPartNumberMarker")
+    }
+    
 }
 
-extension S3.ListMultipartUploadsRequest: AWSPaginateable {
+extension S3.ListMultipartUploadsRequest: AWSPaginateStringToken {
     public init(_ original: S3.ListMultipartUploadsRequest, token: String) {
         self.init(
             bucket: original.bucket, 
@@ -40,7 +45,7 @@ extension S3.ListMultipartUploadsRequest: AWSPaginateable {
     }
 }
 
-extension S3.ListObjectVersionsRequest: AWSPaginateable {
+extension S3.ListObjectVersionsRequest: AWSPaginateStringToken {
     public init(_ original: S3.ListObjectVersionsRequest, token: String) {
         self.init(
             bucket: original.bucket, 
@@ -54,7 +59,7 @@ extension S3.ListObjectVersionsRequest: AWSPaginateable {
     }
 }
 
-extension S3.ListObjectsRequest: AWSPaginateable {
+extension S3.ListObjectsRequest: AWSPaginateStringToken {
     public init(_ original: S3.ListObjectsRequest, token: String) {
         self.init(
             bucket: original.bucket, 
@@ -68,7 +73,7 @@ extension S3.ListObjectsRequest: AWSPaginateable {
     }
 }
 
-extension S3.ListObjectsV2Request: AWSPaginateable {
+extension S3.ListObjectsV2Request: AWSPaginateStringToken {
     public init(_ original: S3.ListObjectsV2Request, token: String) {
         self.init(
             bucket: original.bucket, 
@@ -80,6 +85,19 @@ extension S3.ListObjectsV2Request: AWSPaginateable {
             prefix: original.prefix, 
             requestPayer: original.requestPayer, 
             startAfter: original.startAfter
+        )
+    }
+}
+
+extension S3.ListPartsRequest: AWSPaginateIntToken {
+    public init(_ original: S3.ListPartsRequest, token: Int) {
+        self.init(
+            bucket: original.bucket, 
+            key: original.key, 
+            maxParts: original.maxParts, 
+            partNumberMarker: token, 
+            requestPayer: original.requestPayer, 
+            uploadId: original.uploadId
         )
     }
 }

@@ -76,7 +76,7 @@ extension Organizations {
     
 }
 
-extension Organizations.ListAWSServiceAccessForOrganizationRequest: AWSPaginateable {
+extension Organizations.ListAWSServiceAccessForOrganizationRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListAWSServiceAccessForOrganizationRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -85,7 +85,7 @@ extension Organizations.ListAWSServiceAccessForOrganizationRequest: AWSPaginatea
     }
 }
 
-extension Organizations.ListAccountsRequest: AWSPaginateable {
+extension Organizations.ListAccountsRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListAccountsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -94,7 +94,7 @@ extension Organizations.ListAccountsRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListAccountsForParentRequest: AWSPaginateable {
+extension Organizations.ListAccountsForParentRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListAccountsForParentRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -104,7 +104,7 @@ extension Organizations.ListAccountsForParentRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListChildrenRequest: AWSPaginateable {
+extension Organizations.ListChildrenRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListChildrenRequest, token: String) {
         self.init(
             childType: original.childType, 
@@ -115,7 +115,7 @@ extension Organizations.ListChildrenRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListCreateAccountStatusRequest: AWSPaginateable {
+extension Organizations.ListCreateAccountStatusRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListCreateAccountStatusRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -125,7 +125,7 @@ extension Organizations.ListCreateAccountStatusRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListHandshakesForAccountRequest: AWSPaginateable {
+extension Organizations.ListHandshakesForAccountRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListHandshakesForAccountRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -135,7 +135,7 @@ extension Organizations.ListHandshakesForAccountRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListHandshakesForOrganizationRequest: AWSPaginateable {
+extension Organizations.ListHandshakesForOrganizationRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListHandshakesForOrganizationRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -145,7 +145,7 @@ extension Organizations.ListHandshakesForOrganizationRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListOrganizationalUnitsForParentRequest: AWSPaginateable {
+extension Organizations.ListOrganizationalUnitsForParentRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListOrganizationalUnitsForParentRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -155,7 +155,7 @@ extension Organizations.ListOrganizationalUnitsForParentRequest: AWSPaginateable
     }
 }
 
-extension Organizations.ListParentsRequest: AWSPaginateable {
+extension Organizations.ListParentsRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListParentsRequest, token: String) {
         self.init(
             childId: original.childId, 
@@ -165,7 +165,7 @@ extension Organizations.ListParentsRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListPoliciesRequest: AWSPaginateable {
+extension Organizations.ListPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListPoliciesRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -175,7 +175,7 @@ extension Organizations.ListPoliciesRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListPoliciesForTargetRequest: AWSPaginateable {
+extension Organizations.ListPoliciesForTargetRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListPoliciesForTargetRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -186,7 +186,7 @@ extension Organizations.ListPoliciesForTargetRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListRootsRequest: AWSPaginateable {
+extension Organizations.ListRootsRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListRootsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -195,7 +195,7 @@ extension Organizations.ListRootsRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListTagsForResourceRequest: AWSPaginateable {
+extension Organizations.ListTagsForResourceRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListTagsForResourceRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -204,7 +204,7 @@ extension Organizations.ListTagsForResourceRequest: AWSPaginateable {
     }
 }
 
-extension Organizations.ListTargetsForPolicyRequest: AWSPaginateable {
+extension Organizations.ListTargetsForPolicyRequest: AWSPaginateStringToken {
     public init(_ original: Organizations.ListTargetsForPolicyRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

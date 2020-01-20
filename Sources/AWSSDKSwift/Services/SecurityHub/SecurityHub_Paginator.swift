@@ -31,7 +31,7 @@ extension SecurityHub {
     
 }
 
-extension SecurityHub.DescribeActionTargetsRequest: AWSPaginateable {
+extension SecurityHub.DescribeActionTargetsRequest: AWSPaginateStringToken {
     public init(_ original: SecurityHub.DescribeActionTargetsRequest, token: String) {
         self.init(
             actionTargetArns: original.actionTargetArns, 
@@ -41,7 +41,7 @@ extension SecurityHub.DescribeActionTargetsRequest: AWSPaginateable {
     }
 }
 
-extension SecurityHub.DescribeProductsRequest: AWSPaginateable {
+extension SecurityHub.DescribeProductsRequest: AWSPaginateStringToken {
     public init(_ original: SecurityHub.DescribeProductsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -50,7 +50,7 @@ extension SecurityHub.DescribeProductsRequest: AWSPaginateable {
     }
 }
 
-extension SecurityHub.GetFindingsRequest: AWSPaginateable {
+extension SecurityHub.GetFindingsRequest: AWSPaginateStringToken {
     public init(_ original: SecurityHub.GetFindingsRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -61,7 +61,7 @@ extension SecurityHub.GetFindingsRequest: AWSPaginateable {
     }
 }
 
-extension SecurityHub.GetInsightsRequest: AWSPaginateable {
+extension SecurityHub.GetInsightsRequest: AWSPaginateStringToken {
     public init(_ original: SecurityHub.GetInsightsRequest, token: String) {
         self.init(
             insightArns: original.insightArns, 
@@ -71,7 +71,7 @@ extension SecurityHub.GetInsightsRequest: AWSPaginateable {
     }
 }
 
-extension SecurityHub.ListEnabledProductsForImportRequest: AWSPaginateable {
+extension SecurityHub.ListEnabledProductsForImportRequest: AWSPaginateStringToken {
     public init(_ original: SecurityHub.ListEnabledProductsForImportRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

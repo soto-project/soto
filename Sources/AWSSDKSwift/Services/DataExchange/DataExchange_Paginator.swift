@@ -26,7 +26,7 @@ extension DataExchange {
     
 }
 
-extension DataExchange.ListDataSetRevisionsRequest: AWSPaginateable {
+extension DataExchange.ListDataSetRevisionsRequest: AWSPaginateStringToken {
     public init(_ original: DataExchange.ListDataSetRevisionsRequest, token: String) {
         self.init(
             dataSetId: original.dataSetId, 
@@ -36,7 +36,7 @@ extension DataExchange.ListDataSetRevisionsRequest: AWSPaginateable {
     }
 }
 
-extension DataExchange.ListDataSetsRequest: AWSPaginateable {
+extension DataExchange.ListDataSetsRequest: AWSPaginateStringToken {
     public init(_ original: DataExchange.ListDataSetsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -46,7 +46,7 @@ extension DataExchange.ListDataSetsRequest: AWSPaginateable {
     }
 }
 
-extension DataExchange.ListJobsRequest: AWSPaginateable {
+extension DataExchange.ListJobsRequest: AWSPaginateStringToken {
     public init(_ original: DataExchange.ListJobsRequest, token: String) {
         self.init(
             dataSetId: original.dataSetId, 
@@ -57,7 +57,7 @@ extension DataExchange.ListJobsRequest: AWSPaginateable {
     }
 }
 
-extension DataExchange.ListRevisionAssetsRequest: AWSPaginateable {
+extension DataExchange.ListRevisionAssetsRequest: AWSPaginateStringToken {
     public init(_ original: DataExchange.ListRevisionAssetsRequest, token: String) {
         self.init(
             dataSetId: original.dataSetId, 

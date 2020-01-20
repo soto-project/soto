@@ -26,7 +26,7 @@ extension ElasticTranscoder {
     
 }
 
-extension ElasticTranscoder.ListJobsByPipelineRequest: AWSPaginateable {
+extension ElasticTranscoder.ListJobsByPipelineRequest: AWSPaginateStringToken {
     public init(_ original: ElasticTranscoder.ListJobsByPipelineRequest, token: String) {
         self.init(
             ascending: original.ascending, 
@@ -36,7 +36,7 @@ extension ElasticTranscoder.ListJobsByPipelineRequest: AWSPaginateable {
     }
 }
 
-extension ElasticTranscoder.ListJobsByStatusRequest: AWSPaginateable {
+extension ElasticTranscoder.ListJobsByStatusRequest: AWSPaginateStringToken {
     public init(_ original: ElasticTranscoder.ListJobsByStatusRequest, token: String) {
         self.init(
             ascending: original.ascending, 
@@ -46,7 +46,7 @@ extension ElasticTranscoder.ListJobsByStatusRequest: AWSPaginateable {
     }
 }
 
-extension ElasticTranscoder.ListPipelinesRequest: AWSPaginateable {
+extension ElasticTranscoder.ListPipelinesRequest: AWSPaginateStringToken {
     public init(_ original: ElasticTranscoder.ListPipelinesRequest, token: String) {
         self.init(
             ascending: original.ascending, 
@@ -55,7 +55,7 @@ extension ElasticTranscoder.ListPipelinesRequest: AWSPaginateable {
     }
 }
 
-extension ElasticTranscoder.ListPresetsRequest: AWSPaginateable {
+extension ElasticTranscoder.ListPresetsRequest: AWSPaginateStringToken {
     public init(_ original: ElasticTranscoder.ListPresetsRequest, token: String) {
         self.init(
             ascending: original.ascending, 

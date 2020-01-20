@@ -11,7 +11,7 @@ extension Polly {
     
 }
 
-extension Polly.ListSpeechSynthesisTasksInput: AWSPaginateable {
+extension Polly.ListSpeechSynthesisTasksInput: AWSPaginateStringToken {
     public init(_ original: Polly.ListSpeechSynthesisTasksInput, token: String) {
         self.init(
             maxResults: original.maxResults, 

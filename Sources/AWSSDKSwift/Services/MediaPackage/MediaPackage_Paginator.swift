@@ -21,7 +21,7 @@ extension MediaPackage {
     
 }
 
-extension MediaPackage.ListChannelsRequest: AWSPaginateable {
+extension MediaPackage.ListChannelsRequest: AWSPaginateStringToken {
     public init(_ original: MediaPackage.ListChannelsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -30,7 +30,7 @@ extension MediaPackage.ListChannelsRequest: AWSPaginateable {
     }
 }
 
-extension MediaPackage.ListHarvestJobsRequest: AWSPaginateable {
+extension MediaPackage.ListHarvestJobsRequest: AWSPaginateStringToken {
     public init(_ original: MediaPackage.ListHarvestJobsRequest, token: String) {
         self.init(
             includeChannelId: original.includeChannelId, 
@@ -41,7 +41,7 @@ extension MediaPackage.ListHarvestJobsRequest: AWSPaginateable {
     }
 }
 
-extension MediaPackage.ListOriginEndpointsRequest: AWSPaginateable {
+extension MediaPackage.ListOriginEndpointsRequest: AWSPaginateStringToken {
     public init(_ original: MediaPackage.ListOriginEndpointsRequest, token: String) {
         self.init(
             channelId: original.channelId, 

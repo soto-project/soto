@@ -61,7 +61,7 @@ extension Chime {
     
 }
 
-extension Chime.ListAccountsRequest: AWSPaginateable {
+extension Chime.ListAccountsRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListAccountsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -72,7 +72,7 @@ extension Chime.ListAccountsRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListAttendeesRequest: AWSPaginateable {
+extension Chime.ListAttendeesRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListAttendeesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -82,7 +82,7 @@ extension Chime.ListAttendeesRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListBotsRequest: AWSPaginateable {
+extension Chime.ListBotsRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListBotsRequest, token: String) {
         self.init(
             accountId: original.accountId, 
@@ -92,7 +92,7 @@ extension Chime.ListBotsRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListMeetingsRequest: AWSPaginateable {
+extension Chime.ListMeetingsRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListMeetingsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -101,7 +101,7 @@ extension Chime.ListMeetingsRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListPhoneNumberOrdersRequest: AWSPaginateable {
+extension Chime.ListPhoneNumberOrdersRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListPhoneNumberOrdersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -110,7 +110,7 @@ extension Chime.ListPhoneNumberOrdersRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListPhoneNumbersRequest: AWSPaginateable {
+extension Chime.ListPhoneNumbersRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListPhoneNumbersRequest, token: String) {
         self.init(
             filterName: original.filterName, 
@@ -123,7 +123,7 @@ extension Chime.ListPhoneNumbersRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListRoomMembershipsRequest: AWSPaginateable {
+extension Chime.ListRoomMembershipsRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListRoomMembershipsRequest, token: String) {
         self.init(
             accountId: original.accountId, 
@@ -134,7 +134,7 @@ extension Chime.ListRoomMembershipsRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListRoomsRequest: AWSPaginateable {
+extension Chime.ListRoomsRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListRoomsRequest, token: String) {
         self.init(
             accountId: original.accountId, 
@@ -145,7 +145,7 @@ extension Chime.ListRoomsRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListUsersRequest: AWSPaginateable {
+extension Chime.ListUsersRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListUsersRequest, token: String) {
         self.init(
             accountId: original.accountId, 
@@ -157,7 +157,7 @@ extension Chime.ListUsersRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListVoiceConnectorGroupsRequest: AWSPaginateable {
+extension Chime.ListVoiceConnectorGroupsRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListVoiceConnectorGroupsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -166,7 +166,7 @@ extension Chime.ListVoiceConnectorGroupsRequest: AWSPaginateable {
     }
 }
 
-extension Chime.ListVoiceConnectorsRequest: AWSPaginateable {
+extension Chime.ListVoiceConnectorsRequest: AWSPaginateStringToken {
     public init(_ original: Chime.ListVoiceConnectorsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

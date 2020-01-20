@@ -36,7 +36,7 @@ extension ServiceQuotas {
     
 }
 
-extension ServiceQuotas.ListAWSDefaultServiceQuotasRequest: AWSPaginateable {
+extension ServiceQuotas.ListAWSDefaultServiceQuotasRequest: AWSPaginateStringToken {
     public init(_ original: ServiceQuotas.ListAWSDefaultServiceQuotasRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -46,7 +46,7 @@ extension ServiceQuotas.ListAWSDefaultServiceQuotasRequest: AWSPaginateable {
     }
 }
 
-extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPaginateable {
+extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPaginateStringToken {
     public init(_ original: ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -57,7 +57,7 @@ extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPagina
     }
 }
 
-extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSPaginateable {
+extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSPaginateStringToken {
     public init(_ original: ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -69,7 +69,7 @@ extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AW
     }
 }
 
-extension ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSPaginateable {
+extension ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSPaginateStringToken {
     public init(_ original: ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest, token: String) {
         self.init(
             awsRegion: original.awsRegion, 
@@ -80,7 +80,7 @@ extension ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSPa
     }
 }
 
-extension ServiceQuotas.ListServiceQuotasRequest: AWSPaginateable {
+extension ServiceQuotas.ListServiceQuotasRequest: AWSPaginateStringToken {
     public init(_ original: ServiceQuotas.ListServiceQuotasRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -90,7 +90,7 @@ extension ServiceQuotas.ListServiceQuotasRequest: AWSPaginateable {
     }
 }
 
-extension ServiceQuotas.ListServicesRequest: AWSPaginateable {
+extension ServiceQuotas.ListServicesRequest: AWSPaginateStringToken {
     public init(_ original: ServiceQuotas.ListServicesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

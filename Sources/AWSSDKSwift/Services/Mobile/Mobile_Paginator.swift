@@ -16,7 +16,7 @@ extension Mobile {
     
 }
 
-extension Mobile.ListBundlesRequest: AWSPaginateable {
+extension Mobile.ListBundlesRequest: AWSPaginateStringToken {
     public init(_ original: Mobile.ListBundlesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -25,7 +25,7 @@ extension Mobile.ListBundlesRequest: AWSPaginateable {
     }
 }
 
-extension Mobile.ListProjectsRequest: AWSPaginateable {
+extension Mobile.ListProjectsRequest: AWSPaginateStringToken {
     public init(_ original: Mobile.ListProjectsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

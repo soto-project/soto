@@ -16,7 +16,7 @@ extension CodeGuruProfiler {
     
 }
 
-extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateable {
+extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateStringToken {
     public init(_ original: CodeGuruProfiler.ListProfileTimesRequest, token: String) {
         self.init(
             endTime: original.endTime, 
@@ -30,7 +30,7 @@ extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateable {
     }
 }
 
-extension CodeGuruProfiler.ListProfilingGroupsRequest: AWSPaginateable {
+extension CodeGuruProfiler.ListProfilingGroupsRequest: AWSPaginateStringToken {
     public init(_ original: CodeGuruProfiler.ListProfilingGroupsRequest, token: String) {
         self.init(
             includeDescription: original.includeDescription, 

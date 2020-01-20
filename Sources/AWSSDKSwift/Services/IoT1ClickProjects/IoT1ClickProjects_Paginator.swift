@@ -16,7 +16,7 @@ extension IoT1ClickProjects {
     
 }
 
-extension IoT1ClickProjects.ListPlacementsRequest: AWSPaginateable {
+extension IoT1ClickProjects.ListPlacementsRequest: AWSPaginateStringToken {
     public init(_ original: IoT1ClickProjects.ListPlacementsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -26,7 +26,7 @@ extension IoT1ClickProjects.ListPlacementsRequest: AWSPaginateable {
     }
 }
 
-extension IoT1ClickProjects.ListProjectsRequest: AWSPaginateable {
+extension IoT1ClickProjects.ListProjectsRequest: AWSPaginateStringToken {
     public init(_ original: IoT1ClickProjects.ListProjectsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

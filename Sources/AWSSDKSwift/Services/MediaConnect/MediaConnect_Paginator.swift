@@ -16,7 +16,7 @@ extension MediaConnect {
     
 }
 
-extension MediaConnect.ListEntitlementsRequest: AWSPaginateable {
+extension MediaConnect.ListEntitlementsRequest: AWSPaginateStringToken {
     public init(_ original: MediaConnect.ListEntitlementsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -25,7 +25,7 @@ extension MediaConnect.ListEntitlementsRequest: AWSPaginateable {
     }
 }
 
-extension MediaConnect.ListFlowsRequest: AWSPaginateable {
+extension MediaConnect.ListFlowsRequest: AWSPaginateStringToken {
     public init(_ original: MediaConnect.ListFlowsRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

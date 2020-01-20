@@ -46,7 +46,7 @@ extension Neptune {
     
 }
 
-extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateable {
+extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
     public init(_ original: Neptune.DescribeDBEngineVersionsMessage, token: String) {
         self.init(
             dBParameterGroupFamily: original.dBParameterGroupFamily, 
@@ -62,7 +62,7 @@ extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateable {
     }
 }
 
-extension Neptune.DescribeDBInstancesMessage: AWSPaginateable {
+extension Neptune.DescribeDBInstancesMessage: AWSPaginateStringToken {
     public init(_ original: Neptune.DescribeDBInstancesMessage, token: String) {
         self.init(
             dBInstanceIdentifier: original.dBInstanceIdentifier, 
@@ -73,7 +73,7 @@ extension Neptune.DescribeDBInstancesMessage: AWSPaginateable {
     }
 }
 
-extension Neptune.DescribeDBParameterGroupsMessage: AWSPaginateable {
+extension Neptune.DescribeDBParameterGroupsMessage: AWSPaginateStringToken {
     public init(_ original: Neptune.DescribeDBParameterGroupsMessage, token: String) {
         self.init(
             dBParameterGroupName: original.dBParameterGroupName, 
@@ -84,7 +84,7 @@ extension Neptune.DescribeDBParameterGroupsMessage: AWSPaginateable {
     }
 }
 
-extension Neptune.DescribeDBParametersMessage: AWSPaginateable {
+extension Neptune.DescribeDBParametersMessage: AWSPaginateStringToken {
     public init(_ original: Neptune.DescribeDBParametersMessage, token: String) {
         self.init(
             dBParameterGroupName: original.dBParameterGroupName, 
@@ -96,7 +96,7 @@ extension Neptune.DescribeDBParametersMessage: AWSPaginateable {
     }
 }
 
-extension Neptune.DescribeDBSubnetGroupsMessage: AWSPaginateable {
+extension Neptune.DescribeDBSubnetGroupsMessage: AWSPaginateStringToken {
     public init(_ original: Neptune.DescribeDBSubnetGroupsMessage, token: String) {
         self.init(
             dBSubnetGroupName: original.dBSubnetGroupName, 
@@ -107,7 +107,7 @@ extension Neptune.DescribeDBSubnetGroupsMessage: AWSPaginateable {
     }
 }
 
-extension Neptune.DescribeEventSubscriptionsMessage: AWSPaginateable {
+extension Neptune.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
     public init(_ original: Neptune.DescribeEventSubscriptionsMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -118,7 +118,7 @@ extension Neptune.DescribeEventSubscriptionsMessage: AWSPaginateable {
     }
 }
 
-extension Neptune.DescribeEventsMessage: AWSPaginateable {
+extension Neptune.DescribeEventsMessage: AWSPaginateStringToken {
     public init(_ original: Neptune.DescribeEventsMessage, token: String) {
         self.init(
             duration: original.duration, 
@@ -134,7 +134,7 @@ extension Neptune.DescribeEventsMessage: AWSPaginateable {
     }
 }
 
-extension Neptune.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateable {
+extension Neptune.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToken {
     public init(_ original: Neptune.DescribeOrderableDBInstanceOptionsMessage, token: String) {
         self.init(
             dBInstanceClass: original.dBInstanceClass, 

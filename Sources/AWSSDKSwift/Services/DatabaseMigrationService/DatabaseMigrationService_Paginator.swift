@@ -81,7 +81,7 @@ extension DatabaseMigrationService {
     
 }
 
-extension DatabaseMigrationService.DescribeCertificatesMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeCertificatesMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeCertificatesMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -91,7 +91,7 @@ extension DatabaseMigrationService.DescribeCertificatesMessage: AWSPaginateable 
     }
 }
 
-extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeConnectionsMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -101,7 +101,7 @@ extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateable {
     }
 }
 
-extension DatabaseMigrationService.DescribeEndpointTypesMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeEndpointTypesMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeEndpointTypesMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -111,7 +111,7 @@ extension DatabaseMigrationService.DescribeEndpointTypesMessage: AWSPaginateable
     }
 }
 
-extension DatabaseMigrationService.DescribeEndpointsMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeEndpointsMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeEndpointsMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -121,7 +121,7 @@ extension DatabaseMigrationService.DescribeEndpointsMessage: AWSPaginateable {
     }
 }
 
-extension DatabaseMigrationService.DescribeEventSubscriptionsMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeEventSubscriptionsMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -132,7 +132,7 @@ extension DatabaseMigrationService.DescribeEventSubscriptionsMessage: AWSPaginat
     }
 }
 
-extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeEventsMessage, token: String) {
         self.init(
             duration: original.duration, 
@@ -148,7 +148,7 @@ extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateable {
     }
 }
 
-extension DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage, token: String) {
         self.init(
             marker: token, 
@@ -157,7 +157,7 @@ extension DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage:
     }
 }
 
-extension DatabaseMigrationService.DescribePendingMaintenanceActionsMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribePendingMaintenanceActionsMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribePendingMaintenanceActionsMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -168,7 +168,7 @@ extension DatabaseMigrationService.DescribePendingMaintenanceActionsMessage: AWS
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage, token: String) {
         self.init(
             marker: token, 
@@ -178,7 +178,7 @@ extension DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage: A
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationInstancesMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeReplicationInstancesMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeReplicationInstancesMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -188,7 +188,7 @@ extension DatabaseMigrationService.DescribeReplicationInstancesMessage: AWSPagin
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -198,7 +198,7 @@ extension DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage: AWSPa
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessage, token: String) {
         self.init(
             marker: token, 
@@ -208,7 +208,7 @@ extension DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessa
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationTasksMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeReplicationTasksMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeReplicationTasksMessage, token: String) {
         self.init(
             filters: original.filters, 
@@ -219,7 +219,7 @@ extension DatabaseMigrationService.DescribeReplicationTasksMessage: AWSPaginatea
     }
 }
 
-extension DatabaseMigrationService.DescribeSchemasMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeSchemasMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeSchemasMessage, token: String) {
         self.init(
             endpointArn: original.endpointArn, 
@@ -229,7 +229,7 @@ extension DatabaseMigrationService.DescribeSchemasMessage: AWSPaginateable {
     }
 }
 
-extension DatabaseMigrationService.DescribeTableStatisticsMessage: AWSPaginateable {
+extension DatabaseMigrationService.DescribeTableStatisticsMessage: AWSPaginateStringToken {
     public init(_ original: DatabaseMigrationService.DescribeTableStatisticsMessage, token: String) {
         self.init(
             filters: original.filters, 

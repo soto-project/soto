@@ -86,7 +86,7 @@ extension ServiceCatalog {
     
 }
 
-extension ServiceCatalog.ListAcceptedPortfolioSharesInput: AWSPaginateable {
+extension ServiceCatalog.ListAcceptedPortfolioSharesInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListAcceptedPortfolioSharesInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -97,7 +97,7 @@ extension ServiceCatalog.ListAcceptedPortfolioSharesInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListBudgetsForResourceInput: AWSPaginateable {
+extension ServiceCatalog.ListBudgetsForResourceInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListBudgetsForResourceInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -108,7 +108,7 @@ extension ServiceCatalog.ListBudgetsForResourceInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListConstraintsForPortfolioInput: AWSPaginateable {
+extension ServiceCatalog.ListConstraintsForPortfolioInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListConstraintsForPortfolioInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -120,7 +120,7 @@ extension ServiceCatalog.ListConstraintsForPortfolioInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListLaunchPathsInput: AWSPaginateable {
+extension ServiceCatalog.ListLaunchPathsInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListLaunchPathsInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -131,7 +131,7 @@ extension ServiceCatalog.ListLaunchPathsInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListOrganizationPortfolioAccessInput: AWSPaginateable {
+extension ServiceCatalog.ListOrganizationPortfolioAccessInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListOrganizationPortfolioAccessInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -143,7 +143,7 @@ extension ServiceCatalog.ListOrganizationPortfolioAccessInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListPortfoliosInput: AWSPaginateable {
+extension ServiceCatalog.ListPortfoliosInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListPortfoliosInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -153,7 +153,7 @@ extension ServiceCatalog.ListPortfoliosInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListPortfoliosForProductInput: AWSPaginateable {
+extension ServiceCatalog.ListPortfoliosForProductInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListPortfoliosForProductInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -164,7 +164,7 @@ extension ServiceCatalog.ListPortfoliosForProductInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListPrincipalsForPortfolioInput: AWSPaginateable {
+extension ServiceCatalog.ListPrincipalsForPortfolioInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListPrincipalsForPortfolioInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -175,7 +175,7 @@ extension ServiceCatalog.ListPrincipalsForPortfolioInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListProvisioningArtifactsForServiceActionInput: AWSPaginateable {
+extension ServiceCatalog.ListProvisioningArtifactsForServiceActionInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListProvisioningArtifactsForServiceActionInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -186,7 +186,7 @@ extension ServiceCatalog.ListProvisioningArtifactsForServiceActionInput: AWSPagi
     }
 }
 
-extension ServiceCatalog.ListResourcesForTagOptionInput: AWSPaginateable {
+extension ServiceCatalog.ListResourcesForTagOptionInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListResourcesForTagOptionInput, token: String) {
         self.init(
             pageSize: original.pageSize, 
@@ -197,7 +197,7 @@ extension ServiceCatalog.ListResourcesForTagOptionInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListServiceActionsInput: AWSPaginateable {
+extension ServiceCatalog.ListServiceActionsInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListServiceActionsInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -207,7 +207,7 @@ extension ServiceCatalog.ListServiceActionsInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.ListServiceActionsForProvisioningArtifactInput: AWSPaginateable {
+extension ServiceCatalog.ListServiceActionsForProvisioningArtifactInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListServiceActionsForProvisioningArtifactInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -219,7 +219,7 @@ extension ServiceCatalog.ListServiceActionsForProvisioningArtifactInput: AWSPagi
     }
 }
 
-extension ServiceCatalog.ListTagOptionsInput: AWSPaginateable {
+extension ServiceCatalog.ListTagOptionsInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.ListTagOptionsInput, token: String) {
         self.init(
             filters: original.filters, 
@@ -229,7 +229,7 @@ extension ServiceCatalog.ListTagOptionsInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.SearchProductsInput: AWSPaginateable {
+extension ServiceCatalog.SearchProductsInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.SearchProductsInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -242,7 +242,7 @@ extension ServiceCatalog.SearchProductsInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.SearchProductsAsAdminInput: AWSPaginateable {
+extension ServiceCatalog.SearchProductsAsAdminInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.SearchProductsAsAdminInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 
@@ -257,7 +257,7 @@ extension ServiceCatalog.SearchProductsAsAdminInput: AWSPaginateable {
     }
 }
 
-extension ServiceCatalog.SearchProvisionedProductsInput: AWSPaginateable {
+extension ServiceCatalog.SearchProvisionedProductsInput: AWSPaginateStringToken {
     public init(_ original: ServiceCatalog.SearchProvisionedProductsInput, token: String) {
         self.init(
             acceptLanguage: original.acceptLanguage, 

@@ -21,7 +21,7 @@ extension TranscribeService {
     
 }
 
-extension TranscribeService.ListTranscriptionJobsRequest: AWSPaginateable {
+extension TranscribeService.ListTranscriptionJobsRequest: AWSPaginateStringToken {
     public init(_ original: TranscribeService.ListTranscriptionJobsRequest, token: String) {
         self.init(
             jobNameContains: original.jobNameContains, 
@@ -32,7 +32,7 @@ extension TranscribeService.ListTranscriptionJobsRequest: AWSPaginateable {
     }
 }
 
-extension TranscribeService.ListVocabulariesRequest: AWSPaginateable {
+extension TranscribeService.ListVocabulariesRequest: AWSPaginateStringToken {
     public init(_ original: TranscribeService.ListVocabulariesRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -43,7 +43,7 @@ extension TranscribeService.ListVocabulariesRequest: AWSPaginateable {
     }
 }
 
-extension TranscribeService.ListVocabularyFiltersRequest: AWSPaginateable {
+extension TranscribeService.ListVocabularyFiltersRequest: AWSPaginateStringToken {
     public init(_ original: TranscribeService.ListVocabularyFiltersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

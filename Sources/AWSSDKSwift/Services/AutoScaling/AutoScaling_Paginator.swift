@@ -46,7 +46,7 @@ extension AutoScaling {
     
 }
 
-extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateable {
+extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateStringToken {
     public init(_ original: AutoScaling.AutoScalingGroupNamesType, token: String) {
         self.init(
             autoScalingGroupNames: original.autoScalingGroupNames, 
@@ -56,7 +56,7 @@ extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateable {
     }
 }
 
-extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateable {
+extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateStringToken {
     public init(_ original: AutoScaling.DescribeAutoScalingInstancesType, token: String) {
         self.init(
             instanceIds: original.instanceIds, 
@@ -66,7 +66,7 @@ extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateable {
     }
 }
 
-extension AutoScaling.LaunchConfigurationNamesType: AWSPaginateable {
+extension AutoScaling.LaunchConfigurationNamesType: AWSPaginateStringToken {
     public init(_ original: AutoScaling.LaunchConfigurationNamesType, token: String) {
         self.init(
             launchConfigurationNames: original.launchConfigurationNames, 
@@ -76,7 +76,7 @@ extension AutoScaling.LaunchConfigurationNamesType: AWSPaginateable {
     }
 }
 
-extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateable {
+extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateStringToken {
     public init(_ original: AutoScaling.DescribeNotificationConfigurationsType, token: String) {
         self.init(
             autoScalingGroupNames: original.autoScalingGroupNames, 
@@ -86,7 +86,7 @@ extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateable {
     }
 }
 
-extension AutoScaling.DescribePoliciesType: AWSPaginateable {
+extension AutoScaling.DescribePoliciesType: AWSPaginateStringToken {
     public init(_ original: AutoScaling.DescribePoliciesType, token: String) {
         self.init(
             autoScalingGroupName: original.autoScalingGroupName, 
@@ -98,7 +98,7 @@ extension AutoScaling.DescribePoliciesType: AWSPaginateable {
     }
 }
 
-extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateable {
+extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateStringToken {
     public init(_ original: AutoScaling.DescribeScalingActivitiesType, token: String) {
         self.init(
             activityIds: original.activityIds, 
@@ -109,7 +109,7 @@ extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateable {
     }
 }
 
-extension AutoScaling.DescribeScheduledActionsType: AWSPaginateable {
+extension AutoScaling.DescribeScheduledActionsType: AWSPaginateStringToken {
     public init(_ original: AutoScaling.DescribeScheduledActionsType, token: String) {
         self.init(
             autoScalingGroupName: original.autoScalingGroupName, 
@@ -122,7 +122,7 @@ extension AutoScaling.DescribeScheduledActionsType: AWSPaginateable {
     }
 }
 
-extension AutoScaling.DescribeTagsType: AWSPaginateable {
+extension AutoScaling.DescribeTagsType: AWSPaginateStringToken {
     public init(_ original: AutoScaling.DescribeTagsType, token: String) {
         self.init(
             filters: original.filters, 

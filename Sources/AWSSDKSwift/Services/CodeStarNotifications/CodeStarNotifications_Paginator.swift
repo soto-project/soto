@@ -21,7 +21,7 @@ extension CodeStarNotifications {
     
 }
 
-extension CodeStarNotifications.ListEventTypesRequest: AWSPaginateable {
+extension CodeStarNotifications.ListEventTypesRequest: AWSPaginateStringToken {
     public init(_ original: CodeStarNotifications.ListEventTypesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -31,7 +31,7 @@ extension CodeStarNotifications.ListEventTypesRequest: AWSPaginateable {
     }
 }
 
-extension CodeStarNotifications.ListNotificationRulesRequest: AWSPaginateable {
+extension CodeStarNotifications.ListNotificationRulesRequest: AWSPaginateStringToken {
     public init(_ original: CodeStarNotifications.ListNotificationRulesRequest, token: String) {
         self.init(
             filters: original.filters, 
@@ -41,7 +41,7 @@ extension CodeStarNotifications.ListNotificationRulesRequest: AWSPaginateable {
     }
 }
 
-extension CodeStarNotifications.ListTargetsRequest: AWSPaginateable {
+extension CodeStarNotifications.ListTargetsRequest: AWSPaginateStringToken {
     public init(_ original: CodeStarNotifications.ListTargetsRequest, token: String) {
         self.init(
             filters: original.filters, 

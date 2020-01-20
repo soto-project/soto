@@ -21,7 +21,7 @@ extension Transfer {
     
 }
 
-extension Transfer.ListServersRequest: AWSPaginateable {
+extension Transfer.ListServersRequest: AWSPaginateStringToken {
     public init(_ original: Transfer.ListServersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 
@@ -30,7 +30,7 @@ extension Transfer.ListServersRequest: AWSPaginateable {
     }
 }
 
-extension Transfer.ListTagsForResourceRequest: AWSPaginateable {
+extension Transfer.ListTagsForResourceRequest: AWSPaginateStringToken {
     public init(_ original: Transfer.ListTagsForResourceRequest, token: String) {
         self.init(
             arn: original.arn, 
@@ -40,7 +40,7 @@ extension Transfer.ListTagsForResourceRequest: AWSPaginateable {
     }
 }
 
-extension Transfer.ListUsersRequest: AWSPaginateable {
+extension Transfer.ListUsersRequest: AWSPaginateStringToken {
     public init(_ original: Transfer.ListUsersRequest, token: String) {
         self.init(
             maxResults: original.maxResults, 

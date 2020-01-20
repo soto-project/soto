@@ -16,7 +16,7 @@ extension CostExplorer {
     
 }
 
-extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateable {
+extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateStringToken {
     public init(_ original: CostExplorer.GetSavingsPlansCoverageRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -30,7 +30,7 @@ extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateable {
     }
 }
 
-extension CostExplorer.GetSavingsPlansUtilizationDetailsRequest: AWSPaginateable {
+extension CostExplorer.GetSavingsPlansUtilizationDetailsRequest: AWSPaginateStringToken {
     public init(_ original: CostExplorer.GetSavingsPlansUtilizationDetailsRequest, token: String) {
         self.init(
             filter: original.filter, 

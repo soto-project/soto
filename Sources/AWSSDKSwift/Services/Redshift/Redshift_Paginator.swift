@@ -86,7 +86,7 @@ extension Redshift {
     
 }
 
-extension Redshift.DescribeClusterParameterGroupsMessage: AWSPaginateable {
+extension Redshift.DescribeClusterParameterGroupsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeClusterParameterGroupsMessage, token: String) {
         self.init(
             marker: token, 
@@ -98,7 +98,7 @@ extension Redshift.DescribeClusterParameterGroupsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeClusterParametersMessage: AWSPaginateable {
+extension Redshift.DescribeClusterParametersMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeClusterParametersMessage, token: String) {
         self.init(
             marker: token, 
@@ -109,7 +109,7 @@ extension Redshift.DescribeClusterParametersMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeClusterSecurityGroupsMessage: AWSPaginateable {
+extension Redshift.DescribeClusterSecurityGroupsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeClusterSecurityGroupsMessage, token: String) {
         self.init(
             clusterSecurityGroupName: original.clusterSecurityGroupName, 
@@ -121,7 +121,7 @@ extension Redshift.DescribeClusterSecurityGroupsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeClusterSnapshotsMessage: AWSPaginateable {
+extension Redshift.DescribeClusterSnapshotsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeClusterSnapshotsMessage, token: String) {
         self.init(
             clusterExists: original.clusterExists, 
@@ -140,7 +140,7 @@ extension Redshift.DescribeClusterSnapshotsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeClusterSubnetGroupsMessage: AWSPaginateable {
+extension Redshift.DescribeClusterSubnetGroupsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeClusterSubnetGroupsMessage, token: String) {
         self.init(
             clusterSubnetGroupName: original.clusterSubnetGroupName, 
@@ -152,7 +152,7 @@ extension Redshift.DescribeClusterSubnetGroupsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeClusterVersionsMessage: AWSPaginateable {
+extension Redshift.DescribeClusterVersionsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeClusterVersionsMessage, token: String) {
         self.init(
             clusterParameterGroupFamily: original.clusterParameterGroupFamily, 
@@ -163,7 +163,7 @@ extension Redshift.DescribeClusterVersionsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeClustersMessage: AWSPaginateable {
+extension Redshift.DescribeClustersMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeClustersMessage, token: String) {
         self.init(
             clusterIdentifier: original.clusterIdentifier, 
@@ -175,7 +175,7 @@ extension Redshift.DescribeClustersMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeEventSubscriptionsMessage: AWSPaginateable {
+extension Redshift.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeEventSubscriptionsMessage, token: String) {
         self.init(
             marker: token, 
@@ -187,7 +187,7 @@ extension Redshift.DescribeEventSubscriptionsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeEventsMessage: AWSPaginateable {
+extension Redshift.DescribeEventsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeEventsMessage, token: String) {
         self.init(
             duration: original.duration, 
@@ -201,7 +201,7 @@ extension Redshift.DescribeEventsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeHsmClientCertificatesMessage: AWSPaginateable {
+extension Redshift.DescribeHsmClientCertificatesMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeHsmClientCertificatesMessage, token: String) {
         self.init(
             hsmClientCertificateIdentifier: original.hsmClientCertificateIdentifier, 
@@ -213,7 +213,7 @@ extension Redshift.DescribeHsmClientCertificatesMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeHsmConfigurationsMessage: AWSPaginateable {
+extension Redshift.DescribeHsmConfigurationsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeHsmConfigurationsMessage, token: String) {
         self.init(
             hsmConfigurationIdentifier: original.hsmConfigurationIdentifier, 
@@ -225,7 +225,7 @@ extension Redshift.DescribeHsmConfigurationsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeNodeConfigurationOptionsMessage: AWSPaginateable {
+extension Redshift.DescribeNodeConfigurationOptionsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeNodeConfigurationOptionsMessage, token: String) {
         self.init(
             actionType: original.actionType, 
@@ -239,7 +239,7 @@ extension Redshift.DescribeNodeConfigurationOptionsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateable {
+extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeOrderableClusterOptionsMessage, token: String) {
         self.init(
             clusterVersion: original.clusterVersion, 
@@ -250,7 +250,7 @@ extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeReservedNodeOfferingsMessage: AWSPaginateable {
+extension Redshift.DescribeReservedNodeOfferingsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeReservedNodeOfferingsMessage, token: String) {
         self.init(
             marker: token, 
@@ -260,7 +260,7 @@ extension Redshift.DescribeReservedNodeOfferingsMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeReservedNodesMessage: AWSPaginateable {
+extension Redshift.DescribeReservedNodesMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeReservedNodesMessage, token: String) {
         self.init(
             marker: token, 
@@ -270,7 +270,7 @@ extension Redshift.DescribeReservedNodesMessage: AWSPaginateable {
     }
 }
 
-extension Redshift.DescribeScheduledActionsMessage: AWSPaginateable {
+extension Redshift.DescribeScheduledActionsMessage: AWSPaginateStringToken {
     public init(_ original: Redshift.DescribeScheduledActionsMessage, token: String) {
         self.init(
             active: original.active, 

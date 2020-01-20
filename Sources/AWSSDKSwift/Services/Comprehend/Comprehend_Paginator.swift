@@ -46,7 +46,7 @@ extension Comprehend {
     
 }
 
-extension Comprehend.ListDocumentClassificationJobsRequest: AWSPaginateable {
+extension Comprehend.ListDocumentClassificationJobsRequest: AWSPaginateStringToken {
     public init(_ original: Comprehend.ListDocumentClassificationJobsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -56,7 +56,7 @@ extension Comprehend.ListDocumentClassificationJobsRequest: AWSPaginateable {
     }
 }
 
-extension Comprehend.ListDocumentClassifiersRequest: AWSPaginateable {
+extension Comprehend.ListDocumentClassifiersRequest: AWSPaginateStringToken {
     public init(_ original: Comprehend.ListDocumentClassifiersRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -66,7 +66,7 @@ extension Comprehend.ListDocumentClassifiersRequest: AWSPaginateable {
     }
 }
 
-extension Comprehend.ListDominantLanguageDetectionJobsRequest: AWSPaginateable {
+extension Comprehend.ListDominantLanguageDetectionJobsRequest: AWSPaginateStringToken {
     public init(_ original: Comprehend.ListDominantLanguageDetectionJobsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -76,7 +76,7 @@ extension Comprehend.ListDominantLanguageDetectionJobsRequest: AWSPaginateable {
     }
 }
 
-extension Comprehend.ListEntitiesDetectionJobsRequest: AWSPaginateable {
+extension Comprehend.ListEntitiesDetectionJobsRequest: AWSPaginateStringToken {
     public init(_ original: Comprehend.ListEntitiesDetectionJobsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -86,7 +86,7 @@ extension Comprehend.ListEntitiesDetectionJobsRequest: AWSPaginateable {
     }
 }
 
-extension Comprehend.ListEntityRecognizersRequest: AWSPaginateable {
+extension Comprehend.ListEntityRecognizersRequest: AWSPaginateStringToken {
     public init(_ original: Comprehend.ListEntityRecognizersRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -96,7 +96,7 @@ extension Comprehend.ListEntityRecognizersRequest: AWSPaginateable {
     }
 }
 
-extension Comprehend.ListKeyPhrasesDetectionJobsRequest: AWSPaginateable {
+extension Comprehend.ListKeyPhrasesDetectionJobsRequest: AWSPaginateStringToken {
     public init(_ original: Comprehend.ListKeyPhrasesDetectionJobsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -106,7 +106,7 @@ extension Comprehend.ListKeyPhrasesDetectionJobsRequest: AWSPaginateable {
     }
 }
 
-extension Comprehend.ListSentimentDetectionJobsRequest: AWSPaginateable {
+extension Comprehend.ListSentimentDetectionJobsRequest: AWSPaginateStringToken {
     public init(_ original: Comprehend.ListSentimentDetectionJobsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -116,7 +116,7 @@ extension Comprehend.ListSentimentDetectionJobsRequest: AWSPaginateable {
     }
 }
 
-extension Comprehend.ListTopicsDetectionJobsRequest: AWSPaginateable {
+extension Comprehend.ListTopicsDetectionJobsRequest: AWSPaginateStringToken {
     public init(_ original: Comprehend.ListTopicsDetectionJobsRequest, token: String) {
         self.init(
             filter: original.filter, 

@@ -136,7 +136,7 @@ extension IAM {
     
 }
 
-extension IAM.GetAccountAuthorizationDetailsRequest: AWSPaginateable {
+extension IAM.GetAccountAuthorizationDetailsRequest: AWSPaginateStringToken {
     public init(_ original: IAM.GetAccountAuthorizationDetailsRequest, token: String) {
         self.init(
             filter: original.filter, 
@@ -146,7 +146,7 @@ extension IAM.GetAccountAuthorizationDetailsRequest: AWSPaginateable {
     }
 }
 
-extension IAM.GetGroupRequest: AWSPaginateable {
+extension IAM.GetGroupRequest: AWSPaginateStringToken {
     public init(_ original: IAM.GetGroupRequest, token: String) {
         self.init(
             groupName: original.groupName, 
@@ -156,7 +156,7 @@ extension IAM.GetGroupRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListAccessKeysRequest: AWSPaginateable {
+extension IAM.ListAccessKeysRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListAccessKeysRequest, token: String) {
         self.init(
             marker: token, 
@@ -166,7 +166,7 @@ extension IAM.ListAccessKeysRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListAccountAliasesRequest: AWSPaginateable {
+extension IAM.ListAccountAliasesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListAccountAliasesRequest, token: String) {
         self.init(
             marker: token, 
@@ -175,7 +175,7 @@ extension IAM.ListAccountAliasesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListAttachedGroupPoliciesRequest: AWSPaginateable {
+extension IAM.ListAttachedGroupPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListAttachedGroupPoliciesRequest, token: String) {
         self.init(
             groupName: original.groupName, 
@@ -186,7 +186,7 @@ extension IAM.ListAttachedGroupPoliciesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListAttachedRolePoliciesRequest: AWSPaginateable {
+extension IAM.ListAttachedRolePoliciesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListAttachedRolePoliciesRequest, token: String) {
         self.init(
             marker: token, 
@@ -197,7 +197,7 @@ extension IAM.ListAttachedRolePoliciesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListAttachedUserPoliciesRequest: AWSPaginateable {
+extension IAM.ListAttachedUserPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListAttachedUserPoliciesRequest, token: String) {
         self.init(
             marker: token, 
@@ -208,7 +208,7 @@ extension IAM.ListAttachedUserPoliciesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListEntitiesForPolicyRequest: AWSPaginateable {
+extension IAM.ListEntitiesForPolicyRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListEntitiesForPolicyRequest, token: String) {
         self.init(
             entityFilter: original.entityFilter, 
@@ -221,7 +221,7 @@ extension IAM.ListEntitiesForPolicyRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListGroupPoliciesRequest: AWSPaginateable {
+extension IAM.ListGroupPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListGroupPoliciesRequest, token: String) {
         self.init(
             groupName: original.groupName, 
@@ -231,7 +231,7 @@ extension IAM.ListGroupPoliciesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListGroupsRequest: AWSPaginateable {
+extension IAM.ListGroupsRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListGroupsRequest, token: String) {
         self.init(
             marker: token, 
@@ -241,7 +241,7 @@ extension IAM.ListGroupsRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListGroupsForUserRequest: AWSPaginateable {
+extension IAM.ListGroupsForUserRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListGroupsForUserRequest, token: String) {
         self.init(
             marker: token, 
@@ -251,7 +251,7 @@ extension IAM.ListGroupsForUserRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListInstanceProfilesRequest: AWSPaginateable {
+extension IAM.ListInstanceProfilesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListInstanceProfilesRequest, token: String) {
         self.init(
             marker: token, 
@@ -261,7 +261,7 @@ extension IAM.ListInstanceProfilesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateable {
+extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListInstanceProfilesForRoleRequest, token: String) {
         self.init(
             marker: token, 
@@ -271,7 +271,7 @@ extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListMFADevicesRequest: AWSPaginateable {
+extension IAM.ListMFADevicesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListMFADevicesRequest, token: String) {
         self.init(
             marker: token, 
@@ -281,7 +281,7 @@ extension IAM.ListMFADevicesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListPoliciesRequest: AWSPaginateable {
+extension IAM.ListPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListPoliciesRequest, token: String) {
         self.init(
             marker: token, 
@@ -294,7 +294,7 @@ extension IAM.ListPoliciesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListPolicyVersionsRequest: AWSPaginateable {
+extension IAM.ListPolicyVersionsRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListPolicyVersionsRequest, token: String) {
         self.init(
             marker: token, 
@@ -304,7 +304,7 @@ extension IAM.ListPolicyVersionsRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListRolePoliciesRequest: AWSPaginateable {
+extension IAM.ListRolePoliciesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListRolePoliciesRequest, token: String) {
         self.init(
             marker: token, 
@@ -314,7 +314,7 @@ extension IAM.ListRolePoliciesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListRolesRequest: AWSPaginateable {
+extension IAM.ListRolesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListRolesRequest, token: String) {
         self.init(
             marker: token, 
@@ -324,7 +324,7 @@ extension IAM.ListRolesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListSSHPublicKeysRequest: AWSPaginateable {
+extension IAM.ListSSHPublicKeysRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListSSHPublicKeysRequest, token: String) {
         self.init(
             marker: token, 
@@ -334,7 +334,7 @@ extension IAM.ListSSHPublicKeysRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListServerCertificatesRequest: AWSPaginateable {
+extension IAM.ListServerCertificatesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListServerCertificatesRequest, token: String) {
         self.init(
             marker: token, 
@@ -344,7 +344,7 @@ extension IAM.ListServerCertificatesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListSigningCertificatesRequest: AWSPaginateable {
+extension IAM.ListSigningCertificatesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListSigningCertificatesRequest, token: String) {
         self.init(
             marker: token, 
@@ -354,7 +354,7 @@ extension IAM.ListSigningCertificatesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListUserPoliciesRequest: AWSPaginateable {
+extension IAM.ListUserPoliciesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListUserPoliciesRequest, token: String) {
         self.init(
             marker: token, 
@@ -364,7 +364,7 @@ extension IAM.ListUserPoliciesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListUsersRequest: AWSPaginateable {
+extension IAM.ListUsersRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListUsersRequest, token: String) {
         self.init(
             marker: token, 
@@ -374,7 +374,7 @@ extension IAM.ListUsersRequest: AWSPaginateable {
     }
 }
 
-extension IAM.ListVirtualMFADevicesRequest: AWSPaginateable {
+extension IAM.ListVirtualMFADevicesRequest: AWSPaginateStringToken {
     public init(_ original: IAM.ListVirtualMFADevicesRequest, token: String) {
         self.init(
             assignmentStatus: original.assignmentStatus, 
@@ -384,7 +384,7 @@ extension IAM.ListVirtualMFADevicesRequest: AWSPaginateable {
     }
 }
 
-extension IAM.SimulateCustomPolicyRequest: AWSPaginateable {
+extension IAM.SimulateCustomPolicyRequest: AWSPaginateStringToken {
     public init(_ original: IAM.SimulateCustomPolicyRequest, token: String) {
         self.init(
             actionNames: original.actionNames, 
@@ -401,7 +401,7 @@ extension IAM.SimulateCustomPolicyRequest: AWSPaginateable {
     }
 }
 
-extension IAM.SimulatePrincipalPolicyRequest: AWSPaginateable {
+extension IAM.SimulatePrincipalPolicyRequest: AWSPaginateStringToken {
     public init(_ original: IAM.SimulatePrincipalPolicyRequest, token: String) {
         self.init(
             actionNames: original.actionNames, 

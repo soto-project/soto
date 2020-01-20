@@ -36,7 +36,7 @@ extension PinpointEmail {
     
 }
 
-extension PinpointEmail.GetDedicatedIpsRequest: AWSPaginateable {
+extension PinpointEmail.GetDedicatedIpsRequest: AWSPaginateStringToken {
     public init(_ original: PinpointEmail.GetDedicatedIpsRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -46,7 +46,7 @@ extension PinpointEmail.GetDedicatedIpsRequest: AWSPaginateable {
     }
 }
 
-extension PinpointEmail.ListConfigurationSetsRequest: AWSPaginateable {
+extension PinpointEmail.ListConfigurationSetsRequest: AWSPaginateStringToken {
     public init(_ original: PinpointEmail.ListConfigurationSetsRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -55,7 +55,7 @@ extension PinpointEmail.ListConfigurationSetsRequest: AWSPaginateable {
     }
 }
 
-extension PinpointEmail.ListDedicatedIpPoolsRequest: AWSPaginateable {
+extension PinpointEmail.ListDedicatedIpPoolsRequest: AWSPaginateStringToken {
     public init(_ original: PinpointEmail.ListDedicatedIpPoolsRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -64,7 +64,7 @@ extension PinpointEmail.ListDedicatedIpPoolsRequest: AWSPaginateable {
     }
 }
 
-extension PinpointEmail.ListDeliverabilityTestReportsRequest: AWSPaginateable {
+extension PinpointEmail.ListDeliverabilityTestReportsRequest: AWSPaginateStringToken {
     public init(_ original: PinpointEmail.ListDeliverabilityTestReportsRequest, token: String) {
         self.init(
             nextToken: token, 
@@ -73,7 +73,7 @@ extension PinpointEmail.ListDeliverabilityTestReportsRequest: AWSPaginateable {
     }
 }
 
-extension PinpointEmail.ListDomainDeliverabilityCampaignsRequest: AWSPaginateable {
+extension PinpointEmail.ListDomainDeliverabilityCampaignsRequest: AWSPaginateStringToken {
     public init(_ original: PinpointEmail.ListDomainDeliverabilityCampaignsRequest, token: String) {
         self.init(
             endDate: original.endDate, 
@@ -85,7 +85,7 @@ extension PinpointEmail.ListDomainDeliverabilityCampaignsRequest: AWSPaginateabl
     }
 }
 
-extension PinpointEmail.ListEmailIdentitiesRequest: AWSPaginateable {
+extension PinpointEmail.ListEmailIdentitiesRequest: AWSPaginateStringToken {
     public init(_ original: PinpointEmail.ListEmailIdentitiesRequest, token: String) {
         self.init(
             nextToken: token, 

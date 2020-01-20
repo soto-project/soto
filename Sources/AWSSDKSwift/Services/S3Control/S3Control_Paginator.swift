@@ -16,7 +16,7 @@ extension S3Control {
     
 }
 
-extension S3Control.ListAccessPointsRequest: AWSPaginateable {
+extension S3Control.ListAccessPointsRequest: AWSPaginateStringToken {
     public init(_ original: S3Control.ListAccessPointsRequest, token: String) {
         self.init(
             accountId: original.accountId, 
@@ -27,7 +27,7 @@ extension S3Control.ListAccessPointsRequest: AWSPaginateable {
     }
 }
 
-extension S3Control.ListJobsRequest: AWSPaginateable {
+extension S3Control.ListJobsRequest: AWSPaginateStringToken {
     public init(_ original: S3Control.ListJobsRequest, token: String) {
         self.init(
             accountId: original.accountId, 

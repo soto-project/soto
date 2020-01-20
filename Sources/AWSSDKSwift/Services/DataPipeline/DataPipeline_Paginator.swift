@@ -21,7 +21,7 @@ extension DataPipeline {
     
 }
 
-extension DataPipeline.DescribeObjectsInput: AWSPaginateable {
+extension DataPipeline.DescribeObjectsInput: AWSPaginateStringToken {
     public init(_ original: DataPipeline.DescribeObjectsInput, token: String) {
         self.init(
             evaluateExpressions: original.evaluateExpressions, 
@@ -32,7 +32,7 @@ extension DataPipeline.DescribeObjectsInput: AWSPaginateable {
     }
 }
 
-extension DataPipeline.ListPipelinesInput: AWSPaginateable {
+extension DataPipeline.ListPipelinesInput: AWSPaginateStringToken {
     public init(_ original: DataPipeline.ListPipelinesInput, token: String) {
         self.init(
             marker: token
@@ -40,7 +40,7 @@ extension DataPipeline.ListPipelinesInput: AWSPaginateable {
     }
 }
 
-extension DataPipeline.QueryObjectsInput: AWSPaginateable {
+extension DataPipeline.QueryObjectsInput: AWSPaginateStringToken {
     public init(_ original: DataPipeline.QueryObjectsInput, token: String) {
         self.init(
             limit: original.limit, 
