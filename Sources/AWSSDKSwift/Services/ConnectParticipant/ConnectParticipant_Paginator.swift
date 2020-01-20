@@ -6,7 +6,7 @@ extension ConnectParticipant {
 
     ///  Retrieves a transcript of the session. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
     public func getTranscriptPaginator(_ input: GetTranscriptRequest) -> EventLoopFuture<[Item]> {
-        return client.paginate(input: input, command: getTranscript, resultKey: "transcript", tokenKey: "nextToken")
+        return client.paginate(input: input, command: getTranscript, resultKey: \.transcript, tokenKey: \.nextToken)
     }
     
 }

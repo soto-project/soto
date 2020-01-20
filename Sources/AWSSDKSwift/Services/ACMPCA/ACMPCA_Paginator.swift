@@ -6,17 +6,17 @@ extension ACMPCA {
 
     ///  Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
     public func listCertificateAuthoritiesPaginator(_ input: ListCertificateAuthoritiesRequest) -> EventLoopFuture<[CertificateAuthority]> {
-        return client.paginate(input: input, command: listCertificateAuthorities, resultKey: "certificateAuthorities", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listCertificateAuthorities, resultKey: \.certificateAuthorities, tokenKey: \.nextToken)
     }
     
     ///  Lists all the permissions, if any, that have been assigned by a private CA. Permissions can be granted with the CreatePermission action and revoked with the DeletePermission action.
     public func listPermissionsPaginator(_ input: ListPermissionsRequest) -> EventLoopFuture<[Permission]> {
-        return client.paginate(input: input, command: listPermissions, resultKey: "permissions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listPermissions, resultKey: \.permissions, tokenKey: \.nextToken)
     }
     
     ///  Lists the tags, if any, that are associated with your private CA. Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. Call the TagCertificateAuthority action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags. 
     public func listTagsPaginator(_ input: ListTagsRequest) -> EventLoopFuture<[Tag]> {
-        return client.paginate(input: input, command: listTags, resultKey: "tags", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listTags, resultKey: \.tags, tokenKey: \.nextToken)
     }
     
 }

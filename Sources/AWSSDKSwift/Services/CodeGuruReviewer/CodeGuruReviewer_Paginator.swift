@@ -6,7 +6,7 @@ extension CodeGuruReviewer {
 
     ///  Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
     public func listRepositoryAssociationsPaginator(_ input: ListRepositoryAssociationsRequest) -> EventLoopFuture<[RepositoryAssociationSummary]> {
-        return client.paginate(input: input, command: listRepositoryAssociations, resultKey: "repositoryAssociationSummaries", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listRepositoryAssociations, resultKey: \.repositoryAssociationSummaries, tokenKey: \.nextToken)
     }
     
 }

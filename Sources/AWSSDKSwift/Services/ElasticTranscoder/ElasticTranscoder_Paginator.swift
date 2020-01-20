@@ -6,22 +6,22 @@ extension ElasticTranscoder {
 
     ///  The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline. Elastic Transcoder returns all of the jobs currently in the specified pipeline. The response body contains one element for each job that satisfies the search criteria.
     public func listJobsByPipelinePaginator(_ input: ListJobsByPipelineRequest) -> EventLoopFuture<[Job]> {
-        return client.paginate(input: input, command: listJobsByPipeline, resultKey: "jobs", tokenKey: "nextPageToken")
+        return client.paginate(input: input, command: listJobsByPipeline, resultKey: \.jobs, tokenKey: \.nextPageToken)
     }
     
     ///  The ListJobsByStatus operation gets a list of jobs that have a specified status. The response body contains one element for each job that satisfies the search criteria.
     public func listJobsByStatusPaginator(_ input: ListJobsByStatusRequest) -> EventLoopFuture<[Job]> {
-        return client.paginate(input: input, command: listJobsByStatus, resultKey: "jobs", tokenKey: "nextPageToken")
+        return client.paginate(input: input, command: listJobsByStatus, resultKey: \.jobs, tokenKey: \.nextPageToken)
     }
     
     ///  The ListPipelines operation gets a list of the pipelines associated with the current AWS account.
     public func listPipelinesPaginator(_ input: ListPipelinesRequest) -> EventLoopFuture<[Pipeline]> {
-        return client.paginate(input: input, command: listPipelines, resultKey: "pipelines", tokenKey: "nextPageToken")
+        return client.paginate(input: input, command: listPipelines, resultKey: \.pipelines, tokenKey: \.nextPageToken)
     }
     
     ///  The ListPresets operation gets a list of the default presets included with Elastic Transcoder and the presets that you've added in an AWS region.
     public func listPresetsPaginator(_ input: ListPresetsRequest) -> EventLoopFuture<[Preset]> {
-        return client.paginate(input: input, command: listPresets, resultKey: "presets", tokenKey: "nextPageToken")
+        return client.paginate(input: input, command: listPresets, resultKey: \.presets, tokenKey: \.nextPageToken)
     }
     
 }

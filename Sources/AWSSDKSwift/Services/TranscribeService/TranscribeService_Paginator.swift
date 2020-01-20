@@ -6,17 +6,17 @@ extension TranscribeService {
 
     ///  Lists transcription jobs with the specified status.
     public func listTranscriptionJobsPaginator(_ input: ListTranscriptionJobsRequest) -> EventLoopFuture<[TranscriptionJobSummary]> {
-        return client.paginate(input: input, command: listTranscriptionJobs, resultKey: "transcriptionJobSummaries", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listTranscriptionJobs, resultKey: \.transcriptionJobSummaries, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list of vocabularies.
     public func listVocabulariesPaginator(_ input: ListVocabulariesRequest) -> EventLoopFuture<[VocabularyInfo]> {
-        return client.paginate(input: input, command: listVocabularies, resultKey: "vocabularies", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listVocabularies, resultKey: \.vocabularies, tokenKey: \.nextToken)
     }
     
     ///  Gets information about vocabulary filters.
     public func listVocabularyFiltersPaginator(_ input: ListVocabularyFiltersRequest) -> EventLoopFuture<[VocabularyFilterInfo]> {
-        return client.paginate(input: input, command: listVocabularyFilters, resultKey: "vocabularyFilters", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listVocabularyFilters, resultKey: \.vocabularyFilters, tokenKey: \.nextToken)
     }
     
 }

@@ -6,12 +6,12 @@ extension Translate {
 
     ///  Provides a list of custom terminologies associated with your account.
     public func listTerminologiesPaginator(_ input: ListTerminologiesRequest) -> EventLoopFuture<[TerminologyProperties]> {
-        return client.paginate(input: input, command: listTerminologies, resultKey: "terminologyPropertiesList", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listTerminologies, resultKey: \.terminologyPropertiesList, tokenKey: \.nextToken)
     }
     
     ///  Gets a list of the batch translation jobs that you have submitted.
     public func listTextTranslationJobsPaginator(_ input: ListTextTranslationJobsRequest) -> EventLoopFuture<[TextTranslationJobProperties]> {
-        return client.paginate(input: input, command: listTextTranslationJobs, resultKey: "textTranslationJobPropertiesList", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listTextTranslationJobs, resultKey: \.textTranslationJobPropertiesList, tokenKey: \.nextToken)
     }
     
 }

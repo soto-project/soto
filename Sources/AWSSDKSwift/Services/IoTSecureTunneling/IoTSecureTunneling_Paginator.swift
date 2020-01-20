@@ -6,7 +6,7 @@ extension IoTSecureTunneling {
 
     ///  List all tunnels for an AWS account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels.
     public func listTunnelsPaginator(_ input: ListTunnelsRequest) -> EventLoopFuture<[TunnelSummary]> {
-        return client.paginate(input: input, command: listTunnels, resultKey: "tunnelSummaries", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listTunnels, resultKey: \.tunnelSummaries, tokenKey: \.nextToken)
     }
     
 }

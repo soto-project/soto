@@ -6,12 +6,7 @@ extension Kinesis {
 
     ///  Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 10 transactions per second per account.
     public func listStreamConsumersPaginator(_ input: ListStreamConsumersInput) -> EventLoopFuture<[Consumer]> {
-        return client.paginate(input: input, command: listStreamConsumers, resultKey: "consumers", tokenKey: "nextToken")
-    }
-    
-    ///  Lists your Kinesis data streams. The number of streams may be too large to return from a single call to ListStreams. You can limit the number of returned streams using the Limit parameter. If you do not specify a value for the Limit parameter, Kinesis Data Streams uses the default limit, which is currently 10. You can detect if there are more streams available to list by using the HasMoreStreams flag from the returned output. If there are more streams available, you can request more streams by using the name of the last stream returned by the ListStreams request in the ExclusiveStartStreamName parameter in a subsequent request to ListStreams. The group of stream names returned by the subsequent request is then added to the list. You can continue this process until all the stream names have been collected in the list.   ListStreams has a limit of five transactions per second per account.
-    public func listStreamsPaginator(_ input: ListStreamsInput) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listStreams, resultKey: "streamNames", tokenKey: "streamNames[1]")
+        return client.paginate(input: input, command: listStreamConsumers, resultKey: \.consumers, tokenKey: \.nextToken)
     }
     
 }
@@ -23,15 +18,6 @@ extension Kinesis.ListStreamConsumersInput: AWSPaginateStringToken {
             nextToken: token, 
             streamARN: original.streamARN, 
             streamCreationTimestamp: original.streamCreationTimestamp
-        )
-    }
-}
-
-extension Kinesis.ListStreamsInput: AWSPaginateStringToken {
-    public init(_ original: Kinesis.ListStreamsInput, token: String) {
-        self.init(
-            exclusiveStartStreamName: token, 
-            limit: original.limit
         )
     }
 }

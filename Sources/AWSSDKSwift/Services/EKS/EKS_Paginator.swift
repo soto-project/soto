@@ -6,22 +6,22 @@ extension EKS {
 
     ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
     public func listClustersPaginator(_ input: ListClustersRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listClusters, resultKey: "clusters", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listClusters, resultKey: \.clusters, tokenKey: \.nextToken)
     }
     
     ///  Lists the AWS Fargate profiles associated with the specified cluster in your AWS account in the specified Region.
     public func listFargateProfilesPaginator(_ input: ListFargateProfilesRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listFargateProfiles, resultKey: "fargateProfileNames", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listFargateProfiles, resultKey: \.fargateProfileNames, tokenKey: \.nextToken)
     }
     
     ///  Lists the Amazon EKS node groups associated with the specified cluster in your AWS account in the specified Region.
     public func listNodegroupsPaginator(_ input: ListNodegroupsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listNodegroups, resultKey: "nodegroups", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listNodegroups, resultKey: \.nodegroups, tokenKey: \.nextToken)
     }
     
     ///  Lists the updates associated with an Amazon EKS cluster or managed node group in your AWS account, in the specified Region.
     public func listUpdatesPaginator(_ input: ListUpdatesRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listUpdates, resultKey: "updateIds", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listUpdates, resultKey: \.updateIds, tokenKey: \.nextToken)
     }
     
 }

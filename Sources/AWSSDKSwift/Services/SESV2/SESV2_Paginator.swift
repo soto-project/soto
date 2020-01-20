@@ -6,37 +6,37 @@ extension SESV2 {
 
     ///  List the dedicated IP addresses that are associated with your AWS account.
     public func getDedicatedIpsPaginator(_ input: GetDedicatedIpsRequest) -> EventLoopFuture<[DedicatedIp]> {
-        return client.paginate(input: input, command: getDedicatedIps, resultKey: "dedicatedIps", tokenKey: "nextToken")
+        return client.paginate(input: input, command: getDedicatedIps, resultKey: \.dedicatedIps, tokenKey: \.nextToken)
     }
     
     ///  List all of the configuration sets associated with your account in the current region.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     public func listConfigurationSetsPaginator(_ input: ListConfigurationSetsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listConfigurationSets, resultKey: "configurationSets", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listConfigurationSets, resultKey: \.configurationSets, tokenKey: \.nextToken)
     }
     
     ///  List all of the dedicated IP pools that exist in your AWS account in the current Region.
     public func listDedicatedIpPoolsPaginator(_ input: ListDedicatedIpPoolsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listDedicatedIpPools, resultKey: "dedicatedIpPools", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listDedicatedIpPools, resultKey: \.dedicatedIpPools, tokenKey: \.nextToken)
     }
     
     ///  Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
     public func listDeliverabilityTestReportsPaginator(_ input: ListDeliverabilityTestReportsRequest) -> EventLoopFuture<[DeliverabilityTestReport]> {
-        return client.paginate(input: input, command: listDeliverabilityTestReports, resultKey: "deliverabilityTestReports", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listDeliverabilityTestReports, resultKey: \.deliverabilityTestReports, tokenKey: \.nextToken)
     }
     
     ///  Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
     public func listDomainDeliverabilityCampaignsPaginator(_ input: ListDomainDeliverabilityCampaignsRequest) -> EventLoopFuture<[DomainDeliverabilityCampaign]> {
-        return client.paginate(input: input, command: listDomainDeliverabilityCampaigns, resultKey: "domainDeliverabilityCampaigns", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listDomainDeliverabilityCampaigns, resultKey: \.domainDeliverabilityCampaigns, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of all of the email identities that are associated with your AWS account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
     public func listEmailIdentitiesPaginator(_ input: ListEmailIdentitiesRequest) -> EventLoopFuture<[IdentityInfo]> {
-        return client.paginate(input: input, command: listEmailIdentities, resultKey: "emailIdentities", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listEmailIdentities, resultKey: \.emailIdentities, tokenKey: \.nextToken)
     }
     
     ///  Retrieves a list of email addresses that are on the suppression list for your account.
     public func listSuppressedDestinationsPaginator(_ input: ListSuppressedDestinationsRequest) -> EventLoopFuture<[SuppressedDestinationSummary]> {
-        return client.paginate(input: input, command: listSuppressedDestinations, resultKey: "suppressedDestinationSummaries", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listSuppressedDestinations, resultKey: \.suppressedDestinationSummaries, tokenKey: \.nextToken)
     }
     
 }

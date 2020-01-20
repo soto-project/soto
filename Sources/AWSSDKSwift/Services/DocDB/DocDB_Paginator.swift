@@ -6,32 +6,32 @@ extension DocDB {
 
     ///  Returns information about provisioned Amazon DocumentDB DB clusters. This API operation supports pagination.
     public func describeDBClustersPaginator(_ input: DescribeDBClustersMessage) -> EventLoopFuture<[DBCluster]> {
-        return client.paginate(input: input, command: describeDBClusters, resultKey: "dBClusters", tokenKey: "marker")
+        return client.paginate(input: input, command: describeDBClusters, resultKey: \.dBClusters, tokenKey: \.marker)
     }
     
     ///  Returns a list of the available DB engines.
     public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage) -> EventLoopFuture<[DBEngineVersion]> {
-        return client.paginate(input: input, command: describeDBEngineVersions, resultKey: "dBEngineVersions", tokenKey: "marker")
+        return client.paginate(input: input, command: describeDBEngineVersions, resultKey: \.dBEngineVersions, tokenKey: \.marker)
     }
     
     ///  Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
     public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage) -> EventLoopFuture<[DBInstance]> {
-        return client.paginate(input: input, command: describeDBInstances, resultKey: "dBInstances", tokenKey: "marker")
+        return client.paginate(input: input, command: describeDBInstances, resultKey: \.dBInstances, tokenKey: \.marker)
     }
     
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
     public func describeDBSubnetGroupsPaginator(_ input: DescribeDBSubnetGroupsMessage) -> EventLoopFuture<[DBSubnetGroup]> {
-        return client.paginate(input: input, command: describeDBSubnetGroups, resultKey: "dBSubnetGroups", tokenKey: "marker")
+        return client.paginate(input: input, command: describeDBSubnetGroups, resultKey: \.dBSubnetGroups, tokenKey: \.marker)
     }
     
     ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, DB security group, DB snapshot, or DB parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
     public func describeEventsPaginator(_ input: DescribeEventsMessage) -> EventLoopFuture<[Event]> {
-        return client.paginate(input: input, command: describeEvents, resultKey: "events", tokenKey: "marker")
+        return client.paginate(input: input, command: describeEvents, resultKey: \.events, tokenKey: \.marker)
     }
     
     ///  Returns a list of orderable DB instance options for the specified engine.
     public func describeOrderableDBInstanceOptionsPaginator(_ input: DescribeOrderableDBInstanceOptionsMessage) -> EventLoopFuture<[OrderableDBInstanceOption]> {
-        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, resultKey: "orderableDBInstanceOptions", tokenKey: "marker")
+        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, resultKey: \.orderableDBInstanceOptions, tokenKey: \.marker)
     }
     
 }

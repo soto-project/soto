@@ -6,17 +6,17 @@ extension Transfer {
 
     ///  Lists the Secure File Transfer Protocol (SFTP) servers that are associated with your AWS account.
     public func listServersPaginator(_ input: ListServersRequest) -> EventLoopFuture<[ListedServer]> {
-        return client.paginate(input: input, command: listServers, resultKey: "servers", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listServers, resultKey: \.servers, tokenKey: \.nextToken)
     }
     
     ///  Lists all of the tags associated with the Amazon Resource Number (ARN) you specify. The resource can be a user, server, or role.
     public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest) -> EventLoopFuture<[Tag]> {
-        return client.paginate(input: input, command: listTagsForResource, resultKey: "tags", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listTagsForResource, resultKey: \.tags, tokenKey: \.nextToken)
     }
     
     ///  Lists the users for the server that you specify by passing the ServerId parameter.
     public func listUsersPaginator(_ input: ListUsersRequest) -> EventLoopFuture<[ListedUser]> {
-        return client.paginate(input: input, command: listUsers, resultKey: "users", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listUsers, resultKey: \.users, tokenKey: \.nextToken)
     }
     
 }

@@ -6,42 +6,42 @@ extension MediaLive {
 
     ///  Get a channel schedule
     public func describeSchedulePaginator(_ input: DescribeScheduleRequest) -> EventLoopFuture<[ScheduleAction]> {
-        return client.paginate(input: input, command: describeSchedule, resultKey: "scheduleActions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeSchedule, resultKey: \.scheduleActions, tokenKey: \.nextToken)
     }
     
     ///  Produces list of channels that have been created
     public func listChannelsPaginator(_ input: ListChannelsRequest) -> EventLoopFuture<[ChannelSummary]> {
-        return client.paginate(input: input, command: listChannels, resultKey: "channels", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listChannels, resultKey: \.channels, tokenKey: \.nextToken)
     }
     
     ///  Produces a list of Input Security Groups for an account
     public func listInputSecurityGroupsPaginator(_ input: ListInputSecurityGroupsRequest) -> EventLoopFuture<[InputSecurityGroup]> {
-        return client.paginate(input: input, command: listInputSecurityGroups, resultKey: "inputSecurityGroups", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listInputSecurityGroups, resultKey: \.inputSecurityGroups, tokenKey: \.nextToken)
     }
     
     ///  Produces list of inputs that have been created
     public func listInputsPaginator(_ input: ListInputsRequest) -> EventLoopFuture<[Input]> {
-        return client.paginate(input: input, command: listInputs, resultKey: "inputs", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listInputs, resultKey: \.inputs, tokenKey: \.nextToken)
     }
     
     ///  List the programs that currently exist for a specific multiplex.
     public func listMultiplexProgramsPaginator(_ input: ListMultiplexProgramsRequest) -> EventLoopFuture<[MultiplexProgramSummary]> {
-        return client.paginate(input: input, command: listMultiplexPrograms, resultKey: "multiplexPrograms", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listMultiplexPrograms, resultKey: \.multiplexPrograms, tokenKey: \.nextToken)
     }
     
     ///  Retrieve a list of the existing multiplexes.
     public func listMultiplexesPaginator(_ input: ListMultiplexesRequest) -> EventLoopFuture<[MultiplexSummary]> {
-        return client.paginate(input: input, command: listMultiplexes, resultKey: "multiplexes", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listMultiplexes, resultKey: \.multiplexes, tokenKey: \.nextToken)
     }
     
     ///  List offerings available for purchase.
     public func listOfferingsPaginator(_ input: ListOfferingsRequest) -> EventLoopFuture<[Offering]> {
-        return client.paginate(input: input, command: listOfferings, resultKey: "offerings", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listOfferings, resultKey: \.offerings, tokenKey: \.nextToken)
     }
     
     ///  List purchased reservations.
     public func listReservationsPaginator(_ input: ListReservationsRequest) -> EventLoopFuture<[Reservation]> {
-        return client.paginate(input: input, command: listReservations, resultKey: "reservations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listReservations, resultKey: \.reservations, tokenKey: \.nextToken)
     }
     
 }

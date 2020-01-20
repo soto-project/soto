@@ -6,42 +6,42 @@ extension Lambda {
 
     ///  Returns a list of aliases for a Lambda function.
     public func listAliasesPaginator(_ input: ListAliasesRequest) -> EventLoopFuture<[AliasConfiguration]> {
-        return client.paginate(input: input, command: listAliases, resultKey: "aliases", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: listAliases, resultKey: \.aliases, tokenKey: \.nextMarker)
     }
     
     ///  Lists event source mappings. Specify an EventSourceArn to only show event source mappings for a single event source.
     public func listEventSourceMappingsPaginator(_ input: ListEventSourceMappingsRequest) -> EventLoopFuture<[EventSourceMappingConfiguration]> {
-        return client.paginate(input: input, command: listEventSourceMappings, resultKey: "eventSourceMappings", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: listEventSourceMappings, resultKey: \.eventSourceMappings, tokenKey: \.nextMarker)
     }
     
     ///  Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     public func listFunctionEventInvokeConfigsPaginator(_ input: ListFunctionEventInvokeConfigsRequest) -> EventLoopFuture<[FunctionEventInvokeConfig]> {
-        return client.paginate(input: input, command: listFunctionEventInvokeConfigs, resultKey: "functionEventInvokeConfigs", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: listFunctionEventInvokeConfigs, resultKey: \.functionEventInvokeConfigs, tokenKey: \.nextMarker)
     }
     
     ///  Returns a list of Lambda functions, with the version-specific configuration of each. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. To get more information about a function or version, use GetFunction.
     public func listFunctionsPaginator(_ input: ListFunctionsRequest) -> EventLoopFuture<[FunctionConfiguration]> {
-        return client.paginate(input: input, command: listFunctions, resultKey: "functions", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: listFunctions, resultKey: \.functions, tokenKey: \.nextMarker)
     }
     
     ///  Lists the versions of an AWS Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime.
     public func listLayerVersionsPaginator(_ input: ListLayerVersionsRequest) -> EventLoopFuture<[LayerVersionsListItem]> {
-        return client.paginate(input: input, command: listLayerVersions, resultKey: "layerVersions", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: listLayerVersions, resultKey: \.layerVersions, tokenKey: \.nextMarker)
     }
     
     ///  Lists AWS Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime.
     public func listLayersPaginator(_ input: ListLayersRequest) -> EventLoopFuture<[LayersListItem]> {
-        return client.paginate(input: input, command: listLayers, resultKey: "layers", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: listLayers, resultKey: \.layers, tokenKey: \.nextMarker)
     }
     
     ///  Retrieves a list of provisioned concurrency configurations for a function.
     public func listProvisionedConcurrencyConfigsPaginator(_ input: ListProvisionedConcurrencyConfigsRequest) -> EventLoopFuture<[ProvisionedConcurrencyConfigListItem]> {
-        return client.paginate(input: input, command: listProvisionedConcurrencyConfigs, resultKey: "provisionedConcurrencyConfigs", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: listProvisionedConcurrencyConfigs, resultKey: \.provisionedConcurrencyConfigs, tokenKey: \.nextMarker)
     }
     
     ///  Returns a list of versions, with the version-specific configuration of each. 
     public func listVersionsByFunctionPaginator(_ input: ListVersionsByFunctionRequest) -> EventLoopFuture<[FunctionConfiguration]> {
-        return client.paginate(input: input, command: listVersionsByFunction, resultKey: "versions", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: listVersionsByFunction, resultKey: \.versions, tokenKey: \.nextMarker)
     }
     
 }

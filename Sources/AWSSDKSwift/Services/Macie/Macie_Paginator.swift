@@ -6,12 +6,12 @@ extension Macie {
 
     ///  Lists all Amazon Macie member accounts for the current Amazon Macie master account.
     public func listMemberAccountsPaginator(_ input: ListMemberAccountsRequest) -> EventLoopFuture<[MemberAccount]> {
-        return client.paginate(input: input, command: listMemberAccounts, resultKey: "memberAccounts", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listMemberAccounts, resultKey: \.memberAccounts, tokenKey: \.nextToken)
     }
     
     ///  Lists all the S3 resources associated with Amazon Macie. If memberAccountId isn't specified, the action lists the S3 resources associated with Amazon Macie for the current master account. If memberAccountId is specified, the action lists the S3 resources associated with Amazon Macie for the specified member account. 
     public func listS3ResourcesPaginator(_ input: ListS3ResourcesRequest) -> EventLoopFuture<[S3ResourceClassification]> {
-        return client.paginate(input: input, command: listS3Resources, resultKey: "s3Resources", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listS3Resources, resultKey: \.s3Resources, tokenKey: \.nextToken)
     }
     
 }

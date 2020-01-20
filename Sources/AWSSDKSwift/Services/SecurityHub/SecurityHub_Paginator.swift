@@ -6,27 +6,27 @@ extension SecurityHub {
 
     ///  Returns a list of the custom action targets in Security Hub in your account.
     public func describeActionTargetsPaginator(_ input: DescribeActionTargetsRequest) -> EventLoopFuture<[ActionTarget]> {
-        return client.paginate(input: input, command: describeActionTargets, resultKey: "actionTargets", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeActionTargets, resultKey: \.actionTargets, tokenKey: \.nextToken)
     }
     
     ///  Returns information about the products available that you can subscribe to and integrate with Security Hub to consolidate findings.
     public func describeProductsPaginator(_ input: DescribeProductsRequest) -> EventLoopFuture<[Product]> {
-        return client.paginate(input: input, command: describeProducts, resultKey: "products", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeProducts, resultKey: \.products, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of findings that match the specified criteria.
     public func getFindingsPaginator(_ input: GetFindingsRequest) -> EventLoopFuture<[AwsSecurityFinding]> {
-        return client.paginate(input: input, command: getFindings, resultKey: "findings", tokenKey: "nextToken")
+        return client.paginate(input: input, command: getFindings, resultKey: \.findings, tokenKey: \.nextToken)
     }
     
     ///  Lists and describes insights that insight ARNs specify.
     public func getInsightsPaginator(_ input: GetInsightsRequest) -> EventLoopFuture<[Insight]> {
-        return client.paginate(input: input, command: getInsights, resultKey: "insights", tokenKey: "nextToken")
+        return client.paginate(input: input, command: getInsights, resultKey: \.insights, tokenKey: \.nextToken)
     }
     
     ///  Lists all findings-generating solutions (products) whose findings you have subscribed to receive in Security Hub.
     public func listEnabledProductsForImportPaginator(_ input: ListEnabledProductsForImportRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listEnabledProductsForImport, resultKey: "productSubscriptions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listEnabledProductsForImport, resultKey: \.productSubscriptions, tokenKey: \.nextToken)
     }
     
 }

@@ -6,12 +6,12 @@ extension Mobile {
 
     ///   List all available bundles. 
     public func listBundlesPaginator(_ input: ListBundlesRequest) -> EventLoopFuture<[BundleDetails]> {
-        return client.paginate(input: input, command: listBundles, resultKey: "bundleList", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listBundles, resultKey: \.bundleList, tokenKey: \.nextToken)
     }
     
     ///   Lists projects in AWS Mobile Hub. 
     public func listProjectsPaginator(_ input: ListProjectsRequest) -> EventLoopFuture<[ProjectSummary]> {
-        return client.paginate(input: input, command: listProjects, resultKey: "projects", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listProjects, resultKey: \.projects, tokenKey: \.nextToken)
     }
     
 }

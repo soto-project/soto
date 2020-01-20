@@ -6,42 +6,42 @@ extension WorkMail {
 
     ///  Creates a paginated call to list the aliases associated with a given entity.
     public func listAliasesPaginator(_ input: ListAliasesRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listAliases, resultKey: "aliases", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listAliases, resultKey: \.aliases, tokenKey: \.nextToken)
     }
     
     ///  Returns an overview of the members of a group. Users and groups can be members of a group.
     public func listGroupMembersPaginator(_ input: ListGroupMembersRequest) -> EventLoopFuture<[Member]> {
-        return client.paginate(input: input, command: listGroupMembers, resultKey: "members", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listGroupMembers, resultKey: \.members, tokenKey: \.nextToken)
     }
     
     ///  Returns summaries of the organization's groups.
     public func listGroupsPaginator(_ input: ListGroupsRequest) -> EventLoopFuture<[Group]> {
-        return client.paginate(input: input, command: listGroups, resultKey: "groups", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listGroups, resultKey: \.groups, tokenKey: \.nextToken)
     }
     
     ///  Lists the mailbox permissions associated with a user, group, or resource mailbox.
     public func listMailboxPermissionsPaginator(_ input: ListMailboxPermissionsRequest) -> EventLoopFuture<[Permission]> {
-        return client.paginate(input: input, command: listMailboxPermissions, resultKey: "permissions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listMailboxPermissions, resultKey: \.permissions, tokenKey: \.nextToken)
     }
     
     ///  Returns summaries of the customer's non-deleted organizations.
     public func listOrganizationsPaginator(_ input: ListOrganizationsRequest) -> EventLoopFuture<[OrganizationSummary]> {
-        return client.paginate(input: input, command: listOrganizations, resultKey: "organizationSummaries", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listOrganizations, resultKey: \.organizationSummaries, tokenKey: \.nextToken)
     }
     
     ///  Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
     public func listResourceDelegatesPaginator(_ input: ListResourceDelegatesRequest) -> EventLoopFuture<[Delegate]> {
-        return client.paginate(input: input, command: listResourceDelegates, resultKey: "delegates", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listResourceDelegates, resultKey: \.delegates, tokenKey: \.nextToken)
     }
     
     ///  Returns summaries of the organization's resources.
     public func listResourcesPaginator(_ input: ListResourcesRequest) -> EventLoopFuture<[Resource]> {
-        return client.paginate(input: input, command: listResources, resultKey: "resources", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listResources, resultKey: \.resources, tokenKey: \.nextToken)
     }
     
     ///  Returns summaries of the organization's users.
     public func listUsersPaginator(_ input: ListUsersRequest) -> EventLoopFuture<[User]> {
-        return client.paginate(input: input, command: listUsers, resultKey: "users", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listUsers, resultKey: \.users, tokenKey: \.nextToken)
     }
     
 }

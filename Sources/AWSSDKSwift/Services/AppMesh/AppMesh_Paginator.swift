@@ -6,32 +6,32 @@ extension AppMesh {
 
     ///  Returns a list of existing service meshes.
     public func listMeshesPaginator(_ input: ListMeshesInput) -> EventLoopFuture<[MeshRef]> {
-        return client.paginate(input: input, command: listMeshes, resultKey: "meshes", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listMeshes, resultKey: \.meshes, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of existing routes in a service mesh.
     public func listRoutesPaginator(_ input: ListRoutesInput) -> EventLoopFuture<[RouteRef]> {
-        return client.paginate(input: input, command: listRoutes, resultKey: "routes", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listRoutes, resultKey: \.routes, tokenKey: \.nextToken)
     }
     
     ///  List the tags for an App Mesh resource.
     public func listTagsForResourcePaginator(_ input: ListTagsForResourceInput) -> EventLoopFuture<[TagRef]> {
-        return client.paginate(input: input, command: listTagsForResource, resultKey: "tags", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listTagsForResource, resultKey: \.tags, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of existing virtual nodes.
     public func listVirtualNodesPaginator(_ input: ListVirtualNodesInput) -> EventLoopFuture<[VirtualNodeRef]> {
-        return client.paginate(input: input, command: listVirtualNodes, resultKey: "virtualNodes", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listVirtualNodes, resultKey: \.virtualNodes, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of existing virtual routers in a service mesh.
     public func listVirtualRoutersPaginator(_ input: ListVirtualRoutersInput) -> EventLoopFuture<[VirtualRouterRef]> {
-        return client.paginate(input: input, command: listVirtualRouters, resultKey: "virtualRouters", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listVirtualRouters, resultKey: \.virtualRouters, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of existing virtual services in a service mesh.
     public func listVirtualServicesPaginator(_ input: ListVirtualServicesInput) -> EventLoopFuture<[VirtualServiceRef]> {
-        return client.paginate(input: input, command: listVirtualServices, resultKey: "virtualServices", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listVirtualServices, resultKey: \.virtualServices, tokenKey: \.nextToken)
     }
     
 }

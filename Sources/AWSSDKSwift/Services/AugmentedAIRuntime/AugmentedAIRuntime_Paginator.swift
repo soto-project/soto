@@ -6,7 +6,7 @@ extension AugmentedAIRuntime {
 
     ///  Returns information about human loops, given the specified parameters.
     public func listHumanLoopsPaginator(_ input: ListHumanLoopsRequest) -> EventLoopFuture<[HumanLoopSummary]> {
-        return client.paginate(input: input, command: listHumanLoops, resultKey: "humanLoopSummaries", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listHumanLoops, resultKey: \.humanLoopSummaries, tokenKey: \.nextToken)
     }
     
 }

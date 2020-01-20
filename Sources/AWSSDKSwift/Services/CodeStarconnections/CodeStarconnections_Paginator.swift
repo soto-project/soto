@@ -6,7 +6,7 @@ extension CodeStarconnections {
 
     ///  Lists the connections associated with your account.
     public func listConnectionsPaginator(_ input: ListConnectionsInput) -> EventLoopFuture<[Connection]> {
-        return client.paginate(input: input, command: listConnections, resultKey: "connections", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listConnections, resultKey: \.connections, tokenKey: \.nextToken)
     }
     
 }

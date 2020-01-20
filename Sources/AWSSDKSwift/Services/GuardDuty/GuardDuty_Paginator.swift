@@ -6,42 +6,42 @@ extension GuardDuty {
 
     ///  Lists detectorIds of all the existing Amazon GuardDuty detector resources.
     public func listDetectorsPaginator(_ input: ListDetectorsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listDetectors, resultKey: "detectorIds", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listDetectors, resultKey: \.detectorIds, tokenKey: \.nextToken)
     }
     
     ///  Returns a paginated list of the current filters.
     public func listFiltersPaginator(_ input: ListFiltersRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listFilters, resultKey: "filterNames", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listFilters, resultKey: \.filterNames, tokenKey: \.nextToken)
     }
     
     ///  Lists Amazon GuardDuty findings for the specified detector ID.
     public func listFindingsPaginator(_ input: ListFindingsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listFindings, resultKey: "findingIds", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listFindings, resultKey: \.findingIds, tokenKey: \.nextToken)
     }
     
     ///  Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated master account.
     public func listIPSetsPaginator(_ input: ListIPSetsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listIPSets, resultKey: "ipSetIds", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listIPSets, resultKey: \.ipSetIds, tokenKey: \.nextToken)
     }
     
     ///  Lists all GuardDuty membership invitations that were sent to the current AWS account.
     public func listInvitationsPaginator(_ input: ListInvitationsRequest) -> EventLoopFuture<[Invitation]> {
-        return client.paginate(input: input, command: listInvitations, resultKey: "invitations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listInvitations, resultKey: \.invitations, tokenKey: \.nextToken)
     }
     
     ///  Lists details about all member accounts for the current GuardDuty master account.
     public func listMembersPaginator(_ input: ListMembersRequest) -> EventLoopFuture<[Member]> {
-        return client.paginate(input: input, command: listMembers, resultKey: "members", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listMembers, resultKey: \.members, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of publishing destinations associated with the specified dectectorId.
     public func listPublishingDestinationsPaginator(_ input: ListPublishingDestinationsRequest) -> EventLoopFuture<[Destination]> {
-        return client.paginate(input: input, command: listPublishingDestinations, resultKey: "destinations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listPublishingDestinations, resultKey: \.destinations, tokenKey: \.nextToken)
     }
     
     ///  Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the master account are returned.
     public func listThreatIntelSetsPaginator(_ input: ListThreatIntelSetsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listThreatIntelSets, resultKey: "threatIntelSetIds", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listThreatIntelSets, resultKey: \.threatIntelSetIds, tokenKey: \.nextToken)
     }
     
 }

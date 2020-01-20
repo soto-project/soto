@@ -563,11 +563,13 @@ extension AWSService {
             guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == resultKeys[0]}) else { continue }
             guard case .list(let listShape,_,_) = resultsMember.shape.type else { continue }
 
-            if resultKeys.count == 2 {
+            /*if resultKeys.count == 2 {
                 print("Two result arrays in \(serviceName).\(inputShape.name)")
             } else if resultKeys.count > 2 {
                 print("More then two result arrays in \(serviceName).\(inputShape.name)")
-            }
+            }*/
+            
+            guard !paginator.outputTokens[0].contains("[-1]") else { print("Array index[-1] in \(serviceName).\(inputShape.name)"); continue }
             
             var initParams: [String: String] = [:]
             for member in inputShapeStruct.members {

@@ -6,17 +6,17 @@ extension ServerlessApplicationRepository {
 
     ///  Retrieves the list of applications nested in the containing application.
     public func listApplicationDependenciesPaginator(_ input: ListApplicationDependenciesRequest) -> EventLoopFuture<[ApplicationDependencySummary]> {
-        return client.paginate(input: input, command: listApplicationDependencies, resultKey: "dependencies", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listApplicationDependencies, resultKey: \.dependencies, tokenKey: \.nextToken)
     }
     
     ///  Lists versions for the specified application.
     public func listApplicationVersionsPaginator(_ input: ListApplicationVersionsRequest) -> EventLoopFuture<[VersionSummary]> {
-        return client.paginate(input: input, command: listApplicationVersions, resultKey: "versions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listApplicationVersions, resultKey: \.versions, tokenKey: \.nextToken)
     }
     
     ///  Lists applications owned by the requester.
     public func listApplicationsPaginator(_ input: ListApplicationsRequest) -> EventLoopFuture<[ApplicationSummary]> {
-        return client.paginate(input: input, command: listApplications, resultKey: "applications", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listApplications, resultKey: \.applications, tokenKey: \.nextToken)
     }
     
 }

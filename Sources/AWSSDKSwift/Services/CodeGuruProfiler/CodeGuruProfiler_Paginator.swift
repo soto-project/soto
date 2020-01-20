@@ -6,12 +6,12 @@ extension CodeGuruProfiler {
 
     ///  List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
     public func listProfileTimesPaginator(_ input: ListProfileTimesRequest) -> EventLoopFuture<[ProfileTime]> {
-        return client.paginate(input: input, command: listProfileTimes, resultKey: "profileTimes", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listProfileTimes, resultKey: \.profileTimes, tokenKey: \.nextToken)
     }
     
     ///  List profiling groups in the account.
     public func listProfilingGroupsPaginator(_ input: ListProfilingGroupsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listProfilingGroups, resultKey: "profilingGroupNames", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listProfilingGroups, resultKey: \.profilingGroupNames, tokenKey: \.nextToken)
     }
     
 }

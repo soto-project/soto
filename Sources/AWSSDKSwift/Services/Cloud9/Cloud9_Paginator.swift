@@ -6,12 +6,12 @@ extension Cloud9 {
 
     ///  Gets information about environment members for an AWS Cloud9 development environment.
     public func describeEnvironmentMembershipsPaginator(_ input: DescribeEnvironmentMembershipsRequest) -> EventLoopFuture<[EnvironmentMember]> {
-        return client.paginate(input: input, command: describeEnvironmentMemberships, resultKey: "memberships", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeEnvironmentMemberships, resultKey: \.memberships, tokenKey: \.nextToken)
     }
     
     ///  Gets a list of AWS Cloud9 development environment identifiers.
     public func listEnvironmentsPaginator(_ input: ListEnvironmentsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listEnvironments, resultKey: "environmentIds", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listEnvironments, resultKey: \.environmentIds, tokenKey: \.nextToken)
     }
     
 }

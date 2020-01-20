@@ -6,7 +6,7 @@ extension AWSDirectoryService {
 
     ///  Provides information about any domain controllers in your directory.
     public func describeDomainControllersPaginator(_ input: DescribeDomainControllersRequest) -> EventLoopFuture<[DomainController]> {
-        return client.paginate(input: input, command: describeDomainControllers, resultKey: "domainControllers", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeDomainControllers, resultKey: \.domainControllers, tokenKey: \.nextToken)
     }
     
 }

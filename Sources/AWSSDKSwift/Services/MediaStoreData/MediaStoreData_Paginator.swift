@@ -6,7 +6,7 @@ extension MediaStoreData {
 
     ///  Provides a list of metadata entries about folders and objects in the specified folder.
     public func listItemsPaginator(_ input: ListItemsRequest) -> EventLoopFuture<[Item]> {
-        return client.paginate(input: input, command: listItems, resultKey: "items", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listItems, resultKey: \.items, tokenKey: \.nextToken)
     }
     
 }

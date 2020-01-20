@@ -6,57 +6,57 @@ extension APIGateway {
 
     ///  Gets information about the current ApiKeys resource.
     public func getApiKeysPaginator(_ input: GetApiKeysRequest) -> EventLoopFuture<[ApiKey]> {
-        return client.paginate(input: input, command: getApiKeys, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getApiKeys, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Represents a collection of BasePathMapping resources.
     public func getBasePathMappingsPaginator(_ input: GetBasePathMappingsRequest) -> EventLoopFuture<[BasePathMapping]> {
-        return client.paginate(input: input, command: getBasePathMappings, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getBasePathMappings, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Gets a collection of ClientCertificate resources.
     public func getClientCertificatesPaginator(_ input: GetClientCertificatesRequest) -> EventLoopFuture<[ClientCertificate]> {
-        return client.paginate(input: input, command: getClientCertificates, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getClientCertificates, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Gets information about a Deployments collection.
     public func getDeploymentsPaginator(_ input: GetDeploymentsRequest) -> EventLoopFuture<[Deployment]> {
-        return client.paginate(input: input, command: getDeployments, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getDeployments, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Represents a collection of DomainName resources.
     public func getDomainNamesPaginator(_ input: GetDomainNamesRequest) -> EventLoopFuture<[DomainName]> {
-        return client.paginate(input: input, command: getDomainNames, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getDomainNames, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Describes existing Models defined for a RestApi resource.
     public func getModelsPaginator(_ input: GetModelsRequest) -> EventLoopFuture<[Model]> {
-        return client.paginate(input: input, command: getModels, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getModels, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Lists information about a collection of Resource resources.
     public func getResourcesPaginator(_ input: GetResourcesRequest) -> EventLoopFuture<[Resource]> {
-        return client.paginate(input: input, command: getResources, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getResources, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Lists the RestApis resources for your collection.
     public func getRestApisPaginator(_ input: GetRestApisRequest) -> EventLoopFuture<[RestApi]> {
-        return client.paginate(input: input, command: getRestApis, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getRestApis, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
     public func getUsagePlanKeysPaginator(_ input: GetUsagePlanKeysRequest) -> EventLoopFuture<[UsagePlanKey]> {
-        return client.paginate(input: input, command: getUsagePlanKeys, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getUsagePlanKeys, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Gets all the usage plans of the caller's account.
     public func getUsagePlansPaginator(_ input: GetUsagePlansRequest) -> EventLoopFuture<[UsagePlan]> {
-        return client.paginate(input: input, command: getUsagePlans, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getUsagePlans, resultKey: \.items, tokenKey: \.position)
     }
     
     ///  Gets the VpcLinks collection under the caller's account in a selected region.
     public func getVpcLinksPaginator(_ input: GetVpcLinksRequest) -> EventLoopFuture<[VpcLink]> {
-        return client.paginate(input: input, command: getVpcLinks, resultKey: "items", tokenKey: "position")
+        return client.paginate(input: input, command: getVpcLinks, resultKey: \.items, tokenKey: \.position)
     }
     
 }

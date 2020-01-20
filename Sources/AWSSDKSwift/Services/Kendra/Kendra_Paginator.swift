@@ -6,17 +6,17 @@ extension Kendra {
 
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
     public func listDataSourceSyncJobsPaginator(_ input: ListDataSourceSyncJobsRequest) -> EventLoopFuture<[DataSourceSyncJob]> {
-        return client.paginate(input: input, command: listDataSourceSyncJobs, resultKey: "history", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listDataSourceSyncJobs, resultKey: \.history, tokenKey: \.nextToken)
     }
     
     ///  Lists the data sources that you have created.
     public func listDataSourcesPaginator(_ input: ListDataSourcesRequest) -> EventLoopFuture<[DataSourceSummary]> {
-        return client.paginate(input: input, command: listDataSources, resultKey: "summaryItems", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listDataSources, resultKey: \.summaryItems, tokenKey: \.nextToken)
     }
     
     ///  Lists the Amazon Kendra indexes that you have created.
     public func listIndicesPaginator(_ input: ListIndicesRequest) -> EventLoopFuture<[IndexConfigurationSummary]> {
-        return client.paginate(input: input, command: listIndices, resultKey: "indexConfigurationSummaryItems", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listIndices, resultKey: \.indexConfigurationSummaryItems, tokenKey: \.nextToken)
     }
     
 }

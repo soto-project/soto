@@ -6,347 +6,347 @@ extension EC2 {
 
     ///  Describes the IP address ranges that were specified in calls to ProvisionByoipCidr. To describe the address pools that were created when you provisioned the address ranges, use DescribePublicIpv4Pools.
     public func describeByoipCidrsPaginator(_ input: DescribeByoipCidrsRequest) -> EventLoopFuture<[ByoipCidr]> {
-        return client.paginate(input: input, command: describeByoipCidrs, resultKey: "byoipCidrs", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeByoipCidrs, resultKey: \.byoipCidrs, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the AWS Region that you're currently using.
     public func describeCapacityReservationsPaginator(_ input: DescribeCapacityReservationsRequest) -> EventLoopFuture<[CapacityReservation]> {
-        return client.paginate(input: input, command: describeCapacityReservations, resultKey: "capacityReservations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeCapacityReservations, resultKey: \.capacityReservations, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your linked EC2-Classic instances. This request only returns information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot use this request to return information about other instances.
     public func describeClassicLinkInstancesPaginator(_ input: DescribeClassicLinkInstancesRequest) -> EventLoopFuture<[ClassicLinkInstance]> {
-        return client.paginate(input: input, command: describeClassicLinkInstances, resultKey: "instances", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeClassicLinkInstances, resultKey: \.instances, tokenKey: \.nextToken)
     }
     
     ///  Describes the authorization rules for a specified Client VPN endpoint.
     public func describeClientVpnAuthorizationRulesPaginator(_ input: DescribeClientVpnAuthorizationRulesRequest) -> EventLoopFuture<[AuthorizationRule]> {
-        return client.paginate(input: input, command: describeClientVpnAuthorizationRules, resultKey: "authorizationRules", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeClientVpnAuthorizationRules, resultKey: \.authorizationRules, tokenKey: \.nextToken)
     }
     
     ///  Describes active client connections and connections that have been terminated within the last 60 minutes for the specified Client VPN endpoint.
     public func describeClientVpnConnectionsPaginator(_ input: DescribeClientVpnConnectionsRequest) -> EventLoopFuture<[ClientVpnConnection]> {
-        return client.paginate(input: input, command: describeClientVpnConnections, resultKey: "connections", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeClientVpnConnections, resultKey: \.connections, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more Client VPN endpoints in the account.
     public func describeClientVpnEndpointsPaginator(_ input: DescribeClientVpnEndpointsRequest) -> EventLoopFuture<[ClientVpnEndpoint]> {
-        return client.paginate(input: input, command: describeClientVpnEndpoints, resultKey: "clientVpnEndpoints", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeClientVpnEndpoints, resultKey: \.clientVpnEndpoints, tokenKey: \.nextToken)
     }
     
     ///  Describes the routes for the specified Client VPN endpoint.
     public func describeClientVpnRoutesPaginator(_ input: DescribeClientVpnRoutesRequest) -> EventLoopFuture<[ClientVpnRoute]> {
-        return client.paginate(input: input, command: describeClientVpnRoutes, resultKey: "routes", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeClientVpnRoutes, resultKey: \.routes, tokenKey: \.nextToken)
     }
     
     ///  Describes the target networks associated with the specified Client VPN endpoint.
     public func describeClientVpnTargetNetworksPaginator(_ input: DescribeClientVpnTargetNetworksRequest) -> EventLoopFuture<[TargetNetwork]> {
-        return client.paginate(input: input, command: describeClientVpnTargetNetworks, resultKey: "clientVpnTargetNetworks", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeClientVpnTargetNetworks, resultKey: \.clientVpnTargetNetworks, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your DHCP options sets. For more information, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide.
     public func describeDhcpOptionsPaginator(_ input: DescribeDhcpOptionsRequest) -> EventLoopFuture<[DhcpOptions]> {
-        return client.paginate(input: input, command: describeDhcpOptions, resultKey: "dhcpOptions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeDhcpOptions, resultKey: \.dhcpOptions, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your egress-only internet gateways.
     public func describeEgressOnlyInternetGatewaysPaginator(_ input: DescribeEgressOnlyInternetGatewaysRequest) -> EventLoopFuture<[EgressOnlyInternetGateway]> {
-        return client.paginate(input: input, command: describeEgressOnlyInternetGateways, resultKey: "egressOnlyInternetGateways", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeEgressOnlyInternetGateways, resultKey: \.egressOnlyInternetGateways, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified export image tasks or all your export image tasks.
     public func describeExportImageTasksPaginator(_ input: DescribeExportImageTasksRequest) -> EventLoopFuture<[ExportImageTask]> {
-        return client.paginate(input: input, command: describeExportImageTasks, resultKey: "exportImageTasks", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeExportImageTasks, resultKey: \.exportImageTasks, tokenKey: \.nextToken)
     }
     
     ///  Describes the state of fast snapshot restores for your snapshots.
     public func describeFastSnapshotRestoresPaginator(_ input: DescribeFastSnapshotRestoresRequest) -> EventLoopFuture<[DescribeFastSnapshotRestoreSuccessItem]> {
-        return client.paginate(input: input, command: describeFastSnapshotRestores, resultKey: "fastSnapshotRestores", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeFastSnapshotRestores, resultKey: \.fastSnapshotRestores, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified EC2 Fleets or all of your EC2 Fleets.
     public func describeFleetsPaginator(_ input: DescribeFleetsRequest) -> EventLoopFuture<[FleetData]> {
-        return client.paginate(input: input, command: describeFleets, resultKey: "fleets", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeFleets, resultKey: \.fleets, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more flow logs. To view the information in your flow logs (the log streams for the network interfaces), you must use the CloudWatch Logs console or the CloudWatch Logs API.
     public func describeFlowLogsPaginator(_ input: DescribeFlowLogsRequest) -> EventLoopFuture<[FlowLog]> {
-        return client.paginate(input: input, command: describeFlowLogs, resultKey: "flowLogs", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeFlowLogs, resultKey: \.flowLogs, tokenKey: \.nextToken)
     }
     
     ///  Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs, private AFIs that you own, and AFIs owned by other AWS accounts for which you have load permissions.
     public func describeFpgaImagesPaginator(_ input: DescribeFpgaImagesRequest) -> EventLoopFuture<[FpgaImage]> {
-        return client.paginate(input: input, command: describeFpgaImages, resultKey: "fpgaImages", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeFpgaImages, resultKey: \.fpgaImages, tokenKey: \.nextToken)
     }
     
     ///  Describes the Dedicated Host reservations that are available to purchase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated. For more information about supported instance types, see Dedicated Hosts Overview in the Amazon Elastic Compute Cloud User Guide. 
     public func describeHostReservationOfferingsPaginator(_ input: DescribeHostReservationOfferingsRequest) -> EventLoopFuture<[HostOffering]> {
-        return client.paginate(input: input, command: describeHostReservationOfferings, resultKey: "offeringSet", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeHostReservationOfferings, resultKey: \.offeringSet, tokenKey: \.nextToken)
     }
     
     ///  Describes reservations that are associated with Dedicated Hosts in your account.
     public func describeHostReservationsPaginator(_ input: DescribeHostReservationsRequest) -> EventLoopFuture<[HostReservation]> {
-        return client.paginate(input: input, command: describeHostReservations, resultKey: "hostReservationSet", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeHostReservations, resultKey: \.hostReservationSet, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified Dedicated Hosts or all your Dedicated Hosts. The results describe only the Dedicated Hosts in the Region you're currently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released are listed with the state released.
     public func describeHostsPaginator(_ input: DescribeHostsRequest) -> EventLoopFuture<[Host]> {
-        return client.paginate(input: input, command: describeHosts, resultKey: "hosts", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeHosts, resultKey: \.hosts, tokenKey: \.nextToken)
     }
     
     ///  Describes your IAM instance profile associations.
     public func describeIamInstanceProfileAssociationsPaginator(_ input: DescribeIamInstanceProfileAssociationsRequest) -> EventLoopFuture<[IamInstanceProfileAssociation]> {
-        return client.paginate(input: input, command: describeIamInstanceProfileAssociations, resultKey: "iamInstanceProfileAssociations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeIamInstanceProfileAssociations, resultKey: \.iamInstanceProfileAssociations, tokenKey: \.nextToken)
     }
     
     ///  Displays details about an import virtual machine or import snapshot tasks that are already created.
     public func describeImportImageTasksPaginator(_ input: DescribeImportImageTasksRequest) -> EventLoopFuture<[ImportImageTask]> {
-        return client.paginate(input: input, command: describeImportImageTasks, resultKey: "importImageTasks", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeImportImageTasks, resultKey: \.importImageTasks, tokenKey: \.nextToken)
     }
     
     ///  Describes your import snapshot tasks.
     public func describeImportSnapshotTasksPaginator(_ input: DescribeImportSnapshotTasksRequest) -> EventLoopFuture<[ImportSnapshotTask]> {
-        return client.paginate(input: input, command: describeImportSnapshotTasks, resultKey: "importSnapshotTasks", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeImportSnapshotTasks, resultKey: \.importSnapshotTasks, tokenKey: \.nextToken)
     }
     
     ///  Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a burstable performance instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see Burstable Performance Instances in the Amazon Elastic Compute Cloud User Guide.
     public func describeInstanceCreditSpecificationsPaginator(_ input: DescribeInstanceCreditSpecificationsRequest) -> EventLoopFuture<[InstanceCreditSpecification]> {
-        return client.paginate(input: input, command: describeInstanceCreditSpecifications, resultKey: "instanceCreditSpecifications", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeInstanceCreditSpecifications, resultKey: \.instanceCreditSpecifications, tokenKey: \.nextToken)
     }
     
     ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status Checks for Your Instances and Troubleshooting Instances with Failed Status Checks in the Amazon Elastic Compute Cloud User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled Events for Your Instances in the Amazon Elastic Compute Cloud User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance Lifecycle in the Amazon Elastic Compute Cloud User Guide.  
     public func describeInstanceStatusPaginator(_ input: DescribeInstanceStatusRequest) -> EventLoopFuture<[InstanceStatus]> {
-        return client.paginate(input: input, command: describeInstanceStatus, resultKey: "instanceStatuses", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeInstanceStatus, resultKey: \.instanceStatuses, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified instances or all of AWS account's instances. If you specify one or more instance IDs, Amazon EC2 returns information for those instances. If you do not specify instance IDs, Amazon EC2 returns information for all relevant instances. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the returned results. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
     public func describeInstancesPaginator(_ input: DescribeInstancesRequest) -> EventLoopFuture<[Reservation]> {
-        return client.paginate(input: input, command: describeInstances, resultKey: "reservations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeInstances, resultKey: \.reservations, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your internet gateways.
     public func describeInternetGatewaysPaginator(_ input: DescribeInternetGatewaysRequest) -> EventLoopFuture<[InternetGateway]> {
-        return client.paginate(input: input, command: describeInternetGateways, resultKey: "internetGateways", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeInternetGateways, resultKey: \.internetGateways, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions.
     public func describeLaunchTemplateVersionsPaginator(_ input: DescribeLaunchTemplateVersionsRequest) -> EventLoopFuture<[LaunchTemplateVersion]> {
-        return client.paginate(input: input, command: describeLaunchTemplateVersions, resultKey: "launchTemplateVersions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeLaunchTemplateVersions, resultKey: \.launchTemplateVersions, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more launch templates.
     public func describeLaunchTemplatesPaginator(_ input: DescribeLaunchTemplatesRequest) -> EventLoopFuture<[LaunchTemplate]> {
-        return client.paginate(input: input, command: describeLaunchTemplates, resultKey: "launchTemplates", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeLaunchTemplates, resultKey: \.launchTemplates, tokenKey: \.nextToken)
     }
     
     ///  Describes your Elastic IP addresses that are being moved to the EC2-VPC platform, or that are being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account.
     public func describeMovingAddressesPaginator(_ input: DescribeMovingAddressesRequest) -> EventLoopFuture<[MovingAddressStatus]> {
-        return client.paginate(input: input, command: describeMovingAddresses, resultKey: "movingAddressStatuses", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeMovingAddresses, resultKey: \.movingAddressStatuses, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your NAT gateways.
     public func describeNatGatewaysPaginator(_ input: DescribeNatGatewaysRequest) -> EventLoopFuture<[NatGateway]> {
-        return client.paginate(input: input, command: describeNatGateways, resultKey: "natGateways", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeNatGateways, resultKey: \.natGateways, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your network ACLs. For more information, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
     public func describeNetworkAclsPaginator(_ input: DescribeNetworkAclsRequest) -> EventLoopFuture<[NetworkAcl]> {
-        return client.paginate(input: input, command: describeNetworkAcls, resultKey: "networkAcls", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeNetworkAcls, resultKey: \.networkAcls, tokenKey: \.nextToken)
     }
     
     ///  Describes the permissions for your network interfaces. 
     public func describeNetworkInterfacePermissionsPaginator(_ input: DescribeNetworkInterfacePermissionsRequest) -> EventLoopFuture<[NetworkInterfacePermission]> {
-        return client.paginate(input: input, command: describeNetworkInterfacePermissions, resultKey: "networkInterfacePermissions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeNetworkInterfacePermissions, resultKey: \.networkInterfacePermissions, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your network interfaces.
     public func describeNetworkInterfacesPaginator(_ input: DescribeNetworkInterfacesRequest) -> EventLoopFuture<[NetworkInterface]> {
-        return client.paginate(input: input, command: describeNetworkInterfaces, resultKey: "networkInterfaces", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeNetworkInterfaces, resultKey: \.networkInterfaces, tokenKey: \.nextToken)
     }
     
     ///  Describes available AWS services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. A prefix list ID is required for creating an outbound security group rule that allows traffic from a VPC to access an AWS service through a gateway VPC endpoint. Currently, the services that support this action are Amazon S3 and Amazon DynamoDB.
     public func describePrefixListsPaginator(_ input: DescribePrefixListsRequest) -> EventLoopFuture<[PrefixList]> {
-        return client.paginate(input: input, command: describePrefixLists, resultKey: "prefixLists", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describePrefixLists, resultKey: \.prefixLists, tokenKey: \.nextToken)
     }
     
     ///  Describes the ID format settings for the root user and all IAM roles and IAM users that have explicitly specified a longer ID (17-character ID) preference.  By default, all IAM roles and IAM users default to the same ID settings as the root user, unless they explicitly override the settings. This request is useful for identifying those IAM users and IAM roles that have overridden the default ID settings. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. 
     public func describePrincipalIdFormatPaginator(_ input: DescribePrincipalIdFormatRequest) -> EventLoopFuture<[PrincipalIdFormat]> {
-        return client.paginate(input: input, command: describePrincipalIdFormat, resultKey: "principals", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describePrincipalIdFormat, resultKey: \.principals, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified IPv4 address pools.
     public func describePublicIpv4PoolsPaginator(_ input: DescribePublicIpv4PoolsRequest) -> EventLoopFuture<[PublicIpv4Pool]> {
-        return client.paginate(input: input, command: describePublicIpv4Pools, resultKey: "publicIpv4Pools", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describePublicIpv4Pools, resultKey: \.publicIpv4Pools, tokenKey: \.nextToken)
     }
     
     ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon Elastic Compute Cloud User Guide.
     public func describeReservedInstancesModificationsPaginator(_ input: DescribeReservedInstancesModificationsRequest) -> EventLoopFuture<[ReservedInstancesModification]> {
-        return client.paginate(input: input, command: describeReservedInstancesModifications, resultKey: "reservedInstancesModifications", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeReservedInstancesModifications, resultKey: \.reservedInstancesModifications, tokenKey: \.nextToken)
     }
     
     ///  Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace in the Amazon Elastic Compute Cloud User Guide.
     public func describeReservedInstancesOfferingsPaginator(_ input: DescribeReservedInstancesOfferingsRequest) -> EventLoopFuture<[ReservedInstancesOffering]> {
-        return client.paginate(input: input, command: describeReservedInstancesOfferings, resultKey: "reservedInstancesOfferings", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeReservedInstancesOfferings, resultKey: \.reservedInstancesOfferings, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route Tables in the Amazon Virtual Private Cloud User Guide.
     public func describeRouteTablesPaginator(_ input: DescribeRouteTablesRequest) -> EventLoopFuture<[RouteTable]> {
-        return client.paginate(input: input, command: describeRouteTables, resultKey: "routeTables", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeRouteTables, resultKey: \.routeTables, tokenKey: \.nextToken)
     }
     
     ///  Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.
     public func describeScheduledInstanceAvailabilityPaginator(_ input: DescribeScheduledInstanceAvailabilityRequest) -> EventLoopFuture<[ScheduledInstanceAvailability]> {
-        return client.paginate(input: input, command: describeScheduledInstanceAvailability, resultKey: "scheduledInstanceAvailabilitySet", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeScheduledInstanceAvailability, resultKey: \.scheduledInstanceAvailabilitySet, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified Scheduled Instances or all your Scheduled Instances.
     public func describeScheduledInstancesPaginator(_ input: DescribeScheduledInstancesRequest) -> EventLoopFuture<[ScheduledInstance]> {
-        return client.paginate(input: input, command: describeScheduledInstances, resultKey: "scheduledInstanceSet", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeScheduledInstances, resultKey: \.scheduledInstanceSet, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified security groups or all of your security groups. A security group is for use with instances either in the EC2-Classic platform or in a specific VPC. For more information, see Amazon EC2 Security Groups in the Amazon Elastic Compute Cloud User Guide and Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
     public func describeSecurityGroupsPaginator(_ input: DescribeSecurityGroupsRequest) -> EventLoopFuture<[SecurityGroup]> {
-        return client.paginate(input: input, command: describeSecurityGroups, resultKey: "securityGroups", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeSecurityGroups, resultKey: \.securityGroups, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other AWS accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All AWS accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific AWS account.    implicit: An AWS account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be modified by specifying snapshot IDs, snapshot owners, or AWS accounts with create volume permissions. If no options are specified, Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the AWS account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify AWS account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, you can paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve the remaining results. For more information about EBS snapshots, see Amazon EBS Snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func describeSnapshotsPaginator(_ input: DescribeSnapshotsRequest) -> EventLoopFuture<[Snapshot]> {
-        return client.paginate(input: input, command: describeSnapshots, resultKey: "snapshots", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeSnapshots, resultKey: \.snapshots, tokenKey: \.nextToken)
     }
     
     ///  Describes your Spot Fleet requests. Spot Fleet requests are deleted 48 hours after they are canceled and their instances are terminated.
     public func describeSpotFleetRequestsPaginator(_ input: DescribeSpotFleetRequestsRequest) -> EventLoopFuture<[SpotFleetRequestConfig]> {
-        return client.paginate(input: input, command: describeSpotFleetRequests, resultKey: "spotFleetRequestConfigs", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeSpotFleetRequests, resultKey: \.spotFleetRequestConfigs, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the instance lifecycle is spot. We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of results returned. This paginates the output, which makes the list more manageable and returns the results faster. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSpotInstanceRequests request to retrieve the remaining results. Spot Instance requests are deleted four hours after they are canceled and their instances are terminated.
     public func describeSpotInstanceRequestsPaginator(_ input: DescribeSpotInstanceRequestsRequest) -> EventLoopFuture<[SpotInstanceRequest]> {
-        return client.paginate(input: input, command: describeSpotInstanceRequests, resultKey: "spotInstanceRequests", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeSpotInstanceRequests, resultKey: \.spotInstanceRequests, tokenKey: \.nextToken)
     }
     
     ///  Describes the Spot price history. For more information, see Spot Instance Pricing History in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, this operation returns the prices of the instance types within the time range that you specified and the time when the price changed. The price is valid within the time period that you specified; the response merely indicates the last time that the price changed.
     public func describeSpotPriceHistoryPaginator(_ input: DescribeSpotPriceHistoryRequest) -> EventLoopFuture<[SpotPrice]> {
-        return client.paginate(input: input, command: describeSpotPriceHistory, resultKey: "spotPriceHistory", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeSpotPriceHistory, resultKey: \.spotPriceHistory, tokenKey: \.nextToken)
     }
     
     ///  [VPC only] Describes the stale security group rules for security groups in a specified VPC. Rules are stale when they reference a deleted security group in a peer VPC, or a security group in a peer VPC for which the VPC peering connection has been deleted.
     public func describeStaleSecurityGroupsPaginator(_ input: DescribeStaleSecurityGroupsRequest) -> EventLoopFuture<[StaleSecurityGroup]> {
-        return client.paginate(input: input, command: describeStaleSecurityGroups, resultKey: "staleSecurityGroupSet", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeStaleSecurityGroups, resultKey: \.staleSecurityGroupSet, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your subnets. For more information, see Your VPC and Subnets in the Amazon Virtual Private Cloud User Guide.
     public func describeSubnetsPaginator(_ input: DescribeSubnetsRequest) -> EventLoopFuture<[Subnet]> {
-        return client.paginate(input: input, command: describeSubnets, resultKey: "subnets", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeSubnets, resultKey: \.subnets, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified tags for your EC2 resources. For more information about tags, see Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide.
     public func describeTagsPaginator(_ input: DescribeTagsRequest) -> EventLoopFuture<[TagDescription]> {
-        return client.paginate(input: input, command: describeTags, resultKey: "tags", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeTags, resultKey: \.tags, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more Traffic Mirror filters.
     public func describeTrafficMirrorFiltersPaginator(_ input: DescribeTrafficMirrorFiltersRequest) -> EventLoopFuture<[TrafficMirrorFilter]> {
-        return client.paginate(input: input, command: describeTrafficMirrorFilters, resultKey: "trafficMirrorFilters", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeTrafficMirrorFilters, resultKey: \.trafficMirrorFilters, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
     public func describeTrafficMirrorSessionsPaginator(_ input: DescribeTrafficMirrorSessionsRequest) -> EventLoopFuture<[TrafficMirrorSession]> {
-        return client.paginate(input: input, command: describeTrafficMirrorSessions, resultKey: "trafficMirrorSessions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeTrafficMirrorSessions, resultKey: \.trafficMirrorSessions, tokenKey: \.nextToken)
     }
     
     ///  Information about one or more Traffic Mirror targets.
     public func describeTrafficMirrorTargetsPaginator(_ input: DescribeTrafficMirrorTargetsRequest) -> EventLoopFuture<[TrafficMirrorTarget]> {
-        return client.paginate(input: input, command: describeTrafficMirrorTargets, resultKey: "trafficMirrorTargets", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeTrafficMirrorTargets, resultKey: \.trafficMirrorTargets, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more attachments between resources and transit gateways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
     public func describeTransitGatewayAttachmentsPaginator(_ input: DescribeTransitGatewayAttachmentsRequest) -> EventLoopFuture<[TransitGatewayAttachment]> {
-        return client.paginate(input: input, command: describeTransitGatewayAttachments, resultKey: "transitGatewayAttachments", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeTransitGatewayAttachments, resultKey: \.transitGatewayAttachments, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results.
     public func describeTransitGatewayRouteTablesPaginator(_ input: DescribeTransitGatewayRouteTablesRequest) -> EventLoopFuture<[TransitGatewayRouteTable]> {
-        return client.paginate(input: input, command: describeTransitGatewayRouteTables, resultKey: "transitGatewayRouteTables", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeTransitGatewayRouteTables, resultKey: \.transitGatewayRouteTables, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more VPC attachments. By default, all VPC attachments are described. Alternatively, you can filter the results.
     public func describeTransitGatewayVpcAttachmentsPaginator(_ input: DescribeTransitGatewayVpcAttachmentsRequest) -> EventLoopFuture<[TransitGatewayVpcAttachment]> {
-        return client.paginate(input: input, command: describeTransitGatewayVpcAttachments, resultKey: "transitGatewayVpcAttachments", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeTransitGatewayVpcAttachments, resultKey: \.transitGatewayVpcAttachments, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more transit gateways. By default, all transit gateways are described. Alternatively, you can filter the results.
     public func describeTransitGatewaysPaginator(_ input: DescribeTransitGatewaysRequest) -> EventLoopFuture<[TransitGateway]> {
-        return client.paginate(input: input, command: describeTransitGateways, resultKey: "transitGateways", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeTransitGateways, resultKey: \.transitGateways, tokenKey: \.nextToken)
     }
     
     ///  Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks may still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitoring the Status of Your Volumes in the Amazon Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and may require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and may have inconsistent data.  Actions: Reflect the actions you may have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)
     public func describeVolumeStatusPaginator(_ input: DescribeVolumeStatusRequest) -> EventLoopFuture<[VolumeStatusItem]> {
-        return client.paginate(input: input, command: describeVolumeStatus, resultKey: "volumeStatuses", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVolumeStatus, resultKey: \.volumeStatuses, tokenKey: \.nextToken)
     }
     
     ///  Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, you can paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeVolumes request to retrieve the remaining results. For more information about EBS volumes, see Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
     public func describeVolumesPaginator(_ input: DescribeVolumesRequest) -> EventLoopFuture<[Volume]> {
-        return client.paginate(input: input, command: describeVolumes, resultKey: "volumes", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVolumes, resultKey: \.volumes, tokenKey: \.nextToken)
     }
     
     ///  Reports the current modification status of EBS volumes. Current-generation EBS volumes support modification of attributes including type, size, and (for io1 volumes) IOPS provisioning while either attached to or detached from an instance. Following an action from the API or the console to modify a volume, the status of the modification may be modifying, optimizing, completed, or failed. If a volume has never been modified, then certain elements of the returned VolumeModification objects are null.   You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitoring Volume Modifications" in the Amazon Elastic Compute Cloud User Guide.
     public func describeVolumesModificationsPaginator(_ input: DescribeVolumesModificationsRequest) -> EventLoopFuture<[VolumeModification]> {
-        return client.paginate(input: input, command: describeVolumesModifications, resultKey: "volumesModifications", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVolumesModifications, resultKey: \.volumesModifications, tokenKey: \.nextToken)
     }
     
     ///  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
     public func describeVpcClassicLinkDnsSupportPaginator(_ input: DescribeVpcClassicLinkDnsSupportRequest) -> EventLoopFuture<[ClassicLinkDnsSupport]> {
-        return client.paginate(input: input, command: describeVpcClassicLinkDnsSupport, resultKey: "vpcs", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVpcClassicLinkDnsSupport, resultKey: \.vpcs, tokenKey: \.nextToken)
     }
     
     ///  Describes the connection notifications for VPC endpoints and VPC endpoint services.
     public func describeVpcEndpointConnectionNotificationsPaginator(_ input: DescribeVpcEndpointConnectionNotificationsRequest) -> EventLoopFuture<[ConnectionNotification]> {
-        return client.paginate(input: input, command: describeVpcEndpointConnectionNotifications, resultKey: "connectionNotificationSet", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVpcEndpointConnectionNotifications, resultKey: \.connectionNotificationSet, tokenKey: \.nextToken)
     }
     
     ///  Describes the VPC endpoint connections to your VPC endpoint services, including any endpoints that are pending your acceptance.
     public func describeVpcEndpointConnectionsPaginator(_ input: DescribeVpcEndpointConnectionsRequest) -> EventLoopFuture<[VpcEndpointConnection]> {
-        return client.paginate(input: input, command: describeVpcEndpointConnections, resultKey: "vpcEndpointConnections", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVpcEndpointConnections, resultKey: \.vpcEndpointConnections, tokenKey: \.nextToken)
     }
     
     ///  Describes the VPC endpoint service configurations in your account (your services).
     public func describeVpcEndpointServiceConfigurationsPaginator(_ input: DescribeVpcEndpointServiceConfigurationsRequest) -> EventLoopFuture<[ServiceConfiguration]> {
-        return client.paginate(input: input, command: describeVpcEndpointServiceConfigurations, resultKey: "serviceConfigurations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVpcEndpointServiceConfigurations, resultKey: \.serviceConfigurations, tokenKey: \.nextToken)
     }
     
     ///  Describes the principals (service consumers) that are permitted to discover your VPC endpoint service.
     public func describeVpcEndpointServicePermissionsPaginator(_ input: DescribeVpcEndpointServicePermissionsRequest) -> EventLoopFuture<[AllowedPrincipal]> {
-        return client.paginate(input: input, command: describeVpcEndpointServicePermissions, resultKey: "allowedPrincipals", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVpcEndpointServicePermissions, resultKey: \.allowedPrincipals, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your VPC endpoints.
     public func describeVpcEndpointsPaginator(_ input: DescribeVpcEndpointsRequest) -> EventLoopFuture<[VpcEndpoint]> {
-        return client.paginate(input: input, command: describeVpcEndpoints, resultKey: "vpcEndpoints", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVpcEndpoints, resultKey: \.vpcEndpoints, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your VPC peering connections.
     public func describeVpcPeeringConnectionsPaginator(_ input: DescribeVpcPeeringConnectionsRequest) -> EventLoopFuture<[VpcPeeringConnection]> {
-        return client.paginate(input: input, command: describeVpcPeeringConnections, resultKey: "vpcPeeringConnections", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVpcPeeringConnections, resultKey: \.vpcPeeringConnections, tokenKey: \.nextToken)
     }
     
     ///  Describes one or more of your VPCs.
     public func describeVpcsPaginator(_ input: DescribeVpcsRequest) -> EventLoopFuture<[Vpc]> {
-        return client.paginate(input: input, command: describeVpcs, resultKey: "vpcs", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeVpcs, resultKey: \.vpcs, tokenKey: \.nextToken)
     }
     
     ///  Lists the route tables to which the specified resource attachment propagates routes.
     public func getTransitGatewayAttachmentPropagationsPaginator(_ input: GetTransitGatewayAttachmentPropagationsRequest) -> EventLoopFuture<[TransitGatewayAttachmentPropagation]> {
-        return client.paginate(input: input, command: getTransitGatewayAttachmentPropagations, resultKey: "transitGatewayAttachmentPropagations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: getTransitGatewayAttachmentPropagations, resultKey: \.transitGatewayAttachmentPropagations, tokenKey: \.nextToken)
     }
     
     ///  Gets information about the associations for the specified transit gateway route table.
     public func getTransitGatewayRouteTableAssociationsPaginator(_ input: GetTransitGatewayRouteTableAssociationsRequest) -> EventLoopFuture<[TransitGatewayRouteTableAssociation]> {
-        return client.paginate(input: input, command: getTransitGatewayRouteTableAssociations, resultKey: "associations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: getTransitGatewayRouteTableAssociations, resultKey: \.associations, tokenKey: \.nextToken)
     }
     
     ///  Gets information about the route table propagations for the specified transit gateway route table.
     public func getTransitGatewayRouteTablePropagationsPaginator(_ input: GetTransitGatewayRouteTablePropagationsRequest) -> EventLoopFuture<[TransitGatewayRouteTablePropagation]> {
-        return client.paginate(input: input, command: getTransitGatewayRouteTablePropagations, resultKey: "transitGatewayRouteTablePropagations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: getTransitGatewayRouteTablePropagations, resultKey: \.transitGatewayRouteTablePropagations, tokenKey: \.nextToken)
     }
     
 }

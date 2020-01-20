@@ -6,22 +6,22 @@ extension MachineLearning {
 
     ///  Returns a list of BatchPrediction operations that match the search criteria in the request.
     public func describeBatchPredictionsPaginator(_ input: DescribeBatchPredictionsInput) -> EventLoopFuture<[BatchPrediction]> {
-        return client.paginate(input: input, command: describeBatchPredictions, resultKey: "results", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeBatchPredictions, resultKey: \.results, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of DataSource that match the search criteria in the request.
     public func describeDataSourcesPaginator(_ input: DescribeDataSourcesInput) -> EventLoopFuture<[DataSource]> {
-        return client.paginate(input: input, command: describeDataSources, resultKey: "results", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeDataSources, resultKey: \.results, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of DescribeEvaluations that match the search criteria in the request.
     public func describeEvaluationsPaginator(_ input: DescribeEvaluationsInput) -> EventLoopFuture<[Evaluation]> {
-        return client.paginate(input: input, command: describeEvaluations, resultKey: "results", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeEvaluations, resultKey: \.results, tokenKey: \.nextToken)
     }
     
     ///  Returns a list of MLModel that match the search criteria in the request.
     public func describeMLModelsPaginator(_ input: DescribeMLModelsInput) -> EventLoopFuture<[MLModel]> {
-        return client.paginate(input: input, command: describeMLModels, resultKey: "results", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeMLModels, resultKey: \.results, tokenKey: \.nextToken)
     }
     
 }

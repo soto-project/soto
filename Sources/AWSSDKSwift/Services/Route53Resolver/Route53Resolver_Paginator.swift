@@ -6,22 +6,22 @@ extension Route53Resolver {
 
     ///  Gets the IP addresses for a specified resolver endpoint.
     public func listResolverEndpointIpAddressesPaginator(_ input: ListResolverEndpointIpAddressesRequest) -> EventLoopFuture<[IpAddressResponse]> {
-        return client.paginate(input: input, command: listResolverEndpointIpAddresses, resultKey: "ipAddresses", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listResolverEndpointIpAddresses, resultKey: \.ipAddresses, tokenKey: \.nextToken)
     }
     
     ///  Lists all the resolver endpoints that were created using the current AWS account.
     public func listResolverEndpointsPaginator(_ input: ListResolverEndpointsRequest) -> EventLoopFuture<[ResolverEndpoint]> {
-        return client.paginate(input: input, command: listResolverEndpoints, resultKey: "resolverEndpoints", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listResolverEndpoints, resultKey: \.resolverEndpoints, tokenKey: \.nextToken)
     }
     
     ///  Lists the associations that were created between resolver rules and VPCs using the current AWS account.
     public func listResolverRuleAssociationsPaginator(_ input: ListResolverRuleAssociationsRequest) -> EventLoopFuture<[ResolverRuleAssociation]> {
-        return client.paginate(input: input, command: listResolverRuleAssociations, resultKey: "resolverRuleAssociations", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listResolverRuleAssociations, resultKey: \.resolverRuleAssociations, tokenKey: \.nextToken)
     }
     
     ///  Lists the resolver rules that were created using the current AWS account.
     public func listResolverRulesPaginator(_ input: ListResolverRulesRequest) -> EventLoopFuture<[ResolverRule]> {
-        return client.paginate(input: input, command: listResolverRules, resultKey: "resolverRules", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listResolverRules, resultKey: \.resolverRules, tokenKey: \.nextToken)
     }
     
 }

@@ -6,12 +6,12 @@ extension KinesisVideo {
 
     ///  Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition.
     public func listSignalingChannelsPaginator(_ input: ListSignalingChannelsInput) -> EventLoopFuture<[ChannelInfo]> {
-        return client.paginate(input: input, command: listSignalingChannels, resultKey: "channelInfoList", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listSignalingChannels, resultKey: \.channelInfoList, tokenKey: \.nextToken)
     }
     
     ///  Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only streams that satisfy a specific condition, you can specify a StreamNameCondition. 
     public func listStreamsPaginator(_ input: ListStreamsInput) -> EventLoopFuture<[StreamInfo]> {
-        return client.paginate(input: input, command: listStreams, resultKey: "streamInfoList", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listStreams, resultKey: \.streamInfoList, tokenKey: \.nextToken)
     }
     
 }

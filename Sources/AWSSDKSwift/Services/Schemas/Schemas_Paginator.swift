@@ -6,27 +6,27 @@ extension Schemas {
 
     ///  List the discoverers.
     public func listDiscoverersPaginator(_ input: ListDiscoverersRequest) -> EventLoopFuture<[DiscovererSummary]> {
-        return client.paginate(input: input, command: listDiscoverers, resultKey: "discoverers", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listDiscoverers, resultKey: \.discoverers, tokenKey: \.nextToken)
     }
     
     ///  List the registries.
     public func listRegistriesPaginator(_ input: ListRegistriesRequest) -> EventLoopFuture<[RegistrySummary]> {
-        return client.paginate(input: input, command: listRegistries, resultKey: "registries", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listRegistries, resultKey: \.registries, tokenKey: \.nextToken)
     }
     
     ///  Provides a list of the schema versions and related information.
     public func listSchemaVersionsPaginator(_ input: ListSchemaVersionsRequest) -> EventLoopFuture<[SchemaVersionSummary]> {
-        return client.paginate(input: input, command: listSchemaVersions, resultKey: "schemaVersions", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listSchemaVersions, resultKey: \.schemaVersions, tokenKey: \.nextToken)
     }
     
     ///  List the schemas.
     public func listSchemasPaginator(_ input: ListSchemasRequest) -> EventLoopFuture<[SchemaSummary]> {
-        return client.paginate(input: input, command: listSchemas, resultKey: "schemas", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listSchemas, resultKey: \.schemas, tokenKey: \.nextToken)
     }
     
     ///  Search the schemas
     public func searchSchemasPaginator(_ input: SearchSchemasRequest) -> EventLoopFuture<[SearchSchemaSummary]> {
-        return client.paginate(input: input, command: searchSchemas, resultKey: "schemas", tokenKey: "nextToken")
+        return client.paginate(input: input, command: searchSchemas, resultKey: \.schemas, tokenKey: \.nextToken)
     }
     
 }

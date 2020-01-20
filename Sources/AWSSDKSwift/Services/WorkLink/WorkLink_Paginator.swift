@@ -6,27 +6,27 @@ extension WorkLink {
 
     ///  Retrieves a list of devices registered with the specified fleet.
     public func listDevicesPaginator(_ input: ListDevicesRequest) -> EventLoopFuture<[DeviceSummary]> {
-        return client.paginate(input: input, command: listDevices, resultKey: "devices", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listDevices, resultKey: \.devices, tokenKey: \.nextToken)
     }
     
     ///  Retrieves a list of domains associated to a specified fleet.
     public func listDomainsPaginator(_ input: ListDomainsRequest) -> EventLoopFuture<[DomainSummary]> {
-        return client.paginate(input: input, command: listDomains, resultKey: "domains", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listDomains, resultKey: \.domains, tokenKey: \.nextToken)
     }
     
     ///  Retrieves a list of fleets for the current account and Region.
     public func listFleetsPaginator(_ input: ListFleetsRequest) -> EventLoopFuture<[FleetSummary]> {
-        return client.paginate(input: input, command: listFleets, resultKey: "fleetSummaryList", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listFleets, resultKey: \.fleetSummaryList, tokenKey: \.nextToken)
     }
     
     ///  Retrieves a list of website authorization providers associated with a specified fleet.
     public func listWebsiteAuthorizationProvidersPaginator(_ input: ListWebsiteAuthorizationProvidersRequest) -> EventLoopFuture<[WebsiteAuthorizationProviderSummary]> {
-        return client.paginate(input: input, command: listWebsiteAuthorizationProviders, resultKey: "websiteAuthorizationProviders", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listWebsiteAuthorizationProviders, resultKey: \.websiteAuthorizationProviders, tokenKey: \.nextToken)
     }
     
     ///  Retrieves a list of certificate authorities added for the current account and Region.
     public func listWebsiteCertificateAuthoritiesPaginator(_ input: ListWebsiteCertificateAuthoritiesRequest) -> EventLoopFuture<[WebsiteCaSummary]> {
-        return client.paginate(input: input, command: listWebsiteCertificateAuthorities, resultKey: "websiteCertificateAuthorities", tokenKey: "nextToken")
+        return client.paginate(input: input, command: listWebsiteCertificateAuthorities, resultKey: \.websiteCertificateAuthorities, tokenKey: \.nextToken)
     }
     
 }

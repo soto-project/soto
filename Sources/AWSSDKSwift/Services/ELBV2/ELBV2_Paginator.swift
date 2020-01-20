@@ -6,17 +6,17 @@ extension ELBV2 {
 
     ///  Describes the specified listeners or the listeners for the specified Application Load Balancer or Network Load Balancer. You must specify either a load balancer or one or more listeners. For an HTTPS or TLS listener, the output includes the default certificate for the listener. To describe the certificate list for the listener, use DescribeListenerCertificates.
     public func describeListenersPaginator(_ input: DescribeListenersInput) -> EventLoopFuture<[Listener]> {
-        return client.paginate(input: input, command: describeListeners, resultKey: "listeners", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: describeListeners, resultKey: \.listeners, tokenKey: \.nextMarker)
     }
     
     ///  Describes the specified load balancers or all of your load balancers. To describe the listeners for a load balancer, use DescribeListeners. To describe the attributes for a load balancer, use DescribeLoadBalancerAttributes.
     public func describeLoadBalancersPaginator(_ input: DescribeLoadBalancersInput) -> EventLoopFuture<[LoadBalancer]> {
-        return client.paginate(input: input, command: describeLoadBalancers, resultKey: "loadBalancers", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: describeLoadBalancers, resultKey: \.loadBalancers, tokenKey: \.nextMarker)
     }
     
     ///  Describes the specified target groups or all of your target groups. By default, all target groups are described. Alternatively, you can specify one of the following to filter the results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of one or more target groups. To describe the targets for a target group, use DescribeTargetHealth. To describe the attributes of a target group, use DescribeTargetGroupAttributes.
     public func describeTargetGroupsPaginator(_ input: DescribeTargetGroupsInput) -> EventLoopFuture<[TargetGroup]> {
-        return client.paginate(input: input, command: describeTargetGroups, resultKey: "targetGroups", tokenKey: "nextMarker")
+        return client.paginate(input: input, command: describeTargetGroups, resultKey: \.targetGroups, tokenKey: \.nextMarker)
     }
     
 }

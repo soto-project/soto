@@ -6,12 +6,12 @@ extension AppStream {
 
     ///  Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own. 
     public func describeImagePermissionsPaginator(_ input: DescribeImagePermissionsRequest) -> EventLoopFuture<[SharedImagePermissions]> {
-        return client.paginate(input: input, command: describeImagePermissions, resultKey: "sharedImagePermissionsList", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeImagePermissions, resultKey: \.sharedImagePermissionsList, tokenKey: \.nextToken)
     }
     
     ///  Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
     public func describeImagesPaginator(_ input: DescribeImagesRequest) -> EventLoopFuture<[Image]> {
-        return client.paginate(input: input, command: describeImages, resultKey: "images", tokenKey: "nextToken")
+        return client.paginate(input: input, command: describeImages, resultKey: \.images, tokenKey: \.nextToken)
     }
     
 }
