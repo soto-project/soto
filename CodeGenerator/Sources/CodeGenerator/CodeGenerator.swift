@@ -535,6 +535,7 @@ extension AWSService {
             guard paginator.inputTokens.count > 0 else { continue }
             guard paginator.outputTokens.count > 0 else { continue }
             guard let inputTokenMember = inputShapeStruct.members.first(where: {$0.name == paginator.inputTokens[0]}) else { continue }
+            
             let paginatorProtocol: String
             let tokenType: String
             switch inputTokenMember.shape.type {
@@ -550,7 +551,7 @@ extension AWSService {
                 continue;
             }
             
-            // get results keys, if one doesn't exist look for the field that isn't the output token
+            // get results keys, if one doesn't exist look for a field that is an array
             let resultKeys: [String]
             if paginator.resultKeys.count > 0 {
                 resultKeys = paginator.resultKeys
@@ -569,8 +570,26 @@ extension AWSService {
                 print("More then two result arrays in \(serviceName).\(inputShape.name)")
             }*/
             
-            guard !paginator.outputTokens[0].contains("[-1]") else { print("Array index[-1] in \(serviceName).\(inputShape.name)"); continue }
-            
+            // process output tokens
+            let outputTokens = paginator.outputTokens.map { (token)->String in
+                var split = token.split(separator: ".")
+                // if first string contains [-1] replace with '.last'. You may need to add '?'s to this as well
+                if let negativeIndexRange = split[0].range(of: "[-1]") {
+                    var replacement = ".last"
+                    // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
+                    if split.count > 1 {
+                        replacement += "?"
+                    }
+                    let memberName = split[0].split(separator: "[")[0]
+                    // if output token member is optional prefix ".last" with a "?"
+                    if let outputTokenMember = outputShapeStruct.members.first(where: {$0.name == memberName}), !outputTokenMember.required {
+                        replacement = "?" + replacement
+                    }
+                    split[0].replaceSubrange(negativeIndexRange, with: replacement)
+                }
+                return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
+            }
+                        
             var initParams: [String: String] = [:]
             for member in inputShapeStruct.members {
                 initParams[member.name.toSwiftLabelCase()] = "original.\(member.name.toSwiftLabelCase())"
@@ -583,7 +602,7 @@ extension AWSService {
                     result: resultKeys[0].toSwiftVariableCase(),
                     resultShape: listShape.swiftTypeName,
                     input: paginator.inputTokens[0].toSwiftVariableCase(),
-                    output: paginator.outputTokens[0].toSwiftVariableCase(),
+                    output: outputTokens[0],
                     initParams: initParamsArray,
                     paginatorProtocol: paginatorProtocol,
                     tokenType: tokenType
