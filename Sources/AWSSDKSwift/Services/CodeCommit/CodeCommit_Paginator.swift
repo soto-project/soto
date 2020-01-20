@@ -4,12 +4,12 @@
 extension CodeCommit {
 
     ///  Gets information about one or more branches in a repository.
-    public func listBranchesPaginator(_ input: ListBranchesInput) -> Future<[String]> {
+    public func listBranchesPaginator(_ input: ListBranchesInput) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listBranches, resultKey: "branches", tokenKey: "nextToken")
     }
     
     ///  Gets information about one or more repositories.
-    public func listRepositoriesPaginator(_ input: ListRepositoriesInput) -> Future<[RepositoryNameIdPair]> {
+    public func listRepositoriesPaginator(_ input: ListRepositoriesInput) -> EventLoopFuture<[RepositoryNameIdPair]> {
         return client.paginate(input: input, command: listRepositories, resultKey: "repositories", tokenKey: "nextToken")
     }
     

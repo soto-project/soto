@@ -4,17 +4,17 @@
 extension WorkSpaces {
 
     ///  Retrieves a list that describes the available WorkSpace bundles. You can filter the results using either bundle ID or owner, but not both.
-    public func describeWorkspaceBundlesPaginator(_ input: DescribeWorkspaceBundlesRequest) -> Future<[WorkspaceBundle]> {
+    public func describeWorkspaceBundlesPaginator(_ input: DescribeWorkspaceBundlesRequest) -> EventLoopFuture<[WorkspaceBundle]> {
         return client.paginate(input: input, command: describeWorkspaceBundles, resultKey: "bundles", tokenKey: "nextToken")
     }
     
     ///  Describes the available directories that are registered with Amazon WorkSpaces.
-    public func describeWorkspaceDirectoriesPaginator(_ input: DescribeWorkspaceDirectoriesRequest) -> Future<[WorkspaceDirectory]> {
+    public func describeWorkspaceDirectoriesPaginator(_ input: DescribeWorkspaceDirectoriesRequest) -> EventLoopFuture<[WorkspaceDirectory]> {
         return client.paginate(input: input, command: describeWorkspaceDirectories, resultKey: "directories", tokenKey: "nextToken")
     }
     
     ///  Describes the specified WorkSpaces. You can filter the results by using the bundle identifier, directory identifier, or owner, but you can specify only one filter at a time.
-    public func describeWorkspacesPaginator(_ input: DescribeWorkspacesRequest) -> Future<[Workspace]> {
+    public func describeWorkspacesPaginator(_ input: DescribeWorkspacesRequest) -> EventLoopFuture<[Workspace]> {
         return client.paginate(input: input, command: describeWorkspaces, resultKey: "workspaces", tokenKey: "nextToken")
     }
     

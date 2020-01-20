@@ -4,117 +4,117 @@
 extension RDS {
 
     ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.  
-    public func describeCustomAvailabilityZonesPaginator(_ input: DescribeCustomAvailabilityZonesMessage) -> Future<[CustomAvailabilityZone]> {
+    public func describeCustomAvailabilityZonesPaginator(_ input: DescribeCustomAvailabilityZonesMessage) -> EventLoopFuture<[CustomAvailabilityZone]> {
         return client.paginate(input: input, command: describeCustomAvailabilityZones, resultKey: "customAvailabilityZones", tokenKey: "marker")
     }
     
     ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
-    public func describeDBClustersPaginator(_ input: DescribeDBClustersMessage) -> Future<[DBCluster]> {
+    public func describeDBClustersPaginator(_ input: DescribeDBClustersMessage) -> EventLoopFuture<[DBCluster]> {
         return client.paginate(input: input, command: describeDBClusters, resultKey: "dBClusters", tokenKey: "marker")
     }
     
     ///  Returns a list of the available DB engines.
-    public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage) -> Future<[DBEngineVersion]> {
+    public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage) -> EventLoopFuture<[DBEngineVersion]> {
         return client.paginate(input: input, command: describeDBEngineVersions, resultKey: "dBEngineVersions", tokenKey: "marker")
     }
     
     ///  Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional.
-    public func describeDBInstanceAutomatedBackupsPaginator(_ input: DescribeDBInstanceAutomatedBackupsMessage) -> Future<[DBInstanceAutomatedBackup]> {
+    public func describeDBInstanceAutomatedBackupsPaginator(_ input: DescribeDBInstanceAutomatedBackupsMessage) -> EventLoopFuture<[DBInstanceAutomatedBackup]> {
         return client.paginate(input: input, command: describeDBInstanceAutomatedBackups, resultKey: "dBInstanceAutomatedBackups", tokenKey: "marker")
     }
     
     ///  Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
-    public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage) -> Future<[DBInstance]> {
+    public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage) -> EventLoopFuture<[DBInstance]> {
         return client.paginate(input: input, command: describeDBInstances, resultKey: "dBInstances", tokenKey: "marker")
     }
     
     ///  Returns a list of DB log files for the DB instance.
-    public func describeDBLogFilesPaginator(_ input: DescribeDBLogFilesMessage) -> Future<[DescribeDBLogFilesDetails]> {
+    public func describeDBLogFilesPaginator(_ input: DescribeDBLogFilesMessage) -> EventLoopFuture<[DescribeDBLogFilesDetails]> {
         return client.paginate(input: input, command: describeDBLogFiles, resultKey: "describeDBLogFiles", tokenKey: "marker")
     }
     
     ///   Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group. 
-    public func describeDBParameterGroupsPaginator(_ input: DescribeDBParameterGroupsMessage) -> Future<[DBParameterGroup]> {
+    public func describeDBParameterGroupsPaginator(_ input: DescribeDBParameterGroupsMessage) -> EventLoopFuture<[DBParameterGroup]> {
         return client.paginate(input: input, command: describeDBParameterGroups, resultKey: "dBParameterGroups", tokenKey: "marker")
     }
     
     ///  Returns the detailed parameter list for a particular DB parameter group.
-    public func describeDBParametersPaginator(_ input: DescribeDBParametersMessage) -> Future<[Parameter]> {
+    public func describeDBParametersPaginator(_ input: DescribeDBParametersMessage) -> EventLoopFuture<[Parameter]> {
         return client.paginate(input: input, command: describeDBParameters, resultKey: "parameters", tokenKey: "marker")
     }
     
     ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxies.
-    public func describeDBProxiesPaginator(_ input: DescribeDBProxiesRequest) -> Future<[DBProxy]> {
+    public func describeDBProxiesPaginator(_ input: DescribeDBProxiesRequest) -> EventLoopFuture<[DBProxy]> {
         return client.paginate(input: input, command: describeDBProxies, resultKey: "dBProxies", tokenKey: "marker")
     }
     
     ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
-    public func describeDBProxyTargetGroupsPaginator(_ input: DescribeDBProxyTargetGroupsRequest) -> Future<[DBProxyTargetGroup]> {
+    public func describeDBProxyTargetGroupsPaginator(_ input: DescribeDBProxyTargetGroupsRequest) -> EventLoopFuture<[DBProxyTargetGroup]> {
         return client.paginate(input: input, command: describeDBProxyTargetGroups, resultKey: "targetGroups", tokenKey: "marker")
     }
     
     ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DBProxyTarget objects. This API supports pagination.
-    public func describeDBProxyTargetsPaginator(_ input: DescribeDBProxyTargetsRequest) -> Future<[DBProxyTarget]> {
+    public func describeDBProxyTargetsPaginator(_ input: DescribeDBProxyTargetsRequest) -> EventLoopFuture<[DBProxyTarget]> {
         return client.paginate(input: input, command: describeDBProxyTargets, resultKey: "targets", tokenKey: "marker")
     }
     
     ///   Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. 
-    public func describeDBSecurityGroupsPaginator(_ input: DescribeDBSecurityGroupsMessage) -> Future<[DBSecurityGroup]> {
+    public func describeDBSecurityGroupsPaginator(_ input: DescribeDBSecurityGroupsMessage) -> EventLoopFuture<[DBSecurityGroup]> {
         return client.paginate(input: input, command: describeDBSecurityGroups, resultKey: "dBSecurityGroups", tokenKey: "marker")
     }
     
     ///  Returns information about DB snapshots. This API action supports pagination.
-    public func describeDBSnapshotsPaginator(_ input: DescribeDBSnapshotsMessage) -> Future<[DBSnapshot]> {
+    public func describeDBSnapshotsPaginator(_ input: DescribeDBSnapshotsMessage) -> EventLoopFuture<[DBSnapshot]> {
         return client.paginate(input: input, command: describeDBSnapshots, resultKey: "dBSnapshots", tokenKey: "marker")
     }
     
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial. 
-    public func describeDBSubnetGroupsPaginator(_ input: DescribeDBSubnetGroupsMessage) -> Future<[DBSubnetGroup]> {
+    public func describeDBSubnetGroupsPaginator(_ input: DescribeDBSubnetGroupsMessage) -> EventLoopFuture<[DBSubnetGroup]> {
         return client.paginate(input: input, command: describeDBSubnetGroups, resultKey: "dBSubnetGroups", tokenKey: "marker")
     }
     
     ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
-    public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage) -> Future<[EventSubscription]> {
+    public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage) -> EventLoopFuture<[EventSubscription]> {
         return client.paginate(input: input, command: describeEventSubscriptions, resultKey: "eventSubscriptionsList", tokenKey: "marker")
     }
     
     ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
-    public func describeEventsPaginator(_ input: DescribeEventsMessage) -> Future<[Event]> {
+    public func describeEventsPaginator(_ input: DescribeEventsMessage) -> EventLoopFuture<[Event]> {
         return client.paginate(input: input, command: describeEvents, resultKey: "events", tokenKey: "marker")
     }
     
     ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
-    public func describeGlobalClustersPaginator(_ input: DescribeGlobalClustersMessage) -> Future<[GlobalCluster]> {
+    public func describeGlobalClustersPaginator(_ input: DescribeGlobalClustersMessage) -> EventLoopFuture<[GlobalCluster]> {
         return client.paginate(input: input, command: describeGlobalClusters, resultKey: "globalClusters", tokenKey: "marker")
     }
     
     ///  Describes the available installation media for a DB engine that requires an on-premises customer provided license, such as Microsoft SQL Server.
-    public func describeInstallationMediaPaginator(_ input: DescribeInstallationMediaMessage) -> Future<[InstallationMedia]> {
+    public func describeInstallationMediaPaginator(_ input: DescribeInstallationMediaMessage) -> EventLoopFuture<[InstallationMedia]> {
         return client.paginate(input: input, command: describeInstallationMedia, resultKey: "installationMedia", tokenKey: "marker")
     }
     
     ///  Describes all available options.
-    public func describeOptionGroupOptionsPaginator(_ input: DescribeOptionGroupOptionsMessage) -> Future<[OptionGroupOption]> {
+    public func describeOptionGroupOptionsPaginator(_ input: DescribeOptionGroupOptionsMessage) -> EventLoopFuture<[OptionGroupOption]> {
         return client.paginate(input: input, command: describeOptionGroupOptions, resultKey: "optionGroupOptions", tokenKey: "marker")
     }
     
     ///  Describes the available option groups.
-    public func describeOptionGroupsPaginator(_ input: DescribeOptionGroupsMessage) -> Future<[OptionGroup]> {
+    public func describeOptionGroupsPaginator(_ input: DescribeOptionGroupsMessage) -> EventLoopFuture<[OptionGroup]> {
         return client.paginate(input: input, command: describeOptionGroups, resultKey: "optionGroupsList", tokenKey: "marker")
     }
     
     ///  Returns a list of orderable DB instance options for the specified engine.
-    public func describeOrderableDBInstanceOptionsPaginator(_ input: DescribeOrderableDBInstanceOptionsMessage) -> Future<[OrderableDBInstanceOption]> {
+    public func describeOrderableDBInstanceOptionsPaginator(_ input: DescribeOrderableDBInstanceOptionsMessage) -> EventLoopFuture<[OrderableDBInstanceOption]> {
         return client.paginate(input: input, command: describeOrderableDBInstanceOptions, resultKey: "orderableDBInstanceOptions", tokenKey: "marker")
     }
     
     ///  Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
-    public func describeReservedDBInstancesPaginator(_ input: DescribeReservedDBInstancesMessage) -> Future<[ReservedDBInstance]> {
+    public func describeReservedDBInstancesPaginator(_ input: DescribeReservedDBInstancesMessage) -> EventLoopFuture<[ReservedDBInstance]> {
         return client.paginate(input: input, command: describeReservedDBInstances, resultKey: "reservedDBInstances", tokenKey: "marker")
     }
     
     ///  Lists available reserved DB instance offerings.
-    public func describeReservedDBInstancesOfferingsPaginator(_ input: DescribeReservedDBInstancesOfferingsMessage) -> Future<[ReservedDBInstancesOffering]> {
+    public func describeReservedDBInstancesOfferingsPaginator(_ input: DescribeReservedDBInstancesOfferingsMessage) -> EventLoopFuture<[ReservedDBInstancesOffering]> {
         return client.paginate(input: input, command: describeReservedDBInstancesOfferings, resultKey: "reservedDBInstancesOfferings", tokenKey: "marker")
     }
     

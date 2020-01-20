@@ -4,17 +4,17 @@
 extension MediaPackage {
 
     ///  Returns a collection of Channels.
-    public func listChannelsPaginator(_ input: ListChannelsRequest) -> Future<[Channel]> {
+    public func listChannelsPaginator(_ input: ListChannelsRequest) -> EventLoopFuture<[Channel]> {
         return client.paginate(input: input, command: listChannels, resultKey: "channels", tokenKey: "nextToken")
     }
     
     ///  Returns a collection of HarvestJob records.
-    public func listHarvestJobsPaginator(_ input: ListHarvestJobsRequest) -> Future<[HarvestJob]> {
+    public func listHarvestJobsPaginator(_ input: ListHarvestJobsRequest) -> EventLoopFuture<[HarvestJob]> {
         return client.paginate(input: input, command: listHarvestJobs, resultKey: "harvestJobs", tokenKey: "nextToken")
     }
     
     ///  Returns a collection of OriginEndpoint records.
-    public func listOriginEndpointsPaginator(_ input: ListOriginEndpointsRequest) -> Future<[OriginEndpoint]> {
+    public func listOriginEndpointsPaginator(_ input: ListOriginEndpointsRequest) -> EventLoopFuture<[OriginEndpoint]> {
         return client.paginate(input: input, command: listOriginEndpoints, resultKey: "originEndpoints", tokenKey: "nextToken")
     }
     

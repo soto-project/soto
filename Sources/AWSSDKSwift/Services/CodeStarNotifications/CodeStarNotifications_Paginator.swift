@@ -4,17 +4,17 @@
 extension CodeStarNotifications {
 
     ///  Returns information about the event types available for configuring notifications.
-    public func listEventTypesPaginator(_ input: ListEventTypesRequest) -> Future<[EventTypeSummary]> {
+    public func listEventTypesPaginator(_ input: ListEventTypesRequest) -> EventLoopFuture<[EventTypeSummary]> {
         return client.paginate(input: input, command: listEventTypes, resultKey: "eventTypes", tokenKey: "nextToken")
     }
     
     ///  Returns a list of the notification rules for an AWS account.
-    public func listNotificationRulesPaginator(_ input: ListNotificationRulesRequest) -> Future<[NotificationRuleSummary]> {
+    public func listNotificationRulesPaginator(_ input: ListNotificationRulesRequest) -> EventLoopFuture<[NotificationRuleSummary]> {
         return client.paginate(input: input, command: listNotificationRules, resultKey: "notificationRules", tokenKey: "nextToken")
     }
     
     ///  Returns a list of the notification rule targets for an AWS account.
-    public func listTargetsPaginator(_ input: ListTargetsRequest) -> Future<[TargetSummary]> {
+    public func listTargetsPaginator(_ input: ListTargetsRequest) -> EventLoopFuture<[TargetSummary]> {
         return client.paginate(input: input, command: listTargets, resultKey: "targets", tokenKey: "nextToken")
     }
     

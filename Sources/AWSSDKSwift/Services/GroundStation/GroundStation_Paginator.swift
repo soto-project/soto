@@ -4,7 +4,7 @@
 extension GroundStation {
 
     ///  Returns a list of Config objects.
-    public func listConfigsPaginator(_ input: ListConfigsRequest) -> Future<[ConfigListItem]> {
+    public func listConfigsPaginator(_ input: ListConfigsRequest) -> EventLoopFuture<[ConfigListItem]> {
         return client.paginate(input: input, command: listConfigs, resultKey: "configList", tokenKey: "nextToken")
     }
     
@@ -12,27 +12,27 @@ extension GroundStation {
     ///           If statusList contains AVAILABLE, the request must include
     ///        groundstation, missionprofileArn, and satelliteArn.
     ///        
-    public func listContactsPaginator(_ input: ListContactsRequest) -> Future<[ContactData]> {
+    public func listContactsPaginator(_ input: ListContactsRequest) -> EventLoopFuture<[ContactData]> {
         return client.paginate(input: input, command: listContacts, resultKey: "contactList", tokenKey: "nextToken")
     }
     
     ///  Returns a list of DataflowEndpoint groups.
-    public func listDataflowEndpointGroupsPaginator(_ input: ListDataflowEndpointGroupsRequest) -> Future<[DataflowEndpointListItem]> {
+    public func listDataflowEndpointGroupsPaginator(_ input: ListDataflowEndpointGroupsRequest) -> EventLoopFuture<[DataflowEndpointListItem]> {
         return client.paginate(input: input, command: listDataflowEndpointGroups, resultKey: "dataflowEndpointGroupList", tokenKey: "nextToken")
     }
     
     ///  Returns a list of ground stations. 
-    public func listGroundStationsPaginator(_ input: ListGroundStationsRequest) -> Future<[GroundStationData]> {
+    public func listGroundStationsPaginator(_ input: ListGroundStationsRequest) -> EventLoopFuture<[GroundStationData]> {
         return client.paginate(input: input, command: listGroundStations, resultKey: "groundStationList", tokenKey: "nextToken")
     }
     
     ///  Returns a list of mission profiles.
-    public func listMissionProfilesPaginator(_ input: ListMissionProfilesRequest) -> Future<[MissionProfileListItem]> {
+    public func listMissionProfilesPaginator(_ input: ListMissionProfilesRequest) -> EventLoopFuture<[MissionProfileListItem]> {
         return client.paginate(input: input, command: listMissionProfiles, resultKey: "missionProfileList", tokenKey: "nextToken")
     }
     
     ///  Returns a list of satellites.
-    public func listSatellitesPaginator(_ input: ListSatellitesRequest) -> Future<[SatelliteListItem]> {
+    public func listSatellitesPaginator(_ input: ListSatellitesRequest) -> EventLoopFuture<[SatelliteListItem]> {
         return client.paginate(input: input, command: listSatellites, resultKey: "satellites", tokenKey: "nextToken")
     }
     

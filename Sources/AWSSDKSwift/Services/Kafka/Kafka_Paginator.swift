@@ -4,27 +4,27 @@
 extension Kafka {
 
     ///  Returns a list of all the operations that have been performed on the specified MSK cluster.
-    public func listClusterOperationsPaginator(_ input: ListClusterOperationsRequest) -> Future<[ClusterOperationInfo]> {
+    public func listClusterOperationsPaginator(_ input: ListClusterOperationsRequest) -> EventLoopFuture<[ClusterOperationInfo]> {
         return client.paginate(input: input, command: listClusterOperations, resultKey: "clusterOperationInfoList", tokenKey: "nextToken")
     }
     
     ///  Returns a list of all the MSK clusters in the current Region.
-    public func listClustersPaginator(_ input: ListClustersRequest) -> Future<[ClusterInfo]> {
+    public func listClustersPaginator(_ input: ListClustersRequest) -> EventLoopFuture<[ClusterInfo]> {
         return client.paginate(input: input, command: listClusters, resultKey: "clusterInfoList", tokenKey: "nextToken")
     }
     
     ///  Returns a list of all the revisions of an MSK configuration.
-    public func listConfigurationRevisionsPaginator(_ input: ListConfigurationRevisionsRequest) -> Future<[ConfigurationRevision]> {
+    public func listConfigurationRevisionsPaginator(_ input: ListConfigurationRevisionsRequest) -> EventLoopFuture<[ConfigurationRevision]> {
         return client.paginate(input: input, command: listConfigurationRevisions, resultKey: "revisions", tokenKey: "nextToken")
     }
     
     ///  Returns a list of all the MSK configurations in this Region.
-    public func listConfigurationsPaginator(_ input: ListConfigurationsRequest) -> Future<[Configuration]> {
+    public func listConfigurationsPaginator(_ input: ListConfigurationsRequest) -> EventLoopFuture<[Configuration]> {
         return client.paginate(input: input, command: listConfigurations, resultKey: "configurations", tokenKey: "nextToken")
     }
     
     ///  Returns a list of the broker nodes in the cluster.
-    public func listNodesPaginator(_ input: ListNodesRequest) -> Future<[NodeInfo]> {
+    public func listNodesPaginator(_ input: ListNodesRequest) -> EventLoopFuture<[NodeInfo]> {
         return client.paginate(input: input, command: listNodes, resultKey: "nodeInfoList", tokenKey: "nextToken")
     }
     

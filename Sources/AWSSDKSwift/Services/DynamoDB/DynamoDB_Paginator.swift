@@ -4,7 +4,7 @@
 extension DynamoDB {
 
     ///  Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
-    public func listTablesPaginator(_ input: ListTablesInput) -> Future<[String]> {
+    public func listTablesPaginator(_ input: ListTablesInput) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listTables, resultKey: "tableNames", tokenKey: "lastEvaluatedTableName")
     }
     

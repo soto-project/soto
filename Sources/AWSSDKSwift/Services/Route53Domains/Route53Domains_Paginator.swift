@@ -4,12 +4,12 @@
 extension Route53Domains {
 
     ///  This operation returns all the domain names registered with Amazon Route 53 for the current AWS account.
-    public func listDomainsPaginator(_ input: ListDomainsRequest) -> Future<[DomainSummary]> {
+    public func listDomainsPaginator(_ input: ListDomainsRequest) -> EventLoopFuture<[DomainSummary]> {
         return client.paginate(input: input, command: listDomains, resultKey: "domains", tokenKey: "nextPageMarker")
     }
     
     ///  This operation returns the operation IDs of operations that are not yet complete.
-    public func listOperationsPaginator(_ input: ListOperationsRequest) -> Future<[OperationSummary]> {
+    public func listOperationsPaginator(_ input: ListOperationsRequest) -> EventLoopFuture<[OperationSummary]> {
         return client.paginate(input: input, command: listOperations, resultKey: "operations", tokenKey: "nextPageMarker")
     }
     

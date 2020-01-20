@@ -4,7 +4,7 @@
 extension Glue {
 
     ///  Retrieves a list of all security configurations.
-    public func getSecurityConfigurationsPaginator(_ input: GetSecurityConfigurationsRequest) -> Future<[SecurityConfiguration]> {
+    public func getSecurityConfigurationsPaginator(_ input: GetSecurityConfigurationsRequest) -> EventLoopFuture<[SecurityConfiguration]> {
         return client.paginate(input: input, command: getSecurityConfigurations, resultKey: "securityConfigurations", tokenKey: "nextToken")
     }
     

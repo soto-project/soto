@@ -4,22 +4,22 @@
 extension Rekognition {
 
     ///  Lists and describes the models in an Amazon Rekognition Custom Labels project. You can specify up to 10 model versions in ProjectVersionArns. If you don't specify a value, descriptions for all models are returned. This operation requires permissions to perform the rekognition:DescribeProjectVersions action.
-    public func describeProjectVersionsPaginator(_ input: DescribeProjectVersionsRequest) -> Future<[ProjectVersionDescription]> {
+    public func describeProjectVersionsPaginator(_ input: DescribeProjectVersionsRequest) -> EventLoopFuture<[ProjectVersionDescription]> {
         return client.paginate(input: input, command: describeProjectVersions, resultKey: "projectVersionDescriptions", tokenKey: "nextToken")
     }
     
     ///  Lists and gets information about your Amazon Rekognition Custom Labels projects. This operation requires permissions to perform the rekognition:DescribeProjects action.
-    public func describeProjectsPaginator(_ input: DescribeProjectsRequest) -> Future<[ProjectDescription]> {
+    public func describeProjectsPaginator(_ input: DescribeProjectsRequest) -> EventLoopFuture<[ProjectDescription]> {
         return client.paginate(input: input, command: describeProjects, resultKey: "projectDescriptions", tokenKey: "nextToken")
     }
     
     ///  Returns list of collection IDs in your account. If the result is truncated, the response also provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs. For an example, see Listing Collections in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:ListCollections action.
-    public func listCollectionsPaginator(_ input: ListCollectionsRequest) -> Future<[String]> {
+    public func listCollectionsPaginator(_ input: ListCollectionsRequest) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listCollections, resultKey: "collectionIds", tokenKey: "nextToken")
     }
     
     ///  Returns metadata for faces in the specified collection. This metadata includes information such as the bounding box coordinates, the confidence (that the bounding box contains a face), and face ID. For an example, see Listing Faces in a Collection in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:ListFaces action.
-    public func listFacesPaginator(_ input: ListFacesRequest) -> Future<[Face]> {
+    public func listFacesPaginator(_ input: ListFacesRequest) -> EventLoopFuture<[Face]> {
         return client.paginate(input: input, command: listFaces, resultKey: "faces", tokenKey: "nextToken")
     }
     

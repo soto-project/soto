@@ -4,67 +4,67 @@
 extension ElastiCache {
 
     ///  Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
-    public func describeCacheClustersPaginator(_ input: DescribeCacheClustersMessage) -> Future<[CacheCluster]> {
+    public func describeCacheClustersPaginator(_ input: DescribeCacheClustersMessage) -> EventLoopFuture<[CacheCluster]> {
         return client.paginate(input: input, command: describeCacheClusters, resultKey: "cacheClusters", tokenKey: "marker")
     }
     
     ///  Returns a list of the available cache engines and their versions.
-    public func describeCacheEngineVersionsPaginator(_ input: DescribeCacheEngineVersionsMessage) -> Future<[CacheEngineVersion]> {
+    public func describeCacheEngineVersionsPaginator(_ input: DescribeCacheEngineVersionsMessage) -> EventLoopFuture<[CacheEngineVersion]> {
         return client.paginate(input: input, command: describeCacheEngineVersions, resultKey: "cacheEngineVersions", tokenKey: "marker")
     }
     
     ///  Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
-    public func describeCacheParameterGroupsPaginator(_ input: DescribeCacheParameterGroupsMessage) -> Future<[CacheParameterGroup]> {
+    public func describeCacheParameterGroupsPaginator(_ input: DescribeCacheParameterGroupsMessage) -> EventLoopFuture<[CacheParameterGroup]> {
         return client.paginate(input: input, command: describeCacheParameterGroups, resultKey: "cacheParameterGroups", tokenKey: "marker")
     }
     
     ///  Returns the detailed parameter list for a particular cache parameter group.
-    public func describeCacheParametersPaginator(_ input: DescribeCacheParametersMessage) -> Future<[Parameter]> {
+    public func describeCacheParametersPaginator(_ input: DescribeCacheParametersMessage) -> EventLoopFuture<[Parameter]> {
         return client.paginate(input: input, command: describeCacheParameters, resultKey: "parameters", tokenKey: "marker")
     }
     
     ///  Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup 
-    public func describeCacheSecurityGroupsPaginator(_ input: DescribeCacheSecurityGroupsMessage) -> Future<[CacheSecurityGroup]> {
+    public func describeCacheSecurityGroupsPaginator(_ input: DescribeCacheSecurityGroupsMessage) -> EventLoopFuture<[CacheSecurityGroup]> {
         return client.paginate(input: input, command: describeCacheSecurityGroups, resultKey: "cacheSecurityGroups", tokenKey: "marker")
     }
     
     ///  Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default. 
-    public func describeCacheSubnetGroupsPaginator(_ input: DescribeCacheSubnetGroupsMessage) -> Future<[CacheSubnetGroup]> {
+    public func describeCacheSubnetGroupsPaginator(_ input: DescribeCacheSubnetGroupsMessage) -> EventLoopFuture<[CacheSubnetGroup]> {
         return client.paginate(input: input, command: describeCacheSubnetGroups, resultKey: "cacheSubnetGroups", tokenKey: "marker")
     }
     
     ///  Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
-    public func describeEventsPaginator(_ input: DescribeEventsMessage) -> Future<[Event]> {
+    public func describeEventsPaginator(_ input: DescribeEventsMessage) -> EventLoopFuture<[Event]> {
         return client.paginate(input: input, command: describeEvents, resultKey: "events", tokenKey: "marker")
     }
     
     ///  Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis only. 
-    public func describeReplicationGroupsPaginator(_ input: DescribeReplicationGroupsMessage) -> Future<[ReplicationGroup]> {
+    public func describeReplicationGroupsPaginator(_ input: DescribeReplicationGroupsMessage) -> EventLoopFuture<[ReplicationGroup]> {
         return client.paginate(input: input, command: describeReplicationGroups, resultKey: "replicationGroups", tokenKey: "marker")
     }
     
     ///  Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
-    public func describeReservedCacheNodesPaginator(_ input: DescribeReservedCacheNodesMessage) -> Future<[ReservedCacheNode]> {
+    public func describeReservedCacheNodesPaginator(_ input: DescribeReservedCacheNodesMessage) -> EventLoopFuture<[ReservedCacheNode]> {
         return client.paginate(input: input, command: describeReservedCacheNodes, resultKey: "reservedCacheNodes", tokenKey: "marker")
     }
     
     ///  Lists available reserved cache node offerings.
-    public func describeReservedCacheNodesOfferingsPaginator(_ input: DescribeReservedCacheNodesOfferingsMessage) -> Future<[ReservedCacheNodesOffering]> {
+    public func describeReservedCacheNodesOfferingsPaginator(_ input: DescribeReservedCacheNodesOfferingsMessage) -> EventLoopFuture<[ReservedCacheNodesOffering]> {
         return client.paginate(input: input, command: describeReservedCacheNodesOfferings, resultKey: "reservedCacheNodesOfferings", tokenKey: "marker")
     }
     
     ///  Returns details of the service updates
-    public func describeServiceUpdatesPaginator(_ input: DescribeServiceUpdatesMessage) -> Future<[ServiceUpdate]> {
+    public func describeServiceUpdatesPaginator(_ input: DescribeServiceUpdatesMessage) -> EventLoopFuture<[ServiceUpdate]> {
         return client.paginate(input: input, command: describeServiceUpdates, resultKey: "serviceUpdates", tokenKey: "marker")
     }
     
     ///  Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only. 
-    public func describeSnapshotsPaginator(_ input: DescribeSnapshotsMessage) -> Future<[Snapshot]> {
+    public func describeSnapshotsPaginator(_ input: DescribeSnapshotsMessage) -> EventLoopFuture<[Snapshot]> {
         return client.paginate(input: input, command: describeSnapshots, resultKey: "snapshots", tokenKey: "marker")
     }
     
     ///  Returns details of the update actions 
-    public func describeUpdateActionsPaginator(_ input: DescribeUpdateActionsMessage) -> Future<[UpdateAction]> {
+    public func describeUpdateActionsPaginator(_ input: DescribeUpdateActionsMessage) -> EventLoopFuture<[UpdateAction]> {
         return client.paginate(input: input, command: describeUpdateActions, resultKey: "updateActions", tokenKey: "marker")
     }
     

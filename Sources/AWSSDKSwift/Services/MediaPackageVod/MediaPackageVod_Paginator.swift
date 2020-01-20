@@ -4,17 +4,17 @@
 extension MediaPackageVod {
 
     ///  Returns a collection of MediaPackage VOD Asset resources.
-    public func listAssetsPaginator(_ input: ListAssetsRequest) -> Future<[AssetShallow]> {
+    public func listAssetsPaginator(_ input: ListAssetsRequest) -> EventLoopFuture<[AssetShallow]> {
         return client.paginate(input: input, command: listAssets, resultKey: "assets", tokenKey: "nextToken")
     }
     
     ///  Returns a collection of MediaPackage VOD PackagingConfiguration resources.
-    public func listPackagingConfigurationsPaginator(_ input: ListPackagingConfigurationsRequest) -> Future<[PackagingConfiguration]> {
+    public func listPackagingConfigurationsPaginator(_ input: ListPackagingConfigurationsRequest) -> EventLoopFuture<[PackagingConfiguration]> {
         return client.paginate(input: input, command: listPackagingConfigurations, resultKey: "packagingConfigurations", tokenKey: "nextToken")
     }
     
     ///  Returns a collection of MediaPackage VOD PackagingGroup resources.
-    public func listPackagingGroupsPaginator(_ input: ListPackagingGroupsRequest) -> Future<[PackagingGroup]> {
+    public func listPackagingGroupsPaginator(_ input: ListPackagingGroupsRequest) -> EventLoopFuture<[PackagingGroup]> {
         return client.paginate(input: input, command: listPackagingGroups, resultKey: "packagingGroups", tokenKey: "nextToken")
     }
     

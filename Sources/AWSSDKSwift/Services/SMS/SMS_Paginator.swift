@@ -4,22 +4,22 @@
 extension SMS {
 
     ///  Describes the connectors registered with the AWS SMS.
-    public func getConnectorsPaginator(_ input: GetConnectorsRequest) -> Future<[Connector]> {
+    public func getConnectorsPaginator(_ input: GetConnectorsRequest) -> EventLoopFuture<[Connector]> {
         return client.paginate(input: input, command: getConnectors, resultKey: "connectorList", tokenKey: "nextToken")
     }
     
     ///  Describes the specified replication job or all of your replication jobs.
-    public func getReplicationJobsPaginator(_ input: GetReplicationJobsRequest) -> Future<[ReplicationJob]> {
+    public func getReplicationJobsPaginator(_ input: GetReplicationJobsRequest) -> EventLoopFuture<[ReplicationJob]> {
         return client.paginate(input: input, command: getReplicationJobs, resultKey: "replicationJobList", tokenKey: "nextToken")
     }
     
     ///  Describes the replication runs for the specified replication job.
-    public func getReplicationRunsPaginator(_ input: GetReplicationRunsRequest) -> Future<[ReplicationRun]> {
+    public func getReplicationRunsPaginator(_ input: GetReplicationRunsRequest) -> EventLoopFuture<[ReplicationRun]> {
         return client.paginate(input: input, command: getReplicationRuns, resultKey: "replicationRunList", tokenKey: "nextToken")
     }
     
     ///  Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
-    public func getServersPaginator(_ input: GetServersRequest) -> Future<[Server]> {
+    public func getServersPaginator(_ input: GetServersRequest) -> EventLoopFuture<[Server]> {
         return client.paginate(input: input, command: getServers, resultKey: "serverList", tokenKey: "nextToken")
     }
     

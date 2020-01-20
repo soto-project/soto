@@ -4,12 +4,12 @@
 extension MediaConnect {
 
     ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
-    public func listEntitlementsPaginator(_ input: ListEntitlementsRequest) -> Future<[ListedEntitlement]> {
+    public func listEntitlementsPaginator(_ input: ListEntitlementsRequest) -> EventLoopFuture<[ListedEntitlement]> {
         return client.paginate(input: input, command: listEntitlements, resultKey: "entitlements", tokenKey: "nextToken")
     }
     
     ///  Displays a list of flows that are associated with this account. This request returns a paginated result.
-    public func listFlowsPaginator(_ input: ListFlowsRequest) -> Future<[ListedFlow]> {
+    public func listFlowsPaginator(_ input: ListFlowsRequest) -> EventLoopFuture<[ListedFlow]> {
         return client.paginate(input: input, command: listFlows, resultKey: "flows", tokenKey: "nextToken")
     }
     

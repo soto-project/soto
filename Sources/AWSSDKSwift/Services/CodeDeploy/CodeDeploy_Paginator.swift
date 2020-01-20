@@ -4,33 +4,33 @@
 extension CodeDeploy {
 
     ///  Lists information about revisions for an application.
-    public func listApplicationRevisionsPaginator(_ input: ListApplicationRevisionsInput) -> Future<[RevisionLocation]> {
+    public func listApplicationRevisionsPaginator(_ input: ListApplicationRevisionsInput) -> EventLoopFuture<[RevisionLocation]> {
         return client.paginate(input: input, command: listApplicationRevisions, resultKey: "revisions", tokenKey: "nextToken")
     }
     
     ///  Lists the applications registered with the IAM user or AWS account.
-    public func listApplicationsPaginator(_ input: ListApplicationsInput) -> Future<[String]> {
+    public func listApplicationsPaginator(_ input: ListApplicationsInput) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listApplications, resultKey: "applications", tokenKey: "nextToken")
     }
     
     ///  Lists the deployment configurations with the IAM user or AWS account.
-    public func listDeploymentConfigsPaginator(_ input: ListDeploymentConfigsInput) -> Future<[String]> {
+    public func listDeploymentConfigsPaginator(_ input: ListDeploymentConfigsInput) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listDeploymentConfigs, resultKey: "deploymentConfigsList", tokenKey: "nextToken")
     }
     
     ///  Lists the deployment groups for an application registered with the IAM user or AWS account.
-    public func listDeploymentGroupsPaginator(_ input: ListDeploymentGroupsInput) -> Future<[String]> {
+    public func listDeploymentGroupsPaginator(_ input: ListDeploymentGroupsInput) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listDeploymentGroups, resultKey: "deploymentGroups", tokenKey: "nextToken")
     }
     
     ///    The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or AWS Lambda.    Lists the instance for a deployment associated with the IAM user or AWS account. 
     @available(*, deprecated, message:"This operation is deprecated, use ListDeploymentTargets instead.")
-    public func listDeploymentInstancesPaginator(_ input: ListDeploymentInstancesInput) -> Future<[String]> {
+    public func listDeploymentInstancesPaginator(_ input: ListDeploymentInstancesInput) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listDeploymentInstances, resultKey: "instancesList", tokenKey: "nextToken")
     }
     
     ///  Lists the deployments in a deployment group for an application registered with the IAM user or AWS account.
-    public func listDeploymentsPaginator(_ input: ListDeploymentsInput) -> Future<[String]> {
+    public func listDeploymentsPaginator(_ input: ListDeploymentsInput) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listDeployments, resultKey: "deployments", tokenKey: "nextToken")
     }
     

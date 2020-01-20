@@ -4,7 +4,7 @@
 extension Organizations {
 
     ///  Lists tags for the specified resource.  Currently, you can list tags on an account in AWS Organizations. This operation can be called only from the organization's master account.
-    public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest) -> Future<[Tag]> {
+    public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest) -> EventLoopFuture<[Tag]> {
         return client.paginate(input: input, command: listTagsForResource, resultKey: "tags", tokenKey: "nextToken")
     }
     

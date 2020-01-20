@@ -4,22 +4,22 @@
 extension Batch {
 
     ///  Describes one or more of your compute environments. If you are using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you should launch your Amazon ECS container instances into.
-    public func describeComputeEnvironmentsPaginator(_ input: DescribeComputeEnvironmentsRequest) -> Future<[ComputeEnvironmentDetail]> {
+    public func describeComputeEnvironmentsPaginator(_ input: DescribeComputeEnvironmentsRequest) -> EventLoopFuture<[ComputeEnvironmentDetail]> {
         return client.paginate(input: input, command: describeComputeEnvironments, resultKey: "computeEnvironments", tokenKey: "nextToken")
     }
     
     ///  Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
-    public func describeJobDefinitionsPaginator(_ input: DescribeJobDefinitionsRequest) -> Future<[JobDefinition]> {
+    public func describeJobDefinitionsPaginator(_ input: DescribeJobDefinitionsRequest) -> EventLoopFuture<[JobDefinition]> {
         return client.paginate(input: input, command: describeJobDefinitions, resultKey: "jobDefinitions", tokenKey: "nextToken")
     }
     
     ///  Describes one or more of your job queues.
-    public func describeJobQueuesPaginator(_ input: DescribeJobQueuesRequest) -> Future<[JobQueueDetail]> {
+    public func describeJobQueuesPaginator(_ input: DescribeJobQueuesRequest) -> EventLoopFuture<[JobQueueDetail]> {
         return client.paginate(input: input, command: describeJobQueues, resultKey: "jobQueues", tokenKey: "nextToken")
     }
     
     ///  Returns a list of AWS Batch jobs. You must specify only one of the following:   a job queue ID to return a list of jobs in that job queue   a multi-node parallel job ID to return a list of that job's nodes   an array job ID to return a list of that job's children   You can filter the results by job status with the jobStatus parameter. If you do not specify a status, only RUNNING jobs are returned.
-    public func listJobsPaginator(_ input: ListJobsRequest) -> Future<[JobSummary]> {
+    public func listJobsPaginator(_ input: ListJobsRequest) -> EventLoopFuture<[JobSummary]> {
         return client.paginate(input: input, command: listJobs, resultKey: "jobSummaryList", tokenKey: "nextToken")
     }
     
