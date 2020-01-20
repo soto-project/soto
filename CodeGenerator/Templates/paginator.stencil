@@ -1,5 +1,6 @@
 {%include "header.stencil" %}
 
+import NIO
 
 extension {{name}} {
 
@@ -19,7 +20,7 @@ extension {{name}} {
 
 {%for page in paginators %}
 extension {{name}}.{{page.operation.inputShape}}: AWSPaginateable {
-    public init(_ original: Self, token: String) {
+    public init(_ original: {{name}}.{{page.operation.inputShape}}, token: String) {
         self.init(
 {%for param in page.initParams %}
             {{param}}{%if not forloop.last %}, {%endif +%}
