@@ -6,12 +6,12 @@ extension EBS {
 
     ///  Returns the block indexes and block tokens for blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
     public func listChangedBlocksPaginator(_ input: ListChangedBlocksRequest) -> EventLoopFuture<[ChangedBlock]> {
-        return client.paginate(input: input, command: listChangedBlocks, resultKey: \.changedBlocks, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listChangedBlocks, resultKey: \ListChangedBlocksResponse.changedBlocks, tokenKey: \ListChangedBlocksResponse.nextToken)
     }
     
     ///  Returns the block indexes and block tokens for blocks in an Amazon Elastic Block Store snapshot.
     public func listSnapshotBlocksPaginator(_ input: ListSnapshotBlocksRequest) -> EventLoopFuture<[Block]> {
-        return client.paginate(input: input, command: listSnapshotBlocks, resultKey: \.blocks, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listSnapshotBlocks, resultKey: \ListSnapshotBlocksResponse.blocks, tokenKey: \ListSnapshotBlocksResponse.nextToken)
     }
     
 }

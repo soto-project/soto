@@ -6,37 +6,37 @@ extension EMR {
 
     ///  Provides information about the bootstrap actions associated with a cluster.
     public func listBootstrapActionsPaginator(_ input: ListBootstrapActionsInput) -> EventLoopFuture<[Command]> {
-        return client.paginate(input: input, command: listBootstrapActions, resultKey: \.bootstrapActions, tokenKey: \.marker)
+        return client.paginate(input: input, command: listBootstrapActions, resultKey: \ListBootstrapActionsOutput.bootstrapActions, tokenKey: \ListBootstrapActionsOutput.marker)
     }
     
     ///  Provides the status of all clusters visible to this AWS account. Allows you to filter the list of clusters based on certain criteria; for example, filtering by cluster creation date and time or by status. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListClusters calls.
     public func listClustersPaginator(_ input: ListClustersInput) -> EventLoopFuture<[ClusterSummary]> {
-        return client.paginate(input: input, command: listClusters, resultKey: \.clusters, tokenKey: \.marker)
+        return client.paginate(input: input, command: listClusters, resultKey: \ListClustersOutput.clusters, tokenKey: \ListClustersOutput.marker)
     }
     
     ///  Lists all available details about the instance fleets in a cluster.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
     public func listInstanceFleetsPaginator(_ input: ListInstanceFleetsInput) -> EventLoopFuture<[InstanceFleet]> {
-        return client.paginate(input: input, command: listInstanceFleets, resultKey: \.instanceFleets, tokenKey: \.marker)
+        return client.paginate(input: input, command: listInstanceFleets, resultKey: \ListInstanceFleetsOutput.instanceFleets, tokenKey: \ListInstanceFleetsOutput.marker)
     }
     
     ///  Provides all available details about the instance groups in a cluster.
     public func listInstanceGroupsPaginator(_ input: ListInstanceGroupsInput) -> EventLoopFuture<[InstanceGroup]> {
-        return client.paginate(input: input, command: listInstanceGroups, resultKey: \.instanceGroups, tokenKey: \.marker)
+        return client.paginate(input: input, command: listInstanceGroups, resultKey: \ListInstanceGroupsOutput.instanceGroups, tokenKey: \ListInstanceGroupsOutput.marker)
     }
     
     ///  Provides information for all active EC2 instances and EC2 instances terminated in the last 30 days, up to a maximum of 2,000. EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
     public func listInstancesPaginator(_ input: ListInstancesInput) -> EventLoopFuture<[Instance]> {
-        return client.paginate(input: input, command: listInstances, resultKey: \.instances, tokenKey: \.marker)
+        return client.paginate(input: input, command: listInstances, resultKey: \ListInstancesOutput.instances, tokenKey: \ListInstancesOutput.marker)
     }
     
     ///  Lists all the security configurations visible to this account, providing their creation dates and times, and their names. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListSecurityConfigurations calls.
     public func listSecurityConfigurationsPaginator(_ input: ListSecurityConfigurationsInput) -> EventLoopFuture<[SecurityConfigurationSummary]> {
-        return client.paginate(input: input, command: listSecurityConfigurations, resultKey: \.securityConfigurations, tokenKey: \.marker)
+        return client.paginate(input: input, command: listSecurityConfigurations, resultKey: \ListSecurityConfigurationsOutput.securityConfigurations, tokenKey: \ListSecurityConfigurationsOutput.marker)
     }
     
     ///  Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request of filter by StepStates. You can specify a maximum of ten stepIDs.
     public func listStepsPaginator(_ input: ListStepsInput) -> EventLoopFuture<[StepSummary]> {
-        return client.paginate(input: input, command: listSteps, resultKey: \.steps, tokenKey: \.marker)
+        return client.paginate(input: input, command: listSteps, resultKey: \ListStepsOutput.steps, tokenKey: \ListStepsOutput.marker)
     }
     
 }

@@ -6,42 +6,42 @@ extension XRay {
 
     ///  Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
     public func batchGetTracesPaginator(_ input: BatchGetTracesRequest) -> EventLoopFuture<[Trace]> {
-        return client.paginate(input: input, command: batchGetTraces, resultKey: \.traces, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: batchGetTraces, resultKey: \BatchGetTracesResult.traces, tokenKey: \BatchGetTracesResult.nextToken)
     }
     
     ///  Retrieves all active group details.
     public func getGroupsPaginator(_ input: GetGroupsRequest) -> EventLoopFuture<[GroupSummary]> {
-        return client.paginate(input: input, command: getGroups, resultKey: \.groups, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getGroups, resultKey: \GetGroupsResult.groups, tokenKey: \GetGroupsResult.nextToken)
     }
     
     ///  Retrieves all sampling rules.
     public func getSamplingRulesPaginator(_ input: GetSamplingRulesRequest) -> EventLoopFuture<[SamplingRuleRecord]> {
-        return client.paginate(input: input, command: getSamplingRules, resultKey: \.samplingRuleRecords, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getSamplingRules, resultKey: \GetSamplingRulesResult.samplingRuleRecords, tokenKey: \GetSamplingRulesResult.nextToken)
     }
     
     ///  Retrieves information about recent sampling results for all sampling rules.
     public func getSamplingStatisticSummariesPaginator(_ input: GetSamplingStatisticSummariesRequest) -> EventLoopFuture<[SamplingStatisticSummary]> {
-        return client.paginate(input: input, command: getSamplingStatisticSummaries, resultKey: \.samplingStatisticSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getSamplingStatisticSummaries, resultKey: \GetSamplingStatisticSummariesResult.samplingStatisticSummaries, tokenKey: \GetSamplingStatisticSummariesResult.nextToken)
     }
     
     ///  Retrieves a document that describes services that process incoming requests, and downstream services that they call as a result. Root services process incoming requests and make calls to downstream services. Root services are applications that use the AWS X-Ray SDK. Downstream services can be other applications, AWS resources, HTTP web APIs, or SQL databases.
     public func getServiceGraphPaginator(_ input: GetServiceGraphRequest) -> EventLoopFuture<[Service]> {
-        return client.paginate(input: input, command: getServiceGraph, resultKey: \.services, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getServiceGraph, resultKey: \GetServiceGraphResult.services, tokenKey: \GetServiceGraphResult.nextToken)
     }
     
     ///  Get an aggregation of service statistics defined by a specific time range.
     public func getTimeSeriesServiceStatisticsPaginator(_ input: GetTimeSeriesServiceStatisticsRequest) -> EventLoopFuture<[TimeSeriesServiceStatistics]> {
-        return client.paginate(input: input, command: getTimeSeriesServiceStatistics, resultKey: \.timeSeriesServiceStatistics, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getTimeSeriesServiceStatistics, resultKey: \GetTimeSeriesServiceStatisticsResult.timeSeriesServiceStatistics, tokenKey: \GetTimeSeriesServiceStatisticsResult.nextToken)
     }
     
     ///  Retrieves a service graph for one or more specific trace IDs.
     public func getTraceGraphPaginator(_ input: GetTraceGraphRequest) -> EventLoopFuture<[Service]> {
-        return client.paginate(input: input, command: getTraceGraph, resultKey: \.services, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getTraceGraph, resultKey: \GetTraceGraphResult.services, tokenKey: \GetTraceGraphResult.nextToken)
     }
     
     ///  Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com:  service("api.example.com")  This filter expression finds traces that have an annotation named account with the value 12345:  annotation.account = "12345"  For a full list of indexed fields and keywords that you can use in filter expressions, see Using Filter Expressions in the AWS X-Ray Developer Guide.
     public func getTraceSummariesPaginator(_ input: GetTraceSummariesRequest) -> EventLoopFuture<[TraceSummary]> {
-        return client.paginate(input: input, command: getTraceSummaries, resultKey: \.traceSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getTraceSummaries, resultKey: \GetTraceSummariesResult.traceSummaries, tokenKey: \GetTraceSummariesResult.nextToken)
     }
     
 }

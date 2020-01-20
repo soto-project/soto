@@ -6,7 +6,7 @@ extension ElasticBeanstalk {
 
     ///  Returns list of event descriptions matching criteria up to the last 6 weeks.  This action returns the most recent 1,000 events from the specified NextToken. 
     public func describeEventsPaginator(_ input: DescribeEventsMessage) -> EventLoopFuture<[EventDescription]> {
-        return client.paginate(input: input, command: describeEvents, resultKey: \.events, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: describeEvents, resultKey: \EventDescriptionsMessage.events, tokenKey: \EventDescriptionsMessage.nextToken)
     }
     
 }

@@ -6,32 +6,32 @@ extension RoboMaker {
 
     ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.     
     public func listDeploymentJobsPaginator(_ input: ListDeploymentJobsRequest) -> EventLoopFuture<[DeploymentJob]> {
-        return client.paginate(input: input, command: listDeploymentJobs, resultKey: \.deploymentJobs, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listDeploymentJobs, resultKey: \ListDeploymentJobsResponse.deploymentJobs, tokenKey: \ListDeploymentJobsResponse.nextToken)
     }
     
     ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. 
     public func listFleetsPaginator(_ input: ListFleetsRequest) -> EventLoopFuture<[Fleet]> {
-        return client.paginate(input: input, command: listFleets, resultKey: \.fleetDetails, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listFleets, resultKey: \ListFleetsResponse.fleetDetails, tokenKey: \ListFleetsResponse.nextToken)
     }
     
     ///  Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
     public func listRobotApplicationsPaginator(_ input: ListRobotApplicationsRequest) -> EventLoopFuture<[RobotApplicationSummary]> {
-        return client.paginate(input: input, command: listRobotApplications, resultKey: \.robotApplicationSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listRobotApplications, resultKey: \ListRobotApplicationsResponse.robotApplicationSummaries, tokenKey: \ListRobotApplicationsResponse.nextToken)
     }
     
     ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.
     public func listRobotsPaginator(_ input: ListRobotsRequest) -> EventLoopFuture<[Robot]> {
-        return client.paginate(input: input, command: listRobots, resultKey: \.robots, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listRobots, resultKey: \ListRobotsResponse.robots, tokenKey: \ListRobotsResponse.nextToken)
     }
     
     ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
     public func listSimulationApplicationsPaginator(_ input: ListSimulationApplicationsRequest) -> EventLoopFuture<[SimulationApplicationSummary]> {
-        return client.paginate(input: input, command: listSimulationApplications, resultKey: \.simulationApplicationSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listSimulationApplications, resultKey: \ListSimulationApplicationsResponse.simulationApplicationSummaries, tokenKey: \ListSimulationApplicationsResponse.nextToken)
     }
     
     ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
     public func listSimulationJobsPaginator(_ input: ListSimulationJobsRequest) -> EventLoopFuture<[SimulationJobSummary]> {
-        return client.paginate(input: input, command: listSimulationJobs, resultKey: \.simulationJobSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listSimulationJobs, resultKey: \ListSimulationJobsResponse.simulationJobSummaries, tokenKey: \ListSimulationJobsResponse.nextToken)
     }
     
 }

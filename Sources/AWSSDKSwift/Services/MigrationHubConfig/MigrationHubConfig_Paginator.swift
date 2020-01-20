@@ -6,7 +6,7 @@ extension MigrationHubConfig {
 
     ///  This API permits filtering on the ControlId, HomeRegion, and RegionControlScope fields.
     public func describeHomeRegionControlsPaginator(_ input: DescribeHomeRegionControlsRequest) -> EventLoopFuture<[HomeRegionControl]> {
-        return client.paginate(input: input, command: describeHomeRegionControls, resultKey: \.homeRegionControls, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: describeHomeRegionControls, resultKey: \DescribeHomeRegionControlsResult.homeRegionControls, tokenKey: \DescribeHomeRegionControlsResult.nextToken)
     }
     
 }

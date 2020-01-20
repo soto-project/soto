@@ -6,22 +6,22 @@ extension ECR {
 
     ///  Returns metadata about the images in a repository, including image size, image tags, and creation date.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
     public func describeImagesPaginator(_ input: DescribeImagesRequest) -> EventLoopFuture<[ImageDetail]> {
-        return client.paginate(input: input, command: describeImages, resultKey: \.imageDetails, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: describeImages, resultKey: \DescribeImagesResponse.imageDetails, tokenKey: \DescribeImagesResponse.nextToken)
     }
     
     ///  Describes image repositories in a registry.
     public func describeRepositoriesPaginator(_ input: DescribeRepositoriesRequest) -> EventLoopFuture<[Repository]> {
-        return client.paginate(input: input, command: describeRepositories, resultKey: \.repositories, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: describeRepositories, resultKey: \DescribeRepositoriesResponse.repositories, tokenKey: \DescribeRepositoriesResponse.nextToken)
     }
     
     ///  Retrieves the results of the specified lifecycle policy preview request.
     public func getLifecyclePolicyPreviewPaginator(_ input: GetLifecyclePolicyPreviewRequest) -> EventLoopFuture<[LifecyclePolicyPreviewResult]> {
-        return client.paginate(input: input, command: getLifecyclePolicyPreview, resultKey: \.previewResults, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getLifecyclePolicyPreview, resultKey: \GetLifecyclePolicyPreviewResponse.previewResults, tokenKey: \GetLifecyclePolicyPreviewResponse.nextToken)
     }
     
     ///  Lists all the image IDs for a given repository. You can filter images based on whether or not they are tagged by setting the tagStatus parameter to TAGGED or UNTAGGED. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
     public func listImagesPaginator(_ input: ListImagesRequest) -> EventLoopFuture<[ImageIdentifier]> {
-        return client.paginate(input: input, command: listImages, resultKey: \.imageIds, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listImages, resultKey: \ListImagesResponse.imageIds, tokenKey: \ListImagesResponse.nextToken)
     }
     
 }

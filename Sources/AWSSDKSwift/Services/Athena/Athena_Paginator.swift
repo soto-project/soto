@@ -6,17 +6,17 @@ extension Athena {
 
     ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listNamedQueriesPaginator(_ input: ListNamedQueriesInput) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listNamedQueries, resultKey: \.namedQueryIds, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listNamedQueries, resultKey: \ListNamedQueriesOutput.namedQueryIds, tokenKey: \ListNamedQueriesOutput.nextToken)
     }
     
     ///  Provides a list of available query execution IDs for the queries in the specified workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listQueryExecutionsPaginator(_ input: ListQueryExecutionsInput) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listQueryExecutions, resultKey: \.queryExecutionIds, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listQueryExecutions, resultKey: \ListQueryExecutionsOutput.queryExecutionIds, tokenKey: \ListQueryExecutionsOutput.nextToken)
     }
     
     ///  Lists available workgroups for the account.
     public func listWorkGroupsPaginator(_ input: ListWorkGroupsInput) -> EventLoopFuture<[WorkGroupSummary]> {
-        return client.paginate(input: input, command: listWorkGroups, resultKey: \.workGroups, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listWorkGroups, resultKey: \ListWorkGroupsOutput.workGroups, tokenKey: \ListWorkGroupsOutput.nextToken)
     }
     
 }

@@ -6,32 +6,32 @@ extension CodePipeline {
 
     ///  Lists the action executions that have occurred in a pipeline.
     public func listActionExecutionsPaginator(_ input: ListActionExecutionsInput) -> EventLoopFuture<[ActionExecutionDetail]> {
-        return client.paginate(input: input, command: listActionExecutions, resultKey: \.actionExecutionDetails, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listActionExecutions, resultKey: \ListActionExecutionsOutput.actionExecutionDetails, tokenKey: \ListActionExecutionsOutput.nextToken)
     }
     
     ///  Gets a summary of all AWS CodePipeline action types associated with your account.
     public func listActionTypesPaginator(_ input: ListActionTypesInput) -> EventLoopFuture<[ActionType]> {
-        return client.paginate(input: input, command: listActionTypes, resultKey: \.actionTypes, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listActionTypes, resultKey: \ListActionTypesOutput.actionTypes, tokenKey: \ListActionTypesOutput.nextToken)
     }
     
     ///  Gets a summary of the most recent executions for a pipeline.
     public func listPipelineExecutionsPaginator(_ input: ListPipelineExecutionsInput) -> EventLoopFuture<[PipelineExecutionSummary]> {
-        return client.paginate(input: input, command: listPipelineExecutions, resultKey: \.pipelineExecutionSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listPipelineExecutions, resultKey: \ListPipelineExecutionsOutput.pipelineExecutionSummaries, tokenKey: \ListPipelineExecutionsOutput.nextToken)
     }
     
     ///  Gets a summary of all of the pipelines associated with your account.
     public func listPipelinesPaginator(_ input: ListPipelinesInput) -> EventLoopFuture<[PipelineSummary]> {
-        return client.paginate(input: input, command: listPipelines, resultKey: \.pipelines, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listPipelines, resultKey: \ListPipelinesOutput.pipelines, tokenKey: \ListPipelinesOutput.nextToken)
     }
     
     ///  Gets the set of key-value pairs (metadata) that are used to manage the resource.
     public func listTagsForResourcePaginator(_ input: ListTagsForResourceInput) -> EventLoopFuture<[Tag]> {
-        return client.paginate(input: input, command: listTagsForResource, resultKey: \.tags, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceOutput.tags, tokenKey: \ListTagsForResourceOutput.nextToken)
     }
     
     ///  Gets a listing of all the webhooks in this AWS Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
     public func listWebhooksPaginator(_ input: ListWebhooksInput) -> EventLoopFuture<[ListWebhookItem]> {
-        return client.paginate(input: input, command: listWebhooks, resultKey: \.webhooks, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listWebhooks, resultKey: \ListWebhooksOutput.webhooks, tokenKey: \ListWebhooksOutput.nextToken)
     }
     
 }

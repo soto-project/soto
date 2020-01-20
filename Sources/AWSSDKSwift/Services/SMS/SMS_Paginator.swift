@@ -6,22 +6,22 @@ extension SMS {
 
     ///  Describes the connectors registered with the AWS SMS.
     public func getConnectorsPaginator(_ input: GetConnectorsRequest) -> EventLoopFuture<[Connector]> {
-        return client.paginate(input: input, command: getConnectors, resultKey: \.connectorList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getConnectors, resultKey: \GetConnectorsResponse.connectorList, tokenKey: \GetConnectorsResponse.nextToken)
     }
     
     ///  Describes the specified replication job or all of your replication jobs.
     public func getReplicationJobsPaginator(_ input: GetReplicationJobsRequest) -> EventLoopFuture<[ReplicationJob]> {
-        return client.paginate(input: input, command: getReplicationJobs, resultKey: \.replicationJobList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getReplicationJobs, resultKey: \GetReplicationJobsResponse.replicationJobList, tokenKey: \GetReplicationJobsResponse.nextToken)
     }
     
     ///  Describes the replication runs for the specified replication job.
     public func getReplicationRunsPaginator(_ input: GetReplicationRunsRequest) -> EventLoopFuture<[ReplicationRun]> {
-        return client.paginate(input: input, command: getReplicationRuns, resultKey: \.replicationRunList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getReplicationRuns, resultKey: \GetReplicationRunsResponse.replicationRunList, tokenKey: \GetReplicationRunsResponse.nextToken)
     }
     
     ///  Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
     public func getServersPaginator(_ input: GetServersRequest) -> EventLoopFuture<[Server]> {
-        return client.paginate(input: input, command: getServers, resultKey: \.serverList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getServers, resultKey: \GetServersResponse.serverList, tokenKey: \GetServersResponse.nextToken)
     }
     
 }

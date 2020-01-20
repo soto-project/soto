@@ -6,17 +6,17 @@ extension ResourceGroups {
 
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
     public func listGroupResourcesPaginator(_ input: ListGroupResourcesInput) -> EventLoopFuture<[QueryError]> {
-        return client.paginate(input: input, command: listGroupResources, resultKey: \.queryErrors, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listGroupResources, resultKey: \ListGroupResourcesOutput.queryErrors, tokenKey: \ListGroupResourcesOutput.nextToken)
     }
     
     ///  Returns a list of existing resource groups in your account.
     public func listGroupsPaginator(_ input: ListGroupsInput) -> EventLoopFuture<[GroupIdentifier]> {
-        return client.paginate(input: input, command: listGroups, resultKey: \.groupIdentifiers, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listGroups, resultKey: \ListGroupsOutput.groupIdentifiers, tokenKey: \ListGroupsOutput.nextToken)
     }
     
     ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
     public func searchResourcesPaginator(_ input: SearchResourcesInput) -> EventLoopFuture<[QueryError]> {
-        return client.paginate(input: input, command: searchResources, resultKey: \.queryErrors, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: searchResources, resultKey: \SearchResourcesOutput.queryErrors, tokenKey: \SearchResourcesOutput.nextToken)
     }
     
 }

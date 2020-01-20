@@ -6,27 +6,27 @@ extension ApplicationInsights {
 
     ///  Lists the IDs of the applications that you are monitoring. 
     public func listApplicationsPaginator(_ input: ListApplicationsRequest) -> EventLoopFuture<[ApplicationInfo]> {
-        return client.paginate(input: input, command: listApplications, resultKey: \.applicationInfoList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listApplications, resultKey: \ListApplicationsResponse.applicationInfoList, tokenKey: \ListApplicationsResponse.nextToken)
     }
     
     ///  Lists the auto-grouped, standalone, and custom components of the application.
     public func listComponentsPaginator(_ input: ListComponentsRequest) -> EventLoopFuture<[ApplicationComponent]> {
-        return client.paginate(input: input, command: listComponents, resultKey: \.applicationComponentList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listComponents, resultKey: \ListComponentsResponse.applicationComponentList, tokenKey: \ListComponentsResponse.nextToken)
     }
     
     ///  Lists the log pattern sets in the specific application.
     public func listLogPatternSetsPaginator(_ input: ListLogPatternSetsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listLogPatternSets, resultKey: \.logPatternSets, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listLogPatternSets, resultKey: \ListLogPatternSetsResponse.logPatternSets, tokenKey: \ListLogPatternSetsResponse.nextToken)
     }
     
     ///  Lists the log patterns in the specific log LogPatternSet.
     public func listLogPatternsPaginator(_ input: ListLogPatternsRequest) -> EventLoopFuture<[LogPattern]> {
-        return client.paginate(input: input, command: listLogPatterns, resultKey: \.logPatterns, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listLogPatterns, resultKey: \ListLogPatternsResponse.logPatterns, tokenKey: \ListLogPatternsResponse.nextToken)
     }
     
     ///  Lists the problems with your application.
     public func listProblemsPaginator(_ input: ListProblemsRequest) -> EventLoopFuture<[Problem]> {
-        return client.paginate(input: input, command: listProblems, resultKey: \.problemList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listProblems, resultKey: \ListProblemsResponse.problemList, tokenKey: \ListProblemsResponse.nextToken)
     }
     
 }

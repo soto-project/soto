@@ -6,12 +6,12 @@ extension Outposts {
 
     ///  List the Outposts for your AWS account.
     public func listOutpostsPaginator(_ input: ListOutpostsInput) -> EventLoopFuture<[Outpost]> {
-        return client.paginate(input: input, command: listOutposts, resultKey: \.outposts, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listOutposts, resultKey: \ListOutpostsOutput.outposts, tokenKey: \ListOutpostsOutput.nextToken)
     }
     
     ///  Lists the sites for the specified AWS account.
     public func listSitesPaginator(_ input: ListSitesInput) -> EventLoopFuture<[Site]> {
-        return client.paginate(input: input, command: listSites, resultKey: \.sites, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listSites, resultKey: \ListSitesOutput.sites, tokenKey: \ListSitesOutput.nextToken)
     }
     
 }

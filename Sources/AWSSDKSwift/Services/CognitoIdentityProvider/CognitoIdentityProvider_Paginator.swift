@@ -6,47 +6,47 @@ extension CognitoIdentityProvider {
 
     ///  Lists the groups that the user belongs to. Calling this action requires developer credentials.
     public func adminListGroupsForUserPaginator(_ input: AdminListGroupsForUserRequest) -> EventLoopFuture<[GroupType]> {
-        return client.paginate(input: input, command: adminListGroupsForUser, resultKey: \.groups, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: adminListGroupsForUser, resultKey: \AdminListGroupsForUserResponse.groups, tokenKey: \AdminListGroupsForUserResponse.nextToken)
     }
     
     ///  Lists a history of user activity and any risks detected as part of Amazon Cognito advanced security.
     public func adminListUserAuthEventsPaginator(_ input: AdminListUserAuthEventsRequest) -> EventLoopFuture<[AuthEventType]> {
-        return client.paginate(input: input, command: adminListUserAuthEvents, resultKey: \.authEvents, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: adminListUserAuthEvents, resultKey: \AdminListUserAuthEventsResponse.authEvents, tokenKey: \AdminListUserAuthEventsResponse.nextToken)
     }
     
     ///  Lists the groups associated with a user pool. Calling this action requires developer credentials.
     public func listGroupsPaginator(_ input: ListGroupsRequest) -> EventLoopFuture<[GroupType]> {
-        return client.paginate(input: input, command: listGroups, resultKey: \.groups, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listGroups, resultKey: \ListGroupsResponse.groups, tokenKey: \ListGroupsResponse.nextToken)
     }
     
     ///  Lists information about all identity providers for a user pool.
     public func listIdentityProvidersPaginator(_ input: ListIdentityProvidersRequest) -> EventLoopFuture<[ProviderDescription]> {
-        return client.paginate(input: input, command: listIdentityProviders, resultKey: \.providers, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listIdentityProviders, resultKey: \ListIdentityProvidersResponse.providers, tokenKey: \ListIdentityProvidersResponse.nextToken)
     }
     
     ///  Lists the resource servers for a user pool.
     public func listResourceServersPaginator(_ input: ListResourceServersRequest) -> EventLoopFuture<[ResourceServerType]> {
-        return client.paginate(input: input, command: listResourceServers, resultKey: \.resourceServers, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listResourceServers, resultKey: \ListResourceServersResponse.resourceServers, tokenKey: \ListResourceServersResponse.nextToken)
     }
     
     ///  Lists the clients that have been created for the specified user pool.
     public func listUserPoolClientsPaginator(_ input: ListUserPoolClientsRequest) -> EventLoopFuture<[UserPoolClientDescription]> {
-        return client.paginate(input: input, command: listUserPoolClients, resultKey: \.userPoolClients, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listUserPoolClients, resultKey: \ListUserPoolClientsResponse.userPoolClients, tokenKey: \ListUserPoolClientsResponse.nextToken)
     }
     
     ///  Lists the user pools associated with an AWS account.
     public func listUserPoolsPaginator(_ input: ListUserPoolsRequest) -> EventLoopFuture<[UserPoolDescriptionType]> {
-        return client.paginate(input: input, command: listUserPools, resultKey: \.userPools, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listUserPools, resultKey: \ListUserPoolsResponse.userPools, tokenKey: \ListUserPoolsResponse.nextToken)
     }
     
     ///  Lists the users in the Amazon Cognito user pool.
     public func listUsersPaginator(_ input: ListUsersRequest) -> EventLoopFuture<[UserType]> {
-        return client.paginate(input: input, command: listUsers, resultKey: \.users, tokenKey: \.paginationToken)
+        return client.paginate(input: input, command: listUsers, resultKey: \ListUsersResponse.users, tokenKey: \ListUsersResponse.paginationToken)
     }
     
     ///  Lists the users in the specified group. Calling this action requires developer credentials.
     public func listUsersInGroupPaginator(_ input: ListUsersInGroupRequest) -> EventLoopFuture<[UserType]> {
-        return client.paginate(input: input, command: listUsersInGroup, resultKey: \.users, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listUsersInGroup, resultKey: \ListUsersInGroupResponse.users, tokenKey: \ListUsersInGroupResponse.nextToken)
     }
     
 }

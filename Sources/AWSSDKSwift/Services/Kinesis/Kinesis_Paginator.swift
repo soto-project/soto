@@ -6,7 +6,7 @@ extension Kinesis {
 
     ///  Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 10 transactions per second per account.
     public func listStreamConsumersPaginator(_ input: ListStreamConsumersInput) -> EventLoopFuture<[Consumer]> {
-        return client.paginate(input: input, command: listStreamConsumers, resultKey: \.consumers, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listStreamConsumers, resultKey: \ListStreamConsumersOutput.consumers, tokenKey: \ListStreamConsumersOutput.nextToken)
     }
     
 }

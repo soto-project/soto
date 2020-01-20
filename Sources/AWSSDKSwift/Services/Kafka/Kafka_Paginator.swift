@@ -6,27 +6,27 @@ extension Kafka {
 
     ///  Returns a list of all the operations that have been performed on the specified MSK cluster.
     public func listClusterOperationsPaginator(_ input: ListClusterOperationsRequest) -> EventLoopFuture<[ClusterOperationInfo]> {
-        return client.paginate(input: input, command: listClusterOperations, resultKey: \.clusterOperationInfoList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listClusterOperations, resultKey: \ListClusterOperationsResponse.clusterOperationInfoList, tokenKey: \ListClusterOperationsResponse.nextToken)
     }
     
     ///  Returns a list of all the MSK clusters in the current Region.
     public func listClustersPaginator(_ input: ListClustersRequest) -> EventLoopFuture<[ClusterInfo]> {
-        return client.paginate(input: input, command: listClusters, resultKey: \.clusterInfoList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listClusters, resultKey: \ListClustersResponse.clusterInfoList, tokenKey: \ListClustersResponse.nextToken)
     }
     
     ///  Returns a list of all the revisions of an MSK configuration.
     public func listConfigurationRevisionsPaginator(_ input: ListConfigurationRevisionsRequest) -> EventLoopFuture<[ConfigurationRevision]> {
-        return client.paginate(input: input, command: listConfigurationRevisions, resultKey: \.revisions, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listConfigurationRevisions, resultKey: \ListConfigurationRevisionsResponse.revisions, tokenKey: \ListConfigurationRevisionsResponse.nextToken)
     }
     
     ///  Returns a list of all the MSK configurations in this Region.
     public func listConfigurationsPaginator(_ input: ListConfigurationsRequest) -> EventLoopFuture<[Configuration]> {
-        return client.paginate(input: input, command: listConfigurations, resultKey: \.configurations, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listConfigurations, resultKey: \ListConfigurationsResponse.configurations, tokenKey: \ListConfigurationsResponse.nextToken)
     }
     
     ///  Returns a list of the broker nodes in the cluster.
     public func listNodesPaginator(_ input: ListNodesRequest) -> EventLoopFuture<[NodeInfo]> {
-        return client.paginate(input: input, command: listNodes, resultKey: \.nodeInfoList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listNodes, resultKey: \ListNodesResponse.nodeInfoList, tokenKey: \ListNodesResponse.nextToken)
     }
     
 }

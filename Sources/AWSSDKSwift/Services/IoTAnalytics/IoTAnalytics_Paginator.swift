@@ -6,27 +6,27 @@ extension IoTAnalytics {
 
     ///  Retrieves a list of channels.
     public func listChannelsPaginator(_ input: ListChannelsRequest) -> EventLoopFuture<[ChannelSummary]> {
-        return client.paginate(input: input, command: listChannels, resultKey: \.channelSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listChannels, resultKey: \ListChannelsResponse.channelSummaries, tokenKey: \ListChannelsResponse.nextToken)
     }
     
     ///  Lists information about data set contents that have been created.
     public func listDatasetContentsPaginator(_ input: ListDatasetContentsRequest) -> EventLoopFuture<[DatasetContentSummary]> {
-        return client.paginate(input: input, command: listDatasetContents, resultKey: \.datasetContentSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listDatasetContents, resultKey: \ListDatasetContentsResponse.datasetContentSummaries, tokenKey: \ListDatasetContentsResponse.nextToken)
     }
     
     ///  Retrieves information about data sets.
     public func listDatasetsPaginator(_ input: ListDatasetsRequest) -> EventLoopFuture<[DatasetSummary]> {
-        return client.paginate(input: input, command: listDatasets, resultKey: \.datasetSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listDatasets, resultKey: \ListDatasetsResponse.datasetSummaries, tokenKey: \ListDatasetsResponse.nextToken)
     }
     
     ///  Retrieves a list of data stores.
     public func listDatastoresPaginator(_ input: ListDatastoresRequest) -> EventLoopFuture<[DatastoreSummary]> {
-        return client.paginate(input: input, command: listDatastores, resultKey: \.datastoreSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listDatastores, resultKey: \ListDatastoresResponse.datastoreSummaries, tokenKey: \ListDatastoresResponse.nextToken)
     }
     
     ///  Retrieves a list of pipelines.
     public func listPipelinesPaginator(_ input: ListPipelinesRequest) -> EventLoopFuture<[PipelineSummary]> {
-        return client.paginate(input: input, command: listPipelines, resultKey: \.pipelineSummaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listPipelines, resultKey: \ListPipelinesResponse.pipelineSummaries, tokenKey: \ListPipelinesResponse.nextToken)
     }
     
 }

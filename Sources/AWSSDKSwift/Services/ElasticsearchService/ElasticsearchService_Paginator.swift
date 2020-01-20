@@ -6,27 +6,27 @@ extension ElasticsearchService {
 
     ///  Lists available reserved Elasticsearch instance offerings.
     public func describeReservedElasticsearchInstanceOfferingsPaginator(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest) -> EventLoopFuture<[ReservedElasticsearchInstanceOffering]> {
-        return client.paginate(input: input, command: describeReservedElasticsearchInstanceOfferings, resultKey: \.reservedElasticsearchInstanceOfferings, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: describeReservedElasticsearchInstanceOfferings, resultKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.reservedElasticsearchInstanceOfferings, tokenKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken)
     }
     
     ///  Returns information about reserved Elasticsearch instances for this account.
     public func describeReservedElasticsearchInstancesPaginator(_ input: DescribeReservedElasticsearchInstancesRequest) -> EventLoopFuture<[ReservedElasticsearchInstance]> {
-        return client.paginate(input: input, command: describeReservedElasticsearchInstances, resultKey: \.reservedElasticsearchInstances, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: describeReservedElasticsearchInstances, resultKey: \DescribeReservedElasticsearchInstancesResponse.reservedElasticsearchInstances, tokenKey: \DescribeReservedElasticsearchInstancesResponse.nextToken)
     }
     
     ///  Retrieves the complete history of the last 10 upgrades that were performed on the domain.
     public func getUpgradeHistoryPaginator(_ input: GetUpgradeHistoryRequest) -> EventLoopFuture<[UpgradeHistory]> {
-        return client.paginate(input: input, command: getUpgradeHistory, resultKey: \.upgradeHistories, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getUpgradeHistory, resultKey: \GetUpgradeHistoryResponse.upgradeHistories, tokenKey: \GetUpgradeHistoryResponse.nextToken)
     }
     
     ///  List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     public func listElasticsearchInstanceTypesPaginator(_ input: ListElasticsearchInstanceTypesRequest) -> EventLoopFuture<[ESPartitionInstanceType]> {
-        return client.paginate(input: input, command: listElasticsearchInstanceTypes, resultKey: \.elasticsearchInstanceTypes, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listElasticsearchInstanceTypes, resultKey: \ListElasticsearchInstanceTypesResponse.elasticsearchInstanceTypes, tokenKey: \ListElasticsearchInstanceTypesResponse.nextToken)
     }
     
     ///  List all supported Elasticsearch versions
     public func listElasticsearchVersionsPaginator(_ input: ListElasticsearchVersionsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listElasticsearchVersions, resultKey: \.elasticsearchVersions, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listElasticsearchVersions, resultKey: \ListElasticsearchVersionsResponse.elasticsearchVersions, tokenKey: \ListElasticsearchVersionsResponse.nextToken)
     }
     
 }

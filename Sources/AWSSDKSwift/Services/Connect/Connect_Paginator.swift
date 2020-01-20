@@ -6,52 +6,52 @@ extension Connect {
 
     ///  Gets the real-time metric data from the specified Amazon Connect instance. For more information, see Real-time Metrics Reports in the Amazon Connect Administrator Guide.
     public func getCurrentMetricDataPaginator(_ input: GetCurrentMetricDataRequest) -> EventLoopFuture<[CurrentMetricResult]> {
-        return client.paginate(input: input, command: getCurrentMetricData, resultKey: \.metricResults, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getCurrentMetricData, resultKey: \GetCurrentMetricDataResponse.metricResults, tokenKey: \GetCurrentMetricDataResponse.nextToken)
     }
     
     ///  Gets historical metric data from the specified Amazon Connect instance. For more information, see Historical Metrics Reports in the Amazon Connect Administrator Guide.
     public func getMetricDataPaginator(_ input: GetMetricDataRequest) -> EventLoopFuture<[HistoricalMetricResult]> {
-        return client.paginate(input: input, command: getMetricData, resultKey: \.metricResults, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getMetricData, resultKey: \GetMetricDataResponse.metricResults, tokenKey: \GetMetricDataResponse.nextToken)
     }
     
     ///  Provides information about the contact flows for the specified Amazon Connect instance.
     public func listContactFlowsPaginator(_ input: ListContactFlowsRequest) -> EventLoopFuture<[ContactFlowSummary]> {
-        return client.paginate(input: input, command: listContactFlows, resultKey: \.contactFlowSummaryList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listContactFlows, resultKey: \ListContactFlowsResponse.contactFlowSummaryList, tokenKey: \ListContactFlowsResponse.nextToken)
     }
     
     ///  Provides information about the hours of operation for the specified Amazon Connect instance.
     public func listHoursOfOperationsPaginator(_ input: ListHoursOfOperationsRequest) -> EventLoopFuture<[HoursOfOperationSummary]> {
-        return client.paginate(input: input, command: listHoursOfOperations, resultKey: \.hoursOfOperationSummaryList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listHoursOfOperations, resultKey: \ListHoursOfOperationsResponse.hoursOfOperationSummaryList, tokenKey: \ListHoursOfOperationsResponse.nextToken)
     }
     
     ///  Provides information about the phone numbers for the specified Amazon Connect instance.
     public func listPhoneNumbersPaginator(_ input: ListPhoneNumbersRequest) -> EventLoopFuture<[PhoneNumberSummary]> {
-        return client.paginate(input: input, command: listPhoneNumbers, resultKey: \.phoneNumberSummaryList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listPhoneNumbers, resultKey: \ListPhoneNumbersResponse.phoneNumberSummaryList, tokenKey: \ListPhoneNumbersResponse.nextToken)
     }
     
     ///  Provides information about the queues for the specified Amazon Connect instance.
     public func listQueuesPaginator(_ input: ListQueuesRequest) -> EventLoopFuture<[QueueSummary]> {
-        return client.paginate(input: input, command: listQueues, resultKey: \.queueSummaryList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listQueues, resultKey: \ListQueuesResponse.queueSummaryList, tokenKey: \ListQueuesResponse.nextToken)
     }
     
     ///  Provides summary information about the routing profiles for the specified Amazon Connect instance.
     public func listRoutingProfilesPaginator(_ input: ListRoutingProfilesRequest) -> EventLoopFuture<[RoutingProfileSummary]> {
-        return client.paginate(input: input, command: listRoutingProfiles, resultKey: \.routingProfileSummaryList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listRoutingProfiles, resultKey: \ListRoutingProfilesResponse.routingProfileSummaryList, tokenKey: \ListRoutingProfilesResponse.nextToken)
     }
     
     ///  Provides summary information about the security profiles for the specified Amazon Connect instance.
     public func listSecurityProfilesPaginator(_ input: ListSecurityProfilesRequest) -> EventLoopFuture<[SecurityProfileSummary]> {
-        return client.paginate(input: input, command: listSecurityProfiles, resultKey: \.securityProfileSummaryList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listSecurityProfiles, resultKey: \ListSecurityProfilesResponse.securityProfileSummaryList, tokenKey: \ListSecurityProfilesResponse.nextToken)
     }
     
     ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance.
     public func listUserHierarchyGroupsPaginator(_ input: ListUserHierarchyGroupsRequest) -> EventLoopFuture<[HierarchyGroupSummary]> {
-        return client.paginate(input: input, command: listUserHierarchyGroups, resultKey: \.userHierarchyGroupSummaryList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listUserHierarchyGroups, resultKey: \ListUserHierarchyGroupsResponse.userHierarchyGroupSummaryList, tokenKey: \ListUserHierarchyGroupsResponse.nextToken)
     }
     
     ///  Provides summary information about the users for the specified Amazon Connect instance.
     public func listUsersPaginator(_ input: ListUsersRequest) -> EventLoopFuture<[UserSummary]> {
-        return client.paginate(input: input, command: listUsers, resultKey: \.userSummaryList, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listUsers, resultKey: \ListUsersResponse.userSummaryList, tokenKey: \ListUsersResponse.nextToken)
     }
     
 }

@@ -6,22 +6,22 @@ extension ServiceDiscovery {
 
     ///  Lists summary information about the instances that you registered by using a specified service.
     public func listInstancesPaginator(_ input: ListInstancesRequest) -> EventLoopFuture<[InstanceSummary]> {
-        return client.paginate(input: input, command: listInstances, resultKey: \.instances, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listInstances, resultKey: \ListInstancesResponse.instances, tokenKey: \ListInstancesResponse.nextToken)
     }
     
     ///  Lists summary information about the namespaces that were created by the current AWS account.
     public func listNamespacesPaginator(_ input: ListNamespacesRequest) -> EventLoopFuture<[NamespaceSummary]> {
-        return client.paginate(input: input, command: listNamespaces, resultKey: \.namespaces, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listNamespaces, resultKey: \ListNamespacesResponse.namespaces, tokenKey: \ListNamespacesResponse.nextToken)
     }
     
     ///  Lists operations that match the criteria that you specify.
     public func listOperationsPaginator(_ input: ListOperationsRequest) -> EventLoopFuture<[OperationSummary]> {
-        return client.paginate(input: input, command: listOperations, resultKey: \.operations, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listOperations, resultKey: \ListOperationsResponse.operations, tokenKey: \ListOperationsResponse.nextToken)
     }
     
     ///  Lists summary information for all the services that are associated with one or more specified namespaces.
     public func listServicesPaginator(_ input: ListServicesRequest) -> EventLoopFuture<[ServiceSummary]> {
-        return client.paginate(input: input, command: listServices, resultKey: \.services, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listServices, resultKey: \ListServicesResponse.services, tokenKey: \ListServicesResponse.nextToken)
     }
     
 }

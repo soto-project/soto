@@ -6,27 +6,27 @@ extension AppConfig {
 
     ///  List all applications in your AWS account.
     public func listApplicationsPaginator(_ input: ListApplicationsRequest) -> EventLoopFuture<[Application]> {
-        return client.paginate(input: input, command: listApplications, resultKey: \.items, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listApplications, resultKey: \Applications.items, tokenKey: \Applications.nextToken)
     }
     
     ///  Lists the configuration profiles for an application.
     public func listConfigurationProfilesPaginator(_ input: ListConfigurationProfilesRequest) -> EventLoopFuture<[ConfigurationProfileSummary]> {
-        return client.paginate(input: input, command: listConfigurationProfiles, resultKey: \.items, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listConfigurationProfiles, resultKey: \ConfigurationProfiles.items, tokenKey: \ConfigurationProfiles.nextToken)
     }
     
     ///  List deployment strategies.
     public func listDeploymentStrategiesPaginator(_ input: ListDeploymentStrategiesRequest) -> EventLoopFuture<[DeploymentStrategy]> {
-        return client.paginate(input: input, command: listDeploymentStrategies, resultKey: \.items, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listDeploymentStrategies, resultKey: \DeploymentStrategies.items, tokenKey: \DeploymentStrategies.nextToken)
     }
     
     ///  Lists the deployments for an environment.
     public func listDeploymentsPaginator(_ input: ListDeploymentsRequest) -> EventLoopFuture<[DeploymentSummary]> {
-        return client.paginate(input: input, command: listDeployments, resultKey: \.items, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listDeployments, resultKey: \Deployments.items, tokenKey: \Deployments.nextToken)
     }
     
     ///  List the environments for an application.
     public func listEnvironmentsPaginator(_ input: ListEnvironmentsRequest) -> EventLoopFuture<[Environment]> {
-        return client.paginate(input: input, command: listEnvironments, resultKey: \.items, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listEnvironments, resultKey: \Environments.items, tokenKey: \Environments.nextToken)
     }
     
 }

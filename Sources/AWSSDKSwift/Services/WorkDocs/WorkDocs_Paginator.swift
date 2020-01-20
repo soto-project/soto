@@ -6,17 +6,17 @@ extension WorkDocs {
 
     ///  Retrieves the document versions for the specified document. By default, only active versions are returned.
     public func describeDocumentVersionsPaginator(_ input: DescribeDocumentVersionsRequest) -> EventLoopFuture<[DocumentVersionMetadata]> {
-        return client.paginate(input: input, command: describeDocumentVersions, resultKey: \.documentVersions, tokenKey: \.marker)
+        return client.paginate(input: input, command: describeDocumentVersions, resultKey: \DescribeDocumentVersionsResponse.documentVersions, tokenKey: \DescribeDocumentVersionsResponse.marker)
     }
     
     ///  Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     public func describeFolderContentsPaginator(_ input: DescribeFolderContentsRequest) -> EventLoopFuture<[FolderMetadata]> {
-        return client.paginate(input: input, command: describeFolderContents, resultKey: \.folders, tokenKey: \.marker)
+        return client.paginate(input: input, command: describeFolderContents, resultKey: \DescribeFolderContentsResponse.folders, tokenKey: \DescribeFolderContentsResponse.marker)
     }
     
     ///  Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     public func describeUsersPaginator(_ input: DescribeUsersRequest) -> EventLoopFuture<[User]> {
-        return client.paginate(input: input, command: describeUsers, resultKey: \.users, tokenKey: \.marker)
+        return client.paginate(input: input, command: describeUsers, resultKey: \DescribeUsersResponse.users, tokenKey: \DescribeUsersResponse.marker)
     }
     
 }

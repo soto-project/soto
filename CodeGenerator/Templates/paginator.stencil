@@ -12,7 +12,7 @@ extension {{name}} {
     @available(*, deprecated, message:"{{page.operation.deprecated}}")
 {%endif %}
     public func {{page.operation.funcName}}Paginator(_ input: {{page.operation.inputShape}}) -> EventLoopFuture<[{{page.resultShape}}]> {
-        return client.paginate(input: input, command: {{page.operation.funcName}}, resultKey: \.{{page.result}}, tokenKey: \.{{page.output}})
+        return client.paginate(input: input, command: {{page.operation.funcName}}, resultKey: \{{page.operation.outputShape}}.{{page.result}}, tokenKey: \{{page.operation.outputShape}}.{{page.output}})
     }
     
 {%endfor %}

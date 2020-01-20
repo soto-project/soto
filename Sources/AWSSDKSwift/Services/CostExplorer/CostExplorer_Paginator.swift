@@ -6,12 +6,12 @@ extension CostExplorer {
 
     ///  Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s master account can see the coverage of the associated member accounts. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
     public func getSavingsPlansCoveragePaginator(_ input: GetSavingsPlansCoverageRequest) -> EventLoopFuture<[SavingsPlansCoverage]> {
-        return client.paginate(input: input, command: getSavingsPlansCoverage, resultKey: \.savingsPlansCoverages, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getSavingsPlansCoverage, resultKey: \GetSavingsPlansCoverageResponse.savingsPlansCoverages, tokenKey: \GetSavingsPlansCoverageResponse.nextToken)
     }
     
     ///  Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization, but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values.   GetSavingsPlanUtilizationDetails internally groups data by SavingsPlansArn. 
     public func getSavingsPlansUtilizationDetailsPaginator(_ input: GetSavingsPlansUtilizationDetailsRequest) -> EventLoopFuture<[SavingsPlansUtilizationDetail]> {
-        return client.paginate(input: input, command: getSavingsPlansUtilizationDetails, resultKey: \.savingsPlansUtilizationDetails, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getSavingsPlansUtilizationDetails, resultKey: \GetSavingsPlansUtilizationDetailsResponse.savingsPlansUtilizationDetails, tokenKey: \GetSavingsPlansUtilizationDetailsResponse.nextToken)
     }
     
 }

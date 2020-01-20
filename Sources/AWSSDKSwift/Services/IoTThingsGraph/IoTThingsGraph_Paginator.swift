@@ -6,52 +6,52 @@ extension IoTThingsGraph {
 
     ///  Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated, this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
     public func getFlowTemplateRevisionsPaginator(_ input: GetFlowTemplateRevisionsRequest) -> EventLoopFuture<[FlowTemplateSummary]> {
-        return client.paginate(input: input, command: getFlowTemplateRevisions, resultKey: \.summaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getFlowTemplateRevisions, resultKey: \GetFlowTemplateRevisionsResponse.summaries, tokenKey: \GetFlowTemplateRevisionsResponse.nextToken)
     }
     
     ///  Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
     public func getSystemTemplateRevisionsPaginator(_ input: GetSystemTemplateRevisionsRequest) -> EventLoopFuture<[SystemTemplateSummary]> {
-        return client.paginate(input: input, command: getSystemTemplateRevisions, resultKey: \.summaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: getSystemTemplateRevisions, resultKey: \GetSystemTemplateRevisionsResponse.summaries, tokenKey: \GetSystemTemplateRevisionsResponse.nextToken)
     }
     
     ///  Returns a list of objects that contain information about events in a flow execution.
     public func listFlowExecutionMessagesPaginator(_ input: ListFlowExecutionMessagesRequest) -> EventLoopFuture<[FlowExecutionMessage]> {
-        return client.paginate(input: input, command: listFlowExecutionMessages, resultKey: \.messages, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listFlowExecutionMessages, resultKey: \ListFlowExecutionMessagesResponse.messages, tokenKey: \ListFlowExecutionMessagesResponse.nextToken)
     }
     
     ///  Lists all tags on an AWS IoT Things Graph resource.
     public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest) -> EventLoopFuture<[Tag]> {
-        return client.paginate(input: input, command: listTagsForResource, resultKey: \.tags, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceResponse.tags, tokenKey: \ListTagsForResourceResponse.nextToken)
     }
     
     ///  Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
     public func searchEntitiesPaginator(_ input: SearchEntitiesRequest) -> EventLoopFuture<[EntityDescription]> {
-        return client.paginate(input: input, command: searchEntities, resultKey: \.descriptions, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: searchEntities, resultKey: \SearchEntitiesResponse.descriptions, tokenKey: \SearchEntitiesResponse.nextToken)
     }
     
     ///  Searches for AWS IoT Things Graph workflow execution instances.
     public func searchFlowExecutionsPaginator(_ input: SearchFlowExecutionsRequest) -> EventLoopFuture<[FlowExecutionSummary]> {
-        return client.paginate(input: input, command: searchFlowExecutions, resultKey: \.summaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: searchFlowExecutions, resultKey: \SearchFlowExecutionsResponse.summaries, tokenKey: \SearchFlowExecutionsResponse.nextToken)
     }
     
     ///  Searches for summary information about workflows.
     public func searchFlowTemplatesPaginator(_ input: SearchFlowTemplatesRequest) -> EventLoopFuture<[FlowTemplateSummary]> {
-        return client.paginate(input: input, command: searchFlowTemplates, resultKey: \.summaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: searchFlowTemplates, resultKey: \SearchFlowTemplatesResponse.summaries, tokenKey: \SearchFlowTemplatesResponse.nextToken)
     }
     
     ///  Searches for system instances in the user's account.
     public func searchSystemInstancesPaginator(_ input: SearchSystemInstancesRequest) -> EventLoopFuture<[SystemInstanceSummary]> {
-        return client.paginate(input: input, command: searchSystemInstances, resultKey: \.summaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: searchSystemInstances, resultKey: \SearchSystemInstancesResponse.summaries, tokenKey: \SearchSystemInstancesResponse.nextToken)
     }
     
     ///  Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
     public func searchSystemTemplatesPaginator(_ input: SearchSystemTemplatesRequest) -> EventLoopFuture<[SystemTemplateSummary]> {
-        return client.paginate(input: input, command: searchSystemTemplates, resultKey: \.summaries, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: searchSystemTemplates, resultKey: \SearchSystemTemplatesResponse.summaries, tokenKey: \SearchSystemTemplatesResponse.nextToken)
     }
     
     ///  Searches for things associated with the specified entity. You can search by both device and device model. For example, if two different devices, camera1 and camera2, implement the camera device model, the user can associate thing1 to camera1 and thing2 to camera2. SearchThings(camera2) will return only thing2, but SearchThings(camera) will return both thing1 and thing2. This action searches for exact matches and doesn't perform partial text matching.
     public func searchThingsPaginator(_ input: SearchThingsRequest) -> EventLoopFuture<[Thing]> {
-        return client.paginate(input: input, command: searchThings, resultKey: \.things, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: searchThings, resultKey: \SearchThingsResponse.things, tokenKey: \SearchThingsResponse.nextToken)
     }
     
 }

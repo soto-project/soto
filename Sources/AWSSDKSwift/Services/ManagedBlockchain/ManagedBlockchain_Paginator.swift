@@ -6,32 +6,32 @@ extension ManagedBlockchain {
 
     ///  Returns a listing of all invitations made on the specified network.
     public func listInvitationsPaginator(_ input: ListInvitationsInput) -> EventLoopFuture<[Invitation]> {
-        return client.paginate(input: input, command: listInvitations, resultKey: \.invitations, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listInvitations, resultKey: \ListInvitationsOutput.invitations, tokenKey: \ListInvitationsOutput.nextToken)
     }
     
     ///  Returns a listing of the members in a network and properties of their configurations.
     public func listMembersPaginator(_ input: ListMembersInput) -> EventLoopFuture<[MemberSummary]> {
-        return client.paginate(input: input, command: listMembers, resultKey: \.members, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listMembers, resultKey: \ListMembersOutput.members, tokenKey: \ListMembersOutput.nextToken)
     }
     
     ///  Returns information about the networks in which the current AWS account has members.
     public func listNetworksPaginator(_ input: ListNetworksInput) -> EventLoopFuture<[NetworkSummary]> {
-        return client.paginate(input: input, command: listNetworks, resultKey: \.networks, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listNetworks, resultKey: \ListNetworksOutput.networks, tokenKey: \ListNetworksOutput.nextToken)
     }
     
     ///  Returns information about the nodes within a network.
     public func listNodesPaginator(_ input: ListNodesInput) -> EventLoopFuture<[NodeSummary]> {
-        return client.paginate(input: input, command: listNodes, resultKey: \.nodes, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listNodes, resultKey: \ListNodesOutput.nodes, tokenKey: \ListNodesOutput.nextToken)
     }
     
     ///  Returns the listing of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.
     public func listProposalVotesPaginator(_ input: ListProposalVotesInput) -> EventLoopFuture<[VoteSummary]> {
-        return client.paginate(input: input, command: listProposalVotes, resultKey: \.proposalVotes, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listProposalVotes, resultKey: \ListProposalVotesOutput.proposalVotes, tokenKey: \ListProposalVotesOutput.nextToken)
     }
     
     ///  Returns a listing of proposals for the network.
     public func listProposalsPaginator(_ input: ListProposalsInput) -> EventLoopFuture<[ProposalSummary]> {
-        return client.paginate(input: input, command: listProposals, resultKey: \.proposals, tokenKey: \.nextToken)
+        return client.paginate(input: input, command: listProposals, resultKey: \ListProposalsOutput.proposals, tokenKey: \ListProposalsOutput.nextToken)
     }
     
 }
