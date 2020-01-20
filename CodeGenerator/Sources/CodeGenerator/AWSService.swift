@@ -34,9 +34,10 @@ struct AWSService {
     let apiJSON: JSON
     let docJSON: JSON
     let endpointJSON: JSON
-    var shapes = [Shape]()
+    var shapes: [Shape] = []
     var operations: [Operation] = []
-    var errors = [ErrorShape]()
+    var paginators: [Paginator] = []
+    var errors: [ErrorShape] = []
     var shapeDoc: [String: [String: String]] = [:]
 
     var version: String {
@@ -100,7 +101,14 @@ struct AWSService {
         return endpoint.dictionaryValue["partitionEndpoint"]?.string
     }
 
-    init(fromAPIJSON apiJSON: JSON, docJSON: JSON, endpointJSON: JSON) throws {
+    /// AWSService initialiser
+    ///
+    /// - Parameters:
+    ///   - apiJSON: api json
+    ///   - paginatorJSON: paginator json
+    ///   - docJSON: documentation json
+    ///   - endpointJSON: endpoint json
+    init(fromAPIJSON apiJSON: JSON, paginatorJSON: JSON, docJSON: JSON, endpointJSON: JSON) throws {
         self.apiJSON = patch(apiJSON)
         self.docJSON = docJSON
         self.endpointJSON = endpointJSON

@@ -5,8 +5,10 @@ import Stencil
 import PathKit
 
 let startTime = Date()
-let apis = try loadAPIJSONList()
-let docs = try loadDocJSONList()
+let models = try loadModelJSON()
+/*let apis = try loadAPIJSONList()
+let paginators = try loadPaginatorJSONList()
+let docs = try loadDocJSONList()*/
 let endpoint = try loadEndpointJSON()
 
 let group = DispatchGroup()
@@ -16,16 +18,13 @@ var errorShapeMap: [String: String] = [:]
 let fsLoader = FileSystemLoader(paths: [Path("\(rootPath())/CodeGenerator/Templates/")])
 let environment = Environment(loader: fsLoader)
 
-for index in 0..<apis.count {
-    let api = apis[index]
-    let doc = docs[index]
+for model in models {
 
     group.enter()
+
     DispatchQueue.global().async {
         do {
-            let service = try AWSService(fromAPIJSON: api, docJSON: doc, endpointJSON: endpoint)
-
-            log("Generating \(service.serviceName) code ........")
+            let service = try AWSService(fromAPIJSON: model.api, paginatorJSON: model.paginator, docJSON: model.doc, endpointJSON: endpoint)
 
             let basePath = "\(rootPath())/Sources/AWSSDKSwift/Services/\(service.serviceName)/"
             _ = mkdirp(basePath)
@@ -65,10 +64,8 @@ for index in 0..<apis.count {
             print("Succesfully Generated \(service.serviceName)")
             group.leave()
         } catch {
-//            DispatchQueue.main.sync {
-                print(error)
-                exit(1)
-//            }
+            print(error)
+            exit(1)
         }
     }
 }
