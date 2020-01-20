@@ -28,327 +28,327 @@ public struct QuickSight {
     }
 
     ///  Cancels an ongoing ingestion of data into SPICE.
-    public func cancelIngestion(_ input: CancelIngestionRequest) -> Future<CancelIngestionResponse> {
+    public func cancelIngestion(_ input: CancelIngestionRequest) -> EventLoopFuture<CancelIngestionResponse> {
         return client.send(operation: "CancelIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Creates a dashboard from a template. To first create a template, see the CreateTemplate API operation. A dashboard is an entity in QuickSight that identifies QuickSight reports, created from analyses. You can share QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. The CreateDashboard, DescribeDashboard, and ListDashboardsByUser API operations act on the dashboard entity. If you have the correct permissions, you can create a dashboard from a template that exists in a different AWS account.
-    public func createDashboard(_ input: CreateDashboardRequest) -> Future<CreateDashboardResponse> {
+    public func createDashboard(_ input: CreateDashboardRequest) -> EventLoopFuture<CreateDashboardResponse> {
         return client.send(operation: "CreateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a dataset.
-    public func createDataSet(_ input: CreateDataSetRequest) -> Future<CreateDataSetResponse> {
+    public func createDataSet(_ input: CreateDataSetRequest) -> EventLoopFuture<CreateDataSetResponse> {
         return client.send(operation: "CreateDataSet", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: "POST", input: input)
     }
 
     ///  Creates a data source.
-    public func createDataSource(_ input: CreateDataSourceRequest) -> Future<CreateDataSourceResponse> {
+    public func createDataSource(_ input: CreateDataSourceRequest) -> EventLoopFuture<CreateDataSourceResponse> {
         return client.send(operation: "CreateDataSource", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Amazon QuickSight group. The permissions resource is arn:aws:quicksight:us-east-1:&lt;relevant-aws-account-id&gt;:group/default/&lt;group-name&gt; . The response is a group object.
-    public func createGroup(_ input: CreateGroupRequest) -> Future<CreateGroupResponse> {
+    public func createGroup(_ input: CreateGroupRequest) -> EventLoopFuture<CreateGroupResponse> {
         return client.send(operation: "CreateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: "POST", input: input)
     }
 
     ///  Adds an Amazon QuickSight user to an Amazon QuickSight group. 
-    public func createGroupMembership(_ input: CreateGroupMembershipRequest) -> Future<CreateGroupMembershipResponse> {
+    public func createGroupMembership(_ input: CreateGroupMembershipRequest) -> EventLoopFuture<CreateGroupMembershipResponse> {
         return client.send(operation: "CreateGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name (ARN). This policy will be assigned to specified groups or users of Amazon QuickSight. The users and groups need to be in the same namespace. 
-    public func createIAMPolicyAssignment(_ input: CreateIAMPolicyAssignmentRequest) -> Future<CreateIAMPolicyAssignmentResponse> {
+    public func createIAMPolicyAssignment(_ input: CreateIAMPolicyAssignmentRequest) -> EventLoopFuture<CreateIAMPolicyAssignmentResponse> {
         return client.send(operation: "CreateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/", httpMethod: "POST", input: input)
     }
 
     ///  Creates and starts a new SPICE ingestion on a dataset Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see How do I create an IAM policy to control access to Amazon EC2 resources using tags? in the AWS Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
-    public func createIngestion(_ input: CreateIngestionRequest) -> Future<CreateIngestionResponse> {
+    public func createIngestion(_ input: CreateIngestionRequest) -> EventLoopFuture<CreateIngestionResponse> {
         return client.send(operation: "CreateIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a template from an existing QuickSight analysis or template. You can use the resulting template to create a dashboard. A template is an entity in QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
-    public func createTemplate(_ input: CreateTemplateRequest) -> Future<CreateTemplateResponse> {
+    public func createTemplate(_ input: CreateTemplateRequest) -> EventLoopFuture<CreateTemplateResponse> {
         return client.send(operation: "CreateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a template alias for a template.
-    public func createTemplateAlias(_ input: CreateTemplateAliasRequest) -> Future<CreateTemplateAliasResponse> {
+    public func createTemplateAlias(_ input: CreateTemplateAliasRequest) -> EventLoopFuture<CreateTemplateAliasResponse> {
         return client.send(operation: "CreateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a dashboard.
-    public func deleteDashboard(_ input: DeleteDashboardRequest) -> Future<DeleteDashboardResponse> {
+    public func deleteDashboard(_ input: DeleteDashboardRequest) -> EventLoopFuture<DeleteDashboardResponse> {
         return client.send(operation: "DeleteDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a dataset.
-    public func deleteDataSet(_ input: DeleteDataSetRequest) -> Future<DeleteDataSetResponse> {
+    public func deleteDataSet(_ input: DeleteDataSetRequest) -> EventLoopFuture<DeleteDataSetResponse> {
         return client.send(operation: "DeleteDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the data source permanently. This action breaks all the datasets that reference the deleted data source.
-    public func deleteDataSource(_ input: DeleteDataSourceRequest) -> Future<DeleteDataSourceResponse> {
+    public func deleteDataSource(_ input: DeleteDataSourceRequest) -> EventLoopFuture<DeleteDataSourceResponse> {
         return client.send(operation: "DeleteDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes a user group from Amazon QuickSight. 
-    public func deleteGroup(_ input: DeleteGroupRequest) -> Future<DeleteGroupResponse> {
+    public func deleteGroup(_ input: DeleteGroupRequest) -> EventLoopFuture<DeleteGroupResponse> {
         return client.send(operation: "DeleteGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes a user from a group so that the user is no longer a member of the group.
-    public func deleteGroupMembership(_ input: DeleteGroupMembershipRequest) -> Future<DeleteGroupMembershipResponse> {
+    public func deleteGroupMembership(_ input: DeleteGroupMembershipRequest) -> EventLoopFuture<DeleteGroupMembershipResponse> {
         return client.send(operation: "DeleteGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing IAM policy assignment.
-    public func deleteIAMPolicyAssignment(_ input: DeleteIAMPolicyAssignmentRequest) -> Future<DeleteIAMPolicyAssignmentResponse> {
+    public func deleteIAMPolicyAssignment(_ input: DeleteIAMPolicyAssignmentRequest) -> EventLoopFuture<DeleteIAMPolicyAssignmentResponse> {
         return client.send(operation: "DeleteIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a template.
-    public func deleteTemplate(_ input: DeleteTemplateRequest) -> Future<DeleteTemplateResponse> {
+    public func deleteTemplate(_ input: DeleteTemplateRequest) -> EventLoopFuture<DeleteTemplateResponse> {
         return client.send(operation: "DeleteTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to.
-    public func deleteTemplateAlias(_ input: DeleteTemplateAliasRequest) -> Future<DeleteTemplateAliasResponse> {
+    public func deleteTemplateAlias(_ input: DeleteTemplateAliasRequest) -> EventLoopFuture<DeleteTemplateAliasResponse> {
         return client.send(operation: "DeleteTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the Amazon QuickSight user that is associated with the identity of the AWS Identity and Access Management (IAM) user or role that's making the call. The IAM user isn't deleted as a result of this call. 
-    public func deleteUser(_ input: DeleteUserRequest) -> Future<DeleteUserResponse> {
+    public func deleteUser(_ input: DeleteUserRequest) -> EventLoopFuture<DeleteUserResponse> {
         return client.send(operation: "DeleteUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a user identified by its principal ID. 
-    public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest) -> Future<DeleteUserByPrincipalIdResponse> {
+    public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest) -> EventLoopFuture<DeleteUserByPrincipalIdResponse> {
         return client.send(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Provides a summary for a dashboard.
-    public func describeDashboard(_ input: DescribeDashboardRequest) -> Future<DescribeDashboardResponse> {
+    public func describeDashboard(_ input: DescribeDashboardRequest) -> EventLoopFuture<DescribeDashboardResponse> {
         return client.send(operation: "DescribeDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes read and write permissions for a dashboard.
-    public func describeDashboardPermissions(_ input: DescribeDashboardPermissionsRequest) -> Future<DescribeDashboardPermissionsResponse> {
+    public func describeDashboardPermissions(_ input: DescribeDashboardPermissionsRequest) -> EventLoopFuture<DescribeDashboardPermissionsResponse> {
         return client.send(operation: "DescribeDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: "GET", input: input)
     }
 
     ///  Describes a dataset. 
-    public func describeDataSet(_ input: DescribeDataSetRequest) -> Future<DescribeDataSetResponse> {
+    public func describeDataSet(_ input: DescribeDataSetRequest) -> EventLoopFuture<DescribeDataSetResponse> {
         return client.send(operation: "DescribeDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
-    public func describeDataSetPermissions(_ input: DescribeDataSetPermissionsRequest) -> Future<DescribeDataSetPermissionsResponse> {
+    public func describeDataSetPermissions(_ input: DescribeDataSetPermissionsRequest) -> EventLoopFuture<DescribeDataSetPermissionsResponse> {
         return client.send(operation: "DescribeDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: "GET", input: input)
     }
 
     ///  Describes a data source.
-    public func describeDataSource(_ input: DescribeDataSourceRequest) -> Future<DescribeDataSourceResponse> {
+    public func describeDataSource(_ input: DescribeDataSourceRequest) -> EventLoopFuture<DescribeDataSourceResponse> {
         return client.send(operation: "DescribeDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes the resource permissions for a data source.
-    public func describeDataSourcePermissions(_ input: DescribeDataSourcePermissionsRequest) -> Future<DescribeDataSourcePermissionsResponse> {
+    public func describeDataSourcePermissions(_ input: DescribeDataSourcePermissionsRequest) -> EventLoopFuture<DescribeDataSourcePermissionsResponse> {
         return client.send(operation: "DescribeDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: "GET", input: input)
     }
 
     ///  Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN). 
-    public func describeGroup(_ input: DescribeGroupRequest) -> Future<DescribeGroupResponse> {
+    public func describeGroup(_ input: DescribeGroupRequest) -> EventLoopFuture<DescribeGroupResponse> {
         return client.send(operation: "DescribeGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes an existing IAM policy assignment, as specified by the assignment name.
-    public func describeIAMPolicyAssignment(_ input: DescribeIAMPolicyAssignmentRequest) -> Future<DescribeIAMPolicyAssignmentResponse> {
+    public func describeIAMPolicyAssignment(_ input: DescribeIAMPolicyAssignmentRequest) -> EventLoopFuture<DescribeIAMPolicyAssignmentResponse> {
         return client.send(operation: "DescribeIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a SPICE ingestion.
-    public func describeIngestion(_ input: DescribeIngestionRequest) -> Future<DescribeIngestionResponse> {
+    public func describeIngestion(_ input: DescribeIngestionRequest) -> EventLoopFuture<DescribeIngestionResponse> {
         return client.send(operation: "DescribeIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a template's metadata.
-    public func describeTemplate(_ input: DescribeTemplateRequest) -> Future<DescribeTemplateResponse> {
+    public func describeTemplate(_ input: DescribeTemplateRequest) -> EventLoopFuture<DescribeTemplateResponse> {
         return client.send(operation: "DescribeTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes the template alias for a template.
-    public func describeTemplateAlias(_ input: DescribeTemplateAliasRequest) -> Future<DescribeTemplateAliasResponse> {
+    public func describeTemplateAlias(_ input: DescribeTemplateAliasRequest) -> EventLoopFuture<DescribeTemplateAliasResponse> {
         return client.send(operation: "DescribeTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes read and write permissions on a template.
-    public func describeTemplatePermissions(_ input: DescribeTemplatePermissionsRequest) -> Future<DescribeTemplatePermissionsResponse> {
+    public func describeTemplatePermissions(_ input: DescribeTemplatePermissionsRequest) -> EventLoopFuture<DescribeTemplatePermissionsResponse> {
         return client.send(operation: "DescribeTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about a user, given the user name. 
-    public func describeUser(_ input: DescribeUserRequest) -> Future<DescribeUserResponse> {
+    public func describeUser(_ input: DescribeUserRequest) -> EventLoopFuture<DescribeUserResponse> {
         return client.send(operation: "DescribeUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: "GET", input: input)
     }
 
     ///  Generates a server-side embeddable URL and authorization code. For this process to work properly, first configure the dashboards and user permissions. For more information, see Embedding Amazon QuickSight Dashboards in the Amazon QuickSight User Guide or Embedding Amazon QuickSight Dashboards in the Amazon QuickSight API Reference. Currently, you can use GetDashboardEmbedURL only from the server, not from the user’s browser.
-    public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest) -> Future<GetDashboardEmbedUrlResponse> {
+    public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest) -> EventLoopFuture<GetDashboardEmbedUrlResponse> {
         return client.send(operation: "GetDashboardEmbedUrl", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", httpMethod: "GET", input: input)
     }
 
     ///  Lists all the versions of the dashboards in the QuickSight subscription.
-    public func listDashboardVersions(_ input: ListDashboardVersionsRequest) -> Future<ListDashboardVersionsResponse> {
+    public func listDashboardVersions(_ input: ListDashboardVersionsRequest) -> EventLoopFuture<ListDashboardVersionsResponse> {
         return client.send(operation: "ListDashboardVersions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Lists dashboards in an AWS account.
-    public func listDashboards(_ input: ListDashboardsRequest) -> Future<ListDashboardsResponse> {
+    public func listDashboards(_ input: ListDashboardsRequest) -> EventLoopFuture<ListDashboardsResponse> {
         return client.send(operation: "ListDashboards", path: "/accounts/{AwsAccountId}/dashboards", httpMethod: "GET", input: input)
     }
 
     ///  Lists all of the datasets belonging to the current AWS account in an AWS Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
-    public func listDataSets(_ input: ListDataSetsRequest) -> Future<ListDataSetsResponse> {
+    public func listDataSets(_ input: ListDataSetsRequest) -> EventLoopFuture<ListDataSetsResponse> {
         return client.send(operation: "ListDataSets", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: "GET", input: input)
     }
 
     ///  Lists data sources in current AWS Region that belong to this AWS account.
-    public func listDataSources(_ input: ListDataSourcesRequest) -> Future<ListDataSourcesResponse> {
+    public func listDataSources(_ input: ListDataSourcesRequest) -> EventLoopFuture<ListDataSourcesResponse> {
         return client.send(operation: "ListDataSources", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: "GET", input: input)
     }
 
     ///  Lists member users in a group.
-    public func listGroupMemberships(_ input: ListGroupMembershipsRequest) -> Future<ListGroupMembershipsResponse> {
+    public func listGroupMemberships(_ input: ListGroupMembershipsRequest) -> EventLoopFuture<ListGroupMembershipsResponse> {
         return client.send(operation: "ListGroupMemberships", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members", httpMethod: "GET", input: input)
     }
 
     ///  Lists all user groups in Amazon QuickSight. 
-    public func listGroups(_ input: ListGroupsRequest) -> Future<ListGroupsResponse> {
+    public func listGroups(_ input: ListGroupsRequest) -> EventLoopFuture<ListGroupsResponse> {
         return client.send(operation: "ListGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: "GET", input: input)
     }
 
     ///  Lists IAM policy assignments in the current Amazon QuickSight account.
-    public func listIAMPolicyAssignments(_ input: ListIAMPolicyAssignmentsRequest) -> Future<ListIAMPolicyAssignmentsResponse> {
+    public func listIAMPolicyAssignments(_ input: ListIAMPolicyAssignmentsRequest) -> EventLoopFuture<ListIAMPolicyAssignmentsResponse> {
         return client.send(operation: "ListIAMPolicyAssignments", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", httpMethod: "GET", input: input)
     }
 
     ///  Lists all the IAM policy assignments, including the Amazon Resource Names (ARNs) for the IAM policies assigned to the specified user and group or groups that the user belongs to.
-    public func listIAMPolicyAssignmentsForUser(_ input: ListIAMPolicyAssignmentsForUserRequest) -> Future<ListIAMPolicyAssignmentsForUserResponse> {
+    public func listIAMPolicyAssignmentsForUser(_ input: ListIAMPolicyAssignmentsForUserRequest) -> EventLoopFuture<ListIAMPolicyAssignmentsForUserResponse> {
         return client.send(operation: "ListIAMPolicyAssignmentsForUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments", httpMethod: "GET", input: input)
     }
 
     ///  Lists the history of SPICE ingestions for a dataset.
-    public func listIngestions(_ input: ListIngestionsRequest) -> Future<ListIngestionsResponse> {
+    public func listIngestions(_ input: ListIngestionsRequest) -> EventLoopFuture<ListIngestionsResponse> {
         return client.send(operation: "ListIngestions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions", httpMethod: "GET", input: input)
     }
 
     ///  Lists the tags assigned to a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/resources/{ResourceArn}/tags", httpMethod: "GET", input: input)
     }
 
     ///  Lists all the aliases of a template.
-    public func listTemplateAliases(_ input: ListTemplateAliasesRequest) -> Future<ListTemplateAliasesResponse> {
+    public func listTemplateAliases(_ input: ListTemplateAliasesRequest) -> EventLoopFuture<ListTemplateAliasesResponse> {
         return client.send(operation: "ListTemplateAliases", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases", httpMethod: "GET", input: input)
     }
 
     ///  Lists all the versions of the templates in the current Amazon QuickSight account.
-    public func listTemplateVersions(_ input: ListTemplateVersionsRequest) -> Future<ListTemplateVersionsResponse> {
+    public func listTemplateVersions(_ input: ListTemplateVersionsRequest) -> EventLoopFuture<ListTemplateVersionsResponse> {
         return client.send(operation: "ListTemplateVersions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Lists all the templates in the current Amazon QuickSight account.
-    public func listTemplates(_ input: ListTemplatesRequest) -> Future<ListTemplatesResponse> {
+    public func listTemplates(_ input: ListTemplatesRequest) -> EventLoopFuture<ListTemplatesResponse> {
         return client.send(operation: "ListTemplates", path: "/accounts/{AwsAccountId}/templates", httpMethod: "GET", input: input)
     }
 
     ///  Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
-    public func listUserGroups(_ input: ListUserGroupsRequest) -> Future<ListUserGroupsResponse> {
+    public func listUserGroups(_ input: ListUserGroupsRequest) -> EventLoopFuture<ListUserGroupsResponse> {
         return client.send(operation: "ListUserGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of all of the Amazon QuickSight users belonging to this account. 
-    public func listUsers(_ input: ListUsersRequest) -> Future<ListUsersResponse> {
+    public func listUsers(_ input: ListUsersRequest) -> EventLoopFuture<ListUsersResponse> {
         return client.send(operation: "ListUsers", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: "GET", input: input)
     }
 
     ///  Creates an Amazon QuickSight user, whose identity is associated with the AWS Identity and Access Management (IAM) identity or role specified in the request. 
-    public func registerUser(_ input: RegisterUserRequest) -> Future<RegisterUserResponse> {
+    public func registerUser(_ input: RegisterUserRequest) -> EventLoopFuture<RegisterUserResponse> {
         return client.send(operation: "RegisterUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: "POST", input: input)
     }
 
     ///  Assigns one or more tags (key-value pairs) to the specified QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. QuickSight supports tagging on data set, data source, dashboard, and template.  Tagging for QuickSight works in a similar way to tagging for other AWS services, except for the following:   You can't use tags to track AWS costs for QuickSight. This restriction is because QuickSight costs are based on users and SPICE capacity, which aren't taggable resources.   QuickSight doesn't currently support the Tag Editor for AWS Resource Groups.  
-    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: "POST", input: input)
     }
 
     ///  Removes a tag or tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/resources/{ResourceArn}/tags", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates a dashboard in an AWS account.
-    public func updateDashboard(_ input: UpdateDashboardRequest) -> Future<UpdateDashboardResponse> {
+    public func updateDashboard(_ input: UpdateDashboardRequest) -> EventLoopFuture<UpdateDashboardResponse> {
         return client.send(operation: "UpdateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates read and write permissions on a dashboard.
-    public func updateDashboardPermissions(_ input: UpdateDashboardPermissionsRequest) -> Future<UpdateDashboardPermissionsResponse> {
+    public func updateDashboardPermissions(_ input: UpdateDashboardPermissionsRequest) -> EventLoopFuture<UpdateDashboardPermissionsResponse> {
         return client.send(operation: "UpdateDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the published version of a dashboard.
-    public func updateDashboardPublishedVersion(_ input: UpdateDashboardPublishedVersionRequest) -> Future<UpdateDashboardPublishedVersionResponse> {
+    public func updateDashboardPublishedVersion(_ input: UpdateDashboardPublishedVersionRequest) -> EventLoopFuture<UpdateDashboardPublishedVersionResponse> {
         return client.send(operation: "UpdateDashboardPublishedVersion", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions/{VersionNumber}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates a dataset.
-    public func updateDataSet(_ input: UpdateDataSetRequest) -> Future<UpdateDataSetResponse> {
+    public func updateDataSet(_ input: UpdateDataSetRequest) -> EventLoopFuture<UpdateDataSetResponse> {
         return client.send(operation: "UpdateDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
-    public func updateDataSetPermissions(_ input: UpdateDataSetPermissionsRequest) -> Future<UpdateDataSetPermissionsResponse> {
+    public func updateDataSetPermissions(_ input: UpdateDataSetPermissionsRequest) -> EventLoopFuture<UpdateDataSetPermissionsResponse> {
         return client.send(operation: "UpdateDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: "POST", input: input)
     }
 
     ///  Updates a data source.
-    public func updateDataSource(_ input: UpdateDataSourceRequest) -> Future<UpdateDataSourceResponse> {
+    public func updateDataSource(_ input: UpdateDataSourceRequest) -> EventLoopFuture<UpdateDataSourceResponse> {
         return client.send(operation: "UpdateDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the permissions to a data source.
-    public func updateDataSourcePermissions(_ input: UpdateDataSourcePermissionsRequest) -> Future<UpdateDataSourcePermissionsResponse> {
+    public func updateDataSourcePermissions(_ input: UpdateDataSourcePermissionsRequest) -> EventLoopFuture<UpdateDataSourcePermissionsResponse> {
         return client.send(operation: "UpdateDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: "POST", input: input)
     }
 
     ///  Changes a group description. 
-    public func updateGroup(_ input: UpdateGroupRequest) -> Future<UpdateGroupResponse> {
+    public func updateGroup(_ input: UpdateGroupRequest) -> EventLoopFuture<UpdateGroupResponse> {
         return client.send(operation: "UpdateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing IAM policy assignment. This operation updates only the optional parameter or parameters that are specified in the request.
-    public func updateIAMPolicyAssignment(_ input: UpdateIAMPolicyAssignmentRequest) -> Future<UpdateIAMPolicyAssignmentResponse> {
+    public func updateIAMPolicyAssignment(_ input: UpdateIAMPolicyAssignmentRequest) -> EventLoopFuture<UpdateIAMPolicyAssignmentResponse> {
         return client.send(operation: "UpdateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates a template from an existing Amazon QuickSight analysis or another template.
-    public func updateTemplate(_ input: UpdateTemplateRequest) -> Future<UpdateTemplateResponse> {
+    public func updateTemplate(_ input: UpdateTemplateRequest) -> EventLoopFuture<UpdateTemplateResponse> {
         return client.send(operation: "UpdateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the template alias of a template.
-    public func updateTemplateAlias(_ input: UpdateTemplateAliasRequest) -> Future<UpdateTemplateAliasResponse> {
+    public func updateTemplateAlias(_ input: UpdateTemplateAliasRequest) -> EventLoopFuture<UpdateTemplateAliasResponse> {
         return client.send(operation: "UpdateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the resource permissions for a template.
-    public func updateTemplatePermissions(_ input: UpdateTemplatePermissionsRequest) -> Future<UpdateTemplatePermissionsResponse> {
+    public func updateTemplatePermissions(_ input: UpdateTemplatePermissionsRequest) -> EventLoopFuture<UpdateTemplatePermissionsResponse> {
         return client.send(operation: "UpdateTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an Amazon QuickSight user.
-    public func updateUser(_ input: UpdateUserRequest) -> Future<UpdateUserResponse> {
+    public func updateUser(_ input: UpdateUserRequest) -> EventLoopFuture<UpdateUserResponse> {
         return client.send(operation: "UpdateUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: "PUT", input: input)
     }
 }

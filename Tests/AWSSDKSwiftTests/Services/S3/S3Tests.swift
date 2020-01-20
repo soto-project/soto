@@ -254,7 +254,7 @@ class S3Tests: XCTestCase {
             }
 
             let results = try EventLoopFuture.whenAllComplete(responses, on: client.client.eventLoopGroup.next()).wait()
-            
+
             for r in results {
                 if case .failure(let error) = r {
                     XCTFail(error.localizedDescription)
@@ -262,7 +262,7 @@ class S3Tests: XCTestCase {
             }
         }
     }
-    
+
     func testGetAclRequestPayer() {
         attempt {
             let testData = try TestData(#function, client: client)

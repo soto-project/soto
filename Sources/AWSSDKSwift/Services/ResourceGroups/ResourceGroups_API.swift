@@ -29,62 +29,62 @@ public struct ResourceGroups {
     }
 
     ///  Creates a group with a specified name, description, and resource query.
-    public func createGroup(_ input: CreateGroupInput) -> Future<CreateGroupOutput> {
+    public func createGroup(_ input: CreateGroupInput) -> EventLoopFuture<CreateGroupOutput> {
         return client.send(operation: "CreateGroup", path: "/groups", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified resource group. Deleting a resource group does not delete resources that are members of the group; it only deletes the group structure.
-    public func deleteGroup(_ input: DeleteGroupInput) -> Future<DeleteGroupOutput> {
+    public func deleteGroup(_ input: DeleteGroupInput) -> EventLoopFuture<DeleteGroupOutput> {
         return client.send(operation: "DeleteGroup", path: "/groups/{GroupName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns information about a specified resource group.
-    public func getGroup(_ input: GetGroupInput) -> Future<GetGroupOutput> {
+    public func getGroup(_ input: GetGroupInput) -> EventLoopFuture<GetGroupOutput> {
         return client.send(operation: "GetGroup", path: "/groups/{GroupName}", httpMethod: "GET", input: input)
     }
 
     ///  Returns the resource query associated with the specified resource group.
-    public func getGroupQuery(_ input: GetGroupQueryInput) -> Future<GetGroupQueryOutput> {
+    public func getGroupQuery(_ input: GetGroupQueryInput) -> EventLoopFuture<GetGroupQueryOutput> {
         return client.send(operation: "GetGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of tags that are associated with a resource group, specified by an ARN.
-    public func getTags(_ input: GetTagsInput) -> Future<GetTagsOutput> {
+    public func getTags(_ input: GetTagsInput) -> EventLoopFuture<GetTagsOutput> {
         return client.send(operation: "GetTags", path: "/resources/{Arn}/tags", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
-    public func listGroupResources(_ input: ListGroupResourcesInput) -> Future<ListGroupResourcesOutput> {
+    public func listGroupResources(_ input: ListGroupResourcesInput) -> EventLoopFuture<ListGroupResourcesOutput> {
         return client.send(operation: "ListGroupResources", path: "/groups/{GroupName}/resource-identifiers-list", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of existing resource groups in your account.
-    public func listGroups(_ input: ListGroupsInput) -> Future<ListGroupsOutput> {
+    public func listGroups(_ input: ListGroupsInput) -> EventLoopFuture<ListGroupsOutput> {
         return client.send(operation: "ListGroups", path: "/groups-list", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
-    public func searchResources(_ input: SearchResourcesInput) -> Future<SearchResourcesOutput> {
+    public func searchResources(_ input: SearchResourcesInput) -> EventLoopFuture<SearchResourcesOutput> {
         return client.send(operation: "SearchResources", path: "/resources/search", httpMethod: "POST", input: input)
     }
 
     ///  Adds tags to a resource group with the specified ARN. Existing tags on a resource group are not changed if they are not specified in the request parameters.
-    public func tag(_ input: TagInput) -> Future<TagOutput> {
+    public func tag(_ input: TagInput) -> EventLoopFuture<TagOutput> {
         return client.send(operation: "Tag", path: "/resources/{Arn}/tags", httpMethod: "PUT", input: input)
     }
 
     ///  Deletes specified tags from a specified resource.
-    public func untag(_ input: UntagInput) -> Future<UntagOutput> {
+    public func untag(_ input: UntagInput) -> EventLoopFuture<UntagOutput> {
         return client.send(operation: "Untag", path: "/resources/{Arn}/tags", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an existing group with a new or changed description. You cannot update the name of a resource group.
-    public func updateGroup(_ input: UpdateGroupInput) -> Future<UpdateGroupOutput> {
+    public func updateGroup(_ input: UpdateGroupInput) -> EventLoopFuture<UpdateGroupOutput> {
         return client.send(operation: "UpdateGroup", path: "/groups/{GroupName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the resource query of a group.
-    public func updateGroupQuery(_ input: UpdateGroupQueryInput) -> Future<UpdateGroupQueryOutput> {
+    public func updateGroupQuery(_ input: UpdateGroupQueryInput) -> EventLoopFuture<UpdateGroupQueryOutput> {
         return client.send(operation: "UpdateGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "PUT", input: input)
     }
 }

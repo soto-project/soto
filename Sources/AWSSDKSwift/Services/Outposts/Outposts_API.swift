@@ -28,27 +28,27 @@ public struct Outposts {
     }
 
     ///  Creates an Outpost.
-    public func createOutpost(_ input: CreateOutpostInput) -> Future<CreateOutpostOutput> {
+    public func createOutpost(_ input: CreateOutpostInput) -> EventLoopFuture<CreateOutpostOutput> {
         return client.send(operation: "CreateOutpost", path: "/outposts", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the specified Outpost.
-    public func getOutpost(_ input: GetOutpostInput) -> Future<GetOutpostOutput> {
+    public func getOutpost(_ input: GetOutpostInput) -> EventLoopFuture<GetOutpostOutput> {
         return client.send(operation: "GetOutpost", path: "/outposts/{OutpostId}", httpMethod: "GET", input: input)
     }
 
     ///  Lists the instance types for the specified Outpost.
-    public func getOutpostInstanceTypes(_ input: GetOutpostInstanceTypesInput) -> Future<GetOutpostInstanceTypesOutput> {
+    public func getOutpostInstanceTypes(_ input: GetOutpostInstanceTypesInput) -> EventLoopFuture<GetOutpostInstanceTypesOutput> {
         return client.send(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: "GET", input: input)
     }
 
     ///  List the Outposts for your AWS account.
-    public func listOutposts(_ input: ListOutpostsInput) -> Future<ListOutpostsOutput> {
+    public func listOutposts(_ input: ListOutpostsInput) -> EventLoopFuture<ListOutpostsOutput> {
         return client.send(operation: "ListOutposts", path: "/outposts", httpMethod: "GET", input: input)
     }
 
     ///  Lists the sites for the specified AWS account.
-    public func listSites(_ input: ListSitesInput) -> Future<ListSitesOutput> {
+    public func listSites(_ input: ListSitesInput) -> EventLoopFuture<ListSitesOutput> {
         return client.send(operation: "ListSites", path: "/sites", httpMethod: "GET", input: input)
     }
 }

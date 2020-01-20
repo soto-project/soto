@@ -29,1011 +29,1011 @@ public struct IoT {
     }
 
     ///  Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates.
-    @discardableResult public func acceptCertificateTransfer(_ input: AcceptCertificateTransferRequest) -> Future<Void> {
+    @discardableResult public func acceptCertificateTransfer(_ input: AcceptCertificateTransferRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Adds a thing to a billing group.
-    public func addThingToBillingGroup(_ input: AddThingToBillingGroupRequest) -> Future<AddThingToBillingGroupResponse> {
+    public func addThingToBillingGroup(_ input: AddThingToBillingGroupRequest) -> EventLoopFuture<AddThingToBillingGroupResponse> {
         return client.send(operation: "AddThingToBillingGroup", path: "/billing-groups/addThingToBillingGroup", httpMethod: "PUT", input: input)
     }
 
     ///  Adds a thing to a thing group.
-    public func addThingToThingGroup(_ input: AddThingToThingGroupRequest) -> Future<AddThingToThingGroupResponse> {
+    public func addThingToThingGroup(_ input: AddThingToThingGroupRequest) -> EventLoopFuture<AddThingToThingGroupResponse> {
         return client.send(operation: "AddThingToThingGroup", path: "/thing-groups/addThingToThingGroup", httpMethod: "PUT", input: input)
     }
 
     ///  Associates a group with a continuous job. The following criteria must be met:    The job must have been created with the targetSelection field set to "CONTINUOUS".   The job status must currently be "IN_PROGRESS".   The total number of targets associated with a job must not exceed 100.  
-    public func associateTargetsWithJob(_ input: AssociateTargetsWithJobRequest) -> Future<AssociateTargetsWithJobResponse> {
+    public func associateTargetsWithJob(_ input: AssociateTargetsWithJobRequest) -> EventLoopFuture<AssociateTargetsWithJobResponse> {
         return client.send(operation: "AssociateTargetsWithJob", path: "/jobs/{jobId}/targets", httpMethod: "POST", input: input)
     }
 
     ///  Attaches a policy to the specified target.
-    @discardableResult public func attachPolicy(_ input: AttachPolicyRequest) -> Future<Void> {
+    @discardableResult public func attachPolicy(_ input: AttachPolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "AttachPolicy", path: "/target-policies/{policyName}", httpMethod: "PUT", input: input)
     }
 
     ///  Attaches the specified policy to the specified principal (certificate or other credential).  Note: This API is deprecated. Please use AttachPolicy instead.
     @available(*, deprecated, message:"AttachPrincipalPolicy is deprecated.")
-    @discardableResult public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest) -> Future<Void> {
+    @discardableResult public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "PUT", input: input)
     }
 
     ///  Associates a Device Defender security profile with a thing group or this account. Each thing group or account can have up to five security profiles associated with it.
-    public func attachSecurityProfile(_ input: AttachSecurityProfileRequest) -> Future<AttachSecurityProfileResponse> {
+    public func attachSecurityProfile(_ input: AttachSecurityProfileRequest) -> EventLoopFuture<AttachSecurityProfileResponse> {
         return client.send(operation: "AttachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: "PUT", input: input)
     }
 
     ///  Attaches the specified principal to the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
-    public func attachThingPrincipal(_ input: AttachThingPrincipalRequest) -> Future<AttachThingPrincipalResponse> {
+    public func attachThingPrincipal(_ input: AttachThingPrincipalRequest) -> EventLoopFuture<AttachThingPrincipalResponse> {
         return client.send(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: "PUT", input: input)
     }
 
     ///  Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs.
-    public func cancelAuditMitigationActionsTask(_ input: CancelAuditMitigationActionsTaskRequest) -> Future<CancelAuditMitigationActionsTaskResponse> {
+    public func cancelAuditMitigationActionsTask(_ input: CancelAuditMitigationActionsTaskRequest) -> EventLoopFuture<CancelAuditMitigationActionsTaskResponse> {
         return client.send(operation: "CancelAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}/cancel", httpMethod: "PUT", input: input)
     }
 
     ///  Cancels an audit that is in progress. The audit can be either scheduled or on-demand. If the audit is not in progress, an "InvalidRequestException" occurs.
-    public func cancelAuditTask(_ input: CancelAuditTaskRequest) -> Future<CancelAuditTaskResponse> {
+    public func cancelAuditTask(_ input: CancelAuditTaskRequest) -> EventLoopFuture<CancelAuditTaskResponse> {
         return client.send(operation: "CancelAuditTask", path: "/audit/tasks/{taskId}/cancel", httpMethod: "PUT", input: input)
     }
 
     ///  Cancels a pending transfer for the specified certificate.  Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE.
-    @discardableResult public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest) -> Future<Void> {
+    @discardableResult public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Cancels a job.
-    public func cancelJob(_ input: CancelJobRequest) -> Future<CancelJobResponse> {
+    public func cancelJob(_ input: CancelJobRequest) -> EventLoopFuture<CancelJobResponse> {
         return client.send(operation: "CancelJob", path: "/jobs/{jobId}/cancel", httpMethod: "PUT", input: input)
     }
 
     ///  Cancels the execution of a job for a given thing.
-    @discardableResult public func cancelJobExecution(_ input: CancelJobExecutionRequest) -> Future<Void> {
+    @discardableResult public func cancelJobExecution(_ input: CancelJobExecutionRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "CancelJobExecution", path: "/things/{thingName}/jobs/{jobId}/cancel", httpMethod: "PUT", input: input)
     }
 
     ///  Clears the default authorizer.
-    public func clearDefaultAuthorizer(_ input: ClearDefaultAuthorizerRequest) -> Future<ClearDefaultAuthorizerResponse> {
+    public func clearDefaultAuthorizer(_ input: ClearDefaultAuthorizerRequest) -> EventLoopFuture<ClearDefaultAuthorizerResponse> {
         return client.send(operation: "ClearDefaultAuthorizer", path: "/default-authorizer", httpMethod: "DELETE", input: input)
     }
 
     ///  Confirms a topic rule destination. When you create a rule requiring a destination, AWS IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint.
-    public func confirmTopicRuleDestination(_ input: ConfirmTopicRuleDestinationRequest) -> Future<ConfirmTopicRuleDestinationResponse> {
+    public func confirmTopicRuleDestination(_ input: ConfirmTopicRuleDestinationRequest) -> EventLoopFuture<ConfirmTopicRuleDestinationResponse> {
         return client.send(operation: "ConfirmTopicRuleDestination", path: "/confirmdestination/{confirmationToken+}", httpMethod: "GET", input: input)
     }
 
     ///  Creates an authorizer.
-    public func createAuthorizer(_ input: CreateAuthorizerRequest) -> Future<CreateAuthorizerResponse> {
+    public func createAuthorizer(_ input: CreateAuthorizerRequest) -> EventLoopFuture<CreateAuthorizerResponse> {
         return client.send(operation: "CreateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a billing group.
-    public func createBillingGroup(_ input: CreateBillingGroupRequest) -> Future<CreateBillingGroupResponse> {
+    public func createBillingGroup(_ input: CreateBillingGroupRequest) -> EventLoopFuture<CreateBillingGroupResponse> {
         return client.send(operation: "CreateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates an X.509 certificate using the specified certificate signing request.  Note: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves.   Note: Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr AWS CLI command to create a certificate for the corresponding CSR. The aws iot create-certificate-from-csr part of the command can also be run in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: &gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_} On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: &gt; forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
-    public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest) -> Future<CreateCertificateFromCsrResponse> {
+    public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest) -> EventLoopFuture<CreateCertificateFromCsrResponse> {
         return client.send(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: "POST", input: input)
     }
 
     ///  Creates a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
-    public func createDomainConfiguration(_ input: CreateDomainConfigurationRequest) -> Future<CreateDomainConfigurationResponse> {
+    public func createDomainConfiguration(_ input: CreateDomainConfigurationRequest) -> EventLoopFuture<CreateDomainConfigurationResponse> {
         return client.send(operation: "CreateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a dynamic thing group.
-    public func createDynamicThingGroup(_ input: CreateDynamicThingGroupRequest) -> Future<CreateDynamicThingGroupResponse> {
+    public func createDynamicThingGroup(_ input: CreateDynamicThingGroupRequest) -> EventLoopFuture<CreateDynamicThingGroupResponse> {
         return client.send(operation: "CreateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a job.
-    public func createJob(_ input: CreateJobRequest) -> Future<CreateJobResponse> {
+    public func createJob(_ input: CreateJobRequest) -> EventLoopFuture<CreateJobResponse> {
         return client.send(operation: "CreateJob", path: "/jobs/{jobId}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see Provisioning MQTT API.  Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
-    public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest) -> Future<CreateKeysAndCertificateResponse> {
+    public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest) -> EventLoopFuture<CreateKeysAndCertificateResponse> {
         return client.send(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: "POST", input: input)
     }
 
     ///  Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Each mitigation action can apply only one type of change.
-    public func createMitigationAction(_ input: CreateMitigationActionRequest) -> Future<CreateMitigationActionResponse> {
+    public func createMitigationAction(_ input: CreateMitigationActionRequest) -> EventLoopFuture<CreateMitigationActionResponse> {
         return client.send(operation: "CreateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS IoT OTAUpdate on a target group of things or groups.
-    public func createOTAUpdate(_ input: CreateOTAUpdateRequest) -> Future<CreateOTAUpdateResponse> {
+    public func createOTAUpdate(_ input: CreateOTAUpdateRequest) -> EventLoopFuture<CreateOTAUpdateResponse> {
         return client.send(operation: "CreateOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version.
-    public func createPolicy(_ input: CreatePolicyRequest) -> Future<CreatePolicyResponse> {
+    public func createPolicy(_ input: CreatePolicyRequest) -> EventLoopFuture<CreatePolicyResponse> {
         return client.send(operation: "CreatePolicy", path: "/policies/{policyName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new version of the specified AWS IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use DeletePolicyVersion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
-    public func createPolicyVersion(_ input: CreatePolicyVersionRequest) -> Future<CreatePolicyVersionResponse> {
+    public func createPolicyVersion(_ input: CreatePolicyVersionRequest) -> EventLoopFuture<CreatePolicyVersionResponse> {
         return client.send(operation: "CreatePolicyVersion", path: "/policies/{policyName}/version", httpMethod: "POST", input: input)
     }
 
     ///  Creates a provisioning claim.
-    public func createProvisioningClaim(_ input: CreateProvisioningClaimRequest) -> Future<CreateProvisioningClaimResponse> {
+    public func createProvisioningClaim(_ input: CreateProvisioningClaimRequest) -> EventLoopFuture<CreateProvisioningClaimResponse> {
         return client.send(operation: "CreateProvisioningClaim", path: "/provisioning-templates/{templateName}/provisioning-claim", httpMethod: "POST", input: input)
     }
 
     ///  Creates a fleet provisioning template.
-    public func createProvisioningTemplate(_ input: CreateProvisioningTemplateRequest) -> Future<CreateProvisioningTemplateResponse> {
+    public func createProvisioningTemplate(_ input: CreateProvisioningTemplateRequest) -> EventLoopFuture<CreateProvisioningTemplateResponse> {
         return client.send(operation: "CreateProvisioningTemplate", path: "/provisioning-templates", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new version of a fleet provisioning template.
-    public func createProvisioningTemplateVersion(_ input: CreateProvisioningTemplateVersionRequest) -> Future<CreateProvisioningTemplateVersionResponse> {
+    public func createProvisioningTemplateVersion(_ input: CreateProvisioningTemplateVersionRequest) -> EventLoopFuture<CreateProvisioningTemplateVersionResponse> {
         return client.send(operation: "CreateProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions", httpMethod: "POST", input: input)
     }
 
     ///  Creates a role alias.
-    public func createRoleAlias(_ input: CreateRoleAliasRequest) -> Future<CreateRoleAliasResponse> {
+    public func createRoleAlias(_ input: CreateRoleAliasRequest) -> EventLoopFuture<CreateRoleAliasResponse> {
         return client.send(operation: "CreateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a scheduled audit that is run at a specified time interval.
-    public func createScheduledAudit(_ input: CreateScheduledAuditRequest) -> Future<CreateScheduledAuditResponse> {
+    public func createScheduledAudit(_ input: CreateScheduledAuditRequest) -> EventLoopFuture<CreateScheduledAuditResponse> {
         return client.send(operation: "CreateScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Device Defender security profile.
-    public func createSecurityProfile(_ input: CreateSecurityProfileRequest) -> Future<CreateSecurityProfileResponse> {
+    public func createSecurityProfile(_ input: CreateSecurityProfileRequest) -> EventLoopFuture<CreateSecurityProfileResponse> {
         return client.send(operation: "CreateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream.
-    public func createStream(_ input: CreateStreamRequest) -> Future<CreateStreamResponse> {
+    public func createStream(_ input: CreateStreamRequest) -> EventLoopFuture<CreateStreamResponse> {
         return client.send(operation: "CreateStream", path: "/streams/{streamId}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
-    public func createThing(_ input: CreateThingRequest) -> Future<CreateThingResponse> {
+    public func createThing(_ input: CreateThingRequest) -> EventLoopFuture<CreateThingResponse> {
         return client.send(operation: "CreateThing", path: "/things/{thingName}", httpMethod: "POST", input: input)
     }
 
     ///  Create a thing group.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
-    public func createThingGroup(_ input: CreateThingGroupRequest) -> Future<CreateThingGroupResponse> {
+    public func createThingGroup(_ input: CreateThingGroupRequest) -> EventLoopFuture<CreateThingGroupResponse> {
         return client.send(operation: "CreateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new thing type.
-    public func createThingType(_ input: CreateThingTypeRequest) -> Future<CreateThingTypeResponse> {
+    public func createThingType(_ input: CreateThingTypeRequest) -> EventLoopFuture<CreateThingTypeResponse> {
         return client.send(operation: "CreateThingType", path: "/thing-types/{thingTypeName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
-    @discardableResult public func createTopicRule(_ input: CreateTopicRuleRequest) -> Future<Void> {
+    @discardableResult public func createTopicRule(_ input: CreateTopicRuleRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a topic rule destination. The destination must be confirmed prior to use.
-    public func createTopicRuleDestination(_ input: CreateTopicRuleDestinationRequest) -> Future<CreateTopicRuleDestinationResponse> {
+    public func createTopicRuleDestination(_ input: CreateTopicRuleDestinationRequest) -> EventLoopFuture<CreateTopicRuleDestinationResponse> {
         return client.send(operation: "CreateTopicRuleDestination", path: "/destinations", httpMethod: "POST", input: input)
     }
 
     ///  Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. 
-    public func deleteAccountAuditConfiguration(_ input: DeleteAccountAuditConfigurationRequest) -> Future<DeleteAccountAuditConfigurationResponse> {
+    public func deleteAccountAuditConfiguration(_ input: DeleteAccountAuditConfigurationRequest) -> EventLoopFuture<DeleteAccountAuditConfigurationResponse> {
         return client.send(operation: "DeleteAccountAuditConfiguration", path: "/audit/configuration", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an authorizer.
-    public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) -> Future<DeleteAuthorizerResponse> {
+    public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) -> EventLoopFuture<DeleteAuthorizerResponse> {
         return client.send(operation: "DeleteAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the billing group.
-    public func deleteBillingGroup(_ input: DeleteBillingGroupRequest) -> Future<DeleteBillingGroupResponse> {
+    public func deleteBillingGroup(_ input: DeleteBillingGroupRequest) -> EventLoopFuture<DeleteBillingGroupResponse> {
         return client.send(operation: "DeleteBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a registered CA certificate.
-    public func deleteCACertificate(_ input: DeleteCACertificateRequest) -> Future<DeleteCACertificateResponse> {
+    public func deleteCACertificate(_ input: DeleteCACertificateRequest) -> EventLoopFuture<DeleteCACertificateResponse> {
         return client.send(operation: "DeleteCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
-    @discardableResult public func deleteCertificate(_ input: DeleteCertificateRequest) -> Future<Void> {
+    @discardableResult public func deleteCertificate(_ input: DeleteCertificateRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified domain configuration.  The domain configuration feature is in public preview and is subject to change. 
-    public func deleteDomainConfiguration(_ input: DeleteDomainConfigurationRequest) -> Future<DeleteDomainConfigurationResponse> {
+    public func deleteDomainConfiguration(_ input: DeleteDomainConfigurationRequest) -> EventLoopFuture<DeleteDomainConfigurationResponse> {
         return client.send(operation: "DeleteDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a dynamic thing group.
-    public func deleteDynamicThingGroup(_ input: DeleteDynamicThingGroupRequest) -> Future<DeleteDynamicThingGroupResponse> {
+    public func deleteDynamicThingGroup(_ input: DeleteDynamicThingGroupRequest) -> EventLoopFuture<DeleteDynamicThingGroupResponse> {
         return client.send(operation: "DeleteDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur.
-    @discardableResult public func deleteJob(_ input: DeleteJobRequest) -> Future<Void> {
+    @discardableResult public func deleteJob(_ input: DeleteJobRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteJob", path: "/jobs/{jobId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a job execution.
-    @discardableResult public func deleteJobExecution(_ input: DeleteJobExecutionRequest) -> Future<Void> {
+    @discardableResult public func deleteJobExecution(_ input: DeleteJobExecutionRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteJobExecution", path: "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a defined mitigation action from your AWS account.
-    public func deleteMitigationAction(_ input: DeleteMitigationActionRequest) -> Future<DeleteMitigationActionResponse> {
+    public func deleteMitigationAction(_ input: DeleteMitigationActionRequest) -> EventLoopFuture<DeleteMitigationActionResponse> {
         return client.send(operation: "DeleteMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete an OTA update.
-    public func deleteOTAUpdate(_ input: DeleteOTAUpdateRequest) -> Future<DeleteOTAUpdateResponse> {
+    public func deleteOTAUpdate(_ input: DeleteOTAUpdateRequest) -> EventLoopFuture<DeleteOTAUpdateResponse> {
         return client.send(operation: "DeleteOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion API to delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach the policy from any certificate; and then use the DeletePolicy API to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it.
-    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest) -> Future<Void> {
+    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeletePolicy", path: "/policies/{policyName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this API. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default version, use ListPolicyVersions.
-    @discardableResult public func deletePolicyVersion(_ input: DeletePolicyVersionRequest) -> Future<Void> {
+    @discardableResult public func deletePolicyVersion(_ input: DeletePolicyVersionRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a fleet provisioning template.
-    public func deleteProvisioningTemplate(_ input: DeleteProvisioningTemplateRequest) -> Future<DeleteProvisioningTemplateResponse> {
+    public func deleteProvisioningTemplate(_ input: DeleteProvisioningTemplateRequest) -> EventLoopFuture<DeleteProvisioningTemplateResponse> {
         return client.send(operation: "DeleteProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a fleet provisioning template version.
-    public func deleteProvisioningTemplateVersion(_ input: DeleteProvisioningTemplateVersionRequest) -> Future<DeleteProvisioningTemplateVersionResponse> {
+    public func deleteProvisioningTemplateVersion(_ input: DeleteProvisioningTemplateVersionRequest) -> EventLoopFuture<DeleteProvisioningTemplateVersionResponse> {
         return client.send(operation: "DeleteProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a CA certificate registration code.
-    public func deleteRegistrationCode(_ input: DeleteRegistrationCodeRequest) -> Future<DeleteRegistrationCodeResponse> {
+    public func deleteRegistrationCode(_ input: DeleteRegistrationCodeRequest) -> EventLoopFuture<DeleteRegistrationCodeResponse> {
         return client.send(operation: "DeleteRegistrationCode", path: "/registrationcode", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a role alias
-    public func deleteRoleAlias(_ input: DeleteRoleAliasRequest) -> Future<DeleteRoleAliasResponse> {
+    public func deleteRoleAlias(_ input: DeleteRoleAliasRequest) -> EventLoopFuture<DeleteRoleAliasResponse> {
         return client.send(operation: "DeleteRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a scheduled audit.
-    public func deleteScheduledAudit(_ input: DeleteScheduledAuditRequest) -> Future<DeleteScheduledAuditResponse> {
+    public func deleteScheduledAudit(_ input: DeleteScheduledAuditRequest) -> EventLoopFuture<DeleteScheduledAuditResponse> {
         return client.send(operation: "DeleteScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Device Defender security profile.
-    public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest) -> Future<DeleteSecurityProfileResponse> {
+    public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest) -> EventLoopFuture<DeleteSecurityProfileResponse> {
         return client.send(operation: "DeleteSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a stream.
-    public func deleteStream(_ input: DeleteStreamRequest) -> Future<DeleteStreamResponse> {
+    public func deleteStream(_ input: DeleteStreamRequest) -> EventLoopFuture<DeleteStreamResponse> {
         return client.send(operation: "DeleteStream", path: "/streams/{streamId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified thing. Returns successfully with no error if the deletion is successful or you specify a thing that doesn't exist.
-    public func deleteThing(_ input: DeleteThingRequest) -> Future<DeleteThingResponse> {
+    public func deleteThing(_ input: DeleteThingRequest) -> EventLoopFuture<DeleteThingResponse> {
         return client.send(operation: "DeleteThing", path: "/things/{thingName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a thing group.
-    public func deleteThingGroup(_ input: DeleteThingGroupRequest) -> Future<DeleteThingGroupResponse> {
+    public func deleteThingGroup(_ input: DeleteThingGroupRequest) -> EventLoopFuture<DeleteThingGroupResponse> {
         return client.send(operation: "DeleteThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified thing type. You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and finally use DeleteThingType to delete the thing type.
-    public func deleteThingType(_ input: DeleteThingTypeRequest) -> Future<DeleteThingTypeResponse> {
+    public func deleteThingType(_ input: DeleteThingTypeRequest) -> EventLoopFuture<DeleteThingTypeResponse> {
         return client.send(operation: "DeleteThingType", path: "/thing-types/{thingTypeName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the rule.
-    @discardableResult public func deleteTopicRule(_ input: DeleteTopicRuleRequest) -> Future<Void> {
+    @discardableResult public func deleteTopicRule(_ input: DeleteTopicRuleRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a topic rule destination.
-    public func deleteTopicRuleDestination(_ input: DeleteTopicRuleDestinationRequest) -> Future<DeleteTopicRuleDestinationResponse> {
+    public func deleteTopicRuleDestination(_ input: DeleteTopicRuleDestinationRequest) -> EventLoopFuture<DeleteTopicRuleDestinationResponse> {
         return client.send(operation: "DeleteTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a logging level.
-    @discardableResult public func deleteV2LoggingLevel(_ input: DeleteV2LoggingLevelRequest) -> Future<Void> {
+    @discardableResult public func deleteV2LoggingLevel(_ input: DeleteV2LoggingLevelRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: "DELETE", input: input)
     }
 
     ///  Deprecates a thing type. You can not associate new things with deprecated thing type.
-    public func deprecateThingType(_ input: DeprecateThingTypeRequest) -> Future<DeprecateThingTypeResponse> {
+    public func deprecateThingType(_ input: DeprecateThingTypeRequest) -> EventLoopFuture<DeprecateThingTypeResponse> {
         return client.send(operation: "DeprecateThingType", path: "/thing-types/{thingTypeName}/deprecate", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled.
-    public func describeAccountAuditConfiguration(_ input: DescribeAccountAuditConfigurationRequest) -> Future<DescribeAccountAuditConfigurationResponse> {
+    public func describeAccountAuditConfiguration(_ input: DescribeAccountAuditConfigurationRequest) -> EventLoopFuture<DescribeAccountAuditConfigurationResponse> {
         return client.send(operation: "DescribeAccountAuditConfiguration", path: "/audit/configuration", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and when the audit that returned the finding was started.
-    public func describeAuditFinding(_ input: DescribeAuditFindingRequest) -> Future<DescribeAuditFindingResponse> {
+    public func describeAuditFinding(_ input: DescribeAuditFindingRequest) -> EventLoopFuture<DescribeAuditFindingResponse> {
         return client.send(operation: "DescribeAuditFinding", path: "/audit/findings/{findingId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
-    public func describeAuditMitigationActionsTask(_ input: DescribeAuditMitigationActionsTaskRequest) -> Future<DescribeAuditMitigationActionsTaskResponse> {
+    public func describeAuditMitigationActionsTask(_ input: DescribeAuditMitigationActionsTaskRequest) -> EventLoopFuture<DescribeAuditMitigationActionsTaskResponse> {
         return client.send(operation: "DescribeAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a Device Defender audit.
-    public func describeAuditTask(_ input: DescribeAuditTaskRequest) -> Future<DescribeAuditTaskResponse> {
+    public func describeAuditTask(_ input: DescribeAuditTaskRequest) -> EventLoopFuture<DescribeAuditTaskResponse> {
         return client.send(operation: "DescribeAuditTask", path: "/audit/tasks/{taskId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes an authorizer.
-    public func describeAuthorizer(_ input: DescribeAuthorizerRequest) -> Future<DescribeAuthorizerResponse> {
+    public func describeAuthorizer(_ input: DescribeAuthorizerRequest) -> EventLoopFuture<DescribeAuthorizerResponse> {
         return client.send(operation: "DescribeAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about a billing group.
-    public func describeBillingGroup(_ input: DescribeBillingGroupRequest) -> Future<DescribeBillingGroupResponse> {
+    public func describeBillingGroup(_ input: DescribeBillingGroupRequest) -> EventLoopFuture<DescribeBillingGroupResponse> {
         return client.send(operation: "DescribeBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a registered CA certificate.
-    public func describeCACertificate(_ input: DescribeCACertificateRequest) -> Future<DescribeCACertificateResponse> {
+    public func describeCACertificate(_ input: DescribeCACertificateRequest) -> EventLoopFuture<DescribeCACertificateResponse> {
         return client.send(operation: "DescribeCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the specified certificate.
-    public func describeCertificate(_ input: DescribeCertificateRequest) -> Future<DescribeCertificateResponse> {
+    public func describeCertificate(_ input: DescribeCertificateRequest) -> EventLoopFuture<DescribeCertificateResponse> {
         return client.send(operation: "DescribeCertificate", path: "/certificates/{certificateId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes the default authorizer.
-    public func describeDefaultAuthorizer(_ input: DescribeDefaultAuthorizerRequest) -> Future<DescribeDefaultAuthorizerResponse> {
+    public func describeDefaultAuthorizer(_ input: DescribeDefaultAuthorizerRequest) -> EventLoopFuture<DescribeDefaultAuthorizerResponse> {
         return client.send(operation: "DescribeDefaultAuthorizer", path: "/default-authorizer", httpMethod: "GET", input: input)
     }
 
     ///  Gets summary information about a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
-    public func describeDomainConfiguration(_ input: DescribeDomainConfigurationRequest) -> Future<DescribeDomainConfigurationResponse> {
+    public func describeDomainConfiguration(_ input: DescribeDomainConfigurationRequest) -> EventLoopFuture<DescribeDomainConfigurationResponse> {
         return client.send(operation: "DescribeDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a unique endpoint specific to the AWS account making the call.
-    public func describeEndpoint(_ input: DescribeEndpointRequest) -> Future<DescribeEndpointResponse> {
+    public func describeEndpoint(_ input: DescribeEndpointRequest) -> EventLoopFuture<DescribeEndpointResponse> {
         return client.send(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: "GET", input: input)
     }
 
     ///  Describes event configurations.
-    public func describeEventConfigurations(_ input: DescribeEventConfigurationsRequest) -> Future<DescribeEventConfigurationsResponse> {
+    public func describeEventConfigurations(_ input: DescribeEventConfigurationsRequest) -> EventLoopFuture<DescribeEventConfigurationsResponse> {
         return client.send(operation: "DescribeEventConfigurations", path: "/event-configurations", httpMethod: "GET", input: input)
     }
 
     ///  Describes a search index.
-    public func describeIndex(_ input: DescribeIndexRequest) -> Future<DescribeIndexResponse> {
+    public func describeIndex(_ input: DescribeIndexRequest) -> EventLoopFuture<DescribeIndexResponse> {
         return client.send(operation: "DescribeIndex", path: "/indices/{indexName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a job.
-    public func describeJob(_ input: DescribeJobRequest) -> Future<DescribeJobResponse> {
+    public func describeJob(_ input: DescribeJobRequest) -> EventLoopFuture<DescribeJobResponse> {
         return client.send(operation: "DescribeJob", path: "/jobs/{jobId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a job execution.
-    public func describeJobExecution(_ input: DescribeJobExecutionRequest) -> Future<DescribeJobExecutionResponse> {
+    public func describeJobExecution(_ input: DescribeJobExecutionRequest) -> EventLoopFuture<DescribeJobExecutionResponse> {
         return client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a mitigation action.
-    public func describeMitigationAction(_ input: DescribeMitigationActionRequest) -> Future<DescribeMitigationActionResponse> {
+    public func describeMitigationAction(_ input: DescribeMitigationActionRequest) -> EventLoopFuture<DescribeMitigationActionResponse> {
         return client.send(operation: "DescribeMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about a fleet provisioning template.
-    public func describeProvisioningTemplate(_ input: DescribeProvisioningTemplateRequest) -> Future<DescribeProvisioningTemplateResponse> {
+    public func describeProvisioningTemplate(_ input: DescribeProvisioningTemplateRequest) -> EventLoopFuture<DescribeProvisioningTemplateResponse> {
         return client.send(operation: "DescribeProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about a fleet provisioning template version.
-    public func describeProvisioningTemplateVersion(_ input: DescribeProvisioningTemplateVersionRequest) -> Future<DescribeProvisioningTemplateVersionResponse> {
+    public func describeProvisioningTemplateVersion(_ input: DescribeProvisioningTemplateVersionRequest) -> EventLoopFuture<DescribeProvisioningTemplateVersionResponse> {
         return client.send(operation: "DescribeProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a role alias.
-    public func describeRoleAlias(_ input: DescribeRoleAliasRequest) -> Future<DescribeRoleAliasResponse> {
+    public func describeRoleAlias(_ input: DescribeRoleAliasRequest) -> EventLoopFuture<DescribeRoleAliasResponse> {
         return client.send(operation: "DescribeRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a scheduled audit.
-    public func describeScheduledAudit(_ input: DescribeScheduledAuditRequest) -> Future<DescribeScheduledAuditResponse> {
+    public func describeScheduledAudit(_ input: DescribeScheduledAuditRequest) -> EventLoopFuture<DescribeScheduledAuditResponse> {
         return client.send(operation: "DescribeScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a Device Defender security profile.
-    public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest) -> Future<DescribeSecurityProfileResponse> {
+    public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest) -> EventLoopFuture<DescribeSecurityProfileResponse> {
         return client.send(operation: "DescribeSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a stream.
-    public func describeStream(_ input: DescribeStreamRequest) -> Future<DescribeStreamResponse> {
+    public func describeStream(_ input: DescribeStreamRequest) -> EventLoopFuture<DescribeStreamResponse> {
         return client.send(operation: "DescribeStream", path: "/streams/{streamId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the specified thing.
-    public func describeThing(_ input: DescribeThingRequest) -> Future<DescribeThingResponse> {
+    public func describeThing(_ input: DescribeThingRequest) -> EventLoopFuture<DescribeThingResponse> {
         return client.send(operation: "DescribeThing", path: "/things/{thingName}", httpMethod: "GET", input: input)
     }
 
     ///  Describe a thing group.
-    public func describeThingGroup(_ input: DescribeThingGroupRequest) -> Future<DescribeThingGroupResponse> {
+    public func describeThingGroup(_ input: DescribeThingGroupRequest) -> EventLoopFuture<DescribeThingGroupResponse> {
         return client.send(operation: "DescribeThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a bulk thing provisioning task.
-    public func describeThingRegistrationTask(_ input: DescribeThingRegistrationTaskRequest) -> Future<DescribeThingRegistrationTaskResponse> {
+    public func describeThingRegistrationTask(_ input: DescribeThingRegistrationTaskRequest) -> EventLoopFuture<DescribeThingRegistrationTaskResponse> {
         return client.send(operation: "DescribeThingRegistrationTask", path: "/thing-registration-tasks/{taskId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the specified thing type.
-    public func describeThingType(_ input: DescribeThingTypeRequest) -> Future<DescribeThingTypeResponse> {
+    public func describeThingType(_ input: DescribeThingTypeRequest) -> EventLoopFuture<DescribeThingTypeResponse> {
         return client.send(operation: "DescribeThingType", path: "/thing-types/{thingTypeName}", httpMethod: "GET", input: input)
     }
 
     ///  Detaches a policy from the specified target.
-    @discardableResult public func detachPolicy(_ input: DetachPolicyRequest) -> Future<Void> {
+    @discardableResult public func detachPolicy(_ input: DetachPolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DetachPolicy", path: "/target-policies/{policyName}", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified policy from the specified certificate.  Note: This API is deprecated. Please use DetachPolicy instead.
     @available(*, deprecated, message:"DetachPrincipalPolicy is deprecated.")
-    @discardableResult public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest) -> Future<Void> {
+    @discardableResult public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Disassociates a Device Defender security profile from a thing group or from this account.
-    public func detachSecurityProfile(_ input: DetachSecurityProfileRequest) -> Future<DetachSecurityProfileResponse> {
+    public func detachSecurityProfile(_ input: DetachSecurityProfileRequest) -> EventLoopFuture<DetachSecurityProfileResponse> {
         return client.send(operation: "DetachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: "DELETE", input: input)
     }
 
     ///  Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.  This call is asynchronous. It might take several seconds for the detachment to propagate. 
-    public func detachThingPrincipal(_ input: DetachThingPrincipalRequest) -> Future<DetachThingPrincipalResponse> {
+    public func detachThingPrincipal(_ input: DetachThingPrincipalRequest) -> EventLoopFuture<DetachThingPrincipalResponse> {
         return client.send(operation: "DetachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the rule.
-    @discardableResult public func disableTopicRule(_ input: DisableTopicRuleRequest) -> Future<Void> {
+    @discardableResult public func disableTopicRule(_ input: DisableTopicRuleRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DisableTopicRule", path: "/rules/{ruleName}/disable", httpMethod: "POST", input: input)
     }
 
     ///  Enables the rule.
-    @discardableResult public func enableTopicRule(_ input: EnableTopicRuleRequest) -> Future<Void> {
+    @discardableResult public func enableTopicRule(_ input: EnableTopicRuleRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: "POST", input: input)
     }
 
     ///  Returns the approximate count of unique values that match the query.
-    public func getCardinality(_ input: GetCardinalityRequest) -> Future<GetCardinalityResponse> {
+    public func getCardinality(_ input: GetCardinalityRequest) -> EventLoopFuture<GetCardinalityResponse> {
         return client.send(operation: "GetCardinality", path: "/indices/cardinality", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the AWS IoT device gateway.
-    public func getEffectivePolicies(_ input: GetEffectivePoliciesRequest) -> Future<GetEffectivePoliciesResponse> {
+    public func getEffectivePolicies(_ input: GetEffectivePoliciesRequest) -> EventLoopFuture<GetEffectivePoliciesResponse> {
         return client.send(operation: "GetEffectivePolicies", path: "/effective-policies", httpMethod: "POST", input: input)
     }
 
     ///  Gets the indexing configuration.
-    public func getIndexingConfiguration(_ input: GetIndexingConfigurationRequest) -> Future<GetIndexingConfigurationResponse> {
+    public func getIndexingConfiguration(_ input: GetIndexingConfigurationRequest) -> EventLoopFuture<GetIndexingConfigurationResponse> {
         return client.send(operation: "GetIndexingConfiguration", path: "/indexing/config", httpMethod: "GET", input: input)
     }
 
     ///  Gets a job document.
-    public func getJobDocument(_ input: GetJobDocumentRequest) -> Future<GetJobDocumentResponse> {
+    public func getJobDocument(_ input: GetJobDocumentRequest) -> EventLoopFuture<GetJobDocumentResponse> {
         return client.send(operation: "GetJobDocument", path: "/jobs/{jobId}/job-document", httpMethod: "GET", input: input)
     }
 
     ///  Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead.
-    public func getLoggingOptions(_ input: GetLoggingOptionsRequest) -> Future<GetLoggingOptionsResponse> {
+    public func getLoggingOptions(_ input: GetLoggingOptionsRequest) -> EventLoopFuture<GetLoggingOptionsResponse> {
         return client.send(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: "GET", input: input)
     }
 
     ///  Gets an OTA update.
-    public func getOTAUpdate(_ input: GetOTAUpdateRequest) -> Future<GetOTAUpdateResponse> {
+    public func getOTAUpdate(_ input: GetOTAUpdateRequest) -> EventLoopFuture<GetOTAUpdateResponse> {
         return client.send(operation: "GetOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: "GET", input: input)
     }
 
     ///  Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles. This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field value that occurs in approximately five percent of the values that match the query, and so on. The result is an approximation, the more values that match the query, the more accurate the percentile values.
-    public func getPercentiles(_ input: GetPercentilesRequest) -> Future<GetPercentilesResponse> {
+    public func getPercentiles(_ input: GetPercentilesRequest) -> EventLoopFuture<GetPercentilesResponse> {
         return client.send(operation: "GetPercentiles", path: "/indices/percentiles", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the specified policy with the policy document of the default version.
-    public func getPolicy(_ input: GetPolicyRequest) -> Future<GetPolicyResponse> {
+    public func getPolicy(_ input: GetPolicyRequest) -> EventLoopFuture<GetPolicyResponse> {
         return client.send(operation: "GetPolicy", path: "/policies/{policyName}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the specified policy version.
-    public func getPolicyVersion(_ input: GetPolicyVersionRequest) -> Future<GetPolicyVersionResponse> {
+    public func getPolicyVersion(_ input: GetPolicyVersionRequest) -> EventLoopFuture<GetPolicyVersionResponse> {
         return client.send(operation: "GetPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets a registration code used to register a CA certificate with AWS IoT.
-    public func getRegistrationCode(_ input: GetRegistrationCodeRequest) -> Future<GetRegistrationCodeResponse> {
+    public func getRegistrationCode(_ input: GetRegistrationCodeRequest) -> EventLoopFuture<GetRegistrationCodeResponse> {
         return client.send(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: "GET", input: input)
     }
 
     ///  Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned.
-    public func getStatistics(_ input: GetStatisticsRequest) -> Future<GetStatisticsResponse> {
+    public func getStatistics(_ input: GetStatisticsRequest) -> EventLoopFuture<GetStatisticsResponse> {
         return client.send(operation: "GetStatistics", path: "/indices/statistics", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the rule.
-    public func getTopicRule(_ input: GetTopicRuleRequest) -> Future<GetTopicRuleResponse> {
+    public func getTopicRule(_ input: GetTopicRuleRequest) -> EventLoopFuture<GetTopicRuleResponse> {
         return client.send(operation: "GetTopicRule", path: "/rules/{ruleName}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a topic rule destination.
-    public func getTopicRuleDestination(_ input: GetTopicRuleDestinationRequest) -> Future<GetTopicRuleDestinationResponse> {
+    public func getTopicRuleDestination(_ input: GetTopicRuleDestinationRequest) -> EventLoopFuture<GetTopicRuleDestinationResponse> {
         return client.send(operation: "GetTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the fine grained logging options.
-    public func getV2LoggingOptions(_ input: GetV2LoggingOptionsRequest) -> Future<GetV2LoggingOptionsResponse> {
+    public func getV2LoggingOptions(_ input: GetV2LoggingOptionsRequest) -> EventLoopFuture<GetV2LoggingOptionsResponse> {
         return client.send(operation: "GetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: "GET", input: input)
     }
 
     ///  Lists the active violations for a given Device Defender security profile.
-    public func listActiveViolations(_ input: ListActiveViolationsRequest) -> Future<ListActiveViolationsResponse> {
+    public func listActiveViolations(_ input: ListActiveViolationsRequest) -> EventLoopFuture<ListActiveViolationsResponse> {
         return client.send(operation: "ListActiveViolations", path: "/active-violations", httpMethod: "GET", input: input)
     }
 
     ///  Lists the policies attached to the specified thing group.
-    public func listAttachedPolicies(_ input: ListAttachedPoliciesRequest) -> Future<ListAttachedPoliciesResponse> {
+    public func listAttachedPolicies(_ input: ListAttachedPoliciesRequest) -> EventLoopFuture<ListAttachedPoliciesResponse> {
         return client.send(operation: "ListAttachedPolicies", path: "/attached-policies/{target}", httpMethod: "POST", input: input)
     }
 
     ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 180 days.)
-    public func listAuditFindings(_ input: ListAuditFindingsRequest) -> Future<ListAuditFindingsResponse> {
+    public func listAuditFindings(_ input: ListAuditFindingsRequest) -> EventLoopFuture<ListAuditFindingsResponse> {
         return client.send(operation: "ListAuditFindings", path: "/audit/findings", httpMethod: "POST", input: input)
     }
 
     ///  Gets the status of audit mitigation action tasks that were executed.
-    public func listAuditMitigationActionsExecutions(_ input: ListAuditMitigationActionsExecutionsRequest) -> Future<ListAuditMitigationActionsExecutionsResponse> {
+    public func listAuditMitigationActionsExecutions(_ input: ListAuditMitigationActionsExecutionsRequest) -> EventLoopFuture<ListAuditMitigationActionsExecutionsResponse> {
         return client.send(operation: "ListAuditMitigationActionsExecutions", path: "/audit/mitigationactions/executions", httpMethod: "GET", input: input)
     }
 
     ///  Gets a list of audit mitigation action tasks that match the specified filters.
-    public func listAuditMitigationActionsTasks(_ input: ListAuditMitigationActionsTasksRequest) -> Future<ListAuditMitigationActionsTasksResponse> {
+    public func listAuditMitigationActionsTasks(_ input: ListAuditMitigationActionsTasksRequest) -> EventLoopFuture<ListAuditMitigationActionsTasksResponse> {
         return client.send(operation: "ListAuditMitigationActionsTasks", path: "/audit/mitigationactions/tasks", httpMethod: "GET", input: input)
     }
 
     ///  Lists the Device Defender audits that have been performed during a given time period.
-    public func listAuditTasks(_ input: ListAuditTasksRequest) -> Future<ListAuditTasksResponse> {
+    public func listAuditTasks(_ input: ListAuditTasksRequest) -> EventLoopFuture<ListAuditTasksResponse> {
         return client.send(operation: "ListAuditTasks", path: "/audit/tasks", httpMethod: "GET", input: input)
     }
 
     ///  Lists the authorizers registered in your account.
-    public func listAuthorizers(_ input: ListAuthorizersRequest) -> Future<ListAuthorizersResponse> {
+    public func listAuthorizers(_ input: ListAuthorizersRequest) -> EventLoopFuture<ListAuthorizersResponse> {
         return client.send(operation: "ListAuthorizers", path: "/authorizers/", httpMethod: "GET", input: input)
     }
 
     ///  Lists the billing groups you have created.
-    public func listBillingGroups(_ input: ListBillingGroupsRequest) -> Future<ListBillingGroupsResponse> {
+    public func listBillingGroups(_ input: ListBillingGroupsRequest) -> EventLoopFuture<ListBillingGroupsResponse> {
         return client.send(operation: "ListBillingGroups", path: "/billing-groups", httpMethod: "GET", input: input)
     }
 
     ///  Lists the CA certificates registered for your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
-    public func listCACertificates(_ input: ListCACertificatesRequest) -> Future<ListCACertificatesResponse> {
+    public func listCACertificates(_ input: ListCACertificatesRequest) -> EventLoopFuture<ListCACertificatesResponse> {
         return client.send(operation: "ListCACertificates", path: "/cacertificates", httpMethod: "GET", input: input)
     }
 
     ///  Lists the certificates registered in your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
-    public func listCertificates(_ input: ListCertificatesRequest) -> Future<ListCertificatesResponse> {
+    public func listCertificates(_ input: ListCertificatesRequest) -> EventLoopFuture<ListCertificatesResponse> {
         return client.send(operation: "ListCertificates", path: "/certificates", httpMethod: "GET", input: input)
     }
 
     ///  List the device certificates signed by the specified CA certificate.
-    public func listCertificatesByCA(_ input: ListCertificatesByCARequest) -> Future<ListCertificatesByCAResponse> {
+    public func listCertificatesByCA(_ input: ListCertificatesByCARequest) -> EventLoopFuture<ListCertificatesByCAResponse> {
         return client.send(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change. 
-    public func listDomainConfigurations(_ input: ListDomainConfigurationsRequest) -> Future<ListDomainConfigurationsResponse> {
+    public func listDomainConfigurations(_ input: ListDomainConfigurationsRequest) -> EventLoopFuture<ListDomainConfigurationsResponse> {
         return client.send(operation: "ListDomainConfigurations", path: "/domainConfigurations", httpMethod: "GET", input: input)
     }
 
     ///  Lists the search indices.
-    public func listIndices(_ input: ListIndicesRequest) -> Future<ListIndicesResponse> {
+    public func listIndices(_ input: ListIndicesRequest) -> EventLoopFuture<ListIndicesResponse> {
         return client.send(operation: "ListIndices", path: "/indices", httpMethod: "GET", input: input)
     }
 
     ///  Lists the job executions for a job.
-    public func listJobExecutionsForJob(_ input: ListJobExecutionsForJobRequest) -> Future<ListJobExecutionsForJobResponse> {
+    public func listJobExecutionsForJob(_ input: ListJobExecutionsForJobRequest) -> EventLoopFuture<ListJobExecutionsForJobResponse> {
         return client.send(operation: "ListJobExecutionsForJob", path: "/jobs/{jobId}/things", httpMethod: "GET", input: input)
     }
 
     ///  Lists the job executions for the specified thing.
-    public func listJobExecutionsForThing(_ input: ListJobExecutionsForThingRequest) -> Future<ListJobExecutionsForThingResponse> {
+    public func listJobExecutionsForThing(_ input: ListJobExecutionsForThingRequest) -> EventLoopFuture<ListJobExecutionsForThingResponse> {
         return client.send(operation: "ListJobExecutionsForThing", path: "/things/{thingName}/jobs", httpMethod: "GET", input: input)
     }
 
     ///  Lists jobs.
-    public func listJobs(_ input: ListJobsRequest) -> Future<ListJobsResponse> {
+    public func listJobs(_ input: ListJobsRequest) -> EventLoopFuture<ListJobsResponse> {
         return client.send(operation: "ListJobs", path: "/jobs", httpMethod: "GET", input: input)
     }
 
     ///  Gets a list of all mitigation actions that match the specified filter criteria.
-    public func listMitigationActions(_ input: ListMitigationActionsRequest) -> Future<ListMitigationActionsResponse> {
+    public func listMitigationActions(_ input: ListMitigationActionsRequest) -> EventLoopFuture<ListMitigationActionsResponse> {
         return client.send(operation: "ListMitigationActions", path: "/mitigationactions/actions", httpMethod: "GET", input: input)
     }
 
     ///  Lists OTA updates.
-    public func listOTAUpdates(_ input: ListOTAUpdatesRequest) -> Future<ListOTAUpdatesResponse> {
+    public func listOTAUpdates(_ input: ListOTAUpdatesRequest) -> EventLoopFuture<ListOTAUpdatesResponse> {
         return client.send(operation: "ListOTAUpdates", path: "/otaUpdates", httpMethod: "GET", input: input)
     }
 
     ///  Lists certificates that are being transferred but not yet accepted.
-    public func listOutgoingCertificates(_ input: ListOutgoingCertificatesRequest) -> Future<ListOutgoingCertificatesResponse> {
+    public func listOutgoingCertificates(_ input: ListOutgoingCertificatesRequest) -> EventLoopFuture<ListOutgoingCertificatesResponse> {
         return client.send(operation: "ListOutgoingCertificates", path: "/certificates-out-going", httpMethod: "GET", input: input)
     }
 
     ///  Lists your policies.
-    public func listPolicies(_ input: ListPoliciesRequest) -> Future<ListPoliciesResponse> {
+    public func listPolicies(_ input: ListPoliciesRequest) -> EventLoopFuture<ListPoliciesResponse> {
         return client.send(operation: "ListPolicies", path: "/policies", httpMethod: "GET", input: input)
     }
 
     ///  Lists the principals associated with the specified policy.  Note: This API is deprecated. Please use ListTargetsForPolicy instead.
     @available(*, deprecated, message:"ListPolicyPrincipals is deprecated.")
-    public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest) -> Future<ListPolicyPrincipalsResponse> {
+    public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest) -> EventLoopFuture<ListPolicyPrincipalsResponse> {
         return client.send(operation: "ListPolicyPrincipals", path: "/policy-principals", httpMethod: "GET", input: input)
     }
 
     ///  Lists the versions of the specified policy and identifies the default version.
-    public func listPolicyVersions(_ input: ListPolicyVersionsRequest) -> Future<ListPolicyVersionsResponse> {
+    public func listPolicyVersions(_ input: ListPolicyVersionsRequest) -> EventLoopFuture<ListPolicyVersionsResponse> {
         return client.send(operation: "ListPolicyVersions", path: "/policies/{policyName}/version", httpMethod: "GET", input: input)
     }
 
     ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This API is deprecated. Please use ListAttachedPolicies instead.
     @available(*, deprecated, message:"ListPrincipalPolicies is deprecated.")
-    public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest) -> Future<ListPrincipalPoliciesResponse> {
+    public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest) -> EventLoopFuture<ListPrincipalPoliciesResponse> {
         return client.send(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: "GET", input: input)
     }
 
     ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. 
-    public func listPrincipalThings(_ input: ListPrincipalThingsRequest) -> Future<ListPrincipalThingsResponse> {
+    public func listPrincipalThings(_ input: ListPrincipalThingsRequest) -> EventLoopFuture<ListPrincipalThingsResponse> {
         return client.send(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: "GET", input: input)
     }
 
     ///  A list of fleet provisioning template versions.
-    public func listProvisioningTemplateVersions(_ input: ListProvisioningTemplateVersionsRequest) -> Future<ListProvisioningTemplateVersionsResponse> {
+    public func listProvisioningTemplateVersions(_ input: ListProvisioningTemplateVersionsRequest) -> EventLoopFuture<ListProvisioningTemplateVersionsResponse> {
         return client.send(operation: "ListProvisioningTemplateVersions", path: "/provisioning-templates/{templateName}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Lists the fleet provisioning templates in your AWS account.
-    public func listProvisioningTemplates(_ input: ListProvisioningTemplatesRequest) -> Future<ListProvisioningTemplatesResponse> {
+    public func listProvisioningTemplates(_ input: ListProvisioningTemplatesRequest) -> EventLoopFuture<ListProvisioningTemplatesResponse> {
         return client.send(operation: "ListProvisioningTemplates", path: "/provisioning-templates", httpMethod: "GET", input: input)
     }
 
     ///  Lists the role aliases registered in your account.
-    public func listRoleAliases(_ input: ListRoleAliasesRequest) -> Future<ListRoleAliasesResponse> {
+    public func listRoleAliases(_ input: ListRoleAliasesRequest) -> EventLoopFuture<ListRoleAliasesResponse> {
         return client.send(operation: "ListRoleAliases", path: "/role-aliases", httpMethod: "GET", input: input)
     }
 
     ///  Lists all of your scheduled audits.
-    public func listScheduledAudits(_ input: ListScheduledAuditsRequest) -> Future<ListScheduledAuditsResponse> {
+    public func listScheduledAudits(_ input: ListScheduledAuditsRequest) -> EventLoopFuture<ListScheduledAuditsResponse> {
         return client.send(operation: "ListScheduledAudits", path: "/audit/scheduledaudits", httpMethod: "GET", input: input)
     }
 
     ///  Lists the Device Defender security profiles you have created. You can use filters to list only those security profiles associated with a thing group or only those associated with your account.
-    public func listSecurityProfiles(_ input: ListSecurityProfilesRequest) -> Future<ListSecurityProfilesResponse> {
+    public func listSecurityProfiles(_ input: ListSecurityProfilesRequest) -> EventLoopFuture<ListSecurityProfilesResponse> {
         return client.send(operation: "ListSecurityProfiles", path: "/security-profiles", httpMethod: "GET", input: input)
     }
 
     ///  Lists the Device Defender security profiles attached to a target (thing group).
-    public func listSecurityProfilesForTarget(_ input: ListSecurityProfilesForTargetRequest) -> Future<ListSecurityProfilesForTargetResponse> {
+    public func listSecurityProfilesForTarget(_ input: ListSecurityProfilesForTargetRequest) -> EventLoopFuture<ListSecurityProfilesForTargetResponse> {
         return client.send(operation: "ListSecurityProfilesForTarget", path: "/security-profiles-for-target", httpMethod: "GET", input: input)
     }
 
     ///  Lists all of the streams in your AWS account.
-    public func listStreams(_ input: ListStreamsRequest) -> Future<ListStreamsResponse> {
+    public func listStreams(_ input: ListStreamsRequest) -> EventLoopFuture<ListStreamsResponse> {
         return client.send(operation: "ListStreams", path: "/streams", httpMethod: "GET", input: input)
     }
 
     ///  Lists the tags (metadata) you have assigned to the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags", httpMethod: "GET", input: input)
     }
 
     ///  List targets for the specified policy.
-    public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest) -> Future<ListTargetsForPolicyResponse> {
+    public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest) -> EventLoopFuture<ListTargetsForPolicyResponse> {
         return client.send(operation: "ListTargetsForPolicy", path: "/policy-targets/{policyName}", httpMethod: "POST", input: input)
     }
 
     ///  Lists the targets (thing groups) associated with a given Device Defender security profile.
-    public func listTargetsForSecurityProfile(_ input: ListTargetsForSecurityProfileRequest) -> Future<ListTargetsForSecurityProfileResponse> {
+    public func listTargetsForSecurityProfile(_ input: ListTargetsForSecurityProfileRequest) -> EventLoopFuture<ListTargetsForSecurityProfileResponse> {
         return client.send(operation: "ListTargetsForSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: "GET", input: input)
     }
 
     ///  List the thing groups in your account.
-    public func listThingGroups(_ input: ListThingGroupsRequest) -> Future<ListThingGroupsResponse> {
+    public func listThingGroups(_ input: ListThingGroupsRequest) -> EventLoopFuture<ListThingGroupsResponse> {
         return client.send(operation: "ListThingGroups", path: "/thing-groups", httpMethod: "GET", input: input)
     }
 
     ///  List the thing groups to which the specified thing belongs.
-    public func listThingGroupsForThing(_ input: ListThingGroupsForThingRequest) -> Future<ListThingGroupsForThingResponse> {
+    public func listThingGroupsForThing(_ input: ListThingGroupsForThingRequest) -> EventLoopFuture<ListThingGroupsForThingResponse> {
         return client.send(operation: "ListThingGroupsForThing", path: "/things/{thingName}/thing-groups", httpMethod: "GET", input: input)
     }
 
     ///  Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
-    public func listThingPrincipals(_ input: ListThingPrincipalsRequest) -> Future<ListThingPrincipalsResponse> {
+    public func listThingPrincipals(_ input: ListThingPrincipalsRequest) -> EventLoopFuture<ListThingPrincipalsResponse> {
         return client.send(operation: "ListThingPrincipals", path: "/things/{thingName}/principals", httpMethod: "GET", input: input)
     }
 
     ///  Information about the thing registration tasks.
-    public func listThingRegistrationTaskReports(_ input: ListThingRegistrationTaskReportsRequest) -> Future<ListThingRegistrationTaskReportsResponse> {
+    public func listThingRegistrationTaskReports(_ input: ListThingRegistrationTaskReportsRequest) -> EventLoopFuture<ListThingRegistrationTaskReportsResponse> {
         return client.send(operation: "ListThingRegistrationTaskReports", path: "/thing-registration-tasks/{taskId}/reports", httpMethod: "GET", input: input)
     }
 
     ///  List bulk thing provisioning tasks.
-    public func listThingRegistrationTasks(_ input: ListThingRegistrationTasksRequest) -> Future<ListThingRegistrationTasksResponse> {
+    public func listThingRegistrationTasks(_ input: ListThingRegistrationTasksRequest) -> EventLoopFuture<ListThingRegistrationTasksResponse> {
         return client.send(operation: "ListThingRegistrationTasks", path: "/thing-registration-tasks", httpMethod: "GET", input: input)
     }
 
     ///  Lists the existing thing types.
-    public func listThingTypes(_ input: ListThingTypesRequest) -> Future<ListThingTypesResponse> {
+    public func listThingTypes(_ input: ListThingTypesRequest) -> EventLoopFuture<ListThingTypesResponse> {
         return client.send(operation: "ListThingTypes", path: "/thing-types", httpMethod: "GET", input: input)
     }
 
     ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. 
-    public func listThings(_ input: ListThingsRequest) -> Future<ListThingsResponse> {
+    public func listThings(_ input: ListThingsRequest) -> EventLoopFuture<ListThingsResponse> {
         return client.send(operation: "ListThings", path: "/things", httpMethod: "GET", input: input)
     }
 
     ///  Lists the things you have added to the given billing group.
-    public func listThingsInBillingGroup(_ input: ListThingsInBillingGroupRequest) -> Future<ListThingsInBillingGroupResponse> {
+    public func listThingsInBillingGroup(_ input: ListThingsInBillingGroupRequest) -> EventLoopFuture<ListThingsInBillingGroupResponse> {
         return client.send(operation: "ListThingsInBillingGroup", path: "/billing-groups/{billingGroupName}/things", httpMethod: "GET", input: input)
     }
 
     ///  Lists the things in the specified group.
-    public func listThingsInThingGroup(_ input: ListThingsInThingGroupRequest) -> Future<ListThingsInThingGroupResponse> {
+    public func listThingsInThingGroup(_ input: ListThingsInThingGroupRequest) -> EventLoopFuture<ListThingsInThingGroupResponse> {
         return client.send(operation: "ListThingsInThingGroup", path: "/thing-groups/{thingGroupName}/things", httpMethod: "GET", input: input)
     }
 
     ///  Lists all the topic rule destinations in your AWS account.
-    public func listTopicRuleDestinations(_ input: ListTopicRuleDestinationsRequest) -> Future<ListTopicRuleDestinationsResponse> {
+    public func listTopicRuleDestinations(_ input: ListTopicRuleDestinationsRequest) -> EventLoopFuture<ListTopicRuleDestinationsResponse> {
         return client.send(operation: "ListTopicRuleDestinations", path: "/destinations", httpMethod: "GET", input: input)
     }
 
     ///  Lists the rules for the specific topic.
-    public func listTopicRules(_ input: ListTopicRulesRequest) -> Future<ListTopicRulesResponse> {
+    public func listTopicRules(_ input: ListTopicRulesRequest) -> EventLoopFuture<ListTopicRulesResponse> {
         return client.send(operation: "ListTopicRules", path: "/rules", httpMethod: "GET", input: input)
     }
 
     ///  Lists logging levels.
-    public func listV2LoggingLevels(_ input: ListV2LoggingLevelsRequest) -> Future<ListV2LoggingLevelsResponse> {
+    public func listV2LoggingLevels(_ input: ListV2LoggingLevelsRequest) -> EventLoopFuture<ListV2LoggingLevelsResponse> {
         return client.send(operation: "ListV2LoggingLevels", path: "/v2LoggingLevel", httpMethod: "GET", input: input)
     }
 
     ///  Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device).
-    public func listViolationEvents(_ input: ListViolationEventsRequest) -> Future<ListViolationEventsResponse> {
+    public func listViolationEvents(_ input: ListViolationEventsRequest) -> EventLoopFuture<ListViolationEventsResponse> {
         return client.send(operation: "ListViolationEvents", path: "/violation-events", httpMethod: "GET", input: input)
     }
 
     ///  Registers a CA certificate with AWS IoT. This CA certificate can then be used to sign device certificates, which can be then registered with AWS IoT. You can register up to 10 CA certificates per AWS account that have the same subject field. This enables you to have up to 10 certificate authorities sign your device certificates. If you have more than one CA certificate registered, make sure you pass the CA certificate when you register your device certificates with the RegisterCertificate API.
-    public func registerCACertificate(_ input: RegisterCACertificateRequest) -> Future<RegisterCACertificateResponse> {
+    public func registerCACertificate(_ input: RegisterCACertificateRequest) -> EventLoopFuture<RegisterCACertificateResponse> {
         return client.send(operation: "RegisterCACertificate", path: "/cacertificate", httpMethod: "POST", input: input)
     }
 
     ///  Registers a device certificate with AWS IoT. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered.
-    public func registerCertificate(_ input: RegisterCertificateRequest) -> Future<RegisterCertificateResponse> {
+    public func registerCertificate(_ input: RegisterCertificateRequest) -> EventLoopFuture<RegisterCertificateResponse> {
         return client.send(operation: "RegisterCertificate", path: "/certificate/register", httpMethod: "POST", input: input)
     }
 
     ///  Provisions a thing in the device registry. RegisterThing calls other AWS IoT control plane APIs. These calls might exceed your account level  AWS IoT Throttling Limits and cause throttle errors. Please contact AWS Customer Support to raise your throttling limits if necessary.
-    public func registerThing(_ input: RegisterThingRequest) -> Future<RegisterThingResponse> {
+    public func registerThing(_ input: RegisterThingRequest) -> EventLoopFuture<RegisterThingResponse> {
         return client.send(operation: "RegisterThing", path: "/things", httpMethod: "POST", input: input)
     }
 
     ///  Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state.
-    @discardableResult public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest) -> Future<Void> {
+    @discardableResult public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Removes the given thing from the billing group.
-    public func removeThingFromBillingGroup(_ input: RemoveThingFromBillingGroupRequest) -> Future<RemoveThingFromBillingGroupResponse> {
+    public func removeThingFromBillingGroup(_ input: RemoveThingFromBillingGroupRequest) -> EventLoopFuture<RemoveThingFromBillingGroupResponse> {
         return client.send(operation: "RemoveThingFromBillingGroup", path: "/billing-groups/removeThingFromBillingGroup", httpMethod: "PUT", input: input)
     }
 
     ///  Remove the specified thing from the specified group.
-    public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest) -> Future<RemoveThingFromThingGroupResponse> {
+    public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest) -> EventLoopFuture<RemoveThingFromThingGroupResponse> {
         return client.send(operation: "RemoveThingFromThingGroup", path: "/thing-groups/removeThingFromThingGroup", httpMethod: "PUT", input: input)
     }
 
     ///  Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
-    @discardableResult public func replaceTopicRule(_ input: ReplaceTopicRuleRequest) -> Future<Void> {
+    @discardableResult public func replaceTopicRule(_ input: ReplaceTopicRuleRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "ReplaceTopicRule", path: "/rules/{ruleName}", httpMethod: "PATCH", input: input)
     }
 
     ///  The query search index.
-    public func searchIndex(_ input: SearchIndexRequest) -> Future<SearchIndexResponse> {
+    public func searchIndex(_ input: SearchIndexRequest) -> EventLoopFuture<SearchIndexResponse> {
         return client.send(operation: "SearchIndex", path: "/indices/search", httpMethod: "POST", input: input)
     }
 
     ///  Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer.
-    public func setDefaultAuthorizer(_ input: SetDefaultAuthorizerRequest) -> Future<SetDefaultAuthorizerResponse> {
+    public func setDefaultAuthorizer(_ input: SetDefaultAuthorizerRequest) -> EventLoopFuture<SetDefaultAuthorizerResponse> {
         return client.send(operation: "SetDefaultAuthorizer", path: "/default-authorizer", httpMethod: "POST", input: input)
     }
 
     ///  Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicy API.
-    @discardableResult public func setDefaultPolicyVersion(_ input: SetDefaultPolicyVersionRequest) -> Future<Void> {
+    @discardableResult public func setDefaultPolicyVersion(_ input: SetDefaultPolicyVersionRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "SetDefaultPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead.
-    @discardableResult public func setLoggingOptions(_ input: SetLoggingOptionsRequest) -> Future<Void> {
+    @discardableResult public func setLoggingOptions(_ input: SetLoggingOptionsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "SetLoggingOptions", path: "/loggingOptions", httpMethod: "POST", input: input)
     }
 
     ///  Sets the logging level.
-    @discardableResult public func setV2LoggingLevel(_ input: SetV2LoggingLevelRequest) -> Future<Void> {
+    @discardableResult public func setV2LoggingLevel(_ input: SetV2LoggingLevelRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "SetV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: "POST", input: input)
     }
 
     ///  Sets the logging options for the V2 logging service.
-    @discardableResult public func setV2LoggingOptions(_ input: SetV2LoggingOptionsRequest) -> Future<Void> {
+    @discardableResult public func setV2LoggingOptions(_ input: SetV2LoggingOptionsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "SetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: "POST", input: input)
     }
 
     ///  Starts a task that applies a set of mitigation actions to the specified target.
-    public func startAuditMitigationActionsTask(_ input: StartAuditMitigationActionsTaskRequest) -> Future<StartAuditMitigationActionsTaskResponse> {
+    public func startAuditMitigationActionsTask(_ input: StartAuditMitigationActionsTaskRequest) -> EventLoopFuture<StartAuditMitigationActionsTaskResponse> {
         return client.send(operation: "StartAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: "POST", input: input)
     }
 
     ///  Starts an on-demand Device Defender audit.
-    public func startOnDemandAuditTask(_ input: StartOnDemandAuditTaskRequest) -> Future<StartOnDemandAuditTaskResponse> {
+    public func startOnDemandAuditTask(_ input: StartOnDemandAuditTaskRequest) -> EventLoopFuture<StartOnDemandAuditTaskResponse> {
         return client.send(operation: "StartOnDemandAuditTask", path: "/audit/tasks", httpMethod: "POST", input: input)
     }
 
     ///  Creates a bulk thing provisioning task.
-    public func startThingRegistrationTask(_ input: StartThingRegistrationTaskRequest) -> Future<StartThingRegistrationTaskResponse> {
+    public func startThingRegistrationTask(_ input: StartThingRegistrationTaskRequest) -> EventLoopFuture<StartThingRegistrationTaskResponse> {
         return client.send(operation: "StartThingRegistrationTask", path: "/thing-registration-tasks", httpMethod: "POST", input: input)
     }
 
     ///  Cancels a bulk thing provisioning task.
-    public func stopThingRegistrationTask(_ input: StopThingRegistrationTaskRequest) -> Future<StopThingRegistrationTaskResponse> {
+    public func stopThingRegistrationTask(_ input: StopThingRegistrationTaskRequest) -> EventLoopFuture<StopThingRegistrationTaskResponse> {
         return client.send(operation: "StopThingRegistrationTask", path: "/thing-registration-tasks/{taskId}/cancel", httpMethod: "PUT", input: input)
     }
 
     ///  Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
-    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/tags", httpMethod: "POST", input: input)
     }
 
     ///  Tests if a specified principal is authorized to perform an AWS IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the AWS IoT device gateway.
-    public func testAuthorization(_ input: TestAuthorizationRequest) -> Future<TestAuthorizationResponse> {
+    public func testAuthorization(_ input: TestAuthorizationRequest) -> EventLoopFuture<TestAuthorizationResponse> {
         return client.send(operation: "TestAuthorization", path: "/test-authorization", httpMethod: "POST", input: input)
     }
 
     ///  Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the AWS IoT device gateway.
-    public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest) -> Future<TestInvokeAuthorizerResponse> {
+    public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest) -> EventLoopFuture<TestInvokeAuthorizerResponse> {
         return client.send(operation: "TestInvokeAuthorizer", path: "/authorizer/{authorizerName}/test", httpMethod: "POST", input: input)
     }
 
     ///  Transfers the specified certificate to the specified AWS account. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate API to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPrincipalPolicy API to detach them.
-    public func transferCertificate(_ input: TransferCertificateRequest) -> Future<TransferCertificateResponse> {
+    public func transferCertificate(_ input: TransferCertificateRequest) -> EventLoopFuture<TransferCertificateResponse> {
         return client.send(operation: "TransferCertificate", path: "/transfer-certificate/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Removes the given tags (metadata) from the resource.
-    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/untag", httpMethod: "POST", input: input)
     }
 
     ///  Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled.
-    public func updateAccountAuditConfiguration(_ input: UpdateAccountAuditConfigurationRequest) -> Future<UpdateAccountAuditConfigurationResponse> {
+    public func updateAccountAuditConfiguration(_ input: UpdateAccountAuditConfigurationRequest) -> EventLoopFuture<UpdateAccountAuditConfigurationResponse> {
         return client.send(operation: "UpdateAccountAuditConfiguration", path: "/audit/configuration", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an authorizer.
-    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) -> Future<UpdateAuthorizerResponse> {
+    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) -> EventLoopFuture<UpdateAuthorizerResponse> {
         return client.send(operation: "UpdateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates information about the billing group.
-    public func updateBillingGroup(_ input: UpdateBillingGroupRequest) -> Future<UpdateBillingGroupResponse> {
+    public func updateBillingGroup(_ input: UpdateBillingGroupRequest) -> EventLoopFuture<UpdateBillingGroupResponse> {
         return client.send(operation: "UpdateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a registered CA certificate.
-    @discardableResult public func updateCACertificate(_ input: UpdateCACertificateRequest) -> Future<Void> {
+    @discardableResult public func updateCACertificate(_ input: UpdateCACertificateRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the status of the specified certificate. This operation is idempotent. Moving a certificate from the ACTIVE state (including REVOKED) will not disconnect currently connected devices, but these devices will be unable to reconnect. The ACTIVE state is required to authenticate devices connecting to AWS IoT using a certificate.
-    @discardableResult public func updateCertificate(_ input: UpdateCertificateRequest) -> Future<Void> {
+    @discardableResult public func updateCertificate(_ input: UpdateCertificateRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated.  The domain configuration feature is in public preview and is subject to change. 
-    public func updateDomainConfiguration(_ input: UpdateDomainConfigurationRequest) -> Future<UpdateDomainConfigurationResponse> {
+    public func updateDomainConfiguration(_ input: UpdateDomainConfigurationRequest) -> EventLoopFuture<UpdateDomainConfigurationResponse> {
         return client.send(operation: "UpdateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates a dynamic thing group.
-    public func updateDynamicThingGroup(_ input: UpdateDynamicThingGroupRequest) -> Future<UpdateDynamicThingGroupResponse> {
+    public func updateDynamicThingGroup(_ input: UpdateDynamicThingGroupRequest) -> EventLoopFuture<UpdateDynamicThingGroupResponse> {
         return client.send(operation: "UpdateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates the event configurations.
-    public func updateEventConfigurations(_ input: UpdateEventConfigurationsRequest) -> Future<UpdateEventConfigurationsResponse> {
+    public func updateEventConfigurations(_ input: UpdateEventConfigurationsRequest) -> EventLoopFuture<UpdateEventConfigurationsResponse> {
         return client.send(operation: "UpdateEventConfigurations", path: "/event-configurations", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates the search configuration.
-    public func updateIndexingConfiguration(_ input: UpdateIndexingConfigurationRequest) -> Future<UpdateIndexingConfigurationResponse> {
+    public func updateIndexingConfiguration(_ input: UpdateIndexingConfigurationRequest) -> EventLoopFuture<UpdateIndexingConfigurationResponse> {
         return client.send(operation: "UpdateIndexingConfiguration", path: "/indexing/config", httpMethod: "POST", input: input)
     }
 
     ///  Updates supported fields of the specified job.
-    @discardableResult public func updateJob(_ input: UpdateJobRequest) -> Future<Void> {
+    @discardableResult public func updateJob(_ input: UpdateJobRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateJob", path: "/jobs/{jobId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates the definition for the specified mitigation action.
-    public func updateMitigationAction(_ input: UpdateMitigationActionRequest) -> Future<UpdateMitigationActionResponse> {
+    public func updateMitigationAction(_ input: UpdateMitigationActionRequest) -> EventLoopFuture<UpdateMitigationActionResponse> {
         return client.send(operation: "UpdateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a fleet provisioning template.
-    public func updateProvisioningTemplate(_ input: UpdateProvisioningTemplateRequest) -> Future<UpdateProvisioningTemplateResponse> {
+    public func updateProvisioningTemplate(_ input: UpdateProvisioningTemplateRequest) -> EventLoopFuture<UpdateProvisioningTemplateResponse> {
         return client.send(operation: "UpdateProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a role alias.
-    public func updateRoleAlias(_ input: UpdateRoleAliasRequest) -> Future<UpdateRoleAliasResponse> {
+    public func updateRoleAlias(_ input: UpdateRoleAliasRequest) -> EventLoopFuture<UpdateRoleAliasResponse> {
         return client.send(operation: "UpdateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates a scheduled audit, including which checks are performed and how often the audit takes place.
-    public func updateScheduledAudit(_ input: UpdateScheduledAuditRequest) -> Future<UpdateScheduledAuditResponse> {
+    public func updateScheduledAudit(_ input: UpdateScheduledAuditRequest) -> EventLoopFuture<UpdateScheduledAuditResponse> {
         return client.send(operation: "UpdateScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a Device Defender security profile.
-    public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest) -> Future<UpdateSecurityProfileResponse> {
+    public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest) -> EventLoopFuture<UpdateSecurityProfileResponse> {
         return client.send(operation: "UpdateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an existing stream. The stream version will be incremented by one.
-    public func updateStream(_ input: UpdateStreamRequest) -> Future<UpdateStreamResponse> {
+    public func updateStream(_ input: UpdateStreamRequest) -> EventLoopFuture<UpdateStreamResponse> {
         return client.send(operation: "UpdateStream", path: "/streams/{streamId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the data for a thing.
-    public func updateThing(_ input: UpdateThingRequest) -> Future<UpdateThingResponse> {
+    public func updateThing(_ input: UpdateThingRequest) -> EventLoopFuture<UpdateThingResponse> {
         return client.send(operation: "UpdateThing", path: "/things/{thingName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Update a thing group.
-    public func updateThingGroup(_ input: UpdateThingGroupRequest) -> Future<UpdateThingGroupResponse> {
+    public func updateThingGroup(_ input: UpdateThingGroupRequest) -> EventLoopFuture<UpdateThingGroupResponse> {
         return client.send(operation: "UpdateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates the groups to which the thing belongs.
-    public func updateThingGroupsForThing(_ input: UpdateThingGroupsForThingRequest) -> Future<UpdateThingGroupsForThingResponse> {
+    public func updateThingGroupsForThing(_ input: UpdateThingGroupsForThingRequest) -> EventLoopFuture<UpdateThingGroupsForThingResponse> {
         return client.send(operation: "UpdateThingGroupsForThing", path: "/thing-groups/updateThingGroupsForThing", httpMethod: "PUT", input: input)
     }
 
     ///  Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination.
-    public func updateTopicRuleDestination(_ input: UpdateTopicRuleDestinationRequest) -> Future<UpdateTopicRuleDestinationResponse> {
+    public func updateTopicRuleDestination(_ input: UpdateTopicRuleDestinationRequest) -> EventLoopFuture<UpdateTopicRuleDestinationResponse> {
         return client.send(operation: "UpdateTopicRuleDestination", path: "/destinations", httpMethod: "PATCH", input: input)
     }
 
     ///  Validates a Device Defender security profile behaviors specification.
-    public func validateSecurityProfileBehaviors(_ input: ValidateSecurityProfileBehaviorsRequest) -> Future<ValidateSecurityProfileBehaviorsResponse> {
+    public func validateSecurityProfileBehaviors(_ input: ValidateSecurityProfileBehaviorsRequest) -> EventLoopFuture<ValidateSecurityProfileBehaviorsResponse> {
         return client.send(operation: "ValidateSecurityProfileBehaviors", path: "/security-profile-behaviors/validate", httpMethod: "POST", input: input)
     }
 }
