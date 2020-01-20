@@ -34,6 +34,11 @@ extension GuardDuty {
         return client.paginate(input: input, command: listMembers, resultKey: "members", tokenKey: "nextToken")
     }
     
+    ///  Returns a list of publishing destinations associated with the specified dectectorId.
+    public func listPublishingDestinationsPaginator(_ input: ListPublishingDestinationsRequest) -> EventLoopFuture<[Destination]> {
+        return client.paginate(input: input, command: listPublishingDestinations, resultKey: "destinations", tokenKey: "nextToken")
+    }
+    
     ///  Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the master account are returned.
     public func listThreatIntelSetsPaginator(_ input: ListThreatIntelSetsRequest) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listThreatIntelSets, resultKey: "threatIntelSetIds", tokenKey: "nextToken")
@@ -98,6 +103,16 @@ extension GuardDuty.ListMembersRequest: AWSPaginateable {
             maxResults: original.maxResults, 
             nextToken: token, 
             onlyAssociated: original.onlyAssociated
+        )
+    }
+}
+
+extension GuardDuty.ListPublishingDestinationsRequest: AWSPaginateable {
+    public init(_ original: GuardDuty.ListPublishingDestinationsRequest, token: String) {
+        self.init(
+            detectorId: original.detectorId, 
+            maxResults: original.maxResults, 
+            nextToken: token
         )
     }
 }

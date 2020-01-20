@@ -9,6 +9,11 @@ extension CloudFormation {
         return client.paginate(input: input, command: describeStackEvents, resultKey: "stackEvents", tokenKey: "nextToken")
     }
     
+    ///  Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where AWS CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that have not yet been checked for drift are not included. Resources that do not currently support drift detection are not checked, and so not included. For a list of resources that support drift detection, see Resources that Support Drift Detection. Use DetectStackResourceDrift to detect drift on individual resources, or DetectStackDrift to detect drift on all supported resources for a given stack.
+    public func describeStackResourceDriftsPaginator(_ input: DescribeStackResourceDriftsInput) -> EventLoopFuture<[StackResourceDrift]> {
+        return client.paginate(input: input, command: describeStackResourceDrifts, resultKey: "stackResourceDrifts", tokenKey: "nextToken")
+    }
+    
     ///  Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack does not exist, an AmazonCloudFormationException is returned. 
     public func describeStacksPaginator(_ input: DescribeStacksInput) -> EventLoopFuture<[Stack]> {
         return client.paginate(input: input, command: describeStacks, resultKey: "stacks", tokenKey: "nextToken")
@@ -34,6 +39,21 @@ extension CloudFormation {
         return client.paginate(input: input, command: listStacks, resultKey: "stackSummaries", tokenKey: "nextToken")
     }
     
+    ///  Returns a list of registration tokens for the specified type.
+    public func listTypeRegistrationsPaginator(_ input: ListTypeRegistrationsInput) -> EventLoopFuture<[String]> {
+        return client.paginate(input: input, command: listTypeRegistrations, resultKey: "registrationTokenList", tokenKey: "nextToken")
+    }
+    
+    ///  Returns summary information about the versions of a type.
+    public func listTypeVersionsPaginator(_ input: ListTypeVersionsInput) -> EventLoopFuture<[TypeVersionSummary]> {
+        return client.paginate(input: input, command: listTypeVersions, resultKey: "typeVersionSummaries", tokenKey: "nextToken")
+    }
+    
+    ///  Returns summary information about types that have been registered with CloudFormation.
+    public func listTypesPaginator(_ input: ListTypesInput) -> EventLoopFuture<[TypeSummary]> {
+        return client.paginate(input: input, command: listTypes, resultKey: "typeSummaries", tokenKey: "nextToken")
+    }
+    
 }
 
 extension CloudFormation.DescribeStackEventsInput: AWSPaginateable {
@@ -41,6 +61,17 @@ extension CloudFormation.DescribeStackEventsInput: AWSPaginateable {
         self.init(
             nextToken: token, 
             stackName: original.stackName
+        )
+    }
+}
+
+extension CloudFormation.DescribeStackResourceDriftsInput: AWSPaginateable {
+    public init(_ original: CloudFormation.DescribeStackResourceDriftsInput, token: String) {
+        self.init(
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            stackName: original.stackName, 
+            stackResourceDriftStatusFilters: original.stackResourceDriftStatusFilters
         )
     }
 }
@@ -85,6 +116,44 @@ extension CloudFormation.ListStacksInput: AWSPaginateable {
         self.init(
             nextToken: token, 
             stackStatusFilter: original.stackStatusFilter
+        )
+    }
+}
+
+extension CloudFormation.ListTypeRegistrationsInput: AWSPaginateable {
+    public init(_ original: CloudFormation.ListTypeRegistrationsInput, token: String) {
+        self.init(
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            registrationStatusFilter: original.registrationStatusFilter, 
+            type: original.type, 
+            typeArn: original.typeArn, 
+            typeName: original.typeName
+        )
+    }
+}
+
+extension CloudFormation.ListTypeVersionsInput: AWSPaginateable {
+    public init(_ original: CloudFormation.ListTypeVersionsInput, token: String) {
+        self.init(
+            arn: original.arn, 
+            deprecatedStatus: original.deprecatedStatus, 
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            type: original.type, 
+            typeName: original.typeName
+        )
+    }
+}
+
+extension CloudFormation.ListTypesInput: AWSPaginateable {
+    public init(_ original: CloudFormation.ListTypesInput, token: String) {
+        self.init(
+            deprecatedStatus: original.deprecatedStatus, 
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            provisioningType: original.provisioningType, 
+            visibility: original.visibility
         )
     }
 }

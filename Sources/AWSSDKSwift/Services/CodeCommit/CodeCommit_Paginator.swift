@@ -4,9 +4,54 @@ import NIO
 
 extension CodeCommit {
 
+    ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
+    public func describeMergeConflictsPaginator(_ input: DescribeMergeConflictsInput) -> EventLoopFuture<[MergeHunk]> {
+        return client.paginate(input: input, command: describeMergeConflicts, resultKey: "mergeHunks", tokenKey: "nextToken")
+    }
+    
+    ///  Returns information about one or more pull request events.
+    public func describePullRequestEventsPaginator(_ input: DescribePullRequestEventsInput) -> EventLoopFuture<[PullRequestEvent]> {
+        return client.paginate(input: input, command: describePullRequestEvents, resultKey: "pullRequestEvents", tokenKey: "nextToken")
+    }
+    
+    ///  Returns information about comments made on the comparison between two commits.
+    public func getCommentsForComparedCommitPaginator(_ input: GetCommentsForComparedCommitInput) -> EventLoopFuture<[CommentsForComparedCommit]> {
+        return client.paginate(input: input, command: getCommentsForComparedCommit, resultKey: "commentsForComparedCommitData", tokenKey: "nextToken")
+    }
+    
+    ///  Returns comments made on a pull request.
+    public func getCommentsForPullRequestPaginator(_ input: GetCommentsForPullRequestInput) -> EventLoopFuture<[CommentsForPullRequest]> {
+        return client.paginate(input: input, command: getCommentsForPullRequest, resultKey: "commentsForPullRequestData", tokenKey: "nextToken")
+    }
+    
+    ///  Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
+    public func getDifferencesPaginator(_ input: GetDifferencesInput) -> EventLoopFuture<[Difference]> {
+        return client.paginate(input: input, command: getDifferences, resultKey: "differences", tokenKey: "nextToken")
+    }
+    
+    ///  Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
+    public func getMergeConflictsPaginator(_ input: GetMergeConflictsInput) -> EventLoopFuture<[ConflictMetadata]> {
+        return client.paginate(input: input, command: getMergeConflicts, resultKey: "conflictMetadataList", tokenKey: "nextToken")
+    }
+    
+    ///  Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
+    public func listApprovalRuleTemplatesPaginator(_ input: ListApprovalRuleTemplatesInput) -> EventLoopFuture<[String]> {
+        return client.paginate(input: input, command: listApprovalRuleTemplates, resultKey: "approvalRuleTemplateNames", tokenKey: "nextToken")
+    }
+    
+    ///  Lists all approval rule templates that are associated with a specified repository.
+    public func listAssociatedApprovalRuleTemplatesForRepositoryPaginator(_ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput) -> EventLoopFuture<[String]> {
+        return client.paginate(input: input, command: listAssociatedApprovalRuleTemplatesForRepository, resultKey: "approvalRuleTemplateNames", tokenKey: "nextToken")
+    }
+    
     ///  Gets information about one or more branches in a repository.
     public func listBranchesPaginator(_ input: ListBranchesInput) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listBranches, resultKey: "branches", tokenKey: "nextToken")
+    }
+    
+    ///  Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
+    public func listPullRequestsPaginator(_ input: ListPullRequestsInput) -> EventLoopFuture<[String]> {
+        return client.paginate(input: input, command: listPullRequests, resultKey: "pullRequestIds", tokenKey: "nextToken")
     }
     
     ///  Gets information about one or more repositories.
@@ -14,6 +59,112 @@ extension CodeCommit {
         return client.paginate(input: input, command: listRepositories, resultKey: "repositories", tokenKey: "nextToken")
     }
     
+    ///  Lists all repositories associated with the specified approval rule template.
+    public func listRepositoriesForApprovalRuleTemplatePaginator(_ input: ListRepositoriesForApprovalRuleTemplateInput) -> EventLoopFuture<[String]> {
+        return client.paginate(input: input, command: listRepositoriesForApprovalRuleTemplate, resultKey: "repositoryNames", tokenKey: "nextToken")
+    }
+    
+}
+
+extension CodeCommit.DescribeMergeConflictsInput: AWSPaginateable {
+    public init(_ original: CodeCommit.DescribeMergeConflictsInput, token: String) {
+        self.init(
+            conflictDetailLevel: original.conflictDetailLevel, 
+            conflictResolutionStrategy: original.conflictResolutionStrategy, 
+            destinationCommitSpecifier: original.destinationCommitSpecifier, 
+            filePath: original.filePath, 
+            maxMergeHunks: original.maxMergeHunks, 
+            mergeOption: original.mergeOption, 
+            nextToken: token, 
+            repositoryName: original.repositoryName, 
+            sourceCommitSpecifier: original.sourceCommitSpecifier
+        )
+    }
+}
+
+extension CodeCommit.DescribePullRequestEventsInput: AWSPaginateable {
+    public init(_ original: CodeCommit.DescribePullRequestEventsInput, token: String) {
+        self.init(
+            actorArn: original.actorArn, 
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            pullRequestEventType: original.pullRequestEventType, 
+            pullRequestId: original.pullRequestId
+        )
+    }
+}
+
+extension CodeCommit.GetCommentsForComparedCommitInput: AWSPaginateable {
+    public init(_ original: CodeCommit.GetCommentsForComparedCommitInput, token: String) {
+        self.init(
+            afterCommitId: original.afterCommitId, 
+            beforeCommitId: original.beforeCommitId, 
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            repositoryName: original.repositoryName
+        )
+    }
+}
+
+extension CodeCommit.GetCommentsForPullRequestInput: AWSPaginateable {
+    public init(_ original: CodeCommit.GetCommentsForPullRequestInput, token: String) {
+        self.init(
+            afterCommitId: original.afterCommitId, 
+            beforeCommitId: original.beforeCommitId, 
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            pullRequestId: original.pullRequestId, 
+            repositoryName: original.repositoryName
+        )
+    }
+}
+
+extension CodeCommit.GetDifferencesInput: AWSPaginateable {
+    public init(_ original: CodeCommit.GetDifferencesInput, token: String) {
+        self.init(
+            afterCommitSpecifier: original.afterCommitSpecifier, 
+            afterPath: original.afterPath, 
+            beforeCommitSpecifier: original.beforeCommitSpecifier, 
+            beforePath: original.beforePath, 
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            repositoryName: original.repositoryName
+        )
+    }
+}
+
+extension CodeCommit.GetMergeConflictsInput: AWSPaginateable {
+    public init(_ original: CodeCommit.GetMergeConflictsInput, token: String) {
+        self.init(
+            conflictDetailLevel: original.conflictDetailLevel, 
+            conflictResolutionStrategy: original.conflictResolutionStrategy, 
+            destinationCommitSpecifier: original.destinationCommitSpecifier, 
+            maxConflictFiles: original.maxConflictFiles, 
+            mergeOption: original.mergeOption, 
+            nextToken: token, 
+            repositoryName: original.repositoryName, 
+            sourceCommitSpecifier: original.sourceCommitSpecifier
+        )
+    }
+}
+
+extension CodeCommit.ListApprovalRuleTemplatesInput: AWSPaginateable {
+    public init(_ original: CodeCommit.ListApprovalRuleTemplatesInput, token: String) {
+        self.init(
+            maxResults: original.maxResults, 
+            nextToken: token
+        )
+    }
+}
+
+extension CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSPaginateable {
+    public init(_ original: CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput, token: String) {
+        self.init(
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            repositoryName: original.repositoryName
+        )
+    }
 }
 
 extension CodeCommit.ListBranchesInput: AWSPaginateable {
@@ -25,12 +176,34 @@ extension CodeCommit.ListBranchesInput: AWSPaginateable {
     }
 }
 
+extension CodeCommit.ListPullRequestsInput: AWSPaginateable {
+    public init(_ original: CodeCommit.ListPullRequestsInput, token: String) {
+        self.init(
+            authorArn: original.authorArn, 
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            pullRequestStatus: original.pullRequestStatus, 
+            repositoryName: original.repositoryName
+        )
+    }
+}
+
 extension CodeCommit.ListRepositoriesInput: AWSPaginateable {
     public init(_ original: CodeCommit.ListRepositoriesInput, token: String) {
         self.init(
             nextToken: token, 
             order: original.order, 
             sortBy: original.sortBy
+        )
+    }
+}
+
+extension CodeCommit.ListRepositoriesForApprovalRuleTemplateInput: AWSPaginateable {
+    public init(_ original: CodeCommit.ListRepositoriesForApprovalRuleTemplateInput, token: String) {
+        self.init(
+            approvalRuleTemplateName: original.approvalRuleTemplateName, 
+            maxResults: original.maxResults, 
+            nextToken: token
         )
     }
 }

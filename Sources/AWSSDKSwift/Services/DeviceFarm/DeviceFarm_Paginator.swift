@@ -54,6 +54,26 @@ extension DeviceFarm {
         return client.paginate(input: input, command: listSuites, resultKey: "suites", tokenKey: "nextToken")
     }
     
+    ///  Gets a list of all Selenium testing projects in your account.
+    public func listTestGridProjectsPaginator(_ input: ListTestGridProjectsRequest) -> EventLoopFuture<[TestGridProject]> {
+        return client.paginate(input: input, command: listTestGridProjects, resultKey: "testGridProjects", tokenKey: "nextToken")
+    }
+    
+    ///  Returns a list of the actions taken in a TestGridSession.
+    public func listTestGridSessionActionsPaginator(_ input: ListTestGridSessionActionsRequest) -> EventLoopFuture<[TestGridSessionAction]> {
+        return client.paginate(input: input, command: listTestGridSessionActions, resultKey: "actions", tokenKey: "nextToken")
+    }
+    
+    ///  Retrieves a list of artifacts created during the session.
+    public func listTestGridSessionArtifactsPaginator(_ input: ListTestGridSessionArtifactsRequest) -> EventLoopFuture<[TestGridSessionArtifact]> {
+        return client.paginate(input: input, command: listTestGridSessionArtifacts, resultKey: "artifacts", tokenKey: "nextToken")
+    }
+    
+    ///  Retrieves a list of sessions for a TestGridProject.
+    public func listTestGridSessionsPaginator(_ input: ListTestGridSessionsRequest) -> EventLoopFuture<[TestGridSession]> {
+        return client.paginate(input: input, command: listTestGridSessions, resultKey: "testGridSessions", tokenKey: "nextToken")
+    }
+    
     ///  Gets information about tests in a given test suite.
     public func listTestsPaginator(_ input: ListTestsRequest) -> EventLoopFuture<[Test]> {
         return client.paginate(input: input, command: listTests, resultKey: "tests", tokenKey: "nextToken")
@@ -153,6 +173,51 @@ extension DeviceFarm.ListSuitesRequest: AWSPaginateable {
         self.init(
             arn: original.arn, 
             nextToken: token
+        )
+    }
+}
+
+extension DeviceFarm.ListTestGridProjectsRequest: AWSPaginateable {
+    public init(_ original: DeviceFarm.ListTestGridProjectsRequest, token: String) {
+        self.init(
+            maxResult: original.maxResult, 
+            nextToken: token
+        )
+    }
+}
+
+extension DeviceFarm.ListTestGridSessionActionsRequest: AWSPaginateable {
+    public init(_ original: DeviceFarm.ListTestGridSessionActionsRequest, token: String) {
+        self.init(
+            maxResult: original.maxResult, 
+            nextToken: token, 
+            sessionArn: original.sessionArn
+        )
+    }
+}
+
+extension DeviceFarm.ListTestGridSessionArtifactsRequest: AWSPaginateable {
+    public init(_ original: DeviceFarm.ListTestGridSessionArtifactsRequest, token: String) {
+        self.init(
+            maxResult: original.maxResult, 
+            nextToken: token, 
+            sessionArn: original.sessionArn, 
+            type: original.type
+        )
+    }
+}
+
+extension DeviceFarm.ListTestGridSessionsRequest: AWSPaginateable {
+    public init(_ original: DeviceFarm.ListTestGridSessionsRequest, token: String) {
+        self.init(
+            creationTimeAfter: original.creationTimeAfter, 
+            creationTimeBefore: original.creationTimeBefore, 
+            endTimeAfter: original.endTimeAfter, 
+            endTimeBefore: original.endTimeBefore, 
+            maxResult: original.maxResult, 
+            nextToken: token, 
+            projectArn: original.projectArn, 
+            status: original.status
         )
     }
 }

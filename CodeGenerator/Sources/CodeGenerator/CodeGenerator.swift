@@ -522,18 +522,31 @@ extension AWSService {
         var paginatorContexts: [PaginatorContext] = []
         
         for paginator in paginators {
+            // get related operation and its input and output shapes
             guard let operation = operations.first(where: {$0.name == paginator.methodName}) else { continue }
             guard let inputShape = operation.inputShape else { continue }
             guard let outputShape = operation.outputShape else { continue }
             guard case .structure(let inputShapeStruct) = inputShape.type else { continue }
             guard case .structure(let outputShapeStruct) = outputShape.type else { continue }
-            guard paginator.resultKeys.count > 0 else { continue }
-            guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == paginator.resultKeys[0]}) else { continue }
-            guard case .list(let listShape,_,_) = resultsMember.shape.type else { continue }
+
+            // get input token member
             guard paginator.inputTokens.count > 0 else { continue }
             guard paginator.outputTokens.count > 0 else { continue }
             guard let inputTokenMember = inputShapeStruct.members.first(where: {$0.name == paginator.inputTokens[0]}) else { continue }
             guard case .string = inputTokenMember.shape.type else { continue }
+            
+            // get results keys, if one doesn't exist look for the field that isn't the output token
+            let resultKeys: [String]
+            if paginator.resultKeys.count > 0 {
+                resultKeys = paginator.resultKeys
+            } else {
+                // get member that is an array
+                let resultMember: [Member] = outputShapeStruct.members.compactMap { if case .list(_,_,_) = $0.shape.type { return $0 }; return nil }
+                resultKeys = resultMember.map { $0.name }
+                guard resultKeys.count > 0 else { continue }
+            }
+            guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == resultKeys[0]}) else { continue }
+            guard case .list(let listShape,_,_) = resultsMember.shape.type else { continue }
 
             var initParams: [String: String] = [:]
             for member in inputShapeStruct.members {
@@ -544,7 +557,7 @@ extension AWSService {
             paginatorContexts.append(
                 PaginatorContext(
                     operation: generateOperationContext(operation),
-                    result: paginator.resultKeys[0].toSwiftVariableCase(),
+                    result: resultKeys[0].toSwiftVariableCase(),
                     resultShape: listShape.swiftTypeName,
                     input: paginator.inputTokens[0].toSwiftVariableCase(),
                     output: paginator.outputTokens[0].toSwiftVariableCase(),

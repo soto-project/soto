@@ -4,6 +4,11 @@ import NIO
 
 extension ConfigService {
 
+    ///  Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted. When you specify the limit and the next token, you receive a paginated response.   When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources. 
+    public func describeRemediationExceptionsPaginator(_ input: DescribeRemediationExceptionsRequest) -> EventLoopFuture<[RemediationException]> {
+        return client.paginate(input: input, command: describeRemediationExceptions, resultKey: "remediationExceptions", tokenKey: "nextToken")
+    }
+    
     ///  Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed. When you specify the limit and the next token, you receive a paginated response.
     public func describeRemediationExecutionStatusPaginator(_ input: DescribeRemediationExecutionStatusRequest) -> EventLoopFuture<[RemediationExecutionStatus]> {
         return client.paginate(input: input, command: describeRemediationExecutionStatus, resultKey: "remediationExecutionStatuses", tokenKey: "nextToken")
@@ -14,6 +19,17 @@ extension ConfigService {
         return client.paginate(input: input, command: getResourceConfigHistory, resultKey: "configurationItems", tokenKey: "nextToken")
     }
     
+}
+
+extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateable {
+    public init(_ original: ConfigService.DescribeRemediationExceptionsRequest, token: String) {
+        self.init(
+            configRuleName: original.configRuleName, 
+            limit: original.limit, 
+            nextToken: token, 
+            resourceKeys: original.resourceKeys
+        )
+    }
 }
 
 extension ConfigService.DescribeRemediationExecutionStatusRequest: AWSPaginateable {

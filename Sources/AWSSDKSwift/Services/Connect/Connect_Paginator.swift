@@ -4,6 +4,16 @@ import NIO
 
 extension Connect {
 
+    ///  Gets the real-time metric data from the specified Amazon Connect instance. For more information, see Real-time Metrics Reports in the Amazon Connect Administrator Guide.
+    public func getCurrentMetricDataPaginator(_ input: GetCurrentMetricDataRequest) -> EventLoopFuture<[CurrentMetricResult]> {
+        return client.paginate(input: input, command: getCurrentMetricData, resultKey: "metricResults", tokenKey: "nextToken")
+    }
+    
+    ///  Gets historical metric data from the specified Amazon Connect instance. For more information, see Historical Metrics Reports in the Amazon Connect Administrator Guide.
+    public func getMetricDataPaginator(_ input: GetMetricDataRequest) -> EventLoopFuture<[HistoricalMetricResult]> {
+        return client.paginate(input: input, command: getMetricData, resultKey: "metricResults", tokenKey: "nextToken")
+    }
+    
     ///  Provides information about the contact flows for the specified Amazon Connect instance.
     public func listContactFlowsPaginator(_ input: ListContactFlowsRequest) -> EventLoopFuture<[ContactFlowSummary]> {
         return client.paginate(input: input, command: listContactFlows, resultKey: "contactFlowSummaryList", tokenKey: "nextToken")
@@ -44,6 +54,34 @@ extension Connect {
         return client.paginate(input: input, command: listUsers, resultKey: "userSummaryList", tokenKey: "nextToken")
     }
     
+}
+
+extension Connect.GetCurrentMetricDataRequest: AWSPaginateable {
+    public init(_ original: Connect.GetCurrentMetricDataRequest, token: String) {
+        self.init(
+            currentMetrics: original.currentMetrics, 
+            filters: original.filters, 
+            groupings: original.groupings, 
+            instanceId: original.instanceId, 
+            maxResults: original.maxResults, 
+            nextToken: token
+        )
+    }
+}
+
+extension Connect.GetMetricDataRequest: AWSPaginateable {
+    public init(_ original: Connect.GetMetricDataRequest, token: String) {
+        self.init(
+            endTime: original.endTime, 
+            filters: original.filters, 
+            groupings: original.groupings, 
+            historicalMetrics: original.historicalMetrics, 
+            instanceId: original.instanceId, 
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            startTime: original.startTime
+        )
+    }
 }
 
 extension Connect.ListContactFlowsRequest: AWSPaginateable {

@@ -4,11 +4,26 @@ import NIO
 
 extension DynamoDB {
 
+    ///  Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
+    public func listContributorInsightsPaginator(_ input: ListContributorInsightsInput) -> EventLoopFuture<[ContributorInsightsSummary]> {
+        return client.paginate(input: input, command: listContributorInsights, resultKey: "contributorInsightsSummaries", tokenKey: "nextToken")
+    }
+    
     ///  Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
     public func listTablesPaginator(_ input: ListTablesInput) -> EventLoopFuture<[String]> {
         return client.paginate(input: input, command: listTables, resultKey: "tableNames", tokenKey: "lastEvaluatedTableName")
     }
     
+}
+
+extension DynamoDB.ListContributorInsightsInput: AWSPaginateable {
+    public init(_ original: DynamoDB.ListContributorInsightsInput, token: String) {
+        self.init(
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            tableName: original.tableName
+        )
+    }
 }
 
 extension DynamoDB.ListTablesInput: AWSPaginateable {

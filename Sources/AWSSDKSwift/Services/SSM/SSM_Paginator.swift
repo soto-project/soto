@@ -14,6 +14,21 @@ extension SSM {
         return client.paginate(input: input, command: describeInstanceInformation, resultKey: "instanceInformationList", tokenKey: "nextToken")
     }
     
+    ///  Get information about a parameter.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
+    public func describeParametersPaginator(_ input: DescribeParametersRequest) -> EventLoopFuture<[ParameterMetadata]> {
+        return client.paginate(input: input, command: describeParameters, resultKey: "parameters", tokenKey: "nextToken")
+    }
+    
+    ///  Query a list of all parameters used by the AWS account.
+    public func getParameterHistoryPaginator(_ input: GetParameterHistoryRequest) -> EventLoopFuture<[ParameterHistory]> {
+        return client.paginate(input: input, command: getParameterHistory, resultKey: "parameters", tokenKey: "nextToken")
+    }
+    
+    ///  Retrieve information about one or more parameters in a specific hierarchy.   Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
+    public func getParametersByPathPaginator(_ input: GetParametersByPathRequest) -> EventLoopFuture<[Parameter]> {
+        return client.paginate(input: input, command: getParametersByPath, resultKey: "parameters", tokenKey: "nextToken")
+    }
+    
     ///  Returns all State Manager associations in the current AWS account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter.
     public func listAssociationsPaginator(_ input: ListAssociationsRequest) -> EventLoopFuture<[Association]> {
         return client.paginate(input: input, command: listAssociations, resultKey: "associations", tokenKey: "nextToken")
@@ -53,6 +68,41 @@ extension SSM.DescribeInstanceInformationRequest: AWSPaginateable {
             instanceInformationFilterList: original.instanceInformationFilterList, 
             maxResults: original.maxResults, 
             nextToken: token
+        )
+    }
+}
+
+extension SSM.DescribeParametersRequest: AWSPaginateable {
+    public init(_ original: SSM.DescribeParametersRequest, token: String) {
+        self.init(
+            filters: original.filters, 
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            parameterFilters: original.parameterFilters
+        )
+    }
+}
+
+extension SSM.GetParameterHistoryRequest: AWSPaginateable {
+    public init(_ original: SSM.GetParameterHistoryRequest, token: String) {
+        self.init(
+            maxResults: original.maxResults, 
+            name: original.name, 
+            nextToken: token, 
+            withDecryption: original.withDecryption
+        )
+    }
+}
+
+extension SSM.GetParametersByPathRequest: AWSPaginateable {
+    public init(_ original: SSM.GetParametersByPathRequest, token: String) {
+        self.init(
+            maxResults: original.maxResults, 
+            nextToken: token, 
+            parameterFilters: original.parameterFilters, 
+            path: original.path, 
+            recursive: original.recursive, 
+            withDecryption: original.withDecryption
         )
     }
 }
