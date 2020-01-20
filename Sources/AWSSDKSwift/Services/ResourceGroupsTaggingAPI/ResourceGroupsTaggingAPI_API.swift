@@ -29,42 +29,42 @@ public struct ResourceGroupsTaggingAPI {
     }
 
     ///  Describes the status of the StartReportCreation operation.  You can call this operation only from the organization's master account and from the us-east-1 Region.
-    public func describeReportCreation(_ input: DescribeReportCreationInput) -> Future<DescribeReportCreationOutput> {
+    public func describeReportCreation(_ input: DescribeReportCreationInput) -> EventLoopFuture<DescribeReportCreationOutput> {
         return client.send(operation: "DescribeReportCreation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see Tag Policies in the AWS Organizations User Guide.  You can call this operation only from the organization's master account and from the us-east-1 Region.
-    public func getComplianceSummary(_ input: GetComplianceSummaryInput) -> Future<GetComplianceSummaryOutput> {
+    public func getComplianceSummary(_ input: GetComplianceSummaryInput) -> EventLoopFuture<GetComplianceSummaryOutput> {
         return client.send(operation: "GetComplianceSummary", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns all the tagged or previously tagged resources that are located in the specified Region for the AWS account. Depending on what information you want returned, you can also specify the following:    Filters that specify what tags and resource types you want returned. The response includes all tags that are associated with the requested resources.   Information about compliance with the account's effective tag policy. For more information on tag policies, see Tag Policies in the AWS Organizations User Guide.     You can check the PaginationToken response parameter to determine if a query is complete. Queries occasionally return fewer results on a page than allowed. The PaginationToken response parameter value is null only when there are no more results to display.  
-    public func getResources(_ input: GetResourcesInput) -> Future<GetResourcesOutput> {
+    public func getResources(_ input: GetResourcesInput) -> EventLoopFuture<GetResourcesOutput> {
         return client.send(operation: "GetResources", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns all tag keys in the specified Region for the AWS account.
-    public func getTagKeys(_ input: GetTagKeysInput) -> Future<GetTagKeysOutput> {
+    public func getTagKeys(_ input: GetTagKeysInput) -> EventLoopFuture<GetTagKeysOutput> {
         return client.send(operation: "GetTagKeys", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns all tag values for the specified key in the specified Region for the AWS account.
-    public func getTagValues(_ input: GetTagValuesInput) -> Future<GetTagValuesOutput> {
+    public func getTagValues(_ input: GetTagValuesInput) -> EventLoopFuture<GetTagValuesOutput> {
         return client.send(operation: "GetTagValues", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Generates a report that lists all tagged resources in accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily.  The generated report is saved to the following location:  s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv  You can call this operation only from the organization's master account and from the us-east-1 Region.
-    public func startReportCreation(_ input: StartReportCreationInput) -> Future<StartReportCreationOutput> {
+    public func startReportCreation(_ input: StartReportCreationInput) -> EventLoopFuture<StartReportCreationOutput> {
         return client.send(operation: "StartReportCreation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Applies one or more tags to the specified resources. Note the following:   Not all resources can have tags. For a list of services that support tagging, see this list.   Each resource can have up to 50 tags. For other limits, see Tag Naming and Usage Conventions in the AWS General Reference.    You can only tag resources that are located in the specified Region for the AWS account.   To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see this list.  
-    public func tagResources(_ input: TagResourcesInput) -> Future<TagResourcesOutput> {
+    public func tagResources(_ input: TagResourcesInput) -> EventLoopFuture<TagResourcesOutput> {
         return client.send(operation: "TagResources", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following:   To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see this list.   You can only tag resources that are located in the specified Region for the AWS account.  
-    public func untagResources(_ input: UntagResourcesInput) -> Future<UntagResourcesOutput> {
+    public func untagResources(_ input: UntagResourcesInput) -> EventLoopFuture<UntagResourcesOutput> {
         return client.send(operation: "UntagResources", path: "/", httpMethod: "POST", input: input)
     }
 }

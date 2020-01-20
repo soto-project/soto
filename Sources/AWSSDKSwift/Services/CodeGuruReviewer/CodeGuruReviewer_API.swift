@@ -28,22 +28,22 @@ public struct CodeGuruReviewer {
     }
 
     ///  Associates an AWS CodeCommit repository with Amazon CodeGuru Reviewer. When you associate an AWS CodeCommit repository with Amazon CodeGuru Reviewer, Amazon CodeGuru Reviewer will provide recommendations for each pull request. You can view recommendations in the AWS CodeCommit repository. You can associate a GitHub repository using the Amazon CodeGuru Reviewer console.
-    public func associateRepository(_ input: AssociateRepositoryRequest) -> Future<AssociateRepositoryResponse> {
+    public func associateRepository(_ input: AssociateRepositoryRequest) -> EventLoopFuture<AssociateRepositoryResponse> {
         return client.send(operation: "AssociateRepository", path: "/associations", httpMethod: "POST", input: input)
     }
 
     ///  Describes a repository association.
-    public func describeRepositoryAssociation(_ input: DescribeRepositoryAssociationRequest) -> Future<DescribeRepositoryAssociationResponse> {
+    public func describeRepositoryAssociation(_ input: DescribeRepositoryAssociationRequest) -> EventLoopFuture<DescribeRepositoryAssociationResponse> {
         return client.send(operation: "DescribeRepositoryAssociation", path: "/associations/{AssociationArn}", httpMethod: "GET", input: input)
     }
 
     ///  Removes the association between Amazon CodeGuru Reviewer and a repository.
-    public func disassociateRepository(_ input: DisassociateRepositoryRequest) -> Future<DisassociateRepositoryResponse> {
+    public func disassociateRepository(_ input: DisassociateRepositoryRequest) -> EventLoopFuture<DisassociateRepositoryResponse> {
         return client.send(operation: "DisassociateRepository", path: "/associations/{AssociationArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
-    public func listRepositoryAssociations(_ input: ListRepositoryAssociationsRequest) -> Future<ListRepositoryAssociationsResponse> {
+    public func listRepositoryAssociations(_ input: ListRepositoryAssociationsRequest) -> EventLoopFuture<ListRepositoryAssociationsResponse> {
         return client.send(operation: "ListRepositoryAssociations", path: "/associations", httpMethod: "GET", input: input)
     }
 }

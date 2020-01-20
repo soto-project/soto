@@ -30,17 +30,17 @@ public struct SSOOIDC {
     }
 
     ///  Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
-    public func createToken(_ input: CreateTokenRequest) -> Future<CreateTokenResponse> {
+    public func createToken(_ input: CreateTokenRequest) -> EventLoopFuture<CreateTokenResponse> {
         return client.send(operation: "CreateToken", path: "/token", httpMethod: "POST", input: input)
     }
 
     ///  Registers a client with AWS SSO. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
-    public func registerClient(_ input: RegisterClientRequest) -> Future<RegisterClientResponse> {
+    public func registerClient(_ input: RegisterClientRequest) -> EventLoopFuture<RegisterClientResponse> {
         return client.send(operation: "RegisterClient", path: "/client/register", httpMethod: "POST", input: input)
     }
 
     ///  Initiates device authorization by requesting a pair of verification codes from the authorization service.
-    public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest) -> Future<StartDeviceAuthorizationResponse> {
+    public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest) -> EventLoopFuture<StartDeviceAuthorizationResponse> {
         return client.send(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: "POST", input: input)
     }
 }

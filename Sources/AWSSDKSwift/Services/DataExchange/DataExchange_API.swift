@@ -28,112 +28,112 @@ public struct DataExchange {
     }
 
     ///  This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
-    @discardableResult public func cancelJob(_ input: CancelJobRequest) -> Future<Void> {
+    @discardableResult public func cancelJob(_ input: CancelJobRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "CancelJob", path: "/v1/jobs/{JobId}", httpMethod: "DELETE", input: input)
     }
 
     ///  This operation creates a data set.
-    public func createDataSet(_ input: CreateDataSetRequest) -> Future<CreateDataSetResponse> {
+    public func createDataSet(_ input: CreateDataSetRequest) -> EventLoopFuture<CreateDataSetResponse> {
         return client.send(operation: "CreateDataSet", path: "/v1/data-sets", httpMethod: "POST", input: input)
     }
 
     ///  This operation creates a job.
-    public func createJob(_ input: CreateJobRequest) -> Future<CreateJobResponse> {
+    public func createJob(_ input: CreateJobRequest) -> EventLoopFuture<CreateJobResponse> {
         return client.send(operation: "CreateJob", path: "/v1/jobs", httpMethod: "POST", input: input)
     }
 
     ///  This operation creates a revision for a data set.
-    public func createRevision(_ input: CreateRevisionRequest) -> Future<CreateRevisionResponse> {
+    public func createRevision(_ input: CreateRevisionRequest) -> EventLoopFuture<CreateRevisionResponse> {
         return client.send(operation: "CreateRevision", path: "/v1/data-sets/{DataSetId}/revisions", httpMethod: "POST", input: input)
     }
 
     ///  This operation deletes an asset.
-    @discardableResult public func deleteAsset(_ input: DeleteAssetRequest) -> Future<Void> {
+    @discardableResult public func deleteAsset(_ input: DeleteAssetRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteAsset", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", httpMethod: "DELETE", input: input)
     }
 
     ///  This operation deletes a data set.
-    @discardableResult public func deleteDataSet(_ input: DeleteDataSetRequest) -> Future<Void> {
+    @discardableResult public func deleteDataSet(_ input: DeleteDataSetRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: "DELETE", input: input)
     }
 
     ///  This operation deletes a revision.
-    @discardableResult public func deleteRevision(_ input: DeleteRevisionRequest) -> Future<Void> {
+    @discardableResult public func deleteRevision(_ input: DeleteRevisionRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  This operation returns information about an asset.
-    public func getAsset(_ input: GetAssetRequest) -> Future<GetAssetResponse> {
+    public func getAsset(_ input: GetAssetRequest) -> EventLoopFuture<GetAssetResponse> {
         return client.send(operation: "GetAsset", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", httpMethod: "GET", input: input)
     }
 
     ///  This operation returns information about a data set.
-    public func getDataSet(_ input: GetDataSetRequest) -> Future<GetDataSetResponse> {
+    public func getDataSet(_ input: GetDataSetRequest) -> EventLoopFuture<GetDataSetResponse> {
         return client.send(operation: "GetDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: "GET", input: input)
     }
 
     ///  This operation returns information about a job.
-    public func getJob(_ input: GetJobRequest) -> Future<GetJobResponse> {
+    public func getJob(_ input: GetJobRequest) -> EventLoopFuture<GetJobResponse> {
         return client.send(operation: "GetJob", path: "/v1/jobs/{JobId}", httpMethod: "GET", input: input)
     }
 
     ///  This operation returns information about a revision.
-    public func getRevision(_ input: GetRevisionRequest) -> Future<GetRevisionResponse> {
+    public func getRevision(_ input: GetRevisionRequest) -> EventLoopFuture<GetRevisionResponse> {
         return client.send(operation: "GetRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: "GET", input: input)
     }
 
     ///  This operation lists a data set's revisions sorted by CreatedAt in descending order.
-    public func listDataSetRevisions(_ input: ListDataSetRevisionsRequest) -> Future<ListDataSetRevisionsResponse> {
+    public func listDataSetRevisions(_ input: ListDataSetRevisionsRequest) -> EventLoopFuture<ListDataSetRevisionsResponse> {
         return client.send(operation: "ListDataSetRevisions", path: "/v1/data-sets/{DataSetId}/revisions", httpMethod: "GET", input: input)
     }
 
     ///  This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
-    public func listDataSets(_ input: ListDataSetsRequest) -> Future<ListDataSetsResponse> {
+    public func listDataSets(_ input: ListDataSetsRequest) -> EventLoopFuture<ListDataSetsResponse> {
         return client.send(operation: "ListDataSets", path: "/v1/data-sets", httpMethod: "GET", input: input)
     }
 
     ///  This operation lists your jobs sorted by CreatedAt in descending order.
-    public func listJobs(_ input: ListJobsRequest) -> Future<ListJobsResponse> {
+    public func listJobs(_ input: ListJobsRequest) -> EventLoopFuture<ListJobsResponse> {
         return client.send(operation: "ListJobs", path: "/v1/jobs", httpMethod: "GET", input: input)
     }
 
     ///  This operation lists a revision's assets sorted alphabetically in descending order.
-    public func listRevisionAssets(_ input: ListRevisionAssetsRequest) -> Future<ListRevisionAssetsResponse> {
+    public func listRevisionAssets(_ input: ListRevisionAssetsRequest) -> EventLoopFuture<ListRevisionAssetsResponse> {
         return client.send(operation: "ListRevisionAssets", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets", httpMethod: "GET", input: input)
     }
 
     ///  This operation lists the tags on the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
 
     ///  This operation starts a job.
-    public func startJob(_ input: StartJobRequest) -> Future<StartJobResponse> {
+    public func startJob(_ input: StartJobRequest) -> EventLoopFuture<StartJobResponse> {
         return client.send(operation: "StartJob", path: "/v1/jobs/{JobId}", httpMethod: "PATCH", input: input)
     }
 
     ///  This operation tags a resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
     ///  This operation removes one or more tags from a resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  This operation updates an asset.
-    public func updateAsset(_ input: UpdateAssetRequest) -> Future<UpdateAssetResponse> {
+    public func updateAsset(_ input: UpdateAssetRequest) -> EventLoopFuture<UpdateAssetResponse> {
         return client.send(operation: "UpdateAsset", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", httpMethod: "PATCH", input: input)
     }
 
     ///  This operation updates a data set.
-    public func updateDataSet(_ input: UpdateDataSetRequest) -> Future<UpdateDataSetResponse> {
+    public func updateDataSet(_ input: UpdateDataSetRequest) -> EventLoopFuture<UpdateDataSetResponse> {
         return client.send(operation: "UpdateDataSet", path: "/v1/data-sets/{DataSetId}", httpMethod: "PATCH", input: input)
     }
 
     ///  This operation updates a revision.
-    public func updateRevision(_ input: UpdateRevisionRequest) -> Future<UpdateRevisionResponse> {
+    public func updateRevision(_ input: UpdateRevisionRequest) -> EventLoopFuture<UpdateRevisionResponse> {
         return client.send(operation: "UpdateRevision", path: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", httpMethod: "PATCH", input: input)
     }
 }

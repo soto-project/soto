@@ -29,112 +29,112 @@ public struct Route53Resolver {
     }
 
     ///  Adds IP addresses to an inbound or an outbound resolver endpoint. If you want to adding more than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see DisassociateResolverEndpointIpAddress.
-    public func associateResolverEndpointIpAddress(_ input: AssociateResolverEndpointIpAddressRequest) -> Future<AssociateResolverEndpointIpAddressResponse> {
+    public func associateResolverEndpointIpAddress(_ input: AssociateResolverEndpointIpAddressRequest) -> EventLoopFuture<AssociateResolverEndpointIpAddressResponse> {
         return client.send(operation: "AssociateResolverEndpointIpAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates a resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see CreateResolverRule. 
-    public func associateResolverRule(_ input: AssociateResolverRuleRequest) -> Future<AssociateResolverRuleResponse> {
+    public func associateResolverRule(_ input: AssociateResolverRuleRequest) -> EventLoopFuture<AssociateResolverRuleResponse> {
         return client.send(operation: "AssociateResolverRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a resolver endpoint. There are two types of resolver endpoints, inbound and outbound:   An inbound resolver endpoint forwards DNS queries to the DNS service for a VPC from your network or another VPC.   An outbound resolver endpoint forwards DNS queries from the DNS service for a VPC to your network or another VPC.  
-    public func createResolverEndpoint(_ input: CreateResolverEndpointRequest) -> Future<CreateResolverEndpointResponse> {
+    public func createResolverEndpoint(_ input: CreateResolverEndpointRequest) -> EventLoopFuture<CreateResolverEndpointResponse> {
         return client.send(operation: "CreateResolverEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  For DNS queries that originate in your VPCs, specifies which resolver endpoint the queries pass through, one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
-    public func createResolverRule(_ input: CreateResolverRuleRequest) -> Future<CreateResolverRuleResponse> {
+    public func createResolverRule(_ input: CreateResolverRuleRequest) -> EventLoopFuture<CreateResolverRuleResponse> {
         return client.send(operation: "CreateResolverRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a resolver endpoint. The effect of deleting a resolver endpoint depends on whether it's an inbound or an outbound resolver endpoint:    Inbound: DNS queries from your network or another VPC are no longer routed to the DNS service for the specified VPC.    Outbound: DNS queries from a VPC are no longer routed to your network or to another VPC.  
-    public func deleteResolverEndpoint(_ input: DeleteResolverEndpointRequest) -> Future<DeleteResolverEndpointResponse> {
+    public func deleteResolverEndpoint(_ input: DeleteResolverEndpointRequest) -> EventLoopFuture<DeleteResolverEndpointResponse> {
         return client.send(operation: "DeleteResolverEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a resolver rule. Before you can delete a resolver rule, you must disassociate it from all the VPCs that you associated the resolver rule with. For more infomation, see DisassociateResolverRule.
-    public func deleteResolverRule(_ input: DeleteResolverRuleRequest) -> Future<DeleteResolverRuleResponse> {
+    public func deleteResolverRule(_ input: DeleteResolverRuleRequest) -> EventLoopFuture<DeleteResolverRuleResponse> {
         return client.send(operation: "DeleteResolverRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes IP addresses from an inbound or an outbound resolver endpoint. If you want to remove more than one IP address, submit one DisassociateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see AssociateResolverEndpointIpAddress.
-    public func disassociateResolverEndpointIpAddress(_ input: DisassociateResolverEndpointIpAddressRequest) -> Future<DisassociateResolverEndpointIpAddressResponse> {
+    public func disassociateResolverEndpointIpAddress(_ input: DisassociateResolverEndpointIpAddressRequest) -> EventLoopFuture<DisassociateResolverEndpointIpAddressResponse> {
         return client.send(operation: "DisassociateResolverEndpointIpAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the association between a specified resolver rule and a specified VPC.  If you disassociate a resolver rule from a VPC, Resolver stops forwarding DNS queries for the domain name that you specified in the resolver rule.  
-    public func disassociateResolverRule(_ input: DisassociateResolverRuleRequest) -> Future<DisassociateResolverRuleResponse> {
+    public func disassociateResolverRule(_ input: DisassociateResolverRuleRequest) -> EventLoopFuture<DisassociateResolverRuleResponse> {
         return client.send(operation: "DisassociateResolverRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a specified resolver endpoint, such as whether it's an inbound or an outbound resolver endpoint, and the current status of the endpoint.
-    public func getResolverEndpoint(_ input: GetResolverEndpointRequest) -> Future<GetResolverEndpointResponse> {
+    public func getResolverEndpoint(_ input: GetResolverEndpointRequest) -> EventLoopFuture<GetResolverEndpointResponse> {
         return client.send(operation: "GetResolverEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a specified resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the outbound resolver endpoint that the rule is associated with.
-    public func getResolverRule(_ input: GetResolverRuleRequest) -> Future<GetResolverRuleResponse> {
+    public func getResolverRule(_ input: GetResolverRuleRequest) -> EventLoopFuture<GetResolverRuleResponse> {
         return client.send(operation: "GetResolverRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an association between a specified resolver rule and a VPC. You associate a resolver rule and a VPC using AssociateResolverRule. 
-    public func getResolverRuleAssociation(_ input: GetResolverRuleAssociationRequest) -> Future<GetResolverRuleAssociationResponse> {
+    public func getResolverRuleAssociation(_ input: GetResolverRuleAssociationRequest) -> EventLoopFuture<GetResolverRuleAssociationResponse> {
         return client.send(operation: "GetResolverRuleAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a resolver rule policy. A resolver rule policy specifies the Resolver operations and resources that you want to allow another AWS account to be able to use. 
-    public func getResolverRulePolicy(_ input: GetResolverRulePolicyRequest) -> Future<GetResolverRulePolicyResponse> {
+    public func getResolverRulePolicy(_ input: GetResolverRulePolicyRequest) -> EventLoopFuture<GetResolverRulePolicyResponse> {
         return client.send(operation: "GetResolverRulePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the IP addresses for a specified resolver endpoint.
-    public func listResolverEndpointIpAddresses(_ input: ListResolverEndpointIpAddressesRequest) -> Future<ListResolverEndpointIpAddressesResponse> {
+    public func listResolverEndpointIpAddresses(_ input: ListResolverEndpointIpAddressesRequest) -> EventLoopFuture<ListResolverEndpointIpAddressesResponse> {
         return client.send(operation: "ListResolverEndpointIpAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all the resolver endpoints that were created using the current AWS account.
-    public func listResolverEndpoints(_ input: ListResolverEndpointsRequest) -> Future<ListResolverEndpointsResponse> {
+    public func listResolverEndpoints(_ input: ListResolverEndpointsRequest) -> EventLoopFuture<ListResolverEndpointsResponse> {
         return client.send(operation: "ListResolverEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the associations that were created between resolver rules and VPCs using the current AWS account.
-    public func listResolverRuleAssociations(_ input: ListResolverRuleAssociationsRequest) -> Future<ListResolverRuleAssociationsResponse> {
+    public func listResolverRuleAssociations(_ input: ListResolverRuleAssociationsRequest) -> EventLoopFuture<ListResolverRuleAssociationsResponse> {
         return client.send(operation: "ListResolverRuleAssociations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the resolver rules that were created using the current AWS account.
-    public func listResolverRules(_ input: ListResolverRulesRequest) -> Future<ListResolverRulesResponse> {
+    public func listResolverRules(_ input: ListResolverRulesRequest) -> EventLoopFuture<ListResolverRulesResponse> {
         return client.send(operation: "ListResolverRules", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the tags that you associated with the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Specifies the Resolver operations and resources that you want to allow another AWS account to be able to use.
-    public func putResolverRulePolicy(_ input: PutResolverRulePolicyRequest) -> Future<PutResolverRulePolicyResponse> {
+    public func putResolverRulePolicy(_ input: PutResolverRulePolicyRequest) -> EventLoopFuture<PutResolverRulePolicyResponse> {
         return client.send(operation: "PutResolverRulePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more tags to a specified resource.
-    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more tags from a specified resource.
-    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the name of an inbound or an outbound resolver endpoint. 
-    public func updateResolverEndpoint(_ input: UpdateResolverEndpointRequest) -> Future<UpdateResolverEndpointResponse> {
+    public func updateResolverEndpoint(_ input: UpdateResolverEndpointRequest) -> EventLoopFuture<UpdateResolverEndpointResponse> {
         return client.send(operation: "UpdateResolverEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates settings for a specified resolver rule. ResolverRuleId is required, and all other parameters are optional. If you don't specify a parameter, it retains its current value.
-    public func updateResolverRule(_ input: UpdateResolverRuleRequest) -> Future<UpdateResolverRuleResponse> {
+    public func updateResolverRule(_ input: UpdateResolverRuleRequest) -> EventLoopFuture<UpdateResolverRuleResponse> {
         return client.send(operation: "UpdateResolverRule", path: "/", httpMethod: "POST", input: input)
     }
 }

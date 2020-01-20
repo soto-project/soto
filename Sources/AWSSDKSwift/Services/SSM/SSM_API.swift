@@ -29,612 +29,612 @@ public struct SSM {
     }
 
     ///  Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your documents, managed instances, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev. Or Key=Stack and Value=Production, Pre-Production, or Test. Each resource can have a maximum of 50 tags.  We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to Amazon EC2 and are interpreted strictly as a string of characters.  For more information about tags, see Tagging Your Amazon EC2 Resources in the Amazon EC2 User Guide.
-    public func addTagsToResource(_ input: AddTagsToResourceRequest) -> Future<AddTagsToResourceResult> {
+    public func addTagsToResource(_ input: AddTagsToResourceRequest) -> EventLoopFuture<AddTagsToResourceResult> {
         return client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attempts to cancel the command specified by the Command ID. There is no guarantee that the command will be terminated and the underlying process stopped.
-    public func cancelCommand(_ input: CancelCommandRequest) -> Future<CancelCommandResult> {
+    public func cancelCommand(_ input: CancelCommandRequest) -> EventLoopFuture<CancelCommandResult> {
         return client.send(operation: "CancelCommand", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a maintenance window execution that is already in progress and cancels any tasks in the window that have not already starting running. (Tasks already in progress will continue to completion.)
-    public func cancelMaintenanceWindowExecution(_ input: CancelMaintenanceWindowExecutionRequest) -> Future<CancelMaintenanceWindowExecutionResult> {
+    public func cancelMaintenanceWindowExecution(_ input: CancelMaintenanceWindowExecutionRequest) -> EventLoopFuture<CancelMaintenanceWindowExecutionResult> {
         return client.send(operation: "CancelMaintenanceWindowExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Generates an activation code and activation ID you can use to register your on-premises server or virtual machine (VM) with Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises instances and VMs using Systems Manager, see Setting Up AWS Systems Manager for Hybrid Environments in the AWS Systems Manager User Guide.   On-premises servers or VMs that are registered with Systems Manager and Amazon EC2 instances that you manage with Systems Manager are all called managed instances. 
-    public func createActivation(_ input: CreateActivationRequest) -> Future<CreateActivationResult> {
+    public func createActivation(_ input: CreateActivationRequest) -> EventLoopFuture<CreateActivationResult> {
         return client.send(operation: "CreateActivation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates the specified Systems Manager document with the specified instances or targets. When you associate a document with one or more instances using instance IDs or tags, SSM Agent running on the instance processes the document and configures the instance as specified. If you associate a document with an instance that already has an associated document, the system returns the AssociationAlreadyExists exception.
-    public func createAssociation(_ input: CreateAssociationRequest) -> Future<CreateAssociationResult> {
+    public func createAssociation(_ input: CreateAssociationRequest) -> EventLoopFuture<CreateAssociationResult> {
         return client.send(operation: "CreateAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates the specified Systems Manager document with the specified instances or targets. When you associate a document with one or more instances using instance IDs or tags, SSM Agent running on the instance processes the document and configures the instance as specified. If you associate a document with an instance that already has an associated document, the system returns the AssociationAlreadyExists exception.
-    public func createAssociationBatch(_ input: CreateAssociationBatchRequest) -> Future<CreateAssociationBatchResult> {
+    public func createAssociationBatch(_ input: CreateAssociationBatchRequest) -> EventLoopFuture<CreateAssociationBatchResult> {
         return client.send(operation: "CreateAssociationBatch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Systems Manager document. After you create a document, you can use CreateAssociation to associate it with one or more running instances.
-    public func createDocument(_ input: CreateDocumentRequest) -> Future<CreateDocumentResult> {
+    public func createDocument(_ input: CreateDocumentRequest) -> EventLoopFuture<CreateDocumentResult> {
         return client.send(operation: "CreateDocument", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new maintenance window.  The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM. 
-    public func createMaintenanceWindow(_ input: CreateMaintenanceWindowRequest) -> Future<CreateMaintenanceWindowResult> {
+    public func createMaintenanceWindow(_ input: CreateMaintenanceWindowRequest) -> EventLoopFuture<CreateMaintenanceWindowResult> {
         return client.send(operation: "CreateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new OpsItem. You must have permission in AWS Identity and Access Management (IAM) to create a new OpsItem. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide. 
-    public func createOpsItem(_ input: CreateOpsItemRequest) -> Future<CreateOpsItemResponse> {
+    public func createOpsItem(_ input: CreateOpsItemRequest) -> EventLoopFuture<CreateOpsItemResponse> {
         return client.send(operation: "CreateOpsItem", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a patch baseline.  For information about valid key and value pairs in PatchFilters for each supported operating system type, see PatchFilter. 
-    public func createPatchBaseline(_ input: CreatePatchBaselineRequest) -> Future<CreatePatchBaselineResult> {
+    public func createPatchBaseline(_ input: CreatePatchBaselineRequest) -> EventLoopFuture<CreatePatchBaselineResult> {
         return client.send(operation: "CreatePatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  A resource data sync helps you view data from multiple sources in a single location. Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple AWS Regions to a single Amazon S3 bucket. For more information, see Configuring Resource Data Sync for Inventory in the AWS Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncToDestination type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple AWS Regions to a single Amazon S3 bucket. You can also configure Explorer to use the SyncFromSource type. This type synchronizes OpsItems and OpsData from multiple AWS accounts and Regions by using AWS Organizations. For more information, see Setting Up Explorer to Display Data from Multiple Accounts and Regions in the AWS Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the ListResourceDataSync.  By default, data is not encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.  
-    public func createResourceDataSync(_ input: CreateResourceDataSyncRequest) -> Future<CreateResourceDataSyncResult> {
+    public func createResourceDataSync(_ input: CreateResourceDataSyncRequest) -> EventLoopFuture<CreateResourceDataSyncResult> {
         return client.send(operation: "CreateResourceDataSync", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an activation. You are not required to delete an activation. If you delete an activation, you can no longer use it to register additional managed instances. Deleting an activation does not de-register managed instances. You must manually de-register managed instances.
-    public func deleteActivation(_ input: DeleteActivationRequest) -> Future<DeleteActivationResult> {
+    public func deleteActivation(_ input: DeleteActivationRequest) -> EventLoopFuture<DeleteActivationResult> {
         return client.send(operation: "DeleteActivation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the specified Systems Manager document from the specified instance. When you disassociate a document from an instance, it does not change the configuration of the instance. To change the configuration state of an instance after you disassociate a document, you must create a new document with the desired configuration and associate it with the instance.
-    public func deleteAssociation(_ input: DeleteAssociationRequest) -> Future<DeleteAssociationResult> {
+    public func deleteAssociation(_ input: DeleteAssociationRequest) -> EventLoopFuture<DeleteAssociationResult> {
         return client.send(operation: "DeleteAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the Systems Manager document and all instance associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all instances that are associated with the document.
-    public func deleteDocument(_ input: DeleteDocumentRequest) -> Future<DeleteDocumentResult> {
+    public func deleteDocument(_ input: DeleteDocumentRequest) -> EventLoopFuture<DeleteDocumentResult> {
         return client.send(operation: "DeleteDocument", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete a custom inventory type, or the data associated with a custom Inventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema.
-    public func deleteInventory(_ input: DeleteInventoryRequest) -> Future<DeleteInventoryResult> {
+    public func deleteInventory(_ input: DeleteInventoryRequest) -> EventLoopFuture<DeleteInventoryResult> {
         return client.send(operation: "DeleteInventory", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a maintenance window.
-    public func deleteMaintenanceWindow(_ input: DeleteMaintenanceWindowRequest) -> Future<DeleteMaintenanceWindowResult> {
+    public func deleteMaintenanceWindow(_ input: DeleteMaintenanceWindowRequest) -> EventLoopFuture<DeleteMaintenanceWindowResult> {
         return client.send(operation: "DeleteMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete a parameter from the system.
-    public func deleteParameter(_ input: DeleteParameterRequest) -> Future<DeleteParameterResult> {
+    public func deleteParameter(_ input: DeleteParameterRequest) -> EventLoopFuture<DeleteParameterResult> {
         return client.send(operation: "DeleteParameter", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete a list of parameters.
-    public func deleteParameters(_ input: DeleteParametersRequest) -> Future<DeleteParametersResult> {
+    public func deleteParameters(_ input: DeleteParametersRequest) -> EventLoopFuture<DeleteParametersResult> {
         return client.send(operation: "DeleteParameters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a patch baseline.
-    public func deletePatchBaseline(_ input: DeletePatchBaselineRequest) -> Future<DeletePatchBaselineResult> {
+    public func deletePatchBaseline(_ input: DeletePatchBaselineRequest) -> EventLoopFuture<DeletePatchBaselineResult> {
         return client.send(operation: "DeletePatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a Resource Data Sync configuration. After the configuration is deleted, changes to data on managed instances are no longer synced to or from the target. Deleting a sync configuration does not delete data.
-    public func deleteResourceDataSync(_ input: DeleteResourceDataSyncRequest) -> Future<DeleteResourceDataSyncResult> {
+    public func deleteResourceDataSync(_ input: DeleteResourceDataSyncRequest) -> EventLoopFuture<DeleteResourceDataSyncResult> {
         return client.send(operation: "DeleteResourceDataSync", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the server or virtual machine from the list of registered servers. You can reregister the instance again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling SSM Agent first.
-    public func deregisterManagedInstance(_ input: DeregisterManagedInstanceRequest) -> Future<DeregisterManagedInstanceResult> {
+    public func deregisterManagedInstance(_ input: DeregisterManagedInstanceRequest) -> EventLoopFuture<DeregisterManagedInstanceResult> {
         return client.send(operation: "DeregisterManagedInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a patch group from a patch baseline.
-    public func deregisterPatchBaselineForPatchGroup(_ input: DeregisterPatchBaselineForPatchGroupRequest) -> Future<DeregisterPatchBaselineForPatchGroupResult> {
+    public func deregisterPatchBaselineForPatchGroup(_ input: DeregisterPatchBaselineForPatchGroupRequest) -> EventLoopFuture<DeregisterPatchBaselineForPatchGroupResult> {
         return client.send(operation: "DeregisterPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a target from a maintenance window.
-    public func deregisterTargetFromMaintenanceWindow(_ input: DeregisterTargetFromMaintenanceWindowRequest) -> Future<DeregisterTargetFromMaintenanceWindowResult> {
+    public func deregisterTargetFromMaintenanceWindow(_ input: DeregisterTargetFromMaintenanceWindowRequest) -> EventLoopFuture<DeregisterTargetFromMaintenanceWindowResult> {
         return client.send(operation: "DeregisterTargetFromMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a task from a maintenance window.
-    public func deregisterTaskFromMaintenanceWindow(_ input: DeregisterTaskFromMaintenanceWindowRequest) -> Future<DeregisterTaskFromMaintenanceWindowResult> {
+    public func deregisterTaskFromMaintenanceWindow(_ input: DeregisterTaskFromMaintenanceWindowRequest) -> EventLoopFuture<DeregisterTaskFromMaintenanceWindowResult> {
         return client.send(operation: "DeregisterTaskFromMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes details about the activation, such as the date and time the activation was created, its expiration date, the IAM role assigned to the instances in the activation, and the number of instances registered by using this activation.
-    public func describeActivations(_ input: DescribeActivationsRequest) -> Future<DescribeActivationsResult> {
+    public func describeActivations(_ input: DescribeActivationsRequest) -> EventLoopFuture<DescribeActivationsResult> {
         return client.send(operation: "DescribeActivations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the association for the specified target or instance. If you created the association by using the Targets parameter, then you must retrieve the association by using the association ID. If you created the association by specifying an instance ID and a Systems Manager document, then you retrieve the association by specifying the document name and the instance ID. 
-    public func describeAssociation(_ input: DescribeAssociationRequest) -> Future<DescribeAssociationResult> {
+    public func describeAssociation(_ input: DescribeAssociationRequest) -> EventLoopFuture<DescribeAssociationResult> {
         return client.send(operation: "DescribeAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Use this API action to view information about a specific execution of a specific association.
-    public func describeAssociationExecutionTargets(_ input: DescribeAssociationExecutionTargetsRequest) -> Future<DescribeAssociationExecutionTargetsResult> {
+    public func describeAssociationExecutionTargets(_ input: DescribeAssociationExecutionTargetsRequest) -> EventLoopFuture<DescribeAssociationExecutionTargetsResult> {
         return client.send(operation: "DescribeAssociationExecutionTargets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Use this API action to view all executions for a specific association ID. 
-    public func describeAssociationExecutions(_ input: DescribeAssociationExecutionsRequest) -> Future<DescribeAssociationExecutionsResult> {
+    public func describeAssociationExecutions(_ input: DescribeAssociationExecutionsRequest) -> EventLoopFuture<DescribeAssociationExecutionsResult> {
         return client.send(operation: "DescribeAssociationExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides details about all active and terminated Automation executions.
-    public func describeAutomationExecutions(_ input: DescribeAutomationExecutionsRequest) -> Future<DescribeAutomationExecutionsResult> {
+    public func describeAutomationExecutions(_ input: DescribeAutomationExecutionsRequest) -> EventLoopFuture<DescribeAutomationExecutionsResult> {
         return client.send(operation: "DescribeAutomationExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Information about all active and terminated step executions in an Automation workflow.
-    public func describeAutomationStepExecutions(_ input: DescribeAutomationStepExecutionsRequest) -> Future<DescribeAutomationStepExecutionsResult> {
+    public func describeAutomationStepExecutions(_ input: DescribeAutomationStepExecutionsRequest) -> EventLoopFuture<DescribeAutomationStepExecutionsResult> {
         return client.send(operation: "DescribeAutomationStepExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all patches eligible to be included in a patch baseline.
-    public func describeAvailablePatches(_ input: DescribeAvailablePatchesRequest) -> Future<DescribeAvailablePatchesResult> {
+    public func describeAvailablePatches(_ input: DescribeAvailablePatchesRequest) -> EventLoopFuture<DescribeAvailablePatchesResult> {
         return client.send(operation: "DescribeAvailablePatches", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified Systems Manager document.
-    public func describeDocument(_ input: DescribeDocumentRequest) -> Future<DescribeDocumentResult> {
+    public func describeDocument(_ input: DescribeDocumentRequest) -> EventLoopFuture<DescribeDocumentResult> {
         return client.send(operation: "DescribeDocument", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the permissions for a Systems Manager document. If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's AWS account ID) or publicly (All). 
-    public func describeDocumentPermission(_ input: DescribeDocumentPermissionRequest) -> Future<DescribeDocumentPermissionResponse> {
+    public func describeDocumentPermission(_ input: DescribeDocumentPermissionRequest) -> EventLoopFuture<DescribeDocumentPermissionResponse> {
         return client.send(operation: "DescribeDocumentPermission", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  All associations for the instance(s).
-    public func describeEffectiveInstanceAssociations(_ input: DescribeEffectiveInstanceAssociationsRequest) -> Future<DescribeEffectiveInstanceAssociationsResult> {
+    public func describeEffectiveInstanceAssociations(_ input: DescribeEffectiveInstanceAssociationsRequest) -> EventLoopFuture<DescribeEffectiveInstanceAssociationsResult> {
         return client.send(operation: "DescribeEffectiveInstanceAssociations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Note that this API applies only to Windows patch baselines.
-    public func describeEffectivePatchesForPatchBaseline(_ input: DescribeEffectivePatchesForPatchBaselineRequest) -> Future<DescribeEffectivePatchesForPatchBaselineResult> {
+    public func describeEffectivePatchesForPatchBaseline(_ input: DescribeEffectivePatchesForPatchBaselineRequest) -> EventLoopFuture<DescribeEffectivePatchesForPatchBaselineResult> {
         return client.send(operation: "DescribeEffectivePatchesForPatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The status of the associations for the instance(s).
-    public func describeInstanceAssociationsStatus(_ input: DescribeInstanceAssociationsStatusRequest) -> Future<DescribeInstanceAssociationsStatusResult> {
+    public func describeInstanceAssociationsStatus(_ input: DescribeInstanceAssociationsStatusRequest) -> EventLoopFuture<DescribeInstanceAssociationsStatusResult> {
         return client.send(operation: "DescribeInstanceAssociationsStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your instances. You can use this to get information about instances like the operating system platform, the SSM Agent version (Linux), status etc. If you specify one or more instance IDs, it returns information for those instances. If you do not specify instance IDs, it returns information for all your instances. If you specify an instance ID that is not valid or an instance that you do not own, you receive an error.   The IamRole field for this API action is the Amazon Identity and Access Management (IAM) role assigned to on-premises instances. This call does not return the IAM role for Amazon EC2 instances. 
-    public func describeInstanceInformation(_ input: DescribeInstanceInformationRequest) -> Future<DescribeInstanceInformationResult> {
+    public func describeInstanceInformation(_ input: DescribeInstanceInformationRequest) -> EventLoopFuture<DescribeInstanceInformationResult> {
         return client.send(operation: "DescribeInstanceInformation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the high-level patch state of one or more instances.
-    public func describeInstancePatchStates(_ input: DescribeInstancePatchStatesRequest) -> Future<DescribeInstancePatchStatesResult> {
+    public func describeInstancePatchStates(_ input: DescribeInstancePatchStatesRequest) -> EventLoopFuture<DescribeInstancePatchStatesResult> {
         return client.send(operation: "DescribeInstancePatchStates", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the high-level patch state for the instances in the specified patch group.
-    public func describeInstancePatchStatesForPatchGroup(_ input: DescribeInstancePatchStatesForPatchGroupRequest) -> Future<DescribeInstancePatchStatesForPatchGroupResult> {
+    public func describeInstancePatchStatesForPatchGroup(_ input: DescribeInstancePatchStatesForPatchGroupRequest) -> EventLoopFuture<DescribeInstancePatchStatesForPatchGroupResult> {
         return client.send(operation: "DescribeInstancePatchStatesForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about the patches on the specified instance and their state relative to the patch baseline being used for the instance.
-    public func describeInstancePatches(_ input: DescribeInstancePatchesRequest) -> Future<DescribeInstancePatchesResult> {
+    public func describeInstancePatches(_ input: DescribeInstancePatchesRequest) -> EventLoopFuture<DescribeInstancePatchesResult> {
         return client.send(operation: "DescribeInstancePatches", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a specific delete inventory operation.
-    public func describeInventoryDeletions(_ input: DescribeInventoryDeletionsRequest) -> Future<DescribeInventoryDeletionsResult> {
+    public func describeInventoryDeletions(_ input: DescribeInventoryDeletionsRequest) -> EventLoopFuture<DescribeInventoryDeletionsResult> {
         return client.send(operation: "DescribeInventoryDeletions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution.
-    public func describeMaintenanceWindowExecutionTaskInvocations(_ input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest) -> Future<DescribeMaintenanceWindowExecutionTaskInvocationsResult> {
+    public func describeMaintenanceWindowExecutionTaskInvocations(_ input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest) -> EventLoopFuture<DescribeMaintenanceWindowExecutionTaskInvocationsResult> {
         return client.send(operation: "DescribeMaintenanceWindowExecutionTaskInvocations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  For a given maintenance window execution, lists the tasks that were run.
-    public func describeMaintenanceWindowExecutionTasks(_ input: DescribeMaintenanceWindowExecutionTasksRequest) -> Future<DescribeMaintenanceWindowExecutionTasksResult> {
+    public func describeMaintenanceWindowExecutionTasks(_ input: DescribeMaintenanceWindowExecutionTasksRequest) -> EventLoopFuture<DescribeMaintenanceWindowExecutionTasksResult> {
         return client.send(operation: "DescribeMaintenanceWindowExecutionTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window.
-    public func describeMaintenanceWindowExecutions(_ input: DescribeMaintenanceWindowExecutionsRequest) -> Future<DescribeMaintenanceWindowExecutionsResult> {
+    public func describeMaintenanceWindowExecutions(_ input: DescribeMaintenanceWindowExecutionsRequest) -> EventLoopFuture<DescribeMaintenanceWindowExecutionsResult> {
         return client.send(operation: "DescribeMaintenanceWindowExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about upcoming executions of a maintenance window.
-    public func describeMaintenanceWindowSchedule(_ input: DescribeMaintenanceWindowScheduleRequest) -> Future<DescribeMaintenanceWindowScheduleResult> {
+    public func describeMaintenanceWindowSchedule(_ input: DescribeMaintenanceWindowScheduleRequest) -> EventLoopFuture<DescribeMaintenanceWindowScheduleResult> {
         return client.send(operation: "DescribeMaintenanceWindowSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the targets registered with the maintenance window.
-    public func describeMaintenanceWindowTargets(_ input: DescribeMaintenanceWindowTargetsRequest) -> Future<DescribeMaintenanceWindowTargetsResult> {
+    public func describeMaintenanceWindowTargets(_ input: DescribeMaintenanceWindowTargetsRequest) -> EventLoopFuture<DescribeMaintenanceWindowTargetsResult> {
         return client.send(operation: "DescribeMaintenanceWindowTargets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the tasks in a maintenance window.
-    public func describeMaintenanceWindowTasks(_ input: DescribeMaintenanceWindowTasksRequest) -> Future<DescribeMaintenanceWindowTasksResult> {
+    public func describeMaintenanceWindowTasks(_ input: DescribeMaintenanceWindowTasksRequest) -> EventLoopFuture<DescribeMaintenanceWindowTasksResult> {
         return client.send(operation: "DescribeMaintenanceWindowTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the maintenance windows in an AWS account.
-    public func describeMaintenanceWindows(_ input: DescribeMaintenanceWindowsRequest) -> Future<DescribeMaintenanceWindowsResult> {
+    public func describeMaintenanceWindows(_ input: DescribeMaintenanceWindowsRequest) -> EventLoopFuture<DescribeMaintenanceWindowsResult> {
         return client.send(operation: "DescribeMaintenanceWindows", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about the maintenance window targets or tasks that an instance is associated with.
-    public func describeMaintenanceWindowsForTarget(_ input: DescribeMaintenanceWindowsForTargetRequest) -> Future<DescribeMaintenanceWindowsForTargetResult> {
+    public func describeMaintenanceWindowsForTarget(_ input: DescribeMaintenanceWindowsForTargetRequest) -> EventLoopFuture<DescribeMaintenanceWindowsForTargetResult> {
         return client.send(operation: "DescribeMaintenanceWindowsForTarget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Query a set of OpsItems. You must have permission in AWS Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide. 
-    public func describeOpsItems(_ input: DescribeOpsItemsRequest) -> Future<DescribeOpsItemsResponse> {
+    public func describeOpsItems(_ input: DescribeOpsItemsRequest) -> EventLoopFuture<DescribeOpsItemsResponse> {
         return client.send(operation: "DescribeOpsItems", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Get information about a parameter.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
-    public func describeParameters(_ input: DescribeParametersRequest) -> Future<DescribeParametersResult> {
+    public func describeParameters(_ input: DescribeParametersRequest) -> EventLoopFuture<DescribeParametersResult> {
         return client.send(operation: "DescribeParameters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the patch baselines in your AWS account.
-    public func describePatchBaselines(_ input: DescribePatchBaselinesRequest) -> Future<DescribePatchBaselinesResult> {
+    public func describePatchBaselines(_ input: DescribePatchBaselinesRequest) -> EventLoopFuture<DescribePatchBaselinesResult> {
         return client.send(operation: "DescribePatchBaselines", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns high-level aggregated patch compliance state for a patch group.
-    public func describePatchGroupState(_ input: DescribePatchGroupStateRequest) -> Future<DescribePatchGroupStateResult> {
+    public func describePatchGroupState(_ input: DescribePatchGroupStateRequest) -> EventLoopFuture<DescribePatchGroupStateResult> {
         return client.send(operation: "DescribePatchGroupState", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all patch groups that have been registered with patch baselines.
-    public func describePatchGroups(_ input: DescribePatchGroupsRequest) -> Future<DescribePatchGroupsResult> {
+    public func describePatchGroups(_ input: DescribePatchGroupsRequest) -> EventLoopFuture<DescribePatchGroupsResult> {
         return client.send(operation: "DescribePatchGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for actions such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  WINDOWS  Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY  AMAZON_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  AMAZON_LINUX_2  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  UBUNTU   Valid properties: PRODUCT, PRIORITY  REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  SUSE  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  CENTOS  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  
-    public func describePatchProperties(_ input: DescribePatchPropertiesRequest) -> Future<DescribePatchPropertiesResult> {
+    public func describePatchProperties(_ input: DescribePatchPropertiesRequest) -> EventLoopFuture<DescribePatchPropertiesResult> {
         return client.send(operation: "DescribePatchProperties", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of all active sessions (both connected and disconnected) or terminated sessions from the past 30 days.
-    public func describeSessions(_ input: DescribeSessionsRequest) -> Future<DescribeSessionsResponse> {
+    public func describeSessions(_ input: DescribeSessionsRequest) -> EventLoopFuture<DescribeSessionsResponse> {
         return client.send(operation: "DescribeSessions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Get detailed information about a particular Automation execution.
-    public func getAutomationExecution(_ input: GetAutomationExecutionRequest) -> Future<GetAutomationExecutionResult> {
+    public func getAutomationExecution(_ input: GetAutomationExecutionRequest) -> EventLoopFuture<GetAutomationExecutionResult> {
         return client.send(operation: "GetAutomationExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the state of the AWS Systems Manager Change Calendar at an optional, specified time. If you specify a time, GetCalendarState returns the state of the calendar at a specific time, and returns the next time that the Change Calendar state will transition. If you do not specify a time, GetCalendarState assumes the current time. Change Calendar entries have two possible states: OPEN or CLOSED. For more information about Systems Manager Change Calendar, see AWS Systems Manager Change Calendar in the AWS Systems Manager User Guide.
-    public func getCalendarState(_ input: GetCalendarStateRequest) -> Future<GetCalendarStateResponse> {
+    public func getCalendarState(_ input: GetCalendarStateRequest) -> EventLoopFuture<GetCalendarStateResponse> {
         return client.send(operation: "GetCalendarState", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns detailed information about command execution for an invocation or plugin. 
-    public func getCommandInvocation(_ input: GetCommandInvocationRequest) -> Future<GetCommandInvocationResult> {
+    public func getCommandInvocation(_ input: GetCommandInvocationRequest) -> EventLoopFuture<GetCommandInvocationResult> {
         return client.send(operation: "GetCommandInvocation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the Session Manager connection status for an instance to determine whether it is connected and ready to receive Session Manager connections.
-    public func getConnectionStatus(_ input: GetConnectionStatusRequest) -> Future<GetConnectionStatusResponse> {
+    public func getConnectionStatus(_ input: GetConnectionStatusRequest) -> EventLoopFuture<GetConnectionStatusResponse> {
         return client.send(operation: "GetConnectionStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the default patch baseline. Note that Systems Manager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system. If you do not specify an operating system value, the default patch baseline for Windows is returned.
-    public func getDefaultPatchBaseline(_ input: GetDefaultPatchBaselineRequest) -> Future<GetDefaultPatchBaselineResult> {
+    public func getDefaultPatchBaseline(_ input: GetDefaultPatchBaselineRequest) -> EventLoopFuture<GetDefaultPatchBaselineResult> {
         return client.send(operation: "GetDefaultPatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the current snapshot for the patch baseline the instance uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document. 
-    public func getDeployablePatchSnapshotForInstance(_ input: GetDeployablePatchSnapshotForInstanceRequest) -> Future<GetDeployablePatchSnapshotForInstanceResult> {
+    public func getDeployablePatchSnapshotForInstance(_ input: GetDeployablePatchSnapshotForInstanceRequest) -> EventLoopFuture<GetDeployablePatchSnapshotForInstanceResult> {
         return client.send(operation: "GetDeployablePatchSnapshotForInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the contents of the specified Systems Manager document.
-    public func getDocument(_ input: GetDocumentRequest) -> Future<GetDocumentResult> {
+    public func getDocument(_ input: GetDocumentRequest) -> EventLoopFuture<GetDocumentResult> {
         return client.send(operation: "GetDocument", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Query inventory information.
-    public func getInventory(_ input: GetInventoryRequest) -> Future<GetInventoryResult> {
+    public func getInventory(_ input: GetInventoryRequest) -> EventLoopFuture<GetInventoryResult> {
         return client.send(operation: "GetInventory", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Return a list of inventory type names for the account, or return a list of attribute names for a specific Inventory item type. 
-    public func getInventorySchema(_ input: GetInventorySchemaRequest) -> Future<GetInventorySchemaResult> {
+    public func getInventorySchema(_ input: GetInventorySchemaRequest) -> EventLoopFuture<GetInventorySchemaResult> {
         return client.send(operation: "GetInventorySchema", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a maintenance window.
-    public func getMaintenanceWindow(_ input: GetMaintenanceWindowRequest) -> Future<GetMaintenanceWindowResult> {
+    public func getMaintenanceWindow(_ input: GetMaintenanceWindowRequest) -> EventLoopFuture<GetMaintenanceWindowResult> {
         return client.send(operation: "GetMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves details about a specific a maintenance window execution.
-    public func getMaintenanceWindowExecution(_ input: GetMaintenanceWindowExecutionRequest) -> Future<GetMaintenanceWindowExecutionResult> {
+    public func getMaintenanceWindowExecution(_ input: GetMaintenanceWindowExecutionRequest) -> EventLoopFuture<GetMaintenanceWindowExecutionResult> {
         return client.send(operation: "GetMaintenanceWindowExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the details about a specific task run as part of a maintenance window execution.
-    public func getMaintenanceWindowExecutionTask(_ input: GetMaintenanceWindowExecutionTaskRequest) -> Future<GetMaintenanceWindowExecutionTaskResult> {
+    public func getMaintenanceWindowExecutionTask(_ input: GetMaintenanceWindowExecutionTaskRequest) -> EventLoopFuture<GetMaintenanceWindowExecutionTaskResult> {
         return client.send(operation: "GetMaintenanceWindowExecutionTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specific task running on a specific target.
-    public func getMaintenanceWindowExecutionTaskInvocation(_ input: GetMaintenanceWindowExecutionTaskInvocationRequest) -> Future<GetMaintenanceWindowExecutionTaskInvocationResult> {
+    public func getMaintenanceWindowExecutionTaskInvocation(_ input: GetMaintenanceWindowExecutionTaskInvocationRequest) -> EventLoopFuture<GetMaintenanceWindowExecutionTaskInvocationResult> {
         return client.send(operation: "GetMaintenanceWindowExecutionTaskInvocation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the tasks in a maintenance window.
-    public func getMaintenanceWindowTask(_ input: GetMaintenanceWindowTaskRequest) -> Future<GetMaintenanceWindowTaskResult> {
+    public func getMaintenanceWindowTask(_ input: GetMaintenanceWindowTaskRequest) -> EventLoopFuture<GetMaintenanceWindowTaskResult> {
         return client.send(operation: "GetMaintenanceWindowTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Get information about an OpsItem by using the ID. You must have permission in AWS Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide. 
-    public func getOpsItem(_ input: GetOpsItemRequest) -> Future<GetOpsItemResponse> {
+    public func getOpsItem(_ input: GetOpsItemRequest) -> EventLoopFuture<GetOpsItemResponse> {
         return client.send(operation: "GetOpsItem", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  View a summary of OpsItems based on specified filters and aggregators.
-    public func getOpsSummary(_ input: GetOpsSummaryRequest) -> Future<GetOpsSummaryResult> {
+    public func getOpsSummary(_ input: GetOpsSummaryRequest) -> EventLoopFuture<GetOpsSummaryResult> {
         return client.send(operation: "GetOpsSummary", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Get information about a parameter by using the parameter name. Don't confuse this API action with the GetParameters API action.
-    public func getParameter(_ input: GetParameterRequest) -> Future<GetParameterResult> {
+    public func getParameter(_ input: GetParameterRequest) -> EventLoopFuture<GetParameterResult> {
         return client.send(operation: "GetParameter", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Query a list of all parameters used by the AWS account.
-    public func getParameterHistory(_ input: GetParameterHistoryRequest) -> Future<GetParameterHistoryResult> {
+    public func getParameterHistory(_ input: GetParameterHistoryRequest) -> EventLoopFuture<GetParameterHistoryResult> {
         return client.send(operation: "GetParameterHistory", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Get details of a parameter. Don't confuse this API action with the GetParameter API action.
-    public func getParameters(_ input: GetParametersRequest) -> Future<GetParametersResult> {
+    public func getParameters(_ input: GetParametersRequest) -> EventLoopFuture<GetParametersResult> {
         return client.send(operation: "GetParameters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieve information about one or more parameters in a specific hierarchy.   Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
-    public func getParametersByPath(_ input: GetParametersByPathRequest) -> Future<GetParametersByPathResult> {
+    public func getParametersByPath(_ input: GetParametersByPathRequest) -> EventLoopFuture<GetParametersByPathResult> {
         return client.send(operation: "GetParametersByPath", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a patch baseline.
-    public func getPatchBaseline(_ input: GetPatchBaselineRequest) -> Future<GetPatchBaselineResult> {
+    public func getPatchBaseline(_ input: GetPatchBaselineRequest) -> EventLoopFuture<GetPatchBaselineResult> {
         return client.send(operation: "GetPatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the patch baseline that should be used for the specified patch group.
-    public func getPatchBaselineForPatchGroup(_ input: GetPatchBaselineForPatchGroupRequest) -> Future<GetPatchBaselineForPatchGroupResult> {
+    public func getPatchBaselineForPatchGroup(_ input: GetPatchBaselineForPatchGroupRequest) -> EventLoopFuture<GetPatchBaselineForPatchGroupResult> {
         return client.send(operation: "GetPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the UpdateServiceSetting API action to change the default setting. Or use the ResetServiceSetting to change the value back to the original value defined by the AWS service team. Query the current service setting for the account. 
-    public func getServiceSetting(_ input: GetServiceSettingRequest) -> Future<GetServiceSettingResult> {
+    public func getServiceSetting(_ input: GetServiceSettingRequest) -> EventLoopFuture<GetServiceSettingResult> {
         return client.send(operation: "GetServiceSetting", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions.  Parameter labels have the following requirements and restrictions.   A version of a parameter can have a maximum of 10 labels.   You can't attach the same label to different versions of the same parameter. For example, if version 1 has the label Production, then you can't attach Production to version 2.   You can move a label from one version of a parameter to another.   You can't create a label when you create a new parameter. You must attach a label to a specific version of a parameter.   You can't delete a parameter label. If you no longer want to use a parameter label, then you must move it to a different version of a parameter.   A label can have a maximum of 100 characters.   Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or underscores (_).   Labels can't begin with a number, "aws," or "ssm" (not case sensitive). If a label fails to meet these requirements, then the label is not associated with a parameter and the system displays it in the list of InvalidLabels.  
-    public func labelParameterVersion(_ input: LabelParameterVersionRequest) -> Future<LabelParameterVersionResult> {
+    public func labelParameterVersion(_ input: LabelParameterVersionRequest) -> EventLoopFuture<LabelParameterVersionResult> {
         return client.send(operation: "LabelParameterVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves all versions of an association for a specific association ID.
-    public func listAssociationVersions(_ input: ListAssociationVersionsRequest) -> Future<ListAssociationVersionsResult> {
+    public func listAssociationVersions(_ input: ListAssociationVersionsRequest) -> EventLoopFuture<ListAssociationVersionsResult> {
         return client.send(operation: "ListAssociationVersions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns all State Manager associations in the current AWS account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter.
-    public func listAssociations(_ input: ListAssociationsRequest) -> Future<ListAssociationsResult> {
+    public func listAssociations(_ input: ListAssociationsRequest) -> EventLoopFuture<ListAssociationsResult> {
         return client.send(operation: "ListAssociations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user runs SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.
-    public func listCommandInvocations(_ input: ListCommandInvocationsRequest) -> Future<ListCommandInvocationsResult> {
+    public func listCommandInvocations(_ input: ListCommandInvocationsRequest) -> EventLoopFuture<ListCommandInvocationsResult> {
         return client.send(operation: "ListCommandInvocations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the commands requested by users of the AWS account.
-    public func listCommands(_ input: ListCommandsRequest) -> Future<ListCommandsResult> {
+    public func listCommands(_ input: ListCommandsRequest) -> EventLoopFuture<ListCommandsResult> {
         return client.send(operation: "ListCommands", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  For a specified resource ID, this API action returns a list of compliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter. 
-    public func listComplianceItems(_ input: ListComplianceItemsRequest) -> Future<ListComplianceItemsResult> {
+    public func listComplianceItems(_ input: ListComplianceItemsRequest) -> EventLoopFuture<ListComplianceItemsResult> {
         return client.send(operation: "ListComplianceItems", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager associations, patches, or custom compliance types according to the filter criteria that you specify. 
-    public func listComplianceSummaries(_ input: ListComplianceSummariesRequest) -> Future<ListComplianceSummariesResult> {
+    public func listComplianceSummaries(_ input: ListComplianceSummariesRequest) -> EventLoopFuture<ListComplianceSummariesResult> {
         return client.send(operation: "ListComplianceSummaries", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  List all versions for a document.
-    public func listDocumentVersions(_ input: ListDocumentVersionsRequest) -> Future<ListDocumentVersionsResult> {
+    public func listDocumentVersions(_ input: ListDocumentVersionsRequest) -> EventLoopFuture<ListDocumentVersionsResult> {
         return client.send(operation: "ListDocumentVersions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns all Systems Manager (SSM) documents in the current AWS account and Region. You can limit the results of this request by using a filter.
-    public func listDocuments(_ input: ListDocumentsRequest) -> Future<ListDocumentsResult> {
+    public func listDocuments(_ input: ListDocumentsRequest) -> EventLoopFuture<ListDocumentsResult> {
         return client.send(operation: "ListDocuments", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  A list of inventory items returned by the request.
-    public func listInventoryEntries(_ input: ListInventoryEntriesRequest) -> Future<ListInventoryEntriesResult> {
+    public func listInventoryEntries(_ input: ListInventoryEntriesRequest) -> EventLoopFuture<ListInventoryEntriesResult> {
         return client.send(operation: "ListInventoryEntries", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a resource-level summary count. The summary includes information about compliant and non-compliant statuses and detailed compliance-item severity counts, according to the filter criteria you specify.
-    public func listResourceComplianceSummaries(_ input: ListResourceComplianceSummariesRequest) -> Future<ListResourceComplianceSummariesResult> {
+    public func listResourceComplianceSummaries(_ input: ListResourceComplianceSummariesRequest) -> EventLoopFuture<ListResourceComplianceSummariesResult> {
         return client.send(operation: "ListResourceComplianceSummaries", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists your resource data sync configurations. Includes information about the last time a sync attempted to start, the last sync status, and the last time a sync successfully completed. The number of sync configurations might be too large to return using a single call to ListResourceDataSync. You can limit the number of sync configurations returned by using the MaxResults parameter. To determine whether there are more sync configurations to list, check the value of NextToken in the output. If there are more sync configurations to list, you can request them by specifying the NextToken returned in the call to the parameter of a subsequent call. 
-    public func listResourceDataSync(_ input: ListResourceDataSyncRequest) -> Future<ListResourceDataSyncResult> {
+    public func listResourceDataSync(_ input: ListResourceDataSyncRequest) -> EventLoopFuture<ListResourceDataSyncResult> {
         return client.send(operation: "ListResourceDataSync", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of the tags assigned to the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResult> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResult> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Shares a Systems Manager document publicly or privately. If you share a document privately, you must specify the AWS user account IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID.
-    public func modifyDocumentPermission(_ input: ModifyDocumentPermissionRequest) -> Future<ModifyDocumentPermissionResponse> {
+    public func modifyDocumentPermission(_ input: ModifyDocumentPermissionRequest) -> EventLoopFuture<ModifyDocumentPermissionResponse> {
         return client.send(operation: "ModifyDocumentPermission", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers a compliance type and other compliance details on a designated resource. This action lets you register custom compliance details with a resource. This call overwrites existing compliance information on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following:   ExecutionId: The execution ID when the patch, association, or custom compliance item was applied.   ExecutionType: Specify patch, association, or Custom:string.   ExecutionTime. The time the patch, association, or custom compliance item was applied to the instance.   Id: The patch, association, or custom compliance ID.   Title: A title.   Status: The status of the compliance item. For example, approved for patches, or Failed for associations.   Severity: A patch severity. For example, critical.   DocumentName: A SSM document name. For example, AWS-RunPatchBaseline.   DocumentVersion: An SSM document version number. For example, 4.   Classification: A patch classification. For example, security updates.   PatchBaselineId: A patch baseline ID.   PatchSeverity: A patch severity. For example, Critical.   PatchState: A patch state. For example, InstancesWithFailedPatches.   PatchGroup: The name of a patch group.   InstalledTime: The time the association, patch, or custom compliance item was applied to the resource. Specify the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'  
-    public func putComplianceItems(_ input: PutComplianceItemsRequest) -> Future<PutComplianceItemsResult> {
+    public func putComplianceItems(_ input: PutComplianceItemsRequest) -> EventLoopFuture<PutComplianceItemsResult> {
         return client.send(operation: "PutComplianceItems", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Bulk update custom inventory items on one more instance. The request adds an inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
-    public func putInventory(_ input: PutInventoryRequest) -> Future<PutInventoryResult> {
+    public func putInventory(_ input: PutInventoryRequest) -> EventLoopFuture<PutInventoryResult> {
         return client.send(operation: "PutInventory", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Add a parameter to the system.
-    public func putParameter(_ input: PutParameterRequest) -> Future<PutParameterResult> {
+    public func putParameter(_ input: PutParameterRequest) -> EventLoopFuture<PutParameterResult> {
         return client.send(operation: "PutParameter", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Defines the default patch baseline for the relevant operating system. To reset the AWS predefined patch baseline as the default, specify the full patch baseline ARN as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed.
-    public func registerDefaultPatchBaseline(_ input: RegisterDefaultPatchBaselineRequest) -> Future<RegisterDefaultPatchBaselineResult> {
+    public func registerDefaultPatchBaseline(_ input: RegisterDefaultPatchBaselineRequest) -> EventLoopFuture<RegisterDefaultPatchBaselineResult> {
         return client.send(operation: "RegisterDefaultPatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers a patch baseline for a patch group.
-    public func registerPatchBaselineForPatchGroup(_ input: RegisterPatchBaselineForPatchGroupRequest) -> Future<RegisterPatchBaselineForPatchGroupResult> {
+    public func registerPatchBaselineForPatchGroup(_ input: RegisterPatchBaselineForPatchGroupRequest) -> EventLoopFuture<RegisterPatchBaselineForPatchGroupResult> {
         return client.send(operation: "RegisterPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers a target with a maintenance window.
-    public func registerTargetWithMaintenanceWindow(_ input: RegisterTargetWithMaintenanceWindowRequest) -> Future<RegisterTargetWithMaintenanceWindowResult> {
+    public func registerTargetWithMaintenanceWindow(_ input: RegisterTargetWithMaintenanceWindowRequest) -> EventLoopFuture<RegisterTargetWithMaintenanceWindowResult> {
         return client.send(operation: "RegisterTargetWithMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds a new task to a maintenance window.
-    public func registerTaskWithMaintenanceWindow(_ input: RegisterTaskWithMaintenanceWindowRequest) -> Future<RegisterTaskWithMaintenanceWindowResult> {
+    public func registerTaskWithMaintenanceWindow(_ input: RegisterTaskWithMaintenanceWindowRequest) -> EventLoopFuture<RegisterTaskWithMaintenanceWindowResult> {
         return client.send(operation: "RegisterTaskWithMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes tag keys from the specified resource.
-    public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest) -> Future<RemoveTagsFromResourceResult> {
+    public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest) -> EventLoopFuture<RemoveTagsFromResourceResult> {
         return client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the GetServiceSetting API action to view the current value. Use the UpdateServiceSetting API action to change the default setting.  Reset the service setting for the account to the default value as provisioned by the AWS service team. 
-    public func resetServiceSetting(_ input: ResetServiceSettingRequest) -> Future<ResetServiceSettingResult> {
+    public func resetServiceSetting(_ input: ResetServiceSettingRequest) -> EventLoopFuture<ResetServiceSettingResult> {
         return client.send(operation: "ResetServiceSetting", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Reconnects a session to an instance after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions.  This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It is not intended for any other use. 
-    public func resumeSession(_ input: ResumeSessionRequest) -> Future<ResumeSessionResponse> {
+    public func resumeSession(_ input: ResumeSessionRequest) -> EventLoopFuture<ResumeSessionResponse> {
         return client.send(operation: "ResumeSession", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sends a signal to an Automation execution to change the current behavior or status of the execution. 
-    public func sendAutomationSignal(_ input: SendAutomationSignalRequest) -> Future<SendAutomationSignalResult> {
+    public func sendAutomationSignal(_ input: SendAutomationSignalRequest) -> EventLoopFuture<SendAutomationSignalResult> {
         return client.send(operation: "SendAutomationSignal", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Runs commands on one or more managed instances.
-    public func sendCommand(_ input: SendCommandRequest) -> Future<SendCommandResult> {
+    public func sendCommand(_ input: SendCommandRequest) -> EventLoopFuture<SendCommandResult> {
         return client.send(operation: "SendCommand", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Use this API action to run an association immediately and only one time. This action can be helpful when troubleshooting associations.
-    public func startAssociationsOnce(_ input: StartAssociationsOnceRequest) -> Future<StartAssociationsOnceResult> {
+    public func startAssociationsOnce(_ input: StartAssociationsOnceRequest) -> EventLoopFuture<StartAssociationsOnceResult> {
         return client.send(operation: "StartAssociationsOnce", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Initiates execution of an Automation document.
-    public func startAutomationExecution(_ input: StartAutomationExecutionRequest) -> Future<StartAutomationExecutionResult> {
+    public func startAutomationExecution(_ input: StartAutomationExecutionRequest) -> EventLoopFuture<StartAutomationExecutionResult> {
         return client.send(operation: "StartAutomationExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Initiates a connection to a target (for example, an instance) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs.  AWS CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see  Install the Session Manager Plugin for the AWS CLI in the AWS Systems Manager User Guide. AWS Tools for PowerShell usage: Start-SSMSession is not currently supported by AWS Tools for PowerShell on Windows local machines. 
-    public func startSession(_ input: StartSessionRequest) -> Future<StartSessionResponse> {
+    public func startSession(_ input: StartSessionRequest) -> EventLoopFuture<StartSessionResponse> {
         return client.send(operation: "StartSession", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stop an Automation that is currently running.
-    public func stopAutomationExecution(_ input: StopAutomationExecutionRequest) -> Future<StopAutomationExecutionResult> {
+    public func stopAutomationExecution(_ input: StopAutomationExecutionRequest) -> EventLoopFuture<StopAutomationExecutionResult> {
         return client.send(operation: "StopAutomationExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Permanently ends a session and closes the data connection between the Session Manager client and SSM Agent on the instance. A terminated session cannot be resumed.
-    public func terminateSession(_ input: TerminateSessionRequest) -> Future<TerminateSessionResponse> {
+    public func terminateSession(_ input: TerminateSessionRequest) -> EventLoopFuture<TerminateSessionResponse> {
         return client.send(operation: "TerminateSession", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon S3 output.  In order to call this API action, your IAM user account, group, or role must be configured with permission to call the DescribeAssociation API action. If you don't have permission to call DescribeAssociation, then you receive the following error: An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User: &lt;user_arn&gt; is not authorized to perform: ssm:DescribeAssociation on resource: &lt;resource_arn&gt;   When you update an association, the association immediately runs against the specified targets. 
-    public func updateAssociation(_ input: UpdateAssociationRequest) -> Future<UpdateAssociationResult> {
+    public func updateAssociation(_ input: UpdateAssociationRequest) -> EventLoopFuture<UpdateAssociationResult> {
         return client.send(operation: "UpdateAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the status of the Systems Manager document associated with the specified instance.
-    public func updateAssociationStatus(_ input: UpdateAssociationStatusRequest) -> Future<UpdateAssociationStatusResult> {
+    public func updateAssociationStatus(_ input: UpdateAssociationStatusRequest) -> EventLoopFuture<UpdateAssociationStatusResult> {
         return client.send(operation: "UpdateAssociationStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates one or more values for an SSM document.
-    public func updateDocument(_ input: UpdateDocumentRequest) -> Future<UpdateDocumentResult> {
+    public func updateDocument(_ input: UpdateDocumentRequest) -> EventLoopFuture<UpdateDocumentResult> {
         return client.send(operation: "UpdateDocument", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Set the default version of a document. 
-    public func updateDocumentDefaultVersion(_ input: UpdateDocumentDefaultVersionRequest) -> Future<UpdateDocumentDefaultVersionResult> {
+    public func updateDocumentDefaultVersion(_ input: UpdateDocumentDefaultVersionRequest) -> EventLoopFuture<UpdateDocumentDefaultVersionResult> {
         return client.send(operation: "UpdateDocumentDefaultVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing maintenance window. Only specified parameters are modified.  The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM. 
-    public func updateMaintenanceWindow(_ input: UpdateMaintenanceWindowRequest) -> Future<UpdateMaintenanceWindowResult> {
+    public func updateMaintenanceWindow(_ input: UpdateMaintenanceWindowRequest) -> EventLoopFuture<UpdateMaintenanceWindowResult> {
         return client.send(operation: "UpdateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the target of an existing maintenance window. You can change the following:   Name   Description   Owner   IDs for an ID target   Tags for a Tag target   From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target.    If a parameter is null, then the corresponding field is not modified. 
-    public func updateMaintenanceWindowTarget(_ input: UpdateMaintenanceWindowTargetRequest) -> Future<UpdateMaintenanceWindowTargetResult> {
+    public func updateMaintenanceWindowTarget(_ input: UpdateMaintenanceWindowTargetRequest) -> EventLoopFuture<UpdateMaintenanceWindowTargetResult> {
         return client.send(operation: "UpdateMaintenanceWindowTarget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies a task assigned to a maintenance window. You can't change the task type, but you can change the following values:   TaskARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript.   ServiceRoleArn   TaskInvocationParameters   Priority   MaxConcurrency   MaxErrors   If a parameter is null, then the corresponding field is not modified. Also, if you set Replace to true, then all fields required by the RegisterTaskWithMaintenanceWindow action are required for this request. Optional fields that aren't specified are set to null.
-    public func updateMaintenanceWindowTask(_ input: UpdateMaintenanceWindowTaskRequest) -> Future<UpdateMaintenanceWindowTaskResult> {
+    public func updateMaintenanceWindowTask(_ input: UpdateMaintenanceWindowTaskRequest) -> EventLoopFuture<UpdateMaintenanceWindowTaskResult> {
         return client.send(operation: "UpdateMaintenanceWindowTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Assigns or changes an Amazon Identity and Access Management (IAM) role for the managed instance.
-    public func updateManagedInstanceRole(_ input: UpdateManagedInstanceRoleRequest) -> Future<UpdateManagedInstanceRoleResult> {
+    public func updateManagedInstanceRole(_ input: UpdateManagedInstanceRoleRequest) -> EventLoopFuture<UpdateManagedInstanceRoleResult> {
         return client.send(operation: "UpdateManagedInstanceRole", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Edit or change an OpsItem. You must have permission in AWS Identity and Access Management (IAM) to update an OpsItem. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide. 
-    public func updateOpsItem(_ input: UpdateOpsItemRequest) -> Future<UpdateOpsItemResponse> {
+    public func updateOpsItem(_ input: UpdateOpsItemRequest) -> EventLoopFuture<UpdateOpsItemResponse> {
         return client.send(operation: "UpdateOpsItem", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies an existing patch baseline. Fields not specified in the request are left unchanged.  For information about valid key and value pairs in PatchFilters for each supported operating system type, see PatchFilter. 
-    public func updatePatchBaseline(_ input: UpdatePatchBaselineRequest) -> Future<UpdatePatchBaselineResult> {
+    public func updatePatchBaseline(_ input: UpdatePatchBaselineRequest) -> EventLoopFuture<UpdatePatchBaselineResult> {
         return client.send(operation: "UpdatePatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Update a resource data sync. After you create a resource data sync for a Region, you can't change the account options for that sync. For example, if you create a sync in the us-east-2 (Ohio) Region and you choose the Include only the current account option, you can't edit that sync later and choose the Include all accounts from my AWS Organizations configuration option. Instead, you must delete the first resource data sync, and create a new one.
-    public func updateResourceDataSync(_ input: UpdateResourceDataSyncRequest) -> Future<UpdateResourceDataSyncResult> {
+    public func updateResourceDataSync(_ input: UpdateResourceDataSyncRequest) -> EventLoopFuture<UpdateResourceDataSyncResult> {
         return client.send(operation: "UpdateResourceDataSync", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the GetServiceSetting API action to view the current value. Or, use the ResetServiceSetting to change the value back to the original value defined by the AWS service team. Update the service setting for the account. 
-    public func updateServiceSetting(_ input: UpdateServiceSettingRequest) -> Future<UpdateServiceSettingResult> {
+    public func updateServiceSetting(_ input: UpdateServiceSettingRequest) -> EventLoopFuture<UpdateServiceSettingResult> {
         return client.send(operation: "UpdateServiceSetting", path: "/", httpMethod: "POST", input: input)
     }
 }

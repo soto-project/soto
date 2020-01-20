@@ -28,47 +28,47 @@ public struct Polly {
     }
 
     ///  Deletes the specified pronunciation lexicon stored in an AWS Region. A lexicon which has been deleted is not available for speech synthesis, nor is it possible to retrieve it using either the GetLexicon or ListLexicon APIs. For more information, see Managing Lexicons.
-    public func deleteLexicon(_ input: DeleteLexiconInput) -> Future<DeleteLexiconOutput> {
+    public func deleteLexicon(_ input: DeleteLexiconInput) -> EventLoopFuture<DeleteLexiconOutput> {
         return client.send(operation: "DeleteLexicon", path: "/v1/lexicons/{LexiconName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns the list of voices that are available for use when requesting speech synthesis. Each voice speaks a specified language, is either male or female, and is identified by an ID, which is the ASCII version of the voice name.  When synthesizing speech ( SynthesizeSpeech ), you provide the voice ID for the voice you want from the list of voices returned by DescribeVoices. For example, you want your news reader application to read news in a specific language, but giving a user the option to choose the voice. Using the DescribeVoices operation you can provide the user with a list of available voices to select from.  You can optionally specify a language code to filter the available voices. For example, if you specify en-US, the operation returns a list of all available US English voices.  This operation requires permissions to perform the polly:DescribeVoices action.
-    public func describeVoices(_ input: DescribeVoicesInput) -> Future<DescribeVoicesOutput> {
+    public func describeVoices(_ input: DescribeVoicesInput) -> EventLoopFuture<DescribeVoicesOutput> {
         return client.send(operation: "DescribeVoices", path: "/v1/voices", httpMethod: "GET", input: input)
     }
 
     ///  Returns the content of the specified pronunciation lexicon stored in an AWS Region. For more information, see Managing Lexicons.
-    public func getLexicon(_ input: GetLexiconInput) -> Future<GetLexiconOutput> {
+    public func getLexicon(_ input: GetLexiconInput) -> EventLoopFuture<GetLexiconOutput> {
         return client.send(operation: "GetLexicon", path: "/v1/lexicons/{LexiconName}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves a specific SpeechSynthesisTask object based on its TaskID. This object contains information about the given speech synthesis task, including the status of the task, and a link to the S3 bucket containing the output of the task.
-    public func getSpeechSynthesisTask(_ input: GetSpeechSynthesisTaskInput) -> Future<GetSpeechSynthesisTaskOutput> {
+    public func getSpeechSynthesisTask(_ input: GetSpeechSynthesisTaskInput) -> EventLoopFuture<GetSpeechSynthesisTaskOutput> {
         return client.send(operation: "GetSpeechSynthesisTask", path: "/v1/synthesisTasks/{TaskId}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of pronunciation lexicons stored in an AWS Region. For more information, see Managing Lexicons.
-    public func listLexicons(_ input: ListLexiconsInput) -> Future<ListLexiconsOutput> {
+    public func listLexicons(_ input: ListLexiconsInput) -> EventLoopFuture<ListLexiconsOutput> {
         return client.send(operation: "ListLexicons", path: "/v1/lexicons", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of SpeechSynthesisTask objects ordered by their creation date. This operation can filter the tasks by their status, for example, allowing users to list only tasks that are completed.
-    public func listSpeechSynthesisTasks(_ input: ListSpeechSynthesisTasksInput) -> Future<ListSpeechSynthesisTasksOutput> {
+    public func listSpeechSynthesisTasks(_ input: ListSpeechSynthesisTasksInput) -> EventLoopFuture<ListSpeechSynthesisTasksOutput> {
         return client.send(operation: "ListSpeechSynthesisTasks", path: "/v1/synthesisTasks", httpMethod: "GET", input: input)
     }
 
     ///  Stores a pronunciation lexicon in an AWS Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. For more information, see Managing Lexicons.
-    public func putLexicon(_ input: PutLexiconInput) -> Future<PutLexiconOutput> {
+    public func putLexicon(_ input: PutLexiconInput) -> EventLoopFuture<PutLexiconOutput> {
         return client.send(operation: "PutLexicon", path: "/v1/lexicons/{LexiconName}", httpMethod: "PUT", input: input)
     }
 
     ///  Allows the creation of an asynchronous synthesis task, by starting a new SpeechSynthesisTask. This operation requires all the standard information needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn). Once the synthesis task is created, this operation will return a SpeechSynthesisTask object, which will include an identifier of this task as well as the current status.
-    public func startSpeechSynthesisTask(_ input: StartSpeechSynthesisTaskInput) -> Future<StartSpeechSynthesisTaskOutput> {
+    public func startSpeechSynthesisTask(_ input: StartSpeechSynthesisTaskInput) -> EventLoopFuture<StartSpeechSynthesisTaskOutput> {
         return client.send(operation: "StartSpeechSynthesisTask", path: "/v1/synthesisTasks", httpMethod: "POST", input: input)
     }
 
     ///  Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see How it Works.
-    public func synthesizeSpeech(_ input: SynthesizeSpeechInput) -> Future<SynthesizeSpeechOutput> {
+    public func synthesizeSpeech(_ input: SynthesizeSpeechInput) -> EventLoopFuture<SynthesizeSpeechOutput> {
         return client.send(operation: "SynthesizeSpeech", path: "/v1/speech", httpMethod: "POST", input: input)
     }
 }

@@ -28,145 +28,145 @@ public struct Schemas {
     }
 
     ///  Creates a discoverer.
-    public func createDiscoverer(_ input: CreateDiscovererRequest) -> Future<CreateDiscovererResponse> {
+    public func createDiscoverer(_ input: CreateDiscovererRequest) -> EventLoopFuture<CreateDiscovererResponse> {
         return client.send(operation: "CreateDiscoverer", path: "/v1/discoverers", httpMethod: "POST", input: input)
     }
 
     ///  Creates a registry.
-    public func createRegistry(_ input: CreateRegistryRequest) -> Future<CreateRegistryResponse> {
+    public func createRegistry(_ input: CreateRegistryRequest) -> EventLoopFuture<CreateRegistryResponse> {
         return client.send(operation: "CreateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a schema definition.
-    public func createSchema(_ input: CreateSchemaRequest) -> Future<CreateSchemaResponse> {
+    public func createSchema(_ input: CreateSchemaRequest) -> EventLoopFuture<CreateSchemaResponse> {
         return client.send(operation: "CreateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a discoverer.
-    @discardableResult public func deleteDiscoverer(_ input: DeleteDiscovererRequest) -> Future<Void> {
+    @discardableResult public func deleteDiscoverer(_ input: DeleteDiscovererRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDiscoverer", path: "/v1/discoverers/id/{discovererId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Registry.
-    @discardableResult public func deleteRegistry(_ input: DeleteRegistryRequest) -> Future<Void> {
+    @discardableResult public func deleteRegistry(_ input: DeleteRegistryRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete a schema definition.
-    @discardableResult public func deleteSchema(_ input: DeleteSchemaRequest) -> Future<Void> {
+    @discardableResult public func deleteSchema(_ input: DeleteSchemaRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete the schema version definition
-    @discardableResult public func deleteSchemaVersion(_ input: DeleteSchemaVersionRequest) -> Future<Void> {
+    @discardableResult public func deleteSchemaVersion(_ input: DeleteSchemaVersionRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteSchemaVersion", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/version/{schemaVersion}", httpMethod: "DELETE", input: input)
     }
 
     ///  Describe the code binding URI.
-    public func describeCodeBinding(_ input: DescribeCodeBindingRequest) -> Future<DescribeCodeBindingResponse> {
+    public func describeCodeBinding(_ input: DescribeCodeBindingRequest) -> EventLoopFuture<DescribeCodeBindingResponse> {
         return client.send(operation: "DescribeCodeBinding", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", httpMethod: "GET", input: input)
     }
 
     ///  Describes the discoverer.
-    public func describeDiscoverer(_ input: DescribeDiscovererRequest) -> Future<DescribeDiscovererResponse> {
+    public func describeDiscoverer(_ input: DescribeDiscovererRequest) -> EventLoopFuture<DescribeDiscovererResponse> {
         return client.send(operation: "DescribeDiscoverer", path: "/v1/discoverers/id/{discovererId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes the registry.
-    public func describeRegistry(_ input: DescribeRegistryRequest) -> Future<DescribeRegistryResponse> {
+    public func describeRegistry(_ input: DescribeRegistryRequest) -> EventLoopFuture<DescribeRegistryResponse> {
         return client.send(operation: "DescribeRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieve the schema definition.
-    public func describeSchema(_ input: DescribeSchemaRequest) -> Future<DescribeSchemaResponse> {
+    public func describeSchema(_ input: DescribeSchemaRequest) -> EventLoopFuture<DescribeSchemaResponse> {
         return client.send(operation: "DescribeSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: "GET", input: input)
     }
 
     ///  Get the code binding source URI.
-    public func getCodeBindingSource(_ input: GetCodeBindingSourceRequest) -> Future<GetCodeBindingSourceResponse> {
+    public func getCodeBindingSource(_ input: GetCodeBindingSourceRequest) -> EventLoopFuture<GetCodeBindingSourceResponse> {
         return client.send(operation: "GetCodeBindingSource", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}/source", httpMethod: "GET", input: input)
     }
 
     ///  Get the discovered schema that was generated based on sampled events.
-    public func getDiscoveredSchema(_ input: GetDiscoveredSchemaRequest) -> Future<GetDiscoveredSchemaResponse> {
+    public func getDiscoveredSchema(_ input: GetDiscoveredSchemaRequest) -> EventLoopFuture<GetDiscoveredSchemaResponse> {
         return client.send(operation: "GetDiscoveredSchema", path: "/v1/discover", httpMethod: "POST", input: input)
     }
 
     ///  List the discoverers.
-    public func listDiscoverers(_ input: ListDiscoverersRequest) -> Future<ListDiscoverersResponse> {
+    public func listDiscoverers(_ input: ListDiscoverersRequest) -> EventLoopFuture<ListDiscoverersResponse> {
         return client.send(operation: "ListDiscoverers", path: "/v1/discoverers", httpMethod: "GET", input: input)
     }
 
     ///  List the registries.
-    public func listRegistries(_ input: ListRegistriesRequest) -> Future<ListRegistriesResponse> {
+    public func listRegistries(_ input: ListRegistriesRequest) -> EventLoopFuture<ListRegistriesResponse> {
         return client.send(operation: "ListRegistries", path: "/v1/registries", httpMethod: "GET", input: input)
     }
 
     ///  Provides a list of the schema versions and related information.
-    public func listSchemaVersions(_ input: ListSchemaVersionsRequest) -> Future<ListSchemaVersionsResponse> {
+    public func listSchemaVersions(_ input: ListSchemaVersionsRequest) -> EventLoopFuture<ListSchemaVersionsResponse> {
         return client.send(operation: "ListSchemaVersions", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/versions", httpMethod: "GET", input: input)
     }
 
     ///  List the schemas.
-    public func listSchemas(_ input: ListSchemasRequest) -> Future<ListSchemasResponse> {
+    public func listSchemas(_ input: ListSchemasRequest) -> EventLoopFuture<ListSchemasResponse> {
         return client.send(operation: "ListSchemas", path: "/v1/registries/name/{registryName}/schemas", httpMethod: "GET", input: input)
     }
 
     ///  Get tags for resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
 
-    public func lockServiceLinkedRole(_ input: LockServiceLinkedRoleRequest) -> Future<LockServiceLinkedRoleResponse> {
+    public func lockServiceLinkedRole(_ input: LockServiceLinkedRoleRequest) -> EventLoopFuture<LockServiceLinkedRoleResponse> {
         return client.send(operation: "LockServiceLinkedRole", path: "/slr-deletion/lock", httpMethod: "POST", input: input)
     }
 
     ///  Put code binding URI
-    public func putCodeBinding(_ input: PutCodeBindingRequest) -> Future<PutCodeBindingResponse> {
+    public func putCodeBinding(_ input: PutCodeBindingRequest) -> EventLoopFuture<PutCodeBindingResponse> {
         return client.send(operation: "PutCodeBinding", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", httpMethod: "POST", input: input)
     }
 
     ///  Search the schemas
-    public func searchSchemas(_ input: SearchSchemasRequest) -> Future<SearchSchemasResponse> {
+    public func searchSchemas(_ input: SearchSchemasRequest) -> EventLoopFuture<SearchSchemasResponse> {
         return client.send(operation: "SearchSchemas", path: "/v1/registries/name/{registryName}/schemas/search", httpMethod: "GET", input: input)
     }
 
     ///  Starts the discoverer
-    public func startDiscoverer(_ input: StartDiscovererRequest) -> Future<StartDiscovererResponse> {
+    public func startDiscoverer(_ input: StartDiscovererRequest) -> EventLoopFuture<StartDiscovererResponse> {
         return client.send(operation: "StartDiscoverer", path: "/v1/discoverers/id/{discovererId}/start", httpMethod: "POST", input: input)
     }
 
     ///  Stops the discoverer
-    public func stopDiscoverer(_ input: StopDiscovererRequest) -> Future<StopDiscovererResponse> {
+    public func stopDiscoverer(_ input: StopDiscovererRequest) -> EventLoopFuture<StopDiscovererResponse> {
         return client.send(operation: "StopDiscoverer", path: "/v1/discoverers/id/{discovererId}/stop", httpMethod: "POST", input: input)
     }
 
     ///  Add tags to a resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
-    public func unlockServiceLinkedRole(_ input: UnlockServiceLinkedRoleRequest) -> Future<UnlockServiceLinkedRoleResponse> {
+    public func unlockServiceLinkedRole(_ input: UnlockServiceLinkedRoleRequest) -> EventLoopFuture<UnlockServiceLinkedRoleResponse> {
         return client.send(operation: "UnlockServiceLinkedRole", path: "/slr-deletion/unlock", httpMethod: "POST", input: input)
     }
 
     ///  Removes tags from a resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates the discoverer
-    public func updateDiscoverer(_ input: UpdateDiscovererRequest) -> Future<UpdateDiscovererResponse> {
+    public func updateDiscoverer(_ input: UpdateDiscovererRequest) -> EventLoopFuture<UpdateDiscovererResponse> {
         return client.send(operation: "UpdateDiscoverer", path: "/v1/discoverers/id/{discovererId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates a registry.
-    public func updateRegistry(_ input: UpdateRegistryRequest) -> Future<UpdateRegistryResponse> {
+    public func updateRegistry(_ input: UpdateRegistryRequest) -> EventLoopFuture<UpdateRegistryResponse> {
         return client.send(operation: "UpdateRegistry", path: "/v1/registries/name/{registryName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the schema definition
-    public func updateSchema(_ input: UpdateSchemaRequest) -> Future<UpdateSchemaResponse> {
+    public func updateSchema(_ input: UpdateSchemaRequest) -> EventLoopFuture<UpdateSchemaResponse> {
         return client.send(operation: "UpdateSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: "PUT", input: input)
     }
 }

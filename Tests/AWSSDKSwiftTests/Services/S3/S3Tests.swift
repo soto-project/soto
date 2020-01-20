@@ -278,11 +278,11 @@ class S3Tests: XCTestCase {
         }
     }
 
-    func listObjects(bucket : String, count: Int) -> Future<[S3.Object]> {
+    func listObjects(bucket : String, count: Int) -> EventLoopFuture<[S3.Object]> {
         var list : [S3.Object] = []
-        func listObjectsPart(token: String? = nil) -> Future<[S3.Object]> {
+        func listObjectsPart(token: String? = nil) -> EventLoopFuture<[S3.Object]> {
             let request = S3.ListObjectsV2Request(bucket: bucket, continuationToken: token, maxKeys: count)
-            let objects = client.listObjectsV2(request).flatMap { response -> Future<[S3.Object]> in
+            let objects = client.listObjectsV2(request).flatMap { response -> EventLoopFuture<[S3.Object]> in
                 if let contents = response.contents {
                     list.append(contentsOf: contents)
                 }

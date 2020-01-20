@@ -29,617 +29,617 @@ public struct Glue {
     }
 
     ///  Creates one or more partitions in a batch operation.
-    public func batchCreatePartition(_ input: BatchCreatePartitionRequest) -> Future<BatchCreatePartitionResponse> {
+    public func batchCreatePartition(_ input: BatchCreatePartitionRequest) -> EventLoopFuture<BatchCreatePartitionResponse> {
         return client.send(operation: "BatchCreatePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a list of connection definitions from the Data Catalog.
-    public func batchDeleteConnection(_ input: BatchDeleteConnectionRequest) -> Future<BatchDeleteConnectionResponse> {
+    public func batchDeleteConnection(_ input: BatchDeleteConnectionRequest) -> EventLoopFuture<BatchDeleteConnectionResponse> {
         return client.send(operation: "BatchDeleteConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes one or more partitions in a batch operation.
-    public func batchDeletePartition(_ input: BatchDeletePartitionRequest) -> Future<BatchDeletePartitionResponse> {
+    public func batchDeletePartition(_ input: BatchDeletePartitionRequest) -> EventLoopFuture<BatchDeletePartitionResponse> {
         return client.send(operation: "BatchDeletePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes multiple tables at once.  After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
-    public func batchDeleteTable(_ input: BatchDeleteTableRequest) -> Future<BatchDeleteTableResponse> {
+    public func batchDeleteTable(_ input: BatchDeleteTableRequest) -> EventLoopFuture<BatchDeleteTableResponse> {
         return client.send(operation: "BatchDeleteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified batch of versions of a table.
-    public func batchDeleteTableVersion(_ input: BatchDeleteTableVersionRequest) -> Future<BatchDeleteTableVersionResponse> {
+    public func batchDeleteTableVersion(_ input: BatchDeleteTableVersionRequest) -> EventLoopFuture<BatchDeleteTableVersionResponse> {
         return client.send(operation: "BatchDeleteTableVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetCrawlers(_ input: BatchGetCrawlersRequest) -> Future<BatchGetCrawlersResponse> {
+    public func batchGetCrawlers(_ input: BatchGetCrawlersRequest) -> EventLoopFuture<BatchGetCrawlersResponse> {
         return client.send(operation: "BatchGetCrawlers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest) -> Future<BatchGetDevEndpointsResponse> {
+    public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest) -> EventLoopFuture<BatchGetDevEndpointsResponse> {
         return client.send(operation: "BatchGetDevEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. 
-    public func batchGetJobs(_ input: BatchGetJobsRequest) -> Future<BatchGetJobsResponse> {
+    public func batchGetJobs(_ input: BatchGetJobsRequest) -> EventLoopFuture<BatchGetJobsResponse> {
         return client.send(operation: "BatchGetJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves partitions in a batch request.
-    public func batchGetPartition(_ input: BatchGetPartitionRequest) -> Future<BatchGetPartitionResponse> {
+    public func batchGetPartition(_ input: BatchGetPartitionRequest) -> EventLoopFuture<BatchGetPartitionResponse> {
         return client.send(operation: "BatchGetPartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetTriggers(_ input: BatchGetTriggersRequest) -> Future<BatchGetTriggersResponse> {
+    public func batchGetTriggers(_ input: BatchGetTriggersRequest) -> EventLoopFuture<BatchGetTriggersResponse> {
         return client.send(operation: "BatchGetTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetWorkflows(_ input: BatchGetWorkflowsRequest) -> Future<BatchGetWorkflowsResponse> {
+    public func batchGetWorkflows(_ input: BatchGetWorkflowsRequest) -> EventLoopFuture<BatchGetWorkflowsResponse> {
         return client.send(operation: "BatchGetWorkflows", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops one or more job runs for a specified job definition.
-    public func batchStopJobRun(_ input: BatchStopJobRunRequest) -> Future<BatchStopJobRunResponse> {
+    public func batchStopJobRun(_ input: BatchStopJobRunRequest) -> EventLoopFuture<BatchStopJobRunResponse> {
         return client.send(operation: "BatchStopJobRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId. 
-    public func cancelMLTaskRun(_ input: CancelMLTaskRunRequest) -> Future<CancelMLTaskRunResponse> {
+    public func cancelMLTaskRun(_ input: CancelMLTaskRunRequest) -> EventLoopFuture<CancelMLTaskRunResponse> {
         return client.send(operation: "CancelMLTaskRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
-    public func createClassifier(_ input: CreateClassifierRequest) -> Future<CreateClassifierResponse> {
+    public func createClassifier(_ input: CreateClassifierRequest) -> EventLoopFuture<CreateClassifierResponse> {
         return client.send(operation: "CreateClassifier", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a connection definition in the Data Catalog.
-    public func createConnection(_ input: CreateConnectionRequest) -> Future<CreateConnectionResponse> {
+    public func createConnection(_ input: CreateConnectionRequest) -> EventLoopFuture<CreateConnectionResponse> {
         return client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
-    public func createCrawler(_ input: CreateCrawlerRequest) -> Future<CreateCrawlerResponse> {
+    public func createCrawler(_ input: CreateCrawlerRequest) -> EventLoopFuture<CreateCrawlerResponse> {
         return client.send(operation: "CreateCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new database in a Data Catalog.
-    public func createDatabase(_ input: CreateDatabaseRequest) -> Future<CreateDatabaseResponse> {
+    public func createDatabase(_ input: CreateDatabaseRequest) -> EventLoopFuture<CreateDatabaseResponse> {
         return client.send(operation: "CreateDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new development endpoint.
-    public func createDevEndpoint(_ input: CreateDevEndpointRequest) -> Future<CreateDevEndpointResponse> {
+    public func createDevEndpoint(_ input: CreateDevEndpointRequest) -> EventLoopFuture<CreateDevEndpointResponse> {
         return client.send(operation: "CreateDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new job definition.
-    public func createJob(_ input: CreateJobRequest) -> Future<CreateJobResponse> {
+    public func createJob(_ input: CreateJobRequest) -> EventLoopFuture<CreateJobResponse> {
         return client.send(operation: "CreateJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description, in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that AWS Glue runs on your behalf as part of learning from your data and creating a high-quality machine learning transform. These parameters include Role, and optionally, AllocatedCapacity, Timeout, and MaxRetries. For more information, see Jobs.
-    public func createMLTransform(_ input: CreateMLTransformRequest) -> Future<CreateMLTransformResponse> {
+    public func createMLTransform(_ input: CreateMLTransformRequest) -> EventLoopFuture<CreateMLTransformResponse> {
         return client.send(operation: "CreateMLTransform", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new partition.
-    public func createPartition(_ input: CreatePartitionRequest) -> Future<CreatePartitionResponse> {
+    public func createPartition(_ input: CreatePartitionRequest) -> EventLoopFuture<CreatePartitionResponse> {
         return client.send(operation: "CreatePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Transforms a directed acyclic graph (DAG) into code.
-    public func createScript(_ input: CreateScriptRequest) -> Future<CreateScriptResponse> {
+    public func createScript(_ input: CreateScriptRequest) -> EventLoopFuture<CreateScriptResponse> {
         return client.send(operation: "CreateScript", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new security configuration. A security configuration is a set of security properties that can be used by AWS Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in AWS Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
-    public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest) -> Future<CreateSecurityConfigurationResponse> {
+    public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest) -> EventLoopFuture<CreateSecurityConfigurationResponse> {
         return client.send(operation: "CreateSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new table definition in the Data Catalog.
-    public func createTable(_ input: CreateTableRequest) -> Future<CreateTableResponse> {
+    public func createTable(_ input: CreateTableRequest) -> EventLoopFuture<CreateTableResponse> {
         return client.send(operation: "CreateTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new trigger.
-    public func createTrigger(_ input: CreateTriggerRequest) -> Future<CreateTriggerResponse> {
+    public func createTrigger(_ input: CreateTriggerRequest) -> EventLoopFuture<CreateTriggerResponse> {
         return client.send(operation: "CreateTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new function definition in the Data Catalog.
-    public func createUserDefinedFunction(_ input: CreateUserDefinedFunctionRequest) -> Future<CreateUserDefinedFunctionResponse> {
+    public func createUserDefinedFunction(_ input: CreateUserDefinedFunctionRequest) -> EventLoopFuture<CreateUserDefinedFunctionResponse> {
         return client.send(operation: "CreateUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new workflow.
-    public func createWorkflow(_ input: CreateWorkflowRequest) -> Future<CreateWorkflowResponse> {
+    public func createWorkflow(_ input: CreateWorkflowRequest) -> EventLoopFuture<CreateWorkflowResponse> {
         return client.send(operation: "CreateWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a classifier from the Data Catalog.
-    public func deleteClassifier(_ input: DeleteClassifierRequest) -> Future<DeleteClassifierResponse> {
+    public func deleteClassifier(_ input: DeleteClassifierRequest) -> EventLoopFuture<DeleteClassifierResponse> {
         return client.send(operation: "DeleteClassifier", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a connection from the Data Catalog.
-    public func deleteConnection(_ input: DeleteConnectionRequest) -> Future<DeleteConnectionResponse> {
+    public func deleteConnection(_ input: DeleteConnectionRequest) -> EventLoopFuture<DeleteConnectionResponse> {
         return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a specified crawler from the AWS Glue Data Catalog, unless the crawler state is RUNNING.
-    public func deleteCrawler(_ input: DeleteCrawlerRequest) -> Future<DeleteCrawlerResponse> {
+    public func deleteCrawler(_ input: DeleteCrawlerRequest) -> EventLoopFuture<DeleteCrawlerResponse> {
         return client.send(operation: "DeleteCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a specified database from a Data Catalog.  After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database. 
-    public func deleteDatabase(_ input: DeleteDatabaseRequest) -> Future<DeleteDatabaseResponse> {
+    public func deleteDatabase(_ input: DeleteDatabaseRequest) -> EventLoopFuture<DeleteDatabaseResponse> {
         return client.send(operation: "DeleteDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified development endpoint.
-    public func deleteDevEndpoint(_ input: DeleteDevEndpointRequest) -> Future<DeleteDevEndpointResponse> {
+    public func deleteDevEndpoint(_ input: DeleteDevEndpointRequest) -> EventLoopFuture<DeleteDevEndpointResponse> {
         return client.send(operation: "DeleteDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified job definition. If the job definition is not found, no exception is thrown.
-    public func deleteJob(_ input: DeleteJobRequest) -> Future<DeleteJobResponse> {
+    public func deleteJob(_ input: DeleteJobRequest) -> EventLoopFuture<DeleteJobResponse> {
         return client.send(operation: "DeleteJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an AWS Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms. However, any AWS Glue jobs that still reference the deleted transform will no longer succeed.
-    public func deleteMLTransform(_ input: DeleteMLTransformRequest) -> Future<DeleteMLTransformResponse> {
+    public func deleteMLTransform(_ input: DeleteMLTransformRequest) -> EventLoopFuture<DeleteMLTransformResponse> {
         return client.send(operation: "DeleteMLTransform", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified partition.
-    public func deletePartition(_ input: DeletePartitionRequest) -> Future<DeletePartitionResponse> {
+    public func deletePartition(_ input: DeletePartitionRequest) -> EventLoopFuture<DeletePartitionResponse> {
         return client.send(operation: "DeletePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified policy.
-    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest) -> Future<DeleteResourcePolicyResponse> {
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest) -> EventLoopFuture<DeleteResourcePolicyResponse> {
         return client.send(operation: "DeleteResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified security configuration.
-    public func deleteSecurityConfiguration(_ input: DeleteSecurityConfigurationRequest) -> Future<DeleteSecurityConfigurationResponse> {
+    public func deleteSecurityConfiguration(_ input: DeleteSecurityConfigurationRequest) -> EventLoopFuture<DeleteSecurityConfigurationResponse> {
         return client.send(operation: "DeleteSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a table definition from the Data Catalog.  After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
-    public func deleteTable(_ input: DeleteTableRequest) -> Future<DeleteTableResponse> {
+    public func deleteTable(_ input: DeleteTableRequest) -> EventLoopFuture<DeleteTableResponse> {
         return client.send(operation: "DeleteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified version of a table.
-    public func deleteTableVersion(_ input: DeleteTableVersionRequest) -> Future<DeleteTableVersionResponse> {
+    public func deleteTableVersion(_ input: DeleteTableVersionRequest) -> EventLoopFuture<DeleteTableVersionResponse> {
         return client.send(operation: "DeleteTableVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified trigger. If the trigger is not found, no exception is thrown.
-    public func deleteTrigger(_ input: DeleteTriggerRequest) -> Future<DeleteTriggerResponse> {
+    public func deleteTrigger(_ input: DeleteTriggerRequest) -> EventLoopFuture<DeleteTriggerResponse> {
         return client.send(operation: "DeleteTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing function definition from the Data Catalog.
-    public func deleteUserDefinedFunction(_ input: DeleteUserDefinedFunctionRequest) -> Future<DeleteUserDefinedFunctionResponse> {
+    public func deleteUserDefinedFunction(_ input: DeleteUserDefinedFunctionRequest) -> EventLoopFuture<DeleteUserDefinedFunctionResponse> {
         return client.send(operation: "DeleteUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a workflow.
-    public func deleteWorkflow(_ input: DeleteWorkflowRequest) -> Future<DeleteWorkflowResponse> {
+    public func deleteWorkflow(_ input: DeleteWorkflowRequest) -> EventLoopFuture<DeleteWorkflowResponse> {
         return client.send(operation: "DeleteWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the status of a migration operation.
-    public func getCatalogImportStatus(_ input: GetCatalogImportStatusRequest) -> Future<GetCatalogImportStatusResponse> {
+    public func getCatalogImportStatus(_ input: GetCatalogImportStatusRequest) -> EventLoopFuture<GetCatalogImportStatusResponse> {
         return client.send(operation: "GetCatalogImportStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieve a classifier by name.
-    public func getClassifier(_ input: GetClassifierRequest) -> Future<GetClassifierResponse> {
+    public func getClassifier(_ input: GetClassifierRequest) -> EventLoopFuture<GetClassifierResponse> {
         return client.send(operation: "GetClassifier", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all classifier objects in the Data Catalog.
-    public func getClassifiers(_ input: GetClassifiersRequest) -> Future<GetClassifiersResponse> {
+    public func getClassifiers(_ input: GetClassifiersRequest) -> EventLoopFuture<GetClassifiersResponse> {
         return client.send(operation: "GetClassifiers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a connection definition from the Data Catalog.
-    public func getConnection(_ input: GetConnectionRequest) -> Future<GetConnectionResponse> {
+    public func getConnection(_ input: GetConnectionRequest) -> EventLoopFuture<GetConnectionResponse> {
         return client.send(operation: "GetConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of connection definitions from the Data Catalog.
-    public func getConnections(_ input: GetConnectionsRequest) -> Future<GetConnectionsResponse> {
+    public func getConnections(_ input: GetConnectionsRequest) -> EventLoopFuture<GetConnectionsResponse> {
         return client.send(operation: "GetConnections", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metadata for a specified crawler.
-    public func getCrawler(_ input: GetCrawlerRequest) -> Future<GetCrawlerResponse> {
+    public func getCrawler(_ input: GetCrawlerRequest) -> EventLoopFuture<GetCrawlerResponse> {
         return client.send(operation: "GetCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metrics about specified crawlers.
-    public func getCrawlerMetrics(_ input: GetCrawlerMetricsRequest) -> Future<GetCrawlerMetricsResponse> {
+    public func getCrawlerMetrics(_ input: GetCrawlerMetricsRequest) -> EventLoopFuture<GetCrawlerMetricsResponse> {
         return client.send(operation: "GetCrawlerMetrics", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metadata for all crawlers defined in the customer account.
-    public func getCrawlers(_ input: GetCrawlersRequest) -> Future<GetCrawlersResponse> {
+    public func getCrawlers(_ input: GetCrawlersRequest) -> EventLoopFuture<GetCrawlersResponse> {
         return client.send(operation: "GetCrawlers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the security configuration for a specified catalog.
-    public func getDataCatalogEncryptionSettings(_ input: GetDataCatalogEncryptionSettingsRequest) -> Future<GetDataCatalogEncryptionSettingsResponse> {
+    public func getDataCatalogEncryptionSettings(_ input: GetDataCatalogEncryptionSettingsRequest) -> EventLoopFuture<GetDataCatalogEncryptionSettingsResponse> {
         return client.send(operation: "GetDataCatalogEncryptionSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the definition of a specified database.
-    public func getDatabase(_ input: GetDatabaseRequest) -> Future<GetDatabaseResponse> {
+    public func getDatabase(_ input: GetDatabaseRequest) -> EventLoopFuture<GetDatabaseResponse> {
         return client.send(operation: "GetDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves all databases defined in a given Data Catalog.
-    public func getDatabases(_ input: GetDatabasesRequest) -> Future<GetDatabasesResponse> {
+    public func getDatabases(_ input: GetDatabasesRequest) -> EventLoopFuture<GetDatabasesResponse> {
         return client.send(operation: "GetDatabases", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Transforms a Python script into a directed acyclic graph (DAG). 
-    public func getDataflowGraph(_ input: GetDataflowGraphRequest) -> Future<GetDataflowGraphResponse> {
+    public func getDataflowGraph(_ input: GetDataflowGraphRequest) -> EventLoopFuture<GetDataflowGraphResponse> {
         return client.send(operation: "GetDataflowGraph", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specified development endpoint.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
-    public func getDevEndpoint(_ input: GetDevEndpointRequest) -> Future<GetDevEndpointResponse> {
+    public func getDevEndpoint(_ input: GetDevEndpointRequest) -> EventLoopFuture<GetDevEndpointResponse> {
         return client.send(operation: "GetDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves all the development endpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
-    public func getDevEndpoints(_ input: GetDevEndpointsRequest) -> Future<GetDevEndpointsResponse> {
+    public func getDevEndpoints(_ input: GetDevEndpointsRequest) -> EventLoopFuture<GetDevEndpointsResponse> {
         return client.send(operation: "GetDevEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves an existing job definition.
-    public func getJob(_ input: GetJobRequest) -> Future<GetJobResponse> {
+    public func getJob(_ input: GetJobRequest) -> EventLoopFuture<GetJobResponse> {
         return client.send(operation: "GetJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information on a job bookmark entry.
-    public func getJobBookmark(_ input: GetJobBookmarkRequest) -> Future<GetJobBookmarkResponse> {
+    public func getJobBookmark(_ input: GetJobBookmarkRequest) -> EventLoopFuture<GetJobBookmarkResponse> {
         return client.send(operation: "GetJobBookmark", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the metadata for a given job run.
-    public func getJobRun(_ input: GetJobRunRequest) -> Future<GetJobRunResponse> {
+    public func getJobRun(_ input: GetJobRunRequest) -> EventLoopFuture<GetJobRunResponse> {
         return client.send(operation: "GetJobRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metadata for all runs of a given job definition.
-    public func getJobRuns(_ input: GetJobRunsRequest) -> Future<GetJobRunsResponse> {
+    public func getJobRuns(_ input: GetJobRunsRequest) -> EventLoopFuture<GetJobRunsResponse> {
         return client.send(operation: "GetJobRuns", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves all current job definitions.
-    public func getJobs(_ input: GetJobsRequest) -> Future<GetJobsResponse> {
+    public func getJobs(_ input: GetJobsRequest) -> EventLoopFuture<GetJobsResponse> {
         return client.send(operation: "GetJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID.
-    public func getMLTaskRun(_ input: GetMLTaskRunRequest) -> Future<GetMLTaskRunResponse> {
+    public func getMLTaskRun(_ input: GetMLTaskRunRequest) -> EventLoopFuture<GetMLTaskRunResponse> {
         return client.send(operation: "GetMLTaskRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
-    public func getMLTaskRuns(_ input: GetMLTaskRunsRequest) -> Future<GetMLTaskRunsResponse> {
+    public func getMLTaskRuns(_ input: GetMLTaskRunsRequest) -> EventLoopFuture<GetMLTaskRunsResponse> {
         return client.send(operation: "GetMLTaskRuns", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets an AWS Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue. You can retrieve their metadata by calling GetMLTransform.
-    public func getMLTransform(_ input: GetMLTransformRequest) -> Future<GetMLTransformResponse> {
+    public func getMLTransform(_ input: GetMLTransformRequest) -> EventLoopFuture<GetMLTransformResponse> {
         return client.send(operation: "GetMLTransform", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a sortable, filterable list of existing AWS Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue, and you can retrieve their metadata by calling GetMLTransforms.
-    public func getMLTransforms(_ input: GetMLTransformsRequest) -> Future<GetMLTransformsResponse> {
+    public func getMLTransforms(_ input: GetMLTransformsRequest) -> EventLoopFuture<GetMLTransformsResponse> {
         return client.send(operation: "GetMLTransforms", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates mappings.
-    public func getMapping(_ input: GetMappingRequest) -> Future<GetMappingResponse> {
+    public func getMapping(_ input: GetMappingRequest) -> EventLoopFuture<GetMappingResponse> {
         return client.send(operation: "GetMapping", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specified partition.
-    public func getPartition(_ input: GetPartitionRequest) -> Future<GetPartitionResponse> {
+    public func getPartition(_ input: GetPartitionRequest) -> EventLoopFuture<GetPartitionResponse> {
         return client.send(operation: "GetPartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about the partitions in a table.
-    public func getPartitions(_ input: GetPartitionsRequest) -> Future<GetPartitionsResponse> {
+    public func getPartitions(_ input: GetPartitionsRequest) -> EventLoopFuture<GetPartitionsResponse> {
         return client.send(operation: "GetPartitions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets code to perform a specified mapping.
-    public func getPlan(_ input: GetPlanRequest) -> Future<GetPlanResponse> {
+    public func getPlan(_ input: GetPlanRequest) -> EventLoopFuture<GetPlanResponse> {
         return client.send(operation: "GetPlan", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a specified resource policy.
-    public func getResourcePolicy(_ input: GetResourcePolicyRequest) -> Future<GetResourcePolicyResponse> {
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest) -> EventLoopFuture<GetResourcePolicyResponse> {
         return client.send(operation: "GetResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a specified security configuration.
-    public func getSecurityConfiguration(_ input: GetSecurityConfigurationRequest) -> Future<GetSecurityConfigurationResponse> {
+    public func getSecurityConfiguration(_ input: GetSecurityConfigurationRequest) -> EventLoopFuture<GetSecurityConfigurationResponse> {
         return client.send(operation: "GetSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of all security configurations.
-    public func getSecurityConfigurations(_ input: GetSecurityConfigurationsRequest) -> Future<GetSecurityConfigurationsResponse> {
+    public func getSecurityConfigurations(_ input: GetSecurityConfigurationsRequest) -> EventLoopFuture<GetSecurityConfigurationsResponse> {
         return client.send(operation: "GetSecurityConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the Table definition in a Data Catalog for a specified table.
-    public func getTable(_ input: GetTableRequest) -> Future<GetTableResponse> {
+    public func getTable(_ input: GetTableRequest) -> EventLoopFuture<GetTableResponse> {
         return client.send(operation: "GetTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a specified version of a table.
-    public func getTableVersion(_ input: GetTableVersionRequest) -> Future<GetTableVersionResponse> {
+    public func getTableVersion(_ input: GetTableVersionRequest) -> EventLoopFuture<GetTableVersionResponse> {
         return client.send(operation: "GetTableVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of strings that identify available versions of a specified table.
-    public func getTableVersions(_ input: GetTableVersionsRequest) -> Future<GetTableVersionsResponse> {
+    public func getTableVersions(_ input: GetTableVersionsRequest) -> EventLoopFuture<GetTableVersionsResponse> {
         return client.send(operation: "GetTableVersions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the definitions of some or all of the tables in a given Database.
-    public func getTables(_ input: GetTablesRequest) -> Future<GetTablesResponse> {
+    public func getTables(_ input: GetTablesRequest) -> EventLoopFuture<GetTablesResponse> {
         return client.send(operation: "GetTables", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of tags associated with a resource.
-    public func getTags(_ input: GetTagsRequest) -> Future<GetTagsResponse> {
+    public func getTags(_ input: GetTagsRequest) -> EventLoopFuture<GetTagsResponse> {
         return client.send(operation: "GetTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the definition of a trigger.
-    public func getTrigger(_ input: GetTriggerRequest) -> Future<GetTriggerResponse> {
+    public func getTrigger(_ input: GetTriggerRequest) -> EventLoopFuture<GetTriggerResponse> {
         return client.send(operation: "GetTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets all the triggers associated with a job.
-    public func getTriggers(_ input: GetTriggersRequest) -> Future<GetTriggersResponse> {
+    public func getTriggers(_ input: GetTriggersRequest) -> EventLoopFuture<GetTriggersResponse> {
         return client.send(operation: "GetTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a specified function definition from the Data Catalog.
-    public func getUserDefinedFunction(_ input: GetUserDefinedFunctionRequest) -> Future<GetUserDefinedFunctionResponse> {
+    public func getUserDefinedFunction(_ input: GetUserDefinedFunctionRequest) -> EventLoopFuture<GetUserDefinedFunctionResponse> {
         return client.send(operation: "GetUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves multiple function definitions from the Data Catalog.
-    public func getUserDefinedFunctions(_ input: GetUserDefinedFunctionsRequest) -> Future<GetUserDefinedFunctionsResponse> {
+    public func getUserDefinedFunctions(_ input: GetUserDefinedFunctionsRequest) -> EventLoopFuture<GetUserDefinedFunctionsResponse> {
         return client.send(operation: "GetUserDefinedFunctions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves resource metadata for a workflow.
-    public func getWorkflow(_ input: GetWorkflowRequest) -> Future<GetWorkflowResponse> {
+    public func getWorkflow(_ input: GetWorkflowRequest) -> EventLoopFuture<GetWorkflowResponse> {
         return client.send(operation: "GetWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the metadata for a given workflow run. 
-    public func getWorkflowRun(_ input: GetWorkflowRunRequest) -> Future<GetWorkflowRunResponse> {
+    public func getWorkflowRun(_ input: GetWorkflowRunRequest) -> EventLoopFuture<GetWorkflowRunResponse> {
         return client.send(operation: "GetWorkflowRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the workflow run properties which were set during the run.
-    public func getWorkflowRunProperties(_ input: GetWorkflowRunPropertiesRequest) -> Future<GetWorkflowRunPropertiesResponse> {
+    public func getWorkflowRunProperties(_ input: GetWorkflowRunPropertiesRequest) -> EventLoopFuture<GetWorkflowRunPropertiesResponse> {
         return client.send(operation: "GetWorkflowRunProperties", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metadata for all runs of a given workflow.
-    public func getWorkflowRuns(_ input: GetWorkflowRunsRequest) -> Future<GetWorkflowRunsResponse> {
+    public func getWorkflowRuns(_ input: GetWorkflowRunsRequest) -> EventLoopFuture<GetWorkflowRunsResponse> {
         return client.send(operation: "GetWorkflowRuns", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Imports an existing Amazon Athena Data Catalog to AWS Glue
-    public func importCatalogToGlue(_ input: ImportCatalogToGlueRequest) -> Future<ImportCatalogToGlueResponse> {
+    public func importCatalogToGlue(_ input: ImportCatalogToGlueRequest) -> EventLoopFuture<ImportCatalogToGlueResponse> {
         return client.send(operation: "ImportCatalogToGlue", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the names of all crawler resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listCrawlers(_ input: ListCrawlersRequest) -> Future<ListCrawlersResponse> {
+    public func listCrawlers(_ input: ListCrawlersRequest) -> EventLoopFuture<ListCrawlersResponse> {
         return client.send(operation: "ListCrawlers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the names of all DevEndpoint resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listDevEndpoints(_ input: ListDevEndpointsRequest) -> Future<ListDevEndpointsResponse> {
+    public func listDevEndpoints(_ input: ListDevEndpointsRequest) -> EventLoopFuture<ListDevEndpointsResponse> {
         return client.send(operation: "ListDevEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the names of all job resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listJobs(_ input: ListJobsRequest) -> Future<ListJobsResponse> {
+    public func listJobs(_ input: ListJobsRequest) -> EventLoopFuture<ListJobsResponse> {
         return client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listTriggers(_ input: ListTriggersRequest) -> Future<ListTriggersResponse> {
+    public func listTriggers(_ input: ListTriggersRequest) -> EventLoopFuture<ListTriggersResponse> {
         return client.send(operation: "ListTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists names of workflows created in the account.
-    public func listWorkflows(_ input: ListWorkflowsRequest) -> Future<ListWorkflowsResponse> {
+    public func listWorkflows(_ input: ListWorkflowsRequest) -> EventLoopFuture<ListWorkflowsResponse> {
         return client.send(operation: "ListWorkflows", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
-    public func putDataCatalogEncryptionSettings(_ input: PutDataCatalogEncryptionSettingsRequest) -> Future<PutDataCatalogEncryptionSettingsResponse> {
+    public func putDataCatalogEncryptionSettings(_ input: PutDataCatalogEncryptionSettingsRequest) -> EventLoopFuture<PutDataCatalogEncryptionSettingsResponse> {
         return client.send(operation: "PutDataCatalogEncryptionSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the Data Catalog resource policy for access control.
-    public func putResourcePolicy(_ input: PutResourcePolicyRequest) -> Future<PutResourcePolicyResponse> {
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest) -> EventLoopFuture<PutResourcePolicyResponse> {
         return client.send(operation: "PutResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
-    public func putWorkflowRunProperties(_ input: PutWorkflowRunPropertiesRequest) -> Future<PutWorkflowRunPropertiesResponse> {
+    public func putWorkflowRunProperties(_ input: PutWorkflowRunPropertiesRequest) -> EventLoopFuture<PutWorkflowRunPropertiesResponse> {
         return client.send(operation: "PutWorkflowRunProperties", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets a bookmark entry.
-    public func resetJobBookmark(_ input: ResetJobBookmarkRequest) -> Future<ResetJobBookmarkResponse> {
+    public func resetJobBookmark(_ input: ResetJobBookmarkRequest) -> EventLoopFuture<ResetJobBookmarkResponse> {
         return client.send(operation: "ResetJobBookmark", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search. 
-    public func searchTables(_ input: SearchTablesRequest) -> Future<SearchTablesResponse> {
+    public func searchTables(_ input: SearchTablesRequest) -> EventLoopFuture<SearchTablesResponse> {
         return client.send(operation: "SearchTables", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException.
-    public func startCrawler(_ input: StartCrawlerRequest) -> Future<StartCrawlerResponse> {
+    public func startCrawler(_ input: StartCrawlerRequest) -> EventLoopFuture<StartCrawlerResponse> {
         return client.send(operation: "StartCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
-    public func startCrawlerSchedule(_ input: StartCrawlerScheduleRequest) -> Future<StartCrawlerScheduleResponse> {
+    public func startCrawlerSchedule(_ input: StartCrawlerScheduleRequest) -> EventLoopFuture<StartCrawlerScheduleResponse> {
         return client.send(operation: "StartCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
-    public func startExportLabelsTaskRun(_ input: StartExportLabelsTaskRunRequest) -> Future<StartExportLabelsTaskRunResponse> {
+    public func startExportLabelsTaskRun(_ input: StartExportLabelsTaskRunRequest) -> EventLoopFuture<StartExportLabelsTaskRunResponse> {
         return client.send(operation: "StartExportLabelsTaskRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform.  After the StartMLLabelingSetGenerationTaskRun finishes, AWS Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation. 
-    public func startImportLabelsTaskRun(_ input: StartImportLabelsTaskRunRequest) -> Future<StartImportLabelsTaskRunResponse> {
+    public func startImportLabelsTaskRun(_ input: StartImportLabelsTaskRunRequest) -> EventLoopFuture<StartImportLabelsTaskRunResponse> {
         return client.send(operation: "StartImportLabelsTaskRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a job run using a job definition.
-    public func startJobRun(_ input: StartJobRunRequest) -> Future<StartJobRunResponse> {
+    public func startJobRun(_ input: StartJobRunRequest) -> EventLoopFuture<StartJobRunResponse> {
         return client.send(operation: "StartJobRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a task to estimate the quality of the transform.  When you provide label sets as examples of truth, AWS Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun.
-    public func startMLEvaluationTaskRun(_ input: StartMLEvaluationTaskRunRequest) -> Future<StartMLEvaluationTaskRunResponse> {
+    public func startMLEvaluationTaskRun(_ input: StartMLEvaluationTaskRunRequest) -> EventLoopFuture<StartMLEvaluationTaskRunResponse> {
         return client.send(operation: "StartMLEvaluationTaskRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, AWS Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?”  After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
-    public func startMLLabelingSetGenerationTaskRun(_ input: StartMLLabelingSetGenerationTaskRunRequest) -> Future<StartMLLabelingSetGenerationTaskRunResponse> {
+    public func startMLLabelingSetGenerationTaskRun(_ input: StartMLLabelingSetGenerationTaskRunRequest) -> EventLoopFuture<StartMLLabelingSetGenerationTaskRunResponse> {
         return client.send(operation: "StartMLLabelingSetGenerationTaskRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts an existing trigger. See Triggering Jobs for information about how different types of trigger are started.
-    public func startTrigger(_ input: StartTriggerRequest) -> Future<StartTriggerResponse> {
+    public func startTrigger(_ input: StartTriggerRequest) -> EventLoopFuture<StartTriggerResponse> {
         return client.send(operation: "StartTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a new run of the specified workflow.
-    public func startWorkflowRun(_ input: StartWorkflowRunRequest) -> Future<StartWorkflowRunResponse> {
+    public func startWorkflowRun(_ input: StartWorkflowRunRequest) -> EventLoopFuture<StartWorkflowRunResponse> {
         return client.send(operation: "StartWorkflowRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  If the specified crawler is running, stops the crawl.
-    public func stopCrawler(_ input: StopCrawlerRequest) -> Future<StopCrawlerResponse> {
+    public func stopCrawler(_ input: StopCrawlerRequest) -> EventLoopFuture<StopCrawlerResponse> {
         return client.send(operation: "StopCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
-    public func stopCrawlerSchedule(_ input: StopCrawlerScheduleRequest) -> Future<StopCrawlerScheduleResponse> {
+    public func stopCrawlerSchedule(_ input: StopCrawlerScheduleRequest) -> EventLoopFuture<StopCrawlerScheduleResponse> {
         return client.send(operation: "StopCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a specified trigger.
-    public func stopTrigger(_ input: StopTriggerRequest) -> Future<StopTriggerResponse> {
+    public func stopTrigger(_ input: StopTriggerRequest) -> EventLoopFuture<StopTriggerResponse> {
         return client.send(operation: "StopTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds tags to a resource. A tag is a label you can assign to an AWS resource. In AWS Glue, you can tag only certain resources. For information about what resources you can tag, see AWS Tags in AWS Glue.
-    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
-    public func updateClassifier(_ input: UpdateClassifierRequest) -> Future<UpdateClassifierResponse> {
+    public func updateClassifier(_ input: UpdateClassifierRequest) -> EventLoopFuture<UpdateClassifierResponse> {
         return client.send(operation: "UpdateClassifier", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a connection definition in the Data Catalog.
-    public func updateConnection(_ input: UpdateConnectionRequest) -> Future<UpdateConnectionResponse> {
+    public func updateConnection(_ input: UpdateConnectionRequest) -> EventLoopFuture<UpdateConnectionResponse> {
         return client.send(operation: "UpdateConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
-    public func updateCrawler(_ input: UpdateCrawlerRequest) -> Future<UpdateCrawlerResponse> {
+    public func updateCrawler(_ input: UpdateCrawlerRequest) -> EventLoopFuture<UpdateCrawlerResponse> {
         return client.send(operation: "UpdateCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the schedule of a crawler using a cron expression. 
-    public func updateCrawlerSchedule(_ input: UpdateCrawlerScheduleRequest) -> Future<UpdateCrawlerScheduleResponse> {
+    public func updateCrawlerSchedule(_ input: UpdateCrawlerScheduleRequest) -> EventLoopFuture<UpdateCrawlerScheduleResponse> {
         return client.send(operation: "UpdateCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing database definition in a Data Catalog.
-    public func updateDatabase(_ input: UpdateDatabaseRequest) -> Future<UpdateDatabaseResponse> {
+    public func updateDatabase(_ input: UpdateDatabaseRequest) -> EventLoopFuture<UpdateDatabaseResponse> {
         return client.send(operation: "UpdateDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a specified development endpoint.
-    public func updateDevEndpoint(_ input: UpdateDevEndpointRequest) -> Future<UpdateDevEndpointResponse> {
+    public func updateDevEndpoint(_ input: UpdateDevEndpointRequest) -> EventLoopFuture<UpdateDevEndpointResponse> {
         return client.send(operation: "UpdateDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing job definition.
-    public func updateJob(_ input: UpdateJobRequest) -> Future<UpdateJobResponse> {
+    public func updateJob(_ input: UpdateJobRequest) -> EventLoopFuture<UpdateJobResponse> {
         return client.send(operation: "UpdateJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
-    public func updateMLTransform(_ input: UpdateMLTransformRequest) -> Future<UpdateMLTransformResponse> {
+    public func updateMLTransform(_ input: UpdateMLTransformRequest) -> EventLoopFuture<UpdateMLTransformResponse> {
         return client.send(operation: "UpdateMLTransform", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a partition.
-    public func updatePartition(_ input: UpdatePartitionRequest) -> Future<UpdatePartitionResponse> {
+    public func updatePartition(_ input: UpdatePartitionRequest) -> EventLoopFuture<UpdatePartitionResponse> {
         return client.send(operation: "UpdatePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a metadata table in the Data Catalog.
-    public func updateTable(_ input: UpdateTableRequest) -> Future<UpdateTableResponse> {
+    public func updateTable(_ input: UpdateTableRequest) -> EventLoopFuture<UpdateTableResponse> {
         return client.send(operation: "UpdateTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a trigger definition.
-    public func updateTrigger(_ input: UpdateTriggerRequest) -> Future<UpdateTriggerResponse> {
+    public func updateTrigger(_ input: UpdateTriggerRequest) -> EventLoopFuture<UpdateTriggerResponse> {
         return client.send(operation: "UpdateTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing function definition in the Data Catalog.
-    public func updateUserDefinedFunction(_ input: UpdateUserDefinedFunctionRequest) -> Future<UpdateUserDefinedFunctionResponse> {
+    public func updateUserDefinedFunction(_ input: UpdateUserDefinedFunctionRequest) -> EventLoopFuture<UpdateUserDefinedFunctionResponse> {
         return client.send(operation: "UpdateUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing workflow.
-    public func updateWorkflow(_ input: UpdateWorkflowRequest) -> Future<UpdateWorkflowResponse> {
+    public func updateWorkflow(_ input: UpdateWorkflowRequest) -> EventLoopFuture<UpdateWorkflowResponse> {
         return client.send(operation: "UpdateWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 }

@@ -29,97 +29,97 @@ public struct Athena {
     }
 
     ///  Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under UnprocessedNamedQueryId. Named queries differ from executed queries. Use BatchGetQueryExecutionInput to get details about each unique query execution, and ListQueryExecutionsInput to get a list of query execution IDs.
-    public func batchGetNamedQuery(_ input: BatchGetNamedQueryInput) -> Future<BatchGetNamedQueryOutput> {
+    public func batchGetNamedQuery(_ input: BatchGetNamedQueryInput) -> EventLoopFuture<BatchGetNamedQueryOutput> {
         return client.send(operation: "BatchGetNamedQuery", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use ListQueryExecutionsInput$WorkGroup. Query executions differ from named (saved) queries. Use BatchGetNamedQueryInput to get details about named queries.
-    public func batchGetQueryExecution(_ input: BatchGetQueryExecutionInput) -> Future<BatchGetQueryExecutionOutput> {
+    public func batchGetQueryExecution(_ input: BatchGetQueryExecutionInput) -> EventLoopFuture<BatchGetQueryExecutionOutput> {
         return client.send(operation: "BatchGetQueryExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a named query in the specified workgroup. Requires that you have access to the workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-    public func createNamedQuery(_ input: CreateNamedQueryInput) -> Future<CreateNamedQueryOutput> {
+    public func createNamedQuery(_ input: CreateNamedQueryInput) -> EventLoopFuture<CreateNamedQueryOutput> {
         return client.send(operation: "CreateNamedQuery", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a workgroup with the specified name.
-    public func createWorkGroup(_ input: CreateWorkGroupInput) -> Future<CreateWorkGroupOutput> {
+    public func createWorkGroup(_ input: CreateWorkGroupInput) -> EventLoopFuture<CreateWorkGroupOutput> {
         return client.send(operation: "CreateWorkGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the named query if you have access to the workgroup in which the query was saved. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-    public func deleteNamedQuery(_ input: DeleteNamedQueryInput) -> Future<DeleteNamedQueryOutput> {
+    public func deleteNamedQuery(_ input: DeleteNamedQueryInput) -> EventLoopFuture<DeleteNamedQueryOutput> {
         return client.send(operation: "DeleteNamedQuery", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
-    public func deleteWorkGroup(_ input: DeleteWorkGroupInput) -> Future<DeleteWorkGroupOutput> {
+    public func deleteWorkGroup(_ input: DeleteWorkGroupInput) -> EventLoopFuture<DeleteWorkGroupOutput> {
         return client.send(operation: "DeleteWorkGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a single query. Requires that you have access to the workgroup in which the query was saved.
-    public func getNamedQuery(_ input: GetNamedQueryInput) -> Future<GetNamedQueryOutput> {
+    public func getNamedQuery(_ input: GetNamedQueryInput) -> EventLoopFuture<GetNamedQueryOutput> {
         return client.send(operation: "GetNamedQuery", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
-    public func getQueryExecution(_ input: GetQueryExecutionInput) -> Future<GetQueryExecutionOutput> {
+    public func getQueryExecution(_ input: GetQueryExecutionInput) -> EventLoopFuture<GetQueryExecutionOutput> {
         return client.send(operation: "GetQueryExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see Query Results in the Amazon Athena User Guide. This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location.  IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied. 
-    public func getQueryResults(_ input: GetQueryResultsInput) -> Future<GetQueryResultsOutput> {
+    public func getQueryResults(_ input: GetQueryResultsInput) -> EventLoopFuture<GetQueryResultsOutput> {
         return client.send(operation: "GetQueryResults", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the workgroup with the specified name.
-    public func getWorkGroup(_ input: GetWorkGroupInput) -> Future<GetWorkGroupOutput> {
+    public func getWorkGroup(_ input: GetWorkGroupInput) -> EventLoopFuture<GetWorkGroupOutput> {
         return client.send(operation: "GetWorkGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-    public func listNamedQueries(_ input: ListNamedQueriesInput) -> Future<ListNamedQueriesOutput> {
+    public func listNamedQueries(_ input: ListNamedQueriesInput) -> EventLoopFuture<ListNamedQueriesOutput> {
         return client.send(operation: "ListNamedQueries", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides a list of available query execution IDs for the queries in the specified workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-    public func listQueryExecutions(_ input: ListQueryExecutionsInput) -> Future<ListQueryExecutionsOutput> {
+    public func listQueryExecutions(_ input: ListQueryExecutionsInput) -> EventLoopFuture<ListQueryExecutionsOutput> {
         return client.send(operation: "ListQueryExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the tags associated with this workgroup.
-    public func listTagsForResource(_ input: ListTagsForResourceInput) -> Future<ListTagsForResourceOutput> {
+    public func listTagsForResource(_ input: ListTagsForResourceInput) -> EventLoopFuture<ListTagsForResourceOutput> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists available workgroups for the account.
-    public func listWorkGroups(_ input: ListWorkGroupsInput) -> Future<ListWorkGroupsOutput> {
+    public func listWorkGroups(_ input: ListWorkGroupsInput) -> EventLoopFuture<ListWorkGroupsOutput> {
         return client.send(operation: "ListWorkGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-    public func startQueryExecution(_ input: StartQueryExecutionInput) -> Future<StartQueryExecutionOutput> {
+    public func startQueryExecution(_ input: StartQueryExecutionInput) -> EventLoopFuture<StartQueryExecutionOutput> {
         return client.send(operation: "StartQueryExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-    public func stopQueryExecution(_ input: StopQueryExecutionInput) -> Future<StopQueryExecutionOutput> {
+    public func stopQueryExecution(_ input: StopQueryExecutionInput) -> EventLoopFuture<StopQueryExecutionOutput> {
         return client.send(operation: "StopQueryExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more tags to the resource, such as a workgroup. A tag is a label that you assign to an AWS Athena resource (a workgroup). Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize resources (workgroups) in Athena, for example, by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups in your account. For best practices, see AWS Tagging Strategies. The key length is from 1 (minimum) to 128 (maximum) Unicode characters in UTF-8. The tag value length is from 0 (minimum) to 256 (maximum) Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one, separate them by commas.
-    public func tagResource(_ input: TagResourceInput) -> Future<TagResourceOutput> {
+    public func tagResource(_ input: TagResourceInput) -> EventLoopFuture<TagResourceOutput> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more tags from the workgroup resource. Takes as an input a list of TagKey Strings separated by commas, and removes their tags at the same time.
-    public func untagResource(_ input: UntagResourceInput) -> Future<UntagResourceOutput> {
+    public func untagResource(_ input: UntagResourceInput) -> EventLoopFuture<UntagResourceOutput> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the workgroup with the specified name. The workgroup's name cannot be changed.
-    public func updateWorkGroup(_ input: UpdateWorkGroupInput) -> Future<UpdateWorkGroupOutput> {
+    public func updateWorkGroup(_ input: UpdateWorkGroupInput) -> EventLoopFuture<UpdateWorkGroupOutput> {
         return client.send(operation: "UpdateWorkGroup", path: "/", httpMethod: "POST", input: input)
     }
 }
