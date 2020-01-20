@@ -278,26 +278,7 @@ class S3Tests: XCTestCase {
         }
     }
 
-    func listObjects(bucket : String, count: Int) -> Future<[S3.Object]> {
-        var list : [S3.Object] = []
-        func listObjectsPart(token: String? = nil) -> Future<[S3.Object]> {
-            let request = S3.ListObjectsV2Request(bucket: bucket, continuationToken: token, maxKeys: count)
-            let objects = client.listObjectsV2(request).flatMap { response -> Future<[S3.Object]> in
-                if let contents = response.contents {
-                    list.append(contentsOf: contents)
-                }
-                if let token = response.nextContinuationToken {
-                    return listObjectsPart(token: token)
-                } else {
-                    return self.client.client.eventLoopGroup.next().makeSucceededFuture(list)
-                }
-            }
-            return objects
-        }
-        return listObjectsPart()
-    }
-
-    func testListPaginate() {
+    func testListPaginator() {
         attempt {
             let testData = try TestData(#function, client: client)
 
@@ -314,7 +295,8 @@ class S3Tests: XCTestCase {
             }
             _ = try EventLoopFuture.whenAllSucceed(responses, on: client.client.eventLoopGroup.next()).wait()
 
-            let list = try listObjects(bucket: testData.bucket, count:5).wait()
+            let request = S3.ListObjectsV2Request(bucket: testData.bucket, maxKeys: 5)
+            let list = try client.listObjectsV2Paginator(request).wait()
             XCTAssertEqual(list.count, 16)
         }
     }
@@ -346,7 +328,7 @@ class S3Tests: XCTestCase {
             ("testLifecycleRule", testLifecycleRule),
             ("testMetaData", testMetaData),
             ("testMultipleUpload", testMultipleUpload),
-            ("testListPaginate", testListPaginate),
+            ("testListPaginator", testListPaginator),
         ]
     }
 }

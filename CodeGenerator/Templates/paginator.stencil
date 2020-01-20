@@ -1,5 +1,6 @@
 {%include "header.stencil" %}
 
+
 extension {{name}} {
 
 {%for page in paginators %}
@@ -14,7 +15,6 @@ extension {{name}} {
     }
     
 {%endfor %}
-
 }
 
 {%for page in paginators %}
@@ -27,5 +27,6 @@ extension {{name}}.{{page.operation.inputShape}}: AWSPaginateable {
         )
     }
 }
+
 {%endfor %}
 

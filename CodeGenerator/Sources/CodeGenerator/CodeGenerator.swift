@@ -537,15 +537,15 @@ extension AWSService {
 
             var initParams: [String: String] = [:]
             for member in inputShapeStruct.members {
-                initParams[member.name.toSwiftVariableCase()] = "original.\(member.name.toSwiftVariableCase())"
+                initParams[member.name.toSwiftLabelCase()] = "original.\(member.name.toSwiftLabelCase())"
             }
-            initParams[paginator.inputTokens[0].toSwiftVariableCase()] = "token"
-            let initParamsArray = initParams.map {"\($0.key): \($0.value)"}.sorted()
+            initParams[paginator.inputTokens[0].toSwiftLabelCase()] = "token"
+            let initParamsArray = initParams.map {"\($0.key): \($0.value)"}.sorted { $0.lowercased() < $1.lowercased() }
             paginatorContexts.append(
                 PaginatorContext(
                     operation: generateOperationContext(operation),
                     result: paginator.resultKeys[0].toSwiftVariableCase(),
-                    resultShape: listShape.name,
+                    resultShape: listShape.swiftTypeName,
                     input: paginator.inputTokens[0].toSwiftVariableCase(),
                     output: paginator.outputTokens[0].toSwiftVariableCase(),
                     initParams: initParamsArray
