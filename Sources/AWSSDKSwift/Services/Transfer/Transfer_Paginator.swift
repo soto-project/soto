@@ -5,18 +5,18 @@ import NIO
 extension Transfer {
 
     ///  Lists the Secure File Transfer Protocol (SFTP) servers that are associated with your AWS account.
-    public func listServersPaginator(_ input: ListServersRequest) -> EventLoopFuture<[ListedServer]> {
-        return client.paginate(input: input, command: listServers, resultKey: \ListServersResponse.servers, tokenKey: \ListServersResponse.nextToken)
+    public func listServersPaginator(_ input: ListServersRequest, onPage: @escaping ([ListedServer], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listServers, resultKey: \ListServersResponse.servers, tokenKey: \ListServersResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists all of the tags associated with the Amazon Resource Number (ARN) you specify. The resource can be a user, server, or role.
-    public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest) -> EventLoopFuture<[Tag]> {
-        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceResponse.tags, tokenKey: \ListTagsForResourceResponse.nextToken)
+    public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest, onPage: @escaping ([Tag], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceResponse.tags, tokenKey: \ListTagsForResourceResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists the users for the server that you specify by passing the ServerId parameter.
-    public func listUsersPaginator(_ input: ListUsersRequest) -> EventLoopFuture<[ListedUser]> {
-        return client.paginate(input: input, command: listUsers, resultKey: \ListUsersResponse.users, tokenKey: \ListUsersResponse.nextToken)
+    public func listUsersPaginator(_ input: ListUsersRequest, onPage: @escaping ([ListedUser], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listUsers, resultKey: \ListUsersResponse.users, tokenKey: \ListUsersResponse.nextToken, onPage: onPage)
     }
     
 }

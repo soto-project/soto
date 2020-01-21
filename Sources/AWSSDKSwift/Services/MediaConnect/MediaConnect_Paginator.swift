@@ -5,13 +5,13 @@ import NIO
 extension MediaConnect {
 
     ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
-    public func listEntitlementsPaginator(_ input: ListEntitlementsRequest) -> EventLoopFuture<[ListedEntitlement]> {
-        return client.paginate(input: input, command: listEntitlements, resultKey: \ListEntitlementsResponse.entitlements, tokenKey: \ListEntitlementsResponse.nextToken)
+    public func listEntitlementsPaginator(_ input: ListEntitlementsRequest, onPage: @escaping ([ListedEntitlement], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEntitlements, resultKey: \ListEntitlementsResponse.entitlements, tokenKey: \ListEntitlementsResponse.nextToken, onPage: onPage)
     }
     
     ///  Displays a list of flows that are associated with this account. This request returns a paginated result.
-    public func listFlowsPaginator(_ input: ListFlowsRequest) -> EventLoopFuture<[ListedFlow]> {
-        return client.paginate(input: input, command: listFlows, resultKey: \ListFlowsResponse.flows, tokenKey: \ListFlowsResponse.nextToken)
+    public func listFlowsPaginator(_ input: ListFlowsRequest, onPage: @escaping ([ListedFlow], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listFlows, resultKey: \ListFlowsResponse.flows, tokenKey: \ListFlowsResponse.nextToken, onPage: onPage)
     }
     
 }

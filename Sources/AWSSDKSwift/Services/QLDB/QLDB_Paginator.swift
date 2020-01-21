@@ -5,18 +5,18 @@ import NIO
 extension QLDB {
 
     ///  Returns an array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times.
-    public func listJournalS3ExportsPaginator(_ input: ListJournalS3ExportsRequest) -> EventLoopFuture<[JournalS3ExportDescription]> {
-        return client.paginate(input: input, command: listJournalS3Exports, resultKey: \ListJournalS3ExportsResponse.journalS3Exports, tokenKey: \ListJournalS3ExportsResponse.nextToken)
+    public func listJournalS3ExportsPaginator(_ input: ListJournalS3ExportsRequest, onPage: @escaping ([JournalS3ExportDescription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listJournalS3Exports, resultKey: \ListJournalS3ExportsResponse.journalS3Exports, tokenKey: \ListJournalS3ExportsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns an array of journal export job descriptions for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times.
-    public func listJournalS3ExportsForLedgerPaginator(_ input: ListJournalS3ExportsForLedgerRequest) -> EventLoopFuture<[JournalS3ExportDescription]> {
-        return client.paginate(input: input, command: listJournalS3ExportsForLedger, resultKey: \ListJournalS3ExportsForLedgerResponse.journalS3Exports, tokenKey: \ListJournalS3ExportsForLedgerResponse.nextToken)
+    public func listJournalS3ExportsForLedgerPaginator(_ input: ListJournalS3ExportsForLedgerRequest, onPage: @escaping ([JournalS3ExportDescription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listJournalS3ExportsForLedger, resultKey: \ListJournalS3ExportsForLedgerResponse.journalS3Exports, tokenKey: \ListJournalS3ExportsForLedgerResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns an array of ledger summaries that are associated with the current AWS account and Region. This action returns a maximum of 100 items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
-    public func listLedgersPaginator(_ input: ListLedgersRequest) -> EventLoopFuture<[LedgerSummary]> {
-        return client.paginate(input: input, command: listLedgers, resultKey: \ListLedgersResponse.ledgers, tokenKey: \ListLedgersResponse.nextToken)
+    public func listLedgersPaginator(_ input: ListLedgersRequest, onPage: @escaping ([LedgerSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listLedgers, resultKey: \ListLedgersResponse.ledgers, tokenKey: \ListLedgersResponse.nextToken, onPage: onPage)
     }
     
 }

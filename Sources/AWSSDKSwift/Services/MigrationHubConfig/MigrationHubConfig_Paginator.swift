@@ -5,8 +5,8 @@ import NIO
 extension MigrationHubConfig {
 
     ///  This API permits filtering on the ControlId, HomeRegion, and RegionControlScope fields.
-    public func describeHomeRegionControlsPaginator(_ input: DescribeHomeRegionControlsRequest) -> EventLoopFuture<[HomeRegionControl]> {
-        return client.paginate(input: input, command: describeHomeRegionControls, resultKey: \DescribeHomeRegionControlsResult.homeRegionControls, tokenKey: \DescribeHomeRegionControlsResult.nextToken)
+    public func describeHomeRegionControlsPaginator(_ input: DescribeHomeRegionControlsRequest, onPage: @escaping ([HomeRegionControl], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeHomeRegionControls, resultKey: \DescribeHomeRegionControlsResult.homeRegionControls, tokenKey: \DescribeHomeRegionControlsResult.nextToken, onPage: onPage)
     }
     
 }

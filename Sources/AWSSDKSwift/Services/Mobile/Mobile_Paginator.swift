@@ -5,13 +5,13 @@ import NIO
 extension Mobile {
 
     ///   List all available bundles. 
-    public func listBundlesPaginator(_ input: ListBundlesRequest) -> EventLoopFuture<[BundleDetails]> {
-        return client.paginate(input: input, command: listBundles, resultKey: \ListBundlesResult.bundleList, tokenKey: \ListBundlesResult.nextToken)
+    public func listBundlesPaginator(_ input: ListBundlesRequest, onPage: @escaping ([BundleDetails], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBundles, resultKey: \ListBundlesResult.bundleList, tokenKey: \ListBundlesResult.nextToken, onPage: onPage)
     }
     
     ///   Lists projects in AWS Mobile Hub. 
-    public func listProjectsPaginator(_ input: ListProjectsRequest) -> EventLoopFuture<[ProjectSummary]> {
-        return client.paginate(input: input, command: listProjects, resultKey: \ListProjectsResult.projects, tokenKey: \ListProjectsResult.nextToken)
+    public func listProjectsPaginator(_ input: ListProjectsRequest, onPage: @escaping ([ProjectSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProjects, resultKey: \ListProjectsResult.projects, tokenKey: \ListProjectsResult.nextToken, onPage: onPage)
     }
     
 }

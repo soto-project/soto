@@ -5,13 +5,13 @@ import NIO
 extension AppStream {
 
     ///  Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own. 
-    public func describeImagePermissionsPaginator(_ input: DescribeImagePermissionsRequest) -> EventLoopFuture<[SharedImagePermissions]> {
-        return client.paginate(input: input, command: describeImagePermissions, resultKey: \DescribeImagePermissionsResult.sharedImagePermissionsList, tokenKey: \DescribeImagePermissionsResult.nextToken)
+    public func describeImagePermissionsPaginator(_ input: DescribeImagePermissionsRequest, onPage: @escaping ([SharedImagePermissions], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeImagePermissions, resultKey: \DescribeImagePermissionsResult.sharedImagePermissionsList, tokenKey: \DescribeImagePermissionsResult.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
-    public func describeImagesPaginator(_ input: DescribeImagesRequest) -> EventLoopFuture<[Image]> {
-        return client.paginate(input: input, command: describeImages, resultKey: \DescribeImagesResult.images, tokenKey: \DescribeImagesResult.nextToken)
+    public func describeImagesPaginator(_ input: DescribeImagesRequest, onPage: @escaping ([Image], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeImages, resultKey: \DescribeImagesResult.images, tokenKey: \DescribeImagesResult.nextToken, onPage: onPage)
     }
     
 }

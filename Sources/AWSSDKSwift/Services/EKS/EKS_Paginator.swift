@@ -5,23 +5,23 @@ import NIO
 extension EKS {
 
     ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
-    public func listClustersPaginator(_ input: ListClustersRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listClusters, resultKey: \ListClustersResponse.clusters, tokenKey: \ListClustersResponse.nextToken)
+    public func listClustersPaginator(_ input: ListClustersRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listClusters, resultKey: \ListClustersResponse.clusters, tokenKey: \ListClustersResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists the AWS Fargate profiles associated with the specified cluster in your AWS account in the specified Region.
-    public func listFargateProfilesPaginator(_ input: ListFargateProfilesRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listFargateProfiles, resultKey: \ListFargateProfilesResponse.fargateProfileNames, tokenKey: \ListFargateProfilesResponse.nextToken)
+    public func listFargateProfilesPaginator(_ input: ListFargateProfilesRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listFargateProfiles, resultKey: \ListFargateProfilesResponse.fargateProfileNames, tokenKey: \ListFargateProfilesResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists the Amazon EKS node groups associated with the specified cluster in your AWS account in the specified Region.
-    public func listNodegroupsPaginator(_ input: ListNodegroupsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listNodegroups, resultKey: \ListNodegroupsResponse.nodegroups, tokenKey: \ListNodegroupsResponse.nextToken)
+    public func listNodegroupsPaginator(_ input: ListNodegroupsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNodegroups, resultKey: \ListNodegroupsResponse.nodegroups, tokenKey: \ListNodegroupsResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists the updates associated with an Amazon EKS cluster or managed node group in your AWS account, in the specified Region.
-    public func listUpdatesPaginator(_ input: ListUpdatesRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listUpdates, resultKey: \ListUpdatesResponse.updateIds, tokenKey: \ListUpdatesResponse.nextToken)
+    public func listUpdatesPaginator(_ input: ListUpdatesRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listUpdates, resultKey: \ListUpdatesResponse.updateIds, tokenKey: \ListUpdatesResponse.nextToken, onPage: onPage)
     }
     
 }

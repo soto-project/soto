@@ -5,18 +5,18 @@ import NIO
 extension MediaPackageVod {
 
     ///  Returns a collection of MediaPackage VOD Asset resources.
-    public func listAssetsPaginator(_ input: ListAssetsRequest) -> EventLoopFuture<[AssetShallow]> {
-        return client.paginate(input: input, command: listAssets, resultKey: \ListAssetsResponse.assets, tokenKey: \ListAssetsResponse.nextToken)
+    public func listAssetsPaginator(_ input: ListAssetsRequest, onPage: @escaping ([AssetShallow], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAssets, resultKey: \ListAssetsResponse.assets, tokenKey: \ListAssetsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a collection of MediaPackage VOD PackagingConfiguration resources.
-    public func listPackagingConfigurationsPaginator(_ input: ListPackagingConfigurationsRequest) -> EventLoopFuture<[PackagingConfiguration]> {
-        return client.paginate(input: input, command: listPackagingConfigurations, resultKey: \ListPackagingConfigurationsResponse.packagingConfigurations, tokenKey: \ListPackagingConfigurationsResponse.nextToken)
+    public func listPackagingConfigurationsPaginator(_ input: ListPackagingConfigurationsRequest, onPage: @escaping ([PackagingConfiguration], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPackagingConfigurations, resultKey: \ListPackagingConfigurationsResponse.packagingConfigurations, tokenKey: \ListPackagingConfigurationsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a collection of MediaPackage VOD PackagingGroup resources.
-    public func listPackagingGroupsPaginator(_ input: ListPackagingGroupsRequest) -> EventLoopFuture<[PackagingGroup]> {
-        return client.paginate(input: input, command: listPackagingGroups, resultKey: \ListPackagingGroupsResponse.packagingGroups, tokenKey: \ListPackagingGroupsResponse.nextToken)
+    public func listPackagingGroupsPaginator(_ input: ListPackagingGroupsRequest, onPage: @escaping ([PackagingGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPackagingGroups, resultKey: \ListPackagingGroupsResponse.packagingGroups, tokenKey: \ListPackagingGroupsResponse.nextToken, onPage: onPage)
     }
     
 }

@@ -5,28 +5,28 @@ import NIO
 extension DataSync {
 
     ///  Returns a list of agents owned by an AWS account in the AWS Region specified in the request. The returned list is ordered by agent Amazon Resource Name (ARN). By default, this operation returns a maximum of 100 agents. This operation supports pagination that enables you to optionally reduce the number of agents returned in a response. If you have more agents than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a marker that you can specify in your next request to fetch the next page of agents.
-    public func listAgentsPaginator(_ input: ListAgentsRequest) -> EventLoopFuture<[AgentListEntry]> {
-        return client.paginate(input: input, command: listAgents, resultKey: \ListAgentsResponse.agents, tokenKey: \ListAgentsResponse.nextToken)
+    public func listAgentsPaginator(_ input: ListAgentsRequest, onPage: @escaping ([AgentListEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAgents, resultKey: \ListAgentsResponse.agents, tokenKey: \ListAgentsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a lists of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
-    public func listLocationsPaginator(_ input: ListLocationsRequest) -> EventLoopFuture<[LocationListEntry]> {
-        return client.paginate(input: input, command: listLocations, resultKey: \ListLocationsResponse.locations, tokenKey: \ListLocationsResponse.nextToken)
+    public func listLocationsPaginator(_ input: ListLocationsRequest, onPage: @escaping ([LocationListEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listLocations, resultKey: \ListLocationsResponse.locations, tokenKey: \ListLocationsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns all the tags associated with a specified resources. 
-    public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest) -> EventLoopFuture<[TagListEntry]> {
-        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceResponse.tags, tokenKey: \ListTagsForResourceResponse.nextToken)
+    public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest, onPage: @escaping ([TagListEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceResponse.tags, tokenKey: \ListTagsForResourceResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of executed tasks.
-    public func listTaskExecutionsPaginator(_ input: ListTaskExecutionsRequest) -> EventLoopFuture<[TaskExecutionListEntry]> {
-        return client.paginate(input: input, command: listTaskExecutions, resultKey: \ListTaskExecutionsResponse.taskExecutions, tokenKey: \ListTaskExecutionsResponse.nextToken)
+    public func listTaskExecutionsPaginator(_ input: ListTaskExecutionsRequest, onPage: @escaping ([TaskExecutionListEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTaskExecutions, resultKey: \ListTaskExecutionsResponse.taskExecutions, tokenKey: \ListTaskExecutionsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of all the tasks.
-    public func listTasksPaginator(_ input: ListTasksRequest) -> EventLoopFuture<[TaskListEntry]> {
-        return client.paginate(input: input, command: listTasks, resultKey: \ListTasksResponse.tasks, tokenKey: \ListTasksResponse.nextToken)
+    public func listTasksPaginator(_ input: ListTasksRequest, onPage: @escaping ([TaskListEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTasks, resultKey: \ListTasksResponse.tasks, tokenKey: \ListTasksResponse.nextToken, onPage: onPage)
     }
     
 }

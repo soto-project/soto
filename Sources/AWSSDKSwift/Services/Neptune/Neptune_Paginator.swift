@@ -5,43 +5,43 @@ import NIO
 extension Neptune {
 
     ///  Returns a list of the available DB engines.
-    public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage) -> EventLoopFuture<[DBEngineVersion]> {
-        return client.paginate(input: input, command: describeDBEngineVersions, resultKey: \DBEngineVersionMessage.dBEngineVersions, tokenKey: \DBEngineVersionMessage.marker)
+    public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage, onPage: @escaping ([DBEngineVersion], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBEngineVersions, resultKey: \DBEngineVersionMessage.dBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, onPage: onPage)
     }
     
     ///  Returns information about provisioned instances. This API supports pagination.
-    public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage) -> EventLoopFuture<[DBInstance]> {
-        return client.paginate(input: input, command: describeDBInstances, resultKey: \DBInstanceMessage.dBInstances, tokenKey: \DBInstanceMessage.marker)
+    public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage, onPage: @escaping ([DBInstance], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBInstances, resultKey: \DBInstanceMessage.dBInstances, tokenKey: \DBInstanceMessage.marker, onPage: onPage)
     }
     
     ///  Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
-    public func describeDBParameterGroupsPaginator(_ input: DescribeDBParameterGroupsMessage) -> EventLoopFuture<[DBParameterGroup]> {
-        return client.paginate(input: input, command: describeDBParameterGroups, resultKey: \DBParameterGroupsMessage.dBParameterGroups, tokenKey: \DBParameterGroupsMessage.marker)
+    public func describeDBParameterGroupsPaginator(_ input: DescribeDBParameterGroupsMessage, onPage: @escaping ([DBParameterGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBParameterGroups, resultKey: \DBParameterGroupsMessage.dBParameterGroups, tokenKey: \DBParameterGroupsMessage.marker, onPage: onPage)
     }
     
     ///  Returns the detailed parameter list for a particular DB parameter group.
-    public func describeDBParametersPaginator(_ input: DescribeDBParametersMessage) -> EventLoopFuture<[Parameter]> {
-        return client.paginate(input: input, command: describeDBParameters, resultKey: \DBParameterGroupDetails.parameters, tokenKey: \DBParameterGroupDetails.marker)
+    public func describeDBParametersPaginator(_ input: DescribeDBParametersMessage, onPage: @escaping ([Parameter], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBParameters, resultKey: \DBParameterGroupDetails.parameters, tokenKey: \DBParameterGroupDetails.marker, onPage: onPage)
     }
     
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial.
-    public func describeDBSubnetGroupsPaginator(_ input: DescribeDBSubnetGroupsMessage) -> EventLoopFuture<[DBSubnetGroup]> {
-        return client.paginate(input: input, command: describeDBSubnetGroups, resultKey: \DBSubnetGroupMessage.dBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker)
+    public func describeDBSubnetGroupsPaginator(_ input: DescribeDBSubnetGroupsMessage, onPage: @escaping ([DBSubnetGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBSubnetGroups, resultKey: \DBSubnetGroupMessage.dBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, onPage: onPage)
     }
     
     ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
-    public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage) -> EventLoopFuture<[EventSubscription]> {
-        return client.paginate(input: input, command: describeEventSubscriptions, resultKey: \EventSubscriptionsMessage.eventSubscriptionsList, tokenKey: \EventSubscriptionsMessage.marker)
+    public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage, onPage: @escaping ([EventSubscription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEventSubscriptions, resultKey: \EventSubscriptionsMessage.eventSubscriptionsList, tokenKey: \EventSubscriptionsMessage.marker, onPage: onPage)
     }
     
     ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
-    public func describeEventsPaginator(_ input: DescribeEventsMessage) -> EventLoopFuture<[Event]> {
-        return client.paginate(input: input, command: describeEvents, resultKey: \EventsMessage.events, tokenKey: \EventsMessage.marker)
+    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping ([Event], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEvents, resultKey: \EventsMessage.events, tokenKey: \EventsMessage.marker, onPage: onPage)
     }
     
     ///  Returns a list of orderable DB instance options for the specified engine.
-    public func describeOrderableDBInstanceOptionsPaginator(_ input: DescribeOrderableDBInstanceOptionsMessage) -> EventLoopFuture<[OrderableDBInstanceOption]> {
-        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, resultKey: \OrderableDBInstanceOptionsMessage.orderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker)
+    public func describeOrderableDBInstanceOptionsPaginator(_ input: DescribeOrderableDBInstanceOptionsMessage, onPage: @escaping ([OrderableDBInstanceOption], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, resultKey: \OrderableDBInstanceOptionsMessage.orderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, onPage: onPage)
     }
     
 }

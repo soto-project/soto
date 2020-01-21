@@ -5,43 +5,43 @@ import NIO
 extension Comprehend {
 
     ///  Gets a list of the documentation classification jobs that you have submitted.
-    public func listDocumentClassificationJobsPaginator(_ input: ListDocumentClassificationJobsRequest) -> EventLoopFuture<[DocumentClassificationJobProperties]> {
-        return client.paginate(input: input, command: listDocumentClassificationJobs, resultKey: \ListDocumentClassificationJobsResponse.documentClassificationJobPropertiesList, tokenKey: \ListDocumentClassificationJobsResponse.nextToken)
+    public func listDocumentClassificationJobsPaginator(_ input: ListDocumentClassificationJobsRequest, onPage: @escaping ([DocumentClassificationJobProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDocumentClassificationJobs, resultKey: \ListDocumentClassificationJobsResponse.documentClassificationJobPropertiesList, tokenKey: \ListDocumentClassificationJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets a list of the document classifiers that you have created.
-    public func listDocumentClassifiersPaginator(_ input: ListDocumentClassifiersRequest) -> EventLoopFuture<[DocumentClassifierProperties]> {
-        return client.paginate(input: input, command: listDocumentClassifiers, resultKey: \ListDocumentClassifiersResponse.documentClassifierPropertiesList, tokenKey: \ListDocumentClassifiersResponse.nextToken)
+    public func listDocumentClassifiersPaginator(_ input: ListDocumentClassifiersRequest, onPage: @escaping ([DocumentClassifierProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDocumentClassifiers, resultKey: \ListDocumentClassifiersResponse.documentClassifierPropertiesList, tokenKey: \ListDocumentClassifiersResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets a list of the dominant language detection jobs that you have submitted.
-    public func listDominantLanguageDetectionJobsPaginator(_ input: ListDominantLanguageDetectionJobsRequest) -> EventLoopFuture<[DominantLanguageDetectionJobProperties]> {
-        return client.paginate(input: input, command: listDominantLanguageDetectionJobs, resultKey: \ListDominantLanguageDetectionJobsResponse.dominantLanguageDetectionJobPropertiesList, tokenKey: \ListDominantLanguageDetectionJobsResponse.nextToken)
+    public func listDominantLanguageDetectionJobsPaginator(_ input: ListDominantLanguageDetectionJobsRequest, onPage: @escaping ([DominantLanguageDetectionJobProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDominantLanguageDetectionJobs, resultKey: \ListDominantLanguageDetectionJobsResponse.dominantLanguageDetectionJobPropertiesList, tokenKey: \ListDominantLanguageDetectionJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets a list of the entity detection jobs that you have submitted.
-    public func listEntitiesDetectionJobsPaginator(_ input: ListEntitiesDetectionJobsRequest) -> EventLoopFuture<[EntitiesDetectionJobProperties]> {
-        return client.paginate(input: input, command: listEntitiesDetectionJobs, resultKey: \ListEntitiesDetectionJobsResponse.entitiesDetectionJobPropertiesList, tokenKey: \ListEntitiesDetectionJobsResponse.nextToken)
+    public func listEntitiesDetectionJobsPaginator(_ input: ListEntitiesDetectionJobsRequest, onPage: @escaping ([EntitiesDetectionJobProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEntitiesDetectionJobs, resultKey: \ListEntitiesDetectionJobsResponse.entitiesDetectionJobPropertiesList, tokenKey: \ListEntitiesDetectionJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.
-    public func listEntityRecognizersPaginator(_ input: ListEntityRecognizersRequest) -> EventLoopFuture<[EntityRecognizerProperties]> {
-        return client.paginate(input: input, command: listEntityRecognizers, resultKey: \ListEntityRecognizersResponse.entityRecognizerPropertiesList, tokenKey: \ListEntityRecognizersResponse.nextToken)
+    public func listEntityRecognizersPaginator(_ input: ListEntityRecognizersRequest, onPage: @escaping ([EntityRecognizerProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEntityRecognizers, resultKey: \ListEntityRecognizersResponse.entityRecognizerPropertiesList, tokenKey: \ListEntityRecognizersResponse.nextToken, onPage: onPage)
     }
     
     ///  Get a list of key phrase detection jobs that you have submitted.
-    public func listKeyPhrasesDetectionJobsPaginator(_ input: ListKeyPhrasesDetectionJobsRequest) -> EventLoopFuture<[KeyPhrasesDetectionJobProperties]> {
-        return client.paginate(input: input, command: listKeyPhrasesDetectionJobs, resultKey: \ListKeyPhrasesDetectionJobsResponse.keyPhrasesDetectionJobPropertiesList, tokenKey: \ListKeyPhrasesDetectionJobsResponse.nextToken)
+    public func listKeyPhrasesDetectionJobsPaginator(_ input: ListKeyPhrasesDetectionJobsRequest, onPage: @escaping ([KeyPhrasesDetectionJobProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listKeyPhrasesDetectionJobs, resultKey: \ListKeyPhrasesDetectionJobsResponse.keyPhrasesDetectionJobPropertiesList, tokenKey: \ListKeyPhrasesDetectionJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets a list of sentiment detection jobs that you have submitted.
-    public func listSentimentDetectionJobsPaginator(_ input: ListSentimentDetectionJobsRequest) -> EventLoopFuture<[SentimentDetectionJobProperties]> {
-        return client.paginate(input: input, command: listSentimentDetectionJobs, resultKey: \ListSentimentDetectionJobsResponse.sentimentDetectionJobPropertiesList, tokenKey: \ListSentimentDetectionJobsResponse.nextToken)
+    public func listSentimentDetectionJobsPaginator(_ input: ListSentimentDetectionJobsRequest, onPage: @escaping ([SentimentDetectionJobProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSentimentDetectionJobs, resultKey: \ListSentimentDetectionJobsResponse.sentimentDetectionJobPropertiesList, tokenKey: \ListSentimentDetectionJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets a list of the topic detection jobs that you have submitted.
-    public func listTopicsDetectionJobsPaginator(_ input: ListTopicsDetectionJobsRequest) -> EventLoopFuture<[TopicsDetectionJobProperties]> {
-        return client.paginate(input: input, command: listTopicsDetectionJobs, resultKey: \ListTopicsDetectionJobsResponse.topicsDetectionJobPropertiesList, tokenKey: \ListTopicsDetectionJobsResponse.nextToken)
+    public func listTopicsDetectionJobsPaginator(_ input: ListTopicsDetectionJobsRequest, onPage: @escaping ([TopicsDetectionJobProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTopicsDetectionJobs, resultKey: \ListTopicsDetectionJobsResponse.topicsDetectionJobPropertiesList, tokenKey: \ListTopicsDetectionJobsResponse.nextToken, onPage: onPage)
     }
     
 }

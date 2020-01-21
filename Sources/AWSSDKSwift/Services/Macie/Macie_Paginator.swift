@@ -5,13 +5,13 @@ import NIO
 extension Macie {
 
     ///  Lists all Amazon Macie member accounts for the current Amazon Macie master account.
-    public func listMemberAccountsPaginator(_ input: ListMemberAccountsRequest) -> EventLoopFuture<[MemberAccount]> {
-        return client.paginate(input: input, command: listMemberAccounts, resultKey: \ListMemberAccountsResult.memberAccounts, tokenKey: \ListMemberAccountsResult.nextToken)
+    public func listMemberAccountsPaginator(_ input: ListMemberAccountsRequest, onPage: @escaping ([MemberAccount], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMemberAccounts, resultKey: \ListMemberAccountsResult.memberAccounts, tokenKey: \ListMemberAccountsResult.nextToken, onPage: onPage)
     }
     
     ///  Lists all the S3 resources associated with Amazon Macie. If memberAccountId isn't specified, the action lists the S3 resources associated with Amazon Macie for the current master account. If memberAccountId is specified, the action lists the S3 resources associated with Amazon Macie for the specified member account. 
-    public func listS3ResourcesPaginator(_ input: ListS3ResourcesRequest) -> EventLoopFuture<[S3ResourceClassification]> {
-        return client.paginate(input: input, command: listS3Resources, resultKey: \ListS3ResourcesResult.s3Resources, tokenKey: \ListS3ResourcesResult.nextToken)
+    public func listS3ResourcesPaginator(_ input: ListS3ResourcesRequest, onPage: @escaping ([S3ResourceClassification], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listS3Resources, resultKey: \ListS3ResourcesResult.s3Resources, tokenKey: \ListS3ResourcesResult.nextToken, onPage: onPage)
     }
     
 }

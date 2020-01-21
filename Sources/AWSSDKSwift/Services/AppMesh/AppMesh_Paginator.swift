@@ -5,33 +5,33 @@ import NIO
 extension AppMesh {
 
     ///  Returns a list of existing service meshes.
-    public func listMeshesPaginator(_ input: ListMeshesInput) -> EventLoopFuture<[MeshRef]> {
-        return client.paginate(input: input, command: listMeshes, resultKey: \ListMeshesOutput.meshes, tokenKey: \ListMeshesOutput.nextToken)
+    public func listMeshesPaginator(_ input: ListMeshesInput, onPage: @escaping ([MeshRef], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMeshes, resultKey: \ListMeshesOutput.meshes, tokenKey: \ListMeshesOutput.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of existing routes in a service mesh.
-    public func listRoutesPaginator(_ input: ListRoutesInput) -> EventLoopFuture<[RouteRef]> {
-        return client.paginate(input: input, command: listRoutes, resultKey: \ListRoutesOutput.routes, tokenKey: \ListRoutesOutput.nextToken)
+    public func listRoutesPaginator(_ input: ListRoutesInput, onPage: @escaping ([RouteRef], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRoutes, resultKey: \ListRoutesOutput.routes, tokenKey: \ListRoutesOutput.nextToken, onPage: onPage)
     }
     
     ///  List the tags for an App Mesh resource.
-    public func listTagsForResourcePaginator(_ input: ListTagsForResourceInput) -> EventLoopFuture<[TagRef]> {
-        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceOutput.tags, tokenKey: \ListTagsForResourceOutput.nextToken)
+    public func listTagsForResourcePaginator(_ input: ListTagsForResourceInput, onPage: @escaping ([TagRef], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceOutput.tags, tokenKey: \ListTagsForResourceOutput.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of existing virtual nodes.
-    public func listVirtualNodesPaginator(_ input: ListVirtualNodesInput) -> EventLoopFuture<[VirtualNodeRef]> {
-        return client.paginate(input: input, command: listVirtualNodes, resultKey: \ListVirtualNodesOutput.virtualNodes, tokenKey: \ListVirtualNodesOutput.nextToken)
+    public func listVirtualNodesPaginator(_ input: ListVirtualNodesInput, onPage: @escaping ([VirtualNodeRef], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listVirtualNodes, resultKey: \ListVirtualNodesOutput.virtualNodes, tokenKey: \ListVirtualNodesOutput.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of existing virtual routers in a service mesh.
-    public func listVirtualRoutersPaginator(_ input: ListVirtualRoutersInput) -> EventLoopFuture<[VirtualRouterRef]> {
-        return client.paginate(input: input, command: listVirtualRouters, resultKey: \ListVirtualRoutersOutput.virtualRouters, tokenKey: \ListVirtualRoutersOutput.nextToken)
+    public func listVirtualRoutersPaginator(_ input: ListVirtualRoutersInput, onPage: @escaping ([VirtualRouterRef], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listVirtualRouters, resultKey: \ListVirtualRoutersOutput.virtualRouters, tokenKey: \ListVirtualRoutersOutput.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of existing virtual services in a service mesh.
-    public func listVirtualServicesPaginator(_ input: ListVirtualServicesInput) -> EventLoopFuture<[VirtualServiceRef]> {
-        return client.paginate(input: input, command: listVirtualServices, resultKey: \ListVirtualServicesOutput.virtualServices, tokenKey: \ListVirtualServicesOutput.nextToken)
+    public func listVirtualServicesPaginator(_ input: ListVirtualServicesInput, onPage: @escaping ([VirtualServiceRef], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listVirtualServices, resultKey: \ListVirtualServicesOutput.virtualServices, tokenKey: \ListVirtualServicesOutput.nextToken, onPage: onPage)
     }
     
 }

@@ -5,24 +5,18 @@ import NIO
 extension WorkDocs {
 
     ///  Retrieves the document versions for the specified document. By default, only active versions are returned.
-    public func describeDocumentVersionsPaginator(_ input: DescribeDocumentVersionsRequest) -> EventLoopFuture<[DocumentVersionMetadata]> {
-        return client.paginate(input: input, command: describeDocumentVersions, resultKey: \DescribeDocumentVersionsResponse.documentVersions, tokenKey: \DescribeDocumentVersionsResponse.marker)
+    public func describeDocumentVersionsPaginator(_ input: DescribeDocumentVersionsRequest, onPage: @escaping ([DocumentVersionMetadata], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDocumentVersions, resultKey: \DescribeDocumentVersionsResponse.documentVersions, tokenKey: \DescribeDocumentVersionsResponse.marker, onPage: onPage)
     }
     
     ///  Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
-    public struct describeFolderContentsPaginatedResult {
-        let folders: [FolderMetadata]
-        let documents: [DocumentMetadata]
-    }
-    public func describeFolderContentsPaginator(_ input: DescribeFolderContentsRequest) -> EventLoopFuture<describeFolderContentsPaginatedResult> {
-        return client.paginate(input: input, command: describeFolderContents, resultKey1: \DescribeFolderContentsResponse.folders, resultKey2: \DescribeFolderContentsResponse.documents, tokenKey: \DescribeFolderContentsResponse.marker).map {
-            return describeFolderContentsPaginatedResult(folders: $0, documents: $1)
-        }
+    public func describeFolderContentsPaginator(_ input: DescribeFolderContentsRequest, onPage: @escaping ([FolderMetadata], [DocumentMetadata], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeFolderContents, resultKey1: \DescribeFolderContentsResponse.folders, resultKey2: \DescribeFolderContentsResponse.documents, tokenKey: \DescribeFolderContentsResponse.marker, onPage: onPage)
     }
     
     ///  Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
-    public func describeUsersPaginator(_ input: DescribeUsersRequest) -> EventLoopFuture<[User]> {
-        return client.paginate(input: input, command: describeUsers, resultKey: \DescribeUsersResponse.users, tokenKey: \DescribeUsersResponse.marker)
+    public func describeUsersPaginator(_ input: DescribeUsersRequest, onPage: @escaping ([User], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeUsers, resultKey: \DescribeUsersResponse.users, tokenKey: \DescribeUsersResponse.marker, onPage: onPage)
     }
     
 }

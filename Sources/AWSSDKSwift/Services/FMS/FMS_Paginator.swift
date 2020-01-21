@@ -5,18 +5,18 @@ import NIO
 extension FMS {
 
     ///  Returns an array of PolicyComplianceStatus objects in the response. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
-    public func listComplianceStatusPaginator(_ input: ListComplianceStatusRequest) -> EventLoopFuture<[PolicyComplianceStatus]> {
-        return client.paginate(input: input, command: listComplianceStatus, resultKey: \ListComplianceStatusResponse.policyComplianceStatusList, tokenKey: \ListComplianceStatusResponse.nextToken)
+    public func listComplianceStatusPaginator(_ input: ListComplianceStatusRequest, onPage: @escaping ([PolicyComplianceStatus], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listComplianceStatus, resultKey: \ListComplianceStatusResponse.policyComplianceStatusList, tokenKey: \ListComplianceStatusResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a MemberAccounts object that lists the member accounts in the administrator's AWS organization. The ListMemberAccounts must be submitted by the account that is set as the AWS Firewall Manager administrator.
-    public func listMemberAccountsPaginator(_ input: ListMemberAccountsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listMemberAccounts, resultKey: \ListMemberAccountsResponse.memberAccounts, tokenKey: \ListMemberAccountsResponse.nextToken)
+    public func listMemberAccountsPaginator(_ input: ListMemberAccountsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMemberAccounts, resultKey: \ListMemberAccountsResponse.memberAccounts, tokenKey: \ListMemberAccountsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns an array of PolicySummary objects in the response.
-    public func listPoliciesPaginator(_ input: ListPoliciesRequest) -> EventLoopFuture<[PolicySummary]> {
-        return client.paginate(input: input, command: listPolicies, resultKey: \ListPoliciesResponse.policyList, tokenKey: \ListPoliciesResponse.nextToken)
+    public func listPoliciesPaginator(_ input: ListPoliciesRequest, onPage: @escaping ([PolicySummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPolicies, resultKey: \ListPoliciesResponse.policyList, tokenKey: \ListPoliciesResponse.nextToken, onPage: onPage)
     }
     
 }

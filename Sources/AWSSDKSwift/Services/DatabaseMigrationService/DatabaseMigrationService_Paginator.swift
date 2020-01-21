@@ -5,78 +5,78 @@ import NIO
 extension DatabaseMigrationService {
 
     ///  Provides a description of the certificate.
-    public func describeCertificatesPaginator(_ input: DescribeCertificatesMessage) -> EventLoopFuture<[Certificate]> {
-        return client.paginate(input: input, command: describeCertificates, resultKey: \DescribeCertificatesResponse.certificates, tokenKey: \DescribeCertificatesResponse.marker)
+    public func describeCertificatesPaginator(_ input: DescribeCertificatesMessage, onPage: @escaping ([Certificate], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCertificates, resultKey: \DescribeCertificatesResponse.certificates, tokenKey: \DescribeCertificatesResponse.marker, onPage: onPage)
     }
     
     ///  Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
-    public func describeConnectionsPaginator(_ input: DescribeConnectionsMessage) -> EventLoopFuture<[Connection]> {
-        return client.paginate(input: input, command: describeConnections, resultKey: \DescribeConnectionsResponse.connections, tokenKey: \DescribeConnectionsResponse.marker)
+    public func describeConnectionsPaginator(_ input: DescribeConnectionsMessage, onPage: @escaping ([Connection], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeConnections, resultKey: \DescribeConnectionsResponse.connections, tokenKey: \DescribeConnectionsResponse.marker, onPage: onPage)
     }
     
     ///  Returns information about the type of endpoints available.
-    public func describeEndpointTypesPaginator(_ input: DescribeEndpointTypesMessage) -> EventLoopFuture<[SupportedEndpointType]> {
-        return client.paginate(input: input, command: describeEndpointTypes, resultKey: \DescribeEndpointTypesResponse.supportedEndpointTypes, tokenKey: \DescribeEndpointTypesResponse.marker)
+    public func describeEndpointTypesPaginator(_ input: DescribeEndpointTypesMessage, onPage: @escaping ([SupportedEndpointType], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEndpointTypes, resultKey: \DescribeEndpointTypesResponse.supportedEndpointTypes, tokenKey: \DescribeEndpointTypesResponse.marker, onPage: onPage)
     }
     
     ///  Returns information about the endpoints for your account in the current region.
-    public func describeEndpointsPaginator(_ input: DescribeEndpointsMessage) -> EventLoopFuture<[Endpoint]> {
-        return client.paginate(input: input, command: describeEndpoints, resultKey: \DescribeEndpointsResponse.endpoints, tokenKey: \DescribeEndpointsResponse.marker)
+    public func describeEndpointsPaginator(_ input: DescribeEndpointsMessage, onPage: @escaping ([Endpoint], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEndpoints, resultKey: \DescribeEndpointsResponse.endpoints, tokenKey: \DescribeEndpointsResponse.marker, onPage: onPage)
     }
     
     ///  Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.  If you specify SubscriptionName, this action lists the description for that subscription.
-    public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage) -> EventLoopFuture<[EventSubscription]> {
-        return client.paginate(input: input, command: describeEventSubscriptions, resultKey: \DescribeEventSubscriptionsResponse.eventSubscriptionsList, tokenKey: \DescribeEventSubscriptionsResponse.marker)
+    public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage, onPage: @escaping ([EventSubscription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEventSubscriptions, resultKey: \DescribeEventSubscriptionsResponse.eventSubscriptionsList, tokenKey: \DescribeEventSubscriptionsResponse.marker, onPage: onPage)
     }
     
     ///   Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on AWS DMS events, see Working with Events and Notifications in the AWS Database Migration User Guide. 
-    public func describeEventsPaginator(_ input: DescribeEventsMessage) -> EventLoopFuture<[Event]> {
-        return client.paginate(input: input, command: describeEvents, resultKey: \DescribeEventsResponse.events, tokenKey: \DescribeEventsResponse.marker)
+    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping ([Event], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEvents, resultKey: \DescribeEventsResponse.events, tokenKey: \DescribeEventsResponse.marker, onPage: onPage)
     }
     
     ///  Returns information about the replication instance types that can be created in the specified region.
-    public func describeOrderableReplicationInstancesPaginator(_ input: DescribeOrderableReplicationInstancesMessage) -> EventLoopFuture<[OrderableReplicationInstance]> {
-        return client.paginate(input: input, command: describeOrderableReplicationInstances, resultKey: \DescribeOrderableReplicationInstancesResponse.orderableReplicationInstances, tokenKey: \DescribeOrderableReplicationInstancesResponse.marker)
+    public func describeOrderableReplicationInstancesPaginator(_ input: DescribeOrderableReplicationInstancesMessage, onPage: @escaping ([OrderableReplicationInstance], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeOrderableReplicationInstances, resultKey: \DescribeOrderableReplicationInstancesResponse.orderableReplicationInstances, tokenKey: \DescribeOrderableReplicationInstancesResponse.marker, onPage: onPage)
     }
     
     ///  For internal use only
-    public func describePendingMaintenanceActionsPaginator(_ input: DescribePendingMaintenanceActionsMessage) -> EventLoopFuture<[ResourcePendingMaintenanceActions]> {
-        return client.paginate(input: input, command: describePendingMaintenanceActions, resultKey: \DescribePendingMaintenanceActionsResponse.pendingMaintenanceActions, tokenKey: \DescribePendingMaintenanceActionsResponse.marker)
+    public func describePendingMaintenanceActionsPaginator(_ input: DescribePendingMaintenanceActionsMessage, onPage: @escaping ([ResourcePendingMaintenanceActions], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describePendingMaintenanceActions, resultKey: \DescribePendingMaintenanceActionsResponse.pendingMaintenanceActions, tokenKey: \DescribePendingMaintenanceActionsResponse.marker, onPage: onPage)
     }
     
     ///  Returns information about the task logs for the specified task.
-    public func describeReplicationInstanceTaskLogsPaginator(_ input: DescribeReplicationInstanceTaskLogsMessage) -> EventLoopFuture<[ReplicationInstanceTaskLog]> {
-        return client.paginate(input: input, command: describeReplicationInstanceTaskLogs, resultKey: \DescribeReplicationInstanceTaskLogsResponse.replicationInstanceTaskLogs, tokenKey: \DescribeReplicationInstanceTaskLogsResponse.marker)
+    public func describeReplicationInstanceTaskLogsPaginator(_ input: DescribeReplicationInstanceTaskLogsMessage, onPage: @escaping ([ReplicationInstanceTaskLog], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReplicationInstanceTaskLogs, resultKey: \DescribeReplicationInstanceTaskLogsResponse.replicationInstanceTaskLogs, tokenKey: \DescribeReplicationInstanceTaskLogsResponse.marker, onPage: onPage)
     }
     
     ///  Returns information about replication instances for your account in the current region.
-    public func describeReplicationInstancesPaginator(_ input: DescribeReplicationInstancesMessage) -> EventLoopFuture<[ReplicationInstance]> {
-        return client.paginate(input: input, command: describeReplicationInstances, resultKey: \DescribeReplicationInstancesResponse.replicationInstances, tokenKey: \DescribeReplicationInstancesResponse.marker)
+    public func describeReplicationInstancesPaginator(_ input: DescribeReplicationInstancesMessage, onPage: @escaping ([ReplicationInstance], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReplicationInstances, resultKey: \DescribeReplicationInstancesResponse.replicationInstances, tokenKey: \DescribeReplicationInstancesResponse.marker, onPage: onPage)
     }
     
     ///  Returns information about the replication subnet groups.
-    public func describeReplicationSubnetGroupsPaginator(_ input: DescribeReplicationSubnetGroupsMessage) -> EventLoopFuture<[ReplicationSubnetGroup]> {
-        return client.paginate(input: input, command: describeReplicationSubnetGroups, resultKey: \DescribeReplicationSubnetGroupsResponse.replicationSubnetGroups, tokenKey: \DescribeReplicationSubnetGroupsResponse.marker)
+    public func describeReplicationSubnetGroupsPaginator(_ input: DescribeReplicationSubnetGroupsMessage, onPage: @escaping ([ReplicationSubnetGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReplicationSubnetGroups, resultKey: \DescribeReplicationSubnetGroupsResponse.replicationSubnetGroups, tokenKey: \DescribeReplicationSubnetGroupsResponse.marker, onPage: onPage)
     }
     
     ///  Returns the task assessment results from Amazon S3. This action always returns the latest results.
-    public func describeReplicationTaskAssessmentResultsPaginator(_ input: DescribeReplicationTaskAssessmentResultsMessage) -> EventLoopFuture<[ReplicationTaskAssessmentResult]> {
-        return client.paginate(input: input, command: describeReplicationTaskAssessmentResults, resultKey: \DescribeReplicationTaskAssessmentResultsResponse.replicationTaskAssessmentResults, tokenKey: \DescribeReplicationTaskAssessmentResultsResponse.marker)
+    public func describeReplicationTaskAssessmentResultsPaginator(_ input: DescribeReplicationTaskAssessmentResultsMessage, onPage: @escaping ([ReplicationTaskAssessmentResult], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReplicationTaskAssessmentResults, resultKey: \DescribeReplicationTaskAssessmentResultsResponse.replicationTaskAssessmentResults, tokenKey: \DescribeReplicationTaskAssessmentResultsResponse.marker, onPage: onPage)
     }
     
     ///  Returns information about replication tasks for your account in the current region.
-    public func describeReplicationTasksPaginator(_ input: DescribeReplicationTasksMessage) -> EventLoopFuture<[ReplicationTask]> {
-        return client.paginate(input: input, command: describeReplicationTasks, resultKey: \DescribeReplicationTasksResponse.replicationTasks, tokenKey: \DescribeReplicationTasksResponse.marker)
+    public func describeReplicationTasksPaginator(_ input: DescribeReplicationTasksMessage, onPage: @escaping ([ReplicationTask], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReplicationTasks, resultKey: \DescribeReplicationTasksResponse.replicationTasks, tokenKey: \DescribeReplicationTasksResponse.marker, onPage: onPage)
     }
     
     ///  Returns information about the schema for the specified endpoint. 
-    public func describeSchemasPaginator(_ input: DescribeSchemasMessage) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: describeSchemas, resultKey: \DescribeSchemasResponse.schemas, tokenKey: \DescribeSchemasResponse.marker)
+    public func describeSchemasPaginator(_ input: DescribeSchemasMessage, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeSchemas, resultKey: \DescribeSchemasResponse.schemas, tokenKey: \DescribeSchemasResponse.marker, onPage: onPage)
     }
     
     ///  Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that AWS DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
-    public func describeTableStatisticsPaginator(_ input: DescribeTableStatisticsMessage) -> EventLoopFuture<[TableStatistics]> {
-        return client.paginate(input: input, command: describeTableStatistics, resultKey: \DescribeTableStatisticsResponse.tableStatistics, tokenKey: \DescribeTableStatisticsResponse.marker)
+    public func describeTableStatisticsPaginator(_ input: DescribeTableStatisticsMessage, onPage: @escaping ([TableStatistics], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeTableStatistics, resultKey: \DescribeTableStatisticsResponse.tableStatistics, tokenKey: \DescribeTableStatisticsResponse.marker, onPage: onPage)
     }
     
 }

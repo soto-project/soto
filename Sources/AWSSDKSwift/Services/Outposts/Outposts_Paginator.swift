@@ -5,13 +5,13 @@ import NIO
 extension Outposts {
 
     ///  List the Outposts for your AWS account.
-    public func listOutpostsPaginator(_ input: ListOutpostsInput) -> EventLoopFuture<[Outpost]> {
-        return client.paginate(input: input, command: listOutposts, resultKey: \ListOutpostsOutput.outposts, tokenKey: \ListOutpostsOutput.nextToken)
+    public func listOutpostsPaginator(_ input: ListOutpostsInput, onPage: @escaping ([Outpost], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listOutposts, resultKey: \ListOutpostsOutput.outposts, tokenKey: \ListOutpostsOutput.nextToken, onPage: onPage)
     }
     
     ///  Lists the sites for the specified AWS account.
-    public func listSitesPaginator(_ input: ListSitesInput) -> EventLoopFuture<[Site]> {
-        return client.paginate(input: input, command: listSites, resultKey: \ListSitesOutput.sites, tokenKey: \ListSitesOutput.nextToken)
+    public func listSitesPaginator(_ input: ListSitesInput, onPage: @escaping ([Site], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSites, resultKey: \ListSitesOutput.sites, tokenKey: \ListSitesOutput.nextToken, onPage: onPage)
     }
     
 }

@@ -5,8 +5,8 @@ import NIO
 extension AWSDirectoryService {
 
     ///  Provides information about any domain controllers in your directory.
-    public func describeDomainControllersPaginator(_ input: DescribeDomainControllersRequest) -> EventLoopFuture<[DomainController]> {
-        return client.paginate(input: input, command: describeDomainControllers, resultKey: \DescribeDomainControllersResult.domainControllers, tokenKey: \DescribeDomainControllersResult.nextToken)
+    public func describeDomainControllersPaginator(_ input: DescribeDomainControllersRequest, onPage: @escaping ([DomainController], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDomainControllers, resultKey: \DescribeDomainControllersResult.domainControllers, tokenKey: \DescribeDomainControllersResult.nextToken, onPage: onPage)
     }
     
 }

@@ -5,8 +5,8 @@ import NIO
 extension IoTSecureTunneling {
 
     ///  List all tunnels for an AWS account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels.
-    public func listTunnelsPaginator(_ input: ListTunnelsRequest) -> EventLoopFuture<[TunnelSummary]> {
-        return client.paginate(input: input, command: listTunnels, resultKey: \ListTunnelsResponse.tunnelSummaries, tokenKey: \ListTunnelsResponse.nextToken)
+    public func listTunnelsPaginator(_ input: ListTunnelsRequest, onPage: @escaping ([TunnelSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTunnels, resultKey: \ListTunnelsResponse.tunnelSummaries, tokenKey: \ListTunnelsResponse.nextToken, onPage: onPage)
     }
     
 }

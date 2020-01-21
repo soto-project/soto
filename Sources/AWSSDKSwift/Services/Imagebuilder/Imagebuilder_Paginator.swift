@@ -5,48 +5,48 @@ import NIO
 extension Imagebuilder {
 
     ///   Returns the list of component build versions for the specified semantic version. 
-    public func listComponentBuildVersionsPaginator(_ input: ListComponentBuildVersionsRequest) -> EventLoopFuture<[ComponentSummary]> {
-        return client.paginate(input: input, command: listComponentBuildVersions, resultKey: \ListComponentBuildVersionsResponse.componentSummaryList, tokenKey: \ListComponentBuildVersionsResponse.nextToken)
+    public func listComponentBuildVersionsPaginator(_ input: ListComponentBuildVersionsRequest, onPage: @escaping ([ComponentSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listComponentBuildVersions, resultKey: \ListComponentBuildVersionsResponse.componentSummaryList, tokenKey: \ListComponentBuildVersionsResponse.nextToken, onPage: onPage)
     }
     
     ///   Returns the list of component build versions for the specified semantic version. 
-    public func listComponentsPaginator(_ input: ListComponentsRequest) -> EventLoopFuture<[ComponentVersion]> {
-        return client.paginate(input: input, command: listComponents, resultKey: \ListComponentsResponse.componentVersionList, tokenKey: \ListComponentsResponse.nextToken)
+    public func listComponentsPaginator(_ input: ListComponentsRequest, onPage: @escaping ([ComponentVersion], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listComponents, resultKey: \ListComponentsResponse.componentVersionList, tokenKey: \ListComponentsResponse.nextToken, onPage: onPage)
     }
     
     ///   Returns a list of distribution configurations. 
-    public func listDistributionConfigurationsPaginator(_ input: ListDistributionConfigurationsRequest) -> EventLoopFuture<[DistributionConfigurationSummary]> {
-        return client.paginate(input: input, command: listDistributionConfigurations, resultKey: \ListDistributionConfigurationsResponse.distributionConfigurationSummaryList, tokenKey: \ListDistributionConfigurationsResponse.nextToken)
+    public func listDistributionConfigurationsPaginator(_ input: ListDistributionConfigurationsRequest, onPage: @escaping ([DistributionConfigurationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDistributionConfigurations, resultKey: \ListDistributionConfigurationsResponse.distributionConfigurationSummaryList, tokenKey: \ListDistributionConfigurationsResponse.nextToken, onPage: onPage)
     }
     
     ///   Returns a list of distribution configurations. 
-    public func listImageBuildVersionsPaginator(_ input: ListImageBuildVersionsRequest) -> EventLoopFuture<[ImageSummary]> {
-        return client.paginate(input: input, command: listImageBuildVersions, resultKey: \ListImageBuildVersionsResponse.imageSummaryList, tokenKey: \ListImageBuildVersionsResponse.nextToken)
+    public func listImageBuildVersionsPaginator(_ input: ListImageBuildVersionsRequest, onPage: @escaping ([ImageSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listImageBuildVersions, resultKey: \ListImageBuildVersionsResponse.imageSummaryList, tokenKey: \ListImageBuildVersionsResponse.nextToken, onPage: onPage)
     }
     
     ///   Returns a list of images created by the specified pipeline. 
-    public func listImagePipelineImagesPaginator(_ input: ListImagePipelineImagesRequest) -> EventLoopFuture<[ImageSummary]> {
-        return client.paginate(input: input, command: listImagePipelineImages, resultKey: \ListImagePipelineImagesResponse.imageSummaryList, tokenKey: \ListImagePipelineImagesResponse.nextToken)
+    public func listImagePipelineImagesPaginator(_ input: ListImagePipelineImagesRequest, onPage: @escaping ([ImageSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listImagePipelineImages, resultKey: \ListImagePipelineImagesResponse.imageSummaryList, tokenKey: \ListImagePipelineImagesResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of image pipelines. 
-    public func listImagePipelinesPaginator(_ input: ListImagePipelinesRequest) -> EventLoopFuture<[ImagePipeline]> {
-        return client.paginate(input: input, command: listImagePipelines, resultKey: \ListImagePipelinesResponse.imagePipelineList, tokenKey: \ListImagePipelinesResponse.nextToken)
+    public func listImagePipelinesPaginator(_ input: ListImagePipelinesRequest, onPage: @escaping ([ImagePipeline], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listImagePipelines, resultKey: \ListImagePipelinesResponse.imagePipelineList, tokenKey: \ListImagePipelinesResponse.nextToken, onPage: onPage)
     }
     
     ///   Returns a list of image recipes. 
-    public func listImageRecipesPaginator(_ input: ListImageRecipesRequest) -> EventLoopFuture<[ImageRecipeSummary]> {
-        return client.paginate(input: input, command: listImageRecipes, resultKey: \ListImageRecipesResponse.imageRecipeSummaryList, tokenKey: \ListImageRecipesResponse.nextToken)
+    public func listImageRecipesPaginator(_ input: ListImageRecipesRequest, onPage: @escaping ([ImageRecipeSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listImageRecipes, resultKey: \ListImageRecipesResponse.imageRecipeSummaryList, tokenKey: \ListImageRecipesResponse.nextToken, onPage: onPage)
     }
     
     ///   Returns the list of image build versions for the specified semantic version. 
-    public func listImagesPaginator(_ input: ListImagesRequest) -> EventLoopFuture<[ImageVersion]> {
-        return client.paginate(input: input, command: listImages, resultKey: \ListImagesResponse.imageVersionList, tokenKey: \ListImagesResponse.nextToken)
+    public func listImagesPaginator(_ input: ListImagesRequest, onPage: @escaping ([ImageVersion], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listImages, resultKey: \ListImagesResponse.imageVersionList, tokenKey: \ListImagesResponse.nextToken, onPage: onPage)
     }
     
     ///   Returns a list of infrastructure configurations. 
-    public func listInfrastructureConfigurationsPaginator(_ input: ListInfrastructureConfigurationsRequest) -> EventLoopFuture<[InfrastructureConfigurationSummary]> {
-        return client.paginate(input: input, command: listInfrastructureConfigurations, resultKey: \ListInfrastructureConfigurationsResponse.infrastructureConfigurationSummaryList, tokenKey: \ListInfrastructureConfigurationsResponse.nextToken)
+    public func listInfrastructureConfigurationsPaginator(_ input: ListInfrastructureConfigurationsRequest, onPage: @escaping ([InfrastructureConfigurationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listInfrastructureConfigurations, resultKey: \ListInfrastructureConfigurationsResponse.infrastructureConfigurationSummaryList, tokenKey: \ListInfrastructureConfigurationsResponse.nextToken, onPage: onPage)
     }
     
 }

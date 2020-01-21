@@ -5,13 +5,13 @@ import NIO
 extension DynamoDB {
 
     ///  Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
-    public func listContributorInsightsPaginator(_ input: ListContributorInsightsInput) -> EventLoopFuture<[ContributorInsightsSummary]> {
-        return client.paginate(input: input, command: listContributorInsights, resultKey: \ListContributorInsightsOutput.contributorInsightsSummaries, tokenKey: \ListContributorInsightsOutput.nextToken)
+    public func listContributorInsightsPaginator(_ input: ListContributorInsightsInput, onPage: @escaping ([ContributorInsightsSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listContributorInsights, resultKey: \ListContributorInsightsOutput.contributorInsightsSummaries, tokenKey: \ListContributorInsightsOutput.nextToken, onPage: onPage)
     }
     
     ///  Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
-    public func listTablesPaginator(_ input: ListTablesInput) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listTables, resultKey: \ListTablesOutput.tableNames, tokenKey: \ListTablesOutput.lastEvaluatedTableName)
+    public func listTablesPaginator(_ input: ListTablesInput, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTables, resultKey: \ListTablesOutput.tableNames, tokenKey: \ListTablesOutput.lastEvaluatedTableName, onPage: onPage)
     }
     
 }

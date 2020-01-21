@@ -5,8 +5,8 @@ import NIO
 extension CodeStarconnections {
 
     ///  Lists the connections associated with your account.
-    public func listConnectionsPaginator(_ input: ListConnectionsInput) -> EventLoopFuture<[Connection]> {
-        return client.paginate(input: input, command: listConnections, resultKey: \ListConnectionsOutput.connections, tokenKey: \ListConnectionsOutput.nextToken)
+    public func listConnectionsPaginator(_ input: ListConnectionsInput, onPage: @escaping ([Connection], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listConnections, resultKey: \ListConnectionsOutput.connections, tokenKey: \ListConnectionsOutput.nextToken, onPage: onPage)
     }
     
 }

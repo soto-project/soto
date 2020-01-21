@@ -5,18 +5,18 @@ import NIO
 extension Kendra {
 
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
-    public func listDataSourceSyncJobsPaginator(_ input: ListDataSourceSyncJobsRequest) -> EventLoopFuture<[DataSourceSyncJob]> {
-        return client.paginate(input: input, command: listDataSourceSyncJobs, resultKey: \ListDataSourceSyncJobsResponse.history, tokenKey: \ListDataSourceSyncJobsResponse.nextToken)
+    public func listDataSourceSyncJobsPaginator(_ input: ListDataSourceSyncJobsRequest, onPage: @escaping ([DataSourceSyncJob], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataSourceSyncJobs, resultKey: \ListDataSourceSyncJobsResponse.history, tokenKey: \ListDataSourceSyncJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists the data sources that you have created.
-    public func listDataSourcesPaginator(_ input: ListDataSourcesRequest) -> EventLoopFuture<[DataSourceSummary]> {
-        return client.paginate(input: input, command: listDataSources, resultKey: \ListDataSourcesResponse.summaryItems, tokenKey: \ListDataSourcesResponse.nextToken)
+    public func listDataSourcesPaginator(_ input: ListDataSourcesRequest, onPage: @escaping ([DataSourceSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataSources, resultKey: \ListDataSourcesResponse.summaryItems, tokenKey: \ListDataSourcesResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists the Amazon Kendra indexes that you have created.
-    public func listIndicesPaginator(_ input: ListIndicesRequest) -> EventLoopFuture<[IndexConfigurationSummary]> {
-        return client.paginate(input: input, command: listIndices, resultKey: \ListIndicesResponse.indexConfigurationSummaryItems, tokenKey: \ListIndicesResponse.nextToken)
+    public func listIndicesPaginator(_ input: ListIndicesRequest, onPage: @escaping ([IndexConfigurationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listIndices, resultKey: \ListIndicesResponse.indexConfigurationSummaryItems, tokenKey: \ListIndicesResponse.nextToken, onPage: onPage)
     }
     
 }

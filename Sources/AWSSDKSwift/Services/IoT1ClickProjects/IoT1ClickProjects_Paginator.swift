@@ -5,13 +5,13 @@ import NIO
 extension IoT1ClickProjects {
 
     ///  Lists the placement(s) of a project.
-    public func listPlacementsPaginator(_ input: ListPlacementsRequest) -> EventLoopFuture<[PlacementSummary]> {
-        return client.paginate(input: input, command: listPlacements, resultKey: \ListPlacementsResponse.placements, tokenKey: \ListPlacementsResponse.nextToken)
+    public func listPlacementsPaginator(_ input: ListPlacementsRequest, onPage: @escaping ([PlacementSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPlacements, resultKey: \ListPlacementsResponse.placements, tokenKey: \ListPlacementsResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
-    public func listProjectsPaginator(_ input: ListProjectsRequest) -> EventLoopFuture<[ProjectSummary]> {
-        return client.paginate(input: input, command: listProjects, resultKey: \ListProjectsResponse.projects, tokenKey: \ListProjectsResponse.nextToken)
+    public func listProjectsPaginator(_ input: ListProjectsRequest, onPage: @escaping ([ProjectSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProjects, resultKey: \ListProjectsResponse.projects, tokenKey: \ListProjectsResponse.nextToken, onPage: onPage)
     }
     
 }

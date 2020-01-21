@@ -5,13 +5,13 @@ import NIO
 extension MarketplaceCatalog {
 
     ///  Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
-    public func listChangeSetsPaginator(_ input: ListChangeSetsRequest) -> EventLoopFuture<[ChangeSetSummaryListItem]> {
-        return client.paginate(input: input, command: listChangeSets, resultKey: \ListChangeSetsResponse.changeSetSummaryList, tokenKey: \ListChangeSetsResponse.nextToken)
+    public func listChangeSetsPaginator(_ input: ListChangeSetsRequest, onPage: @escaping ([ChangeSetSummaryListItem], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listChangeSets, resultKey: \ListChangeSetsResponse.changeSetSummaryList, tokenKey: \ListChangeSetsResponse.nextToken, onPage: onPage)
     }
     
     ///  Provides the list of entities of a given type.
-    public func listEntitiesPaginator(_ input: ListEntitiesRequest) -> EventLoopFuture<[EntitySummary]> {
-        return client.paginate(input: input, command: listEntities, resultKey: \ListEntitiesResponse.entitySummaryList, tokenKey: \ListEntitiesResponse.nextToken)
+    public func listEntitiesPaginator(_ input: ListEntitiesRequest, onPage: @escaping ([EntitySummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEntities, resultKey: \ListEntitiesResponse.entitySummaryList, tokenKey: \ListEntitiesResponse.nextToken, onPage: onPage)
     }
     
 }

@@ -5,53 +5,53 @@ import NIO
 extension IoTThingsGraph {
 
     ///  Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated, this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
-    public func getFlowTemplateRevisionsPaginator(_ input: GetFlowTemplateRevisionsRequest) -> EventLoopFuture<[FlowTemplateSummary]> {
-        return client.paginate(input: input, command: getFlowTemplateRevisions, resultKey: \GetFlowTemplateRevisionsResponse.summaries, tokenKey: \GetFlowTemplateRevisionsResponse.nextToken)
+    public func getFlowTemplateRevisionsPaginator(_ input: GetFlowTemplateRevisionsRequest, onPage: @escaping ([FlowTemplateSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getFlowTemplateRevisions, resultKey: \GetFlowTemplateRevisionsResponse.summaries, tokenKey: \GetFlowTemplateRevisionsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
-    public func getSystemTemplateRevisionsPaginator(_ input: GetSystemTemplateRevisionsRequest) -> EventLoopFuture<[SystemTemplateSummary]> {
-        return client.paginate(input: input, command: getSystemTemplateRevisions, resultKey: \GetSystemTemplateRevisionsResponse.summaries, tokenKey: \GetSystemTemplateRevisionsResponse.nextToken)
+    public func getSystemTemplateRevisionsPaginator(_ input: GetSystemTemplateRevisionsRequest, onPage: @escaping ([SystemTemplateSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getSystemTemplateRevisions, resultKey: \GetSystemTemplateRevisionsResponse.summaries, tokenKey: \GetSystemTemplateRevisionsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of objects that contain information about events in a flow execution.
-    public func listFlowExecutionMessagesPaginator(_ input: ListFlowExecutionMessagesRequest) -> EventLoopFuture<[FlowExecutionMessage]> {
-        return client.paginate(input: input, command: listFlowExecutionMessages, resultKey: \ListFlowExecutionMessagesResponse.messages, tokenKey: \ListFlowExecutionMessagesResponse.nextToken)
+    public func listFlowExecutionMessagesPaginator(_ input: ListFlowExecutionMessagesRequest, onPage: @escaping ([FlowExecutionMessage], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listFlowExecutionMessages, resultKey: \ListFlowExecutionMessagesResponse.messages, tokenKey: \ListFlowExecutionMessagesResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists all tags on an AWS IoT Things Graph resource.
-    public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest) -> EventLoopFuture<[Tag]> {
-        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceResponse.tags, tokenKey: \ListTagsForResourceResponse.nextToken)
+    public func listTagsForResourcePaginator(_ input: ListTagsForResourceRequest, onPage: @escaping ([Tag], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceResponse.tags, tokenKey: \ListTagsForResourceResponse.nextToken, onPage: onPage)
     }
     
     ///  Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
-    public func searchEntitiesPaginator(_ input: SearchEntitiesRequest) -> EventLoopFuture<[EntityDescription]> {
-        return client.paginate(input: input, command: searchEntities, resultKey: \SearchEntitiesResponse.descriptions, tokenKey: \SearchEntitiesResponse.nextToken)
+    public func searchEntitiesPaginator(_ input: SearchEntitiesRequest, onPage: @escaping ([EntityDescription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchEntities, resultKey: \SearchEntitiesResponse.descriptions, tokenKey: \SearchEntitiesResponse.nextToken, onPage: onPage)
     }
     
     ///  Searches for AWS IoT Things Graph workflow execution instances.
-    public func searchFlowExecutionsPaginator(_ input: SearchFlowExecutionsRequest) -> EventLoopFuture<[FlowExecutionSummary]> {
-        return client.paginate(input: input, command: searchFlowExecutions, resultKey: \SearchFlowExecutionsResponse.summaries, tokenKey: \SearchFlowExecutionsResponse.nextToken)
+    public func searchFlowExecutionsPaginator(_ input: SearchFlowExecutionsRequest, onPage: @escaping ([FlowExecutionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchFlowExecutions, resultKey: \SearchFlowExecutionsResponse.summaries, tokenKey: \SearchFlowExecutionsResponse.nextToken, onPage: onPage)
     }
     
     ///  Searches for summary information about workflows.
-    public func searchFlowTemplatesPaginator(_ input: SearchFlowTemplatesRequest) -> EventLoopFuture<[FlowTemplateSummary]> {
-        return client.paginate(input: input, command: searchFlowTemplates, resultKey: \SearchFlowTemplatesResponse.summaries, tokenKey: \SearchFlowTemplatesResponse.nextToken)
+    public func searchFlowTemplatesPaginator(_ input: SearchFlowTemplatesRequest, onPage: @escaping ([FlowTemplateSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchFlowTemplates, resultKey: \SearchFlowTemplatesResponse.summaries, tokenKey: \SearchFlowTemplatesResponse.nextToken, onPage: onPage)
     }
     
     ///  Searches for system instances in the user's account.
-    public func searchSystemInstancesPaginator(_ input: SearchSystemInstancesRequest) -> EventLoopFuture<[SystemInstanceSummary]> {
-        return client.paginate(input: input, command: searchSystemInstances, resultKey: \SearchSystemInstancesResponse.summaries, tokenKey: \SearchSystemInstancesResponse.nextToken)
+    public func searchSystemInstancesPaginator(_ input: SearchSystemInstancesRequest, onPage: @escaping ([SystemInstanceSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchSystemInstances, resultKey: \SearchSystemInstancesResponse.summaries, tokenKey: \SearchSystemInstancesResponse.nextToken, onPage: onPage)
     }
     
     ///  Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
-    public func searchSystemTemplatesPaginator(_ input: SearchSystemTemplatesRequest) -> EventLoopFuture<[SystemTemplateSummary]> {
-        return client.paginate(input: input, command: searchSystemTemplates, resultKey: \SearchSystemTemplatesResponse.summaries, tokenKey: \SearchSystemTemplatesResponse.nextToken)
+    public func searchSystemTemplatesPaginator(_ input: SearchSystemTemplatesRequest, onPage: @escaping ([SystemTemplateSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchSystemTemplates, resultKey: \SearchSystemTemplatesResponse.summaries, tokenKey: \SearchSystemTemplatesResponse.nextToken, onPage: onPage)
     }
     
     ///  Searches for things associated with the specified entity. You can search by both device and device model. For example, if two different devices, camera1 and camera2, implement the camera device model, the user can associate thing1 to camera1 and thing2 to camera2. SearchThings(camera2) will return only thing2, but SearchThings(camera) will return both thing1 and thing2. This action searches for exact matches and doesn't perform partial text matching.
-    public func searchThingsPaginator(_ input: SearchThingsRequest) -> EventLoopFuture<[Thing]> {
-        return client.paginate(input: input, command: searchThings, resultKey: \SearchThingsResponse.things, tokenKey: \SearchThingsResponse.nextToken)
+    public func searchThingsPaginator(_ input: SearchThingsRequest, onPage: @escaping ([Thing], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchThings, resultKey: \SearchThingsResponse.things, tokenKey: \SearchThingsResponse.nextToken, onPage: onPage)
     }
     
 }

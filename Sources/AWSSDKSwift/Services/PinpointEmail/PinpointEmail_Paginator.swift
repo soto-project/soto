@@ -5,33 +5,33 @@ import NIO
 extension PinpointEmail {
 
     ///  List the dedicated IP addresses that are associated with your Amazon Pinpoint account.
-    public func getDedicatedIpsPaginator(_ input: GetDedicatedIpsRequest) -> EventLoopFuture<[DedicatedIp]> {
-        return client.paginate(input: input, command: getDedicatedIps, resultKey: \GetDedicatedIpsResponse.dedicatedIps, tokenKey: \GetDedicatedIpsResponse.nextToken)
+    public func getDedicatedIpsPaginator(_ input: GetDedicatedIpsRequest, onPage: @escaping ([DedicatedIp], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getDedicatedIps, resultKey: \GetDedicatedIpsResponse.dedicatedIps, tokenKey: \GetDedicatedIpsResponse.nextToken, onPage: onPage)
     }
     
     ///  List all of the configuration sets associated with your Amazon Pinpoint account in the current region. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
-    public func listConfigurationSetsPaginator(_ input: ListConfigurationSetsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listConfigurationSets, resultKey: \ListConfigurationSetsResponse.configurationSets, tokenKey: \ListConfigurationSetsResponse.nextToken)
+    public func listConfigurationSetsPaginator(_ input: ListConfigurationSetsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listConfigurationSets, resultKey: \ListConfigurationSetsResponse.configurationSets, tokenKey: \ListConfigurationSetsResponse.nextToken, onPage: onPage)
     }
     
     ///  List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current AWS Region.
-    public func listDedicatedIpPoolsPaginator(_ input: ListDedicatedIpPoolsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listDedicatedIpPools, resultKey: \ListDedicatedIpPoolsResponse.dedicatedIpPools, tokenKey: \ListDedicatedIpPoolsResponse.nextToken)
+    public func listDedicatedIpPoolsPaginator(_ input: ListDedicatedIpPoolsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDedicatedIpPools, resultKey: \ListDedicatedIpPoolsResponse.dedicatedIpPools, tokenKey: \ListDedicatedIpPoolsResponse.nextToken, onPage: onPage)
     }
     
     ///  Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
-    public func listDeliverabilityTestReportsPaginator(_ input: ListDeliverabilityTestReportsRequest) -> EventLoopFuture<[DeliverabilityTestReport]> {
-        return client.paginate(input: input, command: listDeliverabilityTestReports, resultKey: \ListDeliverabilityTestReportsResponse.deliverabilityTestReports, tokenKey: \ListDeliverabilityTestReportsResponse.nextToken)
+    public func listDeliverabilityTestReportsPaginator(_ input: ListDeliverabilityTestReportsRequest, onPage: @escaping ([DeliverabilityTestReport], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDeliverabilityTestReports, resultKey: \ListDeliverabilityTestReportsResponse.deliverabilityTestReports, tokenKey: \ListDeliverabilityTestReportsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
-    public func listDomainDeliverabilityCampaignsPaginator(_ input: ListDomainDeliverabilityCampaignsRequest) -> EventLoopFuture<[DomainDeliverabilityCampaign]> {
-        return client.paginate(input: input, command: listDomainDeliverabilityCampaigns, resultKey: \ListDomainDeliverabilityCampaignsResponse.domainDeliverabilityCampaigns, tokenKey: \ListDomainDeliverabilityCampaignsResponse.nextToken)
+    public func listDomainDeliverabilityCampaignsPaginator(_ input: ListDomainDeliverabilityCampaignsRequest, onPage: @escaping ([DomainDeliverabilityCampaign], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDomainDeliverabilityCampaigns, resultKey: \ListDomainDeliverabilityCampaignsResponse.domainDeliverabilityCampaigns, tokenKey: \ListDomainDeliverabilityCampaignsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of all of the email identities that are associated with your Amazon Pinpoint account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't.
-    public func listEmailIdentitiesPaginator(_ input: ListEmailIdentitiesRequest) -> EventLoopFuture<[IdentityInfo]> {
-        return client.paginate(input: input, command: listEmailIdentities, resultKey: \ListEmailIdentitiesResponse.emailIdentities, tokenKey: \ListEmailIdentitiesResponse.nextToken)
+    public func listEmailIdentitiesPaginator(_ input: ListEmailIdentitiesRequest, onPage: @escaping ([IdentityInfo], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEmailIdentities, resultKey: \ListEmailIdentitiesResponse.emailIdentities, tokenKey: \ListEmailIdentitiesResponse.nextToken, onPage: onPage)
     }
     
 }

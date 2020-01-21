@@ -5,8 +5,8 @@ import NIO
 extension CodeGuruReviewer {
 
     ///  Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
-    public func listRepositoryAssociationsPaginator(_ input: ListRepositoryAssociationsRequest) -> EventLoopFuture<[RepositoryAssociationSummary]> {
-        return client.paginate(input: input, command: listRepositoryAssociations, resultKey: \ListRepositoryAssociationsResponse.repositoryAssociationSummaries, tokenKey: \ListRepositoryAssociationsResponse.nextToken)
+    public func listRepositoryAssociationsPaginator(_ input: ListRepositoryAssociationsRequest, onPage: @escaping ([RepositoryAssociationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRepositoryAssociations, resultKey: \ListRepositoryAssociationsResponse.repositoryAssociationSummaries, tokenKey: \ListRepositoryAssociationsResponse.nextToken, onPage: onPage)
     }
     
 }

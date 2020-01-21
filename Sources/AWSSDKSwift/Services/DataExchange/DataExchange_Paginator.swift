@@ -5,23 +5,23 @@ import NIO
 extension DataExchange {
 
     ///  This operation lists a data set's revisions sorted by CreatedAt in descending order.
-    public func listDataSetRevisionsPaginator(_ input: ListDataSetRevisionsRequest) -> EventLoopFuture<[RevisionEntry]> {
-        return client.paginate(input: input, command: listDataSetRevisions, resultKey: \ListDataSetRevisionsResponse.revisions, tokenKey: \ListDataSetRevisionsResponse.nextToken)
+    public func listDataSetRevisionsPaginator(_ input: ListDataSetRevisionsRequest, onPage: @escaping ([RevisionEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataSetRevisions, resultKey: \ListDataSetRevisionsResponse.revisions, tokenKey: \ListDataSetRevisionsResponse.nextToken, onPage: onPage)
     }
     
     ///  This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
-    public func listDataSetsPaginator(_ input: ListDataSetsRequest) -> EventLoopFuture<[DataSetEntry]> {
-        return client.paginate(input: input, command: listDataSets, resultKey: \ListDataSetsResponse.dataSets, tokenKey: \ListDataSetsResponse.nextToken)
+    public func listDataSetsPaginator(_ input: ListDataSetsRequest, onPage: @escaping ([DataSetEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataSets, resultKey: \ListDataSetsResponse.dataSets, tokenKey: \ListDataSetsResponse.nextToken, onPage: onPage)
     }
     
     ///  This operation lists your jobs sorted by CreatedAt in descending order.
-    public func listJobsPaginator(_ input: ListJobsRequest) -> EventLoopFuture<[JobEntry]> {
-        return client.paginate(input: input, command: listJobs, resultKey: \ListJobsResponse.jobs, tokenKey: \ListJobsResponse.nextToken)
+    public func listJobsPaginator(_ input: ListJobsRequest, onPage: @escaping ([JobEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listJobs, resultKey: \ListJobsResponse.jobs, tokenKey: \ListJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  This operation lists a revision's assets sorted alphabetically in descending order.
-    public func listRevisionAssetsPaginator(_ input: ListRevisionAssetsRequest) -> EventLoopFuture<[AssetEntry]> {
-        return client.paginate(input: input, command: listRevisionAssets, resultKey: \ListRevisionAssetsResponse.assets, tokenKey: \ListRevisionAssetsResponse.nextToken)
+    public func listRevisionAssetsPaginator(_ input: ListRevisionAssetsRequest, onPage: @escaping ([AssetEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRevisionAssets, resultKey: \ListRevisionAssetsResponse.assets, tokenKey: \ListRevisionAssetsResponse.nextToken, onPage: onPage)
     }
     
 }

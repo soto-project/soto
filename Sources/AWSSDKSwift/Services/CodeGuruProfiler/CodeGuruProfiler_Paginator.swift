@@ -5,19 +5,13 @@ import NIO
 extension CodeGuruProfiler {
 
     ///  List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
-    public func listProfileTimesPaginator(_ input: ListProfileTimesRequest) -> EventLoopFuture<[ProfileTime]> {
-        return client.paginate(input: input, command: listProfileTimes, resultKey: \ListProfileTimesResponse.profileTimes, tokenKey: \ListProfileTimesResponse.nextToken)
+    public func listProfileTimesPaginator(_ input: ListProfileTimesRequest, onPage: @escaping ([ProfileTime], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProfileTimes, resultKey: \ListProfileTimesResponse.profileTimes, tokenKey: \ListProfileTimesResponse.nextToken, onPage: onPage)
     }
     
     ///  List profiling groups in the account.
-    public struct listProfilingGroupsPaginatedResult {
-        let profilingGroupNames: [String]
-        let profilingGroups: [ProfilingGroupDescription]
-    }
-    public func listProfilingGroupsPaginator(_ input: ListProfilingGroupsRequest) -> EventLoopFuture<listProfilingGroupsPaginatedResult> {
-        return client.paginate(input: input, command: listProfilingGroups, resultKey1: \ListProfilingGroupsResponse.profilingGroupNames, resultKey2: \ListProfilingGroupsResponse.profilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken).map {
-            return listProfilingGroupsPaginatedResult(profilingGroupNames: $0, profilingGroups: $1)
-        }
+    public func listProfilingGroupsPaginator(_ input: ListProfilingGroupsRequest, onPage: @escaping ([String], [ProfilingGroupDescription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProfilingGroups, resultKey1: \ListProfilingGroupsResponse.profilingGroupNames, resultKey2: \ListProfilingGroupsResponse.profilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken, onPage: onPage)
     }
     
 }

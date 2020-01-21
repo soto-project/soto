@@ -5,38 +5,38 @@ import NIO
 extension NetworkManager {
 
     ///  Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use GetTransitGatewayRegistrations.
-    public func describeGlobalNetworksPaginator(_ input: DescribeGlobalNetworksRequest) -> EventLoopFuture<[GlobalNetwork]> {
-        return client.paginate(input: input, command: describeGlobalNetworks, resultKey: \DescribeGlobalNetworksResponse.globalNetworks, tokenKey: \DescribeGlobalNetworksResponse.nextToken)
+    public func describeGlobalNetworksPaginator(_ input: DescribeGlobalNetworksRequest, onPage: @escaping ([GlobalNetwork], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeGlobalNetworks, resultKey: \DescribeGlobalNetworksResponse.globalNetworks, tokenKey: \DescribeGlobalNetworksResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets the association information for customer gateways that are associated with devices and links in your global network.
-    public func getCustomerGatewayAssociationsPaginator(_ input: GetCustomerGatewayAssociationsRequest) -> EventLoopFuture<[CustomerGatewayAssociation]> {
-        return client.paginate(input: input, command: getCustomerGatewayAssociations, resultKey: \GetCustomerGatewayAssociationsResponse.customerGatewayAssociations, tokenKey: \GetCustomerGatewayAssociationsResponse.nextToken)
+    public func getCustomerGatewayAssociationsPaginator(_ input: GetCustomerGatewayAssociationsRequest, onPage: @escaping ([CustomerGatewayAssociation], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getCustomerGatewayAssociations, resultKey: \GetCustomerGatewayAssociationsResponse.customerGatewayAssociations, tokenKey: \GetCustomerGatewayAssociationsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets information about one or more of your devices in a global network.
-    public func getDevicesPaginator(_ input: GetDevicesRequest) -> EventLoopFuture<[Device]> {
-        return client.paginate(input: input, command: getDevices, resultKey: \GetDevicesResponse.devices, tokenKey: \GetDevicesResponse.nextToken)
+    public func getDevicesPaginator(_ input: GetDevicesRequest, onPage: @escaping ([Device], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getDevices, resultKey: \GetDevicesResponse.devices, tokenKey: \GetDevicesResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
-    public func getLinkAssociationsPaginator(_ input: GetLinkAssociationsRequest) -> EventLoopFuture<[LinkAssociation]> {
-        return client.paginate(input: input, command: getLinkAssociations, resultKey: \GetLinkAssociationsResponse.linkAssociations, tokenKey: \GetLinkAssociationsResponse.nextToken)
+    public func getLinkAssociationsPaginator(_ input: GetLinkAssociationsRequest, onPage: @escaping ([LinkAssociation], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getLinkAssociations, resultKey: \GetLinkAssociationsResponse.linkAssociations, tokenKey: \GetLinkAssociationsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
-    public func getLinksPaginator(_ input: GetLinksRequest) -> EventLoopFuture<[Link]> {
-        return client.paginate(input: input, command: getLinks, resultKey: \GetLinksResponse.links, tokenKey: \GetLinksResponse.nextToken)
+    public func getLinksPaginator(_ input: GetLinksRequest, onPage: @escaping ([Link], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getLinks, resultKey: \GetLinksResponse.links, tokenKey: \GetLinksResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets information about one or more of your sites in a global network.
-    public func getSitesPaginator(_ input: GetSitesRequest) -> EventLoopFuture<[Site]> {
-        return client.paginate(input: input, command: getSites, resultKey: \GetSitesResponse.sites, tokenKey: \GetSitesResponse.nextToken)
+    public func getSitesPaginator(_ input: GetSitesRequest, onPage: @escaping ([Site], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getSites, resultKey: \GetSitesResponse.sites, tokenKey: \GetSitesResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets information about the transit gateway registrations in a specified global network.
-    public func getTransitGatewayRegistrationsPaginator(_ input: GetTransitGatewayRegistrationsRequest) -> EventLoopFuture<[TransitGatewayRegistration]> {
-        return client.paginate(input: input, command: getTransitGatewayRegistrations, resultKey: \GetTransitGatewayRegistrationsResponse.transitGatewayRegistrations, tokenKey: \GetTransitGatewayRegistrationsResponse.nextToken)
+    public func getTransitGatewayRegistrationsPaginator(_ input: GetTransitGatewayRegistrationsRequest, onPage: @escaping ([TransitGatewayRegistration], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getTransitGatewayRegistrations, resultKey: \GetTransitGatewayRegistrationsResponse.transitGatewayRegistrations, tokenKey: \GetTransitGatewayRegistrationsResponse.nextToken, onPage: onPage)
     }
     
 }

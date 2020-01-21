@@ -5,13 +5,13 @@ import NIO
 extension Support {
 
     ///  Returns a list of cases that you specify by passing one or more case IDs. In addition, you can filter the cases by date by setting values for the afterTime and beforeTime request parameters. You can set values for the includeResolvedCases and includeCommunications request parameters to control how much information is returned. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. The response returns the following in JSON format:   One or more CaseDetails data types.   One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects.  
-    public func describeCasesPaginator(_ input: DescribeCasesRequest) -> EventLoopFuture<[CaseDetails]> {
-        return client.paginate(input: input, command: describeCases, resultKey: \DescribeCasesResponse.cases, tokenKey: \DescribeCasesResponse.nextToken)
+    public func describeCasesPaginator(_ input: DescribeCasesRequest, onPage: @escaping ([CaseDetails], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCases, resultKey: \DescribeCasesResponse.cases, tokenKey: \DescribeCasesResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns communications (and attachments) for one or more support cases. You can use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a particular case. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pagination of the result set. Set maxResults to the number of cases you want displayed on each page, and use nextToken to specify the resumption of pagination.
-    public func describeCommunicationsPaginator(_ input: DescribeCommunicationsRequest) -> EventLoopFuture<[Communication]> {
-        return client.paginate(input: input, command: describeCommunications, resultKey: \DescribeCommunicationsResponse.communications, tokenKey: \DescribeCommunicationsResponse.nextToken)
+    public func describeCommunicationsPaginator(_ input: DescribeCommunicationsRequest, onPage: @escaping ([Communication], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCommunications, resultKey: \DescribeCommunicationsResponse.communications, tokenKey: \DescribeCommunicationsResponse.nextToken, onPage: onPage)
     }
     
 }

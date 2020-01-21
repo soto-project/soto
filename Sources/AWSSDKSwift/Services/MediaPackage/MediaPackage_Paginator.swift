@@ -5,18 +5,18 @@ import NIO
 extension MediaPackage {
 
     ///  Returns a collection of Channels.
-    public func listChannelsPaginator(_ input: ListChannelsRequest) -> EventLoopFuture<[Channel]> {
-        return client.paginate(input: input, command: listChannels, resultKey: \ListChannelsResponse.channels, tokenKey: \ListChannelsResponse.nextToken)
+    public func listChannelsPaginator(_ input: ListChannelsRequest, onPage: @escaping ([Channel], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listChannels, resultKey: \ListChannelsResponse.channels, tokenKey: \ListChannelsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a collection of HarvestJob records.
-    public func listHarvestJobsPaginator(_ input: ListHarvestJobsRequest) -> EventLoopFuture<[HarvestJob]> {
-        return client.paginate(input: input, command: listHarvestJobs, resultKey: \ListHarvestJobsResponse.harvestJobs, tokenKey: \ListHarvestJobsResponse.nextToken)
+    public func listHarvestJobsPaginator(_ input: ListHarvestJobsRequest, onPage: @escaping ([HarvestJob], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listHarvestJobs, resultKey: \ListHarvestJobsResponse.harvestJobs, tokenKey: \ListHarvestJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  Returns a collection of OriginEndpoint records.
-    public func listOriginEndpointsPaginator(_ input: ListOriginEndpointsRequest) -> EventLoopFuture<[OriginEndpoint]> {
-        return client.paginate(input: input, command: listOriginEndpoints, resultKey: \ListOriginEndpointsResponse.originEndpoints, tokenKey: \ListOriginEndpointsResponse.nextToken)
+    public func listOriginEndpointsPaginator(_ input: ListOriginEndpointsRequest, onPage: @escaping ([OriginEndpoint], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listOriginEndpoints, resultKey: \ListOriginEndpointsResponse.originEndpoints, tokenKey: \ListOriginEndpointsResponse.nextToken, onPage: onPage)
     }
     
 }

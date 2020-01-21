@@ -5,118 +5,118 @@ import NIO
 extension Glue {
 
     ///  Lists all classifier objects in the Data Catalog.
-    public func getClassifiersPaginator(_ input: GetClassifiersRequest) -> EventLoopFuture<[Classifier]> {
-        return client.paginate(input: input, command: getClassifiers, resultKey: \GetClassifiersResponse.classifiers, tokenKey: \GetClassifiersResponse.nextToken)
+    public func getClassifiersPaginator(_ input: GetClassifiersRequest, onPage: @escaping ([Classifier], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getClassifiers, resultKey: \GetClassifiersResponse.classifiers, tokenKey: \GetClassifiersResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list of connection definitions from the Data Catalog.
-    public func getConnectionsPaginator(_ input: GetConnectionsRequest) -> EventLoopFuture<[Connection]> {
-        return client.paginate(input: input, command: getConnections, resultKey: \GetConnectionsResponse.connectionList, tokenKey: \GetConnectionsResponse.nextToken)
+    public func getConnectionsPaginator(_ input: GetConnectionsRequest, onPage: @escaping ([Connection], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getConnections, resultKey: \GetConnectionsResponse.connectionList, tokenKey: \GetConnectionsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves metrics about specified crawlers.
-    public func getCrawlerMetricsPaginator(_ input: GetCrawlerMetricsRequest) -> EventLoopFuture<[CrawlerMetrics]> {
-        return client.paginate(input: input, command: getCrawlerMetrics, resultKey: \GetCrawlerMetricsResponse.crawlerMetricsList, tokenKey: \GetCrawlerMetricsResponse.nextToken)
+    public func getCrawlerMetricsPaginator(_ input: GetCrawlerMetricsRequest, onPage: @escaping ([CrawlerMetrics], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getCrawlerMetrics, resultKey: \GetCrawlerMetricsResponse.crawlerMetricsList, tokenKey: \GetCrawlerMetricsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves metadata for all crawlers defined in the customer account.
-    public func getCrawlersPaginator(_ input: GetCrawlersRequest) -> EventLoopFuture<[Crawler]> {
-        return client.paginate(input: input, command: getCrawlers, resultKey: \GetCrawlersResponse.crawlers, tokenKey: \GetCrawlersResponse.nextToken)
+    public func getCrawlersPaginator(_ input: GetCrawlersRequest, onPage: @escaping ([Crawler], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getCrawlers, resultKey: \GetCrawlersResponse.crawlers, tokenKey: \GetCrawlersResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves all databases defined in a given Data Catalog.
-    public func getDatabasesPaginator(_ input: GetDatabasesRequest) -> EventLoopFuture<[Database]> {
-        return client.paginate(input: input, command: getDatabases, resultKey: \GetDatabasesResponse.databaseList, tokenKey: \GetDatabasesResponse.nextToken)
+    public func getDatabasesPaginator(_ input: GetDatabasesRequest, onPage: @escaping ([Database], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getDatabases, resultKey: \GetDatabasesResponse.databaseList, tokenKey: \GetDatabasesResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves all the development endpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
-    public func getDevEndpointsPaginator(_ input: GetDevEndpointsRequest) -> EventLoopFuture<[DevEndpoint]> {
-        return client.paginate(input: input, command: getDevEndpoints, resultKey: \GetDevEndpointsResponse.devEndpoints, tokenKey: \GetDevEndpointsResponse.nextToken)
+    public func getDevEndpointsPaginator(_ input: GetDevEndpointsRequest, onPage: @escaping ([DevEndpoint], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getDevEndpoints, resultKey: \GetDevEndpointsResponse.devEndpoints, tokenKey: \GetDevEndpointsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves metadata for all runs of a given job definition.
-    public func getJobRunsPaginator(_ input: GetJobRunsRequest) -> EventLoopFuture<[JobRun]> {
-        return client.paginate(input: input, command: getJobRuns, resultKey: \GetJobRunsResponse.jobRuns, tokenKey: \GetJobRunsResponse.nextToken)
+    public func getJobRunsPaginator(_ input: GetJobRunsRequest, onPage: @escaping ([JobRun], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getJobRuns, resultKey: \GetJobRunsResponse.jobRuns, tokenKey: \GetJobRunsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves all current job definitions.
-    public func getJobsPaginator(_ input: GetJobsRequest) -> EventLoopFuture<[Job]> {
-        return client.paginate(input: input, command: getJobs, resultKey: \GetJobsResponse.jobs, tokenKey: \GetJobsResponse.nextToken)
+    public func getJobsPaginator(_ input: GetJobsRequest, onPage: @escaping ([Job], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getJobs, resultKey: \GetJobsResponse.jobs, tokenKey: \GetJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
-    public func getMLTaskRunsPaginator(_ input: GetMLTaskRunsRequest) -> EventLoopFuture<[TaskRun]> {
-        return client.paginate(input: input, command: getMLTaskRuns, resultKey: \GetMLTaskRunsResponse.taskRuns, tokenKey: \GetMLTaskRunsResponse.nextToken)
+    public func getMLTaskRunsPaginator(_ input: GetMLTaskRunsRequest, onPage: @escaping ([TaskRun], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getMLTaskRuns, resultKey: \GetMLTaskRunsResponse.taskRuns, tokenKey: \GetMLTaskRunsResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets a sortable, filterable list of existing AWS Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue, and you can retrieve their metadata by calling GetMLTransforms.
-    public func getMLTransformsPaginator(_ input: GetMLTransformsRequest) -> EventLoopFuture<[MLTransform]> {
-        return client.paginate(input: input, command: getMLTransforms, resultKey: \GetMLTransformsResponse.transforms, tokenKey: \GetMLTransformsResponse.nextToken)
+    public func getMLTransformsPaginator(_ input: GetMLTransformsRequest, onPage: @escaping ([MLTransform], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getMLTransforms, resultKey: \GetMLTransformsResponse.transforms, tokenKey: \GetMLTransformsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves information about the partitions in a table.
-    public func getPartitionsPaginator(_ input: GetPartitionsRequest) -> EventLoopFuture<[Partition]> {
-        return client.paginate(input: input, command: getPartitions, resultKey: \GetPartitionsResponse.partitions, tokenKey: \GetPartitionsResponse.nextToken)
+    public func getPartitionsPaginator(_ input: GetPartitionsRequest, onPage: @escaping ([Partition], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getPartitions, resultKey: \GetPartitionsResponse.partitions, tokenKey: \GetPartitionsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list of all security configurations.
-    public func getSecurityConfigurationsPaginator(_ input: GetSecurityConfigurationsRequest) -> EventLoopFuture<[SecurityConfiguration]> {
-        return client.paginate(input: input, command: getSecurityConfigurations, resultKey: \GetSecurityConfigurationsResponse.securityConfigurations, tokenKey: \GetSecurityConfigurationsResponse.nextToken)
+    public func getSecurityConfigurationsPaginator(_ input: GetSecurityConfigurationsRequest, onPage: @escaping ([SecurityConfiguration], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getSecurityConfigurations, resultKey: \GetSecurityConfigurationsResponse.securityConfigurations, tokenKey: \GetSecurityConfigurationsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list of strings that identify available versions of a specified table.
-    public func getTableVersionsPaginator(_ input: GetTableVersionsRequest) -> EventLoopFuture<[TableVersion]> {
-        return client.paginate(input: input, command: getTableVersions, resultKey: \GetTableVersionsResponse.tableVersions, tokenKey: \GetTableVersionsResponse.nextToken)
+    public func getTableVersionsPaginator(_ input: GetTableVersionsRequest, onPage: @escaping ([TableVersion], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getTableVersions, resultKey: \GetTableVersionsResponse.tableVersions, tokenKey: \GetTableVersionsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves the definitions of some or all of the tables in a given Database.
-    public func getTablesPaginator(_ input: GetTablesRequest) -> EventLoopFuture<[Table]> {
-        return client.paginate(input: input, command: getTables, resultKey: \GetTablesResponse.tableList, tokenKey: \GetTablesResponse.nextToken)
+    public func getTablesPaginator(_ input: GetTablesRequest, onPage: @escaping ([Table], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getTables, resultKey: \GetTablesResponse.tableList, tokenKey: \GetTablesResponse.nextToken, onPage: onPage)
     }
     
     ///  Gets all the triggers associated with a job.
-    public func getTriggersPaginator(_ input: GetTriggersRequest) -> EventLoopFuture<[Trigger]> {
-        return client.paginate(input: input, command: getTriggers, resultKey: \GetTriggersResponse.triggers, tokenKey: \GetTriggersResponse.nextToken)
+    public func getTriggersPaginator(_ input: GetTriggersRequest, onPage: @escaping ([Trigger], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getTriggers, resultKey: \GetTriggersResponse.triggers, tokenKey: \GetTriggersResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves multiple function definitions from the Data Catalog.
-    public func getUserDefinedFunctionsPaginator(_ input: GetUserDefinedFunctionsRequest) -> EventLoopFuture<[UserDefinedFunction]> {
-        return client.paginate(input: input, command: getUserDefinedFunctions, resultKey: \GetUserDefinedFunctionsResponse.userDefinedFunctions, tokenKey: \GetUserDefinedFunctionsResponse.nextToken)
+    public func getUserDefinedFunctionsPaginator(_ input: GetUserDefinedFunctionsRequest, onPage: @escaping ([UserDefinedFunction], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getUserDefinedFunctions, resultKey: \GetUserDefinedFunctionsResponse.userDefinedFunctions, tokenKey: \GetUserDefinedFunctionsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves metadata for all runs of a given workflow.
-    public func getWorkflowRunsPaginator(_ input: GetWorkflowRunsRequest) -> EventLoopFuture<[WorkflowRun]> {
-        return client.paginate(input: input, command: getWorkflowRuns, resultKey: \GetWorkflowRunsResponse.runs, tokenKey: \GetWorkflowRunsResponse.nextToken)
+    public func getWorkflowRunsPaginator(_ input: GetWorkflowRunsRequest, onPage: @escaping ([WorkflowRun], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getWorkflowRuns, resultKey: \GetWorkflowRunsResponse.runs, tokenKey: \GetWorkflowRunsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves the names of all crawler resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listCrawlersPaginator(_ input: ListCrawlersRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listCrawlers, resultKey: \ListCrawlersResponse.crawlerNames, tokenKey: \ListCrawlersResponse.nextToken)
+    public func listCrawlersPaginator(_ input: ListCrawlersRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listCrawlers, resultKey: \ListCrawlersResponse.crawlerNames, tokenKey: \ListCrawlersResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves the names of all DevEndpoint resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listDevEndpointsPaginator(_ input: ListDevEndpointsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listDevEndpoints, resultKey: \ListDevEndpointsResponse.devEndpointNames, tokenKey: \ListDevEndpointsResponse.nextToken)
+    public func listDevEndpointsPaginator(_ input: ListDevEndpointsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDevEndpoints, resultKey: \ListDevEndpointsResponse.devEndpointNames, tokenKey: \ListDevEndpointsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves the names of all job resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listJobsPaginator(_ input: ListJobsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listJobs, resultKey: \ListJobsResponse.jobNames, tokenKey: \ListJobsResponse.nextToken)
+    public func listJobsPaginator(_ input: ListJobsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listJobs, resultKey: \ListJobsResponse.jobNames, tokenKey: \ListJobsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listTriggersPaginator(_ input: ListTriggersRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listTriggers, resultKey: \ListTriggersResponse.triggerNames, tokenKey: \ListTriggersResponse.nextToken)
+    public func listTriggersPaginator(_ input: ListTriggersRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTriggers, resultKey: \ListTriggersResponse.triggerNames, tokenKey: \ListTriggersResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists names of workflows created in the account.
-    public func listWorkflowsPaginator(_ input: ListWorkflowsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listWorkflows, resultKey: \ListWorkflowsResponse.workflows, tokenKey: \ListWorkflowsResponse.nextToken)
+    public func listWorkflowsPaginator(_ input: ListWorkflowsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWorkflows, resultKey: \ListWorkflowsResponse.workflows, tokenKey: \ListWorkflowsResponse.nextToken, onPage: onPage)
     }
     
     ///  Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search. 
-    public func searchTablesPaginator(_ input: SearchTablesRequest) -> EventLoopFuture<[Table]> {
-        return client.paginate(input: input, command: searchTables, resultKey: \SearchTablesResponse.tableList, tokenKey: \SearchTablesResponse.nextToken)
+    public func searchTablesPaginator(_ input: SearchTablesRequest, onPage: @escaping ([Table], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchTables, resultKey: \SearchTablesResponse.tableList, tokenKey: \SearchTablesResponse.nextToken, onPage: onPage)
     }
     
 }

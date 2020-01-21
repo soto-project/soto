@@ -296,12 +296,17 @@ class S3Tests: XCTestCase {
             _ = try EventLoopFuture.whenAllSucceed(responses, on: client.client.eventLoopGroup.next()).wait()
 
             let request = S3.ListObjectsV2Request(bucket: testData.bucket, maxKeys: 5)
-            let list = try client.listObjectsV2Paginator(request).wait()
+            var list: [S3.Object] = []
+            try client.listObjectsV2Paginator(request) { result, _, eventLoop in
+                list.append(contentsOf: result)
+                return eventLoop.makeSucceededFuture(true)
+            }.wait()
+
             let request2 = S3.ListObjectsV2Request(bucket: testData.bucket)
             let response = try client.listObjectsV2(request2).wait()
-            XCTAssertEqual(list.contents.count, 16)
-            for i in 0..<list.contents.count {
-                XCTAssertEqual(list.contents[i].key, response.contents?[i].key)
+            XCTAssertEqual(list.count, 16)
+            for i in 0..<list.count {
+                XCTAssertEqual(list[i].key, response.contents?[i].key)
             }
         }
     }

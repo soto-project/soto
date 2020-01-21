@@ -5,28 +5,28 @@ import NIO
 extension IoTAnalytics {
 
     ///  Retrieves a list of channels.
-    public func listChannelsPaginator(_ input: ListChannelsRequest) -> EventLoopFuture<[ChannelSummary]> {
-        return client.paginate(input: input, command: listChannels, resultKey: \ListChannelsResponse.channelSummaries, tokenKey: \ListChannelsResponse.nextToken)
+    public func listChannelsPaginator(_ input: ListChannelsRequest, onPage: @escaping ([ChannelSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listChannels, resultKey: \ListChannelsResponse.channelSummaries, tokenKey: \ListChannelsResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists information about data set contents that have been created.
-    public func listDatasetContentsPaginator(_ input: ListDatasetContentsRequest) -> EventLoopFuture<[DatasetContentSummary]> {
-        return client.paginate(input: input, command: listDatasetContents, resultKey: \ListDatasetContentsResponse.datasetContentSummaries, tokenKey: \ListDatasetContentsResponse.nextToken)
+    public func listDatasetContentsPaginator(_ input: ListDatasetContentsRequest, onPage: @escaping ([DatasetContentSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDatasetContents, resultKey: \ListDatasetContentsResponse.datasetContentSummaries, tokenKey: \ListDatasetContentsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves information about data sets.
-    public func listDatasetsPaginator(_ input: ListDatasetsRequest) -> EventLoopFuture<[DatasetSummary]> {
-        return client.paginate(input: input, command: listDatasets, resultKey: \ListDatasetsResponse.datasetSummaries, tokenKey: \ListDatasetsResponse.nextToken)
+    public func listDatasetsPaginator(_ input: ListDatasetsRequest, onPage: @escaping ([DatasetSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDatasets, resultKey: \ListDatasetsResponse.datasetSummaries, tokenKey: \ListDatasetsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list of data stores.
-    public func listDatastoresPaginator(_ input: ListDatastoresRequest) -> EventLoopFuture<[DatastoreSummary]> {
-        return client.paginate(input: input, command: listDatastores, resultKey: \ListDatastoresResponse.datastoreSummaries, tokenKey: \ListDatastoresResponse.nextToken)
+    public func listDatastoresPaginator(_ input: ListDatastoresRequest, onPage: @escaping ([DatastoreSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDatastores, resultKey: \ListDatastoresResponse.datastoreSummaries, tokenKey: \ListDatastoresResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list of pipelines.
-    public func listPipelinesPaginator(_ input: ListPipelinesRequest) -> EventLoopFuture<[PipelineSummary]> {
-        return client.paginate(input: input, command: listPipelines, resultKey: \ListPipelinesResponse.pipelineSummaries, tokenKey: \ListPipelinesResponse.nextToken)
+    public func listPipelinesPaginator(_ input: ListPipelinesRequest, onPage: @escaping ([PipelineSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPipelines, resultKey: \ListPipelinesResponse.pipelineSummaries, tokenKey: \ListPipelinesResponse.nextToken, onPage: onPage)
     }
     
 }

@@ -5,83 +5,83 @@ import NIO
 extension ServiceCatalog {
 
     ///  Lists all portfolios for which sharing was accepted by this account.
-    public func listAcceptedPortfolioSharesPaginator(_ input: ListAcceptedPortfolioSharesInput) -> EventLoopFuture<[PortfolioDetail]> {
-        return client.paginate(input: input, command: listAcceptedPortfolioShares, resultKey: \ListAcceptedPortfolioSharesOutput.portfolioDetails, tokenKey: \ListAcceptedPortfolioSharesOutput.nextPageToken)
+    public func listAcceptedPortfolioSharesPaginator(_ input: ListAcceptedPortfolioSharesInput, onPage: @escaping ([PortfolioDetail], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAcceptedPortfolioShares, resultKey: \ListAcceptedPortfolioSharesOutput.portfolioDetails, tokenKey: \ListAcceptedPortfolioSharesOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists all the budgets associated to the specified resource.
-    public func listBudgetsForResourcePaginator(_ input: ListBudgetsForResourceInput) -> EventLoopFuture<[BudgetDetail]> {
-        return client.paginate(input: input, command: listBudgetsForResource, resultKey: \ListBudgetsForResourceOutput.budgets, tokenKey: \ListBudgetsForResourceOutput.nextPageToken)
+    public func listBudgetsForResourcePaginator(_ input: ListBudgetsForResourceInput, onPage: @escaping ([BudgetDetail], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBudgetsForResource, resultKey: \ListBudgetsForResourceOutput.budgets, tokenKey: \ListBudgetsForResourceOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists the constraints for the specified portfolio and product.
-    public func listConstraintsForPortfolioPaginator(_ input: ListConstraintsForPortfolioInput) -> EventLoopFuture<[ConstraintDetail]> {
-        return client.paginate(input: input, command: listConstraintsForPortfolio, resultKey: \ListConstraintsForPortfolioOutput.constraintDetails, tokenKey: \ListConstraintsForPortfolioOutput.nextPageToken)
+    public func listConstraintsForPortfolioPaginator(_ input: ListConstraintsForPortfolioInput, onPage: @escaping ([ConstraintDetail], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listConstraintsForPortfolio, resultKey: \ListConstraintsForPortfolioOutput.constraintDetails, tokenKey: \ListConstraintsForPortfolioOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists the paths to the specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
-    public func listLaunchPathsPaginator(_ input: ListLaunchPathsInput) -> EventLoopFuture<[LaunchPathSummary]> {
-        return client.paginate(input: input, command: listLaunchPaths, resultKey: \ListLaunchPathsOutput.launchPathSummaries, tokenKey: \ListLaunchPathsOutput.nextPageToken)
+    public func listLaunchPathsPaginator(_ input: ListLaunchPathsInput, onPage: @escaping ([LaunchPathSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listLaunchPaths, resultKey: \ListLaunchPathsOutput.launchPathSummaries, tokenKey: \ListLaunchPathsOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization.
-    public func listOrganizationPortfolioAccessPaginator(_ input: ListOrganizationPortfolioAccessInput) -> EventLoopFuture<[OrganizationNode]> {
-        return client.paginate(input: input, command: listOrganizationPortfolioAccess, resultKey: \ListOrganizationPortfolioAccessOutput.organizationNodes, tokenKey: \ListOrganizationPortfolioAccessOutput.nextPageToken)
+    public func listOrganizationPortfolioAccessPaginator(_ input: ListOrganizationPortfolioAccessInput, onPage: @escaping ([OrganizationNode], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listOrganizationPortfolioAccess, resultKey: \ListOrganizationPortfolioAccessOutput.organizationNodes, tokenKey: \ListOrganizationPortfolioAccessOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists all portfolios in the catalog.
-    public func listPortfoliosPaginator(_ input: ListPortfoliosInput) -> EventLoopFuture<[PortfolioDetail]> {
-        return client.paginate(input: input, command: listPortfolios, resultKey: \ListPortfoliosOutput.portfolioDetails, tokenKey: \ListPortfoliosOutput.nextPageToken)
+    public func listPortfoliosPaginator(_ input: ListPortfoliosInput, onPage: @escaping ([PortfolioDetail], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPortfolios, resultKey: \ListPortfoliosOutput.portfolioDetails, tokenKey: \ListPortfoliosOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists all portfolios that the specified product is associated with.
-    public func listPortfoliosForProductPaginator(_ input: ListPortfoliosForProductInput) -> EventLoopFuture<[PortfolioDetail]> {
-        return client.paginate(input: input, command: listPortfoliosForProduct, resultKey: \ListPortfoliosForProductOutput.portfolioDetails, tokenKey: \ListPortfoliosForProductOutput.nextPageToken)
+    public func listPortfoliosForProductPaginator(_ input: ListPortfoliosForProductInput, onPage: @escaping ([PortfolioDetail], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPortfoliosForProduct, resultKey: \ListPortfoliosForProductOutput.portfolioDetails, tokenKey: \ListPortfoliosForProductOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists all principal ARNs associated with the specified portfolio.
-    public func listPrincipalsForPortfolioPaginator(_ input: ListPrincipalsForPortfolioInput) -> EventLoopFuture<[Principal]> {
-        return client.paginate(input: input, command: listPrincipalsForPortfolio, resultKey: \ListPrincipalsForPortfolioOutput.principals, tokenKey: \ListPrincipalsForPortfolioOutput.nextPageToken)
+    public func listPrincipalsForPortfolioPaginator(_ input: ListPrincipalsForPortfolioInput, onPage: @escaping ([Principal], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPrincipalsForPortfolio, resultKey: \ListPrincipalsForPortfolioOutput.principals, tokenKey: \ListPrincipalsForPortfolioOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists all provisioning artifacts (also known as versions) for the specified self-service action.
-    public func listProvisioningArtifactsForServiceActionPaginator(_ input: ListProvisioningArtifactsForServiceActionInput) -> EventLoopFuture<[ProvisioningArtifactView]> {
-        return client.paginate(input: input, command: listProvisioningArtifactsForServiceAction, resultKey: \ListProvisioningArtifactsForServiceActionOutput.provisioningArtifactViews, tokenKey: \ListProvisioningArtifactsForServiceActionOutput.nextPageToken)
+    public func listProvisioningArtifactsForServiceActionPaginator(_ input: ListProvisioningArtifactsForServiceActionInput, onPage: @escaping ([ProvisioningArtifactView], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProvisioningArtifactsForServiceAction, resultKey: \ListProvisioningArtifactsForServiceActionOutput.provisioningArtifactViews, tokenKey: \ListProvisioningArtifactsForServiceActionOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists the resources associated with the specified TagOption.
-    public func listResourcesForTagOptionPaginator(_ input: ListResourcesForTagOptionInput) -> EventLoopFuture<[ResourceDetail]> {
-        return client.paginate(input: input, command: listResourcesForTagOption, resultKey: \ListResourcesForTagOptionOutput.resourceDetails, tokenKey: \ListResourcesForTagOptionOutput.pageToken)
+    public func listResourcesForTagOptionPaginator(_ input: ListResourcesForTagOptionInput, onPage: @escaping ([ResourceDetail], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listResourcesForTagOption, resultKey: \ListResourcesForTagOptionOutput.resourceDetails, tokenKey: \ListResourcesForTagOptionOutput.pageToken, onPage: onPage)
     }
     
     ///  Lists all self-service actions.
-    public func listServiceActionsPaginator(_ input: ListServiceActionsInput) -> EventLoopFuture<[ServiceActionSummary]> {
-        return client.paginate(input: input, command: listServiceActions, resultKey: \ListServiceActionsOutput.serviceActionSummaries, tokenKey: \ListServiceActionsOutput.nextPageToken)
+    public func listServiceActionsPaginator(_ input: ListServiceActionsInput, onPage: @escaping ([ServiceActionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listServiceActions, resultKey: \ListServiceActionsOutput.serviceActionSummaries, tokenKey: \ListServiceActionsOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
-    public func listServiceActionsForProvisioningArtifactPaginator(_ input: ListServiceActionsForProvisioningArtifactInput) -> EventLoopFuture<[ServiceActionSummary]> {
-        return client.paginate(input: input, command: listServiceActionsForProvisioningArtifact, resultKey: \ListServiceActionsForProvisioningArtifactOutput.serviceActionSummaries, tokenKey: \ListServiceActionsForProvisioningArtifactOutput.nextPageToken)
+    public func listServiceActionsForProvisioningArtifactPaginator(_ input: ListServiceActionsForProvisioningArtifactInput, onPage: @escaping ([ServiceActionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listServiceActionsForProvisioningArtifact, resultKey: \ListServiceActionsForProvisioningArtifactOutput.serviceActionSummaries, tokenKey: \ListServiceActionsForProvisioningArtifactOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Lists the specified TagOptions or all TagOptions.
-    public func listTagOptionsPaginator(_ input: ListTagOptionsInput) -> EventLoopFuture<[TagOptionDetail]> {
-        return client.paginate(input: input, command: listTagOptions, resultKey: \ListTagOptionsOutput.tagOptionDetails, tokenKey: \ListTagOptionsOutput.pageToken)
+    public func listTagOptionsPaginator(_ input: ListTagOptionsInput, onPage: @escaping ([TagOptionDetail], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTagOptions, resultKey: \ListTagOptionsOutput.tagOptionDetails, tokenKey: \ListTagOptionsOutput.pageToken, onPage: onPage)
     }
     
     ///  Gets information about the products to which the caller has access.
-    public func searchProductsPaginator(_ input: SearchProductsInput) -> EventLoopFuture<[ProductViewSummary]> {
-        return client.paginate(input: input, command: searchProducts, resultKey: \SearchProductsOutput.productViewSummaries, tokenKey: \SearchProductsOutput.nextPageToken)
+    public func searchProductsPaginator(_ input: SearchProductsInput, onPage: @escaping ([ProductViewSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchProducts, resultKey: \SearchProductsOutput.productViewSummaries, tokenKey: \SearchProductsOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Gets information about the products for the specified portfolio or all products.
-    public func searchProductsAsAdminPaginator(_ input: SearchProductsAsAdminInput) -> EventLoopFuture<[ProductViewDetail]> {
-        return client.paginate(input: input, command: searchProductsAsAdmin, resultKey: \SearchProductsAsAdminOutput.productViewDetails, tokenKey: \SearchProductsAsAdminOutput.nextPageToken)
+    public func searchProductsAsAdminPaginator(_ input: SearchProductsAsAdminInput, onPage: @escaping ([ProductViewDetail], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchProductsAsAdmin, resultKey: \SearchProductsAsAdminOutput.productViewDetails, tokenKey: \SearchProductsAsAdminOutput.nextPageToken, onPage: onPage)
     }
     
     ///  Gets information about the provisioned products that meet the specified criteria.
-    public func searchProvisionedProductsPaginator(_ input: SearchProvisionedProductsInput) -> EventLoopFuture<[ProvisionedProductAttribute]> {
-        return client.paginate(input: input, command: searchProvisionedProducts, resultKey: \SearchProvisionedProductsOutput.provisionedProducts, tokenKey: \SearchProvisionedProductsOutput.nextPageToken)
+    public func searchProvisionedProductsPaginator(_ input: SearchProvisionedProductsInput, onPage: @escaping ([ProvisionedProductAttribute], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchProvisionedProducts, resultKey: \SearchProvisionedProductsOutput.provisionedProducts, tokenKey: \SearchProvisionedProductsOutput.nextPageToken, onPage: onPage)
     }
     
 }

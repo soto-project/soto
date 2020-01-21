@@ -5,23 +5,23 @@ import NIO
 extension MachineLearning {
 
     ///  Returns a list of BatchPrediction operations that match the search criteria in the request.
-    public func describeBatchPredictionsPaginator(_ input: DescribeBatchPredictionsInput) -> EventLoopFuture<[BatchPrediction]> {
-        return client.paginate(input: input, command: describeBatchPredictions, resultKey: \DescribeBatchPredictionsOutput.results, tokenKey: \DescribeBatchPredictionsOutput.nextToken)
+    public func describeBatchPredictionsPaginator(_ input: DescribeBatchPredictionsInput, onPage: @escaping ([BatchPrediction], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeBatchPredictions, resultKey: \DescribeBatchPredictionsOutput.results, tokenKey: \DescribeBatchPredictionsOutput.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of DataSource that match the search criteria in the request.
-    public func describeDataSourcesPaginator(_ input: DescribeDataSourcesInput) -> EventLoopFuture<[DataSource]> {
-        return client.paginate(input: input, command: describeDataSources, resultKey: \DescribeDataSourcesOutput.results, tokenKey: \DescribeDataSourcesOutput.nextToken)
+    public func describeDataSourcesPaginator(_ input: DescribeDataSourcesInput, onPage: @escaping ([DataSource], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDataSources, resultKey: \DescribeDataSourcesOutput.results, tokenKey: \DescribeDataSourcesOutput.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of DescribeEvaluations that match the search criteria in the request.
-    public func describeEvaluationsPaginator(_ input: DescribeEvaluationsInput) -> EventLoopFuture<[Evaluation]> {
-        return client.paginate(input: input, command: describeEvaluations, resultKey: \DescribeEvaluationsOutput.results, tokenKey: \DescribeEvaluationsOutput.nextToken)
+    public func describeEvaluationsPaginator(_ input: DescribeEvaluationsInput, onPage: @escaping ([Evaluation], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEvaluations, resultKey: \DescribeEvaluationsOutput.results, tokenKey: \DescribeEvaluationsOutput.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of MLModel that match the search criteria in the request.
-    public func describeMLModelsPaginator(_ input: DescribeMLModelsInput) -> EventLoopFuture<[MLModel]> {
-        return client.paginate(input: input, command: describeMLModels, resultKey: \DescribeMLModelsOutput.results, tokenKey: \DescribeMLModelsOutput.nextToken)
+    public func describeMLModelsPaginator(_ input: DescribeMLModelsInput, onPage: @escaping ([MLModel], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeMLModels, resultKey: \DescribeMLModelsOutput.results, tokenKey: \DescribeMLModelsOutput.nextToken, onPage: onPage)
     }
     
 }

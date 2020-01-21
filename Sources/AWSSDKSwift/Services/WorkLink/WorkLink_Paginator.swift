@@ -5,28 +5,28 @@ import NIO
 extension WorkLink {
 
     ///  Retrieves a list of devices registered with the specified fleet.
-    public func listDevicesPaginator(_ input: ListDevicesRequest) -> EventLoopFuture<[DeviceSummary]> {
-        return client.paginate(input: input, command: listDevices, resultKey: \ListDevicesResponse.devices, tokenKey: \ListDevicesResponse.nextToken)
+    public func listDevicesPaginator(_ input: ListDevicesRequest, onPage: @escaping ([DeviceSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDevices, resultKey: \ListDevicesResponse.devices, tokenKey: \ListDevicesResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list of domains associated to a specified fleet.
-    public func listDomainsPaginator(_ input: ListDomainsRequest) -> EventLoopFuture<[DomainSummary]> {
-        return client.paginate(input: input, command: listDomains, resultKey: \ListDomainsResponse.domains, tokenKey: \ListDomainsResponse.nextToken)
+    public func listDomainsPaginator(_ input: ListDomainsRequest, onPage: @escaping ([DomainSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDomains, resultKey: \ListDomainsResponse.domains, tokenKey: \ListDomainsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list of fleets for the current account and Region.
-    public func listFleetsPaginator(_ input: ListFleetsRequest) -> EventLoopFuture<[FleetSummary]> {
-        return client.paginate(input: input, command: listFleets, resultKey: \ListFleetsResponse.fleetSummaryList, tokenKey: \ListFleetsResponse.nextToken)
+    public func listFleetsPaginator(_ input: ListFleetsRequest, onPage: @escaping ([FleetSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listFleets, resultKey: \ListFleetsResponse.fleetSummaryList, tokenKey: \ListFleetsResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list of website authorization providers associated with a specified fleet.
-    public func listWebsiteAuthorizationProvidersPaginator(_ input: ListWebsiteAuthorizationProvidersRequest) -> EventLoopFuture<[WebsiteAuthorizationProviderSummary]> {
-        return client.paginate(input: input, command: listWebsiteAuthorizationProviders, resultKey: \ListWebsiteAuthorizationProvidersResponse.websiteAuthorizationProviders, tokenKey: \ListWebsiteAuthorizationProvidersResponse.nextToken)
+    public func listWebsiteAuthorizationProvidersPaginator(_ input: ListWebsiteAuthorizationProvidersRequest, onPage: @escaping ([WebsiteAuthorizationProviderSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWebsiteAuthorizationProviders, resultKey: \ListWebsiteAuthorizationProvidersResponse.websiteAuthorizationProviders, tokenKey: \ListWebsiteAuthorizationProvidersResponse.nextToken, onPage: onPage)
     }
     
     ///  Retrieves a list of certificate authorities added for the current account and Region.
-    public func listWebsiteCertificateAuthoritiesPaginator(_ input: ListWebsiteCertificateAuthoritiesRequest) -> EventLoopFuture<[WebsiteCaSummary]> {
-        return client.paginate(input: input, command: listWebsiteCertificateAuthorities, resultKey: \ListWebsiteCertificateAuthoritiesResponse.websiteCertificateAuthorities, tokenKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken)
+    public func listWebsiteCertificateAuthoritiesPaginator(_ input: ListWebsiteCertificateAuthoritiesRequest, onPage: @escaping ([WebsiteCaSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWebsiteCertificateAuthorities, resultKey: \ListWebsiteCertificateAuthoritiesResponse.websiteCertificateAuthorities, tokenKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken, onPage: onPage)
     }
     
 }

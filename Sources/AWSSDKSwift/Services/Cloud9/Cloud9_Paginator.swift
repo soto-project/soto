@@ -5,13 +5,13 @@ import NIO
 extension Cloud9 {
 
     ///  Gets information about environment members for an AWS Cloud9 development environment.
-    public func describeEnvironmentMembershipsPaginator(_ input: DescribeEnvironmentMembershipsRequest) -> EventLoopFuture<[EnvironmentMember]> {
-        return client.paginate(input: input, command: describeEnvironmentMemberships, resultKey: \DescribeEnvironmentMembershipsResult.memberships, tokenKey: \DescribeEnvironmentMembershipsResult.nextToken)
+    public func describeEnvironmentMembershipsPaginator(_ input: DescribeEnvironmentMembershipsRequest, onPage: @escaping ([EnvironmentMember], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEnvironmentMemberships, resultKey: \DescribeEnvironmentMembershipsResult.memberships, tokenKey: \DescribeEnvironmentMembershipsResult.nextToken, onPage: onPage)
     }
     
     ///  Gets a list of AWS Cloud9 development environment identifiers.
-    public func listEnvironmentsPaginator(_ input: ListEnvironmentsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listEnvironments, resultKey: \ListEnvironmentsResult.environmentIds, tokenKey: \ListEnvironmentsResult.nextToken)
+    public func listEnvironmentsPaginator(_ input: ListEnvironmentsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEnvironments, resultKey: \ListEnvironmentsResult.environmentIds, tokenKey: \ListEnvironmentsResult.nextToken, onPage: onPage)
     }
     
 }

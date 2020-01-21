@@ -5,18 +5,18 @@ import NIO
 extension ServerlessApplicationRepository {
 
     ///  Retrieves the list of applications nested in the containing application.
-    public func listApplicationDependenciesPaginator(_ input: ListApplicationDependenciesRequest) -> EventLoopFuture<[ApplicationDependencySummary]> {
-        return client.paginate(input: input, command: listApplicationDependencies, resultKey: \ListApplicationDependenciesResponse.dependencies, tokenKey: \ListApplicationDependenciesResponse.nextToken)
+    public func listApplicationDependenciesPaginator(_ input: ListApplicationDependenciesRequest, onPage: @escaping ([ApplicationDependencySummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listApplicationDependencies, resultKey: \ListApplicationDependenciesResponse.dependencies, tokenKey: \ListApplicationDependenciesResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists versions for the specified application.
-    public func listApplicationVersionsPaginator(_ input: ListApplicationVersionsRequest) -> EventLoopFuture<[VersionSummary]> {
-        return client.paginate(input: input, command: listApplicationVersions, resultKey: \ListApplicationVersionsResponse.versions, tokenKey: \ListApplicationVersionsResponse.nextToken)
+    public func listApplicationVersionsPaginator(_ input: ListApplicationVersionsRequest, onPage: @escaping ([VersionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listApplicationVersions, resultKey: \ListApplicationVersionsResponse.versions, tokenKey: \ListApplicationVersionsResponse.nextToken, onPage: onPage)
     }
     
     ///  Lists applications owned by the requester.
-    public func listApplicationsPaginator(_ input: ListApplicationsRequest) -> EventLoopFuture<[ApplicationSummary]> {
-        return client.paginate(input: input, command: listApplications, resultKey: \ListApplicationsResponse.applications, tokenKey: \ListApplicationsResponse.nextToken)
+    public func listApplicationsPaginator(_ input: ListApplicationsRequest, onPage: @escaping ([ApplicationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listApplications, resultKey: \ListApplicationsResponse.applications, tokenKey: \ListApplicationsResponse.nextToken, onPage: onPage)
     }
     
 }

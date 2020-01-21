@@ -5,33 +5,33 @@ import NIO
 extension CodePipeline {
 
     ///  Lists the action executions that have occurred in a pipeline.
-    public func listActionExecutionsPaginator(_ input: ListActionExecutionsInput) -> EventLoopFuture<[ActionExecutionDetail]> {
-        return client.paginate(input: input, command: listActionExecutions, resultKey: \ListActionExecutionsOutput.actionExecutionDetails, tokenKey: \ListActionExecutionsOutput.nextToken)
+    public func listActionExecutionsPaginator(_ input: ListActionExecutionsInput, onPage: @escaping ([ActionExecutionDetail], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listActionExecutions, resultKey: \ListActionExecutionsOutput.actionExecutionDetails, tokenKey: \ListActionExecutionsOutput.nextToken, onPage: onPage)
     }
     
     ///  Gets a summary of all AWS CodePipeline action types associated with your account.
-    public func listActionTypesPaginator(_ input: ListActionTypesInput) -> EventLoopFuture<[ActionType]> {
-        return client.paginate(input: input, command: listActionTypes, resultKey: \ListActionTypesOutput.actionTypes, tokenKey: \ListActionTypesOutput.nextToken)
+    public func listActionTypesPaginator(_ input: ListActionTypesInput, onPage: @escaping ([ActionType], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listActionTypes, resultKey: \ListActionTypesOutput.actionTypes, tokenKey: \ListActionTypesOutput.nextToken, onPage: onPage)
     }
     
     ///  Gets a summary of the most recent executions for a pipeline.
-    public func listPipelineExecutionsPaginator(_ input: ListPipelineExecutionsInput) -> EventLoopFuture<[PipelineExecutionSummary]> {
-        return client.paginate(input: input, command: listPipelineExecutions, resultKey: \ListPipelineExecutionsOutput.pipelineExecutionSummaries, tokenKey: \ListPipelineExecutionsOutput.nextToken)
+    public func listPipelineExecutionsPaginator(_ input: ListPipelineExecutionsInput, onPage: @escaping ([PipelineExecutionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPipelineExecutions, resultKey: \ListPipelineExecutionsOutput.pipelineExecutionSummaries, tokenKey: \ListPipelineExecutionsOutput.nextToken, onPage: onPage)
     }
     
     ///  Gets a summary of all of the pipelines associated with your account.
-    public func listPipelinesPaginator(_ input: ListPipelinesInput) -> EventLoopFuture<[PipelineSummary]> {
-        return client.paginate(input: input, command: listPipelines, resultKey: \ListPipelinesOutput.pipelines, tokenKey: \ListPipelinesOutput.nextToken)
+    public func listPipelinesPaginator(_ input: ListPipelinesInput, onPage: @escaping ([PipelineSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPipelines, resultKey: \ListPipelinesOutput.pipelines, tokenKey: \ListPipelinesOutput.nextToken, onPage: onPage)
     }
     
     ///  Gets the set of key-value pairs (metadata) that are used to manage the resource.
-    public func listTagsForResourcePaginator(_ input: ListTagsForResourceInput) -> EventLoopFuture<[Tag]> {
-        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceOutput.tags, tokenKey: \ListTagsForResourceOutput.nextToken)
+    public func listTagsForResourcePaginator(_ input: ListTagsForResourceInput, onPage: @escaping ([Tag], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTagsForResource, resultKey: \ListTagsForResourceOutput.tags, tokenKey: \ListTagsForResourceOutput.nextToken, onPage: onPage)
     }
     
     ///  Gets a listing of all the webhooks in this AWS Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
-    public func listWebhooksPaginator(_ input: ListWebhooksInput) -> EventLoopFuture<[ListWebhookItem]> {
-        return client.paginate(input: input, command: listWebhooks, resultKey: \ListWebhooksOutput.webhooks, tokenKey: \ListWebhooksOutput.nextToken)
+    public func listWebhooksPaginator(_ input: ListWebhooksInput, onPage: @escaping ([ListWebhookItem], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWebhooks, resultKey: \ListWebhooksOutput.webhooks, tokenKey: \ListWebhooksOutput.nextToken, onPage: onPage)
     }
     
 }

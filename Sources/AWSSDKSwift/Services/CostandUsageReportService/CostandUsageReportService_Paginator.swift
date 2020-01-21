@@ -5,8 +5,8 @@ import NIO
 extension CostandUsageReportService {
 
     ///  Lists the AWS Cost and Usage reports available to this account.
-    public func describeReportDefinitionsPaginator(_ input: DescribeReportDefinitionsRequest) -> EventLoopFuture<[ReportDefinition]> {
-        return client.paginate(input: input, command: describeReportDefinitions, resultKey: \DescribeReportDefinitionsResponse.reportDefinitions, tokenKey: \DescribeReportDefinitionsResponse.nextToken)
+    public func describeReportDefinitionsPaginator(_ input: DescribeReportDefinitionsRequest, onPage: @escaping ([ReportDefinition], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReportDefinitions, resultKey: \DescribeReportDefinitionsResponse.reportDefinitions, tokenKey: \DescribeReportDefinitionsResponse.nextToken, onPage: onPage)
     }
     
 }

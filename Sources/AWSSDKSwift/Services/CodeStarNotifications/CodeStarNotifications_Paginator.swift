@@ -5,18 +5,18 @@ import NIO
 extension CodeStarNotifications {
 
     ///  Returns information about the event types available for configuring notifications.
-    public func listEventTypesPaginator(_ input: ListEventTypesRequest) -> EventLoopFuture<[EventTypeSummary]> {
-        return client.paginate(input: input, command: listEventTypes, resultKey: \ListEventTypesResult.eventTypes, tokenKey: \ListEventTypesResult.nextToken)
+    public func listEventTypesPaginator(_ input: ListEventTypesRequest, onPage: @escaping ([EventTypeSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEventTypes, resultKey: \ListEventTypesResult.eventTypes, tokenKey: \ListEventTypesResult.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of the notification rules for an AWS account.
-    public func listNotificationRulesPaginator(_ input: ListNotificationRulesRequest) -> EventLoopFuture<[NotificationRuleSummary]> {
-        return client.paginate(input: input, command: listNotificationRules, resultKey: \ListNotificationRulesResult.notificationRules, tokenKey: \ListNotificationRulesResult.nextToken)
+    public func listNotificationRulesPaginator(_ input: ListNotificationRulesRequest, onPage: @escaping ([NotificationRuleSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNotificationRules, resultKey: \ListNotificationRulesResult.notificationRules, tokenKey: \ListNotificationRulesResult.nextToken, onPage: onPage)
     }
     
     ///  Returns a list of the notification rule targets for an AWS account.
-    public func listTargetsPaginator(_ input: ListTargetsRequest) -> EventLoopFuture<[TargetSummary]> {
-        return client.paginate(input: input, command: listTargets, resultKey: \ListTargetsResult.targets, tokenKey: \ListTargetsResult.nextToken)
+    public func listTargetsPaginator(_ input: ListTargetsRequest, onPage: @escaping ([TargetSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTargets, resultKey: \ListTargetsResult.targets, tokenKey: \ListTargetsResult.nextToken, onPage: onPage)
     }
     
 }

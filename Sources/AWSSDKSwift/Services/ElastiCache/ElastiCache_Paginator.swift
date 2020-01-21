@@ -5,68 +5,68 @@ import NIO
 extension ElastiCache {
 
     ///  Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
-    public func describeCacheClustersPaginator(_ input: DescribeCacheClustersMessage) -> EventLoopFuture<[CacheCluster]> {
-        return client.paginate(input: input, command: describeCacheClusters, resultKey: \CacheClusterMessage.cacheClusters, tokenKey: \CacheClusterMessage.marker)
+    public func describeCacheClustersPaginator(_ input: DescribeCacheClustersMessage, onPage: @escaping ([CacheCluster], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCacheClusters, resultKey: \CacheClusterMessage.cacheClusters, tokenKey: \CacheClusterMessage.marker, onPage: onPage)
     }
     
     ///  Returns a list of the available cache engines and their versions.
-    public func describeCacheEngineVersionsPaginator(_ input: DescribeCacheEngineVersionsMessage) -> EventLoopFuture<[CacheEngineVersion]> {
-        return client.paginate(input: input, command: describeCacheEngineVersions, resultKey: \CacheEngineVersionMessage.cacheEngineVersions, tokenKey: \CacheEngineVersionMessage.marker)
+    public func describeCacheEngineVersionsPaginator(_ input: DescribeCacheEngineVersionsMessage, onPage: @escaping ([CacheEngineVersion], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCacheEngineVersions, resultKey: \CacheEngineVersionMessage.cacheEngineVersions, tokenKey: \CacheEngineVersionMessage.marker, onPage: onPage)
     }
     
     ///  Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
-    public func describeCacheParameterGroupsPaginator(_ input: DescribeCacheParameterGroupsMessage) -> EventLoopFuture<[CacheParameterGroup]> {
-        return client.paginate(input: input, command: describeCacheParameterGroups, resultKey: \CacheParameterGroupsMessage.cacheParameterGroups, tokenKey: \CacheParameterGroupsMessage.marker)
+    public func describeCacheParameterGroupsPaginator(_ input: DescribeCacheParameterGroupsMessage, onPage: @escaping ([CacheParameterGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCacheParameterGroups, resultKey: \CacheParameterGroupsMessage.cacheParameterGroups, tokenKey: \CacheParameterGroupsMessage.marker, onPage: onPage)
     }
     
     ///  Returns the detailed parameter list for a particular cache parameter group.
-    public func describeCacheParametersPaginator(_ input: DescribeCacheParametersMessage) -> EventLoopFuture<[Parameter]> {
-        return client.paginate(input: input, command: describeCacheParameters, resultKey: \CacheParameterGroupDetails.parameters, tokenKey: \CacheParameterGroupDetails.marker)
+    public func describeCacheParametersPaginator(_ input: DescribeCacheParametersMessage, onPage: @escaping ([Parameter], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCacheParameters, resultKey: \CacheParameterGroupDetails.parameters, tokenKey: \CacheParameterGroupDetails.marker, onPage: onPage)
     }
     
     ///  Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup 
-    public func describeCacheSecurityGroupsPaginator(_ input: DescribeCacheSecurityGroupsMessage) -> EventLoopFuture<[CacheSecurityGroup]> {
-        return client.paginate(input: input, command: describeCacheSecurityGroups, resultKey: \CacheSecurityGroupMessage.cacheSecurityGroups, tokenKey: \CacheSecurityGroupMessage.marker)
+    public func describeCacheSecurityGroupsPaginator(_ input: DescribeCacheSecurityGroupsMessage, onPage: @escaping ([CacheSecurityGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCacheSecurityGroups, resultKey: \CacheSecurityGroupMessage.cacheSecurityGroups, tokenKey: \CacheSecurityGroupMessage.marker, onPage: onPage)
     }
     
     ///  Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default. 
-    public func describeCacheSubnetGroupsPaginator(_ input: DescribeCacheSubnetGroupsMessage) -> EventLoopFuture<[CacheSubnetGroup]> {
-        return client.paginate(input: input, command: describeCacheSubnetGroups, resultKey: \CacheSubnetGroupMessage.cacheSubnetGroups, tokenKey: \CacheSubnetGroupMessage.marker)
+    public func describeCacheSubnetGroupsPaginator(_ input: DescribeCacheSubnetGroupsMessage, onPage: @escaping ([CacheSubnetGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCacheSubnetGroups, resultKey: \CacheSubnetGroupMessage.cacheSubnetGroups, tokenKey: \CacheSubnetGroupMessage.marker, onPage: onPage)
     }
     
     ///  Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
-    public func describeEventsPaginator(_ input: DescribeEventsMessage) -> EventLoopFuture<[Event]> {
-        return client.paginate(input: input, command: describeEvents, resultKey: \EventsMessage.events, tokenKey: \EventsMessage.marker)
+    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping ([Event], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEvents, resultKey: \EventsMessage.events, tokenKey: \EventsMessage.marker, onPage: onPage)
     }
     
     ///  Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis only. 
-    public func describeReplicationGroupsPaginator(_ input: DescribeReplicationGroupsMessage) -> EventLoopFuture<[ReplicationGroup]> {
-        return client.paginate(input: input, command: describeReplicationGroups, resultKey: \ReplicationGroupMessage.replicationGroups, tokenKey: \ReplicationGroupMessage.marker)
+    public func describeReplicationGroupsPaginator(_ input: DescribeReplicationGroupsMessage, onPage: @escaping ([ReplicationGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReplicationGroups, resultKey: \ReplicationGroupMessage.replicationGroups, tokenKey: \ReplicationGroupMessage.marker, onPage: onPage)
     }
     
     ///  Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
-    public func describeReservedCacheNodesPaginator(_ input: DescribeReservedCacheNodesMessage) -> EventLoopFuture<[ReservedCacheNode]> {
-        return client.paginate(input: input, command: describeReservedCacheNodes, resultKey: \ReservedCacheNodeMessage.reservedCacheNodes, tokenKey: \ReservedCacheNodeMessage.marker)
+    public func describeReservedCacheNodesPaginator(_ input: DescribeReservedCacheNodesMessage, onPage: @escaping ([ReservedCacheNode], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReservedCacheNodes, resultKey: \ReservedCacheNodeMessage.reservedCacheNodes, tokenKey: \ReservedCacheNodeMessage.marker, onPage: onPage)
     }
     
     ///  Lists available reserved cache node offerings.
-    public func describeReservedCacheNodesOfferingsPaginator(_ input: DescribeReservedCacheNodesOfferingsMessage) -> EventLoopFuture<[ReservedCacheNodesOffering]> {
-        return client.paginate(input: input, command: describeReservedCacheNodesOfferings, resultKey: \ReservedCacheNodesOfferingMessage.reservedCacheNodesOfferings, tokenKey: \ReservedCacheNodesOfferingMessage.marker)
+    public func describeReservedCacheNodesOfferingsPaginator(_ input: DescribeReservedCacheNodesOfferingsMessage, onPage: @escaping ([ReservedCacheNodesOffering], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReservedCacheNodesOfferings, resultKey: \ReservedCacheNodesOfferingMessage.reservedCacheNodesOfferings, tokenKey: \ReservedCacheNodesOfferingMessage.marker, onPage: onPage)
     }
     
     ///  Returns details of the service updates
-    public func describeServiceUpdatesPaginator(_ input: DescribeServiceUpdatesMessage) -> EventLoopFuture<[ServiceUpdate]> {
-        return client.paginate(input: input, command: describeServiceUpdates, resultKey: \ServiceUpdatesMessage.serviceUpdates, tokenKey: \ServiceUpdatesMessage.marker)
+    public func describeServiceUpdatesPaginator(_ input: DescribeServiceUpdatesMessage, onPage: @escaping ([ServiceUpdate], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeServiceUpdates, resultKey: \ServiceUpdatesMessage.serviceUpdates, tokenKey: \ServiceUpdatesMessage.marker, onPage: onPage)
     }
     
     ///  Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only. 
-    public func describeSnapshotsPaginator(_ input: DescribeSnapshotsMessage) -> EventLoopFuture<[Snapshot]> {
-        return client.paginate(input: input, command: describeSnapshots, resultKey: \DescribeSnapshotsListMessage.snapshots, tokenKey: \DescribeSnapshotsListMessage.marker)
+    public func describeSnapshotsPaginator(_ input: DescribeSnapshotsMessage, onPage: @escaping ([Snapshot], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeSnapshots, resultKey: \DescribeSnapshotsListMessage.snapshots, tokenKey: \DescribeSnapshotsListMessage.marker, onPage: onPage)
     }
     
     ///  Returns details of the update actions 
-    public func describeUpdateActionsPaginator(_ input: DescribeUpdateActionsMessage) -> EventLoopFuture<[UpdateAction]> {
-        return client.paginate(input: input, command: describeUpdateActions, resultKey: \UpdateActionsMessage.updateActions, tokenKey: \UpdateActionsMessage.marker)
+    public func describeUpdateActionsPaginator(_ input: DescribeUpdateActionsMessage, onPage: @escaping ([UpdateAction], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeUpdateActions, resultKey: \UpdateActionsMessage.updateActions, tokenKey: \UpdateActionsMessage.marker, onPage: onPage)
     }
     
 }
