@@ -10,8 +10,14 @@ extension WorkDocs {
     }
     
     ///  Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
-    public func describeFolderContentsPaginator(_ input: DescribeFolderContentsRequest) -> EventLoopFuture<[FolderMetadata]> {
-        return client.paginate(input: input, command: describeFolderContents, resultKey: \DescribeFolderContentsResponse.folders, tokenKey: \DescribeFolderContentsResponse.marker)
+    public struct describeFolderContentsPaginatedResult {
+        let folders: [FolderMetadata]
+        let documents: [DocumentMetadata]
+    }
+    public func describeFolderContentsPaginator(_ input: DescribeFolderContentsRequest) -> EventLoopFuture<describeFolderContentsPaginatedResult> {
+        return client.paginate(input: input, command: describeFolderContents, resultKey1: \DescribeFolderContentsResponse.folders, resultKey2: \DescribeFolderContentsResponse.documents, tokenKey: \DescribeFolderContentsResponse.marker).map {
+            return describeFolderContentsPaginatedResult(folders: $0, documents: $1)
+        }
     }
     
     ///  Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.

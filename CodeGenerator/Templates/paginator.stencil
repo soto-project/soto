@@ -8,12 +8,28 @@ extension {{name}} {
 {%for comment in page.operation.comment %}
     ///  {{comment}}
 {%endfor %}
+{%if page.results.count == 1 %}
 {%if page.operation.deprecated %}
     @available(*, deprecated, message:"{{page.operation.deprecated}}")
 {%endif %}
-    public func {{page.operation.funcName}}Paginator(_ input: {{page.operation.inputShape}}) -> EventLoopFuture<[{{page.resultShape}}]> {
-        return client.paginate(input: input, command: {{page.operation.funcName}}, resultKey: \{{page.operation.outputShape}}.{{page.result}}, tokenKey: \{{page.operation.outputShape}}.{{page.output}})
+    public func {{page.operation.funcName}}Paginator(_ input: {{page.operation.inputShape}}) -> EventLoopFuture<[{{page.results[0].type}}]> {
+        return client.paginate(input: input, command: {{page.operation.funcName}}, resultKey: \{{page.operation.outputShape}}.{{page.results[0].name}}, tokenKey: \{{page.operation.outputShape}}.{{page.output}})
     }
+{%else %}
+    public struct {{page.operation.funcName}}PaginatedResult {
+{%for result in page.results %}
+        let {{result.name}}: [{{result.type}}]
+{%endfor %}
+    }
+{%if page.operation.deprecated %}
+    @available(*, deprecated, message:"{{page.operation.deprecated}}")
+{%endif %}
+    public func {{page.operation.funcName}}Paginator(_ input: {{page.operation.inputShape}}) -> EventLoopFuture<{{page.operation.funcName}}PaginatedResult> {
+        return client.paginate(input: input, command: {{page.operation.funcName}}, {%for result in page.results %}resultKey{{forloop.counter}}: \{{page.operation.outputShape}}.{{result.name}}, {%endfor %}tokenKey: \{{page.operation.outputShape}}.{{page.output}}).map {
+            return {{page.operation.funcName}}PaginatedResult({%for result in page.results %}{{result.name}}: ${{forloop.counter0}}{%if not forloop.last %}, {%endif%}{%endfor %})
+        }
+    }
+{%endif %}
     
 {%endfor %}
 }

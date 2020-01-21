@@ -5,8 +5,16 @@ import NIO
 extension IAM {
 
     ///  Retrieves information about all IAM users, groups, roles, and policies in your AWS account, including their relationships to one another. Use this API to obtain a snapshot of the configuration of IAM permissions (users, groups, roles, and policies) in your account.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  You can optionally filter the results using the Filter parameter. You can paginate the results using the MaxItems and Marker parameters.
-    public func getAccountAuthorizationDetailsPaginator(_ input: GetAccountAuthorizationDetailsRequest) -> EventLoopFuture<[UserDetail]> {
-        return client.paginate(input: input, command: getAccountAuthorizationDetails, resultKey: \GetAccountAuthorizationDetailsResponse.userDetailList, tokenKey: \GetAccountAuthorizationDetailsResponse.marker)
+    public struct getAccountAuthorizationDetailsPaginatedResult {
+        let userDetailList: [UserDetail]
+        let groupDetailList: [GroupDetail]
+        let roleDetailList: [RoleDetail]
+        let policies: [ManagedPolicyDetail]
+    }
+    public func getAccountAuthorizationDetailsPaginator(_ input: GetAccountAuthorizationDetailsRequest) -> EventLoopFuture<getAccountAuthorizationDetailsPaginatedResult> {
+        return client.paginate(input: input, command: getAccountAuthorizationDetails, resultKey1: \GetAccountAuthorizationDetailsResponse.userDetailList, resultKey2: \GetAccountAuthorizationDetailsResponse.groupDetailList, resultKey3: \GetAccountAuthorizationDetailsResponse.roleDetailList, resultKey4: \GetAccountAuthorizationDetailsResponse.policies, tokenKey: \GetAccountAuthorizationDetailsResponse.marker).map {
+            return getAccountAuthorizationDetailsPaginatedResult(userDetailList: $0, groupDetailList: $1, roleDetailList: $2, policies: $3)
+        }
     }
     
     ///   Returns a list of IAM users that are in the specified IAM group. You can paginate the results using the MaxItems and Marker parameters.
@@ -40,8 +48,15 @@ extension IAM {
     }
     
     ///  Lists all IAM users, groups, and roles that the specified managed policy is attached to. You can use the optional EntityFilter parameter to limit the results to a particular type of entity (users, groups, or roles). For example, to list only the roles that are attached to the specified policy, set EntityFilter to Role. You can paginate the results using the MaxItems and Marker parameters.
-    public func listEntitiesForPolicyPaginator(_ input: ListEntitiesForPolicyRequest) -> EventLoopFuture<[PolicyGroup]> {
-        return client.paginate(input: input, command: listEntitiesForPolicy, resultKey: \ListEntitiesForPolicyResponse.policyGroups, tokenKey: \ListEntitiesForPolicyResponse.marker)
+    public struct listEntitiesForPolicyPaginatedResult {
+        let policyGroups: [PolicyGroup]
+        let policyUsers: [PolicyUser]
+        let policyRoles: [PolicyRole]
+    }
+    public func listEntitiesForPolicyPaginator(_ input: ListEntitiesForPolicyRequest) -> EventLoopFuture<listEntitiesForPolicyPaginatedResult> {
+        return client.paginate(input: input, command: listEntitiesForPolicy, resultKey1: \ListEntitiesForPolicyResponse.policyGroups, resultKey2: \ListEntitiesForPolicyResponse.policyUsers, resultKey3: \ListEntitiesForPolicyResponse.policyRoles, tokenKey: \ListEntitiesForPolicyResponse.marker).map {
+            return listEntitiesForPolicyPaginatedResult(policyGroups: $0, policyUsers: $1, policyRoles: $2)
+        }
     }
     
     ///  Lists the names of the inline policies that are embedded in the specified IAM group. An IAM group can also have managed policies attached to it. To list the managed policies that are attached to a group, use ListAttachedGroupPolicies. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified group, the operation returns an empty list.

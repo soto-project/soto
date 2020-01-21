@@ -30,8 +30,14 @@ extension CloudWatchLogs {
     }
     
     ///  Lists log events from the specified log group. You can list all the log events or filter the results using a filter pattern, a time range, and the name of the log stream. By default, this operation returns as many log events as can fit in 1 MB (up to 10,000 log events), or all the events found within the time range that you specify. If the results include a token, then there are more log events available, and you can get additional results by specifying the token in a subsequent call.
-    public func filterLogEventsPaginator(_ input: FilterLogEventsRequest) -> EventLoopFuture<[FilteredLogEvent]> {
-        return client.paginate(input: input, command: filterLogEvents, resultKey: \FilterLogEventsResponse.events, tokenKey: \FilterLogEventsResponse.nextToken)
+    public struct filterLogEventsPaginatedResult {
+        let events: [FilteredLogEvent]
+        let searchedLogStreams: [SearchedLogStream]
+    }
+    public func filterLogEventsPaginator(_ input: FilterLogEventsRequest) -> EventLoopFuture<filterLogEventsPaginatedResult> {
+        return client.paginate(input: input, command: filterLogEvents, resultKey1: \FilterLogEventsResponse.events, resultKey2: \FilterLogEventsResponse.searchedLogStreams, tokenKey: \FilterLogEventsResponse.nextToken).map {
+            return filterLogEventsPaginatedResult(events: $0, searchedLogStreams: $1)
+        }
     }
     
     ///  Lists log events from the specified log stream. You can list all the log events or filter using a time range. By default, this operation returns as many log events as can fit in a response size of 1MB (up to 10,000 log events). You can get additional log events by specifying one of the tokens in a subsequent call.

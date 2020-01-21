@@ -297,7 +297,12 @@ class S3Tests: XCTestCase {
 
             let request = S3.ListObjectsV2Request(bucket: testData.bucket, maxKeys: 5)
             let list = try client.listObjectsV2Paginator(request).wait()
-            XCTAssertEqual(list.count, 16)
+            let request2 = S3.ListObjectsV2Request(bucket: testData.bucket)
+            let response = try client.listObjectsV2(request2).wait()
+            XCTAssertEqual(list.contents.count, 16)
+            for i in 0..<list.contents.count {
+                XCTAssertEqual(list.contents[i].key, response.contents?[i].key)
+            }
         }
     }
 

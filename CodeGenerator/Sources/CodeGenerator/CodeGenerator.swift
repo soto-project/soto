@@ -234,10 +234,13 @@ extension AWSService {
         let validation : [ValidationContext]
     }
 
+    struct ResultContext {
+        let name: String
+        let type: String
+    }
     struct PaginatorContext {
         let operation: OperationContext
-        let result: String
-        let resultShape: String
+        let results: [ResultContext]
         let input: String
         let output: String
         let initParams: [String]
@@ -561,8 +564,14 @@ extension AWSService {
                 resultKeys = resultMember.map { $0.name }
                 guard resultKeys.count > 0 else { continue }
             }
-            guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == resultKeys[0]}) else { continue }
-            guard case .list(let listShape,_,_) = resultsMember.shape.type else { continue }
+            let results: [ResultContext] = resultKeys.compactMap { key in
+                guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == key}) else { return nil }
+                guard case .list(let listShape,_,_) = resultsMember.shape.type else { return nil }
+                return ResultContext(name: key.toSwiftVariableCase(), type: listShape.swiftTypeName)
+            }
+            guard results.count == resultKeys.count else { continue }
+            //guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == resultKeys[0]}) else { continue }
+           // guard case .list(let listShape,_,_) = resultsMember.shape.type else { continue }
 
             /*if resultKeys.count == 2 {
                 print("Two result arrays in \(serviceName).\(inputShape.name)")
@@ -599,8 +608,7 @@ extension AWSService {
             paginatorContexts.append(
                 PaginatorContext(
                     operation: generateOperationContext(operation),
-                    result: resultKeys[0].toSwiftVariableCase(),
-                    resultShape: listShape.swiftTypeName,
+                    results: results,
                     input: paginator.inputTokens[0].toSwiftVariableCase(),
                     output: outputTokens[0],
                     initParams: initParamsArray,

@@ -5,8 +5,14 @@ import NIO
 extension ResourceGroups {
 
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
-    public func listGroupResourcesPaginator(_ input: ListGroupResourcesInput) -> EventLoopFuture<[QueryError]> {
-        return client.paginate(input: input, command: listGroupResources, resultKey: \ListGroupResourcesOutput.queryErrors, tokenKey: \ListGroupResourcesOutput.nextToken)
+    public struct listGroupResourcesPaginatedResult {
+        let queryErrors: [QueryError]
+        let resourceIdentifiers: [ResourceIdentifier]
+    }
+    public func listGroupResourcesPaginator(_ input: ListGroupResourcesInput) -> EventLoopFuture<listGroupResourcesPaginatedResult> {
+        return client.paginate(input: input, command: listGroupResources, resultKey1: \ListGroupResourcesOutput.queryErrors, resultKey2: \ListGroupResourcesOutput.resourceIdentifiers, tokenKey: \ListGroupResourcesOutput.nextToken).map {
+            return listGroupResourcesPaginatedResult(queryErrors: $0, resourceIdentifiers: $1)
+        }
     }
     
     ///  Returns a list of existing resource groups in your account.
@@ -15,8 +21,14 @@ extension ResourceGroups {
     }
     
     ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
-    public func searchResourcesPaginator(_ input: SearchResourcesInput) -> EventLoopFuture<[QueryError]> {
-        return client.paginate(input: input, command: searchResources, resultKey: \SearchResourcesOutput.queryErrors, tokenKey: \SearchResourcesOutput.nextToken)
+    public struct searchResourcesPaginatedResult {
+        let queryErrors: [QueryError]
+        let resourceIdentifiers: [ResourceIdentifier]
+    }
+    public func searchResourcesPaginator(_ input: SearchResourcesInput) -> EventLoopFuture<searchResourcesPaginatedResult> {
+        return client.paginate(input: input, command: searchResources, resultKey1: \SearchResourcesOutput.queryErrors, resultKey2: \SearchResourcesOutput.resourceIdentifiers, tokenKey: \SearchResourcesOutput.nextToken).map {
+            return searchResourcesPaginatedResult(queryErrors: $0, resourceIdentifiers: $1)
+        }
     }
     
 }

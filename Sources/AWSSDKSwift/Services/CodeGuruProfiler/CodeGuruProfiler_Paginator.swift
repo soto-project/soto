@@ -10,8 +10,14 @@ extension CodeGuruProfiler {
     }
     
     ///  List profiling groups in the account.
-    public func listProfilingGroupsPaginator(_ input: ListProfilingGroupsRequest) -> EventLoopFuture<[String]> {
-        return client.paginate(input: input, command: listProfilingGroups, resultKey: \ListProfilingGroupsResponse.profilingGroupNames, tokenKey: \ListProfilingGroupsResponse.nextToken)
+    public struct listProfilingGroupsPaginatedResult {
+        let profilingGroupNames: [String]
+        let profilingGroups: [ProfilingGroupDescription]
+    }
+    public func listProfilingGroupsPaginator(_ input: ListProfilingGroupsRequest) -> EventLoopFuture<listProfilingGroupsPaginatedResult> {
+        return client.paginate(input: input, command: listProfilingGroups, resultKey1: \ListProfilingGroupsResponse.profilingGroupNames, resultKey2: \ListProfilingGroupsResponse.profilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken).map {
+            return listProfilingGroupsPaginatedResult(profilingGroupNames: $0, profilingGroups: $1)
+        }
     }
     
 }
