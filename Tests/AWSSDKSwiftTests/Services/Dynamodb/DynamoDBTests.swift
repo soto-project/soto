@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import Dispatch
 import XCTest
-@testable import DynamoDB
+@testable import AWSDynamoDB
 
 // testing json service
 

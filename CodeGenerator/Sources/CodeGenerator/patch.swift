@@ -12,10 +12,6 @@ import SwiftyJSON
 // Patch operations
 //
 let servicePatches : [String: [Patch]] = [
-    "Backup" : [
-        // Backup clashes with a macOS framework, so need to rename the framework
-        Patch(.replace, entry:["serviceName"], value:"AWSBackup", originalValue:"Backup")
-    ],
     "CloudFront" : [
         Patch(.replace, entry:["shapes", "HttpVersion", "enum", 0], value:"HTTP1_1", originalValue:"http1.1"),
         Patch(.replace, entry:["shapes", "HttpVersion", "enum", 1], value:"HTTP2", originalValue:"http2")
@@ -27,10 +23,6 @@ let servicePatches : [String: [Patch]] = [
     ],
     "ComprehendMedical" : [
         Patch(.add, entry:["shapes", "EntitySubType", "enum"], value:"DX_NAME")
-    ],
-    "DirectoryService" : [
-        // DirectoryService clashes with a macOS framework, so need to rename the framework
-        Patch(.replace, entry:["serviceName"], value:"AWSDirectoryService", originalValue:"DirectoryService")
     ],
     "ECS" : [
         Patch(.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")

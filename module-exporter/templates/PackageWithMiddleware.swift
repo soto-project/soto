@@ -3,15 +3,15 @@
 import PackageDescription
 
 let package = Package(
-  name: "{{name}}",
+  name: "AWS{{name}}",
   products: [
-      .library(name: "{{name}}", targets: ["{{name}}"]),
+      .library(name: "AWS{{name}}", targets: ["AWS{{name}}"]),
   ],
   dependencies: [
       .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .upToNextMinor(from: "{{version}}"))
   ],
   targets: [
-    .target(name: "{{name}}", dependencies: ["AWSSDKSwiftCore", "{{middleware}}"]),
-    .target(name: "{{middleware}}", dependencies: ["AWSSDKSwiftCore"]),
+    .target(name: "AWS{{name}}", dependencies: ["AWSSDKSwiftCore", "AWS{{middleware}}"], path: "./Sources/{{name}}"),
+    .target(name: "AWS{{middleware}}", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/{{middleware}}"),
   ]
 )

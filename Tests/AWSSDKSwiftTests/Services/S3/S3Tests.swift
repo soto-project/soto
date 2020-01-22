@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import NIO
 import XCTest
-@testable import S3
+import NIO
 @testable import AWSSDKSwiftCore
+@testable import AWSS3
 
 // testing xml service
 

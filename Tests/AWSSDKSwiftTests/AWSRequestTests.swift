@@ -8,14 +8,14 @@
 
 import Foundation
 import XCTest
-@testable import ACM
-@testable import CloudFront
-@testable import EC2
-@testable import IAM
-@testable import S3
-@testable import SES
-@testable import SNS
 @testable import AWSSDKSwiftCore
+@testable import AWSACM
+@testable import AWSCloudFront
+@testable import AWSEC2
+@testable import AWSIAM
+@testable import AWSS3
+@testable import AWSSES
+@testable import AWSSNS
 
 /// Tests to check the formatting of various AWSRequest bodies
 class AWSRequestTests: XCTestCase {

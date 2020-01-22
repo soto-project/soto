@@ -2,8 +2,8 @@
 
 import AWSSDKSwiftCore
 
-/// Error enum for AWSDirectoryService
-public enum AWSDirectoryServiceErrorType: AWSErrorType {
+/// Error enum for DirectoryService
+public enum DirectoryServiceErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
     case authenticationFailedException(message: String?)
     case certificateAlreadyExistsException(message: String?)
@@ -37,7 +37,7 @@ public enum AWSDirectoryServiceErrorType: AWSErrorType {
     case userDoesNotExistException(message: String?)
 }
 
-extension AWSDirectoryServiceErrorType {
+extension DirectoryServiceErrorType {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
@@ -112,7 +112,7 @@ extension AWSDirectoryServiceErrorType {
     }
 }
 
-extension AWSDirectoryServiceErrorType : CustomStringConvertible {
+extension DirectoryServiceErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .accessDeniedException(let message):
