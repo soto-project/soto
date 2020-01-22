@@ -13,49 +13,52 @@ import SwiftyJSON
 //
 let servicePatches : [String: [Patch]] = [
     "CloudFront" : [
-        Patch(.replace, entry:["shapes", "HttpVersion", "enum", 0], value:"HTTP1_1", originalValue:"http1.1"),
-        Patch(.replace, entry:["shapes", "HttpVersion", "enum", 1], value:"HTTP2", originalValue:"http2")
+        .init(.replace, entry:["shapes", "HttpVersion", "enum", 0], value:"HTTP1_1", originalValue:"http1.1"),
+        .init(.replace, entry:["shapes", "HttpVersion", "enum", 1], value:"HTTP2", originalValue:"http2")
     ],
     "CloudWatch" : [
         // Patch error shape to avoid warning in generated code. Both errors have the same code "ResourceNotFound"
-        Patch(.replace, entry:["operations", "GetDashboard", "errors", 1, "shape"], value:"ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
-        Patch(.replace, entry:["operations", "DeleteDashboards", "errors", 1, "shape"], value:"ResourceNotFoundException", originalValue: "DashboardNotFoundError")
+        .init(.replace, entry:["operations", "GetDashboard", "errors", 1, "shape"], value:"ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
+        .init(.replace, entry:["operations", "DeleteDashboards", "errors", 1, "shape"], value:"ResourceNotFoundException", originalValue: "DashboardNotFoundError")
     ],
     "ComprehendMedical" : [
-        Patch(.add, entry:["shapes", "EntitySubType", "enum"], value:"DX_NAME")
+        .init(.add, entry:["shapes", "EntitySubType", "enum"], value:"DX_NAME")
     ],
     "ECS" : [
-        Patch(.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")
+        .init(.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")
     ],
     "EC2" : [
-        Patch(.replace, entry:["shapes", "PlatformValues", "enum", 0], value:"windows", originalValue:"Windows")
+        .init(.replace, entry:["shapes", "PlatformValues", "enum", 0], value:"windows", originalValue:"Windows")
     ],
     "ELB" : [
-        Patch(.replace, entry:["shapes", "SecurityGroupOwnerAlias", "type"], value:"integer", originalValue:"string")
+        .init(.replace, entry:["shapes", "SecurityGroupOwnerAlias", "type"], value:"integer", originalValue:"string")
+    ],
+    "IAM" : [
+        .init(.add, entry:["shapes", "PolicySourceType", "enum"], value:"IAM Policy")
     ],
     "Route53": [
-        Patch(.remove, entry:["shapes", "ListHealthChecksResponse", "required"], value:"Marker"),
-        Patch(.remove, entry:["shapes", "ListHostedZonesResponse", "required"], value:"Marker"),
-        Patch(.remove, entry:["shapes", "ListReusableDelegationSetsResponse", "required"], value:"Marker")
+        .init(.remove, entry:["shapes", "ListHealthChecksResponse", "required"], value:"Marker"),
+        .init(.remove, entry:["shapes", "ListHostedZonesResponse", "required"], value:"Marker"),
+        .init(.remove, entry:["shapes", "ListReusableDelegationSetsResponse", "required"], value:"Marker")
     ],
     "S3": [
-        Patch(.replace, entry:["shapes","ReplicationStatus","enum",0], value:"COMPLETED", originalValue:"COMPLETE"),
-        Patch(.replace, entry:["shapes","Size","type"], value:"long", originalValue:"integer"),
+        .init(.replace, entry:["shapes","ReplicationStatus","enum",0], value:"COMPLETED", originalValue:"COMPLETE"),
+        .init(.replace, entry:["shapes","Size","type"], value:"long", originalValue:"integer"),
         // Add additional location constraints
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"us-east-2"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-2"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-3"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-north-1"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-east-1"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-northeast-2"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-northeast-3"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ca-central-1"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"cn-northwest-1"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"me-south-1"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"us-east-2"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-2"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-3"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-north-1"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-east-1"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-northeast-2"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-northeast-3"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ca-central-1"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"cn-northwest-1"),
+        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"me-south-1"),
     ],
     "SQS": [
-        Patch(.remove, entry:["shapes", "SendMessageBatchResult", "required"], value:"Successful"),
-        Patch(.remove, entry:["shapes", "SendMessageBatchResult", "required"], value:"Failed"),
+        .init(.remove, entry:["shapes", "SendMessageBatchResult", "required"], value:"Successful"),
+        .init(.remove, entry:["shapes", "SendMessageBatchResult", "required"], value:"Failed"),
     ]
 ]
 
