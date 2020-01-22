@@ -5,10 +5,10 @@ import NIO
 extension ConnectParticipant {
 
     ///  Retrieves a transcript of the session. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-    public func getTranscriptPaginator(_ input: GetTranscriptRequest, onPage: @escaping ([Item], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getTranscript, resultKey: \GetTranscriptResponse.transcript, tokenKey: \GetTranscriptResponse.nextToken, onPage: onPage)
+    public func getTranscriptPaginator(_ input: GetTranscriptRequest, onPage: @escaping (GetTranscriptResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getTranscript, tokenKey: \GetTranscriptResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension ConnectParticipant.GetTranscriptRequest: AWSPaginateStringToken {

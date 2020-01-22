@@ -5,30 +5,30 @@ import NIO
 extension ElasticsearchService {
 
     ///  Lists available reserved Elasticsearch instance offerings.
-    public func describeReservedElasticsearchInstanceOfferingsPaginator(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest, onPage: @escaping ([ReservedElasticsearchInstanceOffering], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedElasticsearchInstanceOfferings, resultKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.reservedElasticsearchInstanceOfferings, tokenKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken, onPage: onPage)
+    public func describeReservedElasticsearchInstanceOfferingsPaginator(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest, onPage: @escaping (DescribeReservedElasticsearchInstanceOfferingsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReservedElasticsearchInstanceOfferings, tokenKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about reserved Elasticsearch instances for this account.
-    public func describeReservedElasticsearchInstancesPaginator(_ input: DescribeReservedElasticsearchInstancesRequest, onPage: @escaping ([ReservedElasticsearchInstance], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedElasticsearchInstances, resultKey: \DescribeReservedElasticsearchInstancesResponse.reservedElasticsearchInstances, tokenKey: \DescribeReservedElasticsearchInstancesResponse.nextToken, onPage: onPage)
+    public func describeReservedElasticsearchInstancesPaginator(_ input: DescribeReservedElasticsearchInstancesRequest, onPage: @escaping (DescribeReservedElasticsearchInstancesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReservedElasticsearchInstances, tokenKey: \DescribeReservedElasticsearchInstancesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Retrieves the complete history of the last 10 upgrades that were performed on the domain.
-    public func getUpgradeHistoryPaginator(_ input: GetUpgradeHistoryRequest, onPage: @escaping ([UpgradeHistory], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUpgradeHistory, resultKey: \GetUpgradeHistoryResponse.upgradeHistories, tokenKey: \GetUpgradeHistoryResponse.nextToken, onPage: onPage)
+    public func getUpgradeHistoryPaginator(_ input: GetUpgradeHistoryRequest, onPage: @escaping (GetUpgradeHistoryResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getUpgradeHistory, tokenKey: \GetUpgradeHistoryResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  List all Elasticsearch instance types that are supported for given ElasticsearchVersion
-    public func listElasticsearchInstanceTypesPaginator(_ input: ListElasticsearchInstanceTypesRequest, onPage: @escaping ([ESPartitionInstanceType], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listElasticsearchInstanceTypes, resultKey: \ListElasticsearchInstanceTypesResponse.elasticsearchInstanceTypes, tokenKey: \ListElasticsearchInstanceTypesResponse.nextToken, onPage: onPage)
+    public func listElasticsearchInstanceTypesPaginator(_ input: ListElasticsearchInstanceTypesRequest, onPage: @escaping (ListElasticsearchInstanceTypesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listElasticsearchInstanceTypes, tokenKey: \ListElasticsearchInstanceTypesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  List all supported Elasticsearch versions
-    public func listElasticsearchVersionsPaginator(_ input: ListElasticsearchVersionsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listElasticsearchVersions, resultKey: \ListElasticsearchVersionsResponse.elasticsearchVersions, tokenKey: \ListElasticsearchVersionsResponse.nextToken, onPage: onPage)
+    public func listElasticsearchVersionsPaginator(_ input: ListElasticsearchVersionsRequest, onPage: @escaping (ListElasticsearchVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listElasticsearchVersions, tokenKey: \ListElasticsearchVersionsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest: AWSPaginateStringToken {

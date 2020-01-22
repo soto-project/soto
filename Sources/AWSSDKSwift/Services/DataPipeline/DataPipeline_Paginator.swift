@@ -5,20 +5,20 @@ import NIO
 extension DataPipeline {
 
     ///  Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of a set of fields that define the properties of the object.
-    public func describeObjectsPaginator(_ input: DescribeObjectsInput, onPage: @escaping ([PipelineObject], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeObjects, resultKey: \DescribeObjectsOutput.pipelineObjects, tokenKey: \DescribeObjectsOutput.marker, onPage: onPage)
+    public func describeObjectsPaginator(_ input: DescribeObjectsInput, onPage: @escaping (DescribeObjectsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeObjects, tokenKey: \DescribeObjectsOutput.marker, onPage: onPage)
     }
-    
+
     ///  Lists the pipeline identifiers for all active pipelines that you have permission to access.
-    public func listPipelinesPaginator(_ input: ListPipelinesInput, onPage: @escaping ([PipelineIdName], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPipelines, resultKey: \ListPipelinesOutput.pipelineIdList, tokenKey: \ListPipelinesOutput.marker, onPage: onPage)
+    public func listPipelinesPaginator(_ input: ListPipelinesInput, onPage: @escaping (ListPipelinesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPipelines, tokenKey: \ListPipelinesOutput.marker, onPage: onPage)
     }
-    
+
     ///  Queries the specified pipeline for the names of objects that match the specified set of conditions.
-    public func queryObjectsPaginator(_ input: QueryObjectsInput, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: queryObjects, resultKey: \QueryObjectsOutput.ids, tokenKey: \QueryObjectsOutput.marker, onPage: onPage)
+    public func queryObjectsPaginator(_ input: QueryObjectsInput, onPage: @escaping (QueryObjectsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: queryObjects, tokenKey: \QueryObjectsOutput.marker, onPage: onPage)
     }
-    
+
 }
 
 extension DataPipeline.DescribeObjectsInput: AWSPaginateStringToken {

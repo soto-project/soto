@@ -5,20 +5,20 @@ import NIO
 extension TranscribeService {
 
     ///  Lists transcription jobs with the specified status.
-    public func listTranscriptionJobsPaginator(_ input: ListTranscriptionJobsRequest, onPage: @escaping ([TranscriptionJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTranscriptionJobs, resultKey: \ListTranscriptionJobsResponse.transcriptionJobSummaries, tokenKey: \ListTranscriptionJobsResponse.nextToken, onPage: onPage)
+    public func listTranscriptionJobsPaginator(_ input: ListTranscriptionJobsRequest, onPage: @escaping (ListTranscriptionJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTranscriptionJobs, tokenKey: \ListTranscriptionJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list of vocabularies.
-    public func listVocabulariesPaginator(_ input: ListVocabulariesRequest, onPage: @escaping ([VocabularyInfo], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVocabularies, resultKey: \ListVocabulariesResponse.vocabularies, tokenKey: \ListVocabulariesResponse.nextToken, onPage: onPage)
+    public func listVocabulariesPaginator(_ input: ListVocabulariesRequest, onPage: @escaping (ListVocabulariesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listVocabularies, tokenKey: \ListVocabulariesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets information about vocabulary filters.
-    public func listVocabularyFiltersPaginator(_ input: ListVocabularyFiltersRequest, onPage: @escaping ([VocabularyFilterInfo], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listVocabularyFilters, resultKey: \ListVocabularyFiltersResponse.vocabularyFilters, tokenKey: \ListVocabularyFiltersResponse.nextToken, onPage: onPage)
+    public func listVocabularyFiltersPaginator(_ input: ListVocabularyFiltersRequest, onPage: @escaping (ListVocabularyFiltersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listVocabularyFilters, tokenKey: \ListVocabularyFiltersResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension TranscribeService.ListTranscriptionJobsRequest: AWSPaginateStringToken {

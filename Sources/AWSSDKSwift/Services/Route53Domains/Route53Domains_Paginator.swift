@@ -5,15 +5,15 @@ import NIO
 extension Route53Domains {
 
     ///  This operation returns all the domain names registered with Amazon Route 53 for the current AWS account.
-    public func listDomainsPaginator(_ input: ListDomainsRequest, onPage: @escaping ([DomainSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomains, resultKey: \ListDomainsResponse.domains, tokenKey: \ListDomainsResponse.nextPageMarker, onPage: onPage)
+    public func listDomainsPaginator(_ input: ListDomainsRequest, onPage: @escaping (ListDomainsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextPageMarker, onPage: onPage)
     }
-    
+
     ///  This operation returns the operation IDs of operations that are not yet complete.
-    public func listOperationsPaginator(_ input: ListOperationsRequest, onPage: @escaping ([OperationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOperations, resultKey: \ListOperationsResponse.operations, tokenKey: \ListOperationsResponse.nextPageMarker, onPage: onPage)
+    public func listOperationsPaginator(_ input: ListOperationsRequest, onPage: @escaping (ListOperationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listOperations, tokenKey: \ListOperationsResponse.nextPageMarker, onPage: onPage)
     }
-    
+
 }
 
 extension Route53Domains.ListDomainsRequest: AWSPaginateStringToken {

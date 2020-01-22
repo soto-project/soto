@@ -5,15 +5,15 @@ import NIO
 extension AppStream {
 
     ///  Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own. 
-    public func describeImagePermissionsPaginator(_ input: DescribeImagePermissionsRequest, onPage: @escaping ([SharedImagePermissions], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImagePermissions, resultKey: \DescribeImagePermissionsResult.sharedImagePermissionsList, tokenKey: \DescribeImagePermissionsResult.nextToken, onPage: onPage)
+    public func describeImagePermissionsPaginator(_ input: DescribeImagePermissionsRequest, onPage: @escaping (DescribeImagePermissionsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeImagePermissions, tokenKey: \DescribeImagePermissionsResult.nextToken, onPage: onPage)
     }
-    
+
     ///  Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
-    public func describeImagesPaginator(_ input: DescribeImagesRequest, onPage: @escaping ([Image], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImages, resultKey: \DescribeImagesResult.images, tokenKey: \DescribeImagesResult.nextToken, onPage: onPage)
+    public func describeImagesPaginator(_ input: DescribeImagesRequest, onPage: @escaping (DescribeImagesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeImages, tokenKey: \DescribeImagesResult.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension AppStream.DescribeImagePermissionsRequest: AWSPaginateStringToken {

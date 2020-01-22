@@ -5,20 +5,20 @@ import NIO
 extension CodeStarNotifications {
 
     ///  Returns information about the event types available for configuring notifications.
-    public func listEventTypesPaginator(_ input: ListEventTypesRequest, onPage: @escaping ([EventTypeSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEventTypes, resultKey: \ListEventTypesResult.eventTypes, tokenKey: \ListEventTypesResult.nextToken, onPage: onPage)
+    public func listEventTypesPaginator(_ input: ListEventTypesRequest, onPage: @escaping (ListEventTypesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEventTypes, tokenKey: \ListEventTypesResult.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of the notification rules for an AWS account.
-    public func listNotificationRulesPaginator(_ input: ListNotificationRulesRequest, onPage: @escaping ([NotificationRuleSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNotificationRules, resultKey: \ListNotificationRulesResult.notificationRules, tokenKey: \ListNotificationRulesResult.nextToken, onPage: onPage)
+    public func listNotificationRulesPaginator(_ input: ListNotificationRulesRequest, onPage: @escaping (ListNotificationRulesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNotificationRules, tokenKey: \ListNotificationRulesResult.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of the notification rule targets for an AWS account.
-    public func listTargetsPaginator(_ input: ListTargetsRequest, onPage: @escaping ([TargetSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTargets, resultKey: \ListTargetsResult.targets, tokenKey: \ListTargetsResult.nextToken, onPage: onPage)
+    public func listTargetsPaginator(_ input: ListTargetsRequest, onPage: @escaping (ListTargetsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTargets, tokenKey: \ListTargetsResult.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension CodeStarNotifications.ListEventTypesRequest: AWSPaginateStringToken {

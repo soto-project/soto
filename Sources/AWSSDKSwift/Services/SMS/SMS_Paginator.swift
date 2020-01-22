@@ -5,25 +5,25 @@ import NIO
 extension SMS {
 
     ///  Describes the connectors registered with the AWS SMS.
-    public func getConnectorsPaginator(_ input: GetConnectorsRequest, onPage: @escaping ([Connector], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getConnectors, resultKey: \GetConnectorsResponse.connectorList, tokenKey: \GetConnectorsResponse.nextToken, onPage: onPage)
+    public func getConnectorsPaginator(_ input: GetConnectorsRequest, onPage: @escaping (GetConnectorsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getConnectors, tokenKey: \GetConnectorsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Describes the specified replication job or all of your replication jobs.
-    public func getReplicationJobsPaginator(_ input: GetReplicationJobsRequest, onPage: @escaping ([ReplicationJob], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getReplicationJobs, resultKey: \GetReplicationJobsResponse.replicationJobList, tokenKey: \GetReplicationJobsResponse.nextToken, onPage: onPage)
+    public func getReplicationJobsPaginator(_ input: GetReplicationJobsRequest, onPage: @escaping (GetReplicationJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getReplicationJobs, tokenKey: \GetReplicationJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Describes the replication runs for the specified replication job.
-    public func getReplicationRunsPaginator(_ input: GetReplicationRunsRequest, onPage: @escaping ([ReplicationRun], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getReplicationRuns, resultKey: \GetReplicationRunsResponse.replicationRunList, tokenKey: \GetReplicationRunsResponse.nextToken, onPage: onPage)
+    public func getReplicationRunsPaginator(_ input: GetReplicationRunsRequest, onPage: @escaping (GetReplicationRunsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getReplicationRuns, tokenKey: \GetReplicationRunsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
-    public func getServersPaginator(_ input: GetServersRequest, onPage: @escaping ([Server], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getServers, resultKey: \GetServersResponse.serverList, tokenKey: \GetServersResponse.nextToken, onPage: onPage)
+    public func getServersPaginator(_ input: GetServersRequest, onPage: @escaping (GetServersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getServers, tokenKey: \GetServersResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension SMS.GetConnectorsRequest: AWSPaginateStringToken {

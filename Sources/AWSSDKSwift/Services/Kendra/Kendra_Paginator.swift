@@ -5,20 +5,20 @@ import NIO
 extension Kendra {
 
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
-    public func listDataSourceSyncJobsPaginator(_ input: ListDataSourceSyncJobsRequest, onPage: @escaping ([DataSourceSyncJob], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSourceSyncJobs, resultKey: \ListDataSourceSyncJobsResponse.history, tokenKey: \ListDataSourceSyncJobsResponse.nextToken, onPage: onPage)
+    public func listDataSourceSyncJobsPaginator(_ input: ListDataSourceSyncJobsRequest, onPage: @escaping (ListDataSourceSyncJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataSourceSyncJobs, tokenKey: \ListDataSourceSyncJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the data sources that you have created.
-    public func listDataSourcesPaginator(_ input: ListDataSourcesRequest, onPage: @escaping ([DataSourceSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSources, resultKey: \ListDataSourcesResponse.summaryItems, tokenKey: \ListDataSourcesResponse.nextToken, onPage: onPage)
+    public func listDataSourcesPaginator(_ input: ListDataSourcesRequest, onPage: @escaping (ListDataSourcesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the Amazon Kendra indexes that you have created.
-    public func listIndicesPaginator(_ input: ListIndicesRequest, onPage: @escaping ([IndexConfigurationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIndices, resultKey: \ListIndicesResponse.indexConfigurationSummaryItems, tokenKey: \ListIndicesResponse.nextToken, onPage: onPage)
+    public func listIndicesPaginator(_ input: ListIndicesRequest, onPage: @escaping (ListIndicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listIndices, tokenKey: \ListIndicesResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateStringToken {

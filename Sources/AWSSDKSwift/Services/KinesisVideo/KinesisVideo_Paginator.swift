@@ -5,15 +5,15 @@ import NIO
 extension KinesisVideo {
 
     ///  Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition.
-    public func listSignalingChannelsPaginator(_ input: ListSignalingChannelsInput, onPage: @escaping ([ChannelInfo], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSignalingChannels, resultKey: \ListSignalingChannelsOutput.channelInfoList, tokenKey: \ListSignalingChannelsOutput.nextToken, onPage: onPage)
+    public func listSignalingChannelsPaginator(_ input: ListSignalingChannelsInput, onPage: @escaping (ListSignalingChannelsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSignalingChannels, tokenKey: \ListSignalingChannelsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only streams that satisfy a specific condition, you can specify a StreamNameCondition. 
-    public func listStreamsPaginator(_ input: ListStreamsInput, onPage: @escaping ([StreamInfo], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listStreams, resultKey: \ListStreamsOutput.streamInfoList, tokenKey: \ListStreamsOutput.nextToken, onPage: onPage)
+    public func listStreamsPaginator(_ input: ListStreamsInput, onPage: @escaping (ListStreamsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listStreams, tokenKey: \ListStreamsOutput.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension KinesisVideo.ListSignalingChannelsInput: AWSPaginateStringToken {

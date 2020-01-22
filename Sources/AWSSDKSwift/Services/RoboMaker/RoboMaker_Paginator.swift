@@ -5,35 +5,35 @@ import NIO
 extension RoboMaker {
 
     ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.     
-    public func listDeploymentJobsPaginator(_ input: ListDeploymentJobsRequest, onPage: @escaping ([DeploymentJob], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeploymentJobs, resultKey: \ListDeploymentJobsResponse.deploymentJobs, tokenKey: \ListDeploymentJobsResponse.nextToken, onPage: onPage)
+    public func listDeploymentJobsPaginator(_ input: ListDeploymentJobsRequest, onPage: @escaping (ListDeploymentJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDeploymentJobs, tokenKey: \ListDeploymentJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. 
-    public func listFleetsPaginator(_ input: ListFleetsRequest, onPage: @escaping ([Fleet], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFleets, resultKey: \ListFleetsResponse.fleetDetails, tokenKey: \ListFleetsResponse.nextToken, onPage: onPage)
+    public func listFleetsPaginator(_ input: ListFleetsRequest, onPage: @escaping (ListFleetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listFleets, tokenKey: \ListFleetsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
-    public func listRobotApplicationsPaginator(_ input: ListRobotApplicationsRequest, onPage: @escaping ([RobotApplicationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRobotApplications, resultKey: \ListRobotApplicationsResponse.robotApplicationSummaries, tokenKey: \ListRobotApplicationsResponse.nextToken, onPage: onPage)
+    public func listRobotApplicationsPaginator(_ input: ListRobotApplicationsRequest, onPage: @escaping (ListRobotApplicationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRobotApplications, tokenKey: \ListRobotApplicationsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.
-    public func listRobotsPaginator(_ input: ListRobotsRequest, onPage: @escaping ([Robot], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRobots, resultKey: \ListRobotsResponse.robots, tokenKey: \ListRobotsResponse.nextToken, onPage: onPage)
+    public func listRobotsPaginator(_ input: ListRobotsRequest, onPage: @escaping (ListRobotsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRobots, tokenKey: \ListRobotsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
-    public func listSimulationApplicationsPaginator(_ input: ListSimulationApplicationsRequest, onPage: @escaping ([SimulationApplicationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSimulationApplications, resultKey: \ListSimulationApplicationsResponse.simulationApplicationSummaries, tokenKey: \ListSimulationApplicationsResponse.nextToken, onPage: onPage)
+    public func listSimulationApplicationsPaginator(_ input: ListSimulationApplicationsRequest, onPage: @escaping (ListSimulationApplicationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSimulationApplications, tokenKey: \ListSimulationApplicationsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
-    public func listSimulationJobsPaginator(_ input: ListSimulationJobsRequest, onPage: @escaping ([SimulationJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSimulationJobs, resultKey: \ListSimulationJobsResponse.simulationJobSummaries, tokenKey: \ListSimulationJobsResponse.nextToken, onPage: onPage)
+    public func listSimulationJobsPaginator(_ input: ListSimulationJobsRequest, onPage: @escaping (ListSimulationJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSimulationJobs, tokenKey: \ListSimulationJobsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension RoboMaker.ListDeploymentJobsRequest: AWSPaginateStringToken {

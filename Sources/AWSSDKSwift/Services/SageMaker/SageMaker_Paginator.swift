@@ -5,165 +5,165 @@ import NIO
 extension SageMaker {
 
     ///  Lists the machine learning algorithms that have been created.
-    public func listAlgorithmsPaginator(_ input: ListAlgorithmsInput, onPage: @escaping ([AlgorithmSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAlgorithms, resultKey: \ListAlgorithmsOutput.algorithmSummaryList, tokenKey: \ListAlgorithmsOutput.nextToken, onPage: onPage)
+    public func listAlgorithmsPaginator(_ input: ListAlgorithmsInput, onPage: @escaping (ListAlgorithmsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAlgorithms, tokenKey: \ListAlgorithmsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists apps.
-    public func listAppsPaginator(_ input: ListAppsRequest, onPage: @escaping ([AppDetails], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApps, resultKey: \ListAppsResponse.apps, tokenKey: \ListAppsResponse.nextToken, onPage: onPage)
+    public func listAppsPaginator(_ input: ListAppsRequest, onPage: @escaping (ListAppsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listApps, tokenKey: \ListAppsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Request a list of jobs.
-    public func listAutoMLJobsPaginator(_ input: ListAutoMLJobsRequest, onPage: @escaping ([AutoMLJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAutoMLJobs, resultKey: \ListAutoMLJobsResponse.autoMLJobSummaries, tokenKey: \ListAutoMLJobsResponse.nextToken, onPage: onPage)
+    public func listAutoMLJobsPaginator(_ input: ListAutoMLJobsRequest, onPage: @escaping (ListAutoMLJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAutoMLJobs, tokenKey: \ListAutoMLJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  List the Candidates created for the job.
-    public func listCandidatesForAutoMLJobPaginator(_ input: ListCandidatesForAutoMLJobRequest, onPage: @escaping ([AutoMLCandidate], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCandidatesForAutoMLJob, resultKey: \ListCandidatesForAutoMLJobResponse.candidates, tokenKey: \ListCandidatesForAutoMLJobResponse.nextToken, onPage: onPage)
+    public func listCandidatesForAutoMLJobPaginator(_ input: ListCandidatesForAutoMLJobRequest, onPage: @escaping (ListCandidatesForAutoMLJobResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listCandidatesForAutoMLJob, tokenKey: \ListCandidatesForAutoMLJobResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets a list of the Git repositories in your account.
-    public func listCodeRepositoriesPaginator(_ input: ListCodeRepositoriesInput, onPage: @escaping ([CodeRepositorySummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCodeRepositories, resultKey: \ListCodeRepositoriesOutput.codeRepositorySummaryList, tokenKey: \ListCodeRepositoriesOutput.nextToken, onPage: onPage)
+    public func listCodeRepositoriesPaginator(_ input: ListCodeRepositoriesInput, onPage: @escaping (ListCodeRepositoriesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listCodeRepositories, tokenKey: \ListCodeRepositoriesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists model compilation jobs that satisfy various filters. To create a model compilation job, use CreateCompilationJob. To get information about a particular model compilation job you have created, use DescribeCompilationJob.
-    public func listCompilationJobsPaginator(_ input: ListCompilationJobsRequest, onPage: @escaping ([CompilationJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCompilationJobs, resultKey: \ListCompilationJobsResponse.compilationJobSummaries, tokenKey: \ListCompilationJobsResponse.nextToken, onPage: onPage)
+    public func listCompilationJobsPaginator(_ input: ListCompilationJobsRequest, onPage: @escaping (ListCompilationJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listCompilationJobs, tokenKey: \ListCompilationJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the domains.
-    public func listDomainsPaginator(_ input: ListDomainsRequest, onPage: @escaping ([DomainDetails], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomains, resultKey: \ListDomainsResponse.domains, tokenKey: \ListDomainsResponse.nextToken, onPage: onPage)
+    public func listDomainsPaginator(_ input: ListDomainsRequest, onPage: @escaping (ListDomainsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists endpoint configurations.
-    public func listEndpointConfigsPaginator(_ input: ListEndpointConfigsInput, onPage: @escaping ([EndpointConfigSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEndpointConfigs, resultKey: \ListEndpointConfigsOutput.endpointConfigs, tokenKey: \ListEndpointConfigsOutput.nextToken, onPage: onPage)
+    public func listEndpointConfigsPaginator(_ input: ListEndpointConfigsInput, onPage: @escaping (ListEndpointConfigsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEndpointConfigs, tokenKey: \ListEndpointConfigsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists endpoints.
-    public func listEndpointsPaginator(_ input: ListEndpointsInput, onPage: @escaping ([EndpointSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEndpoints, resultKey: \ListEndpointsOutput.endpoints, tokenKey: \ListEndpointsOutput.nextToken, onPage: onPage)
+    public func listEndpointsPaginator(_ input: ListEndpointsInput, onPage: @escaping (ListEndpointsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEndpoints, tokenKey: \ListEndpointsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
-    public func listExperimentsPaginator(_ input: ListExperimentsRequest, onPage: @escaping ([ExperimentSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listExperiments, resultKey: \ListExperimentsResponse.experimentSummaries, tokenKey: \ListExperimentsResponse.nextToken, onPage: onPage)
+    public func listExperimentsPaginator(_ input: ListExperimentsRequest, onPage: @escaping (ListExperimentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listExperiments, tokenKey: \ListExperimentsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about the flow definitions in your account.
-    public func listFlowDefinitionsPaginator(_ input: ListFlowDefinitionsRequest, onPage: @escaping ([FlowDefinitionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFlowDefinitions, resultKey: \ListFlowDefinitionsResponse.flowDefinitionSummaries, tokenKey: \ListFlowDefinitionsResponse.nextToken, onPage: onPage)
+    public func listFlowDefinitionsPaginator(_ input: ListFlowDefinitionsRequest, onPage: @escaping (ListFlowDefinitionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listFlowDefinitions, tokenKey: \ListFlowDefinitionsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about the human task user interfaces in your account.
-    public func listHumanTaskUisPaginator(_ input: ListHumanTaskUisRequest, onPage: @escaping ([HumanTaskUiSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHumanTaskUis, resultKey: \ListHumanTaskUisResponse.humanTaskUiSummaries, tokenKey: \ListHumanTaskUisResponse.nextToken, onPage: onPage)
+    public func listHumanTaskUisPaginator(_ input: ListHumanTaskUisRequest, onPage: @escaping (ListHumanTaskUisResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listHumanTaskUis, tokenKey: \ListHumanTaskUisResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account.
-    public func listHyperParameterTuningJobsPaginator(_ input: ListHyperParameterTuningJobsRequest, onPage: @escaping ([HyperParameterTuningJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHyperParameterTuningJobs, resultKey: \ListHyperParameterTuningJobsResponse.hyperParameterTuningJobSummaries, tokenKey: \ListHyperParameterTuningJobsResponse.nextToken, onPage: onPage)
+    public func listHyperParameterTuningJobsPaginator(_ input: ListHyperParameterTuningJobsRequest, onPage: @escaping (ListHyperParameterTuningJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listHyperParameterTuningJobs, tokenKey: \ListHyperParameterTuningJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets a list of labeling jobs.
-    public func listLabelingJobsPaginator(_ input: ListLabelingJobsRequest, onPage: @escaping ([LabelingJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLabelingJobs, resultKey: \ListLabelingJobsResponse.labelingJobSummaryList, tokenKey: \ListLabelingJobsResponse.nextToken, onPage: onPage)
+    public func listLabelingJobsPaginator(_ input: ListLabelingJobsRequest, onPage: @escaping (ListLabelingJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listLabelingJobs, tokenKey: \ListLabelingJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets a list of labeling jobs assigned to a specified work team.
-    public func listLabelingJobsForWorkteamPaginator(_ input: ListLabelingJobsForWorkteamRequest, onPage: @escaping ([LabelingJobForWorkteamSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLabelingJobsForWorkteam, resultKey: \ListLabelingJobsForWorkteamResponse.labelingJobSummaryList, tokenKey: \ListLabelingJobsForWorkteamResponse.nextToken, onPage: onPage)
+    public func listLabelingJobsForWorkteamPaginator(_ input: ListLabelingJobsForWorkteamRequest, onPage: @escaping (ListLabelingJobsForWorkteamResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listLabelingJobsForWorkteam, tokenKey: \ListLabelingJobsForWorkteamResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the model packages that have been created.
-    public func listModelPackagesPaginator(_ input: ListModelPackagesInput, onPage: @escaping ([ModelPackageSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listModelPackages, resultKey: \ListModelPackagesOutput.modelPackageSummaryList, tokenKey: \ListModelPackagesOutput.nextToken, onPage: onPage)
+    public func listModelPackagesPaginator(_ input: ListModelPackagesInput, onPage: @escaping (ListModelPackagesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listModelPackages, tokenKey: \ListModelPackagesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists models created with the CreateModel API.
-    public func listModelsPaginator(_ input: ListModelsInput, onPage: @escaping ([ModelSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listModels, resultKey: \ListModelsOutput.models, tokenKey: \ListModelsOutput.nextToken, onPage: onPage)
+    public func listModelsPaginator(_ input: ListModelsInput, onPage: @escaping (ListModelsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listModels, tokenKey: \ListModelsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns list of all monitoring job executions.
-    public func listMonitoringExecutionsPaginator(_ input: ListMonitoringExecutionsRequest, onPage: @escaping ([MonitoringExecutionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMonitoringExecutions, resultKey: \ListMonitoringExecutionsResponse.monitoringExecutionSummaries, tokenKey: \ListMonitoringExecutionsResponse.nextToken, onPage: onPage)
+    public func listMonitoringExecutionsPaginator(_ input: ListMonitoringExecutionsRequest, onPage: @escaping (ListMonitoringExecutionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMonitoringExecutions, tokenKey: \ListMonitoringExecutionsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns list of all monitoring schedules.
-    public func listMonitoringSchedulesPaginator(_ input: ListMonitoringSchedulesRequest, onPage: @escaping ([MonitoringScheduleSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMonitoringSchedules, resultKey: \ListMonitoringSchedulesResponse.monitoringScheduleSummaries, tokenKey: \ListMonitoringSchedulesResponse.nextToken, onPage: onPage)
+    public func listMonitoringSchedulesPaginator(_ input: ListMonitoringSchedulesRequest, onPage: @escaping (ListMonitoringSchedulesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMonitoringSchedules, tokenKey: \ListMonitoringSchedulesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API.
-    public func listNotebookInstanceLifecycleConfigsPaginator(_ input: ListNotebookInstanceLifecycleConfigsInput, onPage: @escaping ([NotebookInstanceLifecycleConfigSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNotebookInstanceLifecycleConfigs, resultKey: \ListNotebookInstanceLifecycleConfigsOutput.notebookInstanceLifecycleConfigs, tokenKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken, onPage: onPage)
+    public func listNotebookInstanceLifecycleConfigsPaginator(_ input: ListNotebookInstanceLifecycleConfigsInput, onPage: @escaping (ListNotebookInstanceLifecycleConfigsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNotebookInstanceLifecycleConfigs, tokenKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of the Amazon SageMaker notebook instances in the requester's account in an AWS Region. 
-    public func listNotebookInstancesPaginator(_ input: ListNotebookInstancesInput, onPage: @escaping ([NotebookInstanceSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNotebookInstances, resultKey: \ListNotebookInstancesOutput.notebookInstances, tokenKey: \ListNotebookInstancesOutput.nextToken, onPage: onPage)
+    public func listNotebookInstancesPaginator(_ input: ListNotebookInstancesInput, onPage: @escaping (ListNotebookInstancesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNotebookInstances, tokenKey: \ListNotebookInstancesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists processing jobs that satisfy various filters.
-    public func listProcessingJobsPaginator(_ input: ListProcessingJobsRequest, onPage: @escaping ([ProcessingJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProcessingJobs, resultKey: \ListProcessingJobsResponse.processingJobSummaries, tokenKey: \ListProcessingJobsResponse.nextToken, onPage: onPage)
+    public func listProcessingJobsPaginator(_ input: ListProcessingJobsRequest, onPage: @escaping (ListProcessingJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProcessingJobs, tokenKey: \ListProcessingJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets a list of the work teams that you are subscribed to in the AWS Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
-    public func listSubscribedWorkteamsPaginator(_ input: ListSubscribedWorkteamsRequest, onPage: @escaping ([SubscribedWorkteam], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSubscribedWorkteams, resultKey: \ListSubscribedWorkteamsResponse.subscribedWorkteams, tokenKey: \ListSubscribedWorkteamsResponse.nextToken, onPage: onPage)
+    public func listSubscribedWorkteamsPaginator(_ input: ListSubscribedWorkteamsRequest, onPage: @escaping (ListSubscribedWorkteamsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSubscribedWorkteams, tokenKey: \ListSubscribedWorkteamsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns the tags for the specified Amazon SageMaker resource.
-    public func listTagsPaginator(_ input: ListTagsInput, onPage: @escaping ([Tag], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTags, resultKey: \ListTagsOutput.tags, tokenKey: \ListTagsOutput.nextToken, onPage: onPage)
+    public func listTagsPaginator(_ input: ListTagsInput, onPage: @escaping (ListTagsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTags, tokenKey: \ListTagsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists training jobs.
-    public func listTrainingJobsPaginator(_ input: ListTrainingJobsRequest, onPage: @escaping ([TrainingJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTrainingJobs, resultKey: \ListTrainingJobsResponse.trainingJobSummaries, tokenKey: \ListTrainingJobsResponse.nextToken, onPage: onPage)
+    public func listTrainingJobsPaginator(_ input: ListTrainingJobsRequest, onPage: @escaping (ListTrainingJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTrainingJobs, tokenKey: \ListTrainingJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched.
-    public func listTrainingJobsForHyperParameterTuningJobPaginator(_ input: ListTrainingJobsForHyperParameterTuningJobRequest, onPage: @escaping ([HyperParameterTrainingJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTrainingJobsForHyperParameterTuningJob, resultKey: \ListTrainingJobsForHyperParameterTuningJobResponse.trainingJobSummaries, tokenKey: \ListTrainingJobsForHyperParameterTuningJobResponse.nextToken, onPage: onPage)
+    public func listTrainingJobsForHyperParameterTuningJobPaginator(_ input: ListTrainingJobsForHyperParameterTuningJobRequest, onPage: @escaping (ListTrainingJobsForHyperParameterTuningJobResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTrainingJobsForHyperParameterTuningJob, tokenKey: \ListTrainingJobsForHyperParameterTuningJobResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists transform jobs.
-    public func listTransformJobsPaginator(_ input: ListTransformJobsRequest, onPage: @escaping ([TransformJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTransformJobs, resultKey: \ListTransformJobsResponse.transformJobSummaries, tokenKey: \ListTransformJobsResponse.nextToken, onPage: onPage)
+    public func listTransformJobsPaginator(_ input: ListTransformJobsRequest, onPage: @escaping (ListTransformJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTransformJobs, tokenKey: \ListTransformJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the trial components in your account. You can filter the list to show only components that were created in a specific time range. You can sort the list by trial component name or creation time.
-    public func listTrialComponentsPaginator(_ input: ListTrialComponentsRequest, onPage: @escaping ([TrialComponentSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTrialComponents, resultKey: \ListTrialComponentsResponse.trialComponentSummaries, tokenKey: \ListTrialComponentsResponse.nextToken, onPage: onPage)
+    public func listTrialComponentsPaginator(_ input: ListTrialComponentsRequest, onPage: @escaping (ListTrialComponentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTrialComponents, tokenKey: \ListTrialComponentsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
-    public func listTrialsPaginator(_ input: ListTrialsRequest, onPage: @escaping ([TrialSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTrials, resultKey: \ListTrialsResponse.trialSummaries, tokenKey: \ListTrialsResponse.nextToken, onPage: onPage)
+    public func listTrialsPaginator(_ input: ListTrialsRequest, onPage: @escaping (ListTrialsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTrials, tokenKey: \ListTrialsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists user profiles.
-    public func listUserProfilesPaginator(_ input: ListUserProfilesRequest, onPage: @escaping ([UserProfileDetails], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUserProfiles, resultKey: \ListUserProfilesResponse.userProfiles, tokenKey: \ListUserProfilesResponse.nextToken, onPage: onPage)
+    public func listUserProfilesPaginator(_ input: ListUserProfilesRequest, onPage: @escaping (ListUserProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listUserProfiles, tokenKey: \ListUserProfilesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets a list of work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
-    public func listWorkteamsPaginator(_ input: ListWorkteamsRequest, onPage: @escaping ([Workteam], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWorkteams, resultKey: \ListWorkteamsResponse.workteams, tokenKey: \ListWorkteamsResponse.nextToken, onPage: onPage)
+    public func listWorkteamsPaginator(_ input: ListWorkteamsRequest, onPage: @escaping (ListWorkteamsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWorkteams, tokenKey: \ListWorkteamsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Finds Amazon SageMaker resources that match a search query. Matching resource objects are returned as a list of SearchResult objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.
-    public func searchPaginator(_ input: SearchRequest, onPage: @escaping ([SearchRecord], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: search, resultKey: \SearchResponse.results, tokenKey: \SearchResponse.nextToken, onPage: onPage)
+    public func searchPaginator(_ input: SearchRequest, onPage: @escaping (SearchResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: search, tokenKey: \SearchResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension SageMaker.ListAlgorithmsInput: AWSPaginateStringToken {

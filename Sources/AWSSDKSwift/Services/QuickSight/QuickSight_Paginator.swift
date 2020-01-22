@@ -5,45 +5,45 @@ import NIO
 extension QuickSight {
 
     ///  Lists all the versions of the dashboards in the QuickSight subscription.
-    public func listDashboardVersionsPaginator(_ input: ListDashboardVersionsRequest, onPage: @escaping ([DashboardVersionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDashboardVersions, resultKey: \ListDashboardVersionsResponse.dashboardVersionSummaryList, tokenKey: \ListDashboardVersionsResponse.nextToken, onPage: onPage)
+    public func listDashboardVersionsPaginator(_ input: ListDashboardVersionsRequest, onPage: @escaping (ListDashboardVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDashboardVersions, tokenKey: \ListDashboardVersionsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists dashboards in an AWS account.
-    public func listDashboardsPaginator(_ input: ListDashboardsRequest, onPage: @escaping ([DashboardSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDashboards, resultKey: \ListDashboardsResponse.dashboardSummaryList, tokenKey: \ListDashboardsResponse.nextToken, onPage: onPage)
+    public func listDashboardsPaginator(_ input: ListDashboardsRequest, onPage: @escaping (ListDashboardsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDashboards, tokenKey: \ListDashboardsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all of the datasets belonging to the current AWS account in an AWS Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
-    public func listDataSetsPaginator(_ input: ListDataSetsRequest, onPage: @escaping ([DataSetSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSets, resultKey: \ListDataSetsResponse.dataSetSummaries, tokenKey: \ListDataSetsResponse.nextToken, onPage: onPage)
+    public func listDataSetsPaginator(_ input: ListDataSetsRequest, onPage: @escaping (ListDataSetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataSets, tokenKey: \ListDataSetsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists data sources in current AWS Region that belong to this AWS account.
-    public func listDataSourcesPaginator(_ input: ListDataSourcesRequest, onPage: @escaping ([DataSource], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataSources, resultKey: \ListDataSourcesResponse.dataSources, tokenKey: \ListDataSourcesResponse.nextToken, onPage: onPage)
+    public func listDataSourcesPaginator(_ input: ListDataSourcesRequest, onPage: @escaping (ListDataSourcesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataSources, tokenKey: \ListDataSourcesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the history of SPICE ingestions for a dataset.
-    public func listIngestionsPaginator(_ input: ListIngestionsRequest, onPage: @escaping ([Ingestion], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listIngestions, resultKey: \ListIngestionsResponse.ingestions, tokenKey: \ListIngestionsResponse.nextToken, onPage: onPage)
+    public func listIngestionsPaginator(_ input: ListIngestionsRequest, onPage: @escaping (ListIngestionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listIngestions, tokenKey: \ListIngestionsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all the aliases of a template.
-    public func listTemplateAliasesPaginator(_ input: ListTemplateAliasesRequest, onPage: @escaping ([TemplateAlias], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTemplateAliases, resultKey: \ListTemplateAliasesResponse.templateAliasList, tokenKey: \ListTemplateAliasesResponse.nextToken, onPage: onPage)
+    public func listTemplateAliasesPaginator(_ input: ListTemplateAliasesRequest, onPage: @escaping (ListTemplateAliasesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTemplateAliases, tokenKey: \ListTemplateAliasesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all the versions of the templates in the current Amazon QuickSight account.
-    public func listTemplateVersionsPaginator(_ input: ListTemplateVersionsRequest, onPage: @escaping ([TemplateVersionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTemplateVersions, resultKey: \ListTemplateVersionsResponse.templateVersionSummaryList, tokenKey: \ListTemplateVersionsResponse.nextToken, onPage: onPage)
+    public func listTemplateVersionsPaginator(_ input: ListTemplateVersionsRequest, onPage: @escaping (ListTemplateVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTemplateVersions, tokenKey: \ListTemplateVersionsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all the templates in the current Amazon QuickSight account.
-    public func listTemplatesPaginator(_ input: ListTemplatesRequest, onPage: @escaping ([TemplateSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTemplates, resultKey: \ListTemplatesResponse.templateSummaryList, tokenKey: \ListTemplatesResponse.nextToken, onPage: onPage)
+    public func listTemplatesPaginator(_ input: ListTemplatesRequest, onPage: @escaping (ListTemplatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTemplates, tokenKey: \ListTemplatesResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension QuickSight.ListDashboardVersionsRequest: AWSPaginateStringToken {

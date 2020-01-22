@@ -5,15 +5,15 @@ import NIO
 extension Translate {
 
     ///  Provides a list of custom terminologies associated with your account.
-    public func listTerminologiesPaginator(_ input: ListTerminologiesRequest, onPage: @escaping ([TerminologyProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTerminologies, resultKey: \ListTerminologiesResponse.terminologyPropertiesList, tokenKey: \ListTerminologiesResponse.nextToken, onPage: onPage)
+    public func listTerminologiesPaginator(_ input: ListTerminologiesRequest, onPage: @escaping (ListTerminologiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTerminologies, tokenKey: \ListTerminologiesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets a list of the batch translation jobs that you have submitted.
-    public func listTextTranslationJobsPaginator(_ input: ListTextTranslationJobsRequest, onPage: @escaping ([TextTranslationJobProperties], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTextTranslationJobs, resultKey: \ListTextTranslationJobsResponse.textTranslationJobPropertiesList, tokenKey: \ListTextTranslationJobsResponse.nextToken, onPage: onPage)
+    public func listTextTranslationJobsPaginator(_ input: ListTextTranslationJobsRequest, onPage: @escaping (ListTextTranslationJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTextTranslationJobs, tokenKey: \ListTextTranslationJobsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension Translate.ListTerminologiesRequest: AWSPaginateStringToken {

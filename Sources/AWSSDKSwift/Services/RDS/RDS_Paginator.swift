@@ -5,120 +5,120 @@ import NIO
 extension RDS {
 
     ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.  
-    public func describeCustomAvailabilityZonesPaginator(_ input: DescribeCustomAvailabilityZonesMessage, onPage: @escaping ([CustomAvailabilityZone], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeCustomAvailabilityZones, resultKey: \CustomAvailabilityZoneMessage.customAvailabilityZones, tokenKey: \CustomAvailabilityZoneMessage.marker, onPage: onPage)
+    public func describeCustomAvailabilityZonesPaginator(_ input: DescribeCustomAvailabilityZonesMessage, onPage: @escaping (CustomAvailabilityZoneMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCustomAvailabilityZones, tokenKey: \CustomAvailabilityZoneMessage.marker, onPage: onPage)
     }
-    
+
     ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
-    public func describeDBClustersPaginator(_ input: DescribeDBClustersMessage, onPage: @escaping ([DBCluster], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBClusters, resultKey: \DBClusterMessage.dBClusters, tokenKey: \DBClusterMessage.marker, onPage: onPage)
+    public func describeDBClustersPaginator(_ input: DescribeDBClustersMessage, onPage: @escaping (DBClusterMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, onPage: onPage)
     }
-    
+
     ///  Returns a list of the available DB engines.
-    public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage, onPage: @escaping ([DBEngineVersion], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBEngineVersions, resultKey: \DBEngineVersionMessage.dBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, onPage: onPage)
+    public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage, onPage: @escaping (DBEngineVersionMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, onPage: onPage)
     }
-    
+
     ///  Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional.
-    public func describeDBInstanceAutomatedBackupsPaginator(_ input: DescribeDBInstanceAutomatedBackupsMessage, onPage: @escaping ([DBInstanceAutomatedBackup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBInstanceAutomatedBackups, resultKey: \DBInstanceAutomatedBackupMessage.dBInstanceAutomatedBackups, tokenKey: \DBInstanceAutomatedBackupMessage.marker, onPage: onPage)
+    public func describeDBInstanceAutomatedBackupsPaginator(_ input: DescribeDBInstanceAutomatedBackupsMessage, onPage: @escaping (DBInstanceAutomatedBackupMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBInstanceAutomatedBackups, tokenKey: \DBInstanceAutomatedBackupMessage.marker, onPage: onPage)
     }
-    
+
     ///  Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. 
-    public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage, onPage: @escaping ([DBInstance], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBInstances, resultKey: \DBInstanceMessage.dBInstances, tokenKey: \DBInstanceMessage.marker, onPage: onPage)
+    public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage, onPage: @escaping (DBInstanceMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, onPage: onPage)
     }
-    
+
     ///  Returns a list of DB log files for the DB instance.
-    public func describeDBLogFilesPaginator(_ input: DescribeDBLogFilesMessage, onPage: @escaping ([DescribeDBLogFilesDetails], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBLogFiles, resultKey: \DescribeDBLogFilesResponse.describeDBLogFiles, tokenKey: \DescribeDBLogFilesResponse.marker, onPage: onPage)
+    public func describeDBLogFilesPaginator(_ input: DescribeDBLogFilesMessage, onPage: @escaping (DescribeDBLogFilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBLogFiles, tokenKey: \DescribeDBLogFilesResponse.marker, onPage: onPage)
     }
-    
+
     ///   Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group. 
-    public func describeDBParameterGroupsPaginator(_ input: DescribeDBParameterGroupsMessage, onPage: @escaping ([DBParameterGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBParameterGroups, resultKey: \DBParameterGroupsMessage.dBParameterGroups, tokenKey: \DBParameterGroupsMessage.marker, onPage: onPage)
+    public func describeDBParameterGroupsPaginator(_ input: DescribeDBParameterGroupsMessage, onPage: @escaping (DBParameterGroupsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBParameterGroups, tokenKey: \DBParameterGroupsMessage.marker, onPage: onPage)
     }
-    
+
     ///  Returns the detailed parameter list for a particular DB parameter group.
-    public func describeDBParametersPaginator(_ input: DescribeDBParametersMessage, onPage: @escaping ([Parameter], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBParameters, resultKey: \DBParameterGroupDetails.parameters, tokenKey: \DBParameterGroupDetails.marker, onPage: onPage)
+    public func describeDBParametersPaginator(_ input: DescribeDBParametersMessage, onPage: @escaping (DBParameterGroupDetails, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBParameters, tokenKey: \DBParameterGroupDetails.marker, onPage: onPage)
     }
-    
+
     ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxies.
-    public func describeDBProxiesPaginator(_ input: DescribeDBProxiesRequest, onPage: @escaping ([DBProxy], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBProxies, resultKey: \DescribeDBProxiesResponse.dBProxies, tokenKey: \DescribeDBProxiesResponse.marker, onPage: onPage)
+    public func describeDBProxiesPaginator(_ input: DescribeDBProxiesRequest, onPage: @escaping (DescribeDBProxiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBProxies, tokenKey: \DescribeDBProxiesResponse.marker, onPage: onPage)
     }
-    
+
     ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
-    public func describeDBProxyTargetGroupsPaginator(_ input: DescribeDBProxyTargetGroupsRequest, onPage: @escaping ([DBProxyTargetGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBProxyTargetGroups, resultKey: \DescribeDBProxyTargetGroupsResponse.targetGroups, tokenKey: \DescribeDBProxyTargetGroupsResponse.marker, onPage: onPage)
+    public func describeDBProxyTargetGroupsPaginator(_ input: DescribeDBProxyTargetGroupsRequest, onPage: @escaping (DescribeDBProxyTargetGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBProxyTargetGroups, tokenKey: \DescribeDBProxyTargetGroupsResponse.marker, onPage: onPage)
     }
-    
+
     ///   This is prerelease documentation for the RDS Database Proxy feature in preview release. It is subject to change.  Returns information about DBProxyTarget objects. This API supports pagination.
-    public func describeDBProxyTargetsPaginator(_ input: DescribeDBProxyTargetsRequest, onPage: @escaping ([DBProxyTarget], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBProxyTargets, resultKey: \DescribeDBProxyTargetsResponse.targets, tokenKey: \DescribeDBProxyTargetsResponse.marker, onPage: onPage)
+    public func describeDBProxyTargetsPaginator(_ input: DescribeDBProxyTargetsRequest, onPage: @escaping (DescribeDBProxyTargetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBProxyTargets, tokenKey: \DescribeDBProxyTargetsResponse.marker, onPage: onPage)
     }
-    
+
     ///   Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. 
-    public func describeDBSecurityGroupsPaginator(_ input: DescribeDBSecurityGroupsMessage, onPage: @escaping ([DBSecurityGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBSecurityGroups, resultKey: \DBSecurityGroupMessage.dBSecurityGroups, tokenKey: \DBSecurityGroupMessage.marker, onPage: onPage)
+    public func describeDBSecurityGroupsPaginator(_ input: DescribeDBSecurityGroupsMessage, onPage: @escaping (DBSecurityGroupMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBSecurityGroups, tokenKey: \DBSecurityGroupMessage.marker, onPage: onPage)
     }
-    
+
     ///  Returns information about DB snapshots. This API action supports pagination.
-    public func describeDBSnapshotsPaginator(_ input: DescribeDBSnapshotsMessage, onPage: @escaping ([DBSnapshot], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBSnapshots, resultKey: \DBSnapshotMessage.dBSnapshots, tokenKey: \DBSnapshotMessage.marker, onPage: onPage)
+    public func describeDBSnapshotsPaginator(_ input: DescribeDBSnapshotsMessage, onPage: @escaping (DBSnapshotMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBSnapshots, tokenKey: \DBSnapshotMessage.marker, onPage: onPage)
     }
-    
+
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial. 
-    public func describeDBSubnetGroupsPaginator(_ input: DescribeDBSubnetGroupsMessage, onPage: @escaping ([DBSubnetGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeDBSubnetGroups, resultKey: \DBSubnetGroupMessage.dBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, onPage: onPage)
+    public func describeDBSubnetGroupsPaginator(_ input: DescribeDBSubnetGroupsMessage, onPage: @escaping (DBSubnetGroupMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, onPage: onPage)
     }
-    
+
     ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
-    public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage, onPage: @escaping ([EventSubscription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEventSubscriptions, resultKey: \EventSubscriptionsMessage.eventSubscriptionsList, tokenKey: \EventSubscriptionsMessage.marker, onPage: onPage)
+    public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage, onPage: @escaping (EventSubscriptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, onPage: onPage)
     }
-    
+
     ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
-    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping ([Event], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvents, resultKey: \EventsMessage.events, tokenKey: \EventsMessage.marker, onPage: onPage)
+    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping (EventsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, onPage: onPage)
     }
-    
+
     ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
-    public func describeGlobalClustersPaginator(_ input: DescribeGlobalClustersMessage, onPage: @escaping ([GlobalCluster], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeGlobalClusters, resultKey: \GlobalClustersMessage.globalClusters, tokenKey: \GlobalClustersMessage.marker, onPage: onPage)
+    public func describeGlobalClustersPaginator(_ input: DescribeGlobalClustersMessage, onPage: @escaping (GlobalClustersMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeGlobalClusters, tokenKey: \GlobalClustersMessage.marker, onPage: onPage)
     }
-    
+
     ///  Describes the available installation media for a DB engine that requires an on-premises customer provided license, such as Microsoft SQL Server.
-    public func describeInstallationMediaPaginator(_ input: DescribeInstallationMediaMessage, onPage: @escaping ([InstallationMedia], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeInstallationMedia, resultKey: \InstallationMediaMessage.installationMedia, tokenKey: \InstallationMediaMessage.marker, onPage: onPage)
+    public func describeInstallationMediaPaginator(_ input: DescribeInstallationMediaMessage, onPage: @escaping (InstallationMediaMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeInstallationMedia, tokenKey: \InstallationMediaMessage.marker, onPage: onPage)
     }
-    
+
     ///  Describes all available options.
-    public func describeOptionGroupOptionsPaginator(_ input: DescribeOptionGroupOptionsMessage, onPage: @escaping ([OptionGroupOption], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOptionGroupOptions, resultKey: \OptionGroupOptionsMessage.optionGroupOptions, tokenKey: \OptionGroupOptionsMessage.marker, onPage: onPage)
+    public func describeOptionGroupOptionsPaginator(_ input: DescribeOptionGroupOptionsMessage, onPage: @escaping (OptionGroupOptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeOptionGroupOptions, tokenKey: \OptionGroupOptionsMessage.marker, onPage: onPage)
     }
-    
+
     ///  Describes the available option groups.
-    public func describeOptionGroupsPaginator(_ input: DescribeOptionGroupsMessage, onPage: @escaping ([OptionGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOptionGroups, resultKey: \OptionGroups.optionGroupsList, tokenKey: \OptionGroups.marker, onPage: onPage)
+    public func describeOptionGroupsPaginator(_ input: DescribeOptionGroupsMessage, onPage: @escaping (OptionGroups, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeOptionGroups, tokenKey: \OptionGroups.marker, onPage: onPage)
     }
-    
+
     ///  Returns a list of orderable DB instance options for the specified engine.
-    public func describeOrderableDBInstanceOptionsPaginator(_ input: DescribeOrderableDBInstanceOptionsMessage, onPage: @escaping ([OrderableDBInstanceOption], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, resultKey: \OrderableDBInstanceOptionsMessage.orderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, onPage: onPage)
+    public func describeOrderableDBInstanceOptionsPaginator(_ input: DescribeOrderableDBInstanceOptionsMessage, onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, onPage: onPage)
     }
-    
+
     ///  Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
-    public func describeReservedDBInstancesPaginator(_ input: DescribeReservedDBInstancesMessage, onPage: @escaping ([ReservedDBInstance], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedDBInstances, resultKey: \ReservedDBInstanceMessage.reservedDBInstances, tokenKey: \ReservedDBInstanceMessage.marker, onPage: onPage)
+    public func describeReservedDBInstancesPaginator(_ input: DescribeReservedDBInstancesMessage, onPage: @escaping (ReservedDBInstanceMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReservedDBInstances, tokenKey: \ReservedDBInstanceMessage.marker, onPage: onPage)
     }
-    
+
     ///  Lists available reserved DB instance offerings.
-    public func describeReservedDBInstancesOfferingsPaginator(_ input: DescribeReservedDBInstancesOfferingsMessage, onPage: @escaping ([ReservedDBInstancesOffering], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeReservedDBInstancesOfferings, resultKey: \ReservedDBInstancesOfferingMessage.reservedDBInstancesOfferings, tokenKey: \ReservedDBInstancesOfferingMessage.marker, onPage: onPage)
+    public func describeReservedDBInstancesOfferingsPaginator(_ input: DescribeReservedDBInstancesOfferingsMessage, onPage: @escaping (ReservedDBInstancesOfferingMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeReservedDBInstancesOfferings, tokenKey: \ReservedDBInstancesOfferingMessage.marker, onPage: onPage)
     }
-    
+
 }
 
 extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateStringToken {

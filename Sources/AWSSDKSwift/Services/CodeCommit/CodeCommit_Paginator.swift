@@ -5,65 +5,65 @@ import NIO
 extension CodeCommit {
 
     ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
-    public func describeMergeConflictsPaginator(_ input: DescribeMergeConflictsInput, onPage: @escaping ([MergeHunk], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeMergeConflicts, resultKey: \DescribeMergeConflictsOutput.mergeHunks, tokenKey: \DescribeMergeConflictsOutput.nextToken, onPage: onPage)
+    public func describeMergeConflictsPaginator(_ input: DescribeMergeConflictsInput, onPage: @escaping (DescribeMergeConflictsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeMergeConflicts, tokenKey: \DescribeMergeConflictsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about one or more pull request events.
-    public func describePullRequestEventsPaginator(_ input: DescribePullRequestEventsInput, onPage: @escaping ([PullRequestEvent], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describePullRequestEvents, resultKey: \DescribePullRequestEventsOutput.pullRequestEvents, tokenKey: \DescribePullRequestEventsOutput.nextToken, onPage: onPage)
+    public func describePullRequestEventsPaginator(_ input: DescribePullRequestEventsInput, onPage: @escaping (DescribePullRequestEventsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describePullRequestEvents, tokenKey: \DescribePullRequestEventsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about comments made on the comparison between two commits.
-    public func getCommentsForComparedCommitPaginator(_ input: GetCommentsForComparedCommitInput, onPage: @escaping ([CommentsForComparedCommit], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCommentsForComparedCommit, resultKey: \GetCommentsForComparedCommitOutput.commentsForComparedCommitData, tokenKey: \GetCommentsForComparedCommitOutput.nextToken, onPage: onPage)
+    public func getCommentsForComparedCommitPaginator(_ input: GetCommentsForComparedCommitInput, onPage: @escaping (GetCommentsForComparedCommitOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getCommentsForComparedCommit, tokenKey: \GetCommentsForComparedCommitOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns comments made on a pull request.
-    public func getCommentsForPullRequestPaginator(_ input: GetCommentsForPullRequestInput, onPage: @escaping ([CommentsForPullRequest], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCommentsForPullRequest, resultKey: \GetCommentsForPullRequestOutput.commentsForPullRequestData, tokenKey: \GetCommentsForPullRequestOutput.nextToken, onPage: onPage)
+    public func getCommentsForPullRequestPaginator(_ input: GetCommentsForPullRequestInput, onPage: @escaping (GetCommentsForPullRequestOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getCommentsForPullRequest, tokenKey: \GetCommentsForPullRequestOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
-    public func getDifferencesPaginator(_ input: GetDifferencesInput, onPage: @escaping ([Difference], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDifferences, resultKey: \GetDifferencesOutput.differences, tokenKey: \GetDifferencesOutput.nextToken, onPage: onPage)
+    public func getDifferencesPaginator(_ input: GetDifferencesInput, onPage: @escaping (GetDifferencesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getDifferences, tokenKey: \GetDifferencesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
-    public func getMergeConflictsPaginator(_ input: GetMergeConflictsInput, onPage: @escaping ([ConflictMetadata], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getMergeConflicts, resultKey: \GetMergeConflictsOutput.conflictMetadataList, tokenKey: \GetMergeConflictsOutput.nextToken, onPage: onPage)
+    public func getMergeConflictsPaginator(_ input: GetMergeConflictsInput, onPage: @escaping (GetMergeConflictsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getMergeConflicts, tokenKey: \GetMergeConflictsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
-    public func listApprovalRuleTemplatesPaginator(_ input: ListApprovalRuleTemplatesInput, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApprovalRuleTemplates, resultKey: \ListApprovalRuleTemplatesOutput.approvalRuleTemplateNames, tokenKey: \ListApprovalRuleTemplatesOutput.nextToken, onPage: onPage)
+    public func listApprovalRuleTemplatesPaginator(_ input: ListApprovalRuleTemplatesInput, onPage: @escaping (ListApprovalRuleTemplatesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listApprovalRuleTemplates, tokenKey: \ListApprovalRuleTemplatesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all approval rule templates that are associated with a specified repository.
-    public func listAssociatedApprovalRuleTemplatesForRepositoryPaginator(_ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssociatedApprovalRuleTemplatesForRepository, resultKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.approvalRuleTemplateNames, tokenKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken, onPage: onPage)
+    public func listAssociatedApprovalRuleTemplatesForRepositoryPaginator(_ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput, onPage: @escaping (ListAssociatedApprovalRuleTemplatesForRepositoryOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAssociatedApprovalRuleTemplatesForRepository, tokenKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets information about one or more branches in a repository.
-    public func listBranchesPaginator(_ input: ListBranchesInput, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBranches, resultKey: \ListBranchesOutput.branches, tokenKey: \ListBranchesOutput.nextToken, onPage: onPage)
+    public func listBranchesPaginator(_ input: ListBranchesInput, onPage: @escaping (ListBranchesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBranches, tokenKey: \ListBranchesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
-    public func listPullRequestsPaginator(_ input: ListPullRequestsInput, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPullRequests, resultKey: \ListPullRequestsOutput.pullRequestIds, tokenKey: \ListPullRequestsOutput.nextToken, onPage: onPage)
+    public func listPullRequestsPaginator(_ input: ListPullRequestsInput, onPage: @escaping (ListPullRequestsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPullRequests, tokenKey: \ListPullRequestsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets information about one or more repositories.
-    public func listRepositoriesPaginator(_ input: ListRepositoriesInput, onPage: @escaping ([RepositoryNameIdPair], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRepositories, resultKey: \ListRepositoriesOutput.repositories, tokenKey: \ListRepositoriesOutput.nextToken, onPage: onPage)
+    public func listRepositoriesPaginator(_ input: ListRepositoriesInput, onPage: @escaping (ListRepositoriesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRepositories, tokenKey: \ListRepositoriesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all repositories associated with the specified approval rule template.
-    public func listRepositoriesForApprovalRuleTemplatePaginator(_ input: ListRepositoriesForApprovalRuleTemplateInput, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRepositoriesForApprovalRuleTemplate, resultKey: \ListRepositoriesForApprovalRuleTemplateOutput.repositoryNames, tokenKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken, onPage: onPage)
+    public func listRepositoriesForApprovalRuleTemplatePaginator(_ input: ListRepositoriesForApprovalRuleTemplateInput, onPage: @escaping (ListRepositoriesForApprovalRuleTemplateOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRepositoriesForApprovalRuleTemplate, tokenKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension CodeCommit.DescribeMergeConflictsInput: AWSPaginateStringToken {

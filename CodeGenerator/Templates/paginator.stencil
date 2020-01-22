@@ -11,16 +11,10 @@ extension {{name}} {
 {%if page.operation.deprecated %}
     @available(*, deprecated, message:"{{page.operation.deprecated}}")
 {%endif %}
-{%if page.results.count == 1 %}
-    public func {{page.operation.funcName}}Paginator(_ input: {{page.operation.inputShape}}, onPage: @escaping ([{{page.results[0].type}}], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: {{page.operation.funcName}}, resultKey: \{{page.operation.outputShape}}.{{page.results[0].name}}, tokenKey: \{{page.operation.outputShape}}.{{page.output}}, onPage: onPage)
+    public func {{page.operation.funcName}}Paginator(_ input: {{page.operation.inputShape}}, onPage: @escaping ({{page.operation.outputShape}}, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: {{page.operation.funcName}}, tokenKey: \{{page.operation.outputShape}}.{{page.output}}, onPage: onPage)
     }
-{%else %}
-    public func {{page.operation.funcName}}Paginator(_ input: {{page.operation.inputShape}}, onPage: @escaping ({%for result in page.results %}[{{result.type}}], {%endfor %}EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: {{page.operation.funcName}}, {%for result in page.results %}resultKey{{forloop.counter}}: \{{page.operation.outputShape}}.{{result.name}}, {%endfor %}tokenKey: \{{page.operation.outputShape}}.{{page.output}}, onPage: onPage)
-    }
-{%endif %}
-    
+
 {%endfor %}
 }
 

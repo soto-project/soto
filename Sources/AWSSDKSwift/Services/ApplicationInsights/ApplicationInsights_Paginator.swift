@@ -5,30 +5,30 @@ import NIO
 extension ApplicationInsights {
 
     ///  Lists the IDs of the applications that you are monitoring. 
-    public func listApplicationsPaginator(_ input: ListApplicationsRequest, onPage: @escaping ([ApplicationInfo], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listApplications, resultKey: \ListApplicationsResponse.applicationInfoList, tokenKey: \ListApplicationsResponse.nextToken, onPage: onPage)
+    public func listApplicationsPaginator(_ input: ListApplicationsRequest, onPage: @escaping (ListApplicationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listApplications, tokenKey: \ListApplicationsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the auto-grouped, standalone, and custom components of the application.
-    public func listComponentsPaginator(_ input: ListComponentsRequest, onPage: @escaping ([ApplicationComponent], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listComponents, resultKey: \ListComponentsResponse.applicationComponentList, tokenKey: \ListComponentsResponse.nextToken, onPage: onPage)
+    public func listComponentsPaginator(_ input: ListComponentsRequest, onPage: @escaping (ListComponentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listComponents, tokenKey: \ListComponentsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the log pattern sets in the specific application.
-    public func listLogPatternSetsPaginator(_ input: ListLogPatternSetsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLogPatternSets, resultKey: \ListLogPatternSetsResponse.logPatternSets, tokenKey: \ListLogPatternSetsResponse.nextToken, onPage: onPage)
+    public func listLogPatternSetsPaginator(_ input: ListLogPatternSetsRequest, onPage: @escaping (ListLogPatternSetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listLogPatternSets, tokenKey: \ListLogPatternSetsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the log patterns in the specific log LogPatternSet.
-    public func listLogPatternsPaginator(_ input: ListLogPatternsRequest, onPage: @escaping ([LogPattern], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listLogPatterns, resultKey: \ListLogPatternsResponse.logPatterns, tokenKey: \ListLogPatternsResponse.nextToken, onPage: onPage)
+    public func listLogPatternsPaginator(_ input: ListLogPatternsRequest, onPage: @escaping (ListLogPatternsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listLogPatterns, tokenKey: \ListLogPatternsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the problems with your application.
-    public func listProblemsPaginator(_ input: ListProblemsRequest, onPage: @escaping ([Problem], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProblems, resultKey: \ListProblemsResponse.problemList, tokenKey: \ListProblemsResponse.nextToken, onPage: onPage)
+    public func listProblemsPaginator(_ input: ListProblemsRequest, onPage: @escaping (ListProblemsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProblems, tokenKey: \ListProblemsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension ApplicationInsights.ListApplicationsRequest: AWSPaginateStringToken {

@@ -5,15 +5,15 @@ import NIO
 extension Cloud9 {
 
     ///  Gets information about environment members for an AWS Cloud9 development environment.
-    public func describeEnvironmentMembershipsPaginator(_ input: DescribeEnvironmentMembershipsRequest, onPage: @escaping ([EnvironmentMember], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEnvironmentMemberships, resultKey: \DescribeEnvironmentMembershipsResult.memberships, tokenKey: \DescribeEnvironmentMembershipsResult.nextToken, onPage: onPage)
+    public func describeEnvironmentMembershipsPaginator(_ input: DescribeEnvironmentMembershipsRequest, onPage: @escaping (DescribeEnvironmentMembershipsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEnvironmentMemberships, tokenKey: \DescribeEnvironmentMembershipsResult.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets a list of AWS Cloud9 development environment identifiers.
-    public func listEnvironmentsPaginator(_ input: ListEnvironmentsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEnvironments, resultKey: \ListEnvironmentsResult.environmentIds, tokenKey: \ListEnvironmentsResult.nextToken, onPage: onPage)
+    public func listEnvironmentsPaginator(_ input: ListEnvironmentsRequest, onPage: @escaping (ListEnvironmentsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEnvironments, tokenKey: \ListEnvironmentsResult.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension Cloud9.DescribeEnvironmentMembershipsRequest: AWSPaginateStringToken {

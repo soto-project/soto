@@ -5,30 +5,30 @@ import NIO
 extension WorkLink {
 
     ///  Retrieves a list of devices registered with the specified fleet.
-    public func listDevicesPaginator(_ input: ListDevicesRequest, onPage: @escaping ([DeviceSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDevices, resultKey: \ListDevicesResponse.devices, tokenKey: \ListDevicesResponse.nextToken, onPage: onPage)
+    public func listDevicesPaginator(_ input: ListDevicesRequest, onPage: @escaping (ListDevicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDevices, tokenKey: \ListDevicesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Retrieves a list of domains associated to a specified fleet.
-    public func listDomainsPaginator(_ input: ListDomainsRequest, onPage: @escaping ([DomainSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDomains, resultKey: \ListDomainsResponse.domains, tokenKey: \ListDomainsResponse.nextToken, onPage: onPage)
+    public func listDomainsPaginator(_ input: ListDomainsRequest, onPage: @escaping (ListDomainsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDomains, tokenKey: \ListDomainsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Retrieves a list of fleets for the current account and Region.
-    public func listFleetsPaginator(_ input: ListFleetsRequest, onPage: @escaping ([FleetSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFleets, resultKey: \ListFleetsResponse.fleetSummaryList, tokenKey: \ListFleetsResponse.nextToken, onPage: onPage)
+    public func listFleetsPaginator(_ input: ListFleetsRequest, onPage: @escaping (ListFleetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listFleets, tokenKey: \ListFleetsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Retrieves a list of website authorization providers associated with a specified fleet.
-    public func listWebsiteAuthorizationProvidersPaginator(_ input: ListWebsiteAuthorizationProvidersRequest, onPage: @escaping ([WebsiteAuthorizationProviderSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWebsiteAuthorizationProviders, resultKey: \ListWebsiteAuthorizationProvidersResponse.websiteAuthorizationProviders, tokenKey: \ListWebsiteAuthorizationProvidersResponse.nextToken, onPage: onPage)
+    public func listWebsiteAuthorizationProvidersPaginator(_ input: ListWebsiteAuthorizationProvidersRequest, onPage: @escaping (ListWebsiteAuthorizationProvidersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWebsiteAuthorizationProviders, tokenKey: \ListWebsiteAuthorizationProvidersResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Retrieves a list of certificate authorities added for the current account and Region.
-    public func listWebsiteCertificateAuthoritiesPaginator(_ input: ListWebsiteCertificateAuthoritiesRequest, onPage: @escaping ([WebsiteCaSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listWebsiteCertificateAuthorities, resultKey: \ListWebsiteCertificateAuthoritiesResponse.websiteCertificateAuthorities, tokenKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken, onPage: onPage)
+    public func listWebsiteCertificateAuthoritiesPaginator(_ input: ListWebsiteCertificateAuthoritiesRequest, onPage: @escaping (ListWebsiteCertificateAuthoritiesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listWebsiteCertificateAuthorities, tokenKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension WorkLink.ListDevicesRequest: AWSPaginateStringToken {

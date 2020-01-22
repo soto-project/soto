@@ -5,30 +5,30 @@ import NIO
 extension Schemas {
 
     ///  List the discoverers.
-    public func listDiscoverersPaginator(_ input: ListDiscoverersRequest, onPage: @escaping ([DiscovererSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDiscoverers, resultKey: \ListDiscoverersResponse.discoverers, tokenKey: \ListDiscoverersResponse.nextToken, onPage: onPage)
+    public func listDiscoverersPaginator(_ input: ListDiscoverersRequest, onPage: @escaping (ListDiscoverersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDiscoverers, tokenKey: \ListDiscoverersResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  List the registries.
-    public func listRegistriesPaginator(_ input: ListRegistriesRequest, onPage: @escaping ([RegistrySummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRegistries, resultKey: \ListRegistriesResponse.registries, tokenKey: \ListRegistriesResponse.nextToken, onPage: onPage)
+    public func listRegistriesPaginator(_ input: ListRegistriesRequest, onPage: @escaping (ListRegistriesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRegistries, tokenKey: \ListRegistriesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Provides a list of the schema versions and related information.
-    public func listSchemaVersionsPaginator(_ input: ListSchemaVersionsRequest, onPage: @escaping ([SchemaVersionSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSchemaVersions, resultKey: \ListSchemaVersionsResponse.schemaVersions, tokenKey: \ListSchemaVersionsResponse.nextToken, onPage: onPage)
+    public func listSchemaVersionsPaginator(_ input: ListSchemaVersionsRequest, onPage: @escaping (ListSchemaVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSchemaVersions, tokenKey: \ListSchemaVersionsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  List the schemas.
-    public func listSchemasPaginator(_ input: ListSchemasRequest, onPage: @escaping ([SchemaSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSchemas, resultKey: \ListSchemasResponse.schemas, tokenKey: \ListSchemasResponse.nextToken, onPage: onPage)
+    public func listSchemasPaginator(_ input: ListSchemasRequest, onPage: @escaping (ListSchemasResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSchemas, tokenKey: \ListSchemasResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Search the schemas
-    public func searchSchemasPaginator(_ input: SearchSchemasRequest, onPage: @escaping ([SearchSchemaSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchSchemas, resultKey: \SearchSchemasResponse.schemas, tokenKey: \SearchSchemasResponse.nextToken, onPage: onPage)
+    public func searchSchemasPaginator(_ input: SearchSchemasRequest, onPage: @escaping (SearchSchemasResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchSchemas, tokenKey: \SearchSchemasResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension Schemas.ListDiscoverersRequest: AWSPaginateStringToken {

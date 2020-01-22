@@ -5,55 +5,55 @@ import NIO
 extension Connect {
 
     ///  Gets the real-time metric data from the specified Amazon Connect instance. For more information, see Real-time Metrics Reports in the Amazon Connect Administrator Guide.
-    public func getCurrentMetricDataPaginator(_ input: GetCurrentMetricDataRequest, onPage: @escaping ([CurrentMetricResult], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getCurrentMetricData, resultKey: \GetCurrentMetricDataResponse.metricResults, tokenKey: \GetCurrentMetricDataResponse.nextToken, onPage: onPage)
+    public func getCurrentMetricDataPaginator(_ input: GetCurrentMetricDataRequest, onPage: @escaping (GetCurrentMetricDataResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getCurrentMetricData, tokenKey: \GetCurrentMetricDataResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Gets historical metric data from the specified Amazon Connect instance. For more information, see Historical Metrics Reports in the Amazon Connect Administrator Guide.
-    public func getMetricDataPaginator(_ input: GetMetricDataRequest, onPage: @escaping ([HistoricalMetricResult], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getMetricData, resultKey: \GetMetricDataResponse.metricResults, tokenKey: \GetMetricDataResponse.nextToken, onPage: onPage)
+    public func getMetricDataPaginator(_ input: GetMetricDataRequest, onPage: @escaping (GetMetricDataResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getMetricData, tokenKey: \GetMetricDataResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Provides information about the contact flows for the specified Amazon Connect instance.
-    public func listContactFlowsPaginator(_ input: ListContactFlowsRequest, onPage: @escaping ([ContactFlowSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listContactFlows, resultKey: \ListContactFlowsResponse.contactFlowSummaryList, tokenKey: \ListContactFlowsResponse.nextToken, onPage: onPage)
+    public func listContactFlowsPaginator(_ input: ListContactFlowsRequest, onPage: @escaping (ListContactFlowsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listContactFlows, tokenKey: \ListContactFlowsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Provides information about the hours of operation for the specified Amazon Connect instance.
-    public func listHoursOfOperationsPaginator(_ input: ListHoursOfOperationsRequest, onPage: @escaping ([HoursOfOperationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHoursOfOperations, resultKey: \ListHoursOfOperationsResponse.hoursOfOperationSummaryList, tokenKey: \ListHoursOfOperationsResponse.nextToken, onPage: onPage)
+    public func listHoursOfOperationsPaginator(_ input: ListHoursOfOperationsRequest, onPage: @escaping (ListHoursOfOperationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listHoursOfOperations, tokenKey: \ListHoursOfOperationsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Provides information about the phone numbers for the specified Amazon Connect instance.
-    public func listPhoneNumbersPaginator(_ input: ListPhoneNumbersRequest, onPage: @escaping ([PhoneNumberSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPhoneNumbers, resultKey: \ListPhoneNumbersResponse.phoneNumberSummaryList, tokenKey: \ListPhoneNumbersResponse.nextToken, onPage: onPage)
+    public func listPhoneNumbersPaginator(_ input: ListPhoneNumbersRequest, onPage: @escaping (ListPhoneNumbersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPhoneNumbers, tokenKey: \ListPhoneNumbersResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Provides information about the queues for the specified Amazon Connect instance.
-    public func listQueuesPaginator(_ input: ListQueuesRequest, onPage: @escaping ([QueueSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listQueues, resultKey: \ListQueuesResponse.queueSummaryList, tokenKey: \ListQueuesResponse.nextToken, onPage: onPage)
+    public func listQueuesPaginator(_ input: ListQueuesRequest, onPage: @escaping (ListQueuesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listQueues, tokenKey: \ListQueuesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Provides summary information about the routing profiles for the specified Amazon Connect instance.
-    public func listRoutingProfilesPaginator(_ input: ListRoutingProfilesRequest, onPage: @escaping ([RoutingProfileSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRoutingProfiles, resultKey: \ListRoutingProfilesResponse.routingProfileSummaryList, tokenKey: \ListRoutingProfilesResponse.nextToken, onPage: onPage)
+    public func listRoutingProfilesPaginator(_ input: ListRoutingProfilesRequest, onPage: @escaping (ListRoutingProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRoutingProfiles, tokenKey: \ListRoutingProfilesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Provides summary information about the security profiles for the specified Amazon Connect instance.
-    public func listSecurityProfilesPaginator(_ input: ListSecurityProfilesRequest, onPage: @escaping ([SecurityProfileSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSecurityProfiles, resultKey: \ListSecurityProfilesResponse.securityProfileSummaryList, tokenKey: \ListSecurityProfilesResponse.nextToken, onPage: onPage)
+    public func listSecurityProfilesPaginator(_ input: ListSecurityProfilesRequest, onPage: @escaping (ListSecurityProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSecurityProfiles, tokenKey: \ListSecurityProfilesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance.
-    public func listUserHierarchyGroupsPaginator(_ input: ListUserHierarchyGroupsRequest, onPage: @escaping ([HierarchyGroupSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUserHierarchyGroups, resultKey: \ListUserHierarchyGroupsResponse.userHierarchyGroupSummaryList, tokenKey: \ListUserHierarchyGroupsResponse.nextToken, onPage: onPage)
+    public func listUserHierarchyGroupsPaginator(_ input: ListUserHierarchyGroupsRequest, onPage: @escaping (ListUserHierarchyGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listUserHierarchyGroups, tokenKey: \ListUserHierarchyGroupsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Provides summary information about the users for the specified Amazon Connect instance.
-    public func listUsersPaginator(_ input: ListUsersRequest, onPage: @escaping ([UserSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listUsers, resultKey: \ListUsersResponse.userSummaryList, tokenKey: \ListUsersResponse.nextToken, onPage: onPage)
+    public func listUsersPaginator(_ input: ListUsersRequest, onPage: @escaping (ListUsersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listUsers, tokenKey: \ListUsersResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension Connect.GetCurrentMetricDataRequest: AWSPaginateStringToken {

@@ -5,95 +5,95 @@ import NIO
 extension AlexaForBusiness {
 
     ///  Lists the details of the schedules that a user configured. A download URL of the report associated with each schedule is returned every time this action is called. A new download URL is returned each time, and is valid for 24 hours.
-    public func listBusinessReportSchedulesPaginator(_ input: ListBusinessReportSchedulesRequest, onPage: @escaping ([BusinessReportSchedule], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBusinessReportSchedules, resultKey: \ListBusinessReportSchedulesResponse.businessReportSchedules, tokenKey: \ListBusinessReportSchedulesResponse.nextToken, onPage: onPage)
+    public func listBusinessReportSchedulesPaginator(_ input: ListBusinessReportSchedulesRequest, onPage: @escaping (ListBusinessReportSchedulesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBusinessReportSchedules, tokenKey: \ListBusinessReportSchedulesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists conference providers under a specific AWS account.
-    public func listConferenceProvidersPaginator(_ input: ListConferenceProvidersRequest, onPage: @escaping ([ConferenceProvider], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConferenceProviders, resultKey: \ListConferenceProvidersResponse.conferenceProviders, tokenKey: \ListConferenceProvidersResponse.nextToken, onPage: onPage)
+    public func listConferenceProvidersPaginator(_ input: ListConferenceProvidersRequest, onPage: @escaping (ListConferenceProvidersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listConferenceProviders, tokenKey: \ListConferenceProvidersResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the device event history, including device connection status, for up to 30 days.
-    public func listDeviceEventsPaginator(_ input: ListDeviceEventsRequest, onPage: @escaping ([DeviceEvent], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDeviceEvents, resultKey: \ListDeviceEventsResponse.deviceEvents, tokenKey: \ListDeviceEventsResponse.nextToken, onPage: onPage)
+    public func listDeviceEventsPaginator(_ input: ListDeviceEventsRequest, onPage: @escaping (ListDeviceEventsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDeviceEvents, tokenKey: \ListDeviceEventsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a specific gateway group.
-    public func listGatewayGroupsPaginator(_ input: ListGatewayGroupsRequest, onPage: @escaping ([GatewayGroupSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGatewayGroups, resultKey: \ListGatewayGroupsResponse.gatewayGroups, tokenKey: \ListGatewayGroupsResponse.nextToken, onPage: onPage)
+    public func listGatewayGroupsPaginator(_ input: ListGatewayGroupsRequest, onPage: @escaping (ListGatewayGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listGatewayGroups, tokenKey: \ListGatewayGroupsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries of gateways that are associated with that gateway group ARN.
-    public func listGatewaysPaginator(_ input: ListGatewaysRequest, onPage: @escaping ([GatewaySummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGateways, resultKey: \ListGatewaysResponse.gateways, tokenKey: \ListGatewaysResponse.nextToken, onPage: onPage)
+    public func listGatewaysPaginator(_ input: ListGatewaysRequest, onPage: @escaping (ListGatewaysResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listGateways, tokenKey: \ListGatewaysResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all enabled skills in a specific skill group.
-    public func listSkillsPaginator(_ input: ListSkillsRequest, onPage: @escaping ([SkillSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSkills, resultKey: \ListSkillsResponse.skillSummaries, tokenKey: \ListSkillsResponse.nextToken, onPage: onPage)
+    public func listSkillsPaginator(_ input: ListSkillsRequest, onPage: @escaping (ListSkillsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSkills, tokenKey: \ListSkillsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all categories in the Alexa skill store.
-    public func listSkillsStoreCategoriesPaginator(_ input: ListSkillsStoreCategoriesRequest, onPage: @escaping ([Category], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSkillsStoreCategories, resultKey: \ListSkillsStoreCategoriesResponse.categoryList, tokenKey: \ListSkillsStoreCategoriesResponse.nextToken, onPage: onPage)
+    public func listSkillsStoreCategoriesPaginator(_ input: ListSkillsStoreCategoriesRequest, onPage: @escaping (ListSkillsStoreCategoriesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSkillsStoreCategories, tokenKey: \ListSkillsStoreCategoriesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all skills in the Alexa skill store by category.
-    public func listSkillsStoreSkillsByCategoryPaginator(_ input: ListSkillsStoreSkillsByCategoryRequest, onPage: @escaping ([SkillsStoreSkill], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSkillsStoreSkillsByCategory, resultKey: \ListSkillsStoreSkillsByCategoryResponse.skillsStoreSkills, tokenKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken, onPage: onPage)
+    public func listSkillsStoreSkillsByCategoryPaginator(_ input: ListSkillsStoreSkillsByCategoryRequest, onPage: @escaping (ListSkillsStoreSkillsByCategoryResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSkillsStoreSkillsByCategory, tokenKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all of the smart home appliances associated with a room.
-    public func listSmartHomeAppliancesPaginator(_ input: ListSmartHomeAppliancesRequest, onPage: @escaping ([SmartHomeAppliance], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSmartHomeAppliances, resultKey: \ListSmartHomeAppliancesResponse.smartHomeAppliances, tokenKey: \ListSmartHomeAppliancesResponse.nextToken, onPage: onPage)
+    public func listSmartHomeAppliancesPaginator(_ input: ListSmartHomeAppliancesRequest, onPage: @escaping (ListSmartHomeAppliancesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSmartHomeAppliances, tokenKey: \ListSmartHomeAppliancesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all tags for the specified resource.
-    public func listTagsPaginator(_ input: ListTagsRequest, onPage: @escaping ([Tag], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listTags, resultKey: \ListTagsResponse.tags, tokenKey: \ListTagsResponse.nextToken, onPage: onPage)
+    public func listTagsPaginator(_ input: ListTagsRequest, onPage: @escaping (ListTagsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTags, tokenKey: \ListTagsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Searches address books and lists the ones that meet a set of filter and sort criteria.
-    public func searchAddressBooksPaginator(_ input: SearchAddressBooksRequest, onPage: @escaping ([AddressBookData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchAddressBooks, resultKey: \SearchAddressBooksResponse.addressBooks, tokenKey: \SearchAddressBooksResponse.nextToken, onPage: onPage)
+    public func searchAddressBooksPaginator(_ input: SearchAddressBooksRequest, onPage: @escaping (SearchAddressBooksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchAddressBooks, tokenKey: \SearchAddressBooksResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Searches contacts and lists the ones that meet a set of filter and sort criteria.
-    public func searchContactsPaginator(_ input: SearchContactsRequest, onPage: @escaping ([ContactData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchContacts, resultKey: \SearchContactsResponse.contacts, tokenKey: \SearchContactsResponse.nextToken, onPage: onPage)
+    public func searchContactsPaginator(_ input: SearchContactsRequest, onPage: @escaping (SearchContactsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchContacts, tokenKey: \SearchContactsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Searches devices and lists the ones that meet a set of filter criteria.
-    public func searchDevicesPaginator(_ input: SearchDevicesRequest, onPage: @escaping ([DeviceData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchDevices, resultKey: \SearchDevicesResponse.devices, tokenKey: \SearchDevicesResponse.nextToken, onPage: onPage)
+    public func searchDevicesPaginator(_ input: SearchDevicesRequest, onPage: @escaping (SearchDevicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchDevices, tokenKey: \SearchDevicesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Searches network profiles and lists the ones that meet a set of filter and sort criteria.
-    public func searchNetworkProfilesPaginator(_ input: SearchNetworkProfilesRequest, onPage: @escaping ([NetworkProfileData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchNetworkProfiles, resultKey: \SearchNetworkProfilesResponse.networkProfiles, tokenKey: \SearchNetworkProfilesResponse.nextToken, onPage: onPage)
+    public func searchNetworkProfilesPaginator(_ input: SearchNetworkProfilesRequest, onPage: @escaping (SearchNetworkProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchNetworkProfiles, tokenKey: \SearchNetworkProfilesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Searches room profiles and lists the ones that meet a set of filter criteria.
-    public func searchProfilesPaginator(_ input: SearchProfilesRequest, onPage: @escaping ([ProfileData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchProfiles, resultKey: \SearchProfilesResponse.profiles, tokenKey: \SearchProfilesResponse.nextToken, onPage: onPage)
+    public func searchProfilesPaginator(_ input: SearchProfilesRequest, onPage: @escaping (SearchProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchProfiles, tokenKey: \SearchProfilesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Searches rooms and lists the ones that meet a set of filter and sort criteria.
-    public func searchRoomsPaginator(_ input: SearchRoomsRequest, onPage: @escaping ([RoomData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchRooms, resultKey: \SearchRoomsResponse.rooms, tokenKey: \SearchRoomsResponse.nextToken, onPage: onPage)
+    public func searchRoomsPaginator(_ input: SearchRoomsRequest, onPage: @escaping (SearchRoomsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchRooms, tokenKey: \SearchRoomsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Searches skill groups and lists the ones that meet a set of filter and sort criteria.
-    public func searchSkillGroupsPaginator(_ input: SearchSkillGroupsRequest, onPage: @escaping ([SkillGroupData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchSkillGroups, resultKey: \SearchSkillGroupsResponse.skillGroups, tokenKey: \SearchSkillGroupsResponse.nextToken, onPage: onPage)
+    public func searchSkillGroupsPaginator(_ input: SearchSkillGroupsRequest, onPage: @escaping (SearchSkillGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchSkillGroups, tokenKey: \SearchSkillGroupsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Searches users and lists the ones that meet a set of filter and sort criteria.
-    public func searchUsersPaginator(_ input: SearchUsersRequest, onPage: @escaping ([UserData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchUsers, resultKey: \SearchUsersResponse.users, tokenKey: \SearchUsersResponse.nextToken, onPage: onPage)
+    public func searchUsersPaginator(_ input: SearchUsersRequest, onPage: @escaping (SearchUsersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchUsers, tokenKey: \SearchUsersResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateStringToken {

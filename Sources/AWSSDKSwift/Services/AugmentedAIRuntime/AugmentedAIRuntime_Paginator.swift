@@ -5,10 +5,10 @@ import NIO
 extension AugmentedAIRuntime {
 
     ///  Returns information about human loops, given the specified parameters.
-    public func listHumanLoopsPaginator(_ input: ListHumanLoopsRequest, onPage: @escaping ([HumanLoopSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listHumanLoops, resultKey: \ListHumanLoopsResponse.humanLoopSummaries, tokenKey: \ListHumanLoopsResponse.nextToken, onPage: onPage)
+    public func listHumanLoopsPaginator(_ input: ListHumanLoopsRequest, onPage: @escaping (ListHumanLoopsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listHumanLoops, tokenKey: \ListHumanLoopsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension AugmentedAIRuntime.ListHumanLoopsRequest: AWSPaginateStringToken {

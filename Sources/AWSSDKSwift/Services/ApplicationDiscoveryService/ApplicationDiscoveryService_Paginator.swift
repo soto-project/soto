@@ -5,15 +5,15 @@ import NIO
 extension ApplicationDiscoveryService {
 
     ///  Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
-    public func describeContinuousExportsPaginator(_ input: DescribeContinuousExportsRequest, onPage: @escaping ([ContinuousExportDescription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeContinuousExports, resultKey: \DescribeContinuousExportsResponse.descriptions, tokenKey: \DescribeContinuousExportsResponse.nextToken, onPage: onPage)
+    public func describeContinuousExportsPaginator(_ input: DescribeContinuousExportsRequest, onPage: @escaping (DescribeContinuousExportsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeContinuousExports, tokenKey: \DescribeContinuousExportsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
-    public func describeImportTasksPaginator(_ input: DescribeImportTasksRequest, onPage: @escaping ([ImportTask], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeImportTasks, resultKey: \DescribeImportTasksResponse.tasks, tokenKey: \DescribeImportTasksResponse.nextToken, onPage: onPage)
+    public func describeImportTasksPaginator(_ input: DescribeImportTasksRequest, onPage: @escaping (DescribeImportTasksResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeImportTasks, tokenKey: \DescribeImportTasksResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPaginateStringToken {

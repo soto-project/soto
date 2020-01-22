@@ -5,10 +5,10 @@ import NIO
 extension ElasticBeanstalk {
 
     ///  Returns list of event descriptions matching criteria up to the last 6 weeks.  This action returns the most recent 1,000 events from the specified NextToken. 
-    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping ([EventDescription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeEvents, resultKey: \EventDescriptionsMessage.events, tokenKey: \EventDescriptionsMessage.nextToken, onPage: onPage)
+    public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping (EventDescriptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEvents, tokenKey: \EventDescriptionsMessage.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateStringToken {

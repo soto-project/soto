@@ -5,35 +5,35 @@ import NIO
 extension ManagedBlockchain {
 
     ///  Returns a listing of all invitations made on the specified network.
-    public func listInvitationsPaginator(_ input: ListInvitationsInput, onPage: @escaping ([Invitation], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInvitations, resultKey: \ListInvitationsOutput.invitations, tokenKey: \ListInvitationsOutput.nextToken, onPage: onPage)
+    public func listInvitationsPaginator(_ input: ListInvitationsInput, onPage: @escaping (ListInvitationsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a listing of the members in a network and properties of their configurations.
-    public func listMembersPaginator(_ input: ListMembersInput, onPage: @escaping ([MemberSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMembers, resultKey: \ListMembersOutput.members, tokenKey: \ListMembersOutput.nextToken, onPage: onPage)
+    public func listMembersPaginator(_ input: ListMembersInput, onPage: @escaping (ListMembersOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about the networks in which the current AWS account has members.
-    public func listNetworksPaginator(_ input: ListNetworksInput, onPage: @escaping ([NetworkSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNetworks, resultKey: \ListNetworksOutput.networks, tokenKey: \ListNetworksOutput.nextToken, onPage: onPage)
+    public func listNetworksPaginator(_ input: ListNetworksInput, onPage: @escaping (ListNetworksOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNetworks, tokenKey: \ListNetworksOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about the nodes within a network.
-    public func listNodesPaginator(_ input: ListNodesInput, onPage: @escaping ([NodeSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNodes, resultKey: \ListNodesOutput.nodes, tokenKey: \ListNodesOutput.nextToken, onPage: onPage)
+    public func listNodesPaginator(_ input: ListNodesInput, onPage: @escaping (ListNodesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns the listing of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.
-    public func listProposalVotesPaginator(_ input: ListProposalVotesInput, onPage: @escaping ([VoteSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProposalVotes, resultKey: \ListProposalVotesOutput.proposalVotes, tokenKey: \ListProposalVotesOutput.nextToken, onPage: onPage)
+    public func listProposalVotesPaginator(_ input: ListProposalVotesInput, onPage: @escaping (ListProposalVotesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProposalVotes, tokenKey: \ListProposalVotesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a listing of proposals for the network.
-    public func listProposalsPaginator(_ input: ListProposalsInput, onPage: @escaping ([ProposalSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProposals, resultKey: \ListProposalsOutput.proposals, tokenKey: \ListProposalsOutput.nextToken, onPage: onPage)
+    public func listProposalsPaginator(_ input: ListProposalsInput, onPage: @escaping (ListProposalsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProposals, tokenKey: \ListProposalsOutput.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension ManagedBlockchain.ListInvitationsInput: AWSPaginateStringToken {

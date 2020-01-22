@@ -5,25 +5,25 @@ import NIO
 extension ServiceDiscovery {
 
     ///  Lists summary information about the instances that you registered by using a specified service.
-    public func listInstancesPaginator(_ input: ListInstancesRequest, onPage: @escaping ([InstanceSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInstances, resultKey: \ListInstancesResponse.instances, tokenKey: \ListInstancesResponse.nextToken, onPage: onPage)
+    public func listInstancesPaginator(_ input: ListInstancesRequest, onPage: @escaping (ListInstancesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listInstances, tokenKey: \ListInstancesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists summary information about the namespaces that were created by the current AWS account.
-    public func listNamespacesPaginator(_ input: ListNamespacesRequest, onPage: @escaping ([NamespaceSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listNamespaces, resultKey: \ListNamespacesResponse.namespaces, tokenKey: \ListNamespacesResponse.nextToken, onPage: onPage)
+    public func listNamespacesPaginator(_ input: ListNamespacesRequest, onPage: @escaping (ListNamespacesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listNamespaces, tokenKey: \ListNamespacesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists operations that match the criteria that you specify.
-    public func listOperationsPaginator(_ input: ListOperationsRequest, onPage: @escaping ([OperationSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOperations, resultKey: \ListOperationsResponse.operations, tokenKey: \ListOperationsResponse.nextToken, onPage: onPage)
+    public func listOperationsPaginator(_ input: ListOperationsRequest, onPage: @escaping (ListOperationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listOperations, tokenKey: \ListOperationsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists summary information for all the services that are associated with one or more specified namespaces.
-    public func listServicesPaginator(_ input: ListServicesRequest, onPage: @escaping ([ServiceSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listServices, resultKey: \ListServicesResponse.services, tokenKey: \ListServicesResponse.nextToken, onPage: onPage)
+    public func listServicesPaginator(_ input: ListServicesRequest, onPage: @escaping (ListServicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listServices, tokenKey: \ListServicesResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension ServiceDiscovery.ListInstancesRequest: AWSPaginateStringToken {

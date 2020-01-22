@@ -5,30 +5,30 @@ import NIO
 extension SecurityHub {
 
     ///  Returns a list of the custom action targets in Security Hub in your account.
-    public func describeActionTargetsPaginator(_ input: DescribeActionTargetsRequest, onPage: @escaping ([ActionTarget], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeActionTargets, resultKey: \DescribeActionTargetsResponse.actionTargets, tokenKey: \DescribeActionTargetsResponse.nextToken, onPage: onPage)
+    public func describeActionTargetsPaginator(_ input: DescribeActionTargetsRequest, onPage: @escaping (DescribeActionTargetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeActionTargets, tokenKey: \DescribeActionTargetsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns information about the products available that you can subscribe to and integrate with Security Hub to consolidate findings.
-    public func describeProductsPaginator(_ input: DescribeProductsRequest, onPage: @escaping ([Product], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeProducts, resultKey: \DescribeProductsResponse.products, tokenKey: \DescribeProductsResponse.nextToken, onPage: onPage)
+    public func describeProductsPaginator(_ input: DescribeProductsRequest, onPage: @escaping (DescribeProductsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeProducts, tokenKey: \DescribeProductsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of findings that match the specified criteria.
-    public func getFindingsPaginator(_ input: GetFindingsRequest, onPage: @escaping ([AwsSecurityFinding], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getFindings, resultKey: \GetFindingsResponse.findings, tokenKey: \GetFindingsResponse.nextToken, onPage: onPage)
+    public func getFindingsPaginator(_ input: GetFindingsRequest, onPage: @escaping (GetFindingsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getFindings, tokenKey: \GetFindingsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists and describes insights that insight ARNs specify.
-    public func getInsightsPaginator(_ input: GetInsightsRequest, onPage: @escaping ([Insight], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getInsights, resultKey: \GetInsightsResponse.insights, tokenKey: \GetInsightsResponse.nextToken, onPage: onPage)
+    public func getInsightsPaginator(_ input: GetInsightsRequest, onPage: @escaping (GetInsightsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getInsights, tokenKey: \GetInsightsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all findings-generating solutions (products) whose findings you have subscribed to receive in Security Hub.
-    public func listEnabledProductsForImportPaginator(_ input: ListEnabledProductsForImportRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEnabledProductsForImport, resultKey: \ListEnabledProductsForImportResponse.productSubscriptions, tokenKey: \ListEnabledProductsForImportResponse.nextToken, onPage: onPage)
+    public func listEnabledProductsForImportPaginator(_ input: ListEnabledProductsForImportRequest, onPage: @escaping (ListEnabledProductsForImportResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEnabledProductsForImport, tokenKey: \ListEnabledProductsForImportResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension SecurityHub.DescribeActionTargetsRequest: AWSPaginateStringToken {

@@ -5,10 +5,10 @@ import NIO
 extension ImportExport {
 
     ///  This operation returns the jobs associated with the requester. AWS Import/Export lists the jobs in reverse chronological order based on the date of creation. For example if Job Test1 was created 2009Dec30 and Test2 was created 2010Feb05, the ListJobs operation would return Test2 followed by Test1.
-    public func listJobsPaginator(_ input: ListJobsInput, onPage: @escaping ([Job], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listJobs, resultKey: \ListJobsOutput.jobs, tokenKey: \ListJobsOutput.jobs?.last?.jobId, onPage: onPage)
+    public func listJobsPaginator(_ input: ListJobsInput, onPage: @escaping (ListJobsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsOutput.jobs?.last?.jobId, onPage: onPage)
     }
-    
+
 }
 
 extension ImportExport.ListJobsInput: AWSPaginateStringToken {

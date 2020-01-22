@@ -5,20 +5,20 @@ import NIO
 extension ResourceGroups {
 
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
-    public func listGroupResourcesPaginator(_ input: ListGroupResourcesInput, onPage: @escaping ([QueryError], [ResourceIdentifier], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroupResources, resultKey1: \ListGroupResourcesOutput.queryErrors, resultKey2: \ListGroupResourcesOutput.resourceIdentifiers, tokenKey: \ListGroupResourcesOutput.nextToken, onPage: onPage)
+    public func listGroupResourcesPaginator(_ input: ListGroupResourcesInput, onPage: @escaping (ListGroupResourcesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listGroupResources, tokenKey: \ListGroupResourcesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of existing resource groups in your account.
-    public func listGroupsPaginator(_ input: ListGroupsInput, onPage: @escaping ([GroupIdentifier], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroups, resultKey: \ListGroupsOutput.groupIdentifiers, tokenKey: \ListGroupsOutput.nextToken, onPage: onPage)
+    public func listGroupsPaginator(_ input: ListGroupsInput, onPage: @escaping (ListGroupsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
-    public func searchResourcesPaginator(_ input: SearchResourcesInput, onPage: @escaping ([QueryError], [ResourceIdentifier], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: searchResources, resultKey1: \SearchResourcesOutput.queryErrors, resultKey2: \SearchResourcesOutput.resourceIdentifiers, tokenKey: \SearchResourcesOutput.nextToken, onPage: onPage)
+    public func searchResourcesPaginator(_ input: SearchResourcesInput, onPage: @escaping (SearchResourcesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchResources, tokenKey: \SearchResourcesOutput.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension ResourceGroups.ListGroupResourcesInput: AWSPaginateStringToken {

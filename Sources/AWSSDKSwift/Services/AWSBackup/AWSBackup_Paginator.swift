@@ -5,60 +5,60 @@ import NIO
 extension AWSBackup {
 
     ///  Returns metadata about your backup jobs.
-    public func listBackupJobsPaginator(_ input: ListBackupJobsInput, onPage: @escaping ([BackupJob], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBackupJobs, resultKey: \ListBackupJobsOutput.backupJobs, tokenKey: \ListBackupJobsOutput.nextToken, onPage: onPage)
+    public func listBackupJobsPaginator(_ input: ListBackupJobsInput, onPage: @escaping (ListBackupJobsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBackupJobs, tokenKey: \ListBackupJobsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns metadata of your saved backup plan templates, including the template ID, name, and the creation and deletion dates.
-    public func listBackupPlanTemplatesPaginator(_ input: ListBackupPlanTemplatesInput, onPage: @escaping ([BackupPlanTemplatesListMember], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBackupPlanTemplates, resultKey: \ListBackupPlanTemplatesOutput.backupPlanTemplatesList, tokenKey: \ListBackupPlanTemplatesOutput.nextToken, onPage: onPage)
+    public func listBackupPlanTemplatesPaginator(_ input: ListBackupPlanTemplatesInput, onPage: @escaping (ListBackupPlanTemplatesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBackupPlanTemplates, tokenKey: \ListBackupPlanTemplatesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs.
-    public func listBackupPlanVersionsPaginator(_ input: ListBackupPlanVersionsInput, onPage: @escaping ([BackupPlansListMember], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBackupPlanVersions, resultKey: \ListBackupPlanVersionsOutput.backupPlanVersionsList, tokenKey: \ListBackupPlanVersionsOutput.nextToken, onPage: onPage)
+    public func listBackupPlanVersionsPaginator(_ input: ListBackupPlanVersionsInput, onPage: @escaping (ListBackupPlanVersionsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBackupPlanVersions, tokenKey: \ListBackupPlanVersionsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns metadata of your saved backup plans, including Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
-    public func listBackupPlansPaginator(_ input: ListBackupPlansInput, onPage: @escaping ([BackupPlansListMember], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBackupPlans, resultKey: \ListBackupPlansOutput.backupPlansList, tokenKey: \ListBackupPlansOutput.nextToken, onPage: onPage)
+    public func listBackupPlansPaginator(_ input: ListBackupPlansInput, onPage: @escaping (ListBackupPlansOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBackupPlans, tokenKey: \ListBackupPlansOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns an array containing metadata of the resources associated with the target backup plan.
-    public func listBackupSelectionsPaginator(_ input: ListBackupSelectionsInput, onPage: @escaping ([BackupSelectionsListMember], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBackupSelections, resultKey: \ListBackupSelectionsOutput.backupSelectionsList, tokenKey: \ListBackupSelectionsOutput.nextToken, onPage: onPage)
+    public func listBackupSelectionsPaginator(_ input: ListBackupSelectionsInput, onPage: @escaping (ListBackupSelectionsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBackupSelections, tokenKey: \ListBackupSelectionsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of recovery point storage containers along with information about them.
-    public func listBackupVaultsPaginator(_ input: ListBackupVaultsInput, onPage: @escaping ([BackupVaultListMember], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listBackupVaults, resultKey: \ListBackupVaultsOutput.backupVaultList, tokenKey: \ListBackupVaultsOutput.nextToken, onPage: onPage)
+    public func listBackupVaultsPaginator(_ input: ListBackupVaultsInput, onPage: @escaping (ListBackupVaultsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listBackupVaults, tokenKey: \ListBackupVaultsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns metadata about your copy jobs.
-    public func listCopyJobsPaginator(_ input: ListCopyJobsInput, onPage: @escaping ([CopyJob], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listCopyJobs, resultKey: \ListCopyJobsOutput.copyJobs, tokenKey: \ListCopyJobsOutput.nextToken, onPage: onPage)
+    public func listCopyJobsPaginator(_ input: ListCopyJobsInput, onPage: @escaping (ListCopyJobsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listCopyJobs, tokenKey: \ListCopyJobsOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns an array of resources successfully backed up by AWS Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
-    public func listProtectedResourcesPaginator(_ input: ListProtectedResourcesInput, onPage: @escaping ([ProtectedResource], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listProtectedResources, resultKey: \ListProtectedResourcesOutput.results, tokenKey: \ListProtectedResourcesOutput.nextToken, onPage: onPage)
+    public func listProtectedResourcesPaginator(_ input: ListProtectedResourcesInput, onPage: @escaping (ListProtectedResourcesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProtectedResources, tokenKey: \ListProtectedResourcesOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns detailed information about the recovery points stored in a backup vault.
-    public func listRecoveryPointsByBackupVaultPaginator(_ input: ListRecoveryPointsByBackupVaultInput, onPage: @escaping ([RecoveryPointByBackupVault], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRecoveryPointsByBackupVault, resultKey: \ListRecoveryPointsByBackupVaultOutput.recoveryPoints, tokenKey: \ListRecoveryPointsByBackupVaultOutput.nextToken, onPage: onPage)
+    public func listRecoveryPointsByBackupVaultPaginator(_ input: ListRecoveryPointsByBackupVaultInput, onPage: @escaping (ListRecoveryPointsByBackupVaultOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRecoveryPointsByBackupVault, tokenKey: \ListRecoveryPointsByBackupVaultOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns detailed information about recovery points of the type specified by a resource Amazon Resource Name (ARN).
-    public func listRecoveryPointsByResourcePaginator(_ input: ListRecoveryPointsByResourceInput, onPage: @escaping ([RecoveryPointByResource], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRecoveryPointsByResource, resultKey: \ListRecoveryPointsByResourceOutput.recoveryPoints, tokenKey: \ListRecoveryPointsByResourceOutput.nextToken, onPage: onPage)
+    public func listRecoveryPointsByResourcePaginator(_ input: ListRecoveryPointsByResourceInput, onPage: @escaping (ListRecoveryPointsByResourceOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRecoveryPointsByResource, tokenKey: \ListRecoveryPointsByResourceOutput.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of jobs that AWS Backup initiated to restore a saved resource, including metadata about the recovery process.
-    public func listRestoreJobsPaginator(_ input: ListRestoreJobsInput, onPage: @escaping ([RestoreJobsListMember], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRestoreJobs, resultKey: \ListRestoreJobsOutput.restoreJobs, tokenKey: \ListRestoreJobsOutput.nextToken, onPage: onPage)
+    public func listRestoreJobsPaginator(_ input: ListRestoreJobsInput, onPage: @escaping (ListRestoreJobsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRestoreJobs, tokenKey: \ListRestoreJobsOutput.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension AWSBackup.ListBackupJobsInput: AWSPaginateStringToken {

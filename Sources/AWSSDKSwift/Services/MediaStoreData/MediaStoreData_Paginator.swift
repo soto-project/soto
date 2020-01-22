@@ -5,10 +5,10 @@ import NIO
 extension MediaStoreData {
 
     ///  Provides a list of metadata entries about folders and objects in the specified folder.
-    public func listItemsPaginator(_ input: ListItemsRequest, onPage: @escaping ([Item], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listItems, resultKey: \ListItemsResponse.items, tokenKey: \ListItemsResponse.nextToken, onPage: onPage)
+    public func listItemsPaginator(_ input: ListItemsRequest, onPage: @escaping (ListItemsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listItems, tokenKey: \ListItemsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension MediaStoreData.ListItemsRequest: AWSPaginateStringToken {

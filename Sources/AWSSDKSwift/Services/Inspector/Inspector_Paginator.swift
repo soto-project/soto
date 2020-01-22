@@ -5,55 +5,55 @@ import NIO
 extension Inspector {
 
     ///  Retrieves the exclusions preview (a list of ExclusionPreview objects) specified by the preview token. You can obtain the preview token by running the CreateExclusionsPreview API.
-    public func getExclusionsPreviewPaginator(_ input: GetExclusionsPreviewRequest, onPage: @escaping ([ExclusionPreview], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getExclusionsPreview, resultKey: \GetExclusionsPreviewResponse.exclusionPreviews, tokenKey: \GetExclusionsPreviewResponse.nextToken, onPage: onPage)
+    public func getExclusionsPreviewPaginator(_ input: GetExclusionsPreviewRequest, onPage: @escaping (GetExclusionsPreviewResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getExclusionsPreview, tokenKey: \GetExclusionsPreviewResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the agents of the assessment runs that are specified by the ARNs of the assessment runs.
-    public func listAssessmentRunAgentsPaginator(_ input: ListAssessmentRunAgentsRequest, onPage: @escaping ([AssessmentRunAgent], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssessmentRunAgents, resultKey: \ListAssessmentRunAgentsResponse.assessmentRunAgents, tokenKey: \ListAssessmentRunAgentsResponse.nextToken, onPage: onPage)
+    public func listAssessmentRunAgentsPaginator(_ input: ListAssessmentRunAgentsRequest, onPage: @escaping (ListAssessmentRunAgentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAssessmentRunAgents, tokenKey: \ListAssessmentRunAgentsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the assessment runs that correspond to the assessment templates that are specified by the ARNs of the assessment templates.
-    public func listAssessmentRunsPaginator(_ input: ListAssessmentRunsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssessmentRuns, resultKey: \ListAssessmentRunsResponse.assessmentRunArns, tokenKey: \ListAssessmentRunsResponse.nextToken, onPage: onPage)
+    public func listAssessmentRunsPaginator(_ input: ListAssessmentRunsRequest, onPage: @escaping (ListAssessmentRunsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAssessmentRuns, tokenKey: \ListAssessmentRunsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the ARNs of the assessment targets within this AWS account. For more information about assessment targets, see Amazon Inspector Assessment Targets.
-    public func listAssessmentTargetsPaginator(_ input: ListAssessmentTargetsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssessmentTargets, resultKey: \ListAssessmentTargetsResponse.assessmentTargetArns, tokenKey: \ListAssessmentTargetsResponse.nextToken, onPage: onPage)
+    public func listAssessmentTargetsPaginator(_ input: ListAssessmentTargetsRequest, onPage: @escaping (ListAssessmentTargetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAssessmentTargets, tokenKey: \ListAssessmentTargetsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists the assessment templates that correspond to the assessment targets that are specified by the ARNs of the assessment targets.
-    public func listAssessmentTemplatesPaginator(_ input: ListAssessmentTemplatesRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listAssessmentTemplates, resultKey: \ListAssessmentTemplatesResponse.assessmentTemplateArns, tokenKey: \ListAssessmentTemplatesResponse.nextToken, onPage: onPage)
+    public func listAssessmentTemplatesPaginator(_ input: ListAssessmentTemplatesRequest, onPage: @escaping (ListAssessmentTemplatesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAssessmentTemplates, tokenKey: \ListAssessmentTemplatesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all the event subscriptions for the assessment template that is specified by the ARN of the assessment template. For more information, see SubscribeToEvent and UnsubscribeFromEvent.
-    public func listEventSubscriptionsPaginator(_ input: ListEventSubscriptionsRequest, onPage: @escaping ([Subscription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listEventSubscriptions, resultKey: \ListEventSubscriptionsResponse.subscriptions, tokenKey: \ListEventSubscriptionsResponse.nextToken, onPage: onPage)
+    public func listEventSubscriptionsPaginator(_ input: ListEventSubscriptionsRequest, onPage: @escaping (ListEventSubscriptionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listEventSubscriptions, tokenKey: \ListEventSubscriptionsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  List exclusions that are generated by the assessment run.
-    public func listExclusionsPaginator(_ input: ListExclusionsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listExclusions, resultKey: \ListExclusionsResponse.exclusionArns, tokenKey: \ListExclusionsResponse.nextToken, onPage: onPage)
+    public func listExclusionsPaginator(_ input: ListExclusionsRequest, onPage: @escaping (ListExclusionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listExclusions, tokenKey: \ListExclusionsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists findings that are generated by the assessment runs that are specified by the ARNs of the assessment runs.
-    public func listFindingsPaginator(_ input: ListFindingsRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listFindings, resultKey: \ListFindingsResponse.findingArns, tokenKey: \ListFindingsResponse.nextToken, onPage: onPage)
+    public func listFindingsPaginator(_ input: ListFindingsRequest, onPage: @escaping (ListFindingsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listFindings, tokenKey: \ListFindingsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all available Amazon Inspector rules packages.
-    public func listRulesPackagesPaginator(_ input: ListRulesPackagesRequest, onPage: @escaping ([String], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listRulesPackages, resultKey: \ListRulesPackagesResponse.rulesPackageArns, tokenKey: \ListRulesPackagesResponse.nextToken, onPage: onPage)
+    public func listRulesPackagesPaginator(_ input: ListRulesPackagesRequest, onPage: @escaping (ListRulesPackagesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRulesPackages, tokenKey: \ListRulesPackagesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Previews the agents installed on the EC2 instances that are part of the specified assessment target.
-    public func previewAgentsPaginator(_ input: PreviewAgentsRequest, onPage: @escaping ([AgentPreview], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: previewAgents, resultKey: \PreviewAgentsResponse.agentPreviews, tokenKey: \PreviewAgentsResponse.nextToken, onPage: onPage)
+    public func previewAgentsPaginator(_ input: PreviewAgentsRequest, onPage: @escaping (PreviewAgentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: previewAgents, tokenKey: \PreviewAgentsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension Inspector.GetExclusionsPreviewRequest: AWSPaginateStringToken {

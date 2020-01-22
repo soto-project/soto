@@ -5,10 +5,10 @@ import NIO
 extension CodeStarconnections {
 
     ///  Lists the connections associated with your account.
-    public func listConnectionsPaginator(_ input: ListConnectionsInput, onPage: @escaping ([Connection], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConnections, resultKey: \ListConnectionsOutput.connections, tokenKey: \ListConnectionsOutput.nextToken, onPage: onPage)
+    public func listConnectionsPaginator(_ input: ListConnectionsInput, onPage: @escaping (ListConnectionsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listConnections, tokenKey: \ListConnectionsOutput.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension CodeStarconnections.ListConnectionsInput: AWSPaginateStringToken {

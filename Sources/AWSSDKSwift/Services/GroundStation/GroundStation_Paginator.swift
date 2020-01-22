@@ -5,38 +5,38 @@ import NIO
 extension GroundStation {
 
     ///  Returns a list of Config objects.
-    public func listConfigsPaginator(_ input: ListConfigsRequest, onPage: @escaping ([ConfigListItem], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listConfigs, resultKey: \ListConfigsResponse.configList, tokenKey: \ListConfigsResponse.nextToken, onPage: onPage)
+    public func listConfigsPaginator(_ input: ListConfigsRequest, onPage: @escaping (ListConfigsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listConfigs, tokenKey: \ListConfigsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of contacts.
     ///           If statusList contains AVAILABLE, the request must include
     ///        groundstation, missionprofileArn, and satelliteArn.
     ///        
-    public func listContactsPaginator(_ input: ListContactsRequest, onPage: @escaping ([ContactData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listContacts, resultKey: \ListContactsResponse.contactList, tokenKey: \ListContactsResponse.nextToken, onPage: onPage)
+    public func listContactsPaginator(_ input: ListContactsRequest, onPage: @escaping (ListContactsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listContacts, tokenKey: \ListContactsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of DataflowEndpoint groups.
-    public func listDataflowEndpointGroupsPaginator(_ input: ListDataflowEndpointGroupsRequest, onPage: @escaping ([DataflowEndpointListItem], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDataflowEndpointGroups, resultKey: \ListDataflowEndpointGroupsResponse.dataflowEndpointGroupList, tokenKey: \ListDataflowEndpointGroupsResponse.nextToken, onPage: onPage)
+    public func listDataflowEndpointGroupsPaginator(_ input: ListDataflowEndpointGroupsRequest, onPage: @escaping (ListDataflowEndpointGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDataflowEndpointGroups, tokenKey: \ListDataflowEndpointGroupsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of ground stations. 
-    public func listGroundStationsPaginator(_ input: ListGroundStationsRequest, onPage: @escaping ([GroundStationData], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listGroundStations, resultKey: \ListGroundStationsResponse.groundStationList, tokenKey: \ListGroundStationsResponse.nextToken, onPage: onPage)
+    public func listGroundStationsPaginator(_ input: ListGroundStationsRequest, onPage: @escaping (ListGroundStationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listGroundStations, tokenKey: \ListGroundStationsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of mission profiles.
-    public func listMissionProfilesPaginator(_ input: ListMissionProfilesRequest, onPage: @escaping ([MissionProfileListItem], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMissionProfiles, resultKey: \ListMissionProfilesResponse.missionProfileList, tokenKey: \ListMissionProfilesResponse.nextToken, onPage: onPage)
+    public func listMissionProfilesPaginator(_ input: ListMissionProfilesRequest, onPage: @escaping (ListMissionProfilesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMissionProfiles, tokenKey: \ListMissionProfilesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of satellites.
-    public func listSatellitesPaginator(_ input: ListSatellitesRequest, onPage: @escaping ([SatelliteListItem], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSatellites, resultKey: \ListSatellitesResponse.satellites, tokenKey: \ListSatellitesResponse.nextToken, onPage: onPage)
+    public func listSatellitesPaginator(_ input: ListSatellitesRequest, onPage: @escaping (ListSatellitesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSatellites, tokenKey: \ListSatellitesResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension GroundStation.ListConfigsRequest: AWSPaginateStringToken {

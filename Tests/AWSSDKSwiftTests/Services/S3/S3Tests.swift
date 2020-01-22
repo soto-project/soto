@@ -297,8 +297,8 @@ class S3Tests: XCTestCase {
 
             let request = S3.ListObjectsV2Request(bucket: testData.bucket, maxKeys: 5)
             var list: [S3.Object] = []
-            try client.listObjectsV2Paginator(request) { result, _, eventLoop in
-                list.append(contentsOf: result)
+            try client.listObjectsV2Paginator(request) { result, eventLoop in
+                list.append(contentsOf: result.contents ?? [])
                 return eventLoop.makeSucceededFuture(true)
             }.wait()
 

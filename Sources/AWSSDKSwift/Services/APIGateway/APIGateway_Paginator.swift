@@ -5,60 +5,60 @@ import NIO
 extension APIGateway {
 
     ///  Gets information about the current ApiKeys resource.
-    public func getApiKeysPaginator(_ input: GetApiKeysRequest, onPage: @escaping ([ApiKey], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getApiKeys, resultKey: \ApiKeys.items, tokenKey: \ApiKeys.position, onPage: onPage)
+    public func getApiKeysPaginator(_ input: GetApiKeysRequest, onPage: @escaping (ApiKeys, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getApiKeys, tokenKey: \ApiKeys.position, onPage: onPage)
     }
-    
+
     ///  Represents a collection of BasePathMapping resources.
-    public func getBasePathMappingsPaginator(_ input: GetBasePathMappingsRequest, onPage: @escaping ([BasePathMapping], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getBasePathMappings, resultKey: \BasePathMappings.items, tokenKey: \BasePathMappings.position, onPage: onPage)
+    public func getBasePathMappingsPaginator(_ input: GetBasePathMappingsRequest, onPage: @escaping (BasePathMappings, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getBasePathMappings, tokenKey: \BasePathMappings.position, onPage: onPage)
     }
-    
+
     ///  Gets a collection of ClientCertificate resources.
-    public func getClientCertificatesPaginator(_ input: GetClientCertificatesRequest, onPage: @escaping ([ClientCertificate], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getClientCertificates, resultKey: \ClientCertificates.items, tokenKey: \ClientCertificates.position, onPage: onPage)
+    public func getClientCertificatesPaginator(_ input: GetClientCertificatesRequest, onPage: @escaping (ClientCertificates, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getClientCertificates, tokenKey: \ClientCertificates.position, onPage: onPage)
     }
-    
+
     ///  Gets information about a Deployments collection.
-    public func getDeploymentsPaginator(_ input: GetDeploymentsRequest, onPage: @escaping ([Deployment], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDeployments, resultKey: \Deployments.items, tokenKey: \Deployments.position, onPage: onPage)
+    public func getDeploymentsPaginator(_ input: GetDeploymentsRequest, onPage: @escaping (Deployments, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getDeployments, tokenKey: \Deployments.position, onPage: onPage)
     }
-    
+
     ///  Represents a collection of DomainName resources.
-    public func getDomainNamesPaginator(_ input: GetDomainNamesRequest, onPage: @escaping ([DomainName], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getDomainNames, resultKey: \DomainNames.items, tokenKey: \DomainNames.position, onPage: onPage)
+    public func getDomainNamesPaginator(_ input: GetDomainNamesRequest, onPage: @escaping (DomainNames, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getDomainNames, tokenKey: \DomainNames.position, onPage: onPage)
     }
-    
+
     ///  Describes existing Models defined for a RestApi resource.
-    public func getModelsPaginator(_ input: GetModelsRequest, onPage: @escaping ([Model], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getModels, resultKey: \Models.items, tokenKey: \Models.position, onPage: onPage)
+    public func getModelsPaginator(_ input: GetModelsRequest, onPage: @escaping (Models, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getModels, tokenKey: \Models.position, onPage: onPage)
     }
-    
+
     ///  Lists information about a collection of Resource resources.
-    public func getResourcesPaginator(_ input: GetResourcesRequest, onPage: @escaping ([Resource], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getResources, resultKey: \Resources.items, tokenKey: \Resources.position, onPage: onPage)
+    public func getResourcesPaginator(_ input: GetResourcesRequest, onPage: @escaping (Resources, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getResources, tokenKey: \Resources.position, onPage: onPage)
     }
-    
+
     ///  Lists the RestApis resources for your collection.
-    public func getRestApisPaginator(_ input: GetRestApisRequest, onPage: @escaping ([RestApi], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getRestApis, resultKey: \RestApis.items, tokenKey: \RestApis.position, onPage: onPage)
+    public func getRestApisPaginator(_ input: GetRestApisRequest, onPage: @escaping (RestApis, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getRestApis, tokenKey: \RestApis.position, onPage: onPage)
     }
-    
+
     ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
-    public func getUsagePlanKeysPaginator(_ input: GetUsagePlanKeysRequest, onPage: @escaping ([UsagePlanKey], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUsagePlanKeys, resultKey: \UsagePlanKeys.items, tokenKey: \UsagePlanKeys.position, onPage: onPage)
+    public func getUsagePlanKeysPaginator(_ input: GetUsagePlanKeysRequest, onPage: @escaping (UsagePlanKeys, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getUsagePlanKeys, tokenKey: \UsagePlanKeys.position, onPage: onPage)
     }
-    
+
     ///  Gets all the usage plans of the caller's account.
-    public func getUsagePlansPaginator(_ input: GetUsagePlansRequest, onPage: @escaping ([UsagePlan], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getUsagePlans, resultKey: \UsagePlans.items, tokenKey: \UsagePlans.position, onPage: onPage)
+    public func getUsagePlansPaginator(_ input: GetUsagePlansRequest, onPage: @escaping (UsagePlans, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getUsagePlans, tokenKey: \UsagePlans.position, onPage: onPage)
     }
-    
+
     ///  Gets the VpcLinks collection under the caller's account in a selected region.
-    public func getVpcLinksPaginator(_ input: GetVpcLinksRequest, onPage: @escaping ([VpcLink], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: getVpcLinks, resultKey: \VpcLinks.items, tokenKey: \VpcLinks.position, onPage: onPage)
+    public func getVpcLinksPaginator(_ input: GetVpcLinksRequest, onPage: @escaping (VpcLinks, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getVpcLinks, tokenKey: \VpcLinks.position, onPage: onPage)
     }
-    
+
 }
 
 extension APIGateway.GetApiKeysRequest: AWSPaginateStringToken {

@@ -5,10 +5,10 @@ import NIO
 extension ELB {
 
     ///  Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
-    public func describeLoadBalancersPaginator(_ input: DescribeAccessPointsInput, onPage: @escaping ([LoadBalancerDescription], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeLoadBalancers, resultKey: \DescribeAccessPointsOutput.loadBalancerDescriptions, tokenKey: \DescribeAccessPointsOutput.nextMarker, onPage: onPage)
+    public func describeLoadBalancersPaginator(_ input: DescribeAccessPointsInput, onPage: @escaping (DescribeAccessPointsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeLoadBalancers, tokenKey: \DescribeAccessPointsOutput.nextMarker, onPage: onPage)
     }
-    
+
 }
 
 extension ELB.DescribeAccessPointsInput: AWSPaginateStringToken {

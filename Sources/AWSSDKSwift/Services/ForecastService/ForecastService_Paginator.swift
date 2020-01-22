@@ -5,35 +5,35 @@ import NIO
 extension ForecastService {
 
     ///  Returns a list of dataset groups created using the CreateDatasetGroup operation. For each dataset group, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the dataset group ARN with the DescribeDatasetGroup operation.
-    public func listDatasetGroupsPaginator(_ input: ListDatasetGroupsRequest, onPage: @escaping ([DatasetGroupSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatasetGroups, resultKey: \ListDatasetGroupsResponse.datasetGroups, tokenKey: \ListDatasetGroupsResponse.nextToken, onPage: onPage)
+    public func listDatasetGroupsPaginator(_ input: ListDatasetGroupsRequest, onPage: @escaping (ListDatasetGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDatasetGroups, tokenKey: \ListDatasetGroupsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of dataset import jobs created using the CreateDatasetImportJob operation. For each import job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the DescribeDatasetImportJob operation. You can filter the list by providing an array of Filter objects.
-    public func listDatasetImportJobsPaginator(_ input: ListDatasetImportJobsRequest, onPage: @escaping ([DatasetImportJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatasetImportJobs, resultKey: \ListDatasetImportJobsResponse.datasetImportJobs, tokenKey: \ListDatasetImportJobsResponse.nextToken, onPage: onPage)
+    public func listDatasetImportJobsPaginator(_ input: ListDatasetImportJobsRequest, onPage: @escaping (ListDatasetImportJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDatasetImportJobs, tokenKey: \ListDatasetImportJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of datasets created using the CreateDataset operation. For each dataset, a summary of its properties, including its Amazon Resource Name (ARN), is returned. To retrieve the complete set of properties, use the ARN with the DescribeDataset operation.
-    public func listDatasetsPaginator(_ input: ListDatasetsRequest, onPage: @escaping ([DatasetSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listDatasets, resultKey: \ListDatasetsResponse.datasets, tokenKey: \ListDatasetsResponse.nextToken, onPage: onPage)
+    public func listDatasetsPaginator(_ input: ListDatasetsRequest, onPage: @escaping (ListDatasetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listDatasets, tokenKey: \ListDatasetsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of forecast export jobs created using the CreateForecastExportJob operation. For each forecast export job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, use the ARN with the DescribeForecastExportJob operation. You can filter the list using an array of Filter objects.
-    public func listForecastExportJobsPaginator(_ input: ListForecastExportJobsRequest, onPage: @escaping ([ForecastExportJobSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listForecastExportJobs, resultKey: \ListForecastExportJobsResponse.forecastExportJobs, tokenKey: \ListForecastExportJobsResponse.nextToken, onPage: onPage)
+    public func listForecastExportJobsPaginator(_ input: ListForecastExportJobsRequest, onPage: @escaping (ListForecastExportJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listForecastExportJobs, tokenKey: \ListForecastExportJobsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of forecasts created using the CreateForecast operation. For each forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, specify the ARN with the DescribeForecast operation. You can filter the list using an array of Filter objects.
-    public func listForecastsPaginator(_ input: ListForecastsRequest, onPage: @escaping ([ForecastSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listForecasts, resultKey: \ListForecastsResponse.forecasts, tokenKey: \ListForecastsResponse.nextToken, onPage: onPage)
+    public func listForecastsPaginator(_ input: ListForecastsRequest, onPage: @escaping (ListForecastsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listForecasts, tokenKey: \ListForecastsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Returns a list of predictors created using the CreatePredictor operation. For each predictor, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the DescribePredictor operation. You can filter the list using an array of Filter objects.
-    public func listPredictorsPaginator(_ input: ListPredictorsRequest, onPage: @escaping ([PredictorSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listPredictors, resultKey: \ListPredictorsResponse.predictors, tokenKey: \ListPredictorsResponse.nextToken, onPage: onPage)
+    public func listPredictorsPaginator(_ input: ListPredictorsRequest, onPage: @escaping (ListPredictorsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPredictors, tokenKey: \ListPredictorsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension ForecastService.ListDatasetGroupsRequest: AWSPaginateStringToken {

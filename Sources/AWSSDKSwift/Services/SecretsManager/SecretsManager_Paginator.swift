@@ -5,15 +5,15 @@ import NIO
 extension SecretsManager {
 
     ///  Lists all of the versions attached to the specified secret. The output does not include the SecretString or SecretBinary fields. By default, the list includes only versions that have at least one staging label in VersionStage attached.  Always check the NextToken response parameter when calling any of the List* operations. These operations can occasionally return an empty or shorter than expected list of results even when there are more results available. When this happens, the NextToken response parameter contains a value to pass to the next call to the same API to request the next part of the list.   Minimum permissions  To run this command, you must have the following permissions:   secretsmanager:ListSecretVersionIds    Related operations    To list the secrets in an account, use ListSecrets.  
-    public func listSecretVersionIdsPaginator(_ input: ListSecretVersionIdsRequest, onPage: @escaping ([SecretVersionsListEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSecretVersionIds, resultKey: \ListSecretVersionIdsResponse.versions, tokenKey: \ListSecretVersionIdsResponse.nextToken, onPage: onPage)
+    public func listSecretVersionIdsPaginator(_ input: ListSecretVersionIdsRequest, onPage: @escaping (ListSecretVersionIdsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSecretVersionIds, tokenKey: \ListSecretVersionIdsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Lists all of the secrets that are stored by Secrets Manager in the AWS account. To list the versions currently stored for a specific secret, use ListSecretVersionIds. The encrypted fields SecretString and SecretBinary are not included in the output. To get that information, call the GetSecretValue operation.  Always check the NextToken response parameter when calling any of the List* operations. These operations can occasionally return an empty or shorter than expected list of results even when there are more results available. When this happens, the NextToken response parameter contains a value to pass to the next call to the same API to request the next part of the list.   Minimum permissions  To run this command, you must have the following permissions:   secretsmanager:ListSecrets    Related operations    To list the versions attached to a secret, use ListSecretVersionIds.  
-    public func listSecretsPaginator(_ input: ListSecretsRequest, onPage: @escaping ([SecretListEntry], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listSecrets, resultKey: \ListSecretsResponse.secretList, tokenKey: \ListSecretsResponse.nextToken, onPage: onPage)
+    public func listSecretsPaginator(_ input: ListSecretsRequest, onPage: @escaping (ListSecretsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSecrets, tokenKey: \ListSecretsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension SecretsManager.ListSecretVersionIdsRequest: AWSPaginateStringToken {

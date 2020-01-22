@@ -5,45 +5,45 @@ import NIO
 extension MediaLive {
 
     ///  Get a channel schedule
-    public func describeSchedulePaginator(_ input: DescribeScheduleRequest, onPage: @escaping ([ScheduleAction], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: describeSchedule, resultKey: \DescribeScheduleResponse.scheduleActions, tokenKey: \DescribeScheduleResponse.nextToken, onPage: onPage)
+    public func describeSchedulePaginator(_ input: DescribeScheduleRequest, onPage: @escaping (DescribeScheduleResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeSchedule, tokenKey: \DescribeScheduleResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Produces list of channels that have been created
-    public func listChannelsPaginator(_ input: ListChannelsRequest, onPage: @escaping ([ChannelSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listChannels, resultKey: \ListChannelsResponse.channels, tokenKey: \ListChannelsResponse.nextToken, onPage: onPage)
+    public func listChannelsPaginator(_ input: ListChannelsRequest, onPage: @escaping (ListChannelsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Produces a list of Input Security Groups for an account
-    public func listInputSecurityGroupsPaginator(_ input: ListInputSecurityGroupsRequest, onPage: @escaping ([InputSecurityGroup], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInputSecurityGroups, resultKey: \ListInputSecurityGroupsResponse.inputSecurityGroups, tokenKey: \ListInputSecurityGroupsResponse.nextToken, onPage: onPage)
+    public func listInputSecurityGroupsPaginator(_ input: ListInputSecurityGroupsRequest, onPage: @escaping (ListInputSecurityGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listInputSecurityGroups, tokenKey: \ListInputSecurityGroupsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Produces list of inputs that have been created
-    public func listInputsPaginator(_ input: ListInputsRequest, onPage: @escaping ([Input], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listInputs, resultKey: \ListInputsResponse.inputs, tokenKey: \ListInputsResponse.nextToken, onPage: onPage)
+    public func listInputsPaginator(_ input: ListInputsRequest, onPage: @escaping (ListInputsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listInputs, tokenKey: \ListInputsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  List the programs that currently exist for a specific multiplex.
-    public func listMultiplexProgramsPaginator(_ input: ListMultiplexProgramsRequest, onPage: @escaping ([MultiplexProgramSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMultiplexPrograms, resultKey: \ListMultiplexProgramsResponse.multiplexPrograms, tokenKey: \ListMultiplexProgramsResponse.nextToken, onPage: onPage)
+    public func listMultiplexProgramsPaginator(_ input: ListMultiplexProgramsRequest, onPage: @escaping (ListMultiplexProgramsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMultiplexPrograms, tokenKey: \ListMultiplexProgramsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  Retrieve a list of the existing multiplexes.
-    public func listMultiplexesPaginator(_ input: ListMultiplexesRequest, onPage: @escaping ([MultiplexSummary], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listMultiplexes, resultKey: \ListMultiplexesResponse.multiplexes, tokenKey: \ListMultiplexesResponse.nextToken, onPage: onPage)
+    public func listMultiplexesPaginator(_ input: ListMultiplexesRequest, onPage: @escaping (ListMultiplexesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMultiplexes, tokenKey: \ListMultiplexesResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  List offerings available for purchase.
-    public func listOfferingsPaginator(_ input: ListOfferingsRequest, onPage: @escaping ([Offering], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listOfferings, resultKey: \ListOfferingsResponse.offerings, tokenKey: \ListOfferingsResponse.nextToken, onPage: onPage)
+    public func listOfferingsPaginator(_ input: ListOfferingsRequest, onPage: @escaping (ListOfferingsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listOfferings, tokenKey: \ListOfferingsResponse.nextToken, onPage: onPage)
     }
-    
+
     ///  List purchased reservations.
-    public func listReservationsPaginator(_ input: ListReservationsRequest, onPage: @escaping ([Reservation], EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
-        return client.paginate(input: input, command: listReservations, resultKey: \ListReservationsResponse.reservations, tokenKey: \ListReservationsResponse.nextToken, onPage: onPage)
+    public func listReservationsPaginator(_ input: ListReservationsRequest, onPage: @escaping (ListReservationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listReservations, tokenKey: \ListReservationsResponse.nextToken, onPage: onPage)
     }
-    
+
 }
 
 extension MediaLive.DescribeScheduleRequest: AWSPaginateStringToken {
