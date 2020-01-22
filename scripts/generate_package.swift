@@ -47,8 +47,6 @@ testsSet.insert("SNS")
 
 // list of modules
 let modules = services + middlewares.map { "\($0)Middleware" }
-// dependencies for AWSSDKSwift lib
-let sdkDependencies = modules.map { "\"AWS\($0)\"" }.sorted().joined(separator: ",")
 // list of libraries
 let libraries = services.map( { "        .library(name: \"AWS\($0)\", targets: [\"AWS\($0)\"])" }).sorted().joined(separator: ",\n")
 // list of targets
@@ -74,10 +72,7 @@ print("""
         platforms: [.iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
         products: [
     """)
-print("        .library(name: \"AWSSDKSwift\", targets: [\(sdkDependencies)]),\n")
-
 print(libraries)
-
 print("""
           ],
           dependencies: [
