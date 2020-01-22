@@ -5792,6 +5792,7 @@ extension IAM {
         case userManaged = "user-managed"
         case resource = "resource"
         case none = "none"
+        case iamPolicy = "IAM Policy"
         public var description: String { return self.rawValue }
     }
 
