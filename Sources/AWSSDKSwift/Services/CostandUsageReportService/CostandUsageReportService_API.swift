@@ -29,22 +29,22 @@ public struct CostandUsageReportService {
     }
 
     ///  Deletes the specified report.
-    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) -> Future<DeleteReportDefinitionResponse> {
+    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) -> EventLoopFuture<DeleteReportDefinitionResponse> {
         return client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the AWS Cost and Usage reports available to this account.
-    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) -> Future<DescribeReportDefinitionsResponse> {
+    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) -> EventLoopFuture<DescribeReportDefinitionsResponse> {
         return client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows you to programatically update your report preferences.
-    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest) -> Future<ModifyReportDefinitionResponse> {
+    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest) -> EventLoopFuture<ModifyReportDefinitionResponse> {
         return client.send(operation: "ModifyReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new report using the description that you provide.
-    public func putReportDefinition(_ input: PutReportDefinitionRequest) -> Future<PutReportDefinitionResponse> {
+    public func putReportDefinition(_ input: PutReportDefinitionRequest) -> EventLoopFuture<PutReportDefinitionResponse> {
         return client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 }

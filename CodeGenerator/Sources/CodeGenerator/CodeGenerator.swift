@@ -292,7 +292,7 @@ extension AWSService {
                 funcName: operation.name.toSwiftVariableCase(),
                 inputShape: operation.inputShape?.swiftTypeName,
                 outputShape: operation.outputShape?.swiftTypeName,
-                name: operation.name,
+                name: operation.operationName,
                 path: operation.path,
                 httpMethod: operation.httpMethod,
                 deprecated: operation.deprecatedMessage))

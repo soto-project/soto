@@ -29,252 +29,252 @@ public struct GuardDuty {
     }
 
     ///  Accepts the invitation to be monitored by a master GuardDuty account.
-    public func acceptInvitation(_ input: AcceptInvitationRequest) -> Future<AcceptInvitationResponse> {
+    public func acceptInvitation(_ input: AcceptInvitationRequest) -> EventLoopFuture<AcceptInvitationResponse> {
         return client.send(operation: "AcceptInvitation", path: "/detector/{detectorId}/master", httpMethod: "POST", input: input)
     }
 
     ///  Archives GuardDuty findings specified by the list of finding IDs.  Only the master account can archive findings. Member accounts do not have permission to archive findings from their accounts. 
-    public func archiveFindings(_ input: ArchiveFindingsRequest) -> Future<ArchiveFindingsResponse> {
+    public func archiveFindings(_ input: ArchiveFindingsRequest) -> EventLoopFuture<ArchiveFindingsResponse> {
         return client.send(operation: "ArchiveFindings", path: "/detector/{detectorId}/findings/archive", httpMethod: "POST", input: input)
     }
 
     ///  Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each region that you enable the service. You can have only one detector per account per region.
-    public func createDetector(_ input: CreateDetectorRequest) -> Future<CreateDetectorResponse> {
+    public func createDetector(_ input: CreateDetectorRequest) -> EventLoopFuture<CreateDetectorResponse> {
         return client.send(operation: "CreateDetector", path: "/detector", httpMethod: "POST", input: input)
     }
 
     ///  Creates a filter using the specified finding criteria.
-    public func createFilter(_ input: CreateFilterRequest) -> Future<CreateFilterResponse> {
+    public func createFilter(_ input: CreateFilterRequest) -> EventLoopFuture<CreateFilterResponse> {
         return client.send(operation: "CreateFilter", path: "/detector/{detectorId}/filter", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new IPSet, called Trusted IP list in the consoler user interface. An IPSet is a list IP addresses trusted for secure communication with AWS infrastructure and applications. GuardDuty does not generate findings for IP addresses included in IPSets. Only users from the master account can use this operation.
-    public func createIPSet(_ input: CreateIPSetRequest) -> Future<CreateIPSetResponse> {
+    public func createIPSet(_ input: CreateIPSetRequest) -> EventLoopFuture<CreateIPSetResponse> {
         return client.send(operation: "CreateIPSet", path: "/detector/{detectorId}/ipset", httpMethod: "POST", input: input)
     }
 
     ///  Creates member accounts of the current AWS account by specifying a list of AWS account IDs. The current AWS account can then invite these members to manage GuardDuty in their accounts.
-    public func createMembers(_ input: CreateMembersRequest) -> Future<CreateMembersResponse> {
+    public func createMembers(_ input: CreateMembersRequest) -> EventLoopFuture<CreateMembersResponse> {
         return client.send(operation: "CreateMembers", path: "/detector/{detectorId}/member", httpMethod: "POST", input: input)
     }
 
     ///  Creates a publishing destination to send findings to. The resource to send findings to must exist before you use this operation.
-    public func createPublishingDestination(_ input: CreatePublishingDestinationRequest) -> Future<CreatePublishingDestinationResponse> {
+    public func createPublishingDestination(_ input: CreatePublishingDestinationRequest) -> EventLoopFuture<CreatePublishingDestinationResponse> {
         return client.send(operation: "CreatePublishingDestination", path: "/detector/{detectorId}/publishingDestination", httpMethod: "POST", input: input)
     }
 
     ///  Generates example findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates example findings of all supported finding types.
-    public func createSampleFindings(_ input: CreateSampleFindingsRequest) -> Future<CreateSampleFindingsResponse> {
+    public func createSampleFindings(_ input: CreateSampleFindingsRequest) -> EventLoopFuture<CreateSampleFindingsResponse> {
         return client.send(operation: "CreateSampleFindings", path: "/detector/{detectorId}/findings/create", httpMethod: "POST", input: input)
     }
 
     ///  Create a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the master account can use this operation.
-    public func createThreatIntelSet(_ input: CreateThreatIntelSetRequest) -> Future<CreateThreatIntelSetResponse> {
+    public func createThreatIntelSet(_ input: CreateThreatIntelSetRequest) -> EventLoopFuture<CreateThreatIntelSetResponse> {
         return client.send(operation: "CreateThreatIntelSet", path: "/detector/{detectorId}/threatintelset", httpMethod: "POST", input: input)
     }
 
     ///  Declines invitations sent to the current member account by AWS account specified by their account IDs.
-    public func declineInvitations(_ input: DeclineInvitationsRequest) -> Future<DeclineInvitationsResponse> {
+    public func declineInvitations(_ input: DeclineInvitationsRequest) -> EventLoopFuture<DeclineInvitationsResponse> {
         return client.send(operation: "DeclineInvitations", path: "/invitation/decline", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a Amazon GuardDuty detector specified by the detector ID.
-    public func deleteDetector(_ input: DeleteDetectorRequest) -> Future<DeleteDetectorResponse> {
+    public func deleteDetector(_ input: DeleteDetectorRequest) -> EventLoopFuture<DeleteDetectorResponse> {
         return client.send(operation: "DeleteDetector", path: "/detector/{detectorId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the filter specified by the filter name.
-    public func deleteFilter(_ input: DeleteFilterRequest) -> Future<DeleteFilterResponse> {
+    public func deleteFilter(_ input: DeleteFilterRequest) -> EventLoopFuture<DeleteFilterResponse> {
         return client.send(operation: "DeleteFilter", path: "/detector/{detectorId}/filter/{filterName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the IPSet specified by the ipSetId. IPSets are called Trusted IP lists in the console user interface.
-    public func deleteIPSet(_ input: DeleteIPSetRequest) -> Future<DeleteIPSetResponse> {
+    public func deleteIPSet(_ input: DeleteIPSetRequest) -> EventLoopFuture<DeleteIPSetResponse> {
         return client.send(operation: "DeleteIPSet", path: "/detector/{detectorId}/ipset/{ipSetId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes invitations sent to the current member account by AWS accounts specified by their account IDs.
-    public func deleteInvitations(_ input: DeleteInvitationsRequest) -> Future<DeleteInvitationsResponse> {
+    public func deleteInvitations(_ input: DeleteInvitationsRequest) -> EventLoopFuture<DeleteInvitationsResponse> {
         return client.send(operation: "DeleteInvitations", path: "/invitation/delete", httpMethod: "POST", input: input)
     }
 
     ///  Deletes GuardDuty member accounts (to the current GuardDuty master account) specified by the account IDs.
-    public func deleteMembers(_ input: DeleteMembersRequest) -> Future<DeleteMembersResponse> {
+    public func deleteMembers(_ input: DeleteMembersRequest) -> EventLoopFuture<DeleteMembersResponse> {
         return client.send(operation: "DeleteMembers", path: "/detector/{detectorId}/member/delete", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the publishing definition with the specified destinationId.
-    public func deletePublishingDestination(_ input: DeletePublishingDestinationRequest) -> Future<DeletePublishingDestinationResponse> {
+    public func deletePublishingDestination(_ input: DeletePublishingDestinationRequest) -> EventLoopFuture<DeletePublishingDestinationResponse> {
         return client.send(operation: "DeletePublishingDestination", path: "/detector/{detectorId}/publishingDestination/{destinationId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes ThreatIntelSet specified by the ThreatIntelSet ID.
-    public func deleteThreatIntelSet(_ input: DeleteThreatIntelSetRequest) -> Future<DeleteThreatIntelSetResponse> {
+    public func deleteThreatIntelSet(_ input: DeleteThreatIntelSetRequest) -> EventLoopFuture<DeleteThreatIntelSetResponse> {
         return client.send(operation: "DeleteThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns information about the publishing destination specified by the provided destinationId.
-    public func describePublishingDestination(_ input: DescribePublishingDestinationRequest) -> Future<DescribePublishingDestinationResponse> {
+    public func describePublishingDestination(_ input: DescribePublishingDestinationRequest) -> EventLoopFuture<DescribePublishingDestinationResponse> {
         return client.send(operation: "DescribePublishingDestination", path: "/detector/{detectorId}/publishingDestination/{destinationId}", httpMethod: "GET", input: input)
     }
 
     ///  Disassociates the current GuardDuty member account from its master account.
-    public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest) -> Future<DisassociateFromMasterAccountResponse> {
+    public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest) -> EventLoopFuture<DisassociateFromMasterAccountResponse> {
         return client.send(operation: "DisassociateFromMasterAccount", path: "/detector/{detectorId}/master/disassociate", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates GuardDuty member accounts (to the current GuardDuty master account) specified by the account IDs.
-    public func disassociateMembers(_ input: DisassociateMembersRequest) -> Future<DisassociateMembersResponse> {
+    public func disassociateMembers(_ input: DisassociateMembersRequest) -> EventLoopFuture<DisassociateMembersResponse> {
         return client.send(operation: "DisassociateMembers", path: "/detector/{detectorId}/member/disassociate", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves an Amazon GuardDuty detector specified by the detectorId.
-    public func getDetector(_ input: GetDetectorRequest) -> Future<GetDetectorResponse> {
+    public func getDetector(_ input: GetDetectorRequest) -> EventLoopFuture<GetDetectorResponse> {
         return client.send(operation: "GetDetector", path: "/detector/{detectorId}", httpMethod: "GET", input: input)
     }
 
     ///  Returns the details of the filter specified by the filter name.
-    public func getFilter(_ input: GetFilterRequest) -> Future<GetFilterResponse> {
+    public func getFilter(_ input: GetFilterRequest) -> EventLoopFuture<GetFilterResponse> {
         return client.send(operation: "GetFilter", path: "/detector/{detectorId}/filter/{filterName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes Amazon GuardDuty findings specified by finding IDs.
-    public func getFindings(_ input: GetFindingsRequest) -> Future<GetFindingsResponse> {
+    public func getFindings(_ input: GetFindingsRequest) -> EventLoopFuture<GetFindingsResponse> {
         return client.send(operation: "GetFindings", path: "/detector/{detectorId}/findings/get", httpMethod: "POST", input: input)
     }
 
     ///  Lists Amazon GuardDuty findings' statistics for the specified detector ID.
-    public func getFindingsStatistics(_ input: GetFindingsStatisticsRequest) -> Future<GetFindingsStatisticsResponse> {
+    public func getFindingsStatistics(_ input: GetFindingsStatisticsRequest) -> EventLoopFuture<GetFindingsStatisticsResponse> {
         return client.send(operation: "GetFindingsStatistics", path: "/detector/{detectorId}/findings/statistics", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the IPSet specified by the ipSetId.
-    public func getIPSet(_ input: GetIPSetRequest) -> Future<GetIPSetResponse> {
+    public func getIPSet(_ input: GetIPSetRequest) -> EventLoopFuture<GetIPSetResponse> {
         return client.send(operation: "GetIPSet", path: "/detector/{detectorId}/ipset/{ipSetId}", httpMethod: "GET", input: input)
     }
 
     ///  Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
-    public func getInvitationsCount(_ input: GetInvitationsCountRequest) -> Future<GetInvitationsCountResponse> {
+    public func getInvitationsCount(_ input: GetInvitationsCountRequest) -> EventLoopFuture<GetInvitationsCountResponse> {
         return client.send(operation: "GetInvitationsCount", path: "/invitation/count", httpMethod: "GET", input: input)
     }
 
     ///  Provides the details for the GuardDuty master account associated with the current GuardDuty member account.
-    public func getMasterAccount(_ input: GetMasterAccountRequest) -> Future<GetMasterAccountResponse> {
+    public func getMasterAccount(_ input: GetMasterAccountRequest) -> EventLoopFuture<GetMasterAccountResponse> {
         return client.send(operation: "GetMasterAccount", path: "/detector/{detectorId}/master", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves GuardDuty member accounts (to the current GuardDuty master account) specified by the account IDs.
-    public func getMembers(_ input: GetMembersRequest) -> Future<GetMembersResponse> {
+    public func getMembers(_ input: GetMembersRequest) -> EventLoopFuture<GetMembersResponse> {
         return client.send(operation: "GetMembers", path: "/detector/{detectorId}/member/get", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
-    public func getThreatIntelSet(_ input: GetThreatIntelSetRequest) -> Future<GetThreatIntelSetResponse> {
+    public func getThreatIntelSet(_ input: GetThreatIntelSetRequest) -> EventLoopFuture<GetThreatIntelSetResponse> {
         return client.send(operation: "GetThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: "GET", input: input)
     }
 
     ///  Invites other AWS accounts (created as members of the current AWS account by CreateMembers) to enable GuardDuty and allow the current AWS account to view and manage these accounts' GuardDuty findings on their behalf as the master account.
-    public func inviteMembers(_ input: InviteMembersRequest) -> Future<InviteMembersResponse> {
+    public func inviteMembers(_ input: InviteMembersRequest) -> EventLoopFuture<InviteMembersResponse> {
         return client.send(operation: "InviteMembers", path: "/detector/{detectorId}/member/invite", httpMethod: "POST", input: input)
     }
 
     ///  Lists detectorIds of all the existing Amazon GuardDuty detector resources.
-    public func listDetectors(_ input: ListDetectorsRequest) -> Future<ListDetectorsResponse> {
+    public func listDetectors(_ input: ListDetectorsRequest) -> EventLoopFuture<ListDetectorsResponse> {
         return client.send(operation: "ListDetectors", path: "/detector", httpMethod: "GET", input: input)
     }
 
     ///  Returns a paginated list of the current filters.
-    public func listFilters(_ input: ListFiltersRequest) -> Future<ListFiltersResponse> {
+    public func listFilters(_ input: ListFiltersRequest) -> EventLoopFuture<ListFiltersResponse> {
         return client.send(operation: "ListFilters", path: "/detector/{detectorId}/filter", httpMethod: "GET", input: input)
     }
 
     ///  Lists Amazon GuardDuty findings for the specified detector ID.
-    public func listFindings(_ input: ListFindingsRequest) -> Future<ListFindingsResponse> {
+    public func listFindings(_ input: ListFindingsRequest) -> EventLoopFuture<ListFindingsResponse> {
         return client.send(operation: "ListFindings", path: "/detector/{detectorId}/findings", httpMethod: "POST", input: input)
     }
 
     ///  Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated master account.
-    public func listIPSets(_ input: ListIPSetsRequest) -> Future<ListIPSetsResponse> {
+    public func listIPSets(_ input: ListIPSetsRequest) -> EventLoopFuture<ListIPSetsResponse> {
         return client.send(operation: "ListIPSets", path: "/detector/{detectorId}/ipset", httpMethod: "GET", input: input)
     }
 
     ///  Lists all GuardDuty membership invitations that were sent to the current AWS account.
-    public func listInvitations(_ input: ListInvitationsRequest) -> Future<ListInvitationsResponse> {
+    public func listInvitations(_ input: ListInvitationsRequest) -> EventLoopFuture<ListInvitationsResponse> {
         return client.send(operation: "ListInvitations", path: "/invitation", httpMethod: "GET", input: input)
     }
 
     ///  Lists details about all member accounts for the current GuardDuty master account.
-    public func listMembers(_ input: ListMembersRequest) -> Future<ListMembersResponse> {
+    public func listMembers(_ input: ListMembersRequest) -> EventLoopFuture<ListMembersResponse> {
         return client.send(operation: "ListMembers", path: "/detector/{detectorId}/member", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of publishing destinations associated with the specified dectectorId.
-    public func listPublishingDestinations(_ input: ListPublishingDestinationsRequest) -> Future<ListPublishingDestinationsResponse> {
+    public func listPublishingDestinations(_ input: ListPublishingDestinationsRequest) -> EventLoopFuture<ListPublishingDestinationsResponse> {
         return client.send(operation: "ListPublishingDestinations", path: "/detector/{detectorId}/publishingDestination", httpMethod: "GET", input: input)
     }
 
     ///  Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, and Threat Intel sets, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource..
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
 
     ///  Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the master account are returned.
-    public func listThreatIntelSets(_ input: ListThreatIntelSetsRequest) -> Future<ListThreatIntelSetsResponse> {
+    public func listThreatIntelSets(_ input: ListThreatIntelSetsRequest) -> EventLoopFuture<ListThreatIntelSetsResponse> {
         return client.send(operation: "ListThreatIntelSets", path: "/detector/{detectorId}/threatintelset", httpMethod: "GET", input: input)
     }
 
     ///  Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation.
-    public func startMonitoringMembers(_ input: StartMonitoringMembersRequest) -> Future<StartMonitoringMembersResponse> {
+    public func startMonitoringMembers(_ input: StartMonitoringMembersRequest) -> EventLoopFuture<StartMonitoringMembersResponse> {
         return client.send(operation: "StartMonitoringMembers", path: "/detector/{detectorId}/member/start", httpMethod: "POST", input: input)
     }
 
     ///  Stops GuardDuty monitoring for the specified member accounnts. Use the StartMonitoringMembers to restart monitoring for those accounts.
-    public func stopMonitoringMembers(_ input: StopMonitoringMembersRequest) -> Future<StopMonitoringMembersResponse> {
+    public func stopMonitoringMembers(_ input: StopMonitoringMembersRequest) -> EventLoopFuture<StopMonitoringMembersResponse> {
         return client.send(operation: "StopMonitoringMembers", path: "/detector/{detectorId}/member/stop", httpMethod: "POST", input: input)
     }
 
     ///  Adds tags to a resource.
-    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
     }
 
     ///  Unarchives GuardDuty findings specified by the findingIds.
-    public func unarchiveFindings(_ input: UnarchiveFindingsRequest) -> Future<UnarchiveFindingsResponse> {
+    public func unarchiveFindings(_ input: UnarchiveFindingsRequest) -> EventLoopFuture<UnarchiveFindingsResponse> {
         return client.send(operation: "UnarchiveFindings", path: "/detector/{detectorId}/findings/unarchive", httpMethod: "POST", input: input)
     }
 
     ///  Removes tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates the Amazon GuardDuty detector specified by the detectorId.
-    public func updateDetector(_ input: UpdateDetectorRequest) -> Future<UpdateDetectorResponse> {
+    public func updateDetector(_ input: UpdateDetectorRequest) -> EventLoopFuture<UpdateDetectorResponse> {
         return client.send(operation: "UpdateDetector", path: "/detector/{detectorId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates the filter specified by the filter name.
-    public func updateFilter(_ input: UpdateFilterRequest) -> Future<UpdateFilterResponse> {
+    public func updateFilter(_ input: UpdateFilterRequest) -> EventLoopFuture<UpdateFilterResponse> {
         return client.send(operation: "UpdateFilter", path: "/detector/{detectorId}/filter/{filterName}", httpMethod: "POST", input: input)
     }
 
     ///  Marks the specified GuardDuty findings as useful or not useful.
-    public func updateFindingsFeedback(_ input: UpdateFindingsFeedbackRequest) -> Future<UpdateFindingsFeedbackResponse> {
+    public func updateFindingsFeedback(_ input: UpdateFindingsFeedbackRequest) -> EventLoopFuture<UpdateFindingsFeedbackResponse> {
         return client.send(operation: "UpdateFindingsFeedback", path: "/detector/{detectorId}/findings/feedback", httpMethod: "POST", input: input)
     }
 
     ///  Updates the IPSet specified by the IPSet ID.
-    public func updateIPSet(_ input: UpdateIPSetRequest) -> Future<UpdateIPSetResponse> {
+    public func updateIPSet(_ input: UpdateIPSetRequest) -> EventLoopFuture<UpdateIPSetResponse> {
         return client.send(operation: "UpdateIPSet", path: "/detector/{detectorId}/ipset/{ipSetId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates information about the publishing destination specified by the destinationId.
-    public func updatePublishingDestination(_ input: UpdatePublishingDestinationRequest) -> Future<UpdatePublishingDestinationResponse> {
+    public func updatePublishingDestination(_ input: UpdatePublishingDestinationRequest) -> EventLoopFuture<UpdatePublishingDestinationResponse> {
         return client.send(operation: "UpdatePublishingDestination", path: "/detector/{detectorId}/publishingDestination/{destinationId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates the ThreatIntelSet specified by ThreatIntelSet ID.
-    public func updateThreatIntelSet(_ input: UpdateThreatIntelSetRequest) -> Future<UpdateThreatIntelSetResponse> {
+    public func updateThreatIntelSet(_ input: UpdateThreatIntelSetRequest) -> EventLoopFuture<UpdateThreatIntelSetResponse> {
         return client.send(operation: "UpdateThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: "POST", input: input)
     }
 }

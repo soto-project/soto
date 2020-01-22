@@ -110,13 +110,13 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
     let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
 
     s3.createBucket(createBucketRequest)
-        .flatMap { response -> Future<S3.PutObjectOutput> in
+        .flatMap { response -> EventLoopFuture<S3.PutObjectOutput> in
             // Upload text file to the s3
             let bodyData = "hello world".data(using: .utf8)!
             let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, body: bodyData, bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt")
             return s3.putObject(putObjectRequest)
         }
-        .flatMap { response -> Future<S3.GetObjectOutput> in
+        .flatMap { response -> EventLoopFuture<S3.GetObjectOutput> in
             let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
             return s3.getObject(getObjectRequest)
         }
@@ -155,7 +155,7 @@ final class MyController {
         let subject: String
         let message: String
     }
-    func sendUserEmailFromJSON(_ req: Request) throws -> Future<HTTPStatus> {
+    func sendUserEmailFromJSON(_ req: Request) throws -> EventLoopFuture<HTTPStatus> {
         return try req.content.decode(EmailData.self)
             .flatMap { (emailData)->EventLoopFuture<SES.SendEmailResponse> in
                 let client = SES(region: .uswest1)

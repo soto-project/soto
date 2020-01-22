@@ -27,10 +27,10 @@ public extension S3 {
     ///     - partSize: Size of each part to be downloaded
     ///     - on: an EventLoop to process each downloaded part on
     ///     - outputStream: Function to be called for each downloaded part. Called with data block and file size
-    /// - returns: A future that will receive the complete file size once the multipart download has finished.
-    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, on eventLoop: EventLoop, outputStream: @escaping (Data, Int64) throws -> ()) -> Future<Int64> {
+    /// - returns: An EventLoopFuture that will receive the complete file size once the multipart download has finished.
+    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, on eventLoop: EventLoop, outputStream: @escaping (Data, Int64) throws -> ()) -> EventLoopFuture<Int64> {
         // function downloading part of a file
-        func multipartDownloadPart(fileSize: Int64, offset: Int64, prevPartSave: Future<Int64>) -> Future<Int64> {
+        func multipartDownloadPart(fileSize: Int64, offset: Int64, prevPartSave: EventLoopFuture<Int64>) -> EventLoopFuture<Int64> {
             guard fileSize > offset else {
                 return prevPartSave
             }
@@ -48,7 +48,7 @@ public extension S3 {
             return getObject(getRequest)
                 .and(prevPartSave)
                 .hop(to: eventLoop)
-                .flatMap { (output, _) -> Future<Int64> in
+                .flatMap { (output, _) -> EventLoopFuture<Int64> in
                     do {
                         // should never happen
                         guard let body = output.body else {
@@ -90,7 +90,7 @@ public extension S3 {
         )
         let result = headObject(headRequest)
             .hop(to: eventLoop)
-            .flatMap { object -> Future<Int64> in
+            .flatMap { object -> EventLoopFuture<Int64> in
                 do {
                     guard let contentLength = object.contentLength else {
                         throw S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero")
@@ -112,13 +112,13 @@ public extension S3 {
     ///     - filename: Filename to save download to
     ///     - on: EventLoop to process downloaded parts, if nil an eventLoop is taken from the clients eventLoopGroup
     ///     - progress: Callback that returns the progress of the download. It is called after each part is downloaded with a value between 0.0 and 1.0 indicating how far the download is complete (1.0 meaning finished).
-    /// - returns: A future that will receive the complete file size once the multipart download has finished.
-    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop? = nil, progress: @escaping (Double) throws -> () = { _ in }) -> Future<Int64> {
+    /// - returns: An EventLoopFuture that will receive the complete file size once the multipart download has finished.
+    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop? = nil, progress: @escaping (Double) throws -> () = { _ in }) -> EventLoopFuture<Int64> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         return eventLoop.submit {  () -> Foundation.FileHandle in
             FileManager.default.createFile(atPath: filename, contents: nil)
             return try FileHandle(forWritingTo: URL(fileURLWithPath: filename))
-        }.flatMap { (fileHandle) -> Future<Int64> in
+        }.flatMap { (fileHandle) -> EventLoopFuture<Int64> in
             var progressValue : Int64 = 0
             let outputStream: (Data, Int64) throws -> () = {  data, fileSize in
                 fileHandle.write(data)
@@ -144,14 +144,14 @@ public extension S3 {
     ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
     ///     - on: an EventLoop to process each part to upload
     ///     - inputStream: The function supplying the data parts to the multipartUpload. Each parts must be at least 5MB in size expect the last one which has no size limit.
-    /// - returns: A Future that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
-    func multipartUpload(_ input: CreateMultipartUploadRequest, on eventLoop: EventLoop, inputStream: @escaping () throws -> Data?) -> Future<CompleteMultipartUploadOutput> {
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    func multipartUpload(_ input: CreateMultipartUploadRequest, on eventLoop: EventLoop, inputStream: @escaping () throws -> Data?) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         var completedParts: [S3.CompletedPart] = []
 
         // function uploading part of a file and queueing up upload of the next part
-        func multipartUploadPart(partNumber: Int, uploadId: String, body: Data? = nil) -> Future<[S3.CompletedPart]> {
-            // create upload data future, if there is no data to load because this is the first time this is called create a succeeded future
-            let uploadResult : Future<[S3.CompletedPart]>
+        func multipartUploadPart(partNumber: Int, uploadId: String, body: Data? = nil) -> EventLoopFuture<[S3.CompletedPart]> {
+            // create upload data EventLoopFuture, if there is no data to load because this is the first time this is called create a succeeded EventLoopFuture
+            let uploadResult : EventLoopFuture<[S3.CompletedPart]>
             if let body = body {
                 let request = S3.UploadPartRequest(
                     body: body,
@@ -165,7 +165,7 @@ public extension S3 {
                     sSECustomerKeyMD5: input.sSECustomerKeyMD5,
                     uploadId: uploadId
                 )
-                // request upload future
+                // request upload EventLoopFuture
                 uploadResult = self.uploadPart(request).hop(to: eventLoop).map { output -> [S3.CompletedPart] in
                     let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
                     completedParts.append(part)
@@ -175,13 +175,13 @@ public extension S3 {
                 uploadResult = eventLoop.makeSucceededFuture([])
             }
 
-            // load data future
+            // load data EventLoopFuture
             let result = eventLoop.submit {
                 return try inputStream()
                 }
                 .and(uploadResult)
                 // upload data
-                .flatMap { (data, parts) -> Future<[S3.CompletedPart]> in
+                .flatMap { (data, parts) -> EventLoopFuture<[S3.CompletedPart]> in
                     guard let data = data, data.count > 0 else { return eventLoop.makeSucceededFuture(parts)}
                     return multipartUploadPart(partNumber: partNumber+1, uploadId: uploadId, body: data)
             }
@@ -189,11 +189,11 @@ public extension S3 {
         }
 
         // initialize multipart upload
-        let result = createMultipartUpload(input).flatMap { upload -> Future<CompleteMultipartUploadOutput> in
+        let result = createMultipartUpload(input).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
             guard let uploadId = upload.uploadId else { return eventLoop.makeFailedFuture(S3ErrorType.multipart.noUploadId) }
             // upload all the parts
             return multipartUploadPart(partNumber: 1, uploadId: uploadId)
-                .flatMap { parts -> Future<CompleteMultipartUploadOutput> in
+                .flatMap { parts -> EventLoopFuture<CompleteMultipartUploadOutput> in
                     let request = S3.CompleteMultipartUploadRequest(
                         bucket: input.bucket,
                         key:input.key,
@@ -221,14 +221,14 @@ public extension S3 {
     ///     - filename: Name of file to upload
     ///     - on: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
     ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
-    /// - returns: A Future that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
-    func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop? = nil, progress: @escaping (Double) throws->() = { _ in }) -> Future<CompleteMultipartUploadOutput> {
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop? = nil, progress: @escaping (Double) throws->() = { _ in }) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         var fileSize : UInt64 = 0
         return eventLoop.submit {  () -> FileHandle in
             fileSize = try FileManager.default.attributesOfItem(atPath: filename)[.size] as? UInt64 ?? UInt64.max
             return try FileHandle(forReadingFrom: URL(fileURLWithPath: filename))
-        }.flatMap { (fileHandle) -> Future<CompleteMultipartUploadOutput> in
+        }.flatMap { (fileHandle) -> EventLoopFuture<CompleteMultipartUploadOutput> in
             var progressAmount : Int64 = 0
 
             let inputStream: () throws -> Data? = {

@@ -29,22 +29,22 @@ public struct CodeStarconnections {
     }
 
     ///  Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
-    public func createConnection(_ input: CreateConnectionInput) -> Future<CreateConnectionOutput> {
+    public func createConnection(_ input: CreateConnectionInput) -> EventLoopFuture<CreateConnectionOutput> {
         return client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The connection to be deleted.
-    public func deleteConnection(_ input: DeleteConnectionInput) -> Future<DeleteConnectionOutput> {
+    public func deleteConnection(_ input: DeleteConnectionInput) -> EventLoopFuture<DeleteConnectionOutput> {
         return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the connection ARN and details such as status, owner, and provider type.
-    public func getConnection(_ input: GetConnectionInput) -> Future<GetConnectionOutput> {
+    public func getConnection(_ input: GetConnectionInput) -> EventLoopFuture<GetConnectionOutput> {
         return client.send(operation: "GetConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the connections associated with your account.
-    public func listConnections(_ input: ListConnectionsInput) -> Future<ListConnectionsOutput> {
+    public func listConnections(_ input: ListConnectionsInput) -> EventLoopFuture<ListConnectionsOutput> {
         return client.send(operation: "ListConnections", path: "/", httpMethod: "POST", input: input)
     }
 }

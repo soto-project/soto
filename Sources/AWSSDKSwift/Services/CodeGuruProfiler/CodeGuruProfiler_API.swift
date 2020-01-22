@@ -28,47 +28,47 @@ public struct CodeGuruProfiler {
     }
 
     ///  Provides the configuration to use for an agent of the profiling group.
-    public func configureAgent(_ input: ConfigureAgentRequest) -> Future<ConfigureAgentResponse> {
+    public func configureAgent(_ input: ConfigureAgentRequest) -> EventLoopFuture<ConfigureAgentResponse> {
         return client.send(operation: "ConfigureAgent", path: "/profilingGroups/{profilingGroupName}/configureAgent", httpMethod: "POST", input: input)
     }
 
     ///  Create a profiling group.
-    public func createProfilingGroup(_ input: CreateProfilingGroupRequest) -> Future<CreateProfilingGroupResponse> {
+    public func createProfilingGroup(_ input: CreateProfilingGroupRequest) -> EventLoopFuture<CreateProfilingGroupResponse> {
         return client.send(operation: "CreateProfilingGroup", path: "/profilingGroups", httpMethod: "POST", input: input)
     }
 
     ///  Delete a profiling group.
-    public func deleteProfilingGroup(_ input: DeleteProfilingGroupRequest) -> Future<DeleteProfilingGroupResponse> {
+    public func deleteProfilingGroup(_ input: DeleteProfilingGroupRequest) -> EventLoopFuture<DeleteProfilingGroupResponse> {
         return client.send(operation: "DeleteProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Describe a profiling group.
-    public func describeProfilingGroup(_ input: DescribeProfilingGroupRequest) -> Future<DescribeProfilingGroupResponse> {
+    public func describeProfilingGroup(_ input: DescribeProfilingGroupRequest) -> EventLoopFuture<DescribeProfilingGroupResponse> {
         return client.send(operation: "DescribeProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "GET", input: input)
     }
 
     ///  Get the aggregated profile of a profiling group for the specified time range. If the requested time range does not align with the available aggregated profiles, it will be expanded to attain alignment. If aggregated profiles are available only for part of the period requested, the profile is returned from the earliest available to the latest within the requested time range. For instance, if the requested time range is from 00:00 to 00:20 and the available profiles are from 00:15 to 00:25, then the returned profile will be from 00:15 to 00:20.
-    public func getProfile(_ input: GetProfileRequest) -> Future<GetProfileResponse> {
+    public func getProfile(_ input: GetProfileRequest) -> EventLoopFuture<GetProfileResponse> {
         return client.send(operation: "GetProfile", path: "/profilingGroups/{profilingGroupName}/profile", httpMethod: "GET", input: input)
     }
 
     ///  List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
-    public func listProfileTimes(_ input: ListProfileTimesRequest) -> Future<ListProfileTimesResponse> {
+    public func listProfileTimes(_ input: ListProfileTimesRequest) -> EventLoopFuture<ListProfileTimesResponse> {
         return client.send(operation: "ListProfileTimes", path: "/profilingGroups/{profilingGroupName}/profileTimes", httpMethod: "GET", input: input)
     }
 
     ///  List profiling groups in the account.
-    public func listProfilingGroups(_ input: ListProfilingGroupsRequest) -> Future<ListProfilingGroupsResponse> {
+    public func listProfilingGroups(_ input: ListProfilingGroupsRequest) -> EventLoopFuture<ListProfilingGroupsResponse> {
         return client.send(operation: "ListProfilingGroups", path: "/profilingGroups", httpMethod: "GET", input: input)
     }
 
     ///  Submit profile collected by an agent belonging to a profiling group for aggregation.
-    public func postAgentProfile(_ input: PostAgentProfileRequest) -> Future<PostAgentProfileResponse> {
+    public func postAgentProfile(_ input: PostAgentProfileRequest) -> EventLoopFuture<PostAgentProfileResponse> {
         return client.send(operation: "PostAgentProfile", path: "/profilingGroups/{profilingGroupName}/agentProfile", httpMethod: "POST", input: input)
     }
 
     ///  Update a profiling group.
-    public func updateProfilingGroup(_ input: UpdateProfilingGroupRequest) -> Future<UpdateProfilingGroupResponse> {
+    public func updateProfilingGroup(_ input: UpdateProfilingGroupRequest) -> EventLoopFuture<UpdateProfilingGroupResponse> {
         return client.send(operation: "UpdateProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "PUT", input: input)
     }
 }
