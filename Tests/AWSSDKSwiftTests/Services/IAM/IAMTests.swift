@@ -82,13 +82,16 @@ class IAMTests: XCTestCase {
             let getUserRequest = IAM.GetUserRequest(userName: testData.userName)
             let getUserResponse = try client.getUser(getUserRequest).wait()
 
-            let putRequest = IAM.PutUserPolicyRequest(policyDocument: policyDocument, policyName: "testSimulatePolicy", userName: getUserResponse.user.userName)
+            let putRequest = IAM.PutUserPolicyRequest(policyDocument: policyDocument, policyName: "testSetGetPolicy", userName: getUserResponse.user.userName)
             _ = try client.putUserPolicy(putRequest).wait()
 
-            let getRequest = IAM.GetUserPolicyRequest(policyName: "testSimulatePolicy", userName: getUserResponse.user.userName)
+            let getRequest = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: getUserResponse.user.userName)
             let getResponse = try client.getUserPolicy(getRequest).wait()
 
             XCTAssertEqual(getResponse.policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
+
+            let deletePolicy = IAM.DeleteUserPolicy(policyName: "testSetGetPolicy", userName: getUserResponse.user.userName)
+            try client.deleteUserPolicy(deletePolicy).wait()
         }
 
     }
