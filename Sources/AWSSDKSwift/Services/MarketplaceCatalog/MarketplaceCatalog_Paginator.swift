@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MarketplaceCatalog {
 
     ///  Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
@@ -17,27 +19,29 @@ extension MarketplaceCatalog {
 }
 
 extension MarketplaceCatalog.ListChangeSetsRequest: AWSPaginateStringToken {
-    public init(_ original: MarketplaceCatalog.ListChangeSetsRequest, token: String) {
-        self.init(
-            catalog: original.catalog, 
-            filterList: original.filterList, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MarketplaceCatalog.ListChangeSetsRequest {
+        return .init(
+            catalog: self.catalog, 
+            filterList: self.filterList, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sort: original.sort
+            sort: self.sort
         )
+
     }
 }
 
 extension MarketplaceCatalog.ListEntitiesRequest: AWSPaginateStringToken {
-    public init(_ original: MarketplaceCatalog.ListEntitiesRequest, token: String) {
-        self.init(
-            catalog: original.catalog, 
-            entityType: original.entityType, 
-            filterList: original.filterList, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MarketplaceCatalog.ListEntitiesRequest {
+        return .init(
+            catalog: self.catalog, 
+            entityType: self.entityType, 
+            filterList: self.filterList, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sort: original.sort
+            sort: self.sort
         )
+
     }
 }
 

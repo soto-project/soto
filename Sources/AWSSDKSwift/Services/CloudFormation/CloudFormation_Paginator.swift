@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CloudFormation {
 
     ///  Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to Stacks in the AWS CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). 
@@ -57,104 +59,114 @@ extension CloudFormation {
 }
 
 extension CloudFormation.DescribeStackEventsInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.DescribeStackEventsInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeStackEventsInput {
+        return .init(
             nextToken: token, 
-            stackName: original.stackName
+            stackName: self.stackName
         )
+
     }
 }
 
 extension CloudFormation.DescribeStackResourceDriftsInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.DescribeStackResourceDriftsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeStackResourceDriftsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            stackName: original.stackName, 
-            stackResourceDriftStatusFilters: original.stackResourceDriftStatusFilters
+            stackName: self.stackName, 
+            stackResourceDriftStatusFilters: self.stackResourceDriftStatusFilters
         )
+
     }
 }
 
 extension CloudFormation.DescribeStacksInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.DescribeStacksInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeStacksInput {
+        return .init(
             nextToken: token, 
-            stackName: original.stackName
+            stackName: self.stackName
         )
+
     }
 }
 
 extension CloudFormation.ListExportsInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.ListExportsInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListExportsInput {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension CloudFormation.ListImportsInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.ListImportsInput, token: String) {
-        self.init(
-            exportName: original.exportName, 
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListImportsInput {
+        return .init(
+            exportName: self.exportName, 
             nextToken: token
         )
+
     }
 }
 
 extension CloudFormation.ListStackResourcesInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.ListStackResourcesInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackResourcesInput {
+        return .init(
             nextToken: token, 
-            stackName: original.stackName
+            stackName: self.stackName
         )
+
     }
 }
 
 extension CloudFormation.ListStacksInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.ListStacksInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListStacksInput {
+        return .init(
             nextToken: token, 
-            stackStatusFilter: original.stackStatusFilter
+            stackStatusFilter: self.stackStatusFilter
         )
+
     }
 }
 
 extension CloudFormation.ListTypeRegistrationsInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.ListTypeRegistrationsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListTypeRegistrationsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            registrationStatusFilter: original.registrationStatusFilter, 
-            type: original.type, 
-            typeArn: original.typeArn, 
-            typeName: original.typeName
+            registrationStatusFilter: self.registrationStatusFilter, 
+            type: self.type, 
+            typeArn: self.typeArn, 
+            typeName: self.typeName
         )
+
     }
 }
 
 extension CloudFormation.ListTypeVersionsInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.ListTypeVersionsInput, token: String) {
-        self.init(
-            arn: original.arn, 
-            deprecatedStatus: original.deprecatedStatus, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListTypeVersionsInput {
+        return .init(
+            arn: self.arn, 
+            deprecatedStatus: self.deprecatedStatus, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            type: original.type, 
-            typeName: original.typeName
+            type: self.type, 
+            typeName: self.typeName
         )
+
     }
 }
 
 extension CloudFormation.ListTypesInput: AWSPaginateStringToken {
-    public init(_ original: CloudFormation.ListTypesInput, token: String) {
-        self.init(
-            deprecatedStatus: original.deprecatedStatus, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListTypesInput {
+        return .init(
+            deprecatedStatus: self.deprecatedStatus, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            provisioningType: original.provisioningType, 
-            visibility: original.visibility
+            provisioningType: self.provisioningType, 
+            visibility: self.visibility
         )
+
     }
 }
 

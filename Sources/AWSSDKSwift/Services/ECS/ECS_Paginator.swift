@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ECS {
 
     ///  Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, ListAttributes returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value, for example, to see which container instances in a cluster are running a Linux AMI (ecs.os-type=linux). 
@@ -42,87 +44,94 @@ extension ECS {
 }
 
 extension ECS.ListAttributesRequest: AWSPaginateStringToken {
-    public init(_ original: ECS.ListAttributesRequest, token: String) {
-        self.init(
-            attributeName: original.attributeName, 
-            attributeValue: original.attributeValue, 
-            cluster: original.cluster, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECS.ListAttributesRequest {
+        return .init(
+            attributeName: self.attributeName, 
+            attributeValue: self.attributeValue, 
+            cluster: self.cluster, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            targetType: original.targetType
+            targetType: self.targetType
         )
+
     }
 }
 
 extension ECS.ListClustersRequest: AWSPaginateStringToken {
-    public init(_ original: ECS.ListClustersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECS.ListClustersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ECS.ListContainerInstancesRequest: AWSPaginateStringToken {
-    public init(_ original: ECS.ListContainerInstancesRequest, token: String) {
-        self.init(
-            cluster: original.cluster, 
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECS.ListContainerInstancesRequest {
+        return .init(
+            cluster: self.cluster, 
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            status: original.status
+            status: self.status
         )
+
     }
 }
 
 extension ECS.ListServicesRequest: AWSPaginateStringToken {
-    public init(_ original: ECS.ListServicesRequest, token: String) {
-        self.init(
-            cluster: original.cluster, 
-            launchType: original.launchType, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECS.ListServicesRequest {
+        return .init(
+            cluster: self.cluster, 
+            launchType: self.launchType, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            schedulingStrategy: original.schedulingStrategy
+            schedulingStrategy: self.schedulingStrategy
         )
+
     }
 }
 
 extension ECS.ListTaskDefinitionFamiliesRequest: AWSPaginateStringToken {
-    public init(_ original: ECS.ListTaskDefinitionFamiliesRequest, token: String) {
-        self.init(
-            familyPrefix: original.familyPrefix, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECS.ListTaskDefinitionFamiliesRequest {
+        return .init(
+            familyPrefix: self.familyPrefix, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            status: original.status
+            status: self.status
         )
+
     }
 }
 
 extension ECS.ListTaskDefinitionsRequest: AWSPaginateStringToken {
-    public init(_ original: ECS.ListTaskDefinitionsRequest, token: String) {
-        self.init(
-            familyPrefix: original.familyPrefix, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECS.ListTaskDefinitionsRequest {
+        return .init(
+            familyPrefix: self.familyPrefix, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sort: original.sort, 
-            status: original.status
+            sort: self.sort, 
+            status: self.status
         )
+
     }
 }
 
 extension ECS.ListTasksRequest: AWSPaginateStringToken {
-    public init(_ original: ECS.ListTasksRequest, token: String) {
-        self.init(
-            cluster: original.cluster, 
-            containerInstance: original.containerInstance, 
-            desiredStatus: original.desiredStatus, 
-            family: original.family, 
-            launchType: original.launchType, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECS.ListTasksRequest {
+        return .init(
+            cluster: self.cluster, 
+            containerInstance: self.containerInstance, 
+            desiredStatus: self.desiredStatus, 
+            family: self.family, 
+            launchType: self.launchType, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceName: original.serviceName, 
-            startedBy: original.startedBy
+            serviceName: self.serviceName, 
+            startedBy: self.startedBy
         )
+
     }
 }
 

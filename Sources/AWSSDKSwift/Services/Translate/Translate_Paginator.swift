@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Translate {
 
     ///  Provides a list of custom terminologies associated with your account.
@@ -17,21 +19,23 @@ extension Translate {
 }
 
 extension Translate.ListTerminologiesRequest: AWSPaginateStringToken {
-    public init(_ original: Translate.ListTerminologiesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Translate.ListTerminologiesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Translate.ListTextTranslationJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Translate.ListTextTranslationJobsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Translate.ListTextTranslationJobsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension AugmentedAIRuntime {
 
     ///  Returns information about human loops, given the specified parameters.
@@ -12,14 +14,15 @@ extension AugmentedAIRuntime {
 }
 
 extension AugmentedAIRuntime.ListHumanLoopsRequest: AWSPaginateStringToken {
-    public init(_ original: AugmentedAIRuntime.ListHumanLoopsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AugmentedAIRuntime.ListHumanLoopsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortOrder: original.sortOrder
+            sortOrder: self.sortOrder
         )
+
     }
 }
 

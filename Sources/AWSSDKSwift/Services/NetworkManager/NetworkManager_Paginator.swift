@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension NetworkManager {
 
     ///  Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use GetTransitGatewayRegistrations.
@@ -42,83 +44,90 @@ extension NetworkManager {
 }
 
 extension NetworkManager.DescribeGlobalNetworksRequest: AWSPaginateStringToken {
-    public init(_ original: NetworkManager.DescribeGlobalNetworksRequest, token: String) {
-        self.init(
-            globalNetworkIds: original.globalNetworkIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> NetworkManager.DescribeGlobalNetworksRequest {
+        return .init(
+            globalNetworkIds: self.globalNetworkIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension NetworkManager.GetCustomerGatewayAssociationsRequest: AWSPaginateStringToken {
-    public init(_ original: NetworkManager.GetCustomerGatewayAssociationsRequest, token: String) {
-        self.init(
-            customerGatewayArns: original.customerGatewayArns, 
-            globalNetworkId: original.globalNetworkId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetCustomerGatewayAssociationsRequest {
+        return .init(
+            customerGatewayArns: self.customerGatewayArns, 
+            globalNetworkId: self.globalNetworkId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension NetworkManager.GetDevicesRequest: AWSPaginateStringToken {
-    public init(_ original: NetworkManager.GetDevicesRequest, token: String) {
-        self.init(
-            deviceIds: original.deviceIds, 
-            globalNetworkId: original.globalNetworkId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetDevicesRequest {
+        return .init(
+            deviceIds: self.deviceIds, 
+            globalNetworkId: self.globalNetworkId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            siteId: original.siteId
+            siteId: self.siteId
         )
+
     }
 }
 
 extension NetworkManager.GetLinkAssociationsRequest: AWSPaginateStringToken {
-    public init(_ original: NetworkManager.GetLinkAssociationsRequest, token: String) {
-        self.init(
-            deviceId: original.deviceId, 
-            globalNetworkId: original.globalNetworkId, 
-            linkId: original.linkId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetLinkAssociationsRequest {
+        return .init(
+            deviceId: self.deviceId, 
+            globalNetworkId: self.globalNetworkId, 
+            linkId: self.linkId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension NetworkManager.GetLinksRequest: AWSPaginateStringToken {
-    public init(_ original: NetworkManager.GetLinksRequest, token: String) {
-        self.init(
-            globalNetworkId: original.globalNetworkId, 
-            linkIds: original.linkIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetLinksRequest {
+        return .init(
+            globalNetworkId: self.globalNetworkId, 
+            linkIds: self.linkIds, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            provider: original.provider, 
-            siteId: original.siteId, 
-            type: original.type
+            provider: self.provider, 
+            siteId: self.siteId, 
+            type: self.type
         )
+
     }
 }
 
 extension NetworkManager.GetSitesRequest: AWSPaginateStringToken {
-    public init(_ original: NetworkManager.GetSitesRequest, token: String) {
-        self.init(
-            globalNetworkId: original.globalNetworkId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetSitesRequest {
+        return .init(
+            globalNetworkId: self.globalNetworkId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            siteIds: original.siteIds
+            siteIds: self.siteIds
         )
+
     }
 }
 
 extension NetworkManager.GetTransitGatewayRegistrationsRequest: AWSPaginateStringToken {
-    public init(_ original: NetworkManager.GetTransitGatewayRegistrationsRequest, token: String) {
-        self.init(
-            globalNetworkId: original.globalNetworkId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetTransitGatewayRegistrationsRequest {
+        return .init(
+            globalNetworkId: self.globalNetworkId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            transitGatewayArns: original.transitGatewayArns
+            transitGatewayArns: self.transitGatewayArns
         )
+
     }
 }
 

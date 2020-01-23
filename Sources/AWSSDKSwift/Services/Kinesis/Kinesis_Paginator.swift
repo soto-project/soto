@@ -2,7 +2,14 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Kinesis {
+
+    ///  Describes the specified Kinesis data stream. The information returned includes the stream name, Amazon Resource Name (ARN), creation time, enhanced metric configuration, and shard map. The shard map is an array of shard objects. For each shard object, there is the hash key and sequence number ranges that the shard spans, and the IDs of any earlier shards that played in a role in creating the shard. Every record ingested in the stream is identified by a sequence number, which is assigned when the record is put into the stream. You can limit the number of shards returned by each call. For more information, see Retrieving Shards from a Stream in the Amazon Kinesis Data Streams Developer Guide. There are no guarantees about the chronological order shards returned. To process shards in chronological order, use the ID of the parent shard to track the lineage to the oldest shard. This operation has a limit of 10 transactions per second per account.
+    public func describeStreamPaginator(_ input: DescribeStreamInput, onPage: @escaping (DescribeStreamOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeStream, tokenKey: \DescribeStreamOutput.streamDescription.shards.last?.shardId, onPage: onPage)
+    }
 
     ///  Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 10 transactions per second per account.
     public func listStreamConsumersPaginator(_ input: ListStreamConsumersInput, onPage: @escaping (ListStreamConsumersOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
@@ -16,23 +23,36 @@ extension Kinesis {
 
 }
 
-extension Kinesis.ListStreamConsumersInput: AWSPaginateStringToken {
-    public init(_ original: Kinesis.ListStreamConsumersInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            nextToken: token, 
-            streamARN: original.streamARN, 
-            streamCreationTimestamp: original.streamCreationTimestamp
+extension Kinesis.DescribeStreamInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Kinesis.DescribeStreamInput {
+        return .init(
+            exclusiveStartShardId: token, 
+            limit: self.limit, 
+            streamName: self.streamName
         )
+
+    }
+}
+
+extension Kinesis.ListStreamConsumersInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Kinesis.ListStreamConsumersInput {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            streamARN: self.streamARN, 
+            streamCreationTimestamp: self.streamCreationTimestamp
+        )
+
     }
 }
 
 extension Kinesis.ListStreamsInput: AWSPaginateStringToken {
-    public init(_ original: Kinesis.ListStreamsInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> Kinesis.ListStreamsInput {
+        return .init(
             exclusiveStartStreamName: token, 
-            limit: original.limit
+            limit: self.limit
         )
+
     }
 }
 

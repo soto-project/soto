@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ConnectParticipant {
 
     ///  Retrieves a transcript of the session. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
@@ -12,16 +14,17 @@ extension ConnectParticipant {
 }
 
 extension ConnectParticipant.GetTranscriptRequest: AWSPaginateStringToken {
-    public init(_ original: ConnectParticipant.GetTranscriptRequest, token: String) {
-        self.init(
-            connectionToken: original.connectionToken, 
-            contactId: original.contactId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ConnectParticipant.GetTranscriptRequest {
+        return .init(
+            connectionToken: self.connectionToken, 
+            contactId: self.contactId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            scanDirection: original.scanDirection, 
-            sortOrder: original.sortOrder, 
-            startPosition: original.startPosition
+            scanDirection: self.scanDirection, 
+            sortOrder: self.sortOrder, 
+            startPosition: self.startPosition
         )
+
     }
 }
 

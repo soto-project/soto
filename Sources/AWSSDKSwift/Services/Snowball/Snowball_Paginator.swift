@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Snowball {
 
     ///  Returns a specified number of ADDRESS objects. Calling this API in one of the US regions will return addresses from the list of all addresses associated with this account in all US regions.
@@ -17,20 +19,22 @@ extension Snowball {
 }
 
 extension Snowball.DescribeAddressesRequest: AWSPaginateStringToken {
-    public init(_ original: Snowball.DescribeAddressesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Snowball.DescribeAddressesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Snowball.ListJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Snowball.ListJobsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Snowball.ListJobsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

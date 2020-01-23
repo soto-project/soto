@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MediaPackageVod {
 
     ///  Returns a collection of MediaPackage VOD Asset resources.
@@ -22,31 +24,34 @@ extension MediaPackageVod {
 }
 
 extension MediaPackageVod.ListAssetsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaPackageVod.ListAssetsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaPackageVod.ListAssetsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            packagingGroupId: original.packagingGroupId
+            packagingGroupId: self.packagingGroupId
         )
+
     }
 }
 
 extension MediaPackageVod.ListPackagingConfigurationsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaPackageVod.ListPackagingConfigurationsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaPackageVod.ListPackagingConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            packagingGroupId: original.packagingGroupId
+            packagingGroupId: self.packagingGroupId
         )
+
     }
 }
 
 extension MediaPackageVod.ListPackagingGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaPackageVod.ListPackagingGroupsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaPackageVod.ListPackagingGroupsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ResourceGroupsTaggingAPI {
 
     ///  Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see Tag Policies in the AWS Organizations User Guide.  You can call this operation only from the organization's master account and from the us-east-1 Region.
@@ -27,47 +29,51 @@ extension ResourceGroupsTaggingAPI {
 }
 
 extension ResourceGroupsTaggingAPI.GetComplianceSummaryInput: AWSPaginateStringToken {
-    public init(_ original: ResourceGroupsTaggingAPI.GetComplianceSummaryInput, token: String) {
-        self.init(
-            groupBy: original.groupBy, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ResourceGroupsTaggingAPI.GetComplianceSummaryInput {
+        return .init(
+            groupBy: self.groupBy, 
+            maxResults: self.maxResults, 
             paginationToken: token, 
-            regionFilters: original.regionFilters, 
-            resourceTypeFilters: original.resourceTypeFilters, 
-            tagKeyFilters: original.tagKeyFilters, 
-            targetIdFilters: original.targetIdFilters
+            regionFilters: self.regionFilters, 
+            resourceTypeFilters: self.resourceTypeFilters, 
+            tagKeyFilters: self.tagKeyFilters, 
+            targetIdFilters: self.targetIdFilters
         )
+
     }
 }
 
 extension ResourceGroupsTaggingAPI.GetResourcesInput: AWSPaginateStringToken {
-    public init(_ original: ResourceGroupsTaggingAPI.GetResourcesInput, token: String) {
-        self.init(
-            excludeCompliantResources: original.excludeCompliantResources, 
-            includeComplianceDetails: original.includeComplianceDetails, 
+    public func usingPaginationToken(_ token: String) -> ResourceGroupsTaggingAPI.GetResourcesInput {
+        return .init(
+            excludeCompliantResources: self.excludeCompliantResources, 
+            includeComplianceDetails: self.includeComplianceDetails, 
             paginationToken: token, 
-            resourcesPerPage: original.resourcesPerPage, 
-            resourceTypeFilters: original.resourceTypeFilters, 
-            tagFilters: original.tagFilters, 
-            tagsPerPage: original.tagsPerPage
+            resourcesPerPage: self.resourcesPerPage, 
+            resourceTypeFilters: self.resourceTypeFilters, 
+            tagFilters: self.tagFilters, 
+            tagsPerPage: self.tagsPerPage
         )
+
     }
 }
 
 extension ResourceGroupsTaggingAPI.GetTagKeysInput: AWSPaginateStringToken {
-    public init(_ original: ResourceGroupsTaggingAPI.GetTagKeysInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> ResourceGroupsTaggingAPI.GetTagKeysInput {
+        return .init(
             paginationToken: token
         )
+
     }
 }
 
 extension ResourceGroupsTaggingAPI.GetTagValuesInput: AWSPaginateStringToken {
-    public init(_ original: ResourceGroupsTaggingAPI.GetTagValuesInput, token: String) {
-        self.init(
-            key: original.key, 
+    public func usingPaginationToken(_ token: String) -> ResourceGroupsTaggingAPI.GetTagValuesInput {
+        return .init(
+            key: self.key, 
             paginationToken: token
         )
+
     }
 }
 

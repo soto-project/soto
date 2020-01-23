@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension IoTThingsGraph {
 
     ///  Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated, this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
@@ -57,108 +59,118 @@ extension IoTThingsGraph {
 }
 
 extension IoTThingsGraph.GetFlowTemplateRevisionsRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.GetFlowTemplateRevisionsRequest, token: String) {
-        self.init(
-            id: original.id, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.GetFlowTemplateRevisionsRequest {
+        return .init(
+            id: self.id, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTThingsGraph.GetSystemTemplateRevisionsRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.GetSystemTemplateRevisionsRequest, token: String) {
-        self.init(
-            id: original.id, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.GetSystemTemplateRevisionsRequest {
+        return .init(
+            id: self.id, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTThingsGraph.ListFlowExecutionMessagesRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.ListFlowExecutionMessagesRequest, token: String) {
-        self.init(
-            flowExecutionId: original.flowExecutionId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.ListFlowExecutionMessagesRequest {
+        return .init(
+            flowExecutionId: self.flowExecutionId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTThingsGraph.ListTagsForResourceRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.ListTagsForResourceRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.ListTagsForResourceRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceArn: original.resourceArn
+            resourceArn: self.resourceArn
         )
+
     }
 }
 
 extension IoTThingsGraph.SearchEntitiesRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.SearchEntitiesRequest, token: String) {
-        self.init(
-            entityTypes: original.entityTypes, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
-            namespaceVersion: original.namespaceVersion, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchEntitiesRequest {
+        return .init(
+            entityTypes: self.entityTypes, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            namespaceVersion: self.namespaceVersion, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTThingsGraph.SearchFlowExecutionsRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.SearchFlowExecutionsRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            flowExecutionId: original.flowExecutionId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchFlowExecutionsRequest {
+        return .init(
+            endTime: self.endTime, 
+            flowExecutionId: self.flowExecutionId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            startTime: original.startTime, 
-            systemInstanceId: original.systemInstanceId
+            startTime: self.startTime, 
+            systemInstanceId: self.systemInstanceId
         )
+
     }
 }
 
 extension IoTThingsGraph.SearchFlowTemplatesRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.SearchFlowTemplatesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchFlowTemplatesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTThingsGraph.SearchSystemInstancesRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.SearchSystemInstancesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchSystemInstancesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTThingsGraph.SearchSystemTemplatesRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.SearchSystemTemplatesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchSystemTemplatesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTThingsGraph.SearchThingsRequest: AWSPaginateStringToken {
-    public init(_ original: IoTThingsGraph.SearchThingsRequest, token: String) {
-        self.init(
-            entityId: original.entityId, 
-            maxResults: original.maxResults, 
-            namespaceVersion: original.namespaceVersion, 
+    public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchThingsRequest {
+        return .init(
+            entityId: self.entityId, 
+            maxResults: self.maxResults, 
+            namespaceVersion: self.namespaceVersion, 
             nextToken: token
         )
+
     }
 }
 

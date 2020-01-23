@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ApplicationAutoScaling {
 
     ///  Gets information about the scalable targets in the specified namespace. You can filter the results using ResourceIds and ScalableDimension. To create a scalable target or update an existing one, see RegisterScalableTarget. If you are no longer using a scalable target, you can deregister it using DeregisterScalableTarget.
@@ -27,52 +29,56 @@ extension ApplicationAutoScaling {
 }
 
 extension ApplicationAutoScaling.DescribeScalableTargetsRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationAutoScaling.DescribeScalableTargetsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScalableTargetsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceIds: original.resourceIds, 
-            scalableDimension: original.scalableDimension, 
-            serviceNamespace: original.serviceNamespace
+            resourceIds: self.resourceIds, 
+            scalableDimension: self.scalableDimension, 
+            serviceNamespace: self.serviceNamespace
         )
+
     }
 }
 
 extension ApplicationAutoScaling.DescribeScalingActivitiesRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationAutoScaling.DescribeScalingActivitiesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScalingActivitiesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceId: original.resourceId, 
-            scalableDimension: original.scalableDimension, 
-            serviceNamespace: original.serviceNamespace
+            resourceId: self.resourceId, 
+            scalableDimension: self.scalableDimension, 
+            serviceNamespace: self.serviceNamespace
         )
+
     }
 }
 
 extension ApplicationAutoScaling.DescribeScalingPoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationAutoScaling.DescribeScalingPoliciesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScalingPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            policyNames: original.policyNames, 
-            resourceId: original.resourceId, 
-            scalableDimension: original.scalableDimension, 
-            serviceNamespace: original.serviceNamespace
+            policyNames: self.policyNames, 
+            resourceId: self.resourceId, 
+            scalableDimension: self.scalableDimension, 
+            serviceNamespace: self.serviceNamespace
         )
+
     }
 }
 
 extension ApplicationAutoScaling.DescribeScheduledActionsRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationAutoScaling.DescribeScheduledActionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScheduledActionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceId: original.resourceId, 
-            scalableDimension: original.scalableDimension, 
-            scheduledActionNames: original.scheduledActionNames, 
-            serviceNamespace: original.serviceNamespace
+            resourceId: self.resourceId, 
+            scalableDimension: self.scalableDimension, 
+            scheduledActionNames: self.scheduledActionNames, 
+            serviceNamespace: self.serviceNamespace
         )
+
     }
 }
 

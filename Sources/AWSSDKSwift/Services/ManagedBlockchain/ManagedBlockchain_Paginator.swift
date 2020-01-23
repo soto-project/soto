@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ManagedBlockchain {
 
     ///  Returns a listing of all invitations made on the specified network.
@@ -37,69 +39,75 @@ extension ManagedBlockchain {
 }
 
 extension ManagedBlockchain.ListInvitationsInput: AWSPaginateStringToken {
-    public init(_ original: ManagedBlockchain.ListInvitationsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListInvitationsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ManagedBlockchain.ListMembersInput: AWSPaginateStringToken {
-    public init(_ original: ManagedBlockchain.ListMembersInput, token: String) {
-        self.init(
-            isOwned: original.isOwned, 
-            maxResults: original.maxResults, 
-            name: original.name, 
-            networkId: original.networkId, 
+    public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListMembersInput {
+        return .init(
+            isOwned: self.isOwned, 
+            maxResults: self.maxResults, 
+            name: self.name, 
+            networkId: self.networkId, 
             nextToken: token, 
-            status: original.status
+            status: self.status
         )
+
     }
 }
 
 extension ManagedBlockchain.ListNetworksInput: AWSPaginateStringToken {
-    public init(_ original: ManagedBlockchain.ListNetworksInput, token: String) {
-        self.init(
-            framework: original.framework, 
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListNetworksInput {
+        return .init(
+            framework: self.framework, 
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token, 
-            status: original.status
+            status: self.status
         )
+
     }
 }
 
 extension ManagedBlockchain.ListNodesInput: AWSPaginateStringToken {
-    public init(_ original: ManagedBlockchain.ListNodesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            memberId: original.memberId, 
-            networkId: original.networkId, 
+    public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListNodesInput {
+        return .init(
+            maxResults: self.maxResults, 
+            memberId: self.memberId, 
+            networkId: self.networkId, 
             nextToken: token, 
-            status: original.status
+            status: self.status
         )
+
     }
 }
 
 extension ManagedBlockchain.ListProposalVotesInput: AWSPaginateStringToken {
-    public init(_ original: ManagedBlockchain.ListProposalVotesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            networkId: original.networkId, 
+    public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListProposalVotesInput {
+        return .init(
+            maxResults: self.maxResults, 
+            networkId: self.networkId, 
             nextToken: token, 
-            proposalId: original.proposalId
+            proposalId: self.proposalId
         )
+
     }
 }
 
 extension ManagedBlockchain.ListProposalsInput: AWSPaginateStringToken {
-    public init(_ original: ManagedBlockchain.ListProposalsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            networkId: original.networkId, 
+    public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListProposalsInput {
+        return .init(
+            maxResults: self.maxResults, 
+            networkId: self.networkId, 
             nextToken: token
         )
+
     }
 }
 

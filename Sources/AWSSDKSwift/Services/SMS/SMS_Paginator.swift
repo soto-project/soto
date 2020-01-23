@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SMS {
 
     ///  Describes the connectors registered with the AWS SMS.
@@ -27,41 +29,45 @@ extension SMS {
 }
 
 extension SMS.GetConnectorsRequest: AWSPaginateStringToken {
-    public init(_ original: SMS.GetConnectorsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SMS.GetConnectorsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SMS.GetReplicationJobsRequest: AWSPaginateStringToken {
-    public init(_ original: SMS.GetReplicationJobsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SMS.GetReplicationJobsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            replicationJobId: original.replicationJobId
+            replicationJobId: self.replicationJobId
         )
+
     }
 }
 
 extension SMS.GetReplicationRunsRequest: AWSPaginateStringToken {
-    public init(_ original: SMS.GetReplicationRunsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SMS.GetReplicationRunsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            replicationJobId: original.replicationJobId
+            replicationJobId: self.replicationJobId
         )
+
     }
 }
 
 extension SMS.GetServersRequest: AWSPaginateStringToken {
-    public init(_ original: SMS.GetServersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SMS.GetServersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            vmServerAddressList: original.vmServerAddressList
+            vmServerAddressList: self.vmServerAddressList
         )
+
     }
 }
 

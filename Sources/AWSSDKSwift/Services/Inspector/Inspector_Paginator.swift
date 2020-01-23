@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Inspector {
 
     ///  Retrieves the exclusions preview (a list of ExclusionPreview objects) specified by the preview token. You can obtain the preview token by running the CreateExclusionsPreview API.
@@ -57,107 +59,117 @@ extension Inspector {
 }
 
 extension Inspector.GetExclusionsPreviewRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.GetExclusionsPreviewRequest, token: String) {
-        self.init(
-            assessmentTemplateArn: original.assessmentTemplateArn, 
-            locale: original.locale, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.GetExclusionsPreviewRequest {
+        return .init(
+            assessmentTemplateArn: self.assessmentTemplateArn, 
+            locale: self.locale, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            previewToken: original.previewToken
+            previewToken: self.previewToken
         )
+
     }
 }
 
 extension Inspector.ListAssessmentRunAgentsRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.ListAssessmentRunAgentsRequest, token: String) {
-        self.init(
-            assessmentRunArn: original.assessmentRunArn, 
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.ListAssessmentRunAgentsRequest {
+        return .init(
+            assessmentRunArn: self.assessmentRunArn, 
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Inspector.ListAssessmentRunsRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.ListAssessmentRunsRequest, token: String) {
-        self.init(
-            assessmentTemplateArns: original.assessmentTemplateArns, 
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.ListAssessmentRunsRequest {
+        return .init(
+            assessmentTemplateArns: self.assessmentTemplateArns, 
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Inspector.ListAssessmentTargetsRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.ListAssessmentTargetsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.ListAssessmentTargetsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Inspector.ListAssessmentTemplatesRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.ListAssessmentTemplatesRequest, token: String) {
-        self.init(
-            assessmentTargetArns: original.assessmentTargetArns, 
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.ListAssessmentTemplatesRequest {
+        return .init(
+            assessmentTargetArns: self.assessmentTargetArns, 
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Inspector.ListEventSubscriptionsRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.ListEventSubscriptionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.ListEventSubscriptionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceArn: original.resourceArn
+            resourceArn: self.resourceArn
         )
+
     }
 }
 
 extension Inspector.ListExclusionsRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.ListExclusionsRequest, token: String) {
-        self.init(
-            assessmentRunArn: original.assessmentRunArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.ListExclusionsRequest {
+        return .init(
+            assessmentRunArn: self.assessmentRunArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Inspector.ListFindingsRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.ListFindingsRequest, token: String) {
-        self.init(
-            assessmentRunArns: original.assessmentRunArns, 
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.ListFindingsRequest {
+        return .init(
+            assessmentRunArns: self.assessmentRunArns, 
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Inspector.ListRulesPackagesRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.ListRulesPackagesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.ListRulesPackagesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Inspector.PreviewAgentsRequest: AWSPaginateStringToken {
-    public init(_ original: Inspector.PreviewAgentsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Inspector.PreviewAgentsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            previewAgentsArn: original.previewAgentsArn
+            previewAgentsArn: self.previewAgentsArn
         )
+
     }
 }
 

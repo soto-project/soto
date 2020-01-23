@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CognitoIdentityProvider {
 
     ///  Lists the groups that the user belongs to. Calling this action requires developer credentials.
@@ -52,96 +54,105 @@ extension CognitoIdentityProvider {
 }
 
 extension CognitoIdentityProvider.AdminListGroupsForUserRequest: AWSPaginateStringToken {
-    public init(_ original: CognitoIdentityProvider.AdminListGroupsForUserRequest, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.AdminListGroupsForUserRequest {
+        return .init(
+            limit: self.limit, 
             nextToken: token, 
-            username: original.username, 
-            userPoolId: original.userPoolId
+            username: self.username, 
+            userPoolId: self.userPoolId
         )
+
     }
 }
 
 extension CognitoIdentityProvider.AdminListUserAuthEventsRequest: AWSPaginateStringToken {
-    public init(_ original: CognitoIdentityProvider.AdminListUserAuthEventsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.AdminListUserAuthEventsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            username: original.username, 
-            userPoolId: original.userPoolId
+            username: self.username, 
+            userPoolId: self.userPoolId
         )
+
     }
 }
 
 extension CognitoIdentityProvider.ListGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: CognitoIdentityProvider.ListGroupsRequest, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListGroupsRequest {
+        return .init(
+            limit: self.limit, 
             nextToken: token, 
-            userPoolId: original.userPoolId
+            userPoolId: self.userPoolId
         )
+
     }
 }
 
 extension CognitoIdentityProvider.ListIdentityProvidersRequest: AWSPaginateStringToken {
-    public init(_ original: CognitoIdentityProvider.ListIdentityProvidersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListIdentityProvidersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            userPoolId: original.userPoolId
+            userPoolId: self.userPoolId
         )
+
     }
 }
 
 extension CognitoIdentityProvider.ListResourceServersRequest: AWSPaginateStringToken {
-    public init(_ original: CognitoIdentityProvider.ListResourceServersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListResourceServersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            userPoolId: original.userPoolId
+            userPoolId: self.userPoolId
         )
+
     }
 }
 
 extension CognitoIdentityProvider.ListUserPoolClientsRequest: AWSPaginateStringToken {
-    public init(_ original: CognitoIdentityProvider.ListUserPoolClientsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUserPoolClientsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            userPoolId: original.userPoolId
+            userPoolId: self.userPoolId
         )
+
     }
 }
 
 extension CognitoIdentityProvider.ListUserPoolsRequest: AWSPaginateStringToken {
-    public init(_ original: CognitoIdentityProvider.ListUserPoolsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUserPoolsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension CognitoIdentityProvider.ListUsersRequest: AWSPaginateStringToken {
-    public init(_ original: CognitoIdentityProvider.ListUsersRequest, token: String) {
-        self.init(
-            attributesToGet: original.attributesToGet, 
-            filter: original.filter, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUsersRequest {
+        return .init(
+            attributesToGet: self.attributesToGet, 
+            filter: self.filter, 
+            limit: self.limit, 
             paginationToken: token, 
-            userPoolId: original.userPoolId
+            userPoolId: self.userPoolId
         )
+
     }
 }
 
 extension CognitoIdentityProvider.ListUsersInGroupRequest: AWSPaginateStringToken {
-    public init(_ original: CognitoIdentityProvider.ListUsersInGroupRequest, token: String) {
-        self.init(
-            groupName: original.groupName, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUsersInGroupRequest {
+        return .init(
+            groupName: self.groupName, 
+            limit: self.limit, 
             nextToken: token, 
-            userPoolId: original.userPoolId
+            userPoolId: self.userPoolId
         )
+
     }
 }
 

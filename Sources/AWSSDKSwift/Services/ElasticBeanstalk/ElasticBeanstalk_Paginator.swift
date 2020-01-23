@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ElasticBeanstalk {
 
     ///  Returns list of event descriptions matching criteria up to the last 6 weeks.  This action returns the most recent 1,000 events from the specified NextToken. 
@@ -12,21 +14,22 @@ extension ElasticBeanstalk {
 }
 
 extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateStringToken {
-    public init(_ original: ElasticBeanstalk.DescribeEventsMessage, token: String) {
-        self.init(
-            applicationName: original.applicationName, 
-            endTime: original.endTime, 
-            environmentId: original.environmentId, 
-            environmentName: original.environmentName, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> ElasticBeanstalk.DescribeEventsMessage {
+        return .init(
+            applicationName: self.applicationName, 
+            endTime: self.endTime, 
+            environmentId: self.environmentId, 
+            environmentName: self.environmentName, 
+            maxRecords: self.maxRecords, 
             nextToken: token, 
-            platformArn: original.platformArn, 
-            requestId: original.requestId, 
-            severity: original.severity, 
-            startTime: original.startTime, 
-            templateName: original.templateName, 
-            versionLabel: original.versionLabel
+            platformArn: self.platformArn, 
+            requestId: self.requestId, 
+            severity: self.severity, 
+            startTime: self.startTime, 
+            templateName: self.templateName, 
+            versionLabel: self.versionLabel
         )
+
     }
 }
 

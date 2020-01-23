@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SecretsManager {
 
     ///  Lists all of the versions attached to the specified secret. The output does not include the SecretString or SecretBinary fields. By default, the list includes only versions that have at least one staging label in VersionStage attached.  Always check the NextToken response parameter when calling any of the List* operations. These operations can occasionally return an empty or shorter than expected list of results even when there are more results available. When this happens, the NextToken response parameter contains a value to pass to the next call to the same API to request the next part of the list.   Minimum permissions  To run this command, you must have the following permissions:   secretsmanager:ListSecretVersionIds    Related operations    To list the secrets in an account, use ListSecrets.  
@@ -17,22 +19,24 @@ extension SecretsManager {
 }
 
 extension SecretsManager.ListSecretVersionIdsRequest: AWSPaginateStringToken {
-    public init(_ original: SecretsManager.ListSecretVersionIdsRequest, token: String) {
-        self.init(
-            includeDeprecated: original.includeDeprecated, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SecretsManager.ListSecretVersionIdsRequest {
+        return .init(
+            includeDeprecated: self.includeDeprecated, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            secretId: original.secretId
+            secretId: self.secretId
         )
+
     }
 }
 
 extension SecretsManager.ListSecretsRequest: AWSPaginateStringToken {
-    public init(_ original: SecretsManager.ListSecretsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SecretsManager.ListSecretsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

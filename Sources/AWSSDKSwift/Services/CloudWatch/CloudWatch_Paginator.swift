@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CloudWatch {
 
     ///  Retrieves the history for the specified alarm. You can filter the results by date range or item type. If an alarm name is not specified, the histories for all alarms are returned. CloudWatch retains the history of an alarm even if you delete the alarm.
@@ -37,70 +39,76 @@ extension CloudWatch {
 }
 
 extension CloudWatch.DescribeAlarmHistoryInput: AWSPaginateStringToken {
-    public init(_ original: CloudWatch.DescribeAlarmHistoryInput, token: String) {
-        self.init(
-            alarmName: original.alarmName, 
-            endDate: original.endDate, 
-            historyItemType: original.historyItemType, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeAlarmHistoryInput {
+        return .init(
+            alarmName: self.alarmName, 
+            endDate: self.endDate, 
+            historyItemType: self.historyItemType, 
+            maxRecords: self.maxRecords, 
             nextToken: token, 
-            startDate: original.startDate
+            startDate: self.startDate
         )
+
     }
 }
 
 extension CloudWatch.DescribeAlarmsInput: AWSPaginateStringToken {
-    public init(_ original: CloudWatch.DescribeAlarmsInput, token: String) {
-        self.init(
-            actionPrefix: original.actionPrefix, 
-            alarmNamePrefix: original.alarmNamePrefix, 
-            alarmNames: original.alarmNames, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeAlarmsInput {
+        return .init(
+            actionPrefix: self.actionPrefix, 
+            alarmNamePrefix: self.alarmNamePrefix, 
+            alarmNames: self.alarmNames, 
+            maxRecords: self.maxRecords, 
             nextToken: token, 
-            stateValue: original.stateValue
+            stateValue: self.stateValue
         )
+
     }
 }
 
 extension CloudWatch.DescribeInsightRulesInput: AWSPaginateStringToken {
-    public init(_ original: CloudWatch.DescribeInsightRulesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeInsightRulesInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension CloudWatch.GetMetricDataInput: AWSPaginateStringToken {
-    public init(_ original: CloudWatch.GetMetricDataInput, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            maxDatapoints: original.maxDatapoints, 
-            metricDataQueries: original.metricDataQueries, 
+    public func usingPaginationToken(_ token: String) -> CloudWatch.GetMetricDataInput {
+        return .init(
+            endTime: self.endTime, 
+            maxDatapoints: self.maxDatapoints, 
+            metricDataQueries: self.metricDataQueries, 
             nextToken: token, 
-            scanBy: original.scanBy, 
-            startTime: original.startTime
+            scanBy: self.scanBy, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension CloudWatch.ListDashboardsInput: AWSPaginateStringToken {
-    public init(_ original: CloudWatch.ListDashboardsInput, token: String) {
-        self.init(
-            dashboardNamePrefix: original.dashboardNamePrefix, 
+    public func usingPaginationToken(_ token: String) -> CloudWatch.ListDashboardsInput {
+        return .init(
+            dashboardNamePrefix: self.dashboardNamePrefix, 
             nextToken: token
         )
+
     }
 }
 
 extension CloudWatch.ListMetricsInput: AWSPaginateStringToken {
-    public init(_ original: CloudWatch.ListMetricsInput, token: String) {
-        self.init(
-            dimensions: original.dimensions, 
-            metricName: original.metricName, 
-            namespace: original.namespace, 
+    public func usingPaginationToken(_ token: String) -> CloudWatch.ListMetricsInput {
+        return .init(
+            dimensions: self.dimensions, 
+            metricName: self.metricName, 
+            namespace: self.namespace, 
             nextToken: token
         )
+
     }
 }
 

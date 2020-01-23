@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ElastiCache {
 
     ///  Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
@@ -32,6 +34,11 @@ extension ElastiCache {
     ///  Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default. 
     public func describeCacheSubnetGroupsPaginator(_ input: DescribeCacheSubnetGroupsMessage, onPage: @escaping (CacheSubnetGroupMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeCacheSubnetGroups, tokenKey: \CacheSubnetGroupMessage.marker, onPage: onPage)
+    }
+
+    ///  Returns the default engine and system parameter information for the specified cache engine.
+    public func describeEngineDefaultParametersPaginator(_ input: DescribeEngineDefaultParametersMessage, onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEngineDefaultParameters, tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker, onPage: onPage)
     }
 
     ///  Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
@@ -72,163 +79,187 @@ extension ElastiCache {
 }
 
 extension ElastiCache.DescribeCacheClustersMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeCacheClustersMessage, token: String) {
-        self.init(
-            cacheClusterId: original.cacheClusterId, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheClustersMessage {
+        return .init(
+            cacheClusterId: self.cacheClusterId, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            showCacheClustersNotInReplicationGroups: original.showCacheClustersNotInReplicationGroups, 
-            showCacheNodeInfo: original.showCacheNodeInfo
+            maxRecords: self.maxRecords, 
+            showCacheClustersNotInReplicationGroups: self.showCacheClustersNotInReplicationGroups, 
+            showCacheNodeInfo: self.showCacheNodeInfo
         )
+
     }
 }
 
 extension ElastiCache.DescribeCacheEngineVersionsMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeCacheEngineVersionsMessage, token: String) {
-        self.init(
-            cacheParameterGroupFamily: original.cacheParameterGroupFamily, 
-            defaultOnly: original.defaultOnly, 
-            engine: original.engine, 
-            engineVersion: original.engineVersion, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheEngineVersionsMessage {
+        return .init(
+            cacheParameterGroupFamily: self.cacheParameterGroupFamily, 
+            defaultOnly: self.defaultOnly, 
+            engine: self.engine, 
+            engineVersion: self.engineVersion, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension ElastiCache.DescribeCacheParameterGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeCacheParameterGroupsMessage, token: String) {
-        self.init(
-            cacheParameterGroupName: original.cacheParameterGroupName, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheParameterGroupsMessage {
+        return .init(
+            cacheParameterGroupName: self.cacheParameterGroupName, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension ElastiCache.DescribeCacheParametersMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeCacheParametersMessage, token: String) {
-        self.init(
-            cacheParameterGroupName: original.cacheParameterGroupName, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheParametersMessage {
+        return .init(
+            cacheParameterGroupName: self.cacheParameterGroupName, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            source: original.source
+            maxRecords: self.maxRecords, 
+            source: self.source
         )
+
     }
 }
 
 extension ElastiCache.DescribeCacheSecurityGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeCacheSecurityGroupsMessage, token: String) {
-        self.init(
-            cacheSecurityGroupName: original.cacheSecurityGroupName, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheSecurityGroupsMessage {
+        return .init(
+            cacheSecurityGroupName: self.cacheSecurityGroupName, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension ElastiCache.DescribeCacheSubnetGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeCacheSubnetGroupsMessage, token: String) {
-        self.init(
-            cacheSubnetGroupName: original.cacheSubnetGroupName, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheSubnetGroupsMessage {
+        return .init(
+            cacheSubnetGroupName: self.cacheSubnetGroupName, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
+    }
+}
+
+extension ElastiCache.DescribeEngineDefaultParametersMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeEngineDefaultParametersMessage {
+        return .init(
+            cacheParameterGroupFamily: self.cacheParameterGroupFamily, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
     }
 }
 
 extension ElastiCache.DescribeEventsMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeEventsMessage, token: String) {
-        self.init(
-            duration: original.duration, 
-            endTime: original.endTime, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeEventsMessage {
+        return .init(
+            duration: self.duration, 
+            endTime: self.endTime, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            sourceIdentifier: original.sourceIdentifier, 
-            sourceType: original.sourceType, 
-            startTime: original.startTime
+            maxRecords: self.maxRecords, 
+            sourceIdentifier: self.sourceIdentifier, 
+            sourceType: self.sourceType, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension ElastiCache.DescribeReplicationGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeReplicationGroupsMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeReplicationGroupsMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords, 
-            replicationGroupId: original.replicationGroupId
+            maxRecords: self.maxRecords, 
+            replicationGroupId: self.replicationGroupId
         )
+
     }
 }
 
 extension ElastiCache.DescribeReservedCacheNodesMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeReservedCacheNodesMessage, token: String) {
-        self.init(
-            cacheNodeType: original.cacheNodeType, 
-            duration: original.duration, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeReservedCacheNodesMessage {
+        return .init(
+            cacheNodeType: self.cacheNodeType, 
+            duration: self.duration, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            offeringType: original.offeringType, 
-            productDescription: original.productDescription, 
-            reservedCacheNodeId: original.reservedCacheNodeId, 
-            reservedCacheNodesOfferingId: original.reservedCacheNodesOfferingId
+            maxRecords: self.maxRecords, 
+            offeringType: self.offeringType, 
+            productDescription: self.productDescription, 
+            reservedCacheNodeId: self.reservedCacheNodeId, 
+            reservedCacheNodesOfferingId: self.reservedCacheNodesOfferingId
         )
+
     }
 }
 
 extension ElastiCache.DescribeReservedCacheNodesOfferingsMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeReservedCacheNodesOfferingsMessage, token: String) {
-        self.init(
-            cacheNodeType: original.cacheNodeType, 
-            duration: original.duration, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeReservedCacheNodesOfferingsMessage {
+        return .init(
+            cacheNodeType: self.cacheNodeType, 
+            duration: self.duration, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            offeringType: original.offeringType, 
-            productDescription: original.productDescription, 
-            reservedCacheNodesOfferingId: original.reservedCacheNodesOfferingId
+            maxRecords: self.maxRecords, 
+            offeringType: self.offeringType, 
+            productDescription: self.productDescription, 
+            reservedCacheNodesOfferingId: self.reservedCacheNodesOfferingId
         )
+
     }
 }
 
 extension ElastiCache.DescribeServiceUpdatesMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeServiceUpdatesMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeServiceUpdatesMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords, 
-            serviceUpdateName: original.serviceUpdateName, 
-            serviceUpdateStatus: original.serviceUpdateStatus
+            maxRecords: self.maxRecords, 
+            serviceUpdateName: self.serviceUpdateName, 
+            serviceUpdateStatus: self.serviceUpdateStatus
         )
+
     }
 }
 
 extension ElastiCache.DescribeSnapshotsMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeSnapshotsMessage, token: String) {
-        self.init(
-            cacheClusterId: original.cacheClusterId, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeSnapshotsMessage {
+        return .init(
+            cacheClusterId: self.cacheClusterId, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            replicationGroupId: original.replicationGroupId, 
-            showNodeGroupConfig: original.showNodeGroupConfig, 
-            snapshotName: original.snapshotName, 
-            snapshotSource: original.snapshotSource
+            maxRecords: self.maxRecords, 
+            replicationGroupId: self.replicationGroupId, 
+            showNodeGroupConfig: self.showNodeGroupConfig, 
+            snapshotName: self.snapshotName, 
+            snapshotSource: self.snapshotSource
         )
+
     }
 }
 
 extension ElastiCache.DescribeUpdateActionsMessage: AWSPaginateStringToken {
-    public init(_ original: ElastiCache.DescribeUpdateActionsMessage, token: String) {
-        self.init(
-            cacheClusterIds: original.cacheClusterIds, 
-            engine: original.engine, 
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeUpdateActionsMessage {
+        return .init(
+            cacheClusterIds: self.cacheClusterIds, 
+            engine: self.engine, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            replicationGroupIds: original.replicationGroupIds, 
-            serviceUpdateName: original.serviceUpdateName, 
-            serviceUpdateStatus: original.serviceUpdateStatus, 
-            serviceUpdateTimeRange: original.serviceUpdateTimeRange, 
-            showNodeLevelUpdateStatus: original.showNodeLevelUpdateStatus, 
-            updateActionStatus: original.updateActionStatus
+            maxRecords: self.maxRecords, 
+            replicationGroupIds: self.replicationGroupIds, 
+            serviceUpdateName: self.serviceUpdateName, 
+            serviceUpdateStatus: self.serviceUpdateStatus, 
+            serviceUpdateTimeRange: self.serviceUpdateTimeRange, 
+            showNodeLevelUpdateStatus: self.showNodeLevelUpdateStatus, 
+            updateActionStatus: self.updateActionStatus
         )
+
     }
 }
 

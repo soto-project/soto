@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Chime {
 
     ///  Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
@@ -62,116 +64,127 @@ extension Chime {
 }
 
 extension Chime.ListAccountsRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListAccountsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListAccountsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token, 
-            userEmail: original.userEmail
+            userEmail: self.userEmail
         )
+
     }
 }
 
 extension Chime.ListAttendeesRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListAttendeesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            meetingId: original.meetingId, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListAttendeesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            meetingId: self.meetingId, 
             nextToken: token
         )
+
     }
 }
 
 extension Chime.ListBotsRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListBotsRequest, token: String) {
-        self.init(
-            accountId: original.accountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListBotsRequest {
+        return .init(
+            accountId: self.accountId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Chime.ListMeetingsRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListMeetingsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListMeetingsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Chime.ListPhoneNumberOrdersRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListPhoneNumberOrdersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListPhoneNumberOrdersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Chime.ListPhoneNumbersRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListPhoneNumbersRequest, token: String) {
-        self.init(
-            filterName: original.filterName, 
-            filterValue: original.filterValue, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListPhoneNumbersRequest {
+        return .init(
+            filterName: self.filterName, 
+            filterValue: self.filterValue, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            productType: original.productType, 
-            status: original.status
+            productType: self.productType, 
+            status: self.status
         )
+
     }
 }
 
 extension Chime.ListRoomMembershipsRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListRoomMembershipsRequest, token: String) {
-        self.init(
-            accountId: original.accountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListRoomMembershipsRequest {
+        return .init(
+            accountId: self.accountId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            roomId: original.roomId
+            roomId: self.roomId
         )
+
     }
 }
 
 extension Chime.ListRoomsRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListRoomsRequest, token: String) {
-        self.init(
-            accountId: original.accountId, 
-            maxResults: original.maxResults, 
-            memberId: original.memberId, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListRoomsRequest {
+        return .init(
+            accountId: self.accountId, 
+            maxResults: self.maxResults, 
+            memberId: self.memberId, 
             nextToken: token
         )
+
     }
 }
 
 extension Chime.ListUsersRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListUsersRequest, token: String) {
-        self.init(
-            accountId: original.accountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListUsersRequest {
+        return .init(
+            accountId: self.accountId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            userEmail: original.userEmail, 
-            userType: original.userType
+            userEmail: self.userEmail, 
+            userType: self.userType
         )
+
     }
 }
 
 extension Chime.ListVoiceConnectorGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListVoiceConnectorGroupsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListVoiceConnectorGroupsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Chime.ListVoiceConnectorsRequest: AWSPaginateStringToken {
-    public init(_ original: Chime.ListVoiceConnectorsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Chime.ListVoiceConnectorsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

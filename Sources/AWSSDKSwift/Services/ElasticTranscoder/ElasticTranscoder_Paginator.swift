@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ElasticTranscoder {
 
     ///  The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline. Elastic Transcoder returns all of the jobs currently in the specified pipeline. The response body contains one element for each job that satisfies the search criteria.
@@ -27,40 +29,44 @@ extension ElasticTranscoder {
 }
 
 extension ElasticTranscoder.ListJobsByPipelineRequest: AWSPaginateStringToken {
-    public init(_ original: ElasticTranscoder.ListJobsByPipelineRequest, token: String) {
-        self.init(
-            ascending: original.ascending, 
+    public func usingPaginationToken(_ token: String) -> ElasticTranscoder.ListJobsByPipelineRequest {
+        return .init(
+            ascending: self.ascending, 
             pageToken: token, 
-            pipelineId: original.pipelineId
+            pipelineId: self.pipelineId
         )
+
     }
 }
 
 extension ElasticTranscoder.ListJobsByStatusRequest: AWSPaginateStringToken {
-    public init(_ original: ElasticTranscoder.ListJobsByStatusRequest, token: String) {
-        self.init(
-            ascending: original.ascending, 
+    public func usingPaginationToken(_ token: String) -> ElasticTranscoder.ListJobsByStatusRequest {
+        return .init(
+            ascending: self.ascending, 
             pageToken: token, 
-            status: original.status
+            status: self.status
         )
+
     }
 }
 
 extension ElasticTranscoder.ListPipelinesRequest: AWSPaginateStringToken {
-    public init(_ original: ElasticTranscoder.ListPipelinesRequest, token: String) {
-        self.init(
-            ascending: original.ascending, 
+    public func usingPaginationToken(_ token: String) -> ElasticTranscoder.ListPipelinesRequest {
+        return .init(
+            ascending: self.ascending, 
             pageToken: token
         )
+
     }
 }
 
 extension ElasticTranscoder.ListPresetsRequest: AWSPaginateStringToken {
-    public init(_ original: ElasticTranscoder.ListPresetsRequest, token: String) {
-        self.init(
-            ascending: original.ascending, 
+    public func usingPaginationToken(_ token: String) -> ElasticTranscoder.ListPresetsRequest {
+        return .init(
+            ascending: self.ascending, 
             pageToken: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Imagebuilder {
 
     ///   Returns the list of component build versions for the specified semantic version. 
@@ -52,97 +54,106 @@ extension Imagebuilder {
 }
 
 extension Imagebuilder.ListComponentBuildVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: Imagebuilder.ListComponentBuildVersionsRequest, token: String) {
-        self.init(
-            componentVersionArn: original.componentVersionArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListComponentBuildVersionsRequest {
+        return .init(
+            componentVersionArn: self.componentVersionArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Imagebuilder.ListComponentsRequest: AWSPaginateStringToken {
-    public init(_ original: Imagebuilder.ListComponentsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListComponentsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            owner: original.owner
+            owner: self.owner
         )
+
     }
 }
 
 extension Imagebuilder.ListDistributionConfigurationsRequest: AWSPaginateStringToken {
-    public init(_ original: Imagebuilder.ListDistributionConfigurationsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListDistributionConfigurationsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: Imagebuilder.ListImageBuildVersionsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            imageVersionArn: original.imageVersionArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImageBuildVersionsRequest {
+        return .init(
+            filters: self.filters, 
+            imageVersionArn: self.imageVersionArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Imagebuilder.ListImagePipelineImagesRequest: AWSPaginateStringToken {
-    public init(_ original: Imagebuilder.ListImagePipelineImagesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            imagePipelineArn: original.imagePipelineArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagePipelineImagesRequest {
+        return .init(
+            filters: self.filters, 
+            imagePipelineArn: self.imagePipelineArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Imagebuilder.ListImagePipelinesRequest: AWSPaginateStringToken {
-    public init(_ original: Imagebuilder.ListImagePipelinesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagePipelinesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Imagebuilder.ListImageRecipesRequest: AWSPaginateStringToken {
-    public init(_ original: Imagebuilder.ListImageRecipesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImageRecipesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            owner: original.owner
+            owner: self.owner
         )
+
     }
 }
 
 extension Imagebuilder.ListImagesRequest: AWSPaginateStringToken {
-    public init(_ original: Imagebuilder.ListImagesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            owner: original.owner
+            owner: self.owner
         )
+
     }
 }
 
 extension Imagebuilder.ListInfrastructureConfigurationsRequest: AWSPaginateStringToken {
-    public init(_ original: Imagebuilder.ListInfrastructureConfigurationsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListInfrastructureConfigurationsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CodeCommit {
 
     ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
@@ -67,144 +69,156 @@ extension CodeCommit {
 }
 
 extension CodeCommit.DescribeMergeConflictsInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.DescribeMergeConflictsInput, token: String) {
-        self.init(
-            conflictDetailLevel: original.conflictDetailLevel, 
-            conflictResolutionStrategy: original.conflictResolutionStrategy, 
-            destinationCommitSpecifier: original.destinationCommitSpecifier, 
-            filePath: original.filePath, 
-            maxMergeHunks: original.maxMergeHunks, 
-            mergeOption: original.mergeOption, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.DescribeMergeConflictsInput {
+        return .init(
+            conflictDetailLevel: self.conflictDetailLevel, 
+            conflictResolutionStrategy: self.conflictResolutionStrategy, 
+            destinationCommitSpecifier: self.destinationCommitSpecifier, 
+            filePath: self.filePath, 
+            maxMergeHunks: self.maxMergeHunks, 
+            mergeOption: self.mergeOption, 
             nextToken: token, 
-            repositoryName: original.repositoryName, 
-            sourceCommitSpecifier: original.sourceCommitSpecifier
+            repositoryName: self.repositoryName, 
+            sourceCommitSpecifier: self.sourceCommitSpecifier
         )
+
     }
 }
 
 extension CodeCommit.DescribePullRequestEventsInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.DescribePullRequestEventsInput, token: String) {
-        self.init(
-            actorArn: original.actorArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.DescribePullRequestEventsInput {
+        return .init(
+            actorArn: self.actorArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            pullRequestEventType: original.pullRequestEventType, 
-            pullRequestId: original.pullRequestId
+            pullRequestEventType: self.pullRequestEventType, 
+            pullRequestId: self.pullRequestId
         )
+
     }
 }
 
 extension CodeCommit.GetCommentsForComparedCommitInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.GetCommentsForComparedCommitInput, token: String) {
-        self.init(
-            afterCommitId: original.afterCommitId, 
-            beforeCommitId: original.beforeCommitId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.GetCommentsForComparedCommitInput {
+        return .init(
+            afterCommitId: self.afterCommitId, 
+            beforeCommitId: self.beforeCommitId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            repositoryName: original.repositoryName
+            repositoryName: self.repositoryName
         )
+
     }
 }
 
 extension CodeCommit.GetCommentsForPullRequestInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.GetCommentsForPullRequestInput, token: String) {
-        self.init(
-            afterCommitId: original.afterCommitId, 
-            beforeCommitId: original.beforeCommitId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.GetCommentsForPullRequestInput {
+        return .init(
+            afterCommitId: self.afterCommitId, 
+            beforeCommitId: self.beforeCommitId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            pullRequestId: original.pullRequestId, 
-            repositoryName: original.repositoryName
+            pullRequestId: self.pullRequestId, 
+            repositoryName: self.repositoryName
         )
+
     }
 }
 
 extension CodeCommit.GetDifferencesInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.GetDifferencesInput, token: String) {
-        self.init(
-            afterCommitSpecifier: original.afterCommitSpecifier, 
-            afterPath: original.afterPath, 
-            beforeCommitSpecifier: original.beforeCommitSpecifier, 
-            beforePath: original.beforePath, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.GetDifferencesInput {
+        return .init(
+            afterCommitSpecifier: self.afterCommitSpecifier, 
+            afterPath: self.afterPath, 
+            beforeCommitSpecifier: self.beforeCommitSpecifier, 
+            beforePath: self.beforePath, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            repositoryName: original.repositoryName
+            repositoryName: self.repositoryName
         )
+
     }
 }
 
 extension CodeCommit.GetMergeConflictsInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.GetMergeConflictsInput, token: String) {
-        self.init(
-            conflictDetailLevel: original.conflictDetailLevel, 
-            conflictResolutionStrategy: original.conflictResolutionStrategy, 
-            destinationCommitSpecifier: original.destinationCommitSpecifier, 
-            maxConflictFiles: original.maxConflictFiles, 
-            mergeOption: original.mergeOption, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.GetMergeConflictsInput {
+        return .init(
+            conflictDetailLevel: self.conflictDetailLevel, 
+            conflictResolutionStrategy: self.conflictResolutionStrategy, 
+            destinationCommitSpecifier: self.destinationCommitSpecifier, 
+            maxConflictFiles: self.maxConflictFiles, 
+            mergeOption: self.mergeOption, 
             nextToken: token, 
-            repositoryName: original.repositoryName, 
-            sourceCommitSpecifier: original.sourceCommitSpecifier
+            repositoryName: self.repositoryName, 
+            sourceCommitSpecifier: self.sourceCommitSpecifier
         )
+
     }
 }
 
 extension CodeCommit.ListApprovalRuleTemplatesInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.ListApprovalRuleTemplatesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.ListApprovalRuleTemplatesInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            repositoryName: original.repositoryName
+            repositoryName: self.repositoryName
         )
+
     }
 }
 
 extension CodeCommit.ListBranchesInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.ListBranchesInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CodeCommit.ListBranchesInput {
+        return .init(
             nextToken: token, 
-            repositoryName: original.repositoryName
+            repositoryName: self.repositoryName
         )
+
     }
 }
 
 extension CodeCommit.ListPullRequestsInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.ListPullRequestsInput, token: String) {
-        self.init(
-            authorArn: original.authorArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.ListPullRequestsInput {
+        return .init(
+            authorArn: self.authorArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            pullRequestStatus: original.pullRequestStatus, 
-            repositoryName: original.repositoryName
+            pullRequestStatus: self.pullRequestStatus, 
+            repositoryName: self.repositoryName
         )
+
     }
 }
 
 extension CodeCommit.ListRepositoriesInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.ListRepositoriesInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CodeCommit.ListRepositoriesInput {
+        return .init(
             nextToken: token, 
-            order: original.order, 
-            sortBy: original.sortBy
+            order: self.order, 
+            sortBy: self.sortBy
         )
+
     }
 }
 
 extension CodeCommit.ListRepositoriesForApprovalRuleTemplateInput: AWSPaginateStringToken {
-    public init(_ original: CodeCommit.ListRepositoriesForApprovalRuleTemplateInput, token: String) {
-        self.init(
-            approvalRuleTemplateName: original.approvalRuleTemplateName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeCommit.ListRepositoriesForApprovalRuleTemplateInput {
+        return .init(
+            approvalRuleTemplateName: self.approvalRuleTemplateName, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

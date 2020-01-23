@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MediaLive {
 
     ///  Get a channel schedule
@@ -47,94 +49,102 @@ extension MediaLive {
 }
 
 extension MediaLive.DescribeScheduleRequest: AWSPaginateStringToken {
-    public init(_ original: MediaLive.DescribeScheduleRequest, token: String) {
-        self.init(
-            channelId: original.channelId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaLive.DescribeScheduleRequest {
+        return .init(
+            channelId: self.channelId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaLive.ListChannelsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaLive.ListChannelsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListChannelsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaLive.ListInputSecurityGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaLive.ListInputSecurityGroupsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListInputSecurityGroupsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaLive.ListInputsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaLive.ListInputsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListInputsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaLive.ListMultiplexProgramsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaLive.ListMultiplexProgramsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            multiplexId: original.multiplexId, 
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListMultiplexProgramsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            multiplexId: self.multiplexId, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaLive.ListMultiplexesRequest: AWSPaginateStringToken {
-    public init(_ original: MediaLive.ListMultiplexesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListMultiplexesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaLive.ListOfferingsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaLive.ListOfferingsRequest, token: String) {
-        self.init(
-            channelClass: original.channelClass, 
-            channelConfiguration: original.channelConfiguration, 
-            codec: original.codec, 
-            duration: original.duration, 
-            maximumBitrate: original.maximumBitrate, 
-            maximumFramerate: original.maximumFramerate, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListOfferingsRequest {
+        return .init(
+            channelClass: self.channelClass, 
+            channelConfiguration: self.channelConfiguration, 
+            codec: self.codec, 
+            duration: self.duration, 
+            maximumBitrate: self.maximumBitrate, 
+            maximumFramerate: self.maximumFramerate, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resolution: original.resolution, 
-            resourceType: original.resourceType, 
-            specialFeature: original.specialFeature, 
-            videoQuality: original.videoQuality
+            resolution: self.resolution, 
+            resourceType: self.resourceType, 
+            specialFeature: self.specialFeature, 
+            videoQuality: self.videoQuality
         )
+
     }
 }
 
 extension MediaLive.ListReservationsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaLive.ListReservationsRequest, token: String) {
-        self.init(
-            channelClass: original.channelClass, 
-            codec: original.codec, 
-            maximumBitrate: original.maximumBitrate, 
-            maximumFramerate: original.maximumFramerate, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListReservationsRequest {
+        return .init(
+            channelClass: self.channelClass, 
+            codec: self.codec, 
+            maximumBitrate: self.maximumBitrate, 
+            maximumFramerate: self.maximumFramerate, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resolution: original.resolution, 
-            resourceType: original.resourceType, 
-            specialFeature: original.specialFeature, 
-            videoQuality: original.videoQuality
+            resolution: self.resolution, 
+            resourceType: self.resourceType, 
+            specialFeature: self.specialFeature, 
+            videoQuality: self.videoQuality
         )
+
     }
 }
 

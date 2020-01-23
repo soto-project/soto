@@ -2,7 +2,14 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ECR {
+
+    ///  Describes the image scan findings for the specified image.
+    public func describeImageScanFindingsPaginator(_ input: DescribeImageScanFindingsRequest, onPage: @escaping (DescribeImageScanFindingsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeImageScanFindings, tokenKey: \DescribeImageScanFindingsResponse.nextToken, onPage: onPage)
+    }
 
     ///  Returns metadata about the images in a repository, including image size, image tags, and creation date.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
     public func describeImagesPaginator(_ input: DescribeImagesRequest, onPage: @escaping (DescribeImagesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
@@ -26,52 +33,69 @@ extension ECR {
 
 }
 
-extension ECR.DescribeImagesRequest: AWSPaginateStringToken {
-    public init(_ original: ECR.DescribeImagesRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            imageIds: original.imageIds, 
-            maxResults: original.maxResults, 
+extension ECR.DescribeImageScanFindingsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ECR.DescribeImageScanFindingsRequest {
+        return .init(
+            imageId: self.imageId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            registryId: original.registryId, 
-            repositoryName: original.repositoryName
+            registryId: self.registryId, 
+            repositoryName: self.repositoryName
         )
+
+    }
+}
+
+extension ECR.DescribeImagesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ECR.DescribeImagesRequest {
+        return .init(
+            filter: self.filter, 
+            imageIds: self.imageIds, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            registryId: self.registryId, 
+            repositoryName: self.repositoryName
+        )
+
     }
 }
 
 extension ECR.DescribeRepositoriesRequest: AWSPaginateStringToken {
-    public init(_ original: ECR.DescribeRepositoriesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECR.DescribeRepositoriesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            registryId: original.registryId, 
-            repositoryNames: original.repositoryNames
+            registryId: self.registryId, 
+            repositoryNames: self.repositoryNames
         )
+
     }
 }
 
 extension ECR.GetLifecyclePolicyPreviewRequest: AWSPaginateStringToken {
-    public init(_ original: ECR.GetLifecyclePolicyPreviewRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            imageIds: original.imageIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECR.GetLifecyclePolicyPreviewRequest {
+        return .init(
+            filter: self.filter, 
+            imageIds: self.imageIds, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            registryId: original.registryId, 
-            repositoryName: original.repositoryName
+            registryId: self.registryId, 
+            repositoryName: self.repositoryName
         )
+
     }
 }
 
 extension ECR.ListImagesRequest: AWSPaginateStringToken {
-    public init(_ original: ECR.ListImagesRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ECR.ListImagesRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            registryId: original.registryId, 
-            repositoryName: original.repositoryName
+            registryId: self.registryId, 
+            repositoryName: self.repositoryName
         )
+
     }
 }
 

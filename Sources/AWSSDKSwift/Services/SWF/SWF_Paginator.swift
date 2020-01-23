@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SWF {
 
     ///  Returns the history of the specified workflow execution. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call.  This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes.   Access Control  You can use IAM policies to control this action's access to Amazon SWF resources as follows:   Use a Resource element with the domain name to limit the action to only specified domains.   Use an Action element to allow or deny permission to call this action.   You cannot use an IAM policy to constrain this action's parameters.   If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
@@ -42,96 +44,103 @@ extension SWF {
 }
 
 extension SWF.GetWorkflowExecutionHistoryInput: AWSPaginateStringToken {
-    public init(_ original: SWF.GetWorkflowExecutionHistoryInput, token: String) {
-        self.init(
-            domain: original.domain, 
-            execution: original.execution, 
-            maximumPageSize: original.maximumPageSize, 
+    public func usingPaginationToken(_ token: String) -> SWF.GetWorkflowExecutionHistoryInput {
+        return .init(
+            domain: self.domain, 
+            execution: self.execution, 
+            maximumPageSize: self.maximumPageSize, 
             nextPageToken: token, 
-            reverseOrder: original.reverseOrder
+            reverseOrder: self.reverseOrder
         )
+
     }
 }
 
 extension SWF.ListActivityTypesInput: AWSPaginateStringToken {
-    public init(_ original: SWF.ListActivityTypesInput, token: String) {
-        self.init(
-            domain: original.domain, 
-            maximumPageSize: original.maximumPageSize, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> SWF.ListActivityTypesInput {
+        return .init(
+            domain: self.domain, 
+            maximumPageSize: self.maximumPageSize, 
+            name: self.name, 
             nextPageToken: token, 
-            registrationStatus: original.registrationStatus, 
-            reverseOrder: original.reverseOrder
+            registrationStatus: self.registrationStatus, 
+            reverseOrder: self.reverseOrder
         )
+
     }
 }
 
 extension SWF.ListClosedWorkflowExecutionsInput: AWSPaginateStringToken {
-    public init(_ original: SWF.ListClosedWorkflowExecutionsInput, token: String) {
-        self.init(
-            closeStatusFilter: original.closeStatusFilter, 
-            closeTimeFilter: original.closeTimeFilter, 
-            domain: original.domain, 
-            executionFilter: original.executionFilter, 
-            maximumPageSize: original.maximumPageSize, 
+    public func usingPaginationToken(_ token: String) -> SWF.ListClosedWorkflowExecutionsInput {
+        return .init(
+            closeStatusFilter: self.closeStatusFilter, 
+            closeTimeFilter: self.closeTimeFilter, 
+            domain: self.domain, 
+            executionFilter: self.executionFilter, 
+            maximumPageSize: self.maximumPageSize, 
             nextPageToken: token, 
-            reverseOrder: original.reverseOrder, 
-            startTimeFilter: original.startTimeFilter, 
-            tagFilter: original.tagFilter, 
-            typeFilter: original.typeFilter
+            reverseOrder: self.reverseOrder, 
+            startTimeFilter: self.startTimeFilter, 
+            tagFilter: self.tagFilter, 
+            typeFilter: self.typeFilter
         )
+
     }
 }
 
 extension SWF.ListDomainsInput: AWSPaginateStringToken {
-    public init(_ original: SWF.ListDomainsInput, token: String) {
-        self.init(
-            maximumPageSize: original.maximumPageSize, 
+    public func usingPaginationToken(_ token: String) -> SWF.ListDomainsInput {
+        return .init(
+            maximumPageSize: self.maximumPageSize, 
             nextPageToken: token, 
-            registrationStatus: original.registrationStatus, 
-            reverseOrder: original.reverseOrder
+            registrationStatus: self.registrationStatus, 
+            reverseOrder: self.reverseOrder
         )
+
     }
 }
 
 extension SWF.ListOpenWorkflowExecutionsInput: AWSPaginateStringToken {
-    public init(_ original: SWF.ListOpenWorkflowExecutionsInput, token: String) {
-        self.init(
-            domain: original.domain, 
-            executionFilter: original.executionFilter, 
-            maximumPageSize: original.maximumPageSize, 
+    public func usingPaginationToken(_ token: String) -> SWF.ListOpenWorkflowExecutionsInput {
+        return .init(
+            domain: self.domain, 
+            executionFilter: self.executionFilter, 
+            maximumPageSize: self.maximumPageSize, 
             nextPageToken: token, 
-            reverseOrder: original.reverseOrder, 
-            startTimeFilter: original.startTimeFilter, 
-            tagFilter: original.tagFilter, 
-            typeFilter: original.typeFilter
+            reverseOrder: self.reverseOrder, 
+            startTimeFilter: self.startTimeFilter, 
+            tagFilter: self.tagFilter, 
+            typeFilter: self.typeFilter
         )
+
     }
 }
 
 extension SWF.ListWorkflowTypesInput: AWSPaginateStringToken {
-    public init(_ original: SWF.ListWorkflowTypesInput, token: String) {
-        self.init(
-            domain: original.domain, 
-            maximumPageSize: original.maximumPageSize, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> SWF.ListWorkflowTypesInput {
+        return .init(
+            domain: self.domain, 
+            maximumPageSize: self.maximumPageSize, 
+            name: self.name, 
             nextPageToken: token, 
-            registrationStatus: original.registrationStatus, 
-            reverseOrder: original.reverseOrder
+            registrationStatus: self.registrationStatus, 
+            reverseOrder: self.reverseOrder
         )
+
     }
 }
 
 extension SWF.PollForDecisionTaskInput: AWSPaginateStringToken {
-    public init(_ original: SWF.PollForDecisionTaskInput, token: String) {
-        self.init(
-            domain: original.domain, 
-            identity: original.identity, 
-            maximumPageSize: original.maximumPageSize, 
+    public func usingPaginationToken(_ token: String) -> SWF.PollForDecisionTaskInput {
+        return .init(
+            domain: self.domain, 
+            identity: self.identity, 
+            maximumPageSize: self.maximumPageSize, 
             nextPageToken: token, 
-            reverseOrder: original.reverseOrder, 
-            taskList: original.taskList
+            reverseOrder: self.reverseOrder, 
+            taskList: self.taskList
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension IoT1ClickProjects {
 
     ///  Lists the placement(s) of a project.
@@ -17,21 +19,23 @@ extension IoT1ClickProjects {
 }
 
 extension IoT1ClickProjects.ListPlacementsRequest: AWSPaginateStringToken {
-    public init(_ original: IoT1ClickProjects.ListPlacementsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoT1ClickProjects.ListPlacementsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            projectName: original.projectName
+            projectName: self.projectName
         )
+
     }
 }
 
 extension IoT1ClickProjects.ListProjectsRequest: AWSPaginateStringToken {
-    public init(_ original: IoT1ClickProjects.ListProjectsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoT1ClickProjects.ListProjectsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

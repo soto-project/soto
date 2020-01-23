@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension AppMesh {
 
     ///  Returns a list of existing service meshes.
@@ -37,62 +39,68 @@ extension AppMesh {
 }
 
 extension AppMesh.ListMeshesInput: AWSPaginateStringToken {
-    public init(_ original: AppMesh.ListMeshesInput, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListMeshesInput {
+        return .init(
+            limit: self.limit, 
             nextToken: token
         )
+
     }
 }
 
 extension AppMesh.ListRoutesInput: AWSPaginateStringToken {
-    public init(_ original: AppMesh.ListRoutesInput, token: String) {
-        self.init(
-            limit: original.limit, 
-            meshName: original.meshName, 
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListRoutesInput {
+        return .init(
+            limit: self.limit, 
+            meshName: self.meshName, 
             nextToken: token, 
-            virtualRouterName: original.virtualRouterName
+            virtualRouterName: self.virtualRouterName
         )
+
     }
 }
 
 extension AppMesh.ListTagsForResourceInput: AWSPaginateStringToken {
-    public init(_ original: AppMesh.ListTagsForResourceInput, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListTagsForResourceInput {
+        return .init(
+            limit: self.limit, 
             nextToken: token, 
-            resourceArn: original.resourceArn
+            resourceArn: self.resourceArn
         )
+
     }
 }
 
 extension AppMesh.ListVirtualNodesInput: AWSPaginateStringToken {
-    public init(_ original: AppMesh.ListVirtualNodesInput, token: String) {
-        self.init(
-            limit: original.limit, 
-            meshName: original.meshName, 
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListVirtualNodesInput {
+        return .init(
+            limit: self.limit, 
+            meshName: self.meshName, 
             nextToken: token
         )
+
     }
 }
 
 extension AppMesh.ListVirtualRoutersInput: AWSPaginateStringToken {
-    public init(_ original: AppMesh.ListVirtualRoutersInput, token: String) {
-        self.init(
-            limit: original.limit, 
-            meshName: original.meshName, 
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListVirtualRoutersInput {
+        return .init(
+            limit: self.limit, 
+            meshName: self.meshName, 
             nextToken: token
         )
+
     }
 }
 
 extension AppMesh.ListVirtualServicesInput: AWSPaginateStringToken {
-    public init(_ original: AppMesh.ListVirtualServicesInput, token: String) {
-        self.init(
-            limit: original.limit, 
-            meshName: original.meshName, 
+    public func usingPaginationToken(_ token: String) -> AppMesh.ListVirtualServicesInput {
+        return .init(
+            limit: self.limit, 
+            meshName: self.meshName, 
             nextToken: token
         )
+
     }
 }
 

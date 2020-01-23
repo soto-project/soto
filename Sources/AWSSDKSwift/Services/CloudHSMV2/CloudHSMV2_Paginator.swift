@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CloudHSMV2 {
 
     ///  Gets information about backups of AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.
@@ -22,33 +24,36 @@ extension CloudHSMV2 {
 }
 
 extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudHSMV2.DescribeBackupsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudHSMV2.DescribeBackupsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortAscending: original.sortAscending
+            sortAscending: self.sortAscending
         )
+
     }
 }
 
 extension CloudHSMV2.DescribeClustersRequest: AWSPaginateStringToken {
-    public init(_ original: CloudHSMV2.DescribeClustersRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudHSMV2.DescribeClustersRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension CloudHSMV2.ListTagsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudHSMV2.ListTagsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudHSMV2.ListTagsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceId: original.resourceId
+            resourceId: self.resourceId
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Connect {
 
     ///  Gets the real-time metric data from the specified Amazon Connect instance. For more information, see Real-time Metrics Reports in the Amazon Connect Administrator Guide.
@@ -57,114 +59,124 @@ extension Connect {
 }
 
 extension Connect.GetCurrentMetricDataRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.GetCurrentMetricDataRequest, token: String) {
-        self.init(
-            currentMetrics: original.currentMetrics, 
-            filters: original.filters, 
-            groupings: original.groupings, 
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.GetCurrentMetricDataRequest {
+        return .init(
+            currentMetrics: self.currentMetrics, 
+            filters: self.filters, 
+            groupings: self.groupings, 
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Connect.GetMetricDataRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.GetMetricDataRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            filters: original.filters, 
-            groupings: original.groupings, 
-            historicalMetrics: original.historicalMetrics, 
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.GetMetricDataRequest {
+        return .init(
+            endTime: self.endTime, 
+            filters: self.filters, 
+            groupings: self.groupings, 
+            historicalMetrics: self.historicalMetrics, 
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            startTime: original.startTime
+            startTime: self.startTime
         )
+
     }
 }
 
 extension Connect.ListContactFlowsRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.ListContactFlowsRequest, token: String) {
-        self.init(
-            contactFlowTypes: original.contactFlowTypes, 
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.ListContactFlowsRequest {
+        return .init(
+            contactFlowTypes: self.contactFlowTypes, 
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Connect.ListHoursOfOperationsRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.ListHoursOfOperationsRequest, token: String) {
-        self.init(
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.ListHoursOfOperationsRequest {
+        return .init(
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Connect.ListPhoneNumbersRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.ListPhoneNumbersRequest, token: String) {
-        self.init(
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.ListPhoneNumbersRequest {
+        return .init(
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            phoneNumberCountryCodes: original.phoneNumberCountryCodes, 
-            phoneNumberTypes: original.phoneNumberTypes
+            phoneNumberCountryCodes: self.phoneNumberCountryCodes, 
+            phoneNumberTypes: self.phoneNumberTypes
         )
+
     }
 }
 
 extension Connect.ListQueuesRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.ListQueuesRequest, token: String) {
-        self.init(
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.ListQueuesRequest {
+        return .init(
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            queueTypes: original.queueTypes
+            queueTypes: self.queueTypes
         )
+
     }
 }
 
 extension Connect.ListRoutingProfilesRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.ListRoutingProfilesRequest, token: String) {
-        self.init(
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.ListRoutingProfilesRequest {
+        return .init(
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Connect.ListSecurityProfilesRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.ListSecurityProfilesRequest, token: String) {
-        self.init(
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfilesRequest {
+        return .init(
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.ListUserHierarchyGroupsRequest, token: String) {
-        self.init(
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.ListUserHierarchyGroupsRequest {
+        return .init(
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Connect.ListUsersRequest: AWSPaginateStringToken {
-    public init(_ original: Connect.ListUsersRequest, token: String) {
-        self.init(
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Connect.ListUsersRequest {
+        return .init(
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

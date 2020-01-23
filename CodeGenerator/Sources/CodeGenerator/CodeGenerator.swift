@@ -240,8 +240,6 @@ extension AWSService {
     }
     struct PaginatorContext {
         let operation: OperationContext
-        let results: [ResultContext]
-        let input: String
         let output: String
         let initParams: [String]
         let paginatorProtocol: String
@@ -554,62 +552,38 @@ extension AWSService {
                 continue;
             }
             
-            // get results keys, if one doesn't exist look for a field that is an array
-            let resultKeys: [String]
-            if paginator.resultKeys.count > 0 {
-                resultKeys = paginator.resultKeys
-            } else {
-                // get member that is an array
-                let resultMember: [Member] = outputShapeStruct.members.compactMap { if case .list(_,_,_) = $0.shape.type { return $0 }; return nil }
-                resultKeys = resultMember.map { $0.name }
-                guard resultKeys.count > 0 else { continue }
-            }
-            let results: [ResultContext] = resultKeys.compactMap { key in
-                guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == key}) else { return nil }
-                guard case .list(let listShape,_,_) = resultsMember.shape.type else { return nil }
-                return ResultContext(name: key.toSwiftVariableCase(), type: listShape.swiftTypeName)
-            }
-            guard results.count == resultKeys.count else { continue }
-            //guard let resultsMember = outputShapeStruct.members.first(where: {$0.name == resultKeys[0]}) else { continue }
-           // guard case .list(let listShape,_,_) = resultsMember.shape.type else { continue }
-
-            /*if resultKeys.count == 2 {
-                print("Two result arrays in \(serviceName).\(inputShape.name)")
-            } else if resultKeys.count > 2 {
-                print("More then two result arrays in \(serviceName).\(inputShape.name)")
-            }*/
-            
             // process output tokens
             let outputTokens = paginator.outputTokens.map { (token)->String in
                 var split = token.split(separator: ".")
-                // if first string contains [-1] replace with '.last'. You may need to add '?'s to this as well
-                if let negativeIndexRange = split[0].range(of: "[-1]") {
-                    var replacement = ".last"
-                    // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
-                    if split.count > 1 {
-                        replacement += "?"
+                for i in 0..<split.count {
+                    // if string contains [-1] replace with '.last'.
+                    if let negativeIndexRange = split[i].range(of: "[-1]") {
+                        split[i].removeSubrange(negativeIndexRange)
+                        
+                        var replacement = "last"
+                        // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
+                        if split.count > i+1 {
+                            replacement += "?"
+                        }
+                        split.insert(Substring(replacement), at: i+1)
                     }
-                    let memberName = split[0].split(separator: "[")[0]
-                    // if output token member is optional prefix ".last" with a "?"
-                    if let outputTokenMember = outputShapeStruct.members.first(where: {$0.name == memberName}), !outputTokenMember.required {
-                        replacement = "?" + replacement
-                    }
-                    split[0].replaceSubrange(negativeIndexRange, with: replacement)
+                }
+                // if output token is member of an optional struct add ? suffix
+                if let outputTokenMember = outputShapeStruct.members.first(where: {$0.name == split[0]}), !outputTokenMember.required, split.count > 1 {
+                    split[0] += "?"
                 }
                 return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
             }
                         
             var initParams: [String: String] = [:]
             for member in inputShapeStruct.members {
-                initParams[member.name.toSwiftLabelCase()] = "original.\(member.name.toSwiftLabelCase())"
+                initParams[member.name.toSwiftLabelCase()] = "self.\(member.name.toSwiftLabelCase())"
             }
             initParams[paginator.inputTokens[0].toSwiftLabelCase()] = "token"
             let initParamsArray = initParams.map {"\($0.key): \($0.value)"}.sorted { $0.lowercased() < $1.lowercased() }
             paginatorContexts.append(
                 PaginatorContext(
                     operation: generateOperationContext(operation),
-                    results: results,
-                    input: paginator.inputTokens[0].toSwiftVariableCase(),
                     output: outputTokens[0],
                     initParams: initParamsArray,
                     paginatorProtocol: paginatorProtocol,

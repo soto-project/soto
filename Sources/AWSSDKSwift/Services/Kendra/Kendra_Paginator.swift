@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Kendra {
 
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
@@ -22,34 +24,37 @@ extension Kendra {
 }
 
 extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Kendra.ListDataSourceSyncJobsRequest, token: String) {
-        self.init(
-            id: original.id, 
-            indexId: original.indexId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Kendra.ListDataSourceSyncJobsRequest {
+        return .init(
+            id: self.id, 
+            indexId: self.indexId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            startTimeFilter: original.startTimeFilter, 
-            statusFilter: original.statusFilter
+            startTimeFilter: self.startTimeFilter, 
+            statusFilter: self.statusFilter
         )
+
     }
 }
 
 extension Kendra.ListDataSourcesRequest: AWSPaginateStringToken {
-    public init(_ original: Kendra.ListDataSourcesRequest, token: String) {
-        self.init(
-            indexId: original.indexId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Kendra.ListDataSourcesRequest {
+        return .init(
+            indexId: self.indexId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Kendra.ListIndicesRequest: AWSPaginateStringToken {
-    public init(_ original: Kendra.ListIndicesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Kendra.ListIndicesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

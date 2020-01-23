@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SSO {
 
     ///  Lists all roles that are assigned to the user for a given AWS account.
@@ -17,23 +19,25 @@ extension SSO {
 }
 
 extension SSO.ListAccountRolesRequest: AWSPaginateStringToken {
-    public init(_ original: SSO.ListAccountRolesRequest, token: String) {
-        self.init(
-            accessToken: original.accessToken, 
-            accountId: original.accountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSO.ListAccountRolesRequest {
+        return .init(
+            accessToken: self.accessToken, 
+            accountId: self.accountId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SSO.ListAccountsRequest: AWSPaginateStringToken {
-    public init(_ original: SSO.ListAccountsRequest, token: String) {
-        self.init(
-            accessToken: original.accessToken, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSO.ListAccountsRequest {
+        return .init(
+            accessToken: self.accessToken, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

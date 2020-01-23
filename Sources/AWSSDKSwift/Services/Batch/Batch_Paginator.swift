@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Batch {
 
     ///  Describes one or more of your compute environments. If you are using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you should launch your Amazon ECS container instances into.
@@ -27,47 +29,51 @@ extension Batch {
 }
 
 extension Batch.DescribeComputeEnvironmentsRequest: AWSPaginateStringToken {
-    public init(_ original: Batch.DescribeComputeEnvironmentsRequest, token: String) {
-        self.init(
-            computeEnvironments: original.computeEnvironments, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Batch.DescribeComputeEnvironmentsRequest {
+        return .init(
+            computeEnvironments: self.computeEnvironments, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Batch.DescribeJobDefinitionsRequest: AWSPaginateStringToken {
-    public init(_ original: Batch.DescribeJobDefinitionsRequest, token: String) {
-        self.init(
-            jobDefinitionName: original.jobDefinitionName, 
-            jobDefinitions: original.jobDefinitions, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Batch.DescribeJobDefinitionsRequest {
+        return .init(
+            jobDefinitionName: self.jobDefinitionName, 
+            jobDefinitions: self.jobDefinitions, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            status: original.status
+            status: self.status
         )
+
     }
 }
 
 extension Batch.DescribeJobQueuesRequest: AWSPaginateStringToken {
-    public init(_ original: Batch.DescribeJobQueuesRequest, token: String) {
-        self.init(
-            jobQueues: original.jobQueues, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Batch.DescribeJobQueuesRequest {
+        return .init(
+            jobQueues: self.jobQueues, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Batch.ListJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Batch.ListJobsRequest, token: String) {
-        self.init(
-            arrayJobId: original.arrayJobId, 
-            jobQueue: original.jobQueue, 
-            jobStatus: original.jobStatus, 
-            maxResults: original.maxResults, 
-            multiNodeJobId: original.multiNodeJobId, 
+    public func usingPaginationToken(_ token: String) -> Batch.ListJobsRequest {
+        return .init(
+            arrayJobId: self.arrayJobId, 
+            jobQueue: self.jobQueue, 
+            jobStatus: self.jobStatus, 
+            maxResults: self.maxResults, 
+            multiNodeJobId: self.multiNodeJobId, 
             nextToken: token
         )
+
     }
 }
 

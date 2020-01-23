@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension FSx {
 
     ///  Returns the description of specific Amazon FSx for Windows File Server backups, if a BackupIds value is provided for that backup. Otherwise, it returns all backups owned by your AWS account in the AWS Region of the endpoint that you're calling. When retrieving all backups, you can optionally specify the MaxResults parameter to limit the number of backups in a response. If more backups remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response. This action is used in an iterative process to retrieve a list of your backups. DescribeBackups is called first without a NextTokenvalue. Then the action continues to be called with the NextToken parameter set to the value of the last NextToken value until a response has no NextToken. When using this action, keep the following in mind:   The implementation might return fewer than MaxResults file system descriptions while still including a NextToken value.   The order of backups returned in the response of one DescribeBackups call and the order of backups returned across the responses of a multi-call iteration is unspecified.  
@@ -22,34 +24,37 @@ extension FSx {
 }
 
 extension FSx.DescribeBackupsRequest: AWSPaginateStringToken {
-    public init(_ original: FSx.DescribeBackupsRequest, token: String) {
-        self.init(
-            backupIds: original.backupIds, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> FSx.DescribeBackupsRequest {
+        return .init(
+            backupIds: self.backupIds, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension FSx.DescribeDataRepositoryTasksRequest: AWSPaginateStringToken {
-    public init(_ original: FSx.DescribeDataRepositoryTasksRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> FSx.DescribeDataRepositoryTasksRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            taskIds: original.taskIds
+            taskIds: self.taskIds
         )
+
     }
 }
 
 extension FSx.DescribeFileSystemsRequest: AWSPaginateStringToken {
-    public init(_ original: FSx.DescribeFileSystemsRequest, token: String) {
-        self.init(
-            fileSystemIds: original.fileSystemIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> FSx.DescribeFileSystemsRequest {
+        return .init(
+            fileSystemIds: self.fileSystemIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

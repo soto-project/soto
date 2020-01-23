@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Comprehend {
 
     ///  Gets a list of the documentation classification jobs that you have submitted.
@@ -47,82 +49,90 @@ extension Comprehend {
 }
 
 extension Comprehend.ListDocumentClassificationJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Comprehend.ListDocumentClassificationJobsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListDocumentClassificationJobsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Comprehend.ListDocumentClassifiersRequest: AWSPaginateStringToken {
-    public init(_ original: Comprehend.ListDocumentClassifiersRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListDocumentClassifiersRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Comprehend.ListDominantLanguageDetectionJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Comprehend.ListDominantLanguageDetectionJobsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListDominantLanguageDetectionJobsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Comprehend.ListEntitiesDetectionJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Comprehend.ListEntitiesDetectionJobsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListEntitiesDetectionJobsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Comprehend.ListEntityRecognizersRequest: AWSPaginateStringToken {
-    public init(_ original: Comprehend.ListEntityRecognizersRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListEntityRecognizersRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Comprehend.ListKeyPhrasesDetectionJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Comprehend.ListKeyPhrasesDetectionJobsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListKeyPhrasesDetectionJobsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Comprehend.ListSentimentDetectionJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Comprehend.ListSentimentDetectionJobsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListSentimentDetectionJobsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Comprehend.ListTopicsDetectionJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Comprehend.ListTopicsDetectionJobsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListTopicsDetectionJobsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

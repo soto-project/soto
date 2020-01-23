@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Detective {
 
     ///  Amazon Detective is currently in preview. Returns the list of behavior graphs that the calling account is a master of. This operation can only be called by a master account. Because an account can currently only be the master of one behavior graph within a Region, the results always contain a single graph.
@@ -22,30 +24,33 @@ extension Detective {
 }
 
 extension Detective.ListGraphsRequest: AWSPaginateStringToken {
-    public init(_ original: Detective.ListGraphsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Detective.ListGraphsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Detective.ListInvitationsRequest: AWSPaginateStringToken {
-    public init(_ original: Detective.ListInvitationsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Detective.ListInvitationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Detective.ListMembersRequest: AWSPaginateStringToken {
-    public init(_ original: Detective.ListMembersRequest, token: String) {
-        self.init(
-            graphArn: original.graphArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Detective.ListMembersRequest {
+        return .init(
+            graphArn: self.graphArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

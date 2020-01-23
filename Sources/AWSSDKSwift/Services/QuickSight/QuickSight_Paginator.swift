@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension QuickSight {
 
     ///  Lists all the versions of the dashboards in the QuickSight subscription.
@@ -47,86 +49,94 @@ extension QuickSight {
 }
 
 extension QuickSight.ListDashboardVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: QuickSight.ListDashboardVersionsRequest, token: String) {
-        self.init(
-            awsAccountId: original.awsAccountId, 
-            dashboardId: original.dashboardId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListDashboardVersionsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId, 
+            dashboardId: self.dashboardId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension QuickSight.ListDashboardsRequest: AWSPaginateStringToken {
-    public init(_ original: QuickSight.ListDashboardsRequest, token: String) {
-        self.init(
-            awsAccountId: original.awsAccountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListDashboardsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension QuickSight.ListDataSetsRequest: AWSPaginateStringToken {
-    public init(_ original: QuickSight.ListDataSetsRequest, token: String) {
-        self.init(
-            awsAccountId: original.awsAccountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListDataSetsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension QuickSight.ListDataSourcesRequest: AWSPaginateStringToken {
-    public init(_ original: QuickSight.ListDataSourcesRequest, token: String) {
-        self.init(
-            awsAccountId: original.awsAccountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListDataSourcesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension QuickSight.ListIngestionsRequest: AWSPaginateStringToken {
-    public init(_ original: QuickSight.ListIngestionsRequest, token: String) {
-        self.init(
-            awsAccountId: original.awsAccountId, 
-            dataSetId: original.dataSetId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListIngestionsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId, 
+            dataSetId: self.dataSetId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension QuickSight.ListTemplateAliasesRequest: AWSPaginateStringToken {
-    public init(_ original: QuickSight.ListTemplateAliasesRequest, token: String) {
-        self.init(
-            awsAccountId: original.awsAccountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplateAliasesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            templateId: original.templateId
+            templateId: self.templateId
         )
+
     }
 }
 
 extension QuickSight.ListTemplateVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: QuickSight.ListTemplateVersionsRequest, token: String) {
-        self.init(
-            awsAccountId: original.awsAccountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplateVersionsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            templateId: original.templateId
+            templateId: self.templateId
         )
+
     }
 }
 
 extension QuickSight.ListTemplatesRequest: AWSPaginateStringToken {
-    public init(_ original: QuickSight.ListTemplatesRequest, token: String) {
-        self.init(
-            awsAccountId: original.awsAccountId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplatesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

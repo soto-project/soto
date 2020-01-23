@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CodeGuruProfiler {
 
     ///  List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
@@ -17,26 +19,28 @@ extension CodeGuruProfiler {
 }
 
 extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateStringToken {
-    public init(_ original: CodeGuruProfiler.ListProfileTimesRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeGuruProfiler.ListProfileTimesRequest {
+        return .init(
+            endTime: self.endTime, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            orderBy: original.orderBy, 
-            period: original.period, 
-            profilingGroupName: original.profilingGroupName, 
-            startTime: original.startTime
+            orderBy: self.orderBy, 
+            period: self.period, 
+            profilingGroupName: self.profilingGroupName, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension CodeGuruProfiler.ListProfilingGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: CodeGuruProfiler.ListProfilingGroupsRequest, token: String) {
-        self.init(
-            includeDescription: original.includeDescription, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeGuruProfiler.ListProfilingGroupsRequest {
+        return .init(
+            includeDescription: self.includeDescription, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

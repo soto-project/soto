@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension LexModelBuildingService {
 
     ///  Returns a list of aliases for a specified Amazon Lex bot. This operation requires permissions for the lex:GetBotAliases action.
@@ -57,107 +59,117 @@ extension LexModelBuildingService {
 }
 
 extension LexModelBuildingService.GetBotAliasesRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetBotAliasesRequest, token: String) {
-        self.init(
-            botName: original.botName, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBotAliasesRequest {
+        return .init(
+            botName: self.botName, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token
         )
+
     }
 }
 
 extension LexModelBuildingService.GetBotChannelAssociationsRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetBotChannelAssociationsRequest, token: String) {
-        self.init(
-            botAlias: original.botAlias, 
-            botName: original.botName, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBotChannelAssociationsRequest {
+        return .init(
+            botAlias: self.botAlias, 
+            botName: self.botName, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token
         )
+
     }
 }
 
 extension LexModelBuildingService.GetBotVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetBotVersionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBotVersionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token
         )
+
     }
 }
 
 extension LexModelBuildingService.GetBotsRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetBotsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBotsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token
         )
+
     }
 }
 
 extension LexModelBuildingService.GetBuiltinIntentsRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetBuiltinIntentsRequest, token: String) {
-        self.init(
-            locale: original.locale, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBuiltinIntentsRequest {
+        return .init(
+            locale: self.locale, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            signatureContains: original.signatureContains
+            signatureContains: self.signatureContains
         )
+
     }
 }
 
 extension LexModelBuildingService.GetBuiltinSlotTypesRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetBuiltinSlotTypesRequest, token: String) {
-        self.init(
-            locale: original.locale, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBuiltinSlotTypesRequest {
+        return .init(
+            locale: self.locale, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            signatureContains: original.signatureContains
+            signatureContains: self.signatureContains
         )
+
     }
 }
 
 extension LexModelBuildingService.GetIntentVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetIntentVersionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetIntentVersionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token
         )
+
     }
 }
 
 extension LexModelBuildingService.GetIntentsRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetIntentsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetIntentsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token
         )
+
     }
 }
 
 extension LexModelBuildingService.GetSlotTypeVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetSlotTypeVersionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetSlotTypeVersionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token
         )
+
     }
 }
 
 extension LexModelBuildingService.GetSlotTypesRequest: AWSPaginateStringToken {
-    public init(_ original: LexModelBuildingService.GetSlotTypesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetSlotTypesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension AWSBackup {
 
     ///  Returns metadata about your backup jobs.
@@ -59,126 +61,153 @@ extension AWSBackup {
         return client.paginate(input: input, command: listRestoreJobs, tokenKey: \ListRestoreJobsOutput.nextToken, onPage: onPage)
     }
 
+    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.
+    public func listTagsPaginator(_ input: ListTagsInput, onPage: @escaping (ListTagsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listTags, tokenKey: \ListTagsOutput.nextToken, onPage: onPage)
+    }
+
 }
 
 extension AWSBackup.ListBackupJobsInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListBackupJobsInput, token: String) {
-        self.init(
-            byBackupVaultName: original.byBackupVaultName, 
-            byCreatedAfter: original.byCreatedAfter, 
-            byCreatedBefore: original.byCreatedBefore, 
-            byResourceArn: original.byResourceArn, 
-            byResourceType: original.byResourceType, 
-            byState: original.byState, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListBackupJobsInput {
+        return .init(
+            byBackupVaultName: self.byBackupVaultName, 
+            byCreatedAfter: self.byCreatedAfter, 
+            byCreatedBefore: self.byCreatedBefore, 
+            byResourceArn: self.byResourceArn, 
+            byResourceType: self.byResourceType, 
+            byState: self.byState, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AWSBackup.ListBackupPlanTemplatesInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListBackupPlanTemplatesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListBackupPlanTemplatesInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AWSBackup.ListBackupPlanVersionsInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListBackupPlanVersionsInput, token: String) {
-        self.init(
-            backupPlanId: original.backupPlanId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListBackupPlanVersionsInput {
+        return .init(
+            backupPlanId: self.backupPlanId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AWSBackup.ListBackupPlansInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListBackupPlansInput, token: String) {
-        self.init(
-            includeDeleted: original.includeDeleted, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListBackupPlansInput {
+        return .init(
+            includeDeleted: self.includeDeleted, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AWSBackup.ListBackupSelectionsInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListBackupSelectionsInput, token: String) {
-        self.init(
-            backupPlanId: original.backupPlanId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListBackupSelectionsInput {
+        return .init(
+            backupPlanId: self.backupPlanId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AWSBackup.ListBackupVaultsInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListBackupVaultsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListBackupVaultsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AWSBackup.ListCopyJobsInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListCopyJobsInput, token: String) {
-        self.init(
-            byCreatedAfter: original.byCreatedAfter, 
-            byCreatedBefore: original.byCreatedBefore, 
-            byDestinationVaultArn: original.byDestinationVaultArn, 
-            byResourceArn: original.byResourceArn, 
-            byResourceType: original.byResourceType, 
-            byState: original.byState, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListCopyJobsInput {
+        return .init(
+            byCreatedAfter: self.byCreatedAfter, 
+            byCreatedBefore: self.byCreatedBefore, 
+            byDestinationVaultArn: self.byDestinationVaultArn, 
+            byResourceArn: self.byResourceArn, 
+            byResourceType: self.byResourceType, 
+            byState: self.byState, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AWSBackup.ListProtectedResourcesInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListProtectedResourcesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListProtectedResourcesInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AWSBackup.ListRecoveryPointsByBackupVaultInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListRecoveryPointsByBackupVaultInput, token: String) {
-        self.init(
-            backupVaultName: original.backupVaultName, 
-            byBackupPlanId: original.byBackupPlanId, 
-            byCreatedAfter: original.byCreatedAfter, 
-            byCreatedBefore: original.byCreatedBefore, 
-            byResourceArn: original.byResourceArn, 
-            byResourceType: original.byResourceType, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListRecoveryPointsByBackupVaultInput {
+        return .init(
+            backupVaultName: self.backupVaultName, 
+            byBackupPlanId: self.byBackupPlanId, 
+            byCreatedAfter: self.byCreatedAfter, 
+            byCreatedBefore: self.byCreatedBefore, 
+            byResourceArn: self.byResourceArn, 
+            byResourceType: self.byResourceType, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AWSBackup.ListRecoveryPointsByResourceInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListRecoveryPointsByResourceInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListRecoveryPointsByResourceInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceArn: original.resourceArn
+            resourceArn: self.resourceArn
         )
+
     }
 }
 
 extension AWSBackup.ListRestoreJobsInput: AWSPaginateStringToken {
-    public init(_ original: AWSBackup.ListRestoreJobsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListRestoreJobsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
+    }
+}
+
+extension AWSBackup.ListTagsInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> AWSBackup.ListTagsInput {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            resourceArn: self.resourceArn
+        )
+
     }
 }
 

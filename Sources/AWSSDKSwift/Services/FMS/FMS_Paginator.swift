@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension FMS {
 
     ///  Returns an array of PolicyComplianceStatus objects in the response. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
@@ -22,30 +24,33 @@ extension FMS {
 }
 
 extension FMS.ListComplianceStatusRequest: AWSPaginateStringToken {
-    public init(_ original: FMS.ListComplianceStatusRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> FMS.ListComplianceStatusRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            policyId: original.policyId
+            policyId: self.policyId
         )
+
     }
 }
 
 extension FMS.ListMemberAccountsRequest: AWSPaginateStringToken {
-    public init(_ original: FMS.ListMemberAccountsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> FMS.ListMemberAccountsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension FMS.ListPoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: FMS.ListPoliciesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> FMS.ListPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

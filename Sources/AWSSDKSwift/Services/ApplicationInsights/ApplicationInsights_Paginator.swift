@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ApplicationInsights {
 
     ///  Lists the IDs of the applications that you are monitoring. 
@@ -32,54 +34,59 @@ extension ApplicationInsights {
 }
 
 extension ApplicationInsights.ListApplicationsRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationInsights.ListApplicationsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListApplicationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ApplicationInsights.ListComponentsRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationInsights.ListComponentsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListComponentsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceGroupName: original.resourceGroupName
+            resourceGroupName: self.resourceGroupName
         )
+
     }
 }
 
 extension ApplicationInsights.ListLogPatternSetsRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationInsights.ListLogPatternSetsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListLogPatternSetsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceGroupName: original.resourceGroupName
+            resourceGroupName: self.resourceGroupName
         )
+
     }
 }
 
 extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationInsights.ListLogPatternsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListLogPatternsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            patternSetName: original.patternSetName, 
-            resourceGroupName: original.resourceGroupName
+            patternSetName: self.patternSetName, 
+            resourceGroupName: self.resourceGroupName
         )
+
     }
 }
 
 extension ApplicationInsights.ListProblemsRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationInsights.ListProblemsRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListProblemsRequest {
+        return .init(
+            endTime: self.endTime, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceGroupName: original.resourceGroupName, 
-            startTime: original.startTime
+            resourceGroupName: self.resourceGroupName, 
+            startTime: self.startTime
         )
+
     }
 }
 

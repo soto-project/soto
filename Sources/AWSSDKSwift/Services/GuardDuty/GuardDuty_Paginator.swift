@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension GuardDuty {
 
     ///  Lists detectorIds of all the existing Amazon GuardDuty detector resources.
@@ -47,83 +49,91 @@ extension GuardDuty {
 }
 
 extension GuardDuty.ListDetectorsRequest: AWSPaginateStringToken {
-    public init(_ original: GuardDuty.ListDetectorsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListDetectorsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension GuardDuty.ListFiltersRequest: AWSPaginateStringToken {
-    public init(_ original: GuardDuty.ListFiltersRequest, token: String) {
-        self.init(
-            detectorId: original.detectorId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListFiltersRequest {
+        return .init(
+            detectorId: self.detectorId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension GuardDuty.ListFindingsRequest: AWSPaginateStringToken {
-    public init(_ original: GuardDuty.ListFindingsRequest, token: String) {
-        self.init(
-            detectorId: original.detectorId, 
-            findingCriteria: original.findingCriteria, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListFindingsRequest {
+        return .init(
+            detectorId: self.detectorId, 
+            findingCriteria: self.findingCriteria, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 
 extension GuardDuty.ListIPSetsRequest: AWSPaginateStringToken {
-    public init(_ original: GuardDuty.ListIPSetsRequest, token: String) {
-        self.init(
-            detectorId: original.detectorId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListIPSetsRequest {
+        return .init(
+            detectorId: self.detectorId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension GuardDuty.ListInvitationsRequest: AWSPaginateStringToken {
-    public init(_ original: GuardDuty.ListInvitationsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListInvitationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension GuardDuty.ListMembersRequest: AWSPaginateStringToken {
-    public init(_ original: GuardDuty.ListMembersRequest, token: String) {
-        self.init(
-            detectorId: original.detectorId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListMembersRequest {
+        return .init(
+            detectorId: self.detectorId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            onlyAssociated: original.onlyAssociated
+            onlyAssociated: self.onlyAssociated
         )
+
     }
 }
 
 extension GuardDuty.ListPublishingDestinationsRequest: AWSPaginateStringToken {
-    public init(_ original: GuardDuty.ListPublishingDestinationsRequest, token: String) {
-        self.init(
-            detectorId: original.detectorId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListPublishingDestinationsRequest {
+        return .init(
+            detectorId: self.detectorId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension GuardDuty.ListThreatIntelSetsRequest: AWSPaginateStringToken {
-    public init(_ original: GuardDuty.ListThreatIntelSetsRequest, token: String) {
-        self.init(
-            detectorId: original.detectorId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListThreatIntelSetsRequest {
+        return .init(
+            detectorId: self.detectorId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

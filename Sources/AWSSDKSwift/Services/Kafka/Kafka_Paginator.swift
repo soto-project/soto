@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Kafka {
 
     ///  Returns a list of all the operations that have been performed on the specified MSK cluster.
@@ -32,51 +34,56 @@ extension Kafka {
 }
 
 extension Kafka.ListClusterOperationsRequest: AWSPaginateStringToken {
-    public init(_ original: Kafka.ListClusterOperationsRequest, token: String) {
-        self.init(
-            clusterArn: original.clusterArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Kafka.ListClusterOperationsRequest {
+        return .init(
+            clusterArn: self.clusterArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Kafka.ListClustersRequest: AWSPaginateStringToken {
-    public init(_ original: Kafka.ListClustersRequest, token: String) {
-        self.init(
-            clusterNameFilter: original.clusterNameFilter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Kafka.ListClustersRequest {
+        return .init(
+            clusterNameFilter: self.clusterNameFilter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Kafka.ListConfigurationRevisionsRequest: AWSPaginateStringToken {
-    public init(_ original: Kafka.ListConfigurationRevisionsRequest, token: String) {
-        self.init(
-            arn: original.arn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Kafka.ListConfigurationRevisionsRequest {
+        return .init(
+            arn: self.arn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Kafka.ListConfigurationsRequest: AWSPaginateStringToken {
-    public init(_ original: Kafka.ListConfigurationsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Kafka.ListConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Kafka.ListNodesRequest: AWSPaginateStringToken {
-    public init(_ original: Kafka.ListNodesRequest, token: String) {
-        self.init(
-            clusterArn: original.clusterArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Kafka.ListNodesRequest {
+        return .init(
+            clusterArn: self.clusterArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

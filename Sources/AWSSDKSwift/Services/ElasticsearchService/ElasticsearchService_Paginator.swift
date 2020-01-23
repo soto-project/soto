@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ElasticsearchService {
 
     ///  Lists available reserved Elasticsearch instance offerings.
@@ -32,52 +34,57 @@ extension ElasticsearchService {
 }
 
 extension ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest: AWSPaginateStringToken {
-    public init(_ original: ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            reservedElasticsearchInstanceOfferingId: original.reservedElasticsearchInstanceOfferingId
+            reservedElasticsearchInstanceOfferingId: self.reservedElasticsearchInstanceOfferingId
         )
+
     }
 }
 
 extension ElasticsearchService.DescribeReservedElasticsearchInstancesRequest: AWSPaginateStringToken {
-    public init(_ original: ElasticsearchService.DescribeReservedElasticsearchInstancesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ElasticsearchService.DescribeReservedElasticsearchInstancesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            reservedElasticsearchInstanceId: original.reservedElasticsearchInstanceId
+            reservedElasticsearchInstanceId: self.reservedElasticsearchInstanceId
         )
+
     }
 }
 
 extension ElasticsearchService.GetUpgradeHistoryRequest: AWSPaginateStringToken {
-    public init(_ original: ElasticsearchService.GetUpgradeHistoryRequest, token: String) {
-        self.init(
-            domainName: original.domainName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ElasticsearchService.GetUpgradeHistoryRequest {
+        return .init(
+            domainName: self.domainName, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ElasticsearchService.ListElasticsearchInstanceTypesRequest: AWSPaginateStringToken {
-    public init(_ original: ElasticsearchService.ListElasticsearchInstanceTypesRequest, token: String) {
-        self.init(
-            domainName: original.domainName, 
-            elasticsearchVersion: original.elasticsearchVersion, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ElasticsearchService.ListElasticsearchInstanceTypesRequest {
+        return .init(
+            domainName: self.domainName, 
+            elasticsearchVersion: self.elasticsearchVersion, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ElasticsearchService.ListElasticsearchVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: ElasticsearchService.ListElasticsearchVersionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ElasticsearchService.ListElasticsearchVersionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MediaConvert {
 
     ///  Send an request with an empty body to the regional API endpoint to get your account API endpoint.
@@ -32,59 +34,64 @@ extension MediaConvert {
 }
 
 extension MediaConvert.DescribeEndpointsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaConvert.DescribeEndpointsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            mode: original.mode, 
+    public func usingPaginationToken(_ token: String) -> MediaConvert.DescribeEndpointsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            mode: self.mode, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaConvert.ListJobTemplatesRequest: AWSPaginateStringToken {
-    public init(_ original: MediaConvert.ListJobTemplatesRequest, token: String) {
-        self.init(
-            category: original.category, 
-            listBy: original.listBy, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaConvert.ListJobTemplatesRequest {
+        return .init(
+            category: self.category, 
+            listBy: self.listBy, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            order: original.order
+            order: self.order
         )
+
     }
 }
 
 extension MediaConvert.ListJobsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaConvert.ListJobsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaConvert.ListJobsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            order: original.order, 
-            queue: original.queue, 
-            status: original.status
+            order: self.order, 
+            queue: self.queue, 
+            status: self.status
         )
+
     }
 }
 
 extension MediaConvert.ListPresetsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaConvert.ListPresetsRequest, token: String) {
-        self.init(
-            category: original.category, 
-            listBy: original.listBy, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaConvert.ListPresetsRequest {
+        return .init(
+            category: self.category, 
+            listBy: self.listBy, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            order: original.order
+            order: self.order
         )
+
     }
 }
 
 extension MediaConvert.ListQueuesRequest: AWSPaginateStringToken {
-    public init(_ original: MediaConvert.ListQueuesRequest, token: String) {
-        self.init(
-            listBy: original.listBy, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaConvert.ListQueuesRequest {
+        return .init(
+            listBy: self.listBy, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            order: original.order
+            order: self.order
         )
+
     }
 }
 

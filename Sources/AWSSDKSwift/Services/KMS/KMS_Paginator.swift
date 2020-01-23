@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension KMS {
 
     ///  Gets a list of aliases in the caller's AWS account and region. You cannot list aliases in other accounts. For more information about aliases, see CreateAlias. By default, the ListAliases command returns all aliases in the account and region. To get only the aliases that point to a particular customer master key (CMK), use the KeyId parameter. The ListAliases response can include aliases that you created and associated with your customer managed CMKs, and aliases that AWS created and associated with AWS managed CMKs in your account. You can recognize AWS aliases because their names have the format aws/&lt;service-name&gt;, such as aws/dynamodb. The response might also include aliases that have no TargetKeyId field. These are predefined aliases that AWS has created but has not yet associated with a CMK. Aliases that AWS creates in your account, including predefined aliases, do not count against your AWS KMS aliases limit.
@@ -27,41 +29,45 @@ extension KMS {
 }
 
 extension KMS.ListAliasesRequest: AWSPaginateStringToken {
-    public init(_ original: KMS.ListAliasesRequest, token: String) {
-        self.init(
-            keyId: original.keyId, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> KMS.ListAliasesRequest {
+        return .init(
+            keyId: self.keyId, 
+            limit: self.limit, 
             marker: token
         )
+
     }
 }
 
 extension KMS.ListGrantsRequest: AWSPaginateStringToken {
-    public init(_ original: KMS.ListGrantsRequest, token: String) {
-        self.init(
-            keyId: original.keyId, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> KMS.ListGrantsRequest {
+        return .init(
+            keyId: self.keyId, 
+            limit: self.limit, 
             marker: token
         )
+
     }
 }
 
 extension KMS.ListKeyPoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: KMS.ListKeyPoliciesRequest, token: String) {
-        self.init(
-            keyId: original.keyId, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> KMS.ListKeyPoliciesRequest {
+        return .init(
+            keyId: self.keyId, 
+            limit: self.limit, 
             marker: token
         )
+
     }
 }
 
 extension KMS.ListKeysRequest: AWSPaginateStringToken {
-    public init(_ original: KMS.ListKeysRequest, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> KMS.ListKeysRequest {
+        return .init(
+            limit: self.limit, 
             marker: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SESV2 {
 
     ///  List the dedicated IP addresses that are associated with your AWS account.
@@ -42,72 +44,79 @@ extension SESV2 {
 }
 
 extension SESV2.GetDedicatedIpsRequest: AWSPaginateStringToken {
-    public init(_ original: SESV2.GetDedicatedIpsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SESV2.GetDedicatedIpsRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize, 
-            poolName: original.poolName
+            pageSize: self.pageSize, 
+            poolName: self.poolName
         )
+
     }
 }
 
 extension SESV2.ListConfigurationSetsRequest: AWSPaginateStringToken {
-    public init(_ original: SESV2.ListConfigurationSetsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SESV2.ListConfigurationSetsRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 
 extension SESV2.ListDedicatedIpPoolsRequest: AWSPaginateStringToken {
-    public init(_ original: SESV2.ListDedicatedIpPoolsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SESV2.ListDedicatedIpPoolsRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 
 extension SESV2.ListDeliverabilityTestReportsRequest: AWSPaginateStringToken {
-    public init(_ original: SESV2.ListDeliverabilityTestReportsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SESV2.ListDeliverabilityTestReportsRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 
 extension SESV2.ListDomainDeliverabilityCampaignsRequest: AWSPaginateStringToken {
-    public init(_ original: SESV2.ListDomainDeliverabilityCampaignsRequest, token: String) {
-        self.init(
-            endDate: original.endDate, 
+    public func usingPaginationToken(_ token: String) -> SESV2.ListDomainDeliverabilityCampaignsRequest {
+        return .init(
+            endDate: self.endDate, 
             nextToken: token, 
-            pageSize: original.pageSize, 
-            startDate: original.startDate, 
-            subscribedDomain: original.subscribedDomain
+            pageSize: self.pageSize, 
+            startDate: self.startDate, 
+            subscribedDomain: self.subscribedDomain
         )
+
     }
 }
 
 extension SESV2.ListEmailIdentitiesRequest: AWSPaginateStringToken {
-    public init(_ original: SESV2.ListEmailIdentitiesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SESV2.ListEmailIdentitiesRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 
 extension SESV2.ListSuppressedDestinationsRequest: AWSPaginateStringToken {
-    public init(_ original: SESV2.ListSuppressedDestinationsRequest, token: String) {
-        self.init(
-            endDate: original.endDate, 
+    public func usingPaginationToken(_ token: String) -> SESV2.ListSuppressedDestinationsRequest {
+        return .init(
+            endDate: self.endDate, 
             nextToken: token, 
-            pageSize: original.pageSize, 
-            reasons: original.reasons, 
-            startDate: original.startDate
+            pageSize: self.pageSize, 
+            reasons: self.reasons, 
+            startDate: self.startDate
         )
+
     }
 }
 

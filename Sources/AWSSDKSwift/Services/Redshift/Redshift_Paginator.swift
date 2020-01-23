@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Redshift {
 
     ///  Returns a list of Amazon Redshift parameter groups, including parameter groups you created and the default parameter group. For each parameter group, the response includes the parameter group name, description, and parameter group family name. You can optionally specify a name to retrieve the description of a specific parameter group.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all parameter groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all parameter groups that have any combination of those values are returned. If both tag keys and values are omitted from the request, parameter groups are returned regardless of whether they have tag keys or values associated with them.
@@ -37,6 +39,11 @@ extension Redshift {
     ///  Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup properties, and security and access properties. This operation supports pagination. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all clusters that have any combination of those values are returned. If both tag keys and values are omitted from the request, clusters are returned regardless of whether they have tag keys or values associated with them.
     public func describeClustersPaginator(_ input: DescribeClustersMessage, onPage: @escaping (ClustersMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeClusters, tokenKey: \ClustersMessage.marker, onPage: onPage)
+    }
+
+    ///  Returns a list of parameter settings for the specified parameter group family.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
+    public func describeDefaultClusterParametersPaginator(_ input: DescribeDefaultClusterParametersMessage, onPage: @escaping (DescribeDefaultClusterParametersResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDefaultClusterParameters, tokenKey: \DescribeDefaultClusterParametersResult.defaultClusterParameters?.marker, onPage: onPage)
     }
 
     ///  Lists descriptions of all the Amazon Redshift event notification subscriptions for a customer account. If you specify a subscription name, lists the description for that subscription. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all event notification subscriptions that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subscriptions that have any combination of those values are returned. If both tag keys and values are omitted from the request, subscriptions are returned regardless of whether they have tag keys or values associated with them.
@@ -87,201 +94,228 @@ extension Redshift {
 }
 
 extension Redshift.DescribeClusterParameterGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeClusterParameterGroupsMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterParameterGroupsMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords, 
-            parameterGroupName: original.parameterGroupName, 
-            tagKeys: original.tagKeys, 
-            tagValues: original.tagValues
+            maxRecords: self.maxRecords, 
+            parameterGroupName: self.parameterGroupName, 
+            tagKeys: self.tagKeys, 
+            tagValues: self.tagValues
         )
+
     }
 }
 
 extension Redshift.DescribeClusterParametersMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeClusterParametersMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterParametersMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords, 
-            parameterGroupName: original.parameterGroupName, 
-            source: original.source
+            maxRecords: self.maxRecords, 
+            parameterGroupName: self.parameterGroupName, 
+            source: self.source
         )
+
     }
 }
 
 extension Redshift.DescribeClusterSecurityGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeClusterSecurityGroupsMessage, token: String) {
-        self.init(
-            clusterSecurityGroupName: original.clusterSecurityGroupName, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterSecurityGroupsMessage {
+        return .init(
+            clusterSecurityGroupName: self.clusterSecurityGroupName, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            tagKeys: original.tagKeys, 
-            tagValues: original.tagValues
+            maxRecords: self.maxRecords, 
+            tagKeys: self.tagKeys, 
+            tagValues: self.tagValues
         )
+
     }
 }
 
 extension Redshift.DescribeClusterSnapshotsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeClusterSnapshotsMessage, token: String) {
-        self.init(
-            clusterExists: original.clusterExists, 
-            clusterIdentifier: original.clusterIdentifier, 
-            endTime: original.endTime, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterSnapshotsMessage {
+        return .init(
+            clusterExists: self.clusterExists, 
+            clusterIdentifier: self.clusterIdentifier, 
+            endTime: self.endTime, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            ownerAccount: original.ownerAccount, 
-            snapshotIdentifier: original.snapshotIdentifier, 
-            snapshotType: original.snapshotType, 
-            sortingEntities: original.sortingEntities, 
-            startTime: original.startTime, 
-            tagKeys: original.tagKeys, 
-            tagValues: original.tagValues
+            maxRecords: self.maxRecords, 
+            ownerAccount: self.ownerAccount, 
+            snapshotIdentifier: self.snapshotIdentifier, 
+            snapshotType: self.snapshotType, 
+            sortingEntities: self.sortingEntities, 
+            startTime: self.startTime, 
+            tagKeys: self.tagKeys, 
+            tagValues: self.tagValues
         )
+
     }
 }
 
 extension Redshift.DescribeClusterSubnetGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeClusterSubnetGroupsMessage, token: String) {
-        self.init(
-            clusterSubnetGroupName: original.clusterSubnetGroupName, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterSubnetGroupsMessage {
+        return .init(
+            clusterSubnetGroupName: self.clusterSubnetGroupName, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            tagKeys: original.tagKeys, 
-            tagValues: original.tagValues
+            maxRecords: self.maxRecords, 
+            tagKeys: self.tagKeys, 
+            tagValues: self.tagValues
         )
+
     }
 }
 
 extension Redshift.DescribeClusterVersionsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeClusterVersionsMessage, token: String) {
-        self.init(
-            clusterParameterGroupFamily: original.clusterParameterGroupFamily, 
-            clusterVersion: original.clusterVersion, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterVersionsMessage {
+        return .init(
+            clusterParameterGroupFamily: self.clusterParameterGroupFamily, 
+            clusterVersion: self.clusterVersion, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension Redshift.DescribeClustersMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeClustersMessage, token: String) {
-        self.init(
-            clusterIdentifier: original.clusterIdentifier, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeClustersMessage {
+        return .init(
+            clusterIdentifier: self.clusterIdentifier, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            tagKeys: original.tagKeys, 
-            tagValues: original.tagValues
+            maxRecords: self.maxRecords, 
+            tagKeys: self.tagKeys, 
+            tagValues: self.tagValues
         )
+
+    }
+}
+
+extension Redshift.DescribeDefaultClusterParametersMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeDefaultClusterParametersMessage {
+        return .init(
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            parameterGroupFamily: self.parameterGroupFamily
+        )
+
     }
 }
 
 extension Redshift.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeEventSubscriptionsMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeEventSubscriptionsMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords, 
-            subscriptionName: original.subscriptionName, 
-            tagKeys: original.tagKeys, 
-            tagValues: original.tagValues
+            maxRecords: self.maxRecords, 
+            subscriptionName: self.subscriptionName, 
+            tagKeys: self.tagKeys, 
+            tagValues: self.tagValues
         )
+
     }
 }
 
 extension Redshift.DescribeEventsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeEventsMessage, token: String) {
-        self.init(
-            duration: original.duration, 
-            endTime: original.endTime, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeEventsMessage {
+        return .init(
+            duration: self.duration, 
+            endTime: self.endTime, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            sourceIdentifier: original.sourceIdentifier, 
-            sourceType: original.sourceType, 
-            startTime: original.startTime
+            maxRecords: self.maxRecords, 
+            sourceIdentifier: self.sourceIdentifier, 
+            sourceType: self.sourceType, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension Redshift.DescribeHsmClientCertificatesMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeHsmClientCertificatesMessage, token: String) {
-        self.init(
-            hsmClientCertificateIdentifier: original.hsmClientCertificateIdentifier, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeHsmClientCertificatesMessage {
+        return .init(
+            hsmClientCertificateIdentifier: self.hsmClientCertificateIdentifier, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            tagKeys: original.tagKeys, 
-            tagValues: original.tagValues
+            maxRecords: self.maxRecords, 
+            tagKeys: self.tagKeys, 
+            tagValues: self.tagValues
         )
+
     }
 }
 
 extension Redshift.DescribeHsmConfigurationsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeHsmConfigurationsMessage, token: String) {
-        self.init(
-            hsmConfigurationIdentifier: original.hsmConfigurationIdentifier, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeHsmConfigurationsMessage {
+        return .init(
+            hsmConfigurationIdentifier: self.hsmConfigurationIdentifier, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            tagKeys: original.tagKeys, 
-            tagValues: original.tagValues
+            maxRecords: self.maxRecords, 
+            tagKeys: self.tagKeys, 
+            tagValues: self.tagValues
         )
+
     }
 }
 
 extension Redshift.DescribeNodeConfigurationOptionsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeNodeConfigurationOptionsMessage, token: String) {
-        self.init(
-            actionType: original.actionType, 
-            clusterIdentifier: original.clusterIdentifier, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeNodeConfigurationOptionsMessage {
+        return .init(
+            actionType: self.actionType, 
+            clusterIdentifier: self.clusterIdentifier, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            ownerAccount: original.ownerAccount, 
-            snapshotIdentifier: original.snapshotIdentifier
+            maxRecords: self.maxRecords, 
+            ownerAccount: self.ownerAccount, 
+            snapshotIdentifier: self.snapshotIdentifier
         )
+
     }
 }
 
 extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeOrderableClusterOptionsMessage, token: String) {
-        self.init(
-            clusterVersion: original.clusterVersion, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeOrderableClusterOptionsMessage {
+        return .init(
+            clusterVersion: self.clusterVersion, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            nodeType: original.nodeType
+            maxRecords: self.maxRecords, 
+            nodeType: self.nodeType
         )
+
     }
 }
 
 extension Redshift.DescribeReservedNodeOfferingsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeReservedNodeOfferingsMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeReservedNodeOfferingsMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords, 
-            reservedNodeOfferingId: original.reservedNodeOfferingId
+            maxRecords: self.maxRecords, 
+            reservedNodeOfferingId: self.reservedNodeOfferingId
         )
+
     }
 }
 
 extension Redshift.DescribeReservedNodesMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeReservedNodesMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeReservedNodesMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords, 
-            reservedNodeId: original.reservedNodeId
+            maxRecords: self.maxRecords, 
+            reservedNodeId: self.reservedNodeId
         )
+
     }
 }
 
 extension Redshift.DescribeScheduledActionsMessage: AWSPaginateStringToken {
-    public init(_ original: Redshift.DescribeScheduledActionsMessage, token: String) {
-        self.init(
-            active: original.active, 
-            endTime: original.endTime, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeScheduledActionsMessage {
+        return .init(
+            active: self.active, 
+            endTime: self.endTime, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            scheduledActionName: original.scheduledActionName, 
-            startTime: original.startTime, 
-            targetActionType: original.targetActionType
+            maxRecords: self.maxRecords, 
+            scheduledActionName: self.scheduledActionName, 
+            startTime: self.startTime, 
+            targetActionType: self.targetActionType
         )
+
     }
 }
 

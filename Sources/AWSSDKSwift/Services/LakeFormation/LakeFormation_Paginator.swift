@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension LakeFormation {
 
     ///  Returns the permissions for a specified table or database resource located at a path in Amazon S3.
@@ -22,36 +24,39 @@ extension LakeFormation {
 }
 
 extension LakeFormation.GetEffectivePermissionsForPathRequest: AWSPaginateStringToken {
-    public init(_ original: LakeFormation.GetEffectivePermissionsForPathRequest, token: String) {
-        self.init(
-            catalogId: original.catalogId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> LakeFormation.GetEffectivePermissionsForPathRequest {
+        return .init(
+            catalogId: self.catalogId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceArn: original.resourceArn
+            resourceArn: self.resourceArn
         )
+
     }
 }
 
 extension LakeFormation.ListPermissionsRequest: AWSPaginateStringToken {
-    public init(_ original: LakeFormation.ListPermissionsRequest, token: String) {
-        self.init(
-            catalogId: original.catalogId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> LakeFormation.ListPermissionsRequest {
+        return .init(
+            catalogId: self.catalogId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            principal: original.principal, 
-            resource: original.resource, 
-            resourceType: original.resourceType
+            principal: self.principal, 
+            resource: self.resource, 
+            resourceType: self.resourceType
         )
+
     }
 }
 
 extension LakeFormation.ListResourcesRequest: AWSPaginateStringToken {
-    public init(_ original: LakeFormation.ListResourcesRequest, token: String) {
-        self.init(
-            filterConditionList: original.filterConditionList, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> LakeFormation.ListResourcesRequest {
+        return .init(
+            filterConditionList: self.filterConditionList, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

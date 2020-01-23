@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension WorkMail {
 
     ///  Creates a paginated call to list the aliases associated with a given entity.
@@ -47,85 +49,93 @@ extension WorkMail {
 }
 
 extension WorkMail.ListAliasesRequest: AWSPaginateStringToken {
-    public init(_ original: WorkMail.ListAliasesRequest, token: String) {
-        self.init(
-            entityId: original.entityId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListAliasesRequest {
+        return .init(
+            entityId: self.entityId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            organizationId: original.organizationId
+            organizationId: self.organizationId
         )
+
     }
 }
 
 extension WorkMail.ListGroupMembersRequest: AWSPaginateStringToken {
-    public init(_ original: WorkMail.ListGroupMembersRequest, token: String) {
-        self.init(
-            groupId: original.groupId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupMembersRequest {
+        return .init(
+            groupId: self.groupId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            organizationId: original.organizationId
+            organizationId: self.organizationId
         )
+
     }
 }
 
 extension WorkMail.ListGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: WorkMail.ListGroupsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            organizationId: original.organizationId
+            organizationId: self.organizationId
         )
+
     }
 }
 
 extension WorkMail.ListMailboxPermissionsRequest: AWSPaginateStringToken {
-    public init(_ original: WorkMail.ListMailboxPermissionsRequest, token: String) {
-        self.init(
-            entityId: original.entityId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListMailboxPermissionsRequest {
+        return .init(
+            entityId: self.entityId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            organizationId: original.organizationId
+            organizationId: self.organizationId
         )
+
     }
 }
 
 extension WorkMail.ListOrganizationsRequest: AWSPaginateStringToken {
-    public init(_ original: WorkMail.ListOrganizationsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListOrganizationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension WorkMail.ListResourceDelegatesRequest: AWSPaginateStringToken {
-    public init(_ original: WorkMail.ListResourceDelegatesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListResourceDelegatesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            organizationId: original.organizationId, 
-            resourceId: original.resourceId
+            organizationId: self.organizationId, 
+            resourceId: self.resourceId
         )
+
     }
 }
 
 extension WorkMail.ListResourcesRequest: AWSPaginateStringToken {
-    public init(_ original: WorkMail.ListResourcesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListResourcesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            organizationId: original.organizationId
+            organizationId: self.organizationId
         )
+
     }
 }
 
 extension WorkMail.ListUsersRequest: AWSPaginateStringToken {
-    public init(_ original: WorkMail.ListUsersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListUsersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            organizationId: original.organizationId
+            organizationId: self.organizationId
         )
+
     }
 }
 

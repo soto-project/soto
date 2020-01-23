@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CostandUsageReportService {
 
     ///  Lists the AWS Cost and Usage reports available to this account.
@@ -12,11 +14,12 @@ extension CostandUsageReportService {
 }
 
 extension CostandUsageReportService.DescribeReportDefinitionsRequest: AWSPaginateStringToken {
-    public init(_ original: CostandUsageReportService.DescribeReportDefinitionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CostandUsageReportService.DescribeReportDefinitionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

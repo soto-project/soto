@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension DataPipeline {
 
     ///  Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of a set of fields that define the properties of the object.
@@ -22,33 +24,36 @@ extension DataPipeline {
 }
 
 extension DataPipeline.DescribeObjectsInput: AWSPaginateStringToken {
-    public init(_ original: DataPipeline.DescribeObjectsInput, token: String) {
-        self.init(
-            evaluateExpressions: original.evaluateExpressions, 
+    public func usingPaginationToken(_ token: String) -> DataPipeline.DescribeObjectsInput {
+        return .init(
+            evaluateExpressions: self.evaluateExpressions, 
             marker: token, 
-            objectIds: original.objectIds, 
-            pipelineId: original.pipelineId
+            objectIds: self.objectIds, 
+            pipelineId: self.pipelineId
         )
+
     }
 }
 
 extension DataPipeline.ListPipelinesInput: AWSPaginateStringToken {
-    public init(_ original: DataPipeline.ListPipelinesInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> DataPipeline.ListPipelinesInput {
+        return .init(
             marker: token
         )
+
     }
 }
 
 extension DataPipeline.QueryObjectsInput: AWSPaginateStringToken {
-    public init(_ original: DataPipeline.QueryObjectsInput, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> DataPipeline.QueryObjectsInput {
+        return .init(
+            limit: self.limit, 
             marker: token, 
-            pipelineId: original.pipelineId, 
-            query: original.query, 
-            sphere: original.sphere
+            pipelineId: self.pipelineId, 
+            query: self.query, 
+            sphere: self.sphere
         )
+
     }
 }
 

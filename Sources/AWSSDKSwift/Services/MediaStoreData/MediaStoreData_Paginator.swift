@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MediaStoreData {
 
     ///  Provides a list of metadata entries about folders and objects in the specified folder.
@@ -12,12 +14,13 @@ extension MediaStoreData {
 }
 
 extension MediaStoreData.ListItemsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaStoreData.ListItemsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaStoreData.ListItemsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            path: original.path
+            path: self.path
         )
+
     }
 }
 

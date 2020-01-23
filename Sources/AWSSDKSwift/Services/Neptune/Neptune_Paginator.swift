@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Neptune {
 
     ///  Returns a list of the available DB engines.
@@ -29,6 +31,11 @@ extension Neptune {
         return client.paginate(input: input, command: describeDBSubnetGroups, tokenKey: \DBSubnetGroupMessage.marker, onPage: onPage)
     }
 
+    ///  Returns the default engine and system parameter information for the specified database engine.
+    public func describeEngineDefaultParametersPaginator(_ input: DescribeEngineDefaultParametersMessage, onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeEngineDefaultParameters, tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker, onPage: onPage)
+    }
+
     ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     public func describeEventSubscriptionsPaginator(_ input: DescribeEventSubscriptionsMessage, onPage: @escaping (EventSubscriptionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, onPage: onPage)
@@ -47,105 +54,125 @@ extension Neptune {
 }
 
 extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
-    public init(_ original: Neptune.DescribeDBEngineVersionsMessage, token: String) {
-        self.init(
-            dBParameterGroupFamily: original.dBParameterGroupFamily, 
-            defaultOnly: original.defaultOnly, 
-            engine: original.engine, 
-            engineVersion: original.engineVersion, 
-            filters: original.filters, 
-            listSupportedCharacterSets: original.listSupportedCharacterSets, 
-            listSupportedTimezones: original.listSupportedTimezones, 
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBEngineVersionsMessage {
+        return .init(
+            dBParameterGroupFamily: self.dBParameterGroupFamily, 
+            defaultOnly: self.defaultOnly, 
+            engine: self.engine, 
+            engineVersion: self.engineVersion, 
+            filters: self.filters, 
+            listSupportedCharacterSets: self.listSupportedCharacterSets, 
+            listSupportedTimezones: self.listSupportedTimezones, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension Neptune.DescribeDBInstancesMessage: AWSPaginateStringToken {
-    public init(_ original: Neptune.DescribeDBInstancesMessage, token: String) {
-        self.init(
-            dBInstanceIdentifier: original.dBInstanceIdentifier, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBInstancesMessage {
+        return .init(
+            dBInstanceIdentifier: self.dBInstanceIdentifier, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension Neptune.DescribeDBParameterGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: Neptune.DescribeDBParameterGroupsMessage, token: String) {
-        self.init(
-            dBParameterGroupName: original.dBParameterGroupName, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBParameterGroupsMessage {
+        return .init(
+            dBParameterGroupName: self.dBParameterGroupName, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension Neptune.DescribeDBParametersMessage: AWSPaginateStringToken {
-    public init(_ original: Neptune.DescribeDBParametersMessage, token: String) {
-        self.init(
-            dBParameterGroupName: original.dBParameterGroupName, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBParametersMessage {
+        return .init(
+            dBParameterGroupName: self.dBParameterGroupName, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            source: original.source
+            maxRecords: self.maxRecords, 
+            source: self.source
         )
+
     }
 }
 
 extension Neptune.DescribeDBSubnetGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: Neptune.DescribeDBSubnetGroupsMessage, token: String) {
-        self.init(
-            dBSubnetGroupName: original.dBSubnetGroupName, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBSubnetGroupsMessage {
+        return .init(
+            dBSubnetGroupName: self.dBSubnetGroupName, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
+    }
+}
+
+extension Neptune.DescribeEngineDefaultParametersMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeEngineDefaultParametersMessage {
+        return .init(
+            dBParameterGroupFamily: self.dBParameterGroupFamily, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
     }
 }
 
 extension Neptune.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
-    public init(_ original: Neptune.DescribeEventSubscriptionsMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeEventSubscriptionsMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            subscriptionName: original.subscriptionName
+            maxRecords: self.maxRecords, 
+            subscriptionName: self.subscriptionName
         )
+
     }
 }
 
 extension Neptune.DescribeEventsMessage: AWSPaginateStringToken {
-    public init(_ original: Neptune.DescribeEventsMessage, token: String) {
-        self.init(
-            duration: original.duration, 
-            endTime: original.endTime, 
-            eventCategories: original.eventCategories, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeEventsMessage {
+        return .init(
+            duration: self.duration, 
+            endTime: self.endTime, 
+            eventCategories: self.eventCategories, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            sourceIdentifier: original.sourceIdentifier, 
-            sourceType: original.sourceType, 
-            startTime: original.startTime
+            maxRecords: self.maxRecords, 
+            sourceIdentifier: self.sourceIdentifier, 
+            sourceType: self.sourceType, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension Neptune.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToken {
-    public init(_ original: Neptune.DescribeOrderableDBInstanceOptionsMessage, token: String) {
-        self.init(
-            dBInstanceClass: original.dBInstanceClass, 
-            engine: original.engine, 
-            engineVersion: original.engineVersion, 
-            filters: original.filters, 
-            licenseModel: original.licenseModel, 
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeOrderableDBInstanceOptionsMessage {
+        return .init(
+            dBInstanceClass: self.dBInstanceClass, 
+            engine: self.engine, 
+            engineVersion: self.engineVersion, 
+            filters: self.filters, 
+            licenseModel: self.licenseModel, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            vpc: original.vpc
+            maxRecords: self.maxRecords, 
+            vpc: self.vpc
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CloudDirectory {
 
     ///  Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
@@ -47,6 +49,11 @@ extension CloudDirectory {
     ///  Lists all attributes that are associated with an object. 
     public func listObjectAttributesPaginator(_ input: ListObjectAttributesRequest, onPage: @escaping (ListObjectAttributesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectAttributes, tokenKey: \ListObjectAttributesResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Returns a paginated list of child objects that are associated with a given object.
+    public func listObjectChildrenPaginator(_ input: ListObjectChildrenRequest, onPage: @escaping (ListObjectChildrenResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listObjectChildren, tokenKey: \ListObjectChildrenResponse.nextToken, onPage: onPage)
     }
 
     ///  Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure. Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
@@ -97,201 +104,232 @@ extension CloudDirectory {
 }
 
 extension CloudDirectory.ListAppliedSchemaArnsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListAppliedSchemaArnsRequest, token: String) {
-        self.init(
-            directoryArn: original.directoryArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListAppliedSchemaArnsRequest {
+        return .init(
+            directoryArn: self.directoryArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            schemaArn: original.schemaArn
+            schemaArn: self.schemaArn
         )
+
     }
 }
 
 extension CloudDirectory.ListAttachedIndicesRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListAttachedIndicesRequest, token: String) {
-        self.init(
-            consistencyLevel: original.consistencyLevel, 
-            directoryArn: original.directoryArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListAttachedIndicesRequest {
+        return .init(
+            consistencyLevel: self.consistencyLevel, 
+            directoryArn: self.directoryArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            targetReference: original.targetReference
+            targetReference: self.targetReference
         )
+
     }
 }
 
 extension CloudDirectory.ListDevelopmentSchemaArnsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListDevelopmentSchemaArnsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListDevelopmentSchemaArnsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension CloudDirectory.ListDirectoriesRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListDirectoriesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListDirectoriesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            state: original.state
+            state: self.state
         )
+
     }
 }
 
 extension CloudDirectory.ListFacetAttributesRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListFacetAttributesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListFacetAttributesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token, 
-            schemaArn: original.schemaArn
+            schemaArn: self.schemaArn
         )
+
     }
 }
 
 extension CloudDirectory.ListFacetNamesRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListFacetNamesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListFacetNamesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            schemaArn: original.schemaArn
+            schemaArn: self.schemaArn
         )
+
     }
 }
 
 extension CloudDirectory.ListIndexRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListIndexRequest, token: String) {
-        self.init(
-            consistencyLevel: original.consistencyLevel, 
-            directoryArn: original.directoryArn, 
-            indexReference: original.indexReference, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListIndexRequest {
+        return .init(
+            consistencyLevel: self.consistencyLevel, 
+            directoryArn: self.directoryArn, 
+            indexReference: self.indexReference, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            rangesOnIndexedValues: original.rangesOnIndexedValues
+            rangesOnIndexedValues: self.rangesOnIndexedValues
         )
+
     }
 }
 
 extension CloudDirectory.ListManagedSchemaArnsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListManagedSchemaArnsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListManagedSchemaArnsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            schemaArn: original.schemaArn
+            schemaArn: self.schemaArn
         )
+
     }
 }
 
 extension CloudDirectory.ListObjectAttributesRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListObjectAttributesRequest, token: String) {
-        self.init(
-            consistencyLevel: original.consistencyLevel, 
-            directoryArn: original.directoryArn, 
-            facetFilter: original.facetFilter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectAttributesRequest {
+        return .init(
+            consistencyLevel: self.consistencyLevel, 
+            directoryArn: self.directoryArn, 
+            facetFilter: self.facetFilter, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            objectReference: original.objectReference
+            objectReference: self.objectReference
         )
+
+    }
+}
+
+extension CloudDirectory.ListObjectChildrenRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectChildrenRequest {
+        return .init(
+            consistencyLevel: self.consistencyLevel, 
+            directoryArn: self.directoryArn, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            objectReference: self.objectReference
+        )
+
     }
 }
 
 extension CloudDirectory.ListObjectParentPathsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListObjectParentPathsRequest, token: String) {
-        self.init(
-            directoryArn: original.directoryArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectParentPathsRequest {
+        return .init(
+            directoryArn: self.directoryArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            objectReference: original.objectReference
+            objectReference: self.objectReference
         )
+
     }
 }
 
 extension CloudDirectory.ListObjectParentsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListObjectParentsRequest, token: String) {
-        self.init(
-            consistencyLevel: original.consistencyLevel, 
-            directoryArn: original.directoryArn, 
-            includeAllLinksToEachParent: original.includeAllLinksToEachParent, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectParentsRequest {
+        return .init(
+            consistencyLevel: self.consistencyLevel, 
+            directoryArn: self.directoryArn, 
+            includeAllLinksToEachParent: self.includeAllLinksToEachParent, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            objectReference: original.objectReference
+            objectReference: self.objectReference
         )
+
     }
 }
 
 extension CloudDirectory.ListObjectPoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListObjectPoliciesRequest, token: String) {
-        self.init(
-            consistencyLevel: original.consistencyLevel, 
-            directoryArn: original.directoryArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectPoliciesRequest {
+        return .init(
+            consistencyLevel: self.consistencyLevel, 
+            directoryArn: self.directoryArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            objectReference: original.objectReference
+            objectReference: self.objectReference
         )
+
     }
 }
 
 extension CloudDirectory.ListPolicyAttachmentsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListPolicyAttachmentsRequest, token: String) {
-        self.init(
-            consistencyLevel: original.consistencyLevel, 
-            directoryArn: original.directoryArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListPolicyAttachmentsRequest {
+        return .init(
+            consistencyLevel: self.consistencyLevel, 
+            directoryArn: self.directoryArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            policyReference: original.policyReference
+            policyReference: self.policyReference
         )
+
     }
 }
 
 extension CloudDirectory.ListPublishedSchemaArnsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListPublishedSchemaArnsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListPublishedSchemaArnsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            schemaArn: original.schemaArn
+            schemaArn: self.schemaArn
         )
+
     }
 }
 
 extension CloudDirectory.ListTagsForResourceRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListTagsForResourceRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListTagsForResourceRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceArn: original.resourceArn
+            resourceArn: self.resourceArn
         )
+
     }
 }
 
 extension CloudDirectory.ListTypedLinkFacetAttributesRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListTypedLinkFacetAttributesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListTypedLinkFacetAttributesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token, 
-            schemaArn: original.schemaArn
+            schemaArn: self.schemaArn
         )
+
     }
 }
 
 extension CloudDirectory.ListTypedLinkFacetNamesRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.ListTypedLinkFacetNamesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.ListTypedLinkFacetNamesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            schemaArn: original.schemaArn
+            schemaArn: self.schemaArn
         )
+
     }
 }
 
 extension CloudDirectory.LookupPolicyRequest: AWSPaginateStringToken {
-    public init(_ original: CloudDirectory.LookupPolicyRequest, token: String) {
-        self.init(
-            directoryArn: original.directoryArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudDirectory.LookupPolicyRequest {
+        return .init(
+            directoryArn: self.directoryArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            objectReference: original.objectReference
+            objectReference: self.objectReference
         )
+
     }
 }
 

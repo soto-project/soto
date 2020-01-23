@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Health {
 
     ///  Returns a list of accounts in the organization from AWS Organizations that are affected by the provided event. Before you can call this operation, you must first enable AWS Health to work with AWS Organizations. To do this, call the EnableHealthServiceAccessForOrganization operation from your organization's master account.
@@ -42,78 +44,85 @@ extension Health {
 }
 
 extension Health.DescribeAffectedAccountsForOrganizationRequest: AWSPaginateStringToken {
-    public init(_ original: Health.DescribeAffectedAccountsForOrganizationRequest, token: String) {
-        self.init(
-            eventArn: original.eventArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Health.DescribeAffectedAccountsForOrganizationRequest {
+        return .init(
+            eventArn: self.eventArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Health.DescribeAffectedEntitiesRequest: AWSPaginateStringToken {
-    public init(_ original: Health.DescribeAffectedEntitiesRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            locale: original.locale, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Health.DescribeAffectedEntitiesRequest {
+        return .init(
+            filter: self.filter, 
+            locale: self.locale, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Health.DescribeAffectedEntitiesForOrganizationRequest: AWSPaginateStringToken {
-    public init(_ original: Health.DescribeAffectedEntitiesForOrganizationRequest, token: String) {
-        self.init(
-            locale: original.locale, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Health.DescribeAffectedEntitiesForOrganizationRequest {
+        return .init(
+            locale: self.locale, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            organizationEntityFilters: original.organizationEntityFilters
+            organizationEntityFilters: self.organizationEntityFilters
         )
+
     }
 }
 
 extension Health.DescribeEventAggregatesRequest: AWSPaginateStringToken {
-    public init(_ original: Health.DescribeEventAggregatesRequest, token: String) {
-        self.init(
-            aggregateField: original.aggregateField, 
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Health.DescribeEventAggregatesRequest {
+        return .init(
+            aggregateField: self.aggregateField, 
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Health.DescribeEventTypesRequest: AWSPaginateStringToken {
-    public init(_ original: Health.DescribeEventTypesRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            locale: original.locale, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Health.DescribeEventTypesRequest {
+        return .init(
+            filter: self.filter, 
+            locale: self.locale, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Health.DescribeEventsRequest: AWSPaginateStringToken {
-    public init(_ original: Health.DescribeEventsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            locale: original.locale, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Health.DescribeEventsRequest {
+        return .init(
+            filter: self.filter, 
+            locale: self.locale, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Health.DescribeEventsForOrganizationRequest: AWSPaginateStringToken {
-    public init(_ original: Health.DescribeEventsForOrganizationRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            locale: original.locale, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Health.DescribeEventsForOrganizationRequest {
+        return .init(
+            filter: self.filter, 
+            locale: self.locale, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

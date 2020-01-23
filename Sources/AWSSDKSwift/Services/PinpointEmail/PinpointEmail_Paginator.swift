@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension PinpointEmail {
 
     ///  List the dedicated IP addresses that are associated with your Amazon Pinpoint account.
@@ -37,60 +39,66 @@ extension PinpointEmail {
 }
 
 extension PinpointEmail.GetDedicatedIpsRequest: AWSPaginateStringToken {
-    public init(_ original: PinpointEmail.GetDedicatedIpsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> PinpointEmail.GetDedicatedIpsRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize, 
-            poolName: original.poolName
+            pageSize: self.pageSize, 
+            poolName: self.poolName
         )
+
     }
 }
 
 extension PinpointEmail.ListConfigurationSetsRequest: AWSPaginateStringToken {
-    public init(_ original: PinpointEmail.ListConfigurationSetsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> PinpointEmail.ListConfigurationSetsRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 
 extension PinpointEmail.ListDedicatedIpPoolsRequest: AWSPaginateStringToken {
-    public init(_ original: PinpointEmail.ListDedicatedIpPoolsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> PinpointEmail.ListDedicatedIpPoolsRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 
 extension PinpointEmail.ListDeliverabilityTestReportsRequest: AWSPaginateStringToken {
-    public init(_ original: PinpointEmail.ListDeliverabilityTestReportsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> PinpointEmail.ListDeliverabilityTestReportsRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 
 extension PinpointEmail.ListDomainDeliverabilityCampaignsRequest: AWSPaginateStringToken {
-    public init(_ original: PinpointEmail.ListDomainDeliverabilityCampaignsRequest, token: String) {
-        self.init(
-            endDate: original.endDate, 
+    public func usingPaginationToken(_ token: String) -> PinpointEmail.ListDomainDeliverabilityCampaignsRequest {
+        return .init(
+            endDate: self.endDate, 
             nextToken: token, 
-            pageSize: original.pageSize, 
-            startDate: original.startDate, 
-            subscribedDomain: original.subscribedDomain
+            pageSize: self.pageSize, 
+            startDate: self.startDate, 
+            subscribedDomain: self.subscribedDomain
         )
+
     }
 }
 
 extension PinpointEmail.ListEmailIdentitiesRequest: AWSPaginateStringToken {
-    public init(_ original: PinpointEmail.ListEmailIdentitiesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> PinpointEmail.ListEmailIdentitiesRequest {
+        return .init(
             nextToken: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 

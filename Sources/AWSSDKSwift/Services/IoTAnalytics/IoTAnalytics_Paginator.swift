@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension IoTAnalytics {
 
     ///  Retrieves a list of channels.
@@ -32,50 +34,55 @@ extension IoTAnalytics {
 }
 
 extension IoTAnalytics.ListChannelsRequest: AWSPaginateStringToken {
-    public init(_ original: IoTAnalytics.ListChannelsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListChannelsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTAnalytics.ListDatasetContentsRequest: AWSPaginateStringToken {
-    public init(_ original: IoTAnalytics.ListDatasetContentsRequest, token: String) {
-        self.init(
-            datasetName: original.datasetName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListDatasetContentsRequest {
+        return .init(
+            datasetName: self.datasetName, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            scheduledBefore: original.scheduledBefore, 
-            scheduledOnOrAfter: original.scheduledOnOrAfter
+            scheduledBefore: self.scheduledBefore, 
+            scheduledOnOrAfter: self.scheduledOnOrAfter
         )
+
     }
 }
 
 extension IoTAnalytics.ListDatasetsRequest: AWSPaginateStringToken {
-    public init(_ original: IoTAnalytics.ListDatasetsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListDatasetsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTAnalytics.ListDatastoresRequest: AWSPaginateStringToken {
-    public init(_ original: IoTAnalytics.ListDatastoresRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListDatastoresRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension IoTAnalytics.ListPipelinesRequest: AWSPaginateStringToken {
-    public init(_ original: IoTAnalytics.ListPipelinesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListPipelinesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

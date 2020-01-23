@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ResourceGroups {
 
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
@@ -22,33 +24,36 @@ extension ResourceGroups {
 }
 
 extension ResourceGroups.ListGroupResourcesInput: AWSPaginateStringToken {
-    public init(_ original: ResourceGroups.ListGroupResourcesInput, token: String) {
-        self.init(
-            filters: original.filters, 
-            groupName: original.groupName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ResourceGroups.ListGroupResourcesInput {
+        return .init(
+            filters: self.filters, 
+            groupName: self.groupName, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ResourceGroups.ListGroupsInput: AWSPaginateStringToken {
-    public init(_ original: ResourceGroups.ListGroupsInput, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ResourceGroups.ListGroupsInput {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ResourceGroups.SearchResourcesInput: AWSPaginateStringToken {
-    public init(_ original: ResourceGroups.SearchResourcesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ResourceGroups.SearchResourcesInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceQuery: original.resourceQuery
+            resourceQuery: self.resourceQuery
         )
+
     }
 }
 

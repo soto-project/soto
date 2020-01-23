@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ConfigService {
 
     ///  Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted. When you specify the limit and the next token, you receive a paginated response.   When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources. 
@@ -22,38 +24,41 @@ extension ConfigService {
 }
 
 extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateStringToken {
-    public init(_ original: ConfigService.DescribeRemediationExceptionsRequest, token: String) {
-        self.init(
-            configRuleName: original.configRuleName, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeRemediationExceptionsRequest {
+        return .init(
+            configRuleName: self.configRuleName, 
+            limit: self.limit, 
             nextToken: token, 
-            resourceKeys: original.resourceKeys
+            resourceKeys: self.resourceKeys
         )
+
     }
 }
 
 extension ConfigService.DescribeRemediationExecutionStatusRequest: AWSPaginateStringToken {
-    public init(_ original: ConfigService.DescribeRemediationExecutionStatusRequest, token: String) {
-        self.init(
-            configRuleName: original.configRuleName, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeRemediationExecutionStatusRequest {
+        return .init(
+            configRuleName: self.configRuleName, 
+            limit: self.limit, 
             nextToken: token, 
-            resourceKeys: original.resourceKeys
+            resourceKeys: self.resourceKeys
         )
+
     }
 }
 
 extension ConfigService.GetResourceConfigHistoryRequest: AWSPaginateStringToken {
-    public init(_ original: ConfigService.GetResourceConfigHistoryRequest, token: String) {
-        self.init(
-            chronologicalOrder: original.chronologicalOrder, 
-            earlierTime: original.earlierTime, 
-            laterTime: original.laterTime, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetResourceConfigHistoryRequest {
+        return .init(
+            chronologicalOrder: self.chronologicalOrder, 
+            earlierTime: self.earlierTime, 
+            laterTime: self.laterTime, 
+            limit: self.limit, 
             nextToken: token, 
-            resourceId: original.resourceId, 
-            resourceType: original.resourceType
+            resourceId: self.resourceId, 
+            resourceType: self.resourceType
         )
+
     }
 }
 

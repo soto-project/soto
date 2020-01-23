@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Outposts {
 
     ///  List the Outposts for your AWS account.
@@ -17,20 +19,22 @@ extension Outposts {
 }
 
 extension Outposts.ListOutpostsInput: AWSPaginateStringToken {
-    public init(_ original: Outposts.ListOutpostsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Outposts.ListOutpostsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Outposts.ListSitesInput: AWSPaginateStringToken {
-    public init(_ original: Outposts.ListSitesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Outposts.ListSitesInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

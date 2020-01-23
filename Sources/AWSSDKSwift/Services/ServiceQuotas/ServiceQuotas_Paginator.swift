@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ServiceQuotas {
 
     ///  Lists all default service quotas for the specified AWS service or all AWS services. ListAWSDefaultServiceQuotas is similar to ListServiceQuotas except for the Value object. The Value object returned by ListAWSDefaultServiceQuotas is the default value assigned by AWS. This request returns a list of all service quotas for the specified service. The listing of each you'll see the default values are the values that AWS provides for the quotas.   Always check the NextToken response parameter when calling any of the List* operations. These operations can return an unexpected list of results, even when there are more results available. When this happens, the NextToken response parameter contains a value to pass the next call to the same API to request the next part of the list. 
@@ -37,65 +39,71 @@ extension ServiceQuotas {
 }
 
 extension ServiceQuotas.ListAWSDefaultServiceQuotasRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceQuotas.ListAWSDefaultServiceQuotasRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListAWSDefaultServiceQuotasRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceCode: original.serviceCode
+            serviceCode: self.serviceCode
         )
+
     }
 }
 
 extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceCode: original.serviceCode, 
-            status: original.status
+            serviceCode: self.serviceCode, 
+            status: self.status
         )
+
     }
 }
 
 extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            quotaCode: original.quotaCode, 
-            serviceCode: original.serviceCode, 
-            status: original.status
+            quotaCode: self.quotaCode, 
+            serviceCode: self.serviceCode, 
+            status: self.status
         )
+
     }
 }
 
 extension ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest, token: String) {
-        self.init(
-            awsRegion: original.awsRegion, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest {
+        return .init(
+            awsRegion: self.awsRegion, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceCode: original.serviceCode
+            serviceCode: self.serviceCode
         )
+
     }
 }
 
 extension ServiceQuotas.ListServiceQuotasRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceQuotas.ListServiceQuotasRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListServiceQuotasRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceCode: original.serviceCode
+            serviceCode: self.serviceCode
         )
+
     }
 }
 
 extension ServiceQuotas.ListServicesRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceQuotas.ListServicesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListServicesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

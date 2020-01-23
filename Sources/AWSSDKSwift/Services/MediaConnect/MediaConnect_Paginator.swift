@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MediaConnect {
 
     ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
@@ -17,20 +19,22 @@ extension MediaConnect {
 }
 
 extension MediaConnect.ListEntitlementsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaConnect.ListEntitlementsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaConnect.ListEntitlementsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaConnect.ListFlowsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaConnect.ListFlowsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaConnect.ListFlowsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

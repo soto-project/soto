@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Rekognition {
 
     ///  Lists and describes the models in an Amazon Rekognition Custom Labels project. You can specify up to 10 model versions in ProjectVersionArns. If you don't specify a value, descriptions for all models are returned. This operation requires permissions to perform the rekognition:DescribeProjectVersions action.
@@ -62,115 +64,126 @@ extension Rekognition {
 }
 
 extension Rekognition.DescribeProjectVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.DescribeProjectVersionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.DescribeProjectVersionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            projectArn: original.projectArn, 
-            versionNames: original.versionNames
+            projectArn: self.projectArn, 
+            versionNames: self.versionNames
         )
+
     }
 }
 
 extension Rekognition.DescribeProjectsRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.DescribeProjectsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.DescribeProjectsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Rekognition.GetCelebrityRecognitionRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.GetCelebrityRecognitionRequest, token: String) {
-        self.init(
-            jobId: original.jobId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.GetCelebrityRecognitionRequest {
+        return .init(
+            jobId: self.jobId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy
+            sortBy: self.sortBy
         )
+
     }
 }
 
 extension Rekognition.GetContentModerationRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.GetContentModerationRequest, token: String) {
-        self.init(
-            jobId: original.jobId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.GetContentModerationRequest {
+        return .init(
+            jobId: self.jobId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy
+            sortBy: self.sortBy
         )
+
     }
 }
 
 extension Rekognition.GetFaceDetectionRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.GetFaceDetectionRequest, token: String) {
-        self.init(
-            jobId: original.jobId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.GetFaceDetectionRequest {
+        return .init(
+            jobId: self.jobId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Rekognition.GetFaceSearchRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.GetFaceSearchRequest, token: String) {
-        self.init(
-            jobId: original.jobId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.GetFaceSearchRequest {
+        return .init(
+            jobId: self.jobId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy
+            sortBy: self.sortBy
         )
+
     }
 }
 
 extension Rekognition.GetLabelDetectionRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.GetLabelDetectionRequest, token: String) {
-        self.init(
-            jobId: original.jobId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.GetLabelDetectionRequest {
+        return .init(
+            jobId: self.jobId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy
+            sortBy: self.sortBy
         )
+
     }
 }
 
 extension Rekognition.GetPersonTrackingRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.GetPersonTrackingRequest, token: String) {
-        self.init(
-            jobId: original.jobId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.GetPersonTrackingRequest {
+        return .init(
+            jobId: self.jobId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy
+            sortBy: self.sortBy
         )
+
     }
 }
 
 extension Rekognition.ListCollectionsRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.ListCollectionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.ListCollectionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Rekognition.ListFacesRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.ListFacesRequest, token: String) {
-        self.init(
-            collectionId: original.collectionId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.ListFacesRequest {
+        return .init(
+            collectionId: self.collectionId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Rekognition.ListStreamProcessorsRequest: AWSPaginateStringToken {
-    public init(_ original: Rekognition.ListStreamProcessorsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Rekognition.ListStreamProcessorsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension AccessAnalyzer {
 
     ///  Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer..
@@ -27,45 +29,49 @@ extension AccessAnalyzer {
 }
 
 extension AccessAnalyzer.ListAnalyzedResourcesRequest: AWSPaginateStringToken {
-    public init(_ original: AccessAnalyzer.ListAnalyzedResourcesRequest, token: String) {
-        self.init(
-            analyzerArn: original.analyzerArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AccessAnalyzer.ListAnalyzedResourcesRequest {
+        return .init(
+            analyzerArn: self.analyzerArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceType: original.resourceType
+            resourceType: self.resourceType
         )
+
     }
 }
 
 extension AccessAnalyzer.ListAnalyzersRequest: AWSPaginateStringToken {
-    public init(_ original: AccessAnalyzer.ListAnalyzersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AccessAnalyzer.ListAnalyzersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            type: original.type
+            type: self.type
         )
+
     }
 }
 
 extension AccessAnalyzer.ListArchiveRulesRequest: AWSPaginateStringToken {
-    public init(_ original: AccessAnalyzer.ListArchiveRulesRequest, token: String) {
-        self.init(
-            analyzerName: original.analyzerName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AccessAnalyzer.ListArchiveRulesRequest {
+        return .init(
+            analyzerName: self.analyzerName, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AccessAnalyzer.ListFindingsRequest: AWSPaginateStringToken {
-    public init(_ original: AccessAnalyzer.ListFindingsRequest, token: String) {
-        self.init(
-            analyzerArn: original.analyzerArn, 
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AccessAnalyzer.ListFindingsRequest {
+        return .init(
+            analyzerArn: self.analyzerArn, 
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sort: original.sort
+            sort: self.sort
         )
+
     }
 }
 

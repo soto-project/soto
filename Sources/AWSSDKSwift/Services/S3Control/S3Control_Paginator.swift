@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension S3Control {
 
     ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1000 access points (or the number specified in maxResults, whichever is less), then the response will include a continuation token that you can use to list the additional access points.
@@ -17,24 +19,26 @@ extension S3Control {
 }
 
 extension S3Control.ListAccessPointsRequest: AWSPaginateStringToken {
-    public init(_ original: S3Control.ListAccessPointsRequest, token: String) {
-        self.init(
-            accountId: original.accountId, 
-            bucket: original.bucket, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> S3Control.ListAccessPointsRequest {
+        return .init(
+            accountId: self.accountId, 
+            bucket: self.bucket, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension S3Control.ListJobsRequest: AWSPaginateStringToken {
-    public init(_ original: S3Control.ListJobsRequest, token: String) {
-        self.init(
-            accountId: original.accountId, 
-            jobStatuses: original.jobStatuses, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> S3Control.ListJobsRequest {
+        return .init(
+            accountId: self.accountId, 
+            jobStatuses: self.jobStatuses, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

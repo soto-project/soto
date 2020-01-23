@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SNS {
 
     ///  Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as FCM and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEndpointsByPlatformApplication again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 30 transactions per second (TPS).
@@ -32,44 +34,49 @@ extension SNS {
 }
 
 extension SNS.ListEndpointsByPlatformApplicationInput: AWSPaginateStringToken {
-    public init(_ original: SNS.ListEndpointsByPlatformApplicationInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SNS.ListEndpointsByPlatformApplicationInput {
+        return .init(
             nextToken: token, 
-            platformApplicationArn: original.platformApplicationArn
+            platformApplicationArn: self.platformApplicationArn
         )
+
     }
 }
 
 extension SNS.ListPlatformApplicationsInput: AWSPaginateStringToken {
-    public init(_ original: SNS.ListPlatformApplicationsInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SNS.ListPlatformApplicationsInput {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension SNS.ListSubscriptionsInput: AWSPaginateStringToken {
-    public init(_ original: SNS.ListSubscriptionsInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SNS.ListSubscriptionsInput {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension SNS.ListSubscriptionsByTopicInput: AWSPaginateStringToken {
-    public init(_ original: SNS.ListSubscriptionsByTopicInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SNS.ListSubscriptionsByTopicInput {
+        return .init(
             nextToken: token, 
-            topicArn: original.topicArn
+            topicArn: self.topicArn
         )
+
     }
 }
 
 extension SNS.ListTopicsInput: AWSPaginateStringToken {
-    public init(_ original: SNS.ListTopicsInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> SNS.ListTopicsInput {
+        return .init(
             nextToken: token
         )
+
     }
 }
 

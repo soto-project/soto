@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SecurityHub {
 
     ///  Returns a list of the custom action targets in Security Hub in your account.
@@ -32,51 +34,56 @@ extension SecurityHub {
 }
 
 extension SecurityHub.DescribeActionTargetsRequest: AWSPaginateStringToken {
-    public init(_ original: SecurityHub.DescribeActionTargetsRequest, token: String) {
-        self.init(
-            actionTargetArns: original.actionTargetArns, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeActionTargetsRequest {
+        return .init(
+            actionTargetArns: self.actionTargetArns, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SecurityHub.DescribeProductsRequest: AWSPaginateStringToken {
-    public init(_ original: SecurityHub.DescribeProductsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeProductsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SecurityHub.GetFindingsRequest: AWSPaginateStringToken {
-    public init(_ original: SecurityHub.GetFindingsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetFindingsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 
 extension SecurityHub.GetInsightsRequest: AWSPaginateStringToken {
-    public init(_ original: SecurityHub.GetInsightsRequest, token: String) {
-        self.init(
-            insightArns: original.insightArns, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetInsightsRequest {
+        return .init(
+            insightArns: self.insightArns, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SecurityHub.ListEnabledProductsForImportRequest: AWSPaginateStringToken {
-    public init(_ original: SecurityHub.ListEnabledProductsForImportRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListEnabledProductsForImportRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

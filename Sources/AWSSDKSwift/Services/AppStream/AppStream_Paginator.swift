@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension AppStream {
 
     ///  Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own. 
@@ -17,25 +19,27 @@ extension AppStream {
 }
 
 extension AppStream.DescribeImagePermissionsRequest: AWSPaginateStringToken {
-    public init(_ original: AppStream.DescribeImagePermissionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> AppStream.DescribeImagePermissionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token, 
-            sharedAwsAccountIds: original.sharedAwsAccountIds
+            sharedAwsAccountIds: self.sharedAwsAccountIds
         )
+
     }
 }
 
 extension AppStream.DescribeImagesRequest: AWSPaginateStringToken {
-    public init(_ original: AppStream.DescribeImagesRequest, token: String) {
-        self.init(
-            arns: original.arns, 
-            maxResults: original.maxResults, 
-            names: original.names, 
+    public func usingPaginationToken(_ token: String) -> AppStream.DescribeImagesRequest {
+        return .init(
+            arns: self.arns, 
+            maxResults: self.maxResults, 
+            names: self.names, 
             nextToken: token, 
-            type: original.type
+            type: self.type
         )
+
     }
 }
 

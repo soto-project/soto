@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension IAM {
 
     ///  Retrieves information about all IAM users, groups, roles, and policies in your AWS account, including their relationships to one another. Use this API to obtain a snapshot of the configuration of IAM permissions (users, groups, roles, and policies) in your account.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  You can optionally filter the results using the Filter parameter. You can paginate the results using the MaxItems and Marker parameters.
@@ -137,285 +139,311 @@ extension IAM {
 }
 
 extension IAM.GetAccountAuthorizationDetailsRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.GetAccountAuthorizationDetailsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
+    public func usingPaginationToken(_ token: String) -> IAM.GetAccountAuthorizationDetailsRequest {
+        return .init(
+            filter: self.filter, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension IAM.GetGroupRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.GetGroupRequest, token: String) {
-        self.init(
-            groupName: original.groupName, 
+    public func usingPaginationToken(_ token: String) -> IAM.GetGroupRequest {
+        return .init(
+            groupName: self.groupName, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension IAM.ListAccessKeysRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListAccessKeysRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListAccessKeysRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            userName: original.userName
+            maxItems: self.maxItems, 
+            userName: self.userName
         )
+
     }
 }
 
 extension IAM.ListAccountAliasesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListAccountAliasesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListAccountAliasesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension IAM.ListAttachedGroupPoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListAttachedGroupPoliciesRequest, token: String) {
-        self.init(
-            groupName: original.groupName, 
+    public func usingPaginationToken(_ token: String) -> IAM.ListAttachedGroupPoliciesRequest {
+        return .init(
+            groupName: self.groupName, 
             marker: token, 
-            maxItems: original.maxItems, 
-            pathPrefix: original.pathPrefix
+            maxItems: self.maxItems, 
+            pathPrefix: self.pathPrefix
         )
+
     }
 }
 
 extension IAM.ListAttachedRolePoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListAttachedRolePoliciesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListAttachedRolePoliciesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            pathPrefix: original.pathPrefix, 
-            roleName: original.roleName
+            maxItems: self.maxItems, 
+            pathPrefix: self.pathPrefix, 
+            roleName: self.roleName
         )
+
     }
 }
 
 extension IAM.ListAttachedUserPoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListAttachedUserPoliciesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListAttachedUserPoliciesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            pathPrefix: original.pathPrefix, 
-            userName: original.userName
+            maxItems: self.maxItems, 
+            pathPrefix: self.pathPrefix, 
+            userName: self.userName
         )
+
     }
 }
 
 extension IAM.ListEntitiesForPolicyRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListEntitiesForPolicyRequest, token: String) {
-        self.init(
-            entityFilter: original.entityFilter, 
+    public func usingPaginationToken(_ token: String) -> IAM.ListEntitiesForPolicyRequest {
+        return .init(
+            entityFilter: self.entityFilter, 
             marker: token, 
-            maxItems: original.maxItems, 
-            pathPrefix: original.pathPrefix, 
-            policyArn: original.policyArn, 
-            policyUsageFilter: original.policyUsageFilter
+            maxItems: self.maxItems, 
+            pathPrefix: self.pathPrefix, 
+            policyArn: self.policyArn, 
+            policyUsageFilter: self.policyUsageFilter
         )
+
     }
 }
 
 extension IAM.ListGroupPoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListGroupPoliciesRequest, token: String) {
-        self.init(
-            groupName: original.groupName, 
+    public func usingPaginationToken(_ token: String) -> IAM.ListGroupPoliciesRequest {
+        return .init(
+            groupName: self.groupName, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension IAM.ListGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListGroupsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListGroupsRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            pathPrefix: original.pathPrefix
+            maxItems: self.maxItems, 
+            pathPrefix: self.pathPrefix
         )
+
     }
 }
 
 extension IAM.ListGroupsForUserRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListGroupsForUserRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListGroupsForUserRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            userName: original.userName
+            maxItems: self.maxItems, 
+            userName: self.userName
         )
+
     }
 }
 
 extension IAM.ListInstanceProfilesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListInstanceProfilesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfilesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            pathPrefix: original.pathPrefix
+            maxItems: self.maxItems, 
+            pathPrefix: self.pathPrefix
         )
+
     }
 }
 
 extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListInstanceProfilesForRoleRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfilesForRoleRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            roleName: original.roleName
+            maxItems: self.maxItems, 
+            roleName: self.roleName
         )
+
     }
 }
 
 extension IAM.ListMFADevicesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListMFADevicesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListMFADevicesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            userName: original.userName
+            maxItems: self.maxItems, 
+            userName: self.userName
         )
+
     }
 }
 
 extension IAM.ListPoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListPoliciesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListPoliciesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            onlyAttached: original.onlyAttached, 
-            pathPrefix: original.pathPrefix, 
-            policyUsageFilter: original.policyUsageFilter, 
-            scope: original.scope
+            maxItems: self.maxItems, 
+            onlyAttached: self.onlyAttached, 
+            pathPrefix: self.pathPrefix, 
+            policyUsageFilter: self.policyUsageFilter, 
+            scope: self.scope
         )
+
     }
 }
 
 extension IAM.ListPolicyVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListPolicyVersionsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListPolicyVersionsRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            policyArn: original.policyArn
+            maxItems: self.maxItems, 
+            policyArn: self.policyArn
         )
+
     }
 }
 
 extension IAM.ListRolePoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListRolePoliciesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListRolePoliciesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            roleName: original.roleName
+            maxItems: self.maxItems, 
+            roleName: self.roleName
         )
+
     }
 }
 
 extension IAM.ListRolesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListRolesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListRolesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            pathPrefix: original.pathPrefix
+            maxItems: self.maxItems, 
+            pathPrefix: self.pathPrefix
         )
+
     }
 }
 
 extension IAM.ListSSHPublicKeysRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListSSHPublicKeysRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListSSHPublicKeysRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            userName: original.userName
+            maxItems: self.maxItems, 
+            userName: self.userName
         )
+
     }
 }
 
 extension IAM.ListServerCertificatesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListServerCertificatesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListServerCertificatesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            pathPrefix: original.pathPrefix
+            maxItems: self.maxItems, 
+            pathPrefix: self.pathPrefix
         )
+
     }
 }
 
 extension IAM.ListSigningCertificatesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListSigningCertificatesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListSigningCertificatesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            userName: original.userName
+            maxItems: self.maxItems, 
+            userName: self.userName
         )
+
     }
 }
 
 extension IAM.ListUserPoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListUserPoliciesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListUserPoliciesRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            userName: original.userName
+            maxItems: self.maxItems, 
+            userName: self.userName
         )
+
     }
 }
 
 extension IAM.ListUsersRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListUsersRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> IAM.ListUsersRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            pathPrefix: original.pathPrefix
+            maxItems: self.maxItems, 
+            pathPrefix: self.pathPrefix
         )
+
     }
 }
 
 extension IAM.ListVirtualMFADevicesRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.ListVirtualMFADevicesRequest, token: String) {
-        self.init(
-            assignmentStatus: original.assignmentStatus, 
+    public func usingPaginationToken(_ token: String) -> IAM.ListVirtualMFADevicesRequest {
+        return .init(
+            assignmentStatus: self.assignmentStatus, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension IAM.SimulateCustomPolicyRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.SimulateCustomPolicyRequest, token: String) {
-        self.init(
-            actionNames: original.actionNames, 
-            callerArn: original.callerArn, 
-            contextEntries: original.contextEntries, 
+    public func usingPaginationToken(_ token: String) -> IAM.SimulateCustomPolicyRequest {
+        return .init(
+            actionNames: self.actionNames, 
+            callerArn: self.callerArn, 
+            contextEntries: self.contextEntries, 
             marker: token, 
-            maxItems: original.maxItems, 
-            policyInputList: original.policyInputList, 
-            resourceArns: original.resourceArns, 
-            resourceHandlingOption: original.resourceHandlingOption, 
-            resourceOwner: original.resourceOwner, 
-            resourcePolicy: original.resourcePolicy
+            maxItems: self.maxItems, 
+            policyInputList: self.policyInputList, 
+            resourceArns: self.resourceArns, 
+            resourceHandlingOption: self.resourceHandlingOption, 
+            resourceOwner: self.resourceOwner, 
+            resourcePolicy: self.resourcePolicy
         )
+
     }
 }
 
 extension IAM.SimulatePrincipalPolicyRequest: AWSPaginateStringToken {
-    public init(_ original: IAM.SimulatePrincipalPolicyRequest, token: String) {
-        self.init(
-            actionNames: original.actionNames, 
-            callerArn: original.callerArn, 
-            contextEntries: original.contextEntries, 
+    public func usingPaginationToken(_ token: String) -> IAM.SimulatePrincipalPolicyRequest {
+        return .init(
+            actionNames: self.actionNames, 
+            callerArn: self.callerArn, 
+            contextEntries: self.contextEntries, 
             marker: token, 
-            maxItems: original.maxItems, 
-            policyInputList: original.policyInputList, 
-            policySourceArn: original.policySourceArn, 
-            resourceArns: original.resourceArns, 
-            resourceHandlingOption: original.resourceHandlingOption, 
-            resourceOwner: original.resourceOwner, 
-            resourcePolicy: original.resourcePolicy
+            maxItems: self.maxItems, 
+            policyInputList: self.policyInputList, 
+            policySourceArn: self.policySourceArn, 
+            resourceArns: self.resourceArns, 
+            resourceHandlingOption: self.resourceHandlingOption, 
+            resourceOwner: self.resourceOwner, 
+            resourcePolicy: self.resourcePolicy
         )
+
     }
 }
 

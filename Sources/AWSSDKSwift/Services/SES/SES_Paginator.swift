@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SES {
 
     ///  Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -17,21 +19,23 @@ extension SES {
 }
 
 extension SES.ListCustomVerificationEmailTemplatesRequest: AWSPaginateStringToken {
-    public init(_ original: SES.ListCustomVerificationEmailTemplatesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SES.ListCustomVerificationEmailTemplatesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SES.ListIdentitiesRequest: AWSPaginateStringToken {
-    public init(_ original: SES.ListIdentitiesRequest, token: String) {
-        self.init(
-            identityType: original.identityType, 
-            maxItems: original.maxItems, 
+    public func usingPaginationToken(_ token: String) -> SES.ListIdentitiesRequest {
+        return .init(
+            identityType: self.identityType, 
+            maxItems: self.maxItems, 
             nextToken: token
         )
+
     }
 }
 

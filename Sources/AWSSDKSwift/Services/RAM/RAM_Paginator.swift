@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension RAM {
 
     ///  Gets the policies for the specified resources that you own and have shared.
@@ -42,90 +44,97 @@ extension RAM {
 }
 
 extension RAM.GetResourcePoliciesRequest: AWSPaginateStringToken {
-    public init(_ original: RAM.GetResourcePoliciesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RAM.GetResourcePoliciesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            principal: original.principal, 
-            resourceArns: original.resourceArns
+            principal: self.principal, 
+            resourceArns: self.resourceArns
         )
+
     }
 }
 
 extension RAM.GetResourceShareAssociationsRequest: AWSPaginateStringToken {
-    public init(_ original: RAM.GetResourceShareAssociationsRequest, token: String) {
-        self.init(
-            associationStatus: original.associationStatus, 
-            associationType: original.associationType, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RAM.GetResourceShareAssociationsRequest {
+        return .init(
+            associationStatus: self.associationStatus, 
+            associationType: self.associationType, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            principal: original.principal, 
-            resourceArn: original.resourceArn, 
-            resourceShareArns: original.resourceShareArns
+            principal: self.principal, 
+            resourceArn: self.resourceArn, 
+            resourceShareArns: self.resourceShareArns
         )
+
     }
 }
 
 extension RAM.GetResourceShareInvitationsRequest: AWSPaginateStringToken {
-    public init(_ original: RAM.GetResourceShareInvitationsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RAM.GetResourceShareInvitationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceShareArns: original.resourceShareArns, 
-            resourceShareInvitationArns: original.resourceShareInvitationArns
+            resourceShareArns: self.resourceShareArns, 
+            resourceShareInvitationArns: self.resourceShareInvitationArns
         )
+
     }
 }
 
 extension RAM.GetResourceSharesRequest: AWSPaginateStringToken {
-    public init(_ original: RAM.GetResourceSharesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> RAM.GetResourceSharesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token, 
-            resourceOwner: original.resourceOwner, 
-            resourceShareArns: original.resourceShareArns, 
-            resourceShareStatus: original.resourceShareStatus, 
-            tagFilters: original.tagFilters
+            resourceOwner: self.resourceOwner, 
+            resourceShareArns: self.resourceShareArns, 
+            resourceShareStatus: self.resourceShareStatus, 
+            tagFilters: self.tagFilters
         )
+
     }
 }
 
 extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateStringToken {
-    public init(_ original: RAM.ListPendingInvitationResourcesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RAM.ListPendingInvitationResourcesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceShareInvitationArn: original.resourceShareInvitationArn
+            resourceShareInvitationArn: self.resourceShareInvitationArn
         )
+
     }
 }
 
 extension RAM.ListPrincipalsRequest: AWSPaginateStringToken {
-    public init(_ original: RAM.ListPrincipalsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RAM.ListPrincipalsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            principals: original.principals, 
-            resourceArn: original.resourceArn, 
-            resourceOwner: original.resourceOwner, 
-            resourceShareArns: original.resourceShareArns, 
-            resourceType: original.resourceType
+            principals: self.principals, 
+            resourceArn: self.resourceArn, 
+            resourceOwner: self.resourceOwner, 
+            resourceShareArns: self.resourceShareArns, 
+            resourceType: self.resourceType
         )
+
     }
 }
 
 extension RAM.ListResourcesRequest: AWSPaginateStringToken {
-    public init(_ original: RAM.ListResourcesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RAM.ListResourcesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            principal: original.principal, 
-            resourceArns: original.resourceArns, 
-            resourceOwner: original.resourceOwner, 
-            resourceShareArns: original.resourceShareArns, 
-            resourceType: original.resourceType
+            principal: self.principal, 
+            resourceArns: self.resourceArns, 
+            resourceOwner: self.resourceOwner, 
+            resourceShareArns: self.resourceShareArns, 
+            resourceType: self.resourceType
         )
+
     }
 }
 

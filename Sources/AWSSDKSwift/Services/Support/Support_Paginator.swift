@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Support {
 
     ///  Returns a list of cases that you specify by passing one or more case IDs. In addition, you can filter the cases by date by setting values for the afterTime and beforeTime request parameters. You can set values for the includeResolvedCases and includeCommunications request parameters to control how much information is returned. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. The response returns the following in JSON format:   One or more CaseDetails data types.   One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects.  
@@ -17,30 +19,32 @@ extension Support {
 }
 
 extension Support.DescribeCasesRequest: AWSPaginateStringToken {
-    public init(_ original: Support.DescribeCasesRequest, token: String) {
-        self.init(
-            afterTime: original.afterTime, 
-            beforeTime: original.beforeTime, 
-            caseIdList: original.caseIdList, 
-            displayId: original.displayId, 
-            includeCommunications: original.includeCommunications, 
-            includeResolvedCases: original.includeResolvedCases, 
-            language: original.language, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Support.DescribeCasesRequest {
+        return .init(
+            afterTime: self.afterTime, 
+            beforeTime: self.beforeTime, 
+            caseIdList: self.caseIdList, 
+            displayId: self.displayId, 
+            includeCommunications: self.includeCommunications, 
+            includeResolvedCases: self.includeResolvedCases, 
+            language: self.language, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Support.DescribeCommunicationsRequest: AWSPaginateStringToken {
-    public init(_ original: Support.DescribeCommunicationsRequest, token: String) {
-        self.init(
-            afterTime: original.afterTime, 
-            beforeTime: original.beforeTime, 
-            caseId: original.caseId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Support.DescribeCommunicationsRequest {
+        return .init(
+            afterTime: self.afterTime, 
+            beforeTime: self.beforeTime, 
+            caseId: self.caseId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

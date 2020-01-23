@@ -2,7 +2,14 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension DeviceFarm {
+
+    ///  Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
+    public func getOfferingStatusPaginator(_ input: GetOfferingStatusRequest, onPage: @escaping (GetOfferingStatusResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getOfferingStatus, tokenKey: \GetOfferingStatusResult.nextToken, onPage: onPage)
+    }
 
     ///  Gets information about artifacts.
     public func listArtifactsPaginator(_ input: ListArtifactsRequest, onPage: @escaping (ListArtifactsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
@@ -79,6 +86,11 @@ extension DeviceFarm {
         return client.paginate(input: input, command: listTests, tokenKey: \ListTestsResult.nextToken, onPage: onPage)
     }
 
+    ///  Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
+    public func listUniqueProblemsPaginator(_ input: ListUniqueProblemsRequest, onPage: @escaping (ListUniqueProblemsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listUniqueProblems, tokenKey: \ListUniqueProblemsResult.nextToken, onPage: onPage)
+    }
+
     ///  Gets information about uploads, given an AWS Device Farm project ARN.
     public func listUploadsPaginator(_ input: ListUploadsRequest, onPage: @escaping (ListUploadsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listUploads, tokenKey: \ListUploadsResult.nextToken, onPage: onPage)
@@ -86,158 +98,193 @@ extension DeviceFarm {
 
 }
 
-extension DeviceFarm.ListArtifactsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListArtifactsRequest, token: String) {
-        self.init(
-            arn: original.arn, 
-            nextToken: token, 
-            type: original.type
+extension DeviceFarm.GetOfferingStatusRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.GetOfferingStatusRequest {
+        return .init(
+            nextToken: token
         )
+
+    }
+}
+
+extension DeviceFarm.ListArtifactsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListArtifactsRequest {
+        return .init(
+            arn: self.arn, 
+            nextToken: token, 
+            type: self.type
+        )
+
     }
 }
 
 extension DeviceFarm.ListDevicePoolsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListDevicePoolsRequest, token: String) {
-        self.init(
-            arn: original.arn, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListDevicePoolsRequest {
+        return .init(
+            arn: self.arn, 
             nextToken: token, 
-            type: original.type
+            type: self.type
         )
+
     }
 }
 
 extension DeviceFarm.ListDevicesRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListDevicesRequest, token: String) {
-        self.init(
-            arn: original.arn, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListDevicesRequest {
+        return .init(
+            arn: self.arn, 
+            filters: self.filters, 
             nextToken: token
         )
+
     }
 }
 
 extension DeviceFarm.ListJobsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListJobsRequest, token: String) {
-        self.init(
-            arn: original.arn, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListJobsRequest {
+        return .init(
+            arn: self.arn, 
             nextToken: token
         )
+
     }
 }
 
 extension DeviceFarm.ListOfferingTransactionsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListOfferingTransactionsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListOfferingTransactionsRequest {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension DeviceFarm.ListOfferingsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListOfferingsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListOfferingsRequest {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension DeviceFarm.ListProjectsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListProjectsRequest, token: String) {
-        self.init(
-            arn: original.arn, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListProjectsRequest {
+        return .init(
+            arn: self.arn, 
             nextToken: token
         )
+
     }
 }
 
 extension DeviceFarm.ListRunsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListRunsRequest, token: String) {
-        self.init(
-            arn: original.arn, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListRunsRequest {
+        return .init(
+            arn: self.arn, 
             nextToken: token
         )
+
     }
 }
 
 extension DeviceFarm.ListSamplesRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListSamplesRequest, token: String) {
-        self.init(
-            arn: original.arn, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListSamplesRequest {
+        return .init(
+            arn: self.arn, 
             nextToken: token
         )
+
     }
 }
 
 extension DeviceFarm.ListSuitesRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListSuitesRequest, token: String) {
-        self.init(
-            arn: original.arn, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListSuitesRequest {
+        return .init(
+            arn: self.arn, 
             nextToken: token
         )
+
     }
 }
 
 extension DeviceFarm.ListTestGridProjectsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListTestGridProjectsRequest, token: String) {
-        self.init(
-            maxResult: original.maxResult, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestGridProjectsRequest {
+        return .init(
+            maxResult: self.maxResult, 
             nextToken: token
         )
+
     }
 }
 
 extension DeviceFarm.ListTestGridSessionActionsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListTestGridSessionActionsRequest, token: String) {
-        self.init(
-            maxResult: original.maxResult, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestGridSessionActionsRequest {
+        return .init(
+            maxResult: self.maxResult, 
             nextToken: token, 
-            sessionArn: original.sessionArn
+            sessionArn: self.sessionArn
         )
+
     }
 }
 
 extension DeviceFarm.ListTestGridSessionArtifactsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListTestGridSessionArtifactsRequest, token: String) {
-        self.init(
-            maxResult: original.maxResult, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestGridSessionArtifactsRequest {
+        return .init(
+            maxResult: self.maxResult, 
             nextToken: token, 
-            sessionArn: original.sessionArn, 
-            type: original.type
+            sessionArn: self.sessionArn, 
+            type: self.type
         )
+
     }
 }
 
 extension DeviceFarm.ListTestGridSessionsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListTestGridSessionsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            endTimeAfter: original.endTimeAfter, 
-            endTimeBefore: original.endTimeBefore, 
-            maxResult: original.maxResult, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestGridSessionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            endTimeAfter: self.endTimeAfter, 
+            endTimeBefore: self.endTimeBefore, 
+            maxResult: self.maxResult, 
             nextToken: token, 
-            projectArn: original.projectArn, 
-            status: original.status
+            projectArn: self.projectArn, 
+            status: self.status
         )
+
     }
 }
 
 extension DeviceFarm.ListTestsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListTestsRequest, token: String) {
-        self.init(
-            arn: original.arn, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestsRequest {
+        return .init(
+            arn: self.arn, 
             nextToken: token
         )
+
+    }
+}
+
+extension DeviceFarm.ListUniqueProblemsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListUniqueProblemsRequest {
+        return .init(
+            arn: self.arn, 
+            nextToken: token
+        )
+
     }
 }
 
 extension DeviceFarm.ListUploadsRequest: AWSPaginateStringToken {
-    public init(_ original: DeviceFarm.ListUploadsRequest, token: String) {
-        self.init(
-            arn: original.arn, 
+    public func usingPaginationToken(_ token: String) -> DeviceFarm.ListUploadsRequest {
+        return .init(
+            arn: self.arn, 
             nextToken: token, 
-            type: original.type
+            type: self.type
         )
+
     }
 }
 

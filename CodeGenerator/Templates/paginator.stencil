@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension {{name}} {
 
 {%for page in paginators %}
@@ -20,12 +22,13 @@ extension {{name}} {
 
 {%for page in paginators %}
 extension {{name}}.{{page.operation.inputShape}}: {{page.paginatorProtocol}} {
-    public init(_ original: {{name}}.{{page.operation.inputShape}}, token: {{page.tokenType}}) {
-        self.init(
+    public func usingPaginationToken(_ token: {{page.tokenType}}) -> {{name}}.{{page.operation.inputShape}} {
+        return .init(
 {%for param in page.initParams %}
             {{param}}{%if not forloop.last %}, {%endif +%}
 {%endfor %}
         )
+
     }
 }
 

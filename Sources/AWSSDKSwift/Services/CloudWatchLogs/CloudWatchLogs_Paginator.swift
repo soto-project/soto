@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CloudWatchLogs {
 
     ///  Lists all your destinations. The results are ASCII-sorted by destination name.
@@ -42,88 +44,95 @@ extension CloudWatchLogs {
 }
 
 extension CloudWatchLogs.DescribeDestinationsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudWatchLogs.DescribeDestinationsRequest, token: String) {
-        self.init(
-            destinationNamePrefix: original.destinationNamePrefix, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeDestinationsRequest {
+        return .init(
+            destinationNamePrefix: self.destinationNamePrefix, 
+            limit: self.limit, 
             nextToken: token
         )
+
     }
 }
 
 extension CloudWatchLogs.DescribeLogGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudWatchLogs.DescribeLogGroupsRequest, token: String) {
-        self.init(
-            limit: original.limit, 
-            logGroupNamePrefix: original.logGroupNamePrefix, 
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeLogGroupsRequest {
+        return .init(
+            limit: self.limit, 
+            logGroupNamePrefix: self.logGroupNamePrefix, 
             nextToken: token
         )
+
     }
 }
 
 extension CloudWatchLogs.DescribeLogStreamsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudWatchLogs.DescribeLogStreamsRequest, token: String) {
-        self.init(
-            descending: original.descending, 
-            limit: original.limit, 
-            logGroupName: original.logGroupName, 
-            logStreamNamePrefix: original.logStreamNamePrefix, 
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeLogStreamsRequest {
+        return .init(
+            descending: self.descending, 
+            limit: self.limit, 
+            logGroupName: self.logGroupName, 
+            logStreamNamePrefix: self.logStreamNamePrefix, 
             nextToken: token, 
-            orderBy: original.orderBy
+            orderBy: self.orderBy
         )
+
     }
 }
 
 extension CloudWatchLogs.DescribeMetricFiltersRequest: AWSPaginateStringToken {
-    public init(_ original: CloudWatchLogs.DescribeMetricFiltersRequest, token: String) {
-        self.init(
-            filterNamePrefix: original.filterNamePrefix, 
-            limit: original.limit, 
-            logGroupName: original.logGroupName, 
-            metricName: original.metricName, 
-            metricNamespace: original.metricNamespace, 
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeMetricFiltersRequest {
+        return .init(
+            filterNamePrefix: self.filterNamePrefix, 
+            limit: self.limit, 
+            logGroupName: self.logGroupName, 
+            metricName: self.metricName, 
+            metricNamespace: self.metricNamespace, 
             nextToken: token
         )
+
     }
 }
 
 extension CloudWatchLogs.DescribeSubscriptionFiltersRequest: AWSPaginateStringToken {
-    public init(_ original: CloudWatchLogs.DescribeSubscriptionFiltersRequest, token: String) {
-        self.init(
-            filterNamePrefix: original.filterNamePrefix, 
-            limit: original.limit, 
-            logGroupName: original.logGroupName, 
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeSubscriptionFiltersRequest {
+        return .init(
+            filterNamePrefix: self.filterNamePrefix, 
+            limit: self.limit, 
+            logGroupName: self.logGroupName, 
             nextToken: token
         )
+
     }
 }
 
 extension CloudWatchLogs.FilterLogEventsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudWatchLogs.FilterLogEventsRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            filterPattern: original.filterPattern, 
-            limit: original.limit, 
-            logGroupName: original.logGroupName, 
-            logStreamNamePrefix: original.logStreamNamePrefix, 
-            logStreamNames: original.logStreamNames, 
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.FilterLogEventsRequest {
+        return .init(
+            endTime: self.endTime, 
+            filterPattern: self.filterPattern, 
+            limit: self.limit, 
+            logGroupName: self.logGroupName, 
+            logStreamNamePrefix: self.logStreamNamePrefix, 
+            logStreamNames: self.logStreamNames, 
             nextToken: token, 
-            startTime: original.startTime
+            startTime: self.startTime
         )
+
     }
 }
 
 extension CloudWatchLogs.GetLogEventsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudWatchLogs.GetLogEventsRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            limit: original.limit, 
-            logGroupName: original.logGroupName, 
-            logStreamName: original.logStreamName, 
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.GetLogEventsRequest {
+        return .init(
+            endTime: self.endTime, 
+            limit: self.limit, 
+            logGroupName: self.logGroupName, 
+            logStreamName: self.logStreamName, 
             nextToken: token, 
-            startFromHead: original.startFromHead, 
-            startTime: original.startTime
+            startFromHead: self.startFromHead, 
+            startTime: self.startTime
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Transfer {
 
     ///  Lists the Secure File Transfer Protocol (SFTP) servers that are associated with your AWS account.
@@ -22,31 +24,34 @@ extension Transfer {
 }
 
 extension Transfer.ListServersRequest: AWSPaginateStringToken {
-    public init(_ original: Transfer.ListServersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Transfer.ListServersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Transfer.ListTagsForResourceRequest: AWSPaginateStringToken {
-    public init(_ original: Transfer.ListTagsForResourceRequest, token: String) {
-        self.init(
-            arn: original.arn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Transfer.ListTagsForResourceRequest {
+        return .init(
+            arn: self.arn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Transfer.ListUsersRequest: AWSPaginateStringToken {
-    public init(_ original: Transfer.ListUsersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Transfer.ListUsersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serverId: original.serverId
+            serverId: self.serverId
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MigrationHubConfig {
 
     ///  This API permits filtering on the ControlId, HomeRegion, and RegionControlScope fields.
@@ -12,14 +14,15 @@ extension MigrationHubConfig {
 }
 
 extension MigrationHubConfig.DescribeHomeRegionControlsRequest: AWSPaginateStringToken {
-    public init(_ original: MigrationHubConfig.DescribeHomeRegionControlsRequest, token: String) {
-        self.init(
-            controlId: original.controlId, 
-            homeRegion: original.homeRegion, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MigrationHubConfig.DescribeHomeRegionControlsRequest {
+        return .init(
+            controlId: self.controlId, 
+            homeRegion: self.homeRegion, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            target: original.target
+            target: self.target
         )
+
     }
 }
 

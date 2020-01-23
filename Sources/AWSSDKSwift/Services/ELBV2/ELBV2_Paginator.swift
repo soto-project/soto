@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ELBV2 {
 
     ///  Describes the specified listeners or the listeners for the specified Application Load Balancer or Network Load Balancer. You must specify either a load balancer or one or more listeners. For an HTTPS or TLS listener, the output includes the default certificate for the listener. To describe the certificate list for the listener, use DescribeListenerCertificates.
@@ -22,36 +24,39 @@ extension ELBV2 {
 }
 
 extension ELBV2.DescribeListenersInput: AWSPaginateStringToken {
-    public init(_ original: ELBV2.DescribeListenersInput, token: String) {
-        self.init(
-            listenerArns: original.listenerArns, 
-            loadBalancerArn: original.loadBalancerArn, 
+    public func usingPaginationToken(_ token: String) -> ELBV2.DescribeListenersInput {
+        return .init(
+            listenerArns: self.listenerArns, 
+            loadBalancerArn: self.loadBalancerArn, 
             marker: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 
 extension ELBV2.DescribeLoadBalancersInput: AWSPaginateStringToken {
-    public init(_ original: ELBV2.DescribeLoadBalancersInput, token: String) {
-        self.init(
-            loadBalancerArns: original.loadBalancerArns, 
+    public func usingPaginationToken(_ token: String) -> ELBV2.DescribeLoadBalancersInput {
+        return .init(
+            loadBalancerArns: self.loadBalancerArns, 
             marker: token, 
-            names: original.names, 
-            pageSize: original.pageSize
+            names: self.names, 
+            pageSize: self.pageSize
         )
+
     }
 }
 
 extension ELBV2.DescribeTargetGroupsInput: AWSPaginateStringToken {
-    public init(_ original: ELBV2.DescribeTargetGroupsInput, token: String) {
-        self.init(
-            loadBalancerArn: original.loadBalancerArn, 
+    public func usingPaginationToken(_ token: String) -> ELBV2.DescribeTargetGroupsInput {
+        return .init(
+            loadBalancerArn: self.loadBalancerArn, 
             marker: token, 
-            names: original.names, 
-            pageSize: original.pageSize, 
-            targetGroupArns: original.targetGroupArns
+            names: self.names, 
+            pageSize: self.pageSize, 
+            targetGroupArns: self.targetGroupArns
         )
+
     }
 }
 

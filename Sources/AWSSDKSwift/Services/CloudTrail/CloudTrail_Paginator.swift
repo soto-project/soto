@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CloudTrail {
 
     ///  Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key.  CloudTrail uses different private/public key pairs per region. Each digest file is signed with a private key unique to its region. Therefore, when you validate a digest file from a particular region, you must look in the same region for its corresponding public key. 
@@ -27,42 +29,46 @@ extension CloudTrail {
 }
 
 extension CloudTrail.ListPublicKeysRequest: AWSPaginateStringToken {
-    public init(_ original: CloudTrail.ListPublicKeysRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
+    public func usingPaginationToken(_ token: String) -> CloudTrail.ListPublicKeysRequest {
+        return .init(
+            endTime: self.endTime, 
             nextToken: token, 
-            startTime: original.startTime
+            startTime: self.startTime
         )
+
     }
 }
 
 extension CloudTrail.ListTagsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudTrail.ListTagsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CloudTrail.ListTagsRequest {
+        return .init(
             nextToken: token, 
-            resourceIdList: original.resourceIdList
+            resourceIdList: self.resourceIdList
         )
+
     }
 }
 
 extension CloudTrail.ListTrailsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudTrail.ListTrailsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CloudTrail.ListTrailsRequest {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension CloudTrail.LookupEventsRequest: AWSPaginateStringToken {
-    public init(_ original: CloudTrail.LookupEventsRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            eventCategory: original.eventCategory, 
-            lookupAttributes: original.lookupAttributes, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CloudTrail.LookupEventsRequest {
+        return .init(
+            endTime: self.endTime, 
+            eventCategory: self.eventCategory, 
+            lookupAttributes: self.lookupAttributes, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            startTime: original.startTime
+            startTime: self.startTime
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension TranscribeService {
 
     ///  Lists transcription jobs with the specified status.
@@ -22,34 +24,37 @@ extension TranscribeService {
 }
 
 extension TranscribeService.ListTranscriptionJobsRequest: AWSPaginateStringToken {
-    public init(_ original: TranscribeService.ListTranscriptionJobsRequest, token: String) {
-        self.init(
-            jobNameContains: original.jobNameContains, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> TranscribeService.ListTranscriptionJobsRequest {
+        return .init(
+            jobNameContains: self.jobNameContains, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            status: original.status
+            status: self.status
         )
+
     }
 }
 
 extension TranscribeService.ListVocabulariesRequest: AWSPaginateStringToken {
-    public init(_ original: TranscribeService.ListVocabulariesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> TranscribeService.ListVocabulariesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            stateEquals: original.stateEquals
+            stateEquals: self.stateEquals
         )
+
     }
 }
 
 extension TranscribeService.ListVocabularyFiltersRequest: AWSPaginateStringToken {
-    public init(_ original: TranscribeService.ListVocabularyFiltersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> TranscribeService.ListVocabularyFiltersRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token
         )
+
     }
 }
 

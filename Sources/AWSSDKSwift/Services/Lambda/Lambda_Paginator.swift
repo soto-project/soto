@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Lambda {
 
     ///  Returns a list of aliases for a Lambda function.
@@ -47,86 +49,94 @@ extension Lambda {
 }
 
 extension Lambda.ListAliasesRequest: AWSPaginateStringToken {
-    public init(_ original: Lambda.ListAliasesRequest, token: String) {
-        self.init(
-            functionName: original.functionName, 
-            functionVersion: original.functionVersion, 
+    public func usingPaginationToken(_ token: String) -> Lambda.ListAliasesRequest {
+        return .init(
+            functionName: self.functionName, 
+            functionVersion: self.functionVersion, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Lambda.ListEventSourceMappingsRequest: AWSPaginateStringToken {
-    public init(_ original: Lambda.ListEventSourceMappingsRequest, token: String) {
-        self.init(
-            eventSourceArn: original.eventSourceArn, 
-            functionName: original.functionName, 
+    public func usingPaginationToken(_ token: String) -> Lambda.ListEventSourceMappingsRequest {
+        return .init(
+            eventSourceArn: self.eventSourceArn, 
+            functionName: self.functionName, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Lambda.ListFunctionEventInvokeConfigsRequest: AWSPaginateStringToken {
-    public init(_ original: Lambda.ListFunctionEventInvokeConfigsRequest, token: String) {
-        self.init(
-            functionName: original.functionName, 
+    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionEventInvokeConfigsRequest {
+        return .init(
+            functionName: self.functionName, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Lambda.ListFunctionsRequest: AWSPaginateStringToken {
-    public init(_ original: Lambda.ListFunctionsRequest, token: String) {
-        self.init(
-            functionVersion: original.functionVersion, 
+    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionsRequest {
+        return .init(
+            functionVersion: self.functionVersion, 
             marker: token, 
-            masterRegion: original.masterRegion, 
-            maxItems: original.maxItems
+            masterRegion: self.masterRegion, 
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Lambda.ListLayerVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: Lambda.ListLayerVersionsRequest, token: String) {
-        self.init(
-            compatibleRuntime: original.compatibleRuntime, 
-            layerName: original.layerName, 
+    public func usingPaginationToken(_ token: String) -> Lambda.ListLayerVersionsRequest {
+        return .init(
+            compatibleRuntime: self.compatibleRuntime, 
+            layerName: self.layerName, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Lambda.ListLayersRequest: AWSPaginateStringToken {
-    public init(_ original: Lambda.ListLayersRequest, token: String) {
-        self.init(
-            compatibleRuntime: original.compatibleRuntime, 
+    public func usingPaginationToken(_ token: String) -> Lambda.ListLayersRequest {
+        return .init(
+            compatibleRuntime: self.compatibleRuntime, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Lambda.ListProvisionedConcurrencyConfigsRequest: AWSPaginateStringToken {
-    public init(_ original: Lambda.ListProvisionedConcurrencyConfigsRequest, token: String) {
-        self.init(
-            functionName: original.functionName, 
+    public func usingPaginationToken(_ token: String) -> Lambda.ListProvisionedConcurrencyConfigsRequest {
+        return .init(
+            functionName: self.functionName, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Lambda.ListVersionsByFunctionRequest: AWSPaginateStringToken {
-    public init(_ original: Lambda.ListVersionsByFunctionRequest, token: String) {
-        self.init(
-            functionName: original.functionName, 
+    public func usingPaginationToken(_ token: String) -> Lambda.ListVersionsByFunctionRequest {
+        return .init(
+            functionName: self.functionName, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 

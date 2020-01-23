@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Mobile {
 
     ///   List all available bundles. 
@@ -17,20 +19,22 @@ extension Mobile {
 }
 
 extension Mobile.ListBundlesRequest: AWSPaginateStringToken {
-    public init(_ original: Mobile.ListBundlesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Mobile.ListBundlesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Mobile.ListProjectsRequest: AWSPaginateStringToken {
-    public init(_ original: Mobile.ListProjectsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Mobile.ListProjectsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

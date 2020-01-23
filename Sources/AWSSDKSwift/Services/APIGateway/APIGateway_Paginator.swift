@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension APIGateway {
 
     ///  Gets information about the current ApiKeys resource.
@@ -44,6 +46,11 @@ extension APIGateway {
         return client.paginate(input: input, command: getRestApis, tokenKey: \RestApis.position, onPage: onPage)
     }
 
+    ///  Gets the usage data of a usage plan in a specified time interval.
+    public func getUsagePaginator(_ input: GetUsageRequest, onPage: @escaping (Usage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getUsage, tokenKey: \Usage.position, onPage: onPage)
+    }
+
     ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
     public func getUsagePlanKeysPaginator(_ input: GetUsagePlanKeysRequest, onPage: @escaping (UsagePlanKeys, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getUsagePlanKeys, tokenKey: \UsagePlanKeys.position, onPage: onPage)
@@ -62,112 +69,137 @@ extension APIGateway {
 }
 
 extension APIGateway.GetApiKeysRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetApiKeysRequest, token: String) {
-        self.init(
-            customerId: original.customerId, 
-            includeValues: original.includeValues, 
-            limit: original.limit, 
-            nameQuery: original.nameQuery, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetApiKeysRequest {
+        return .init(
+            customerId: self.customerId, 
+            includeValues: self.includeValues, 
+            limit: self.limit, 
+            nameQuery: self.nameQuery, 
             position: token
         )
+
     }
 }
 
 extension APIGateway.GetBasePathMappingsRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetBasePathMappingsRequest, token: String) {
-        self.init(
-            domainName: original.domainName, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetBasePathMappingsRequest {
+        return .init(
+            domainName: self.domainName, 
+            limit: self.limit, 
             position: token
         )
+
     }
 }
 
 extension APIGateway.GetClientCertificatesRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetClientCertificatesRequest, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetClientCertificatesRequest {
+        return .init(
+            limit: self.limit, 
             position: token
         )
+
     }
 }
 
 extension APIGateway.GetDeploymentsRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetDeploymentsRequest, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetDeploymentsRequest {
+        return .init(
+            limit: self.limit, 
             position: token, 
-            restApiId: original.restApiId
+            restApiId: self.restApiId
         )
+
     }
 }
 
 extension APIGateway.GetDomainNamesRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetDomainNamesRequest, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetDomainNamesRequest {
+        return .init(
+            limit: self.limit, 
             position: token
         )
+
     }
 }
 
 extension APIGateway.GetModelsRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetModelsRequest, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetModelsRequest {
+        return .init(
+            limit: self.limit, 
             position: token, 
-            restApiId: original.restApiId
+            restApiId: self.restApiId
         )
+
     }
 }
 
 extension APIGateway.GetResourcesRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetResourcesRequest, token: String) {
-        self.init(
-            embed: original.embed, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetResourcesRequest {
+        return .init(
+            embed: self.embed, 
+            limit: self.limit, 
             position: token, 
-            restApiId: original.restApiId
+            restApiId: self.restApiId
         )
+
     }
 }
 
 extension APIGateway.GetRestApisRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetRestApisRequest, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetRestApisRequest {
+        return .init(
+            limit: self.limit, 
             position: token
         )
+
+    }
+}
+
+extension APIGateway.GetUsageRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetUsageRequest {
+        return .init(
+            endDate: self.endDate, 
+            keyId: self.keyId, 
+            limit: self.limit, 
+            position: token, 
+            startDate: self.startDate, 
+            usagePlanId: self.usagePlanId
+        )
+
     }
 }
 
 extension APIGateway.GetUsagePlanKeysRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetUsagePlanKeysRequest, token: String) {
-        self.init(
-            limit: original.limit, 
-            nameQuery: original.nameQuery, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetUsagePlanKeysRequest {
+        return .init(
+            limit: self.limit, 
+            nameQuery: self.nameQuery, 
             position: token, 
-            usagePlanId: original.usagePlanId
+            usagePlanId: self.usagePlanId
         )
+
     }
 }
 
 extension APIGateway.GetUsagePlansRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetUsagePlansRequest, token: String) {
-        self.init(
-            keyId: original.keyId, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetUsagePlansRequest {
+        return .init(
+            keyId: self.keyId, 
+            limit: self.limit, 
             position: token
         )
+
     }
 }
 
 extension APIGateway.GetVpcLinksRequest: AWSPaginateStringToken {
-    public init(_ original: APIGateway.GetVpcLinksRequest, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetVpcLinksRequest {
+        return .init(
+            limit: self.limit, 
             position: token
         )
+
     }
 }
 

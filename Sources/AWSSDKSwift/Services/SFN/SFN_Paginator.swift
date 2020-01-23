@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SFN {
 
     ///  Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -27,42 +29,46 @@ extension SFN {
 }
 
 extension SFN.GetExecutionHistoryInput: AWSPaginateStringToken {
-    public init(_ original: SFN.GetExecutionHistoryInput, token: String) {
-        self.init(
-            executionArn: original.executionArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SFN.GetExecutionHistoryInput {
+        return .init(
+            executionArn: self.executionArn, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            reverseOrder: original.reverseOrder
+            reverseOrder: self.reverseOrder
         )
+
     }
 }
 
 extension SFN.ListActivitiesInput: AWSPaginateStringToken {
-    public init(_ original: SFN.ListActivitiesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SFN.ListActivitiesInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SFN.ListExecutionsInput: AWSPaginateStringToken {
-    public init(_ original: SFN.ListExecutionsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SFN.ListExecutionsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            stateMachineArn: original.stateMachineArn, 
-            statusFilter: original.statusFilter
+            stateMachineArn: self.stateMachineArn, 
+            statusFilter: self.statusFilter
         )
+
     }
 }
 
 extension SFN.ListStateMachinesInput: AWSPaginateStringToken {
-    public init(_ original: SFN.ListStateMachinesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SFN.ListStateMachinesInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

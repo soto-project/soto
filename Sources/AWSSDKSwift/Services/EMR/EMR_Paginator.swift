@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension EMR {
 
     ///  Provides information about the bootstrap actions associated with a cluster.
@@ -42,73 +44,80 @@ extension EMR {
 }
 
 extension EMR.ListBootstrapActionsInput: AWSPaginateStringToken {
-    public init(_ original: EMR.ListBootstrapActionsInput, token: String) {
-        self.init(
-            clusterId: original.clusterId, 
+    public func usingPaginationToken(_ token: String) -> EMR.ListBootstrapActionsInput {
+        return .init(
+            clusterId: self.clusterId, 
             marker: token
         )
+
     }
 }
 
 extension EMR.ListClustersInput: AWSPaginateStringToken {
-    public init(_ original: EMR.ListClustersInput, token: String) {
-        self.init(
-            clusterStates: original.clusterStates, 
-            createdAfter: original.createdAfter, 
-            createdBefore: original.createdBefore, 
+    public func usingPaginationToken(_ token: String) -> EMR.ListClustersInput {
+        return .init(
+            clusterStates: self.clusterStates, 
+            createdAfter: self.createdAfter, 
+            createdBefore: self.createdBefore, 
             marker: token
         )
+
     }
 }
 
 extension EMR.ListInstanceFleetsInput: AWSPaginateStringToken {
-    public init(_ original: EMR.ListInstanceFleetsInput, token: String) {
-        self.init(
-            clusterId: original.clusterId, 
+    public func usingPaginationToken(_ token: String) -> EMR.ListInstanceFleetsInput {
+        return .init(
+            clusterId: self.clusterId, 
             marker: token
         )
+
     }
 }
 
 extension EMR.ListInstanceGroupsInput: AWSPaginateStringToken {
-    public init(_ original: EMR.ListInstanceGroupsInput, token: String) {
-        self.init(
-            clusterId: original.clusterId, 
+    public func usingPaginationToken(_ token: String) -> EMR.ListInstanceGroupsInput {
+        return .init(
+            clusterId: self.clusterId, 
             marker: token
         )
+
     }
 }
 
 extension EMR.ListInstancesInput: AWSPaginateStringToken {
-    public init(_ original: EMR.ListInstancesInput, token: String) {
-        self.init(
-            clusterId: original.clusterId, 
-            instanceFleetId: original.instanceFleetId, 
-            instanceFleetType: original.instanceFleetType, 
-            instanceGroupId: original.instanceGroupId, 
-            instanceGroupTypes: original.instanceGroupTypes, 
-            instanceStates: original.instanceStates, 
+    public func usingPaginationToken(_ token: String) -> EMR.ListInstancesInput {
+        return .init(
+            clusterId: self.clusterId, 
+            instanceFleetId: self.instanceFleetId, 
+            instanceFleetType: self.instanceFleetType, 
+            instanceGroupId: self.instanceGroupId, 
+            instanceGroupTypes: self.instanceGroupTypes, 
+            instanceStates: self.instanceStates, 
             marker: token
         )
+
     }
 }
 
 extension EMR.ListSecurityConfigurationsInput: AWSPaginateStringToken {
-    public init(_ original: EMR.ListSecurityConfigurationsInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> EMR.ListSecurityConfigurationsInput {
+        return .init(
             marker: token
         )
+
     }
 }
 
 extension EMR.ListStepsInput: AWSPaginateStringToken {
-    public init(_ original: EMR.ListStepsInput, token: String) {
-        self.init(
-            clusterId: original.clusterId, 
+    public func usingPaginationToken(_ token: String) -> EMR.ListStepsInput {
+        return .init(
+            clusterId: self.clusterId, 
             marker: token, 
-            stepIds: original.stepIds, 
-            stepStates: original.stepStates
+            stepIds: self.stepIds, 
+            stepStates: self.stepStates
         )
+
     }
 }
 

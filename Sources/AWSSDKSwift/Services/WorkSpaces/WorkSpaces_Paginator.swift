@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension WorkSpaces {
 
     ///  Retrieves a list that describes the available WorkSpace bundles. You can filter the results using either bundle ID or owner, but not both.
@@ -22,35 +24,38 @@ extension WorkSpaces {
 }
 
 extension WorkSpaces.DescribeWorkspaceBundlesRequest: AWSPaginateStringToken {
-    public init(_ original: WorkSpaces.DescribeWorkspaceBundlesRequest, token: String) {
-        self.init(
-            bundleIds: original.bundleIds, 
+    public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspaceBundlesRequest {
+        return .init(
+            bundleIds: self.bundleIds, 
             nextToken: token, 
-            owner: original.owner
+            owner: self.owner
         )
+
     }
 }
 
 extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateStringToken {
-    public init(_ original: WorkSpaces.DescribeWorkspaceDirectoriesRequest, token: String) {
-        self.init(
-            directoryIds: original.directoryIds, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspaceDirectoriesRequest {
+        return .init(
+            directoryIds: self.directoryIds, 
+            limit: self.limit, 
             nextToken: token
         )
+
     }
 }
 
 extension WorkSpaces.DescribeWorkspacesRequest: AWSPaginateStringToken {
-    public init(_ original: WorkSpaces.DescribeWorkspacesRequest, token: String) {
-        self.init(
-            bundleId: original.bundleId, 
-            directoryId: original.directoryId, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspacesRequest {
+        return .init(
+            bundleId: self.bundleId, 
+            directoryId: self.directoryId, 
+            limit: self.limit, 
             nextToken: token, 
-            userName: original.userName, 
-            workspaceIds: original.workspaceIds
+            userName: self.userName, 
+            workspaceIds: self.workspaceIds
         )
+
     }
 }
 

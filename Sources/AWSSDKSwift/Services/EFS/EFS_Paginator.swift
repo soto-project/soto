@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension EFS {
 
     ///  Returns the description of a specific Amazon EFS access point if the AccessPointId is provided. If you provide an EFS FileSystemId, it returns descriptions of all access points for that file system. You can provide either an AccessPointId or a FileSystemId in the request, but not both.  This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.
@@ -28,44 +30,48 @@ extension EFS {
 }
 
 extension EFS.DescribeAccessPointsRequest: AWSPaginateStringToken {
-    public init(_ original: EFS.DescribeAccessPointsRequest, token: String) {
-        self.init(
-            accessPointId: original.accessPointId, 
-            fileSystemId: original.fileSystemId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EFS.DescribeAccessPointsRequest {
+        return .init(
+            accessPointId: self.accessPointId, 
+            fileSystemId: self.fileSystemId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EFS.DescribeFileSystemsRequest: AWSPaginateStringToken {
-    public init(_ original: EFS.DescribeFileSystemsRequest, token: String) {
-        self.init(
-            creationToken: original.creationToken, 
-            fileSystemId: original.fileSystemId, 
+    public func usingPaginationToken(_ token: String) -> EFS.DescribeFileSystemsRequest {
+        return .init(
+            creationToken: self.creationToken, 
+            fileSystemId: self.fileSystemId, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension EFS.DescribeTagsRequest: AWSPaginateStringToken {
-    public init(_ original: EFS.DescribeTagsRequest, token: String) {
-        self.init(
-            fileSystemId: original.fileSystemId, 
+    public func usingPaginationToken(_ token: String) -> EFS.DescribeTagsRequest {
+        return .init(
+            fileSystemId: self.fileSystemId, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension EFS.ListTagsForResourceRequest: AWSPaginateStringToken {
-    public init(_ original: EFS.ListTagsForResourceRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EFS.ListTagsForResourceRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceId: original.resourceId
+            resourceId: self.resourceId
         )
+
     }
 }
 

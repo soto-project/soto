@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ServerlessApplicationRepository {
 
     ///  Retrieves the list of applications nested in the containing application.
@@ -22,32 +24,35 @@ extension ServerlessApplicationRepository {
 }
 
 extension ServerlessApplicationRepository.ListApplicationDependenciesRequest: AWSPaginateStringToken {
-    public init(_ original: ServerlessApplicationRepository.ListApplicationDependenciesRequest, token: String) {
-        self.init(
-            applicationId: original.applicationId, 
-            maxItems: original.maxItems, 
+    public func usingPaginationToken(_ token: String) -> ServerlessApplicationRepository.ListApplicationDependenciesRequest {
+        return .init(
+            applicationId: self.applicationId, 
+            maxItems: self.maxItems, 
             nextToken: token, 
-            semanticVersion: original.semanticVersion
+            semanticVersion: self.semanticVersion
         )
+
     }
 }
 
 extension ServerlessApplicationRepository.ListApplicationVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: ServerlessApplicationRepository.ListApplicationVersionsRequest, token: String) {
-        self.init(
-            applicationId: original.applicationId, 
-            maxItems: original.maxItems, 
+    public func usingPaginationToken(_ token: String) -> ServerlessApplicationRepository.ListApplicationVersionsRequest {
+        return .init(
+            applicationId: self.applicationId, 
+            maxItems: self.maxItems, 
             nextToken: token
         )
+
     }
 }
 
 extension ServerlessApplicationRepository.ListApplicationsRequest: AWSPaginateStringToken {
-    public init(_ original: ServerlessApplicationRepository.ListApplicationsRequest, token: String) {
-        self.init(
-            maxItems: original.maxItems, 
+    public func usingPaginationToken(_ token: String) -> ServerlessApplicationRepository.ListApplicationsRequest {
+        return .init(
+            maxItems: self.maxItems, 
             nextToken: token
         )
+
     }
 }
 

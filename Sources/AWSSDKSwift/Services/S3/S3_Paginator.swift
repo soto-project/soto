@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension S3 {
 
     ///  This operation lists in-progress multipart uploads. An in-progress multipart upload is a multipart upload that has been initiated using the Initiate Multipart Upload request, but has not yet been completed or aborted. This operation returns at most 1,000 multipart uploads in the response. 1,000 multipart uploads is the maximum number of uploads a response can include, which is also the default value. You can further limit the number of uploads in a response by specifying the max-uploads parameter in the response. If additional multipart uploads satisfy the list criteria, the response will contain an IsTruncated element with the value true. To list the additional multipart uploads, use the key-marker and upload-id-marker request parameters. In the response, the uploads are sorted by key. If your application has initiated more than one multipart upload using the same object key, then uploads in the response are first sorted by key. Additionally, uploads are sorted in ascending order within each key by the upload initiation time. For more information on multipart uploads, see Uploading Objects Using Multipart Upload. For information on permissions required to use the multipart upload API, see Multipart Upload API and Permissions. The following operations are related to ListMultipartUploads:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload     ListParts     AbortMultipartUpload   
@@ -32,73 +34,78 @@ extension S3 {
 }
 
 extension S3.ListMultipartUploadsRequest: AWSPaginateStringToken {
-    public init(_ original: S3.ListMultipartUploadsRequest, token: String) {
-        self.init(
-            bucket: original.bucket, 
-            delimiter: original.delimiter, 
-            encodingType: original.encodingType, 
+    public func usingPaginationToken(_ token: String) -> S3.ListMultipartUploadsRequest {
+        return .init(
+            bucket: self.bucket, 
+            delimiter: self.delimiter, 
+            encodingType: self.encodingType, 
             keyMarker: token, 
-            maxUploads: original.maxUploads, 
-            prefix: original.prefix, 
-            uploadIdMarker: original.uploadIdMarker
+            maxUploads: self.maxUploads, 
+            prefix: self.prefix, 
+            uploadIdMarker: self.uploadIdMarker
         )
+
     }
 }
 
 extension S3.ListObjectVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: S3.ListObjectVersionsRequest, token: String) {
-        self.init(
-            bucket: original.bucket, 
-            delimiter: original.delimiter, 
-            encodingType: original.encodingType, 
+    public func usingPaginationToken(_ token: String) -> S3.ListObjectVersionsRequest {
+        return .init(
+            bucket: self.bucket, 
+            delimiter: self.delimiter, 
+            encodingType: self.encodingType, 
             keyMarker: token, 
-            maxKeys: original.maxKeys, 
-            prefix: original.prefix, 
-            versionIdMarker: original.versionIdMarker
+            maxKeys: self.maxKeys, 
+            prefix: self.prefix, 
+            versionIdMarker: self.versionIdMarker
         )
+
     }
 }
 
 extension S3.ListObjectsRequest: AWSPaginateStringToken {
-    public init(_ original: S3.ListObjectsRequest, token: String) {
-        self.init(
-            bucket: original.bucket, 
-            delimiter: original.delimiter, 
-            encodingType: original.encodingType, 
+    public func usingPaginationToken(_ token: String) -> S3.ListObjectsRequest {
+        return .init(
+            bucket: self.bucket, 
+            delimiter: self.delimiter, 
+            encodingType: self.encodingType, 
             marker: token, 
-            maxKeys: original.maxKeys, 
-            prefix: original.prefix, 
-            requestPayer: original.requestPayer
+            maxKeys: self.maxKeys, 
+            prefix: self.prefix, 
+            requestPayer: self.requestPayer
         )
+
     }
 }
 
 extension S3.ListObjectsV2Request: AWSPaginateStringToken {
-    public init(_ original: S3.ListObjectsV2Request, token: String) {
-        self.init(
-            bucket: original.bucket, 
+    public func usingPaginationToken(_ token: String) -> S3.ListObjectsV2Request {
+        return .init(
+            bucket: self.bucket, 
             continuationToken: token, 
-            delimiter: original.delimiter, 
-            encodingType: original.encodingType, 
-            fetchOwner: original.fetchOwner, 
-            maxKeys: original.maxKeys, 
-            prefix: original.prefix, 
-            requestPayer: original.requestPayer, 
-            startAfter: original.startAfter
+            delimiter: self.delimiter, 
+            encodingType: self.encodingType, 
+            fetchOwner: self.fetchOwner, 
+            maxKeys: self.maxKeys, 
+            prefix: self.prefix, 
+            requestPayer: self.requestPayer, 
+            startAfter: self.startAfter
         )
+
     }
 }
 
 extension S3.ListPartsRequest: AWSPaginateIntToken {
-    public init(_ original: S3.ListPartsRequest, token: Int) {
-        self.init(
-            bucket: original.bucket, 
-            key: original.key, 
-            maxParts: original.maxParts, 
+    public func usingPaginationToken(_ token: Int) -> S3.ListPartsRequest {
+        return .init(
+            bucket: self.bucket, 
+            key: self.key, 
+            maxParts: self.maxParts, 
             partNumberMarker: token, 
-            requestPayer: original.requestPayer, 
-            uploadId: original.uploadId
+            requestPayer: self.requestPayer, 
+            uploadId: self.uploadId
         )
+
     }
 }
 

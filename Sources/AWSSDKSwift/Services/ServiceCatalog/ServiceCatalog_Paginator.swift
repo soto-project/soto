@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ServiceCatalog {
 
     ///  Lists all portfolios for which sharing was accepted by this account.
@@ -87,187 +89,203 @@ extension ServiceCatalog {
 }
 
 extension ServiceCatalog.ListAcceptedPortfolioSharesInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListAcceptedPortfolioSharesInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListAcceptedPortfolioSharesInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            portfolioShareType: original.portfolioShareType
+            portfolioShareType: self.portfolioShareType
         )
+
     }
 }
 
 extension ServiceCatalog.ListBudgetsForResourceInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListBudgetsForResourceInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListBudgetsForResourceInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            resourceId: original.resourceId
+            resourceId: self.resourceId
         )
+
     }
 }
 
 extension ServiceCatalog.ListConstraintsForPortfolioInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListConstraintsForPortfolioInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListConstraintsForPortfolioInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            portfolioId: original.portfolioId, 
-            productId: original.productId
+            portfolioId: self.portfolioId, 
+            productId: self.productId
         )
+
     }
 }
 
 extension ServiceCatalog.ListLaunchPathsInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListLaunchPathsInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListLaunchPathsInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            productId: original.productId
+            productId: self.productId
         )
+
     }
 }
 
 extension ServiceCatalog.ListOrganizationPortfolioAccessInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListOrganizationPortfolioAccessInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            organizationNodeType: original.organizationNodeType, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListOrganizationPortfolioAccessInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            organizationNodeType: self.organizationNodeType, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            portfolioId: original.portfolioId
+            portfolioId: self.portfolioId
         )
+
     }
 }
 
 extension ServiceCatalog.ListPortfoliosInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListPortfoliosInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPortfoliosInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token
         )
+
     }
 }
 
 extension ServiceCatalog.ListPortfoliosForProductInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListPortfoliosForProductInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPortfoliosForProductInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            productId: original.productId
+            productId: self.productId
         )
+
     }
 }
 
 extension ServiceCatalog.ListPrincipalsForPortfolioInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListPrincipalsForPortfolioInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPrincipalsForPortfolioInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            portfolioId: original.portfolioId
+            portfolioId: self.portfolioId
         )
+
     }
 }
 
 extension ServiceCatalog.ListProvisioningArtifactsForServiceActionInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListProvisioningArtifactsForServiceActionInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListProvisioningArtifactsForServiceActionInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            serviceActionId: original.serviceActionId
+            serviceActionId: self.serviceActionId
         )
+
     }
 }
 
 extension ServiceCatalog.ListResourcesForTagOptionInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListResourcesForTagOptionInput, token: String) {
-        self.init(
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListResourcesForTagOptionInput {
+        return .init(
+            pageSize: self.pageSize, 
             pageToken: token, 
-            resourceType: original.resourceType, 
-            tagOptionId: original.tagOptionId
+            resourceType: self.resourceType, 
+            tagOptionId: self.tagOptionId
         )
+
     }
 }
 
 extension ServiceCatalog.ListServiceActionsInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListServiceActionsInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListServiceActionsInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token
         )
+
     }
 }
 
 extension ServiceCatalog.ListServiceActionsForProvisioningArtifactInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListServiceActionsForProvisioningArtifactInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListServiceActionsForProvisioningArtifactInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            productId: original.productId, 
-            provisioningArtifactId: original.provisioningArtifactId
+            productId: self.productId, 
+            provisioningArtifactId: self.provisioningArtifactId
         )
+
     }
 }
 
 extension ServiceCatalog.ListTagOptionsInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.ListTagOptionsInput, token: String) {
-        self.init(
-            filters: original.filters, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListTagOptionsInput {
+        return .init(
+            filters: self.filters, 
+            pageSize: self.pageSize, 
             pageToken: token
         )
+
     }
 }
 
 extension ServiceCatalog.SearchProductsInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.SearchProductsInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            filters: original.filters, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.SearchProductsInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            filters: self.filters, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension ServiceCatalog.SearchProductsAsAdminInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.SearchProductsAsAdminInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            filters: original.filters, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.SearchProductsAsAdminInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            filters: self.filters, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            portfolioId: original.portfolioId, 
-            productSource: original.productSource, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            portfolioId: self.portfolioId, 
+            productSource: self.productSource, 
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension ServiceCatalog.SearchProvisionedProductsInput: AWSPaginateStringToken {
-    public init(_ original: ServiceCatalog.SearchProvisionedProductsInput, token: String) {
-        self.init(
-            acceptLanguage: original.acceptLanguage, 
-            accessLevelFilter: original.accessLevelFilter, 
-            filters: original.filters, 
-            pageSize: original.pageSize, 
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.SearchProvisionedProductsInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            accessLevelFilter: self.accessLevelFilter, 
+            filters: self.filters, 
+            pageSize: self.pageSize, 
             pageToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 

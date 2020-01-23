@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SSM {
 
     ///  Describes details about the activation, such as the date and time the activation was created, its expiration date, the IAM role assigned to the instances in the activation, and the number of instances registered by using this activation.
@@ -52,104 +54,113 @@ extension SSM {
 }
 
 extension SSM.DescribeActivationsRequest: AWSPaginateStringToken {
-    public init(_ original: SSM.DescribeActivationsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSM.DescribeActivationsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SSM.DescribeInstanceInformationRequest: AWSPaginateStringToken {
-    public init(_ original: SSM.DescribeInstanceInformationRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            instanceInformationFilterList: original.instanceInformationFilterList, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSM.DescribeInstanceInformationRequest {
+        return .init(
+            filters: self.filters, 
+            instanceInformationFilterList: self.instanceInformationFilterList, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SSM.DescribeParametersRequest: AWSPaginateStringToken {
-    public init(_ original: SSM.DescribeParametersRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSM.DescribeParametersRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            parameterFilters: original.parameterFilters
+            parameterFilters: self.parameterFilters
         )
+
     }
 }
 
 extension SSM.GetParameterHistoryRequest: AWSPaginateStringToken {
-    public init(_ original: SSM.GetParameterHistoryRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> SSM.GetParameterHistoryRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token, 
-            withDecryption: original.withDecryption
+            withDecryption: self.withDecryption
         )
+
     }
 }
 
 extension SSM.GetParametersByPathRequest: AWSPaginateStringToken {
-    public init(_ original: SSM.GetParametersByPathRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSM.GetParametersByPathRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            parameterFilters: original.parameterFilters, 
-            path: original.path, 
-            recursive: original.recursive, 
-            withDecryption: original.withDecryption
+            parameterFilters: self.parameterFilters, 
+            path: self.path, 
+            recursive: self.recursive, 
+            withDecryption: self.withDecryption
         )
+
     }
 }
 
 extension SSM.ListAssociationsRequest: AWSPaginateStringToken {
-    public init(_ original: SSM.ListAssociationsRequest, token: String) {
-        self.init(
-            associationFilterList: original.associationFilterList, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSM.ListAssociationsRequest {
+        return .init(
+            associationFilterList: self.associationFilterList, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SSM.ListCommandInvocationsRequest: AWSPaginateStringToken {
-    public init(_ original: SSM.ListCommandInvocationsRequest, token: String) {
-        self.init(
-            commandId: original.commandId, 
-            details: original.details, 
-            filters: original.filters, 
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSM.ListCommandInvocationsRequest {
+        return .init(
+            commandId: self.commandId, 
+            details: self.details, 
+            filters: self.filters, 
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SSM.ListCommandsRequest: AWSPaginateStringToken {
-    public init(_ original: SSM.ListCommandsRequest, token: String) {
-        self.init(
-            commandId: original.commandId, 
-            filters: original.filters, 
-            instanceId: original.instanceId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSM.ListCommandsRequest {
+        return .init(
+            commandId: self.commandId, 
+            filters: self.filters, 
+            instanceId: self.instanceId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SSM.ListDocumentsRequest: AWSPaginateStringToken {
-    public init(_ original: SSM.ListDocumentsRequest, token: String) {
-        self.init(
-            documentFilterList: original.documentFilterList, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SSM.ListDocumentsRequest {
+        return .init(
+            documentFilterList: self.documentFilterList, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

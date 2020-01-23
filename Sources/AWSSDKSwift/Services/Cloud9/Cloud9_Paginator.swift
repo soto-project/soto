@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Cloud9 {
 
     ///  Gets information about environment members for an AWS Cloud9 development environment.
@@ -17,23 +19,25 @@ extension Cloud9 {
 }
 
 extension Cloud9.DescribeEnvironmentMembershipsRequest: AWSPaginateStringToken {
-    public init(_ original: Cloud9.DescribeEnvironmentMembershipsRequest, token: String) {
-        self.init(
-            environmentId: original.environmentId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Cloud9.DescribeEnvironmentMembershipsRequest {
+        return .init(
+            environmentId: self.environmentId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            permissions: original.permissions, 
-            userArn: original.userArn
+            permissions: self.permissions, 
+            userArn: self.userArn
         )
+
     }
 }
 
 extension Cloud9.ListEnvironmentsRequest: AWSPaginateStringToken {
-    public init(_ original: Cloud9.ListEnvironmentsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Cloud9.ListEnvironmentsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

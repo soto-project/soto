@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MTurk {
 
     ///   The ListAssignmentsForHIT operation retrieves completed assignments for a HIT. You can use this operation to retrieve the results for a HIT.   You can get assignments for a HIT at any time, even if the HIT is not yet Reviewable. If a HIT requested multiple assignments, and has received some results but has not yet become Reviewable, you can still retrieve the partial results with this operation.   Use the AssignmentStatus parameter to control which set of assignments for a HIT are returned. The ListAssignmentsForHIT operation can return submitted assignments awaiting approval, or it can return assignments that have already been approved or rejected. You can set AssignmentStatus=Approved,Rejected to get assignments that have already been approved and rejected together in one result set.   Only the Requester who created the HIT can retrieve the assignments for that HIT.   Results are sorted and divided into numbered pages and the operation returns a single page of results. You can use the parameters of the operation to control sorting and pagination. 
@@ -34,6 +36,11 @@ extension MTurk {
         return client.paginate(input: input, command: listQualificationTypes, tokenKey: \ListQualificationTypesResponse.nextToken, onPage: onPage)
     }
 
+    ///   The ListReviewPolicyResultsForHIT operation retrieves the computed results and the actions taken in the course of executing your Review Policies for a given HIT. For information about how to specify Review Policies when you call CreateHIT, see Review Policies. The ListReviewPolicyResultsForHIT operation can return results for both Assignment-level and HIT-level review results. 
+    public func listReviewPolicyResultsForHITPaginator(_ input: ListReviewPolicyResultsForHITRequest, onPage: @escaping (ListReviewPolicyResultsForHITResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listReviewPolicyResultsForHIT, tokenKey: \ListReviewPolicyResultsForHITResponse.nextToken, onPage: onPage)
+    }
+
     ///   The ListReviewableHITs operation retrieves the HITs with Status equal to Reviewable or Status equal to Reviewing that belong to the Requester calling the operation. 
     public func listReviewableHITsPaginator(_ input: ListReviewableHITsRequest, onPage: @escaping (ListReviewableHITsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listReviewableHITs, tokenKey: \ListReviewableHITsResponse.nextToken, onPage: onPage)
@@ -52,96 +59,119 @@ extension MTurk {
 }
 
 extension MTurk.ListAssignmentsForHITRequest: AWSPaginateStringToken {
-    public init(_ original: MTurk.ListAssignmentsForHITRequest, token: String) {
-        self.init(
-            assignmentStatuses: original.assignmentStatuses, 
-            hITId: original.hITId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MTurk.ListAssignmentsForHITRequest {
+        return .init(
+            assignmentStatuses: self.assignmentStatuses, 
+            hITId: self.hITId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MTurk.ListBonusPaymentsRequest: AWSPaginateStringToken {
-    public init(_ original: MTurk.ListBonusPaymentsRequest, token: String) {
-        self.init(
-            assignmentId: original.assignmentId, 
-            hITId: original.hITId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MTurk.ListBonusPaymentsRequest {
+        return .init(
+            assignmentId: self.assignmentId, 
+            hITId: self.hITId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MTurk.ListHITsRequest: AWSPaginateStringToken {
-    public init(_ original: MTurk.ListHITsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MTurk.ListHITsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MTurk.ListHITsForQualificationTypeRequest: AWSPaginateStringToken {
-    public init(_ original: MTurk.ListHITsForQualificationTypeRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MTurk.ListHITsForQualificationTypeRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            qualificationTypeId: original.qualificationTypeId
+            qualificationTypeId: self.qualificationTypeId
         )
+
     }
 }
 
 extension MTurk.ListQualificationRequestsRequest: AWSPaginateStringToken {
-    public init(_ original: MTurk.ListQualificationRequestsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MTurk.ListQualificationRequestsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            qualificationTypeId: original.qualificationTypeId
+            qualificationTypeId: self.qualificationTypeId
         )
+
     }
 }
 
 extension MTurk.ListQualificationTypesRequest: AWSPaginateStringToken {
-    public init(_ original: MTurk.ListQualificationTypesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            mustBeOwnedByCaller: original.mustBeOwnedByCaller, 
-            mustBeRequestable: original.mustBeRequestable, 
+    public func usingPaginationToken(_ token: String) -> MTurk.ListQualificationTypesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            mustBeOwnedByCaller: self.mustBeOwnedByCaller, 
+            mustBeRequestable: self.mustBeRequestable, 
             nextToken: token, 
-            query: original.query
+            query: self.query
         )
+
+    }
+}
+
+extension MTurk.ListReviewPolicyResultsForHITRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> MTurk.ListReviewPolicyResultsForHITRequest {
+        return .init(
+            hITId: self.hITId, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            policyLevels: self.policyLevels, 
+            retrieveActions: self.retrieveActions, 
+            retrieveResults: self.retrieveResults
+        )
+
     }
 }
 
 extension MTurk.ListReviewableHITsRequest: AWSPaginateStringToken {
-    public init(_ original: MTurk.ListReviewableHITsRequest, token: String) {
-        self.init(
-            hITTypeId: original.hITTypeId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MTurk.ListReviewableHITsRequest {
+        return .init(
+            hITTypeId: self.hITTypeId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            status: original.status
+            status: self.status
         )
+
     }
 }
 
 extension MTurk.ListWorkerBlocksRequest: AWSPaginateStringToken {
-    public init(_ original: MTurk.ListWorkerBlocksRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MTurk.ListWorkerBlocksRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MTurk.ListWorkersWithQualificationTypeRequest: AWSPaginateStringToken {
-    public init(_ original: MTurk.ListWorkersWithQualificationTypeRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MTurk.ListWorkersWithQualificationTypeRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            qualificationTypeId: original.qualificationTypeId, 
-            status: original.status
+            qualificationTypeId: self.qualificationTypeId, 
+            status: self.status
         )
+
     }
 }
 

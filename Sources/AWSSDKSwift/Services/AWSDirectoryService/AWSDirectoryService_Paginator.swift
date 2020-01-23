@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension AWSDirectoryService {
 
     ///  Provides information about any domain controllers in your directory.
@@ -12,13 +14,14 @@ extension AWSDirectoryService {
 }
 
 extension AWSDirectoryService.DescribeDomainControllersRequest: AWSPaginateStringToken {
-    public init(_ original: AWSDirectoryService.DescribeDomainControllersRequest, token: String) {
-        self.init(
-            directoryId: original.directoryId, 
-            domainControllerIds: original.domainControllerIds, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> AWSDirectoryService.DescribeDomainControllersRequest {
+        return .init(
+            directoryId: self.directoryId, 
+            domainControllerIds: self.domainControllerIds, 
+            limit: self.limit, 
             nextToken: token
         )
+
     }
 }
 

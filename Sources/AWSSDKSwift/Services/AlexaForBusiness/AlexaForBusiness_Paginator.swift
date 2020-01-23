@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension AlexaForBusiness {
 
     ///  Lists the details of the schedules that a user configured. A download URL of the report associated with each schedule is returned every time this action is called. A new download URL is returned each time, and is valid for 24 hours.
@@ -97,189 +99,207 @@ extension AlexaForBusiness {
 }
 
 extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListBusinessReportSchedulesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListBusinessReportSchedulesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AlexaForBusiness.ListConferenceProvidersRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListConferenceProvidersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListConferenceProvidersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AlexaForBusiness.ListDeviceEventsRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListDeviceEventsRequest, token: String) {
-        self.init(
-            deviceArn: original.deviceArn, 
-            eventType: original.eventType, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListDeviceEventsRequest {
+        return .init(
+            deviceArn: self.deviceArn, 
+            eventType: self.eventType, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AlexaForBusiness.ListGatewayGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListGatewayGroupsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListGatewayGroupsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AlexaForBusiness.ListGatewaysRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListGatewaysRequest, token: String) {
-        self.init(
-            gatewayGroupArn: original.gatewayGroupArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListGatewaysRequest {
+        return .init(
+            gatewayGroupArn: self.gatewayGroupArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AlexaForBusiness.ListSkillsRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListSkillsRequest, token: String) {
-        self.init(
-            enablementType: original.enablementType, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSkillsRequest {
+        return .init(
+            enablementType: self.enablementType, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            skillGroupArn: original.skillGroupArn, 
-            skillType: original.skillType
+            skillGroupArn: self.skillGroupArn, 
+            skillType: self.skillType
         )
+
     }
 }
 
 extension AlexaForBusiness.ListSkillsStoreCategoriesRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListSkillsStoreCategoriesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSkillsStoreCategoriesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest, token: String) {
-        self.init(
-            categoryId: original.categoryId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest {
+        return .init(
+            categoryId: self.categoryId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AlexaForBusiness.ListSmartHomeAppliancesRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListSmartHomeAppliancesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSmartHomeAppliancesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            roomArn: original.roomArn
+            roomArn: self.roomArn
         )
+
     }
 }
 
 extension AlexaForBusiness.ListTagsRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.ListTagsRequest, token: String) {
-        self.init(
-            arn: original.arn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListTagsRequest {
+        return .init(
+            arn: self.arn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AlexaForBusiness.SearchAddressBooksRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.SearchAddressBooksRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchAddressBooksRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 
 extension AlexaForBusiness.SearchContactsRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.SearchContactsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchContactsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 
 extension AlexaForBusiness.SearchDevicesRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.SearchDevicesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchDevicesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 
 extension AlexaForBusiness.SearchNetworkProfilesRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.SearchNetworkProfilesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchNetworkProfilesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 
 extension AlexaForBusiness.SearchProfilesRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.SearchProfilesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchProfilesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 
 extension AlexaForBusiness.SearchRoomsRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.SearchRoomsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchRoomsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 
 extension AlexaForBusiness.SearchSkillGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.SearchSkillGroupsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchSkillGroupsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 
 extension AlexaForBusiness.SearchUsersRequest: AWSPaginateStringToken {
-    public init(_ original: AlexaForBusiness.SearchUsersRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchUsersRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortCriteria: original.sortCriteria
+            sortCriteria: self.sortCriteria
         )
+
     }
 }
 

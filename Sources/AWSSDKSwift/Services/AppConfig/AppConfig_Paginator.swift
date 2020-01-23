@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension AppConfig {
 
     ///  List all applications in your AWS account.
@@ -32,51 +34,56 @@ extension AppConfig {
 }
 
 extension AppConfig.ListApplicationsRequest: AWSPaginateStringToken {
-    public init(_ original: AppConfig.ListApplicationsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListApplicationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateStringToken {
-    public init(_ original: AppConfig.ListConfigurationProfilesRequest, token: String) {
-        self.init(
-            applicationId: original.applicationId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListConfigurationProfilesRequest {
+        return .init(
+            applicationId: self.applicationId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AppConfig.ListDeploymentStrategiesRequest: AWSPaginateStringToken {
-    public init(_ original: AppConfig.ListDeploymentStrategiesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListDeploymentStrategiesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AppConfig.ListDeploymentsRequest: AWSPaginateStringToken {
-    public init(_ original: AppConfig.ListDeploymentsRequest, token: String) {
-        self.init(
-            applicationId: original.applicationId, 
-            environmentId: original.environmentId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListDeploymentsRequest {
+        return .init(
+            applicationId: self.applicationId, 
+            environmentId: self.environmentId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension AppConfig.ListEnvironmentsRequest: AWSPaginateStringToken {
-    public init(_ original: AppConfig.ListEnvironmentsRequest, token: String) {
-        self.init(
-            applicationId: original.applicationId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListEnvironmentsRequest {
+        return .init(
+            applicationId: self.applicationId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

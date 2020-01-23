@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Route53 {
 
     ///  Retrieve a list of the health checks that are associated with the current AWS account. 
@@ -22,33 +24,36 @@ extension Route53 {
 }
 
 extension Route53.ListHealthChecksRequest: AWSPaginateStringToken {
-    public init(_ original: Route53.ListHealthChecksRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> Route53.ListHealthChecksRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Route53.ListHostedZonesRequest: AWSPaginateStringToken {
-    public init(_ original: Route53.ListHostedZonesRequest, token: String) {
-        self.init(
-            delegationSetId: original.delegationSetId, 
+    public func usingPaginationToken(_ token: String) -> Route53.ListHostedZonesRequest {
+        return .init(
+            delegationSetId: self.delegationSetId, 
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Route53.ListResourceRecordSetsRequest: AWSPaginateStringToken {
-    public init(_ original: Route53.ListResourceRecordSetsRequest, token: String) {
-        self.init(
-            hostedZoneId: original.hostedZoneId, 
-            maxItems: original.maxItems, 
-            startRecordIdentifier: original.startRecordIdentifier, 
+    public func usingPaginationToken(_ token: String) -> Route53.ListResourceRecordSetsRequest {
+        return .init(
+            hostedZoneId: self.hostedZoneId, 
+            maxItems: self.maxItems, 
+            startRecordIdentifier: self.startRecordIdentifier, 
             startRecordName: token, 
-            startRecordType: original.startRecordType
+            startRecordType: self.startRecordType
         )
+
     }
 }
 

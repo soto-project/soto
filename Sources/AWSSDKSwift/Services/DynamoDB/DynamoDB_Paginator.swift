@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension DynamoDB {
 
     ///  Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
@@ -17,21 +19,23 @@ extension DynamoDB {
 }
 
 extension DynamoDB.ListContributorInsightsInput: AWSPaginateStringToken {
-    public init(_ original: DynamoDB.ListContributorInsightsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DynamoDB.ListContributorInsightsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            tableName: original.tableName
+            tableName: self.tableName
         )
+
     }
 }
 
 extension DynamoDB.ListTablesInput: AWSPaginateStringToken {
-    public init(_ original: DynamoDB.ListTablesInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> DynamoDB.ListTablesInput {
+        return .init(
             exclusiveStartTableName: token, 
-            limit: original.limit
+            limit: self.limit
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension AutoScaling {
 
     ///  Describes one or more Auto Scaling groups.
@@ -47,88 +49,96 @@ extension AutoScaling {
 }
 
 extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateStringToken {
-    public init(_ original: AutoScaling.AutoScalingGroupNamesType, token: String) {
-        self.init(
-            autoScalingGroupNames: original.autoScalingGroupNames, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> AutoScaling.AutoScalingGroupNamesType {
+        return .init(
+            autoScalingGroupNames: self.autoScalingGroupNames, 
+            maxRecords: self.maxRecords, 
             nextToken: token
         )
+
     }
 }
 
 extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateStringToken {
-    public init(_ original: AutoScaling.DescribeAutoScalingInstancesType, token: String) {
-        self.init(
-            instanceIds: original.instanceIds, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeAutoScalingInstancesType {
+        return .init(
+            instanceIds: self.instanceIds, 
+            maxRecords: self.maxRecords, 
             nextToken: token
         )
+
     }
 }
 
 extension AutoScaling.LaunchConfigurationNamesType: AWSPaginateStringToken {
-    public init(_ original: AutoScaling.LaunchConfigurationNamesType, token: String) {
-        self.init(
-            launchConfigurationNames: original.launchConfigurationNames, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> AutoScaling.LaunchConfigurationNamesType {
+        return .init(
+            launchConfigurationNames: self.launchConfigurationNames, 
+            maxRecords: self.maxRecords, 
             nextToken: token
         )
+
     }
 }
 
 extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateStringToken {
-    public init(_ original: AutoScaling.DescribeNotificationConfigurationsType, token: String) {
-        self.init(
-            autoScalingGroupNames: original.autoScalingGroupNames, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeNotificationConfigurationsType {
+        return .init(
+            autoScalingGroupNames: self.autoScalingGroupNames, 
+            maxRecords: self.maxRecords, 
             nextToken: token
         )
+
     }
 }
 
 extension AutoScaling.DescribePoliciesType: AWSPaginateStringToken {
-    public init(_ original: AutoScaling.DescribePoliciesType, token: String) {
-        self.init(
-            autoScalingGroupName: original.autoScalingGroupName, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> AutoScaling.DescribePoliciesType {
+        return .init(
+            autoScalingGroupName: self.autoScalingGroupName, 
+            maxRecords: self.maxRecords, 
             nextToken: token, 
-            policyNames: original.policyNames, 
-            policyTypes: original.policyTypes
+            policyNames: self.policyNames, 
+            policyTypes: self.policyTypes
         )
+
     }
 }
 
 extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateStringToken {
-    public init(_ original: AutoScaling.DescribeScalingActivitiesType, token: String) {
-        self.init(
-            activityIds: original.activityIds, 
-            autoScalingGroupName: original.autoScalingGroupName, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeScalingActivitiesType {
+        return .init(
+            activityIds: self.activityIds, 
+            autoScalingGroupName: self.autoScalingGroupName, 
+            maxRecords: self.maxRecords, 
             nextToken: token
         )
+
     }
 }
 
 extension AutoScaling.DescribeScheduledActionsType: AWSPaginateStringToken {
-    public init(_ original: AutoScaling.DescribeScheduledActionsType, token: String) {
-        self.init(
-            autoScalingGroupName: original.autoScalingGroupName, 
-            endTime: original.endTime, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeScheduledActionsType {
+        return .init(
+            autoScalingGroupName: self.autoScalingGroupName, 
+            endTime: self.endTime, 
+            maxRecords: self.maxRecords, 
             nextToken: token, 
-            scheduledActionNames: original.scheduledActionNames, 
-            startTime: original.startTime
+            scheduledActionNames: self.scheduledActionNames, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension AutoScaling.DescribeTagsType: AWSPaginateStringToken {
-    public init(_ original: AutoScaling.DescribeTagsType, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxRecords: original.maxRecords, 
+    public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeTagsType {
+        return .init(
+            filters: self.filters, 
+            maxRecords: self.maxRecords, 
             nextToken: token
         )
+
     }
 }
 

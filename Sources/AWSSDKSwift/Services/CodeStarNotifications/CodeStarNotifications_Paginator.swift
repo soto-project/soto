@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CodeStarNotifications {
 
     ///  Returns information about the event types available for configuring notifications.
@@ -22,32 +24,35 @@ extension CodeStarNotifications {
 }
 
 extension CodeStarNotifications.ListEventTypesRequest: AWSPaginateStringToken {
-    public init(_ original: CodeStarNotifications.ListEventTypesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeStarNotifications.ListEventTypesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension CodeStarNotifications.ListNotificationRulesRequest: AWSPaginateStringToken {
-    public init(_ original: CodeStarNotifications.ListNotificationRulesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeStarNotifications.ListNotificationRulesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension CodeStarNotifications.ListTargetsRequest: AWSPaginateStringToken {
-    public init(_ original: CodeStarNotifications.ListTargetsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeStarNotifications.ListTargetsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

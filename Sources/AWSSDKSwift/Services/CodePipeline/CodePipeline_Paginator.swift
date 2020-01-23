@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CodePipeline {
 
     ///  Lists the action executions that have occurred in a pipeline.
@@ -37,59 +39,65 @@ extension CodePipeline {
 }
 
 extension CodePipeline.ListActionExecutionsInput: AWSPaginateStringToken {
-    public init(_ original: CodePipeline.ListActionExecutionsInput, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodePipeline.ListActionExecutionsInput {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            pipelineName: original.pipelineName
+            pipelineName: self.pipelineName
         )
+
     }
 }
 
 extension CodePipeline.ListActionTypesInput: AWSPaginateStringToken {
-    public init(_ original: CodePipeline.ListActionTypesInput, token: String) {
-        self.init(
-            actionOwnerFilter: original.actionOwnerFilter, 
+    public func usingPaginationToken(_ token: String) -> CodePipeline.ListActionTypesInput {
+        return .init(
+            actionOwnerFilter: self.actionOwnerFilter, 
             nextToken: token
         )
+
     }
 }
 
 extension CodePipeline.ListPipelineExecutionsInput: AWSPaginateStringToken {
-    public init(_ original: CodePipeline.ListPipelineExecutionsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodePipeline.ListPipelineExecutionsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            pipelineName: original.pipelineName
+            pipelineName: self.pipelineName
         )
+
     }
 }
 
 extension CodePipeline.ListPipelinesInput: AWSPaginateStringToken {
-    public init(_ original: CodePipeline.ListPipelinesInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CodePipeline.ListPipelinesInput {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension CodePipeline.ListTagsForResourceInput: AWSPaginateStringToken {
-    public init(_ original: CodePipeline.ListTagsForResourceInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodePipeline.ListTagsForResourceInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceArn: original.resourceArn
+            resourceArn: self.resourceArn
         )
+
     }
 }
 
 extension CodePipeline.ListWebhooksInput: AWSPaginateStringToken {
-    public init(_ original: CodePipeline.ListWebhooksInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodePipeline.ListWebhooksInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

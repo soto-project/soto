@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension WorkDocs {
 
     ///  Retrieves the document versions for the specified document. By default, only active versions are returned.
@@ -22,47 +24,50 @@ extension WorkDocs {
 }
 
 extension WorkDocs.DescribeDocumentVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: WorkDocs.DescribeDocumentVersionsRequest, token: String) {
-        self.init(
-            authenticationToken: original.authenticationToken, 
-            documentId: original.documentId, 
-            fields: original.fields, 
-            include: original.include, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeDocumentVersionsRequest {
+        return .init(
+            authenticationToken: self.authenticationToken, 
+            documentId: self.documentId, 
+            fields: self.fields, 
+            include: self.include, 
+            limit: self.limit, 
             marker: token
         )
+
     }
 }
 
 extension WorkDocs.DescribeFolderContentsRequest: AWSPaginateStringToken {
-    public init(_ original: WorkDocs.DescribeFolderContentsRequest, token: String) {
-        self.init(
-            authenticationToken: original.authenticationToken, 
-            folderId: original.folderId, 
-            include: original.include, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeFolderContentsRequest {
+        return .init(
+            authenticationToken: self.authenticationToken, 
+            folderId: self.folderId, 
+            include: self.include, 
+            limit: self.limit, 
             marker: token, 
-            order: original.order, 
-            sort: original.sort, 
-            type: original.type
+            order: self.order, 
+            sort: self.sort, 
+            type: self.type
         )
+
     }
 }
 
 extension WorkDocs.DescribeUsersRequest: AWSPaginateStringToken {
-    public init(_ original: WorkDocs.DescribeUsersRequest, token: String) {
-        self.init(
-            authenticationToken: original.authenticationToken, 
-            fields: original.fields, 
-            include: original.include, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeUsersRequest {
+        return .init(
+            authenticationToken: self.authenticationToken, 
+            fields: self.fields, 
+            include: self.include, 
+            limit: self.limit, 
             marker: token, 
-            order: original.order, 
-            organizationId: original.organizationId, 
-            query: original.query, 
-            sort: original.sort, 
-            userIds: original.userIds
+            order: self.order, 
+            organizationId: self.organizationId, 
+            query: self.query, 
+            sort: self.sort, 
+            userIds: self.userIds
         )
+
     }
 }
 

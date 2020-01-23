@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Personalize {
 
     ///  Gets a list of the batch inference jobs that have been performed off of a solution version.
@@ -57,100 +59,110 @@ extension Personalize {
 }
 
 extension Personalize.ListBatchInferenceJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListBatchInferenceJobsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListBatchInferenceJobsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            solutionVersionArn: original.solutionVersionArn
+            solutionVersionArn: self.solutionVersionArn
         )
+
     }
 }
 
 extension Personalize.ListCampaignsRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListCampaignsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListCampaignsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            solutionArn: original.solutionArn
+            solutionArn: self.solutionArn
         )
+
     }
 }
 
 extension Personalize.ListDatasetGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListDatasetGroupsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListDatasetGroupsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Personalize.ListDatasetImportJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListDatasetImportJobsRequest, token: String) {
-        self.init(
-            datasetArn: original.datasetArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListDatasetImportJobsRequest {
+        return .init(
+            datasetArn: self.datasetArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Personalize.ListDatasetsRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListDatasetsRequest, token: String) {
-        self.init(
-            datasetGroupArn: original.datasetGroupArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListDatasetsRequest {
+        return .init(
+            datasetGroupArn: self.datasetGroupArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Personalize.ListEventTrackersRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListEventTrackersRequest, token: String) {
-        self.init(
-            datasetGroupArn: original.datasetGroupArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListEventTrackersRequest {
+        return .init(
+            datasetGroupArn: self.datasetGroupArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Personalize.ListRecipesRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListRecipesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListRecipesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            recipeProvider: original.recipeProvider
+            recipeProvider: self.recipeProvider
         )
+
     }
 }
 
 extension Personalize.ListSchemasRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListSchemasRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListSchemasRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Personalize.ListSolutionVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListSolutionVersionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListSolutionVersionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            solutionArn: original.solutionArn
+            solutionArn: self.solutionArn
         )
+
     }
 }
 
 extension Personalize.ListSolutionsRequest: AWSPaginateStringToken {
-    public init(_ original: Personalize.ListSolutionsRequest, token: String) {
-        self.init(
-            datasetGroupArn: original.datasetGroupArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Personalize.ListSolutionsRequest {
+        return .init(
+            datasetGroupArn: self.datasetGroupArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

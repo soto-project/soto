@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension IoTSecureTunneling {
 
     ///  List all tunnels for an AWS account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels.
@@ -12,12 +14,13 @@ extension IoTSecureTunneling {
 }
 
 extension IoTSecureTunneling.ListTunnelsRequest: AWSPaginateStringToken {
-    public init(_ original: IoTSecureTunneling.ListTunnelsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> IoTSecureTunneling.ListTunnelsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            thingName: original.thingName
+            thingName: self.thingName
         )
+
     }
 }
 

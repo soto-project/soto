@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Route53Domains {
 
     ///  This operation returns all the domain names registered with Amazon Route 53 for the current AWS account.
@@ -17,21 +19,23 @@ extension Route53Domains {
 }
 
 extension Route53Domains.ListDomainsRequest: AWSPaginateStringToken {
-    public init(_ original: Route53Domains.ListDomainsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> Route53Domains.ListDomainsRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems
+            maxItems: self.maxItems
         )
+
     }
 }
 
 extension Route53Domains.ListOperationsRequest: AWSPaginateStringToken {
-    public init(_ original: Route53Domains.ListOperationsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> Route53Domains.ListOperationsRequest {
+        return .init(
             marker: token, 
-            maxItems: original.maxItems, 
-            submittedSince: original.submittedSince
+            maxItems: self.maxItems, 
+            submittedSince: self.submittedSince
         )
+
     }
 }
 

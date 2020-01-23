@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SageMaker {
 
     ///  Lists the machine learning algorithms that have been created.
@@ -167,473 +169,505 @@ extension SageMaker {
 }
 
 extension SageMaker.ListAlgorithmsInput: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListAlgorithmsInput, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListAlgorithmsInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListAppsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListAppsRequest, token: String) {
-        self.init(
-            domainIdEquals: original.domainIdEquals, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListAppsRequest {
+        return .init(
+            domainIdEquals: self.domainIdEquals, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            userProfileNameEquals: original.userProfileNameEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            userProfileNameEquals: self.userProfileNameEquals
         )
+
     }
 }
 
 extension SageMaker.ListAutoMLJobsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListAutoMLJobsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListAutoMLJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListCandidatesForAutoMLJobRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListCandidatesForAutoMLJobRequest, token: String) {
-        self.init(
-            autoMLJobName: original.autoMLJobName, 
-            candidateNameEquals: original.candidateNameEquals, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListCandidatesForAutoMLJobRequest {
+        return .init(
+            autoMLJobName: self.autoMLJobName, 
+            candidateNameEquals: self.candidateNameEquals, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListCodeRepositoriesInput: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListCodeRepositoriesInput, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListCodeRepositoriesInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListCompilationJobsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListCompilationJobsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListCompilationJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListDomainsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListDomainsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListDomainsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension SageMaker.ListEndpointConfigsInput: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListEndpointConfigsInput, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListEndpointConfigsInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListEndpointsInput: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListEndpointsInput, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListEndpointsInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListExperimentsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListExperimentsRequest, token: String) {
-        self.init(
-            createdAfter: original.createdAfter, 
-            createdBefore: original.createdBefore, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListExperimentsRequest {
+        return .init(
+            createdAfter: self.createdAfter, 
+            createdBefore: self.createdBefore, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListFlowDefinitionsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListFlowDefinitionsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListFlowDefinitionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortOrder: original.sortOrder
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListHumanTaskUisRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListHumanTaskUisRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListHumanTaskUisRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortOrder: original.sortOrder
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListHyperParameterTuningJobsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListHyperParameterTuningJobsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListHyperParameterTuningJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListLabelingJobsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListLabelingJobsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListLabelingJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListLabelingJobsForWorkteamRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListLabelingJobsForWorkteamRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            jobReferenceCodeContains: original.jobReferenceCodeContains, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListLabelingJobsForWorkteamRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            jobReferenceCodeContains: self.jobReferenceCodeContains, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            workteamArn: original.workteamArn
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            workteamArn: self.workteamArn
         )
+
     }
 }
 
 extension SageMaker.ListModelPackagesInput: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListModelPackagesInput, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListModelPackagesInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListModelsInput: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListModelsInput, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListModelsInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListMonitoringExecutionsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListMonitoringExecutionsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            endpointName: original.endpointName, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            monitoringScheduleName: original.monitoringScheduleName, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListMonitoringExecutionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            endpointName: self.endpointName, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            monitoringScheduleName: self.monitoringScheduleName, 
             nextToken: token, 
-            scheduledTimeAfter: original.scheduledTimeAfter, 
-            scheduledTimeBefore: original.scheduledTimeBefore, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            scheduledTimeAfter: self.scheduledTimeAfter, 
+            scheduledTimeBefore: self.scheduledTimeBefore, 
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListMonitoringSchedulesRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListMonitoringSchedulesRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            endpointName: original.endpointName, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListMonitoringSchedulesRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            endpointName: self.endpointName, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListNotebookInstanceLifecycleConfigsInput: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListNotebookInstanceLifecycleConfigsInput, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListNotebookInstanceLifecycleConfigsInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListNotebookInstancesInput: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListNotebookInstancesInput, token: String) {
-        self.init(
-            additionalCodeRepositoryEquals: original.additionalCodeRepositoryEquals, 
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            defaultCodeRepositoryContains: original.defaultCodeRepositoryContains, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListNotebookInstancesInput {
+        return .init(
+            additionalCodeRepositoryEquals: self.additionalCodeRepositoryEquals, 
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            defaultCodeRepositoryContains: self.defaultCodeRepositoryContains, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            notebookInstanceLifecycleConfigNameContains: original.notebookInstanceLifecycleConfigNameContains, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            notebookInstanceLifecycleConfigNameContains: self.notebookInstanceLifecycleConfigNameContains, 
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListProcessingJobsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListProcessingJobsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListProcessingJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListSubscribedWorkteamsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListSubscribedWorkteamsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListSubscribedWorkteamsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token
         )
+
     }
 }
 
 extension SageMaker.ListTagsInput: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListTagsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTagsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceArn: original.resourceArn
+            resourceArn: self.resourceArn
         )
+
     }
 }
 
 extension SageMaker.ListTrainingJobsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListTrainingJobsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest, token: String) {
-        self.init(
-            hyperParameterTuningJobName: original.hyperParameterTuningJobName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest {
+        return .init(
+            hyperParameterTuningJobName: self.hyperParameterTuningJobName, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListTransformJobsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListTransformJobsRequest, token: String) {
-        self.init(
-            creationTimeAfter: original.creationTimeAfter, 
-            creationTimeBefore: original.creationTimeBefore, 
-            lastModifiedTimeAfter: original.lastModifiedTimeAfter, 
-            lastModifiedTimeBefore: original.lastModifiedTimeBefore, 
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTransformJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            statusEquals: original.statusEquals
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            statusEquals: self.statusEquals
         )
+
     }
 }
 
 extension SageMaker.ListTrialComponentsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListTrialComponentsRequest, token: String) {
-        self.init(
-            createdAfter: original.createdAfter, 
-            createdBefore: original.createdBefore, 
-            experimentName: original.experimentName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTrialComponentsRequest {
+        return .init(
+            createdAfter: self.createdAfter, 
+            createdBefore: self.createdBefore, 
+            experimentName: self.experimentName, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            sourceArn: original.sourceArn, 
-            trialName: original.trialName
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            sourceArn: self.sourceArn, 
+            trialName: self.trialName
         )
+
     }
 }
 
 extension SageMaker.ListTrialsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListTrialsRequest, token: String) {
-        self.init(
-            createdAfter: original.createdAfter, 
-            createdBefore: original.createdBefore, 
-            experimentName: original.experimentName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTrialsRequest {
+        return .init(
+            createdAfter: self.createdAfter, 
+            createdBefore: self.createdBefore, 
+            experimentName: self.experimentName, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.ListUserProfilesRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListUserProfilesRequest, token: String) {
-        self.init(
-            domainIdEquals: original.domainIdEquals, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListUserProfilesRequest {
+        return .init(
+            domainIdEquals: self.domainIdEquals, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder, 
-            userProfileNameContains: original.userProfileNameContains
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder, 
+            userProfileNameContains: self.userProfileNameContains
         )
+
     }
 }
 
 extension SageMaker.ListWorkteamsRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.ListWorkteamsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            nameContains: original.nameContains, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListWorkteamsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
             nextToken: token, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension SageMaker.SearchRequest: AWSPaginateStringToken {
-    public init(_ original: SageMaker.SearchRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> SageMaker.SearchRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resource: original.resource, 
-            searchExpression: original.searchExpression, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            resource: self.resource, 
+            searchExpression: self.searchExpression, 
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 

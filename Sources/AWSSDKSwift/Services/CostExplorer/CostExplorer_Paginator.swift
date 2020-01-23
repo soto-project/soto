@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CostExplorer {
 
     ///  Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s master account can see the coverage of the associated member accounts. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
@@ -17,27 +19,29 @@ extension CostExplorer {
 }
 
 extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateStringToken {
-    public init(_ original: CostExplorer.GetSavingsPlansCoverageRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            granularity: original.granularity, 
-            groupBy: original.groupBy, 
-            maxResults: original.maxResults, 
-            metrics: original.metrics, 
+    public func usingPaginationToken(_ token: String) -> CostExplorer.GetSavingsPlansCoverageRequest {
+        return .init(
+            filter: self.filter, 
+            granularity: self.granularity, 
+            groupBy: self.groupBy, 
+            maxResults: self.maxResults, 
+            metrics: self.metrics, 
             nextToken: token, 
-            timePeriod: original.timePeriod
+            timePeriod: self.timePeriod
         )
+
     }
 }
 
 extension CostExplorer.GetSavingsPlansUtilizationDetailsRequest: AWSPaginateStringToken {
-    public init(_ original: CostExplorer.GetSavingsPlansUtilizationDetailsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CostExplorer.GetSavingsPlansUtilizationDetailsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            timePeriod: original.timePeriod
+            timePeriod: self.timePeriod
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension StorageGateway {
 
     ///  Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This operation is only supported in the tape gateway type. If a specific TapeARN is not specified, AWS Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
@@ -52,93 +54,102 @@ extension StorageGateway {
 }
 
 extension StorageGateway.DescribeTapeArchivesInput: AWSPaginateStringToken {
-    public init(_ original: StorageGateway.DescribeTapeArchivesInput, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> StorageGateway.DescribeTapeArchivesInput {
+        return .init(
+            limit: self.limit, 
             marker: token, 
-            tapeARNs: original.tapeARNs
+            tapeARNs: self.tapeARNs
         )
+
     }
 }
 
 extension StorageGateway.DescribeTapeRecoveryPointsInput: AWSPaginateStringToken {
-    public init(_ original: StorageGateway.DescribeTapeRecoveryPointsInput, token: String) {
-        self.init(
-            gatewayARN: original.gatewayARN, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> StorageGateway.DescribeTapeRecoveryPointsInput {
+        return .init(
+            gatewayARN: self.gatewayARN, 
+            limit: self.limit, 
             marker: token
         )
+
     }
 }
 
 extension StorageGateway.DescribeTapesInput: AWSPaginateStringToken {
-    public init(_ original: StorageGateway.DescribeTapesInput, token: String) {
-        self.init(
-            gatewayARN: original.gatewayARN, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> StorageGateway.DescribeTapesInput {
+        return .init(
+            gatewayARN: self.gatewayARN, 
+            limit: self.limit, 
             marker: token, 
-            tapeARNs: original.tapeARNs
+            tapeARNs: self.tapeARNs
         )
+
     }
 }
 
 extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateStringToken {
-    public init(_ original: StorageGateway.DescribeVTLDevicesInput, token: String) {
-        self.init(
-            gatewayARN: original.gatewayARN, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> StorageGateway.DescribeVTLDevicesInput {
+        return .init(
+            gatewayARN: self.gatewayARN, 
+            limit: self.limit, 
             marker: token, 
-            vTLDeviceARNs: original.vTLDeviceARNs
+            vTLDeviceARNs: self.vTLDeviceARNs
         )
+
     }
 }
 
 extension StorageGateway.ListFileSharesInput: AWSPaginateStringToken {
-    public init(_ original: StorageGateway.ListFileSharesInput, token: String) {
-        self.init(
-            gatewayARN: original.gatewayARN, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> StorageGateway.ListFileSharesInput {
+        return .init(
+            gatewayARN: self.gatewayARN, 
+            limit: self.limit, 
             marker: token
         )
+
     }
 }
 
 extension StorageGateway.ListGatewaysInput: AWSPaginateStringToken {
-    public init(_ original: StorageGateway.ListGatewaysInput, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> StorageGateway.ListGatewaysInput {
+        return .init(
+            limit: self.limit, 
             marker: token
         )
+
     }
 }
 
 extension StorageGateway.ListTagsForResourceInput: AWSPaginateStringToken {
-    public init(_ original: StorageGateway.ListTagsForResourceInput, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> StorageGateway.ListTagsForResourceInput {
+        return .init(
+            limit: self.limit, 
             marker: token, 
-            resourceARN: original.resourceARN
+            resourceARN: self.resourceARN
         )
+
     }
 }
 
 extension StorageGateway.ListTapesInput: AWSPaginateStringToken {
-    public init(_ original: StorageGateway.ListTapesInput, token: String) {
-        self.init(
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> StorageGateway.ListTapesInput {
+        return .init(
+            limit: self.limit, 
             marker: token, 
-            tapeARNs: original.tapeARNs
+            tapeARNs: self.tapeARNs
         )
+
     }
 }
 
 extension StorageGateway.ListVolumesInput: AWSPaginateStringToken {
-    public init(_ original: StorageGateway.ListVolumesInput, token: String) {
-        self.init(
-            gatewayARN: original.gatewayARN, 
-            limit: original.limit, 
+    public func usingPaginationToken(_ token: String) -> StorageGateway.ListVolumesInput {
+        return .init(
+            gatewayARN: self.gatewayARN, 
+            limit: self.limit, 
             marker: token
         )
+
     }
 }
 

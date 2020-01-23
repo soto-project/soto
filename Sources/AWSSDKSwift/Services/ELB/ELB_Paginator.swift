@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ELB {
 
     ///  Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
@@ -12,12 +14,13 @@ extension ELB {
 }
 
 extension ELB.DescribeAccessPointsInput: AWSPaginateStringToken {
-    public init(_ original: ELB.DescribeAccessPointsInput, token: String) {
-        self.init(
-            loadBalancerNames: original.loadBalancerNames, 
+    public func usingPaginationToken(_ token: String) -> ELB.DescribeAccessPointsInput {
+        return .init(
+            loadBalancerNames: self.loadBalancerNames, 
             marker: token, 
-            pageSize: original.pageSize
+            pageSize: self.pageSize
         )
+
     }
 }
 

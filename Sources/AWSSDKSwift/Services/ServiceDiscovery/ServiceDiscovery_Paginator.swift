@@ -2,7 +2,14 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ServiceDiscovery {
+
+    ///  Gets the current health status (Healthy, Unhealthy, or Unknown) of one or more instances that are associated with a specified service.  There is a brief delay between when you register an instance and when the health status for the instance is available.  
+    public func getInstancesHealthStatusPaginator(_ input: GetInstancesHealthStatusRequest, onPage: @escaping (GetInstancesHealthStatusResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getInstancesHealthStatus, tokenKey: \GetInstancesHealthStatusResponse.nextToken, onPage: onPage)
+    }
 
     ///  Lists summary information about the instances that you registered by using a specified service.
     public func listInstancesPaginator(_ input: ListInstancesRequest, onPage: @escaping (ListInstancesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
@@ -26,43 +33,59 @@ extension ServiceDiscovery {
 
 }
 
-extension ServiceDiscovery.ListInstancesRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceDiscovery.ListInstancesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+extension ServiceDiscovery.GetInstancesHealthStatusRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ServiceDiscovery.GetInstancesHealthStatusRequest {
+        return .init(
+            instances: self.instances, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceId: original.serviceId
+            serviceId: self.serviceId
         )
+
+    }
+}
+
+extension ServiceDiscovery.ListInstancesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListInstancesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            serviceId: self.serviceId
+        )
+
     }
 }
 
 extension ServiceDiscovery.ListNamespacesRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceDiscovery.ListNamespacesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListNamespacesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ServiceDiscovery.ListOperationsRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceDiscovery.ListOperationsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListOperationsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ServiceDiscovery.ListServicesRequest: AWSPaginateStringToken {
-    public init(_ original: ServiceDiscovery.ListServicesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListServicesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

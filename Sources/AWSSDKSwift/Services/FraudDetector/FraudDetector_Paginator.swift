@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension FraudDetector {
 
     ///  Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version. 
@@ -42,77 +44,84 @@ extension FraudDetector {
 }
 
 extension FraudDetector.DescribeModelVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: FraudDetector.DescribeModelVersionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            modelId: original.modelId, 
-            modelType: original.modelType, 
-            modelVersionNumber: original.modelVersionNumber, 
+    public func usingPaginationToken(_ token: String) -> FraudDetector.DescribeModelVersionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            modelId: self.modelId, 
+            modelType: self.modelType, 
+            modelVersionNumber: self.modelVersionNumber, 
             nextToken: token
         )
+
     }
 }
 
 extension FraudDetector.GetDetectorsRequest: AWSPaginateStringToken {
-    public init(_ original: FraudDetector.GetDetectorsRequest, token: String) {
-        self.init(
-            detectorId: original.detectorId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> FraudDetector.GetDetectorsRequest {
+        return .init(
+            detectorId: self.detectorId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension FraudDetector.GetExternalModelsRequest: AWSPaginateStringToken {
-    public init(_ original: FraudDetector.GetExternalModelsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            modelEndpoint: original.modelEndpoint, 
+    public func usingPaginationToken(_ token: String) -> FraudDetector.GetExternalModelsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            modelEndpoint: self.modelEndpoint, 
             nextToken: token
         )
+
     }
 }
 
 extension FraudDetector.GetModelsRequest: AWSPaginateStringToken {
-    public init(_ original: FraudDetector.GetModelsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            modelId: original.modelId, 
-            modelType: original.modelType, 
+    public func usingPaginationToken(_ token: String) -> FraudDetector.GetModelsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            modelId: self.modelId, 
+            modelType: self.modelType, 
             nextToken: token
         )
+
     }
 }
 
 extension FraudDetector.GetOutcomesRequest: AWSPaginateStringToken {
-    public init(_ original: FraudDetector.GetOutcomesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> FraudDetector.GetOutcomesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token
         )
+
     }
 }
 
 extension FraudDetector.GetRulesRequest: AWSPaginateStringToken {
-    public init(_ original: FraudDetector.GetRulesRequest, token: String) {
-        self.init(
-            detectorId: original.detectorId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> FraudDetector.GetRulesRequest {
+        return .init(
+            detectorId: self.detectorId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            ruleId: original.ruleId, 
-            ruleVersion: original.ruleVersion
+            ruleId: self.ruleId, 
+            ruleVersion: self.ruleVersion
         )
+
     }
 }
 
 extension FraudDetector.GetVariablesRequest: AWSPaginateStringToken {
-    public init(_ original: FraudDetector.GetVariablesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> FraudDetector.GetVariablesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token
         )
+
     }
 }
 

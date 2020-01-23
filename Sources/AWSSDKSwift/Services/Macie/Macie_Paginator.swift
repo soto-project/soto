@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Macie {
 
     ///  Lists all Amazon Macie member accounts for the current Amazon Macie master account.
@@ -17,21 +19,23 @@ extension Macie {
 }
 
 extension Macie.ListMemberAccountsRequest: AWSPaginateStringToken {
-    public init(_ original: Macie.ListMemberAccountsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Macie.ListMemberAccountsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Macie.ListS3ResourcesRequest: AWSPaginateStringToken {
-    public init(_ original: Macie.ListS3ResourcesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            memberAccountId: original.memberAccountId, 
+    public func usingPaginationToken(_ token: String) -> Macie.ListS3ResourcesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            memberAccountId: self.memberAccountId, 
             nextToken: token
         )
+
     }
 }
 

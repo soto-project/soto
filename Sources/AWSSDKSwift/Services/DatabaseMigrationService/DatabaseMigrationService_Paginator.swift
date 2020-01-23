@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension DatabaseMigrationService {
 
     ///  Provides a description of the certificate.
@@ -82,161 +84,176 @@ extension DatabaseMigrationService {
 }
 
 extension DatabaseMigrationService.DescribeCertificatesMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeCertificatesMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeCertificatesMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeConnectionsMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeConnectionsMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeEndpointTypesMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeEndpointTypesMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEndpointTypesMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeEndpointsMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeEndpointsMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEndpointsMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeEventSubscriptionsMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEventSubscriptionsMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            subscriptionName: original.subscriptionName
+            maxRecords: self.maxRecords, 
+            subscriptionName: self.subscriptionName
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeEventsMessage, token: String) {
-        self.init(
-            duration: original.duration, 
-            endTime: original.endTime, 
-            eventCategories: original.eventCategories, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEventsMessage {
+        return .init(
+            duration: self.duration, 
+            endTime: self.endTime, 
+            eventCategories: self.eventCategories, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            sourceIdentifier: original.sourceIdentifier, 
-            sourceType: original.sourceType, 
-            startTime: original.startTime
+            maxRecords: self.maxRecords, 
+            sourceIdentifier: self.sourceIdentifier, 
+            sourceType: self.sourceType, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribePendingMaintenanceActionsMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribePendingMaintenanceActionsMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribePendingMaintenanceActionsMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            replicationInstanceArn: original.replicationInstanceArn
+            maxRecords: self.maxRecords, 
+            replicationInstanceArn: self.replicationInstanceArn
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords, 
-            replicationInstanceArn: original.replicationInstanceArn
+            maxRecords: self.maxRecords, 
+            replicationInstanceArn: self.replicationInstanceArn
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeReplicationInstancesMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeReplicationInstancesMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationInstancesMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessage, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessage {
+        return .init(
             marker: token, 
-            maxRecords: original.maxRecords, 
-            replicationTaskArn: original.replicationTaskArn
+            maxRecords: self.maxRecords, 
+            replicationTaskArn: self.replicationTaskArn
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeReplicationTasksMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeReplicationTasksMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationTasksMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            withoutSettings: original.withoutSettings
+            maxRecords: self.maxRecords, 
+            withoutSettings: self.withoutSettings
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeSchemasMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeSchemasMessage, token: String) {
-        self.init(
-            endpointArn: original.endpointArn, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeSchemasMessage {
+        return .init(
+            endpointArn: self.endpointArn, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DatabaseMigrationService.DescribeTableStatisticsMessage: AWSPaginateStringToken {
-    public init(_ original: DatabaseMigrationService.DescribeTableStatisticsMessage, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeTableStatisticsMessage {
+        return .init(
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            replicationTaskArn: original.replicationTaskArn
+            maxRecords: self.maxRecords, 
+            replicationTaskArn: self.replicationTaskArn
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Route53Resolver {
 
     ///  Gets the IP addresses for a specified resolver endpoint.
@@ -27,42 +29,46 @@ extension Route53Resolver {
 }
 
 extension Route53Resolver.ListResolverEndpointIpAddressesRequest: AWSPaginateStringToken {
-    public init(_ original: Route53Resolver.ListResolverEndpointIpAddressesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverEndpointIpAddressesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resolverEndpointId: original.resolverEndpointId
+            resolverEndpointId: self.resolverEndpointId
         )
+
     }
 }
 
 extension Route53Resolver.ListResolverEndpointsRequest: AWSPaginateStringToken {
-    public init(_ original: Route53Resolver.ListResolverEndpointsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverEndpointsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Route53Resolver.ListResolverRuleAssociationsRequest: AWSPaginateStringToken {
-    public init(_ original: Route53Resolver.ListResolverRuleAssociationsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverRuleAssociationsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension Route53Resolver.ListResolverRulesRequest: AWSPaginateStringToken {
-    public init(_ original: Route53Resolver.ListResolverRulesRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverRulesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

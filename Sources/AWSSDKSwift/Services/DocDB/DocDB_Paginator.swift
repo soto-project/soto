@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension DocDB {
 
     ///  Returns information about provisioned Amazon DocumentDB DB clusters. This API operation supports pagination.
@@ -37,82 +39,88 @@ extension DocDB {
 }
 
 extension DocDB.DescribeDBClustersMessage: AWSPaginateStringToken {
-    public init(_ original: DocDB.DescribeDBClustersMessage, token: String) {
-        self.init(
-            dBClusterIdentifier: original.dBClusterIdentifier, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClustersMessage {
+        return .init(
+            dBClusterIdentifier: self.dBClusterIdentifier, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
-    public init(_ original: DocDB.DescribeDBEngineVersionsMessage, token: String) {
-        self.init(
-            dBParameterGroupFamily: original.dBParameterGroupFamily, 
-            defaultOnly: original.defaultOnly, 
-            engine: original.engine, 
-            engineVersion: original.engineVersion, 
-            filters: original.filters, 
-            listSupportedCharacterSets: original.listSupportedCharacterSets, 
-            listSupportedTimezones: original.listSupportedTimezones, 
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBEngineVersionsMessage {
+        return .init(
+            dBParameterGroupFamily: self.dBParameterGroupFamily, 
+            defaultOnly: self.defaultOnly, 
+            engine: self.engine, 
+            engineVersion: self.engineVersion, 
+            filters: self.filters, 
+            listSupportedCharacterSets: self.listSupportedCharacterSets, 
+            listSupportedTimezones: self.listSupportedTimezones, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DocDB.DescribeDBInstancesMessage: AWSPaginateStringToken {
-    public init(_ original: DocDB.DescribeDBInstancesMessage, token: String) {
-        self.init(
-            dBInstanceIdentifier: original.dBInstanceIdentifier, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBInstancesMessage {
+        return .init(
+            dBInstanceIdentifier: self.dBInstanceIdentifier, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateStringToken {
-    public init(_ original: DocDB.DescribeDBSubnetGroupsMessage, token: String) {
-        self.init(
-            dBSubnetGroupName: original.dBSubnetGroupName, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBSubnetGroupsMessage {
+        return .init(
+            dBSubnetGroupName: self.dBSubnetGroupName, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords
+            maxRecords: self.maxRecords
         )
+
     }
 }
 
 extension DocDB.DescribeEventsMessage: AWSPaginateStringToken {
-    public init(_ original: DocDB.DescribeEventsMessage, token: String) {
-        self.init(
-            duration: original.duration, 
-            endTime: original.endTime, 
-            eventCategories: original.eventCategories, 
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeEventsMessage {
+        return .init(
+            duration: self.duration, 
+            endTime: self.endTime, 
+            eventCategories: self.eventCategories, 
+            filters: self.filters, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            sourceIdentifier: original.sourceIdentifier, 
-            sourceType: original.sourceType, 
-            startTime: original.startTime
+            maxRecords: self.maxRecords, 
+            sourceIdentifier: self.sourceIdentifier, 
+            sourceType: self.sourceType, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension DocDB.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToken {
-    public init(_ original: DocDB.DescribeOrderableDBInstanceOptionsMessage, token: String) {
-        self.init(
-            dBInstanceClass: original.dBInstanceClass, 
-            engine: original.engine, 
-            engineVersion: original.engineVersion, 
-            filters: original.filters, 
-            licenseModel: original.licenseModel, 
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeOrderableDBInstanceOptionsMessage {
+        return .init(
+            dBInstanceClass: self.dBInstanceClass, 
+            engine: self.engine, 
+            engineVersion: self.engineVersion, 
+            filters: self.filters, 
+            licenseModel: self.licenseModel, 
             marker: token, 
-            maxRecords: original.maxRecords, 
-            vpc: original.vpc
+            maxRecords: self.maxRecords, 
+            vpc: self.vpc
         )
+
     }
 }
 

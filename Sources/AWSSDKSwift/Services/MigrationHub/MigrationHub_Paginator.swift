@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MigrationHub {
 
     ///  Lists all the migration statuses for your applications. If you use the optional ApplicationIds parameter, only the migration statuses for those applications will be returned.
@@ -32,53 +34,58 @@ extension MigrationHub {
 }
 
 extension MigrationHub.ListApplicationStatesRequest: AWSPaginateStringToken {
-    public init(_ original: MigrationHub.ListApplicationStatesRequest, token: String) {
-        self.init(
-            applicationIds: original.applicationIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MigrationHub.ListApplicationStatesRequest {
+        return .init(
+            applicationIds: self.applicationIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MigrationHub.ListCreatedArtifactsRequest: AWSPaginateStringToken {
-    public init(_ original: MigrationHub.ListCreatedArtifactsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            migrationTaskName: original.migrationTaskName, 
+    public func usingPaginationToken(_ token: String) -> MigrationHub.ListCreatedArtifactsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            migrationTaskName: self.migrationTaskName, 
             nextToken: token, 
-            progressUpdateStream: original.progressUpdateStream
+            progressUpdateStream: self.progressUpdateStream
         )
+
     }
 }
 
 extension MigrationHub.ListDiscoveredResourcesRequest: AWSPaginateStringToken {
-    public init(_ original: MigrationHub.ListDiscoveredResourcesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            migrationTaskName: original.migrationTaskName, 
+    public func usingPaginationToken(_ token: String) -> MigrationHub.ListDiscoveredResourcesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            migrationTaskName: self.migrationTaskName, 
             nextToken: token, 
-            progressUpdateStream: original.progressUpdateStream
+            progressUpdateStream: self.progressUpdateStream
         )
+
     }
 }
 
 extension MigrationHub.ListMigrationTasksRequest: AWSPaginateStringToken {
-    public init(_ original: MigrationHub.ListMigrationTasksRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MigrationHub.ListMigrationTasksRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceName: original.resourceName
+            resourceName: self.resourceName
         )
+
     }
 }
 
 extension MigrationHub.ListProgressUpdateStreamsRequest: AWSPaginateStringToken {
-    public init(_ original: MigrationHub.ListProgressUpdateStreamsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MigrationHub.ListProgressUpdateStreamsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

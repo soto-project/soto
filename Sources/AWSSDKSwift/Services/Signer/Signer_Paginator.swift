@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Signer {
 
     ///  Lists all your signing jobs. You can use the maxResults parameter to limit the number of signing jobs that are returned in the response. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned. 
@@ -22,36 +24,39 @@ extension Signer {
 }
 
 extension Signer.ListSigningJobsRequest: AWSPaginateStringToken {
-    public init(_ original: Signer.ListSigningJobsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Signer.ListSigningJobsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            platformId: original.platformId, 
-            requestedBy: original.requestedBy, 
-            status: original.status
+            platformId: self.platformId, 
+            requestedBy: self.requestedBy, 
+            status: self.status
         )
+
     }
 }
 
 extension Signer.ListSigningPlatformsRequest: AWSPaginateStringToken {
-    public init(_ original: Signer.ListSigningPlatformsRequest, token: String) {
-        self.init(
-            category: original.category, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Signer.ListSigningPlatformsRequest {
+        return .init(
+            category: self.category, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            partner: original.partner, 
-            target: original.target
+            partner: self.partner, 
+            target: self.target
         )
+
     }
 }
 
 extension Signer.ListSigningProfilesRequest: AWSPaginateStringToken {
-    public init(_ original: Signer.ListSigningProfilesRequest, token: String) {
-        self.init(
-            includeCanceled: original.includeCanceled, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Signer.ListSigningProfilesRequest {
+        return .init(
+            includeCanceled: self.includeCanceled, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

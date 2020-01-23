@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension EKS {
 
     ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
@@ -27,42 +29,46 @@ extension EKS {
 }
 
 extension EKS.ListClustersRequest: AWSPaginateStringToken {
-    public init(_ original: EKS.ListClustersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EKS.ListClustersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EKS.ListFargateProfilesRequest: AWSPaginateStringToken {
-    public init(_ original: EKS.ListFargateProfilesRequest, token: String) {
-        self.init(
-            clusterName: original.clusterName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EKS.ListFargateProfilesRequest {
+        return .init(
+            clusterName: self.clusterName, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EKS.ListNodegroupsRequest: AWSPaginateStringToken {
-    public init(_ original: EKS.ListNodegroupsRequest, token: String) {
-        self.init(
-            clusterName: original.clusterName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EKS.ListNodegroupsRequest {
+        return .init(
+            clusterName: self.clusterName, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EKS.ListUpdatesRequest: AWSPaginateStringToken {
-    public init(_ original: EKS.ListUpdatesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> EKS.ListUpdatesRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token, 
-            nodegroupName: original.nodegroupName
+            nodegroupName: self.nodegroupName
         )
+
     }
 }
 

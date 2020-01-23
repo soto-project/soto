@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension EC2 {
 
     ///  Describes the IP address ranges that were specified in calls to ProvisionByoipCidr. To describe the address pools that were created when you provisioned the address ranges, use DescribePublicIpv4Pools.
@@ -352,841 +354,910 @@ extension EC2 {
 }
 
 extension EC2.DescribeByoipCidrsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeByoipCidrsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeByoipCidrsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeCapacityReservationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeCapacityReservationsRequest, token: String) {
-        self.init(
-            capacityReservationIds: original.capacityReservationIds, 
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeCapacityReservationsRequest {
+        return .init(
+            capacityReservationIds: self.capacityReservationIds, 
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeClassicLinkInstancesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeClassicLinkInstancesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            instanceIds: original.instanceIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeClassicLinkInstancesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            instanceIds: self.instanceIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeClientVpnAuthorizationRulesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeClientVpnAuthorizationRulesRequest, token: String) {
-        self.init(
-            clientVpnEndpointId: original.clientVpnEndpointId, 
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnAuthorizationRulesRequest {
+        return .init(
+            clientVpnEndpointId: self.clientVpnEndpointId, 
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeClientVpnConnectionsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeClientVpnConnectionsRequest, token: String) {
-        self.init(
-            clientVpnEndpointId: original.clientVpnEndpointId, 
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnConnectionsRequest {
+        return .init(
+            clientVpnEndpointId: self.clientVpnEndpointId, 
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeClientVpnEndpointsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeClientVpnEndpointsRequest, token: String) {
-        self.init(
-            clientVpnEndpointIds: original.clientVpnEndpointIds, 
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnEndpointsRequest {
+        return .init(
+            clientVpnEndpointIds: self.clientVpnEndpointIds, 
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeClientVpnRoutesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeClientVpnRoutesRequest, token: String) {
-        self.init(
-            clientVpnEndpointId: original.clientVpnEndpointId, 
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnRoutesRequest {
+        return .init(
+            clientVpnEndpointId: self.clientVpnEndpointId, 
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeClientVpnTargetNetworksRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeClientVpnTargetNetworksRequest, token: String) {
-        self.init(
-            associationIds: original.associationIds, 
-            clientVpnEndpointId: original.clientVpnEndpointId, 
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnTargetNetworksRequest {
+        return .init(
+            associationIds: self.associationIds, 
+            clientVpnEndpointId: self.clientVpnEndpointId, 
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeDhcpOptionsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeDhcpOptionsRequest, token: String) {
-        self.init(
-            dhcpOptionsIds: original.dhcpOptionsIds, 
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeDhcpOptionsRequest {
+        return .init(
+            dhcpOptionsIds: self.dhcpOptionsIds, 
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeEgressOnlyInternetGatewaysRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeEgressOnlyInternetGatewaysRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            egressOnlyInternetGatewayIds: original.egressOnlyInternetGatewayIds, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeEgressOnlyInternetGatewaysRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            egressOnlyInternetGatewayIds: self.egressOnlyInternetGatewayIds, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeExportImageTasksRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeExportImageTasksRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            exportImageTaskIds: original.exportImageTaskIds, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeExportImageTasksRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            exportImageTaskIds: self.exportImageTaskIds, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeFastSnapshotRestoresRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeFastSnapshotRestoresRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeFastSnapshotRestoresRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeFleetsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeFleetsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            fleetIds: original.fleetIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeFleetsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            fleetIds: self.fleetIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeFlowLogsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeFlowLogsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filter: original.filter, 
-            flowLogIds: original.flowLogIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeFlowLogsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filter: self.filter, 
+            flowLogIds: self.flowLogIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeFpgaImagesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeFpgaImagesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            fpgaImageIds: original.fpgaImageIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeFpgaImagesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            fpgaImageIds: self.fpgaImageIds, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            owners: original.owners
+            owners: self.owners
         )
+
     }
 }
 
 extension EC2.DescribeHostReservationOfferingsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeHostReservationOfferingsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxDuration: original.maxDuration, 
-            maxResults: original.maxResults, 
-            minDuration: original.minDuration, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeHostReservationOfferingsRequest {
+        return .init(
+            filter: self.filter, 
+            maxDuration: self.maxDuration, 
+            maxResults: self.maxResults, 
+            minDuration: self.minDuration, 
             nextToken: token, 
-            offeringId: original.offeringId
+            offeringId: self.offeringId
         )
+
     }
 }
 
 extension EC2.DescribeHostReservationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeHostReservationsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            hostReservationIdSet: original.hostReservationIdSet, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeHostReservationsRequest {
+        return .init(
+            filter: self.filter, 
+            hostReservationIdSet: self.hostReservationIdSet, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeHostsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeHostsRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            hostIds: original.hostIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeHostsRequest {
+        return .init(
+            filter: self.filter, 
+            hostIds: self.hostIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeIamInstanceProfileAssociationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeIamInstanceProfileAssociationsRequest, token: String) {
-        self.init(
-            associationIds: original.associationIds, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeIamInstanceProfileAssociationsRequest {
+        return .init(
+            associationIds: self.associationIds, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeImportImageTasksRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeImportImageTasksRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            importTaskIds: original.importTaskIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeImportImageTasksRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            importTaskIds: self.importTaskIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeImportSnapshotTasksRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeImportSnapshotTasksRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            importTaskIds: original.importTaskIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeImportSnapshotTasksRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            importTaskIds: self.importTaskIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeInstanceCreditSpecificationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeInstanceCreditSpecificationsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            instanceIds: original.instanceIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceCreditSpecificationsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            instanceIds: self.instanceIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeInstanceStatusRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeInstanceStatusRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            includeAllInstances: original.includeAllInstances, 
-            instanceIds: original.instanceIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceStatusRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            includeAllInstances: self.includeAllInstances, 
+            instanceIds: self.instanceIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeInstancesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeInstancesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            instanceIds: original.instanceIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeInstancesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            instanceIds: self.instanceIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeInternetGatewaysRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeInternetGatewaysRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            internetGatewayIds: original.internetGatewayIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeInternetGatewaysRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            internetGatewayIds: self.internetGatewayIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeLaunchTemplateVersionsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeLaunchTemplateVersionsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            launchTemplateId: original.launchTemplateId, 
-            launchTemplateName: original.launchTemplateName, 
-            maxResults: original.maxResults, 
-            maxVersion: original.maxVersion, 
-            minVersion: original.minVersion, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeLaunchTemplateVersionsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            launchTemplateId: self.launchTemplateId, 
+            launchTemplateName: self.launchTemplateName, 
+            maxResults: self.maxResults, 
+            maxVersion: self.maxVersion, 
+            minVersion: self.minVersion, 
             nextToken: token, 
-            versions: original.versions
+            versions: self.versions
         )
+
     }
 }
 
 extension EC2.DescribeLaunchTemplatesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeLaunchTemplatesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            launchTemplateIds: original.launchTemplateIds, 
-            launchTemplateNames: original.launchTemplateNames, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeLaunchTemplatesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            launchTemplateIds: self.launchTemplateIds, 
+            launchTemplateNames: self.launchTemplateNames, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeMovingAddressesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeMovingAddressesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeMovingAddressesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            publicIps: original.publicIps
+            publicIps: self.publicIps
         )
+
     }
 }
 
 extension EC2.DescribeNatGatewaysRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeNatGatewaysRequest, token: String) {
-        self.init(
-            filter: original.filter, 
-            maxResults: original.maxResults, 
-            natGatewayIds: original.natGatewayIds, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeNatGatewaysRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
+            natGatewayIds: self.natGatewayIds, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeNetworkAclsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeNetworkAclsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
-            networkAclIds: original.networkAclIds, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkAclsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            networkAclIds: self.networkAclIds, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeNetworkInterfacePermissionsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeNetworkInterfacePermissionsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
-            networkInterfacePermissionIds: original.networkInterfacePermissionIds, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkInterfacePermissionsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            networkInterfacePermissionIds: self.networkInterfacePermissionIds, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeNetworkInterfacesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeNetworkInterfacesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
-            networkInterfaceIds: original.networkInterfaceIds, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkInterfacesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            networkInterfaceIds: self.networkInterfaceIds, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribePrefixListsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribePrefixListsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribePrefixListsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            prefixListIds: original.prefixListIds
+            prefixListIds: self.prefixListIds
         )
+
     }
 }
 
 extension EC2.DescribePrincipalIdFormatRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribePrincipalIdFormatRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribePrincipalIdFormatRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resources: original.resources
+            resources: self.resources
         )
+
     }
 }
 
 extension EC2.DescribePublicIpv4PoolsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribePublicIpv4PoolsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribePublicIpv4PoolsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            poolIds: original.poolIds
+            poolIds: self.poolIds
         )
+
     }
 }
 
 extension EC2.DescribeReservedInstancesModificationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeReservedInstancesModificationsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeReservedInstancesModificationsRequest {
+        return .init(
+            filters: self.filters, 
             nextToken: token, 
-            reservedInstancesModificationIds: original.reservedInstancesModificationIds
+            reservedInstancesModificationIds: self.reservedInstancesModificationIds
         )
+
     }
 }
 
 extension EC2.DescribeReservedInstancesOfferingsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeReservedInstancesOfferingsRequest, token: String) {
-        self.init(
-            availabilityZone: original.availabilityZone, 
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            includeMarketplace: original.includeMarketplace, 
-            instanceTenancy: original.instanceTenancy, 
-            instanceType: original.instanceType, 
-            maxDuration: original.maxDuration, 
-            maxInstanceCount: original.maxInstanceCount, 
-            maxResults: original.maxResults, 
-            minDuration: original.minDuration, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeReservedInstancesOfferingsRequest {
+        return .init(
+            availabilityZone: self.availabilityZone, 
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            includeMarketplace: self.includeMarketplace, 
+            instanceTenancy: self.instanceTenancy, 
+            instanceType: self.instanceType, 
+            maxDuration: self.maxDuration, 
+            maxInstanceCount: self.maxInstanceCount, 
+            maxResults: self.maxResults, 
+            minDuration: self.minDuration, 
             nextToken: token, 
-            offeringClass: original.offeringClass, 
-            offeringType: original.offeringType, 
-            productDescription: original.productDescription, 
-            reservedInstancesOfferingIds: original.reservedInstancesOfferingIds
+            offeringClass: self.offeringClass, 
+            offeringType: self.offeringType, 
+            productDescription: self.productDescription, 
+            reservedInstancesOfferingIds: self.reservedInstancesOfferingIds
         )
+
     }
 }
 
 extension EC2.DescribeRouteTablesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeRouteTablesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeRouteTablesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            routeTableIds: original.routeTableIds
+            routeTableIds: self.routeTableIds
         )
+
     }
 }
 
 extension EC2.DescribeScheduledInstanceAvailabilityRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeScheduledInstanceAvailabilityRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            firstSlotStartTimeRange: original.firstSlotStartTimeRange, 
-            maxResults: original.maxResults, 
-            maxSlotDurationInHours: original.maxSlotDurationInHours, 
-            minSlotDurationInHours: original.minSlotDurationInHours, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeScheduledInstanceAvailabilityRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            firstSlotStartTimeRange: self.firstSlotStartTimeRange, 
+            maxResults: self.maxResults, 
+            maxSlotDurationInHours: self.maxSlotDurationInHours, 
+            minSlotDurationInHours: self.minSlotDurationInHours, 
             nextToken: token, 
-            recurrence: original.recurrence
+            recurrence: self.recurrence
         )
+
     }
 }
 
 extension EC2.DescribeScheduledInstancesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeScheduledInstancesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeScheduledInstancesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            scheduledInstanceIds: original.scheduledInstanceIds, 
-            slotStartTimeRange: original.slotStartTimeRange
+            scheduledInstanceIds: self.scheduledInstanceIds, 
+            slotStartTimeRange: self.slotStartTimeRange
         )
+
     }
 }
 
 extension EC2.DescribeSecurityGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeSecurityGroupsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            groupIds: original.groupIds, 
-            groupNames: original.groupNames, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeSecurityGroupsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            groupIds: self.groupIds, 
+            groupNames: self.groupNames, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeSnapshotsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeSnapshotsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeSnapshotsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            ownerIds: original.ownerIds, 
-            restorableByUserIds: original.restorableByUserIds, 
-            snapshotIds: original.snapshotIds
+            ownerIds: self.ownerIds, 
+            restorableByUserIds: self.restorableByUserIds, 
+            snapshotIds: self.snapshotIds
         )
+
     }
 }
 
 extension EC2.DescribeSpotFleetRequestsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeSpotFleetRequestsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeSpotFleetRequestsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            spotFleetRequestIds: original.spotFleetRequestIds
+            spotFleetRequestIds: self.spotFleetRequestIds
         )
+
     }
 }
 
 extension EC2.DescribeSpotInstanceRequestsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeSpotInstanceRequestsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeSpotInstanceRequestsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            spotInstanceRequestIds: original.spotInstanceRequestIds
+            spotInstanceRequestIds: self.spotInstanceRequestIds
         )
+
     }
 }
 
 extension EC2.DescribeSpotPriceHistoryRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeSpotPriceHistoryRequest, token: String) {
-        self.init(
-            availabilityZone: original.availabilityZone, 
-            dryRun: original.dryRun, 
-            endTime: original.endTime, 
-            filters: original.filters, 
-            instanceTypes: original.instanceTypes, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeSpotPriceHistoryRequest {
+        return .init(
+            availabilityZone: self.availabilityZone, 
+            dryRun: self.dryRun, 
+            endTime: self.endTime, 
+            filters: self.filters, 
+            instanceTypes: self.instanceTypes, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            productDescriptions: original.productDescriptions, 
-            startTime: original.startTime
+            productDescriptions: self.productDescriptions, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension EC2.DescribeStaleSecurityGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeStaleSecurityGroupsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeStaleSecurityGroupsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            vpcId: original.vpcId
+            vpcId: self.vpcId
         )
+
     }
 }
 
 extension EC2.DescribeSubnetsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeSubnetsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeSubnetsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            subnetIds: original.subnetIds
+            subnetIds: self.subnetIds
         )
+
     }
 }
 
 extension EC2.DescribeTagsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeTagsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTagsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeTrafficMirrorFiltersRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeTrafficMirrorFiltersRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTrafficMirrorFiltersRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            trafficMirrorFilterIds: original.trafficMirrorFilterIds
+            trafficMirrorFilterIds: self.trafficMirrorFilterIds
         )
+
     }
 }
 
 extension EC2.DescribeTrafficMirrorSessionsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeTrafficMirrorSessionsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTrafficMirrorSessionsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            trafficMirrorSessionIds: original.trafficMirrorSessionIds
+            trafficMirrorSessionIds: self.trafficMirrorSessionIds
         )
+
     }
 }
 
 extension EC2.DescribeTrafficMirrorTargetsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeTrafficMirrorTargetsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTrafficMirrorTargetsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            trafficMirrorTargetIds: original.trafficMirrorTargetIds
+            trafficMirrorTargetIds: self.trafficMirrorTargetIds
         )
+
     }
 }
 
 extension EC2.DescribeTransitGatewayAttachmentsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeTransitGatewayAttachmentsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayAttachmentsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            transitGatewayAttachmentIds: original.transitGatewayAttachmentIds
+            transitGatewayAttachmentIds: self.transitGatewayAttachmentIds
         )
+
     }
 }
 
 extension EC2.DescribeTransitGatewayRouteTablesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeTransitGatewayRouteTablesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayRouteTablesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            transitGatewayRouteTableIds: original.transitGatewayRouteTableIds
+            transitGatewayRouteTableIds: self.transitGatewayRouteTableIds
         )
+
     }
 }
 
 extension EC2.DescribeTransitGatewayVpcAttachmentsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeTransitGatewayVpcAttachmentsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayVpcAttachmentsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            transitGatewayAttachmentIds: original.transitGatewayAttachmentIds
+            transitGatewayAttachmentIds: self.transitGatewayAttachmentIds
         )
+
     }
 }
 
 extension EC2.DescribeTransitGatewaysRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeTransitGatewaysRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewaysRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            transitGatewayIds: original.transitGatewayIds
+            transitGatewayIds: self.transitGatewayIds
         )
+
     }
 }
 
 extension EC2.DescribeVolumeStatusRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVolumeStatusRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumeStatusRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            volumeIds: original.volumeIds
+            volumeIds: self.volumeIds
         )
+
     }
 }
 
 extension EC2.DescribeVolumesRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVolumesRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            volumeIds: original.volumeIds
+            volumeIds: self.volumeIds
         )
+
     }
 }
 
 extension EC2.DescribeVolumesModificationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVolumesModificationsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumesModificationsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            volumeIds: original.volumeIds
+            volumeIds: self.volumeIds
         )
+
     }
 }
 
 extension EC2.DescribeVpcClassicLinkDnsSupportRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVpcClassicLinkDnsSupportRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcClassicLinkDnsSupportRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            vpcIds: original.vpcIds
+            vpcIds: self.vpcIds
         )
+
     }
 }
 
 extension EC2.DescribeVpcEndpointConnectionNotificationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVpcEndpointConnectionNotificationsRequest, token: String) {
-        self.init(
-            connectionNotificationId: original.connectionNotificationId, 
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointConnectionNotificationsRequest {
+        return .init(
+            connectionNotificationId: self.connectionNotificationId, 
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeVpcEndpointConnectionsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVpcEndpointConnectionsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointConnectionsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension EC2.DescribeVpcEndpointServiceConfigurationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVpcEndpointServiceConfigurationsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointServiceConfigurationsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceIds: original.serviceIds
+            serviceIds: self.serviceIds
         )
+
     }
 }
 
 extension EC2.DescribeVpcEndpointServicePermissionsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVpcEndpointServicePermissionsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointServicePermissionsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceId: original.serviceId
+            serviceId: self.serviceId
         )
+
     }
 }
 
 extension EC2.DescribeVpcEndpointsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVpcEndpointsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            vpcEndpointIds: original.vpcEndpointIds
+            vpcEndpointIds: self.vpcEndpointIds
         )
+
     }
 }
 
 extension EC2.DescribeVpcPeeringConnectionsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVpcPeeringConnectionsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcPeeringConnectionsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            vpcPeeringConnectionIds: original.vpcPeeringConnectionIds
+            vpcPeeringConnectionIds: self.vpcPeeringConnectionIds
         )
+
     }
 }
 
 extension EC2.DescribeVpcsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.DescribeVpcsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            vpcIds: original.vpcIds
+            vpcIds: self.vpcIds
         )
+
     }
 }
 
 extension EC2.GetTransitGatewayAttachmentPropagationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.GetTransitGatewayAttachmentPropagationsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayAttachmentPropagationsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            transitGatewayAttachmentId: original.transitGatewayAttachmentId
+            transitGatewayAttachmentId: self.transitGatewayAttachmentId
         )
+
     }
 }
 
 extension EC2.GetTransitGatewayRouteTableAssociationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.GetTransitGatewayRouteTableAssociationsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayRouteTableAssociationsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            transitGatewayRouteTableId: original.transitGatewayRouteTableId
+            transitGatewayRouteTableId: self.transitGatewayRouteTableId
         )
+
     }
 }
 
 extension EC2.GetTransitGatewayRouteTablePropagationsRequest: AWSPaginateStringToken {
-    public init(_ original: EC2.GetTransitGatewayRouteTablePropagationsRequest, token: String) {
-        self.init(
-            dryRun: original.dryRun, 
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayRouteTablePropagationsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            transitGatewayRouteTableId: original.transitGatewayRouteTableId
+            transitGatewayRouteTableId: self.transitGatewayRouteTableId
         )
+
     }
 }
 

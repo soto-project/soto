@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension KinesisVideo {
 
     ///  Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition.
@@ -17,22 +19,24 @@ extension KinesisVideo {
 }
 
 extension KinesisVideo.ListSignalingChannelsInput: AWSPaginateStringToken {
-    public init(_ original: KinesisVideo.ListSignalingChannelsInput, token: String) {
-        self.init(
-            channelNameCondition: original.channelNameCondition, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> KinesisVideo.ListSignalingChannelsInput {
+        return .init(
+            channelNameCondition: self.channelNameCondition, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension KinesisVideo.ListStreamsInput: AWSPaginateStringToken {
-    public init(_ original: KinesisVideo.ListStreamsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> KinesisVideo.ListStreamsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            streamNameCondition: original.streamNameCondition
+            streamNameCondition: self.streamNameCondition
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension EBS {
 
     ///  Returns the block indexes and block tokens for blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
@@ -17,25 +19,27 @@ extension EBS {
 }
 
 extension EBS.ListChangedBlocksRequest: AWSPaginateStringToken {
-    public init(_ original: EBS.ListChangedBlocksRequest, token: String) {
-        self.init(
-            firstSnapshotId: original.firstSnapshotId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EBS.ListChangedBlocksRequest {
+        return .init(
+            firstSnapshotId: self.firstSnapshotId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            secondSnapshotId: original.secondSnapshotId, 
-            startingBlockIndex: original.startingBlockIndex
+            secondSnapshotId: self.secondSnapshotId, 
+            startingBlockIndex: self.startingBlockIndex
         )
+
     }
 }
 
 extension EBS.ListSnapshotBlocksRequest: AWSPaginateStringToken {
-    public init(_ original: EBS.ListSnapshotBlocksRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> EBS.ListSnapshotBlocksRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            snapshotId: original.snapshotId, 
-            startingBlockIndex: original.startingBlockIndex
+            snapshotId: self.snapshotId, 
+            startingBlockIndex: self.startingBlockIndex
         )
+
     }
 }
 

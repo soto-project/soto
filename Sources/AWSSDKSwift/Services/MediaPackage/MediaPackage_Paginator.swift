@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MediaPackage {
 
     ///  Returns a collection of Channels.
@@ -22,32 +24,35 @@ extension MediaPackage {
 }
 
 extension MediaPackage.ListChannelsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaPackage.ListChannelsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaPackage.ListChannelsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaPackage.ListHarvestJobsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaPackage.ListHarvestJobsRequest, token: String) {
-        self.init(
-            includeChannelId: original.includeChannelId, 
-            includeStatus: original.includeStatus, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaPackage.ListHarvestJobsRequest {
+        return .init(
+            includeChannelId: self.includeChannelId, 
+            includeStatus: self.includeStatus, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension MediaPackage.ListOriginEndpointsRequest: AWSPaginateStringToken {
-    public init(_ original: MediaPackage.ListOriginEndpointsRequest, token: String) {
-        self.init(
-            channelId: original.channelId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> MediaPackage.ListOriginEndpointsRequest {
+        return .init(
+            channelId: self.channelId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

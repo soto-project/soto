@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension DataExchange {
 
     ///  This operation lists a data set's revisions sorted by CreatedAt in descending order.
@@ -27,44 +29,48 @@ extension DataExchange {
 }
 
 extension DataExchange.ListDataSetRevisionsRequest: AWSPaginateStringToken {
-    public init(_ original: DataExchange.ListDataSetRevisionsRequest, token: String) {
-        self.init(
-            dataSetId: original.dataSetId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DataExchange.ListDataSetRevisionsRequest {
+        return .init(
+            dataSetId: self.dataSetId, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension DataExchange.ListDataSetsRequest: AWSPaginateStringToken {
-    public init(_ original: DataExchange.ListDataSetsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DataExchange.ListDataSetsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            origin: original.origin
+            origin: self.origin
         )
+
     }
 }
 
 extension DataExchange.ListJobsRequest: AWSPaginateStringToken {
-    public init(_ original: DataExchange.ListJobsRequest, token: String) {
-        self.init(
-            dataSetId: original.dataSetId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DataExchange.ListJobsRequest {
+        return .init(
+            dataSetId: self.dataSetId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            revisionId: original.revisionId
+            revisionId: self.revisionId
         )
+
     }
 }
 
 extension DataExchange.ListRevisionAssetsRequest: AWSPaginateStringToken {
-    public init(_ original: DataExchange.ListRevisionAssetsRequest, token: String) {
-        self.init(
-            dataSetId: original.dataSetId, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DataExchange.ListRevisionAssetsRequest {
+        return .init(
+            dataSetId: self.dataSetId, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            revisionId: original.revisionId
+            revisionId: self.revisionId
         )
+
     }
 }
 

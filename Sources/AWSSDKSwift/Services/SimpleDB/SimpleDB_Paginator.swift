@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension SimpleDB {
 
     ///   The ListDomains operation lists all domains associated with the Access Key ID. It returns domain names up to the limit set by MaxNumberOfDomains. A NextToken is returned if there are more than MaxNumberOfDomains domains. Calling ListDomains successive times with the NextToken provided by the operation returns up to MaxNumberOfDomains more domain names with each successive operation call. 
@@ -17,21 +19,23 @@ extension SimpleDB {
 }
 
 extension SimpleDB.ListDomainsRequest: AWSPaginateStringToken {
-    public init(_ original: SimpleDB.ListDomainsRequest, token: String) {
-        self.init(
-            maxNumberOfDomains: original.maxNumberOfDomains, 
+    public func usingPaginationToken(_ token: String) -> SimpleDB.ListDomainsRequest {
+        return .init(
+            maxNumberOfDomains: self.maxNumberOfDomains, 
             nextToken: token
         )
+
     }
 }
 
 extension SimpleDB.SelectRequest: AWSPaginateStringToken {
-    public init(_ original: SimpleDB.SelectRequest, token: String) {
-        self.init(
-            consistentRead: original.consistentRead, 
+    public func usingPaginationToken(_ token: String) -> SimpleDB.SelectRequest {
+        return .init(
+            consistentRead: self.consistentRead, 
             nextToken: token, 
-            selectExpression: original.selectExpression
+            selectExpression: self.selectExpression
         )
+
     }
 }
 

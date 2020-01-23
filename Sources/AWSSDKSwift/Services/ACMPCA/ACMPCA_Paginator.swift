@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ACMPCA {
 
     ///  Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
@@ -22,31 +24,34 @@ extension ACMPCA {
 }
 
 extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateStringToken {
-    public init(_ original: ACMPCA.ListCertificateAuthoritiesRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ACMPCA.ListCertificateAuthoritiesRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ACMPCA.ListPermissionsRequest: AWSPaginateStringToken {
-    public init(_ original: ACMPCA.ListPermissionsRequest, token: String) {
-        self.init(
-            certificateAuthorityArn: original.certificateAuthorityArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ACMPCA.ListPermissionsRequest {
+        return .init(
+            certificateAuthorityArn: self.certificateAuthorityArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ACMPCA.ListTagsRequest: AWSPaginateStringToken {
-    public init(_ original: ACMPCA.ListTagsRequest, token: String) {
-        self.init(
-            certificateAuthorityArn: original.certificateAuthorityArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ACMPCA.ListTagsRequest {
+        return .init(
+            certificateAuthorityArn: self.certificateAuthorityArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension QLDB {
 
     ///  Returns an array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times.
@@ -22,30 +24,33 @@ extension QLDB {
 }
 
 extension QLDB.ListJournalS3ExportsRequest: AWSPaginateStringToken {
-    public init(_ original: QLDB.ListJournalS3ExportsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QLDB.ListJournalS3ExportsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension QLDB.ListJournalS3ExportsForLedgerRequest: AWSPaginateStringToken {
-    public init(_ original: QLDB.ListJournalS3ExportsForLedgerRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
-            name: original.name, 
+    public func usingPaginationToken(_ token: String) -> QLDB.ListJournalS3ExportsForLedgerRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            name: self.name, 
             nextToken: token
         )
+
     }
 }
 
 extension QLDB.ListLedgersRequest: AWSPaginateStringToken {
-    public init(_ original: QLDB.ListLedgersRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> QLDB.ListLedgersRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension MachineLearning {
 
     ///  Returns a list of BatchPrediction operations that match the search criteria in the request.
@@ -27,74 +29,78 @@ extension MachineLearning {
 }
 
 extension MachineLearning.DescribeBatchPredictionsInput: AWSPaginateStringToken {
-    public init(_ original: MachineLearning.DescribeBatchPredictionsInput, token: String) {
-        self.init(
-            eq: original.eq, 
-            filterVariable: original.filterVariable, 
-            ge: original.ge, 
-            gt: original.gt, 
-            le: original.le, 
-            limit: original.limit, 
-            lt: original.lt, 
-            ne: original.ne, 
+    public func usingPaginationToken(_ token: String) -> MachineLearning.DescribeBatchPredictionsInput {
+        return .init(
+            eq: self.eq, 
+            filterVariable: self.filterVariable, 
+            ge: self.ge, 
+            gt: self.gt, 
+            le: self.le, 
+            limit: self.limit, 
+            lt: self.lt, 
+            ne: self.ne, 
             nextToken: token, 
-            prefix: original.prefix, 
-            sortOrder: original.sortOrder
+            prefix: self.prefix, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension MachineLearning.DescribeDataSourcesInput: AWSPaginateStringToken {
-    public init(_ original: MachineLearning.DescribeDataSourcesInput, token: String) {
-        self.init(
-            eq: original.eq, 
-            filterVariable: original.filterVariable, 
-            ge: original.ge, 
-            gt: original.gt, 
-            le: original.le, 
-            limit: original.limit, 
-            lt: original.lt, 
-            ne: original.ne, 
+    public func usingPaginationToken(_ token: String) -> MachineLearning.DescribeDataSourcesInput {
+        return .init(
+            eq: self.eq, 
+            filterVariable: self.filterVariable, 
+            ge: self.ge, 
+            gt: self.gt, 
+            le: self.le, 
+            limit: self.limit, 
+            lt: self.lt, 
+            ne: self.ne, 
             nextToken: token, 
-            prefix: original.prefix, 
-            sortOrder: original.sortOrder
+            prefix: self.prefix, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension MachineLearning.DescribeEvaluationsInput: AWSPaginateStringToken {
-    public init(_ original: MachineLearning.DescribeEvaluationsInput, token: String) {
-        self.init(
-            eq: original.eq, 
-            filterVariable: original.filterVariable, 
-            ge: original.ge, 
-            gt: original.gt, 
-            le: original.le, 
-            limit: original.limit, 
-            lt: original.lt, 
-            ne: original.ne, 
+    public func usingPaginationToken(_ token: String) -> MachineLearning.DescribeEvaluationsInput {
+        return .init(
+            eq: self.eq, 
+            filterVariable: self.filterVariable, 
+            ge: self.ge, 
+            gt: self.gt, 
+            le: self.le, 
+            limit: self.limit, 
+            lt: self.lt, 
+            ne: self.ne, 
             nextToken: token, 
-            prefix: original.prefix, 
-            sortOrder: original.sortOrder
+            prefix: self.prefix, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension MachineLearning.DescribeMLModelsInput: AWSPaginateStringToken {
-    public init(_ original: MachineLearning.DescribeMLModelsInput, token: String) {
-        self.init(
-            eq: original.eq, 
-            filterVariable: original.filterVariable, 
-            ge: original.ge, 
-            gt: original.gt, 
-            le: original.le, 
-            limit: original.limit, 
-            lt: original.lt, 
-            ne: original.ne, 
+    public func usingPaginationToken(_ token: String) -> MachineLearning.DescribeMLModelsInput {
+        return .init(
+            eq: self.eq, 
+            filterVariable: self.filterVariable, 
+            ge: self.ge, 
+            gt: self.gt, 
+            le: self.le, 
+            limit: self.limit, 
+            lt: self.lt, 
+            ne: self.ne, 
             nextToken: token, 
-            prefix: original.prefix, 
-            sortOrder: original.sortOrder
+            prefix: self.prefix, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 

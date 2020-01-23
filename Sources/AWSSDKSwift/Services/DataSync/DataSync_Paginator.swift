@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension DataSync {
 
     ///  Returns a list of agents owned by an AWS account in the AWS Region specified in the request. The returned list is ordered by agent Amazon Resource Name (ARN). By default, this operation returns a maximum of 100 agents. This operation supports pagination that enables you to optionally reduce the number of agents returned in a response. If you have more agents than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a marker that you can specify in your next request to fetch the next page of agents.
@@ -32,49 +34,54 @@ extension DataSync {
 }
 
 extension DataSync.ListAgentsRequest: AWSPaginateStringToken {
-    public init(_ original: DataSync.ListAgentsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DataSync.ListAgentsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension DataSync.ListLocationsRequest: AWSPaginateStringToken {
-    public init(_ original: DataSync.ListLocationsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DataSync.ListLocationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension DataSync.ListTagsForResourceRequest: AWSPaginateStringToken {
-    public init(_ original: DataSync.ListTagsForResourceRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DataSync.ListTagsForResourceRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            resourceArn: original.resourceArn
+            resourceArn: self.resourceArn
         )
+
     }
 }
 
 extension DataSync.ListTaskExecutionsRequest: AWSPaginateStringToken {
-    public init(_ original: DataSync.ListTaskExecutionsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DataSync.ListTaskExecutionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            taskArn: original.taskArn
+            taskArn: self.taskArn
         )
+
     }
 }
 
 extension DataSync.ListTasksRequest: AWSPaginateStringToken {
-    public init(_ original: DataSync.ListTasksRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> DataSync.ListTasksRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

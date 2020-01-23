@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension XRay {
 
     ///  Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
@@ -47,84 +49,92 @@ extension XRay {
 }
 
 extension XRay.BatchGetTracesRequest: AWSPaginateStringToken {
-    public init(_ original: XRay.BatchGetTracesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> XRay.BatchGetTracesRequest {
+        return .init(
             nextToken: token, 
-            traceIds: original.traceIds
+            traceIds: self.traceIds
         )
+
     }
 }
 
 extension XRay.GetGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: XRay.GetGroupsRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> XRay.GetGroupsRequest {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension XRay.GetSamplingRulesRequest: AWSPaginateStringToken {
-    public init(_ original: XRay.GetSamplingRulesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> XRay.GetSamplingRulesRequest {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension XRay.GetSamplingStatisticSummariesRequest: AWSPaginateStringToken {
-    public init(_ original: XRay.GetSamplingStatisticSummariesRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> XRay.GetSamplingStatisticSummariesRequest {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension XRay.GetServiceGraphRequest: AWSPaginateStringToken {
-    public init(_ original: XRay.GetServiceGraphRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            groupARN: original.groupARN, 
-            groupName: original.groupName, 
+    public func usingPaginationToken(_ token: String) -> XRay.GetServiceGraphRequest {
+        return .init(
+            endTime: self.endTime, 
+            groupARN: self.groupARN, 
+            groupName: self.groupName, 
             nextToken: token, 
-            startTime: original.startTime
+            startTime: self.startTime
         )
+
     }
 }
 
 extension XRay.GetTimeSeriesServiceStatisticsRequest: AWSPaginateStringToken {
-    public init(_ original: XRay.GetTimeSeriesServiceStatisticsRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            entitySelectorExpression: original.entitySelectorExpression, 
-            groupARN: original.groupARN, 
-            groupName: original.groupName, 
+    public func usingPaginationToken(_ token: String) -> XRay.GetTimeSeriesServiceStatisticsRequest {
+        return .init(
+            endTime: self.endTime, 
+            entitySelectorExpression: self.entitySelectorExpression, 
+            groupARN: self.groupARN, 
+            groupName: self.groupName, 
             nextToken: token, 
-            period: original.period, 
-            startTime: original.startTime
+            period: self.period, 
+            startTime: self.startTime
         )
+
     }
 }
 
 extension XRay.GetTraceGraphRequest: AWSPaginateStringToken {
-    public init(_ original: XRay.GetTraceGraphRequest, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> XRay.GetTraceGraphRequest {
+        return .init(
             nextToken: token, 
-            traceIds: original.traceIds
+            traceIds: self.traceIds
         )
+
     }
 }
 
 extension XRay.GetTraceSummariesRequest: AWSPaginateStringToken {
-    public init(_ original: XRay.GetTraceSummariesRequest, token: String) {
-        self.init(
-            endTime: original.endTime, 
-            filterExpression: original.filterExpression, 
+    public func usingPaginationToken(_ token: String) -> XRay.GetTraceSummariesRequest {
+        return .init(
+            endTime: self.endTime, 
+            filterExpression: self.filterExpression, 
             nextToken: token, 
-            sampling: original.sampling, 
-            samplingStrategy: original.samplingStrategy, 
-            startTime: original.startTime, 
-            timeRangeType: original.timeRangeType
+            sampling: self.sampling, 
+            samplingStrategy: self.samplingStrategy, 
+            startTime: self.startTime, 
+            timeRangeType: self.timeRangeType
         )
+
     }
 }
 

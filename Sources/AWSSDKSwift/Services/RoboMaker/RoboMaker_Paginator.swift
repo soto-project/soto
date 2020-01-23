@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension RoboMaker {
 
     ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.     
@@ -37,64 +39,70 @@ extension RoboMaker {
 }
 
 extension RoboMaker.ListDeploymentJobsRequest: AWSPaginateStringToken {
-    public init(_ original: RoboMaker.ListDeploymentJobsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListDeploymentJobsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension RoboMaker.ListFleetsRequest: AWSPaginateStringToken {
-    public init(_ original: RoboMaker.ListFleetsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListFleetsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension RoboMaker.ListRobotApplicationsRequest: AWSPaginateStringToken {
-    public init(_ original: RoboMaker.ListRobotApplicationsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListRobotApplicationsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            versionQualifier: original.versionQualifier
+            versionQualifier: self.versionQualifier
         )
+
     }
 }
 
 extension RoboMaker.ListRobotsRequest: AWSPaginateStringToken {
-    public init(_ original: RoboMaker.ListRobotsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListRobotsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension RoboMaker.ListSimulationApplicationsRequest: AWSPaginateStringToken {
-    public init(_ original: RoboMaker.ListSimulationApplicationsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListSimulationApplicationsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            versionQualifier: original.versionQualifier
+            versionQualifier: self.versionQualifier
         )
+
     }
 }
 
 extension RoboMaker.ListSimulationJobsRequest: AWSPaginateStringToken {
-    public init(_ original: RoboMaker.ListSimulationJobsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListSimulationJobsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

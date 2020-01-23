@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension WorkLink {
 
     ///  Retrieves a list of devices registered with the specified fleet.
@@ -32,51 +34,56 @@ extension WorkLink {
 }
 
 extension WorkLink.ListDevicesRequest: AWSPaginateStringToken {
-    public init(_ original: WorkLink.ListDevicesRequest, token: String) {
-        self.init(
-            fleetArn: original.fleetArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkLink.ListDevicesRequest {
+        return .init(
+            fleetArn: self.fleetArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension WorkLink.ListDomainsRequest: AWSPaginateStringToken {
-    public init(_ original: WorkLink.ListDomainsRequest, token: String) {
-        self.init(
-            fleetArn: original.fleetArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkLink.ListDomainsRequest {
+        return .init(
+            fleetArn: self.fleetArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension WorkLink.ListFleetsRequest: AWSPaginateStringToken {
-    public init(_ original: WorkLink.ListFleetsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkLink.ListFleetsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension WorkLink.ListWebsiteAuthorizationProvidersRequest: AWSPaginateStringToken {
-    public init(_ original: WorkLink.ListWebsiteAuthorizationProvidersRequest, token: String) {
-        self.init(
-            fleetArn: original.fleetArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkLink.ListWebsiteAuthorizationProvidersRequest {
+        return .init(
+            fleetArn: self.fleetArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension WorkLink.ListWebsiteCertificateAuthoritiesRequest: AWSPaginateStringToken {
-    public init(_ original: WorkLink.ListWebsiteCertificateAuthoritiesRequest, token: String) {
-        self.init(
-            fleetArn: original.fleetArn, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> WorkLink.ListWebsiteCertificateAuthoritiesRequest {
+        return .init(
+            fleetArn: self.fleetArn, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

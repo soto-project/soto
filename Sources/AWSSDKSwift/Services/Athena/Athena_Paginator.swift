@@ -2,7 +2,14 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Athena {
+
+    ///  Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see Query Results in the Amazon Athena User Guide. This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location.  IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied. 
+    public func getQueryResultsPaginator(_ input: GetQueryResultsInput, onPage: @escaping (GetQueryResultsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getQueryResults, tokenKey: \GetQueryResultsOutput.nextToken, onPage: onPage)
+    }
 
     ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listNamedQueriesPaginator(_ input: ListNamedQueriesInput, onPage: @escaping (ListNamedQueriesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
@@ -21,32 +28,46 @@ extension Athena {
 
 }
 
-extension Athena.ListNamedQueriesInput: AWSPaginateStringToken {
-    public init(_ original: Athena.ListNamedQueriesInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+extension Athena.GetQueryResultsInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Athena.GetQueryResultsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            workGroup: original.workGroup
+            queryExecutionId: self.queryExecutionId
         )
+
+    }
+}
+
+extension Athena.ListNamedQueriesInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListNamedQueriesInput {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            workGroup: self.workGroup
+        )
+
     }
 }
 
 extension Athena.ListQueryExecutionsInput: AWSPaginateStringToken {
-    public init(_ original: Athena.ListQueryExecutionsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Athena.ListQueryExecutionsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            workGroup: original.workGroup
+            workGroup: self.workGroup
         )
+
     }
 }
 
 extension Athena.ListWorkGroupsInput: AWSPaginateStringToken {
-    public init(_ original: Athena.ListWorkGroupsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Athena.ListWorkGroupsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

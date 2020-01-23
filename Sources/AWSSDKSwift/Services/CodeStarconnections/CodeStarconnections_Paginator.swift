@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CodeStarconnections {
 
     ///  Lists the connections associated with your account.
@@ -12,12 +14,13 @@ extension CodeStarconnections {
 }
 
 extension CodeStarconnections.ListConnectionsInput: AWSPaginateStringToken {
-    public init(_ original: CodeStarconnections.ListConnectionsInput, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> CodeStarconnections.ListConnectionsInput {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token, 
-            providerTypeFilter: original.providerTypeFilter
+            providerTypeFilter: self.providerTypeFilter
         )
+
     }
 }
 

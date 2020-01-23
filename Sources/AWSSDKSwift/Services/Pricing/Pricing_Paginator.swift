@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension Pricing {
 
     ///  Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
@@ -22,36 +24,39 @@ extension Pricing {
 }
 
 extension Pricing.DescribeServicesRequest: AWSPaginateStringToken {
-    public init(_ original: Pricing.DescribeServicesRequest, token: String) {
-        self.init(
-            formatVersion: original.formatVersion, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Pricing.DescribeServicesRequest {
+        return .init(
+            formatVersion: self.formatVersion, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceCode: original.serviceCode
+            serviceCode: self.serviceCode
         )
+
     }
 }
 
 extension Pricing.GetAttributeValuesRequest: AWSPaginateStringToken {
-    public init(_ original: Pricing.GetAttributeValuesRequest, token: String) {
-        self.init(
-            attributeName: original.attributeName, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Pricing.GetAttributeValuesRequest {
+        return .init(
+            attributeName: self.attributeName, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceCode: original.serviceCode
+            serviceCode: self.serviceCode
         )
+
     }
 }
 
 extension Pricing.GetProductsRequest: AWSPaginateStringToken {
-    public init(_ original: Pricing.GetProductsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            formatVersion: original.formatVersion, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> Pricing.GetProductsRequest {
+        return .init(
+            filters: self.filters, 
+            formatVersion: self.formatVersion, 
+            maxResults: self.maxResults, 
             nextToken: token, 
-            serviceCode: original.serviceCode
+            serviceCode: self.serviceCode
         )
+
     }
 }
 

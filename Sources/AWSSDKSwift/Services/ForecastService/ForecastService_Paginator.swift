@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ForecastService {
 
     ///  Returns a list of dataset groups created using the CreateDatasetGroup operation. For each dataset group, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the dataset group ARN with the DescribeDatasetGroup operation.
@@ -37,60 +39,66 @@ extension ForecastService {
 }
 
 extension ForecastService.ListDatasetGroupsRequest: AWSPaginateStringToken {
-    public init(_ original: ForecastService.ListDatasetGroupsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ForecastService.ListDatasetGroupsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ForecastService.ListDatasetImportJobsRequest: AWSPaginateStringToken {
-    public init(_ original: ForecastService.ListDatasetImportJobsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ForecastService.ListDatasetImportJobsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ForecastService.ListDatasetsRequest: AWSPaginateStringToken {
-    public init(_ original: ForecastService.ListDatasetsRequest, token: String) {
-        self.init(
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ForecastService.ListDatasetsRequest {
+        return .init(
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ForecastService.ListForecastExportJobsRequest: AWSPaginateStringToken {
-    public init(_ original: ForecastService.ListForecastExportJobsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ForecastService.ListForecastExportJobsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ForecastService.ListForecastsRequest: AWSPaginateStringToken {
-    public init(_ original: ForecastService.ListForecastsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ForecastService.ListForecastsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ForecastService.ListPredictorsRequest: AWSPaginateStringToken {
-    public init(_ original: ForecastService.ListPredictorsRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ForecastService.ListPredictorsRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

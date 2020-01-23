@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension ApplicationDiscoveryService {
 
     ///  Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
@@ -17,22 +19,24 @@ extension ApplicationDiscoveryService {
 }
 
 extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationDiscoveryService.DescribeContinuousExportsRequest, token: String) {
-        self.init(
-            exportIds: original.exportIds, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeContinuousExportsRequest {
+        return .init(
+            exportIds: self.exportIds, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 
 extension ApplicationDiscoveryService.DescribeImportTasksRequest: AWSPaginateStringToken {
-    public init(_ original: ApplicationDiscoveryService.DescribeImportTasksRequest, token: String) {
-        self.init(
-            filters: original.filters, 
-            maxResults: original.maxResults, 
+    public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeImportTasksRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
             nextToken: token
         )
+
     }
 }
 

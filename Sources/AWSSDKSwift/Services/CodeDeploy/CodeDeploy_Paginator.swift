@@ -2,6 +2,8 @@
 
 import NIO
 
+//MARK: Paginators
+
 extension CodeDeploy {
 
     ///  Lists information about revisions for an application.
@@ -38,64 +40,70 @@ extension CodeDeploy {
 }
 
 extension CodeDeploy.ListApplicationRevisionsInput: AWSPaginateStringToken {
-    public init(_ original: CodeDeploy.ListApplicationRevisionsInput, token: String) {
-        self.init(
-            applicationName: original.applicationName, 
-            deployed: original.deployed, 
+    public func usingPaginationToken(_ token: String) -> CodeDeploy.ListApplicationRevisionsInput {
+        return .init(
+            applicationName: self.applicationName, 
+            deployed: self.deployed, 
             nextToken: token, 
-            s3Bucket: original.s3Bucket, 
-            s3KeyPrefix: original.s3KeyPrefix, 
-            sortBy: original.sortBy, 
-            sortOrder: original.sortOrder
+            s3Bucket: self.s3Bucket, 
+            s3KeyPrefix: self.s3KeyPrefix, 
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
+
     }
 }
 
 extension CodeDeploy.ListApplicationsInput: AWSPaginateStringToken {
-    public init(_ original: CodeDeploy.ListApplicationsInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CodeDeploy.ListApplicationsInput {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension CodeDeploy.ListDeploymentConfigsInput: AWSPaginateStringToken {
-    public init(_ original: CodeDeploy.ListDeploymentConfigsInput, token: String) {
-        self.init(
+    public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentConfigsInput {
+        return .init(
             nextToken: token
         )
+
     }
 }
 
 extension CodeDeploy.ListDeploymentGroupsInput: AWSPaginateStringToken {
-    public init(_ original: CodeDeploy.ListDeploymentGroupsInput, token: String) {
-        self.init(
-            applicationName: original.applicationName, 
+    public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentGroupsInput {
+        return .init(
+            applicationName: self.applicationName, 
             nextToken: token
         )
+
     }
 }
 
 extension CodeDeploy.ListDeploymentInstancesInput: AWSPaginateStringToken {
-    public init(_ original: CodeDeploy.ListDeploymentInstancesInput, token: String) {
-        self.init(
-            deploymentId: original.deploymentId, 
-            instanceStatusFilter: original.instanceStatusFilter, 
-            instanceTypeFilter: original.instanceTypeFilter, 
+    public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentInstancesInput {
+        return .init(
+            deploymentId: self.deploymentId, 
+            instanceStatusFilter: self.instanceStatusFilter, 
+            instanceTypeFilter: self.instanceTypeFilter, 
             nextToken: token
         )
+
     }
 }
 
 extension CodeDeploy.ListDeploymentsInput: AWSPaginateStringToken {
-    public init(_ original: CodeDeploy.ListDeploymentsInput, token: String) {
-        self.init(
-            applicationName: original.applicationName, 
-            createTimeRange: original.createTimeRange, 
-            deploymentGroupName: original.deploymentGroupName, 
-            includeOnlyStatuses: original.includeOnlyStatuses, 
+    public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentsInput {
+        return .init(
+            applicationName: self.applicationName, 
+            createTimeRange: self.createTimeRange, 
+            deploymentGroupName: self.deploymentGroupName, 
+            includeOnlyStatuses: self.includeOnlyStatuses, 
             nextToken: token
         )
+
     }
 }
 
