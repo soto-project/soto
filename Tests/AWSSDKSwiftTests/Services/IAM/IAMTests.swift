@@ -95,7 +95,7 @@ class IAMTests: XCTestCase {
     static var allTests : [(String, (IAMTests) -> () throws -> Void)] {
         return [
             ("testCreateDeleteUser", testCreateDeleteUser),
- //           ("testSetGetPolicy", testSetGetPolicy),
+            ("testSetGetPolicy", testSetGetPolicy),
         ]
     }
 }
