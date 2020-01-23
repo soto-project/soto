@@ -1,0 +1,29 @@
+# run this with docker-compose -f docker/docker-compose.yml run test
+version: "3.3"
+
+services:
+  common: &common
+    build: .
+    volumes:
+      - ..:/working
+    working_dir: /working
+
+  test:
+    <<: *common
+    network_mode: host
+    depends_on:
+      - localstack
+    command: /bin/bash -xcl "swift test"
+
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4567-4597:4567-4597"
+    environment:
+      - SERVICES=apigateway,dynamodb,iam,s3,sns,sqs,ssm
+    volumes:
+      - "/tmp/localstack:/tmp/localstack"
+
+  shell:
+    <<: *common
+    entrypoint: /bin/bash
