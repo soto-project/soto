@@ -8,6 +8,8 @@ import Foundation
 import AWSSDKSwiftCore
 import NIO
 
+//MARK: Multipart
+
 public extension S3ErrorType {
     enum multipart : Error {
         case noUploadId
@@ -29,10 +31,20 @@ public extension S3 {
     ///     - outputStream: Function to be called for each downloaded part. Called with data block and file size
    /// - returns: An EventLoopFuture that will receive the complete file size once the multipart download has finished.
     func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, on eventLoop: EventLoop, outputStream: @escaping (Data, Int64) -> EventLoopFuture<Void>) -> EventLoopFuture<Int64> {
+        
+        let promise = eventLoop.makePromise(of: Int64.self)
+        
         // function downloading part of a file
-        func multipartDownloadPart(fileSize: Int64, offset: Int64, prevPartSave: EventLoopFuture<Void>) -> EventLoopFuture<Int64> {
+        func multipartDownloadPart(fileSize: Int64, offset: Int64, prevPartSave: EventLoopFuture<Void>) {
+            // have we downloaded everything
             guard fileSize > offset else {
-                return prevPartSave.map { return fileSize }
+                prevPartSave.whenSuccess {
+                    return promise.succeed(fileSize)
+                }
+                prevPartSave.whenFailure { error in
+                    return promise.fail(error)
+                }
+                return
             }
 
             let range = "bytes=\(offset)-\(offset + Int64(partSize - 1))"
@@ -45,27 +57,22 @@ public extension S3 {
                 sSECustomerKeyMD5: input.sSECustomerKeyMD5,
                 versionId: input.versionId
             )
-            return getObject(getRequest)
-                .and(prevPartSave)
-                .hop(to: eventLoop)
-                .flatMap { (output, _) -> EventLoopFuture<Int64> in
-                    do {
-                        // should never happen
-                        guard let body = output.body else {
-                            throw S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil")
-                        }
-                        guard let length = output.contentLength, length > 0 else {
-                            throw S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero")
-                        }
+            let future = getObject(getRequest).and(prevPartSave)
+            future.whenSuccess { (output, _) in
+                // should never happen
+                guard let body = output.body else {
+                    return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil"))
+                }
+                guard let length = output.contentLength, length > 0 else {
+                    return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
+                }
 
-                        let newOffset = offset + Int64(partSize)
-                        return multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body, fileSize))
-
-                    } catch {
-                        return eventLoop.makeFailedFuture(error)
-                    }
+                let newOffset = offset + Int64(partSize)
+                multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: outputStream(body, fileSize))
             }
-
+            future.whenFailure { error in
+                promise.fail(error)
+            }
         }
 
         // get object size before downloading
@@ -84,18 +91,17 @@ public extension S3 {
         )
         let result = headObject(headRequest)
             .hop(to: eventLoop)
-            .flatMap { object -> EventLoopFuture<Int64> in
-                do {
-                    guard let contentLength = object.contentLength else {
-                        throw S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero")
-                    }
-                    // download file
-                    return multipartDownloadPart(fileSize: contentLength, offset: 0, prevPartSave: eventLoop.makeSucceededFuture(()))
-                } catch {
-                    return eventLoop.makeFailedFuture(error)
+            .map { (object)->Void in
+                guard let contentLength = object.contentLength else {
+                    return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
                 }
+                // download file
+                multipartDownloadPart(fileSize: contentLength, offset: 0, prevPartSave: eventLoop.makeSucceededFuture(()))
         }
-        return result
+        result.whenFailure { error in
+            promise.fail(error)
+        }
+        return promise.futureResult
     }
 
     /// Multipart download of a file from S3.
@@ -109,6 +115,7 @@ public extension S3 {
     /// - returns: A future that will receive the complete file size once the multipart download has finished.
     func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop? = nil, progress: @escaping (Double) throws -> () = { _ in }) -> EventLoopFuture<Int64> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+        
         return eventLoop.submit {  () -> Foundation.FileHandle in
             FileManager.default.createFile(atPath: filename, contents: nil)
             return try FileHandle(forWritingTo: URL(fileURLWithPath: filename))
@@ -141,51 +148,14 @@ public extension S3 {
     ///     - inputStream: The function supplying the data parts to the multipartUpload. Each parts must be at least 5MB in size expect the last one which has no size limit.
     /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
     func multipartUpload(_ input: CreateMultipartUploadRequest, on eventLoop: EventLoop, inputStream: @escaping () -> EventLoopFuture<Data?>) -> EventLoopFuture<CompleteMultipartUploadOutput> {
-        var completedParts: [S3.CompletedPart] = []
-
-        // function uploading part of a file and queueing up upload of the next part
-        func multipartUploadPart(partNumber: Int, uploadId: String, body: Data? = nil) -> Future<[S3.CompletedPart]> {
-            // create upload data future, if there is no data to load because this is the first time this is called create a succeeded future
-            let uploadResult : Future<[S3.CompletedPart]>
-            if let body = body {
-                let request = S3.UploadPartRequest(
-                    body: body,
-                    bucket: input.bucket,
-                    contentLength: Int64(body.count),
-                    key: input.key,
-                    partNumber: partNumber,
-                    requestPayer: input.requestPayer,
-                    sSECustomerAlgorithm: input.sSECustomerAlgorithm,
-                    sSECustomerKey: input.sSECustomerKey,
-                    sSECustomerKeyMD5: input.sSECustomerKeyMD5,
-                    uploadId: uploadId
-                )
-                // request upload future
-                uploadResult = self.uploadPart(request).hop(to: eventLoop).map { output -> [S3.CompletedPart] in
-                    let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
-                    completedParts.append(part)
-                    return completedParts
-                }
-            } else {
-                uploadResult = eventLoop.makeSucceededFuture([])
-            }
-
-            // load data EventLoopFuture
-            let result = inputStream()
-                .and(uploadResult)
-                // upload data
-                .flatMap { (data, parts) -> Future<[S3.CompletedPart]> in
-                    guard let data = data, data.count > 0 else { return eventLoop.makeSucceededFuture(parts)}
-                    return multipartUploadPart(partNumber: partNumber+1, uploadId: uploadId, body: data)
-            }
-            return result
-        }
 
         // initialize multipart upload
         let result = createMultipartUpload(input).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
-            guard let uploadId = upload.uploadId else { return eventLoop.makeFailedFuture(S3ErrorType.multipart.noUploadId) }
+            guard let uploadId = upload.uploadId else {
+                return eventLoop.makeFailedFuture(S3ErrorType.multipart.noUploadId)
+            }
             // upload all the parts
-            return multipartUploadPart(partNumber: 1, uploadId: uploadId)
+            return self.multipartUploadParts(input, uploadId: uploadId, on: eventLoop, inputStream: inputStream)
                 .flatMap { parts -> EventLoopFuture<CompleteMultipartUploadOutput> in
                     let request = S3.CompleteMultipartUploadRequest(
                         bucket: input.bucket,
@@ -240,5 +210,56 @@ public extension S3 {
             }
             return upload
         }
+    }
+}
+
+
+extension S3 {
+    func multipartUploadParts(_ input: CreateMultipartUploadRequest, uploadId: String, on eventLoop: EventLoop, inputStream: @escaping () -> EventLoopFuture<Data?>) -> Future<[S3.CompletedPart]> {
+        let promise = eventLoop.makePromise(of: [S3.CompletedPart].self)
+        var completedParts: [S3.CompletedPart] = []
+
+        // function uploading part of a file and queueing up upload of the next part
+        func multipartUploadPart(partNumber: Int, uploadId: String, body: Data? = nil) {
+            // create upload data future, if there is no data to load because this is the first time this is called create a succeeded future
+            let uploadResult : Future<[S3.CompletedPart]>
+            if let body = body {
+                let request = S3.UploadPartRequest(
+                    body: body,
+                    bucket: input.bucket,
+                    contentLength: Int64(body.count),
+                    key: input.key,
+                    partNumber: partNumber,
+                    requestPayer: input.requestPayer,
+                    sSECustomerAlgorithm: input.sSECustomerAlgorithm,
+                    sSECustomerKey: input.sSECustomerKey,
+                    sSECustomerKeyMD5: input.sSECustomerKeyMD5,
+                    uploadId: uploadId
+                )
+                // request upload future
+                uploadResult = self.uploadPart(request).hop(to: eventLoop).map { output -> [S3.CompletedPart] in
+                    let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
+                    completedParts.append(part)
+                    return completedParts
+                }
+            } else {
+                uploadResult = eventLoop.makeSucceededFuture([])
+            }
+
+            // load data EventLoopFuture
+            let result = inputStream()
+                .and(uploadResult)
+                // upload data
+                .map { (data, parts) -> Void in
+                    guard let data = data, data.count > 0 else { return promise.succeed(parts)}
+                    multipartUploadPart(partNumber: partNumber+1, uploadId: uploadId, body: data)
+            }
+            result.whenFailure { error in
+                promise.fail(error)
+            }
+        }
+
+        multipartUploadPart(partNumber: 1, uploadId: uploadId)
+        return promise.futureResult
     }
 }
