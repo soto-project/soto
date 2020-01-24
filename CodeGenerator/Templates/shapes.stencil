@@ -4,11 +4,18 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension {{name}} {
+    //MARK: Enums
 {%for shape in shapes%}
-
 {%if shape.enum %}
+
 {%include "enum.stencil" shape %}
-{%elif shape.struct %}
+{%endif %}
+{%endfor %}
+
+    //MARK: Shapes
+{%for shape in shapes%}
+{%if shape.struct %}
+
 {%include "struct.stencil" shape %}
 {%endif %}
 {%endfor %}
