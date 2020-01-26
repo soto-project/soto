@@ -29,7 +29,7 @@ public extension S3 {
     ///     - partSize: Size of each part to be downloaded
     ///     - on: an EventLoop to process each downloaded part on
     ///     - outputStream: Function to be called for each downloaded part. Called with data block and file size
-   /// - returns: An EventLoopFuture that will receive the complete file size once the multipart download has finished.
+    /// - returns: An EventLoopFuture that will receive the complete file size once the multipart download has finished.
     func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, on eventLoop: EventLoop, outputStream: @escaping (Data, Int64) -> EventLoopFuture<Void>) -> EventLoopFuture<Int64> {
         
         let promise = eventLoop.makePromise(of: Int64.self)
@@ -215,6 +215,7 @@ public extension S3 {
 
 
 extension S3 {
+    /// used internally in multipartUpload, loads all the parts once the multipart upload has been initiated
     func multipartUploadParts(_ input: CreateMultipartUploadRequest, uploadId: String, on eventLoop: EventLoop, inputStream: @escaping () -> EventLoopFuture<Data?>) -> Future<[S3.CompletedPart]> {
         let promise = eventLoop.makePromise(of: [S3.CompletedPart].self)
         var completedParts: [S3.CompletedPart] = []
