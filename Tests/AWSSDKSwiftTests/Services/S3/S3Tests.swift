@@ -139,6 +139,7 @@ class S3Tests: XCTestCase {
                 ).wait()
                 XCTFail("testMultiPartDownloadFailure: should have failed")
             } catch is AWSError {
+                // expected case
             } catch {
                 XCTFail("testMultiPartDownloadFailure: Unexpected error")
             }
@@ -198,6 +199,7 @@ class S3Tests: XCTestCase {
                 _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5*1024*1024, filename: "doesntexist").wait()
                 XCTFail("testMultiPartUploadFailure: should have failed")
             } catch {
+                // expected case
                 print(error)
             }
 
@@ -211,13 +213,10 @@ class S3Tests: XCTestCase {
                 _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5*1024*1024, filename: filename).wait()
                 XCTFail("testMultiPartUploadFailure: should have failed")
             } catch S3ErrorType.noSuchBucket(_){
+                // expected case
             } catch {
                 XCTFail("testMultiPartUploadFailure: Unexpected error")
             }
-
-            
-            //XCTAssertEqual(object.body, data)
-            //try FileManager.default.removeItem(atPath: filename)
         }
     }
 
