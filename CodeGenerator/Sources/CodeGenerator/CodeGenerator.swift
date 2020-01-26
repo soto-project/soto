@@ -526,16 +526,20 @@ extension AWSService {
         
         for paginator in paginators {
             // get related operation and its input and output shapes
-            guard let operation = operations.first(where: {$0.name == paginator.methodName}) else { continue }
-            guard let inputShape = operation.inputShape else { continue }
-            guard let outputShape = operation.outputShape else { continue }
-            guard case .structure(let inputShapeStruct) = inputShape.type else { continue }
-            guard case .structure(let outputShapeStruct) = outputShape.type else { continue }
+            guard let operation = operations.first(where: {$0.name == paginator.methodName}),
+                let inputShape = operation.inputShape,
+                let outputShape = operation.outputShape,
+                case .structure(let inputShapeStruct) = inputShape.type,
+                case .structure(let outputShapeStruct) = outputShape.type else {
+                    continue
+            }
 
             // get input token member
-            guard paginator.inputTokens.count > 0 else { continue }
-            guard paginator.outputTokens.count > 0 else { continue }
-            guard let inputTokenMember = inputShapeStruct.members.first(where: {$0.name == paginator.inputTokens[0]}) else { continue }
+            guard paginator.inputTokens.count > 0,
+                paginator.outputTokens.count > 0,
+                let inputTokenMember = inputShapeStruct.members.first(where: {$0.name == paginator.inputTokens[0]}) else {
+                    continue
+            }
             
             let paginatorProtocol: String
             let tokenType: String
