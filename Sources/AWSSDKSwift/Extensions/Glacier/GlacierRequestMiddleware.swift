@@ -76,10 +76,14 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
             var tmpShas: [[UInt8]] = []
             shas.forEachSlice(2, {
                 let pair = $0
-                guard var bytes1 = pair.first else { return }
+                guard let bytes1 = pair.first else { return }
 
-                if pair.count > 1, var bytes2 = pair.last {
-                    tmpShas.append(sha256(&bytes1, &bytes2))
+                if pair.count > 1, let bytes2 = pair.last {
+                    var context = sha256_Init()
+                    sha256_Update(&context, bytes1)
+                    sha256_Update(&context, bytes2)
+                    let sha = sha256_Final(&context)
+                    tmpShas.append(sha)
                 } else {
                     tmpShas.append(bytes1)
                 }
