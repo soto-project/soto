@@ -228,7 +228,7 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .upToNextMinor(from: "4.2.0"))
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("body-remove-asdata"))
     ],
     targets: [
         .target(name: "AWSACM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACM"),
@@ -453,6 +453,6 @@ let package = Package(
         .target(name: "AWSWorkSpaces", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkSpaces"),
         .target(name: "AWSXRay", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/XRay"),
 
-        .testTarget(name: "AWSSDKSwiftTests", dependencies: ["AWSACM","AWSAPIGateway","AWSCloudFront","AWSDynamoDB","AWSEC2","AWSIAM","AWSS3","AWSSES","AWSSNS","AWSSQS","AWSSSM"])
+        .testTarget(name: "AWSSDKSwiftTests", dependencies: ["AWSACM","AWSAPIGateway","AWSCloudFront","AWSDynamoDB","AWSEC2","AWSGlacier","AWSIAM","AWSS3","AWSSES","AWSSNS","AWSSQS","AWSSSM"])
     ]
 )

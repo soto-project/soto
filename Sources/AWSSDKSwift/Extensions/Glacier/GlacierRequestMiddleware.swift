@@ -54,16 +54,14 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
             }
 
             var start: Int
-            var end: Int
+            var length = MEGA_BYTE
 
             for partNum in 0..<numParts {
                 start = partNum * MEGA_BYTE
                 if partNum == numParts - 1 {
-                    end = byteBuffer.readableBytes - 1
-                } else {
-                    end = start + MEGA_BYTE - 1
+                    length = byteBuffer.readableBytes - start
                 }
-                guard let byteBufferView = byteBuffer.viewBytes(at: byteBuffer.readerIndex+start, length: byteBuffer.readerIndex+end) else { throw GlacierMiddlewareErrorType.failedToAccessBytes }
+                guard let byteBufferView = byteBuffer.viewBytes(at: byteBuffer.readerIndex+start, length: length) else { throw GlacierMiddlewareErrorType.failedToAccessBytes }
                 guard let _ = byteBufferView.withContiguousStorageIfAvailable({ bytes in
                     shas.append(sha256(bytes))
                 }) else {

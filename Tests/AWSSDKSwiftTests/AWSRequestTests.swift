@@ -23,11 +23,8 @@ class AWSRequestTests: XCTestCase {
     /// test awsRequest body is expected string
     func testRequestedBody(expected: String, result: AWSRequest) throws {
         // get body
-        let bodyData = result.body.asData()
-        XCTAssertNotNil(bodyData)
-        if let body = String(data:bodyData!, encoding: .utf8) {
-            XCTAssertEqual(expected, body)
-        }
+        let body = result.body.asString()
+        XCTAssertEqual(expected, body)
     }
 
     /// test
