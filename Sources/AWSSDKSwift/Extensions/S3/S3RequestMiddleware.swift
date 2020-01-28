@@ -84,9 +84,13 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
     func calculateMD5(request: inout AWSRequest) {
         // if request has a body, calculate the MD5 for that body
-        if let data = request.body.asData() {
-            let encoded = Data(md5(data)).base64EncodedString()
-            request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
+        if let byteBuffer = request.body.asByteBuffer() {
+            let byteBufferView = byteBuffer.readableBytesView
+            if let encoded = byteBufferView.withContiguousStorageIfAvailable({ bytes in
+                return Data(md5(bytes)).base64EncodedString()
+            }) {
+                request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
+            }
         }
     }
 
