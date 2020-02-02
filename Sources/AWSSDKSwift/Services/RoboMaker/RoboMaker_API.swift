@@ -28,182 +28,182 @@ public struct RoboMaker {
     }
 
     ///  Describes one or more simulation jobs.
-    public func batchDescribeSimulationJob(_ input: BatchDescribeSimulationJobRequest) -> Future<BatchDescribeSimulationJobResponse> {
+    public func batchDescribeSimulationJob(_ input: BatchDescribeSimulationJobRequest) -> EventLoopFuture<BatchDescribeSimulationJobResponse> {
         return client.send(operation: "BatchDescribeSimulationJob", path: "/batchDescribeSimulationJob", httpMethod: "POST", input: input)
     }
 
     ///  Cancels the specified deployment job.
-    public func cancelDeploymentJob(_ input: CancelDeploymentJobRequest) -> Future<CancelDeploymentJobResponse> {
+    public func cancelDeploymentJob(_ input: CancelDeploymentJobRequest) -> EventLoopFuture<CancelDeploymentJobResponse> {
         return client.send(operation: "CancelDeploymentJob", path: "/cancelDeploymentJob", httpMethod: "POST", input: input)
     }
 
     ///  Cancels the specified simulation job.
-    public func cancelSimulationJob(_ input: CancelSimulationJobRequest) -> Future<CancelSimulationJobResponse> {
+    public func cancelSimulationJob(_ input: CancelSimulationJobRequest) -> EventLoopFuture<CancelSimulationJobResponse> {
         return client.send(operation: "CancelSimulationJob", path: "/cancelSimulationJob", httpMethod: "POST", input: input)
     }
 
     ///  Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.  
-    public func createDeploymentJob(_ input: CreateDeploymentJobRequest) -> Future<CreateDeploymentJobResponse> {
+    public func createDeploymentJob(_ input: CreateDeploymentJobRequest) -> EventLoopFuture<CreateDeploymentJobResponse> {
         return client.send(operation: "CreateDeploymentJob", path: "/createDeploymentJob", httpMethod: "POST", input: input)
     }
 
     ///  Creates a fleet, a logical group of robots running the same robot application.
-    public func createFleet(_ input: CreateFleetRequest) -> Future<CreateFleetResponse> {
+    public func createFleet(_ input: CreateFleetRequest) -> EventLoopFuture<CreateFleetResponse> {
         return client.send(operation: "CreateFleet", path: "/createFleet", httpMethod: "POST", input: input)
     }
 
     ///  Creates a robot.
-    public func createRobot(_ input: CreateRobotRequest) -> Future<CreateRobotResponse> {
+    public func createRobot(_ input: CreateRobotRequest) -> EventLoopFuture<CreateRobotResponse> {
         return client.send(operation: "CreateRobot", path: "/createRobot", httpMethod: "POST", input: input)
     }
 
     ///  Creates a robot application. 
-    public func createRobotApplication(_ input: CreateRobotApplicationRequest) -> Future<CreateRobotApplicationResponse> {
+    public func createRobotApplication(_ input: CreateRobotApplicationRequest) -> EventLoopFuture<CreateRobotApplicationResponse> {
         return client.send(operation: "CreateRobotApplication", path: "/createRobotApplication", httpMethod: "POST", input: input)
     }
 
     ///  Creates a version of a robot application.
-    public func createRobotApplicationVersion(_ input: CreateRobotApplicationVersionRequest) -> Future<CreateRobotApplicationVersionResponse> {
+    public func createRobotApplicationVersion(_ input: CreateRobotApplicationVersionRequest) -> EventLoopFuture<CreateRobotApplicationVersionResponse> {
         return client.send(operation: "CreateRobotApplicationVersion", path: "/createRobotApplicationVersion", httpMethod: "POST", input: input)
     }
 
     ///  Creates a simulation application.
-    public func createSimulationApplication(_ input: CreateSimulationApplicationRequest) -> Future<CreateSimulationApplicationResponse> {
+    public func createSimulationApplication(_ input: CreateSimulationApplicationRequest) -> EventLoopFuture<CreateSimulationApplicationResponse> {
         return client.send(operation: "CreateSimulationApplication", path: "/createSimulationApplication", httpMethod: "POST", input: input)
     }
 
     ///  Creates a simulation application with a specific revision id.
-    public func createSimulationApplicationVersion(_ input: CreateSimulationApplicationVersionRequest) -> Future<CreateSimulationApplicationVersionResponse> {
+    public func createSimulationApplicationVersion(_ input: CreateSimulationApplicationVersionRequest) -> EventLoopFuture<CreateSimulationApplicationVersionResponse> {
         return client.send(operation: "CreateSimulationApplicationVersion", path: "/createSimulationApplicationVersion", httpMethod: "POST", input: input)
     }
 
     ///  Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.  
-    public func createSimulationJob(_ input: CreateSimulationJobRequest) -> Future<CreateSimulationJobResponse> {
+    public func createSimulationJob(_ input: CreateSimulationJobRequest) -> EventLoopFuture<CreateSimulationJobResponse> {
         return client.send(operation: "CreateSimulationJob", path: "/createSimulationJob", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a fleet.
-    public func deleteFleet(_ input: DeleteFleetRequest) -> Future<DeleteFleetResponse> {
+    public func deleteFleet(_ input: DeleteFleetRequest) -> EventLoopFuture<DeleteFleetResponse> {
         return client.send(operation: "DeleteFleet", path: "/deleteFleet", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a robot.
-    public func deleteRobot(_ input: DeleteRobotRequest) -> Future<DeleteRobotResponse> {
+    public func deleteRobot(_ input: DeleteRobotRequest) -> EventLoopFuture<DeleteRobotResponse> {
         return client.send(operation: "DeleteRobot", path: "/deleteRobot", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a robot application.
-    public func deleteRobotApplication(_ input: DeleteRobotApplicationRequest) -> Future<DeleteRobotApplicationResponse> {
+    public func deleteRobotApplication(_ input: DeleteRobotApplicationRequest) -> EventLoopFuture<DeleteRobotApplicationResponse> {
         return client.send(operation: "DeleteRobotApplication", path: "/deleteRobotApplication", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a simulation application.
-    public func deleteSimulationApplication(_ input: DeleteSimulationApplicationRequest) -> Future<DeleteSimulationApplicationResponse> {
+    public func deleteSimulationApplication(_ input: DeleteSimulationApplicationRequest) -> EventLoopFuture<DeleteSimulationApplicationResponse> {
         return client.send(operation: "DeleteSimulationApplication", path: "/deleteSimulationApplication", httpMethod: "POST", input: input)
     }
 
     ///  Deregisters a robot.
-    public func deregisterRobot(_ input: DeregisterRobotRequest) -> Future<DeregisterRobotResponse> {
+    public func deregisterRobot(_ input: DeregisterRobotRequest) -> EventLoopFuture<DeregisterRobotResponse> {
         return client.send(operation: "DeregisterRobot", path: "/deregisterRobot", httpMethod: "POST", input: input)
     }
 
     ///  Describes a deployment job.
-    public func describeDeploymentJob(_ input: DescribeDeploymentJobRequest) -> Future<DescribeDeploymentJobResponse> {
+    public func describeDeploymentJob(_ input: DescribeDeploymentJobRequest) -> EventLoopFuture<DescribeDeploymentJobResponse> {
         return client.send(operation: "DescribeDeploymentJob", path: "/describeDeploymentJob", httpMethod: "POST", input: input)
     }
 
     ///  Describes a fleet.
-    public func describeFleet(_ input: DescribeFleetRequest) -> Future<DescribeFleetResponse> {
+    public func describeFleet(_ input: DescribeFleetRequest) -> EventLoopFuture<DescribeFleetResponse> {
         return client.send(operation: "DescribeFleet", path: "/describeFleet", httpMethod: "POST", input: input)
     }
 
     ///  Describes a robot.
-    public func describeRobot(_ input: DescribeRobotRequest) -> Future<DescribeRobotResponse> {
+    public func describeRobot(_ input: DescribeRobotRequest) -> EventLoopFuture<DescribeRobotResponse> {
         return client.send(operation: "DescribeRobot", path: "/describeRobot", httpMethod: "POST", input: input)
     }
 
     ///  Describes a robot application.
-    public func describeRobotApplication(_ input: DescribeRobotApplicationRequest) -> Future<DescribeRobotApplicationResponse> {
+    public func describeRobotApplication(_ input: DescribeRobotApplicationRequest) -> EventLoopFuture<DescribeRobotApplicationResponse> {
         return client.send(operation: "DescribeRobotApplication", path: "/describeRobotApplication", httpMethod: "POST", input: input)
     }
 
     ///  Describes a simulation application.
-    public func describeSimulationApplication(_ input: DescribeSimulationApplicationRequest) -> Future<DescribeSimulationApplicationResponse> {
+    public func describeSimulationApplication(_ input: DescribeSimulationApplicationRequest) -> EventLoopFuture<DescribeSimulationApplicationResponse> {
         return client.send(operation: "DescribeSimulationApplication", path: "/describeSimulationApplication", httpMethod: "POST", input: input)
     }
 
     ///  Describes a simulation job.
-    public func describeSimulationJob(_ input: DescribeSimulationJobRequest) -> Future<DescribeSimulationJobResponse> {
+    public func describeSimulationJob(_ input: DescribeSimulationJobRequest) -> EventLoopFuture<DescribeSimulationJobResponse> {
         return client.send(operation: "DescribeSimulationJob", path: "/describeSimulationJob", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.     
-    public func listDeploymentJobs(_ input: ListDeploymentJobsRequest) -> Future<ListDeploymentJobsResponse> {
+    public func listDeploymentJobs(_ input: ListDeploymentJobsRequest) -> EventLoopFuture<ListDeploymentJobsResponse> {
         return client.send(operation: "ListDeploymentJobs", path: "/listDeploymentJobs", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. 
-    public func listFleets(_ input: ListFleetsRequest) -> Future<ListFleetsResponse> {
+    public func listFleets(_ input: ListFleetsRequest) -> EventLoopFuture<ListFleetsResponse> {
         return client.send(operation: "ListFleets", path: "/listFleets", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
-    public func listRobotApplications(_ input: ListRobotApplicationsRequest) -> Future<ListRobotApplicationsResponse> {
+    public func listRobotApplications(_ input: ListRobotApplicationsRequest) -> EventLoopFuture<ListRobotApplicationsResponse> {
         return client.send(operation: "ListRobotApplications", path: "/listRobotApplications", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.
-    public func listRobots(_ input: ListRobotsRequest) -> Future<ListRobotsResponse> {
+    public func listRobots(_ input: ListRobotsRequest) -> EventLoopFuture<ListRobotsResponse> {
         return client.send(operation: "ListRobots", path: "/listRobots", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
-    public func listSimulationApplications(_ input: ListSimulationApplicationsRequest) -> Future<ListSimulationApplicationsResponse> {
+    public func listSimulationApplications(_ input: ListSimulationApplicationsRequest) -> EventLoopFuture<ListSimulationApplicationsResponse> {
         return client.send(operation: "ListSimulationApplications", path: "/listSimulationApplications", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
-    public func listSimulationJobs(_ input: ListSimulationJobsRequest) -> Future<ListSimulationJobsResponse> {
+    public func listSimulationJobs(_ input: ListSimulationJobsRequest) -> EventLoopFuture<ListSimulationJobsResponse> {
         return client.send(operation: "ListSimulationJobs", path: "/listSimulationJobs", httpMethod: "POST", input: input)
     }
 
     ///  Lists all tags on a AWS RoboMaker resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
 
     ///  Registers a robot with a fleet.
-    public func registerRobot(_ input: RegisterRobotRequest) -> Future<RegisterRobotResponse> {
+    public func registerRobot(_ input: RegisterRobotRequest) -> EventLoopFuture<RegisterRobotResponse> {
         return client.send(operation: "RegisterRobot", path: "/registerRobot", httpMethod: "POST", input: input)
     }
 
     ///  Restarts a running simulation job.
-    public func restartSimulationJob(_ input: RestartSimulationJobRequest) -> Future<RestartSimulationJobResponse> {
+    public func restartSimulationJob(_ input: RestartSimulationJobRequest) -> EventLoopFuture<RestartSimulationJobResponse> {
         return client.send(operation: "RestartSimulationJob", path: "/restartSimulationJob", httpMethod: "POST", input: input)
     }
 
     ///  Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
-    public func syncDeploymentJob(_ input: SyncDeploymentJobRequest) -> Future<SyncDeploymentJobResponse> {
+    public func syncDeploymentJob(_ input: SyncDeploymentJobRequest) -> EventLoopFuture<SyncDeploymentJobResponse> {
         return client.send(operation: "SyncDeploymentJob", path: "/syncDeploymentJob", httpMethod: "POST", input: input)
     }
 
     ///  Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide. 
-    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource . 
-    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates a robot application.
-    public func updateRobotApplication(_ input: UpdateRobotApplicationRequest) -> Future<UpdateRobotApplicationResponse> {
+    public func updateRobotApplication(_ input: UpdateRobotApplicationRequest) -> EventLoopFuture<UpdateRobotApplicationResponse> {
         return client.send(operation: "UpdateRobotApplication", path: "/updateRobotApplication", httpMethod: "POST", input: input)
     }
 
     ///  Updates a simulation application.
-    public func updateSimulationApplication(_ input: UpdateSimulationApplicationRequest) -> Future<UpdateSimulationApplicationResponse> {
+    public func updateSimulationApplication(_ input: UpdateSimulationApplicationRequest) -> EventLoopFuture<UpdateSimulationApplicationResponse> {
         return client.send(operation: "UpdateSimulationApplication", path: "/updateSimulationApplication", httpMethod: "POST", input: input)
     }
 }

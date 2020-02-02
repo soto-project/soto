@@ -29,87 +29,87 @@ public struct GlobalAccelerator {
     }
 
     ///  Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. To see an AWS CLI example of creating an accelerator, scroll down to Example.  You must specify the US-West-2 (Oregon) Region to create or update accelerators. 
-    public func createAccelerator(_ input: CreateAcceleratorRequest) -> Future<CreateAcceleratorResponse> {
+    public func createAccelerator(_ input: CreateAcceleratorRequest) -> EventLoopFuture<CreateAcceleratorResponse> {
         return client.send(operation: "CreateAccelerator", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one AWS Region. To see an AWS CLI example of creating an endpoint group, scroll down to Example.
-    public func createEndpointGroup(_ input: CreateEndpointGroupRequest) -> Future<CreateEndpointGroupResponse> {
+    public func createEndpointGroup(_ input: CreateEndpointGroupRequest) -> EventLoopFuture<CreateEndpointGroupResponse> {
         return client.send(operation: "CreateEndpointGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. To see an AWS CLI example of creating a listener, scroll down to Example.
-    public func createListener(_ input: CreateListenerRequest) -> Future<CreateListenerResponse> {
+    public func createListener(_ input: CreateListenerRequest) -> EventLoopFuture<CreateListenerResponse> {
         return client.send(operation: "CreateListener", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete an accelerator. Note: before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups).
-    @discardableResult public func deleteAccelerator(_ input: DeleteAcceleratorRequest) -> Future<Void> {
+    @discardableResult public func deleteAccelerator(_ input: DeleteAcceleratorRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteAccelerator", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete an endpoint group from a listener.
-    @discardableResult public func deleteEndpointGroup(_ input: DeleteEndpointGroupRequest) -> Future<Void> {
+    @discardableResult public func deleteEndpointGroup(_ input: DeleteEndpointGroupRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteEndpointGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete a listener from an accelerator.
-    @discardableResult public func deleteListener(_ input: DeleteListenerRequest) -> Future<Void> {
+    @discardableResult public func deleteListener(_ input: DeleteListenerRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteListener", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describe an accelerator. To see an AWS CLI example of describing an accelerator, scroll down to Example.
-    public func describeAccelerator(_ input: DescribeAcceleratorRequest) -> Future<DescribeAcceleratorResponse> {
+    public func describeAccelerator(_ input: DescribeAcceleratorRequest) -> EventLoopFuture<DescribeAcceleratorResponse> {
         return client.send(operation: "DescribeAccelerator", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describe the attributes of an accelerator.
-    public func describeAcceleratorAttributes(_ input: DescribeAcceleratorAttributesRequest) -> Future<DescribeAcceleratorAttributesResponse> {
+    public func describeAcceleratorAttributes(_ input: DescribeAcceleratorAttributesRequest) -> EventLoopFuture<DescribeAcceleratorAttributesResponse> {
         return client.send(operation: "DescribeAcceleratorAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describe an endpoint group.
-    public func describeEndpointGroup(_ input: DescribeEndpointGroupRequest) -> Future<DescribeEndpointGroupResponse> {
+    public func describeEndpointGroup(_ input: DescribeEndpointGroupRequest) -> EventLoopFuture<DescribeEndpointGroupResponse> {
         return client.send(operation: "DescribeEndpointGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describe a listener.
-    public func describeListener(_ input: DescribeListenerRequest) -> Future<DescribeListenerResponse> {
+    public func describeListener(_ input: DescribeListenerRequest) -> EventLoopFuture<DescribeListenerResponse> {
         return client.send(operation: "DescribeListener", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  List the accelerators for an AWS account.
-    public func listAccelerators(_ input: ListAcceleratorsRequest) -> Future<ListAcceleratorsResponse> {
+    public func listAccelerators(_ input: ListAcceleratorsRequest) -> EventLoopFuture<ListAcceleratorsResponse> {
         return client.send(operation: "ListAccelerators", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  List the endpoint groups that are associated with a listener.
-    public func listEndpointGroups(_ input: ListEndpointGroupsRequest) -> Future<ListEndpointGroupsResponse> {
+    public func listEndpointGroups(_ input: ListEndpointGroupsRequest) -> EventLoopFuture<ListEndpointGroupsResponse> {
         return client.send(operation: "ListEndpointGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  List the listeners for an accelerator.
-    public func listListeners(_ input: ListListenersRequest) -> Future<ListListenersResponse> {
+    public func listListeners(_ input: ListListenersRequest) -> EventLoopFuture<ListListenersResponse> {
         return client.send(operation: "ListListeners", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Update an accelerator. To see an AWS CLI example of updating an accelerator, scroll down to Example.  You must specify the US-West-2 (Oregon) Region to create or update accelerators. 
-    public func updateAccelerator(_ input: UpdateAcceleratorRequest) -> Future<UpdateAcceleratorResponse> {
+    public func updateAccelerator(_ input: UpdateAcceleratorRequest) -> EventLoopFuture<UpdateAcceleratorResponse> {
         return client.send(operation: "UpdateAccelerator", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Update the attributes for an accelerator. To see an AWS CLI example of updating an accelerator to enable flow logs, scroll down to Example.
-    public func updateAcceleratorAttributes(_ input: UpdateAcceleratorAttributesRequest) -> Future<UpdateAcceleratorAttributesResponse> {
+    public func updateAcceleratorAttributes(_ input: UpdateAcceleratorAttributesRequest) -> EventLoopFuture<UpdateAcceleratorAttributesResponse> {
         return client.send(operation: "UpdateAcceleratorAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Update an endpoint group. To see an AWS CLI example of updating an endpoint group, scroll down to Example.
-    public func updateEndpointGroup(_ input: UpdateEndpointGroupRequest) -> Future<UpdateEndpointGroupResponse> {
+    public func updateEndpointGroup(_ input: UpdateEndpointGroupRequest) -> EventLoopFuture<UpdateEndpointGroupResponse> {
         return client.send(operation: "UpdateEndpointGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Update a listener.
-    public func updateListener(_ input: UpdateListenerRequest) -> Future<UpdateListenerResponse> {
+    public func updateListener(_ input: UpdateListenerRequest) -> EventLoopFuture<UpdateListenerResponse> {
         return client.send(operation: "UpdateListener", path: "/", httpMethod: "POST", input: input)
     }
 }

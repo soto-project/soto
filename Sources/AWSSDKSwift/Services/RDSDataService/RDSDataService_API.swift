@@ -28,33 +28,33 @@ public struct RDSDataService {
     }
 
     ///  Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. 
-    public func batchExecuteStatement(_ input: BatchExecuteStatementRequest) -> Future<BatchExecuteStatementResponse> {
+    public func batchExecuteStatement(_ input: BatchExecuteStatementRequest) -> EventLoopFuture<BatchExecuteStatementResponse> {
         return client.send(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: "POST", input: input)
     }
 
     ///  Starts a SQL transaction.  &lt;important&gt; &lt;p&gt;A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours.&lt;/p&gt; &lt;p&gt;A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically.&lt;/p&gt; &lt;p&gt;DDL statements inside a transaction cause an implicit commit. We recommend that you run each DDL statement in a separate &lt;code&gt;ExecuteStatement&lt;/code&gt; call with &lt;code&gt;continueAfterTimeout&lt;/code&gt; enabled.&lt;/p&gt; &lt;/important&gt; 
-    public func beginTransaction(_ input: BeginTransactionRequest) -> Future<BeginTransactionResponse> {
+    public func beginTransaction(_ input: BeginTransactionRequest) -> EventLoopFuture<BeginTransactionResponse> {
         return client.send(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: "POST", input: input)
     }
 
     ///  Ends a SQL transaction started with the BeginTransaction operation and commits the changes.
-    public func commitTransaction(_ input: CommitTransactionRequest) -> Future<CommitTransactionResponse> {
+    public func commitTransaction(_ input: CommitTransactionRequest) -> EventLoopFuture<CommitTransactionResponse> {
         return client.send(operation: "CommitTransaction", path: "/CommitTransaction", httpMethod: "POST", input: input)
     }
 
     ///  Runs one or more SQL statements.  This operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation. 
     @available(*, deprecated, message:"The ExecuteSql API is deprecated, please use the ExecuteStatement API.")
-    public func executeSql(_ input: ExecuteSqlRequest) -> Future<ExecuteSqlResponse> {
+    public func executeSql(_ input: ExecuteSqlRequest) -> EventLoopFuture<ExecuteSqlResponse> {
         return client.send(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: "POST", input: input)
     }
 
     ///  Runs a SQL statement against a database.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically.  The response size limit is 1 MB or 1,000 records. If the call returns more than 1 MB of response data or over 1,000 records, the call is terminated.
-    public func executeStatement(_ input: ExecuteStatementRequest) -> Future<ExecuteStatementResponse> {
+    public func executeStatement(_ input: ExecuteStatementRequest) -> EventLoopFuture<ExecuteStatementResponse> {
         return client.send(operation: "ExecuteStatement", path: "/Execute", httpMethod: "POST", input: input)
     }
 
     ///  Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
-    public func rollbackTransaction(_ input: RollbackTransactionRequest) -> Future<RollbackTransactionResponse> {
+    public func rollbackTransaction(_ input: RollbackTransactionRequest) -> EventLoopFuture<RollbackTransactionResponse> {
         return client.send(operation: "RollbackTransaction", path: "/RollbackTransaction", httpMethod: "POST", input: input)
     }
 }

@@ -29,27 +29,27 @@ public struct AugmentedAIRuntime {
     }
 
     ///  Deletes the specified human loop for a flow definition.
-    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest) -> Future<DeleteHumanLoopResponse> {
+    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest) -> EventLoopFuture<DeleteHumanLoopResponse> {
         return client.send(operation: "DeleteHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns information about the specified human loop.
-    public func describeHumanLoop(_ input: DescribeHumanLoopRequest) -> Future<DescribeHumanLoopResponse> {
+    public func describeHumanLoop(_ input: DescribeHumanLoopRequest) -> EventLoopFuture<DescribeHumanLoopResponse> {
         return client.send(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about human loops, given the specified parameters.
-    public func listHumanLoops(_ input: ListHumanLoopsRequest) -> Future<ListHumanLoopsResponse> {
+    public func listHumanLoops(_ input: ListHumanLoopsRequest) -> EventLoopFuture<ListHumanLoopsResponse> {
         return client.send(operation: "ListHumanLoops", path: "/human-loops", httpMethod: "GET", input: input)
     }
 
     ///  Starts a human loop, provided that at least one activation condition is met.
-    public func startHumanLoop(_ input: StartHumanLoopRequest) -> Future<StartHumanLoopResponse> {
+    public func startHumanLoop(_ input: StartHumanLoopRequest) -> EventLoopFuture<StartHumanLoopResponse> {
         return client.send(operation: "StartHumanLoop", path: "/human-loops", httpMethod: "POST", input: input)
     }
 
     ///  Stops the specified human loop.
-    public func stopHumanLoop(_ input: StopHumanLoopRequest) -> Future<StopHumanLoopResponse> {
+    public func stopHumanLoop(_ input: StopHumanLoopRequest) -> EventLoopFuture<StopHumanLoopResponse> {
         return client.send(operation: "StopHumanLoop", path: "/human-loops/stop", httpMethod: "POST", input: input)
     }
 }

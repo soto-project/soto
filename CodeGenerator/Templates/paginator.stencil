@@ -1,0 +1,36 @@
+{%include "header.stencil" %}
+
+import NIO
+
+//MARK: Paginators
+
+extension {{name}} {
+
+{%for page in paginators %}
+{%for comment in page.operation.comment %}
+    ///  {{comment}}
+{%endfor %}
+{%if page.operation.deprecated %}
+    @available(*, deprecated, message:"{{page.operation.deprecated}}")
+{%endif %}
+    public func {{page.operation.funcName}}Paginator(_ input: {{page.operation.inputShape}}, onPage: @escaping ({{page.operation.outputShape}}, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: {{page.operation.funcName}}, tokenKey: \{{page.operation.outputShape}}.{{page.output}}, onPage: onPage)
+    }
+
+{%endfor %}
+}
+
+{%for page in paginators %}
+extension {{name}}.{{page.operation.inputShape}}: {{page.paginatorProtocol}} {
+    public func usingPaginationToken(_ token: {{page.tokenType}}) -> {{name}}.{{page.operation.inputShape}} {
+        return .init(
+{%for param in page.initParams %}
+            {{param}}{%if not forloop.last %}, {%endif +%}
+{%endfor %}
+        )
+
+    }
+}
+
+{%endfor %}
+

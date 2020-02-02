@@ -29,129 +29,129 @@ public struct ApplicationDiscoveryService {
     }
 
     ///  Associates one or more configuration items with an application.
-    public func associateConfigurationItemsToApplication(_ input: AssociateConfigurationItemsToApplicationRequest) -> Future<AssociateConfigurationItemsToApplicationResponse> {
+    public func associateConfigurationItemsToApplication(_ input: AssociateConfigurationItemsToApplicationRequest) -> EventLoopFuture<AssociateConfigurationItemsToApplicationResponse> {
         return client.send(operation: "AssociateConfigurationItemsToApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications.  AWS Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
-    public func batchDeleteImportData(_ input: BatchDeleteImportDataRequest) -> Future<BatchDeleteImportDataResponse> {
+    public func batchDeleteImportData(_ input: BatchDeleteImportDataRequest) -> EventLoopFuture<BatchDeleteImportDataResponse> {
         return client.send(operation: "BatchDeleteImportData", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an application with the given name and description.
-    public func createApplication(_ input: CreateApplicationRequest) -> Future<CreateApplicationResponse> {
+    public func createApplication(_ input: CreateApplicationRequest) -> EventLoopFuture<CreateApplicationResponse> {
         return client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items.
-    public func createTags(_ input: CreateTagsRequest) -> Future<CreateTagsResponse> {
+    public func createTags(_ input: CreateTagsRequest) -> EventLoopFuture<CreateTagsResponse> {
         return client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a list of applications and their associations with configuration items.
-    public func deleteApplications(_ input: DeleteApplicationsRequest) -> Future<DeleteApplicationsResponse> {
+    public func deleteApplications(_ input: DeleteApplicationsRequest) -> EventLoopFuture<DeleteApplicationsResponse> {
         return client.send(operation: "DeleteApplications", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the association between configuration items and one or more tags. This API accepts a list of multiple configuration items.
-    public func deleteTags(_ input: DeleteTagsRequest) -> Future<DeleteTagsResponse> {
+    public func deleteTags(_ input: DeleteTagsRequest) -> EventLoopFuture<DeleteTagsResponse> {
         return client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists agents or connectors as specified by ID or other filters. All agents/connectors associated with your user account can be listed if you call DescribeAgents as is without passing any parameters.
-    public func describeAgents(_ input: DescribeAgentsRequest) -> Future<DescribeAgentsResponse> {
+    public func describeAgents(_ input: DescribeAgentsRequest) -> EventLoopFuture<DescribeAgentsResponse> {
         return client.send(operation: "DescribeAgents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves attributes for a list of configuration item IDs.  All of the supplied IDs must be for the same asset type from one of the following:   server   application   process   connection   Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeConfigurations Action. 
-    public func describeConfigurations(_ input: DescribeConfigurationsRequest) -> Future<DescribeConfigurationsResponse> {
+    public func describeConfigurations(_ input: DescribeConfigurationsRequest) -> EventLoopFuture<DescribeConfigurationsResponse> {
         return client.send(operation: "DescribeConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
-    public func describeContinuousExports(_ input: DescribeContinuousExportsRequest) -> Future<DescribeContinuousExportsResponse> {
+    public func describeContinuousExports(_ input: DescribeContinuousExportsRequest) -> EventLoopFuture<DescribeContinuousExportsResponse> {
         return client.send(operation: "DescribeContinuousExports", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   DescribeExportConfigurations is deprecated. Use DescribeImportTasks, instead.
     @available(*, deprecated, message:"DescribeExportConfigurations is deprecated.")
-    public func describeExportConfigurations(_ input: DescribeExportConfigurationsRequest) -> Future<DescribeExportConfigurationsResponse> {
+    public func describeExportConfigurations(_ input: DescribeExportConfigurationsRequest) -> EventLoopFuture<DescribeExportConfigurationsResponse> {
         return client.send(operation: "DescribeExportConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
-    public func describeExportTasks(_ input: DescribeExportTasksRequest) -> Future<DescribeExportTasksResponse> {
+    public func describeExportTasks(_ input: DescribeExportTasksRequest) -> EventLoopFuture<DescribeExportTasksResponse> {
         return client.send(operation: "DescribeExportTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
-    public func describeImportTasks(_ input: DescribeImportTasksRequest) -> Future<DescribeImportTasksResponse> {
+    public func describeImportTasks(_ input: DescribeImportTasksRequest) -> EventLoopFuture<DescribeImportTasksResponse> {
         return client.send(operation: "DescribeImportTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters. There are three valid tag filter names:   tagKey   tagValue   configurationId   Also, all configuration items associated with your user account that have tags can be listed if you call DescribeTags as is without passing any parameters.
-    public func describeTags(_ input: DescribeTagsRequest) -> Future<DescribeTagsResponse> {
+    public func describeTags(_ input: DescribeTagsRequest) -> EventLoopFuture<DescribeTagsResponse> {
         return client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates one or more configuration items from an application.
-    public func disassociateConfigurationItemsFromApplication(_ input: DisassociateConfigurationItemsFromApplicationRequest) -> Future<DisassociateConfigurationItemsFromApplicationResponse> {
+    public func disassociateConfigurationItemsFromApplication(_ input: DisassociateConfigurationItemsFromApplicationRequest) -> EventLoopFuture<DisassociateConfigurationItemsFromApplicationResponse> {
         return client.send(operation: "DisassociateConfigurationItemsFromApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
     @available(*, deprecated, message:"ExportConfigurations is deprecated.")
-    public func exportConfigurations() -> Future<ExportConfigurationsResponse> {
+    public func exportConfigurations() -> EventLoopFuture<ExportConfigurationsResponse> {
         return client.send(operation: "ExportConfigurations", path: "/", httpMethod: "POST")
     }
 
     ///  Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
-    public func getDiscoverySummary(_ input: GetDiscoverySummaryRequest) -> Future<GetDiscoverySummaryResponse> {
+    public func getDiscoverySummary(_ input: GetDiscoverySummaryRequest) -> EventLoopFuture<GetDiscoverySummaryResponse> {
         return client.send(operation: "GetDiscoverySummary", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of configuration items as specified by the value passed to the required paramater configurationType. Optional filtering may be applied to refine search results.
-    public func listConfigurations(_ input: ListConfigurationsRequest) -> Future<ListConfigurationsResponse> {
+    public func listConfigurations(_ input: ListConfigurationsRequest) -> EventLoopFuture<ListConfigurationsResponse> {
         return client.send(operation: "ListConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of servers that are one network hop away from a specified server.
-    public func listServerNeighbors(_ input: ListServerNeighborsRequest) -> Future<ListServerNeighborsResponse> {
+    public func listServerNeighbors(_ input: ListServerNeighborsRequest) -> EventLoopFuture<ListServerNeighborsResponse> {
         return client.send(operation: "ListServerNeighbors", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Start the continuous flow of agent's discovered data into Amazon Athena.
-    public func startContinuousExport(_ input: StartContinuousExportRequest) -> Future<StartContinuousExportResponse> {
+    public func startContinuousExport(_ input: StartContinuousExportRequest) -> EventLoopFuture<StartContinuousExportResponse> {
         return client.send(operation: "StartContinuousExport", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Instructs the specified agents or connectors to start collecting data.
-    public func startDataCollectionByAgentIds(_ input: StartDataCollectionByAgentIdsRequest) -> Future<StartDataCollectionByAgentIdsResponse> {
+    public func startDataCollectionByAgentIds(_ input: StartDataCollectionByAgentIdsRequest) -> EventLoopFuture<StartDataCollectionByAgentIdsResponse> {
         return client.send(operation: "StartDataCollectionByAgentIds", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Begins the export of discovered data to an S3 bucket.  If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports.   If you do not include an agentIds filter, summary data is exported that includes both AWS Agentless Discovery Connector data and summary data from AWS Discovery Agents. Export of summary data is limited to two exports per day. 
-    public func startExportTask(_ input: StartExportTaskRequest) -> Future<StartExportTaskResponse> {
+    public func startExportTask(_ input: StartExportTaskRequest) -> EventLoopFuture<StartExportTaskResponse> {
         return client.send(operation: "StartExportTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts an import task, which allows you to import details of your on-premises environment directly into AWS without having to use the Application Discovery Service (ADS) tools such as the Discovery Connector or Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to group your devices as applications and track their migration status. To start an import request, do this:   Download the specially formatted comma separated value (CSV) import template, which you can find here: https://s3-us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv.   Fill out the template with your server and application data.   Upload your import file to an Amazon S3 bucket, and make a note of it's Object URL. Your import file must be in the CSV format.   Use the console or the StartImportTask command with the AWS CLI or one of the AWS SDKs to import the records from your file.   For more information, including step-by-step procedures, see Migration Hub Import in the AWS Application Discovery Service User Guide.  There are limits to the number of import tasks you can create (and delete) in an AWS account. For more information, see AWS Application Discovery Service Limits in the AWS Application Discovery Service User Guide. 
-    public func startImportTask(_ input: StartImportTaskRequest) -> Future<StartImportTaskResponse> {
+    public func startImportTask(_ input: StartImportTaskRequest) -> EventLoopFuture<StartImportTaskResponse> {
         return client.send(operation: "StartImportTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stop the continuous flow of agent's discovered data into Amazon Athena.
-    public func stopContinuousExport(_ input: StopContinuousExportRequest) -> Future<StopContinuousExportResponse> {
+    public func stopContinuousExport(_ input: StopContinuousExportRequest) -> EventLoopFuture<StopContinuousExportResponse> {
         return client.send(operation: "StopContinuousExport", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Instructs the specified agents or connectors to stop collecting data.
-    public func stopDataCollectionByAgentIds(_ input: StopDataCollectionByAgentIdsRequest) -> Future<StopDataCollectionByAgentIdsResponse> {
+    public func stopDataCollectionByAgentIds(_ input: StopDataCollectionByAgentIdsRequest) -> EventLoopFuture<StopDataCollectionByAgentIdsResponse> {
         return client.send(operation: "StopDataCollectionByAgentIds", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates metadata about an application.
-    public func updateApplication(_ input: UpdateApplicationRequest) -> Future<UpdateApplicationResponse> {
+    public func updateApplication(_ input: UpdateApplicationRequest) -> EventLoopFuture<UpdateApplicationResponse> {
         return client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
     }
 }

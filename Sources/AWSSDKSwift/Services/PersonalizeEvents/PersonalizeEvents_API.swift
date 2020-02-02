@@ -26,7 +26,7 @@ public struct PersonalizeEvents {
     }
 
     ///  Records user interaction event data.
-    @discardableResult public func putEvents(_ input: PutEventsRequest) -> Future<Void> {
+    @discardableResult public func putEvents(_ input: PutEventsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "PutEvents", path: "/events", httpMethod: "POST", input: input)
     }
 }

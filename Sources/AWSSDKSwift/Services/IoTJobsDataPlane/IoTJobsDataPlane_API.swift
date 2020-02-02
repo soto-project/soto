@@ -29,22 +29,22 @@ public struct IoTJobsDataPlane {
     }
 
     ///  Gets details of a job execution.
-    public func describeJobExecution(_ input: DescribeJobExecutionRequest) -> Future<DescribeJobExecutionResponse> {
+    public func describeJobExecution(_ input: DescribeJobExecutionRequest) -> EventLoopFuture<DescribeJobExecutionResponse> {
         return client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the list of all jobs for a thing that are not in a terminal status.
-    public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest) -> Future<GetPendingJobExecutionsResponse> {
+    public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest) -> EventLoopFuture<GetPendingJobExecutionsResponse> {
         return client.send(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: "GET", input: input)
     }
 
     ///  Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
-    public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest) -> Future<StartNextPendingJobExecutionResponse> {
+    public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest) -> EventLoopFuture<StartNextPendingJobExecutionResponse> {
         return client.send(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the status of a job execution.
-    public func updateJobExecution(_ input: UpdateJobExecutionRequest) -> Future<UpdateJobExecutionResponse> {
+    public func updateJobExecution(_ input: UpdateJobExecutionRequest) -> EventLoopFuture<UpdateJobExecutionResponse> {
         return client.send(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", input: input)
     }
 }

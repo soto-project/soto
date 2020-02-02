@@ -30,17 +30,17 @@ public struct MigrationHubConfig {
     }
 
     ///  This API sets up the home region for the calling account only.
-    public func createHomeRegionControl(_ input: CreateHomeRegionControlRequest) -> Future<CreateHomeRegionControlResult> {
+    public func createHomeRegionControl(_ input: CreateHomeRegionControlRequest) -> EventLoopFuture<CreateHomeRegionControlResult> {
         return client.send(operation: "CreateHomeRegionControl", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  This API permits filtering on the ControlId, HomeRegion, and RegionControlScope fields.
-    public func describeHomeRegionControls(_ input: DescribeHomeRegionControlsRequest) -> Future<DescribeHomeRegionControlsResult> {
+    public func describeHomeRegionControls(_ input: DescribeHomeRegionControlsRequest) -> EventLoopFuture<DescribeHomeRegionControlsResult> {
         return client.send(operation: "DescribeHomeRegionControls", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
-    public func getHomeRegion(_ input: GetHomeRegionRequest) -> Future<GetHomeRegionResult> {
+    public func getHomeRegion(_ input: GetHomeRegionRequest) -> EventLoopFuture<GetHomeRegionResult> {
         return client.send(operation: "GetHomeRegion", path: "/", httpMethod: "POST", input: input)
     }
 }

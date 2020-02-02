@@ -9,12 +9,6 @@
 import Foundation
 import SwiftyJSON
 
-let enableShowLog = ProcessInfo.processInfo.environment["Verbose"] == nil ? false : true
-
-func indt(_ times: Int, hard: Bool = true) -> String {
-    return (0..<times).map({ _ in "    " }).joined()
-}
-
 func rootPath() -> String {
     return #file
         .split(separator: "/", omittingEmptySubsequences: false)
@@ -32,33 +26,26 @@ func loadEndpointJSON() throws -> JSON {
     return JSON(data: data)
 }
 
-func loadDocJSONList() throws -> [JSON] {
+func loadModelJSON() throws -> [(api:JSON, paginator:JSON, doc: JSON)] {
     let directories = apiDirectories()
 
-    let docPaths: [String] = directories.map {
-        let entries = Glob.entries(pattern: $0+"/**/docs-*.json")
-        return entries[entries.count-1]
-    }
+    return try directories.map {
+        let apiFile = Glob.entries(pattern: $0+"/**/api-*.json")[0]
+        let docFile = Glob.entries(pattern: $0+"/**/docs-*.json")[0]
+        // a paginator file doesn't always exist
+        let paginatorFile = Glob.entries(pattern: $0+"/**/paginators-*.json").first
+        
+        var apiJson = JSON(data: try Data(contentsOf: URL(string: "file://\(apiFile)")!))
+        apiJson["serviceName"].stringValue = serviceNameForApi(apiJSON: apiJson)
+        let docJson = JSON(data: try Data(contentsOf: URL(string: "file://\(docFile)")!))
+        let paginatorJson: JSON
+        if let paginatorFile = paginatorFile {
+            paginatorJson = JSON(data: try Data(contentsOf: URL(string: "file://\(paginatorFile)")!))
+        } else {
+            paginatorJson = JSON()
+        }
 
-    return try docPaths.map {
-        let data = try Data(contentsOf: URL(string: "file://\($0)")!)
-        return JSON(data: data)
-    }
-}
-
-func loadAPIJSONList() throws -> [JSON] {
-    let directories = apiDirectories()
-
-    let apiPaths: [String] = directories.map {
-        let entries = Glob.entries(pattern: $0+"/**/api-*.json")
-        return entries[entries.count-1]
-    }
-
-    return try apiPaths.map {
-        let data = try Data(contentsOf: URL(string: "file://\($0)")!)
-        var json = JSON(data: data)
-        json["serviceName"].stringValue = serviceNameForApi(apiJSON: json)
-        return json
+        return (api: apiJson, paginator: paginatorJson, doc: docJson)
     }
 }
 
@@ -67,12 +54,6 @@ func loadAPIJSONList() throws -> [JSON] {
 let stripServiceNamePrefixes: [String] = [
   "Amazon",
   "AWS",
-]
-
-let serviceAliases: [String:String] = [
-	"elasticloadbalancing": "ELB",
-	"elasticloadbalancingv2": "ELBV2",
-	"config": "ConfigService"
 ]
 
 func serviceNameForApi(apiJSON: JSON) -> String {
@@ -96,11 +77,6 @@ func serviceNameForApi(apiJSON: JSON) -> String {
 
     serviceName.removeWhitespaces()
 
-    // Swap out for alias name if one is defined.
-    if let alias = serviceAliases[serviceName.lowercased()] {
-        serviceName = alias
-    }
-
     serviceName.capitalizeFirstLetter()
 
     return serviceName
@@ -113,12 +89,6 @@ func mkdirp(_ dir: String) -> Int32 {
     process.launch()
     process.waitUntilExit()
     return process.terminationStatus
-}
-
-func log(_ message: String) {
-    if enableShowLog {
-        print(message)
-    }
 }
 
 extension String {

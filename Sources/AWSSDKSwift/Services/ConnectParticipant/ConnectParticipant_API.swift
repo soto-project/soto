@@ -29,27 +29,27 @@ public struct ConnectParticipant {
     }
 
     ///  Creates the participant's connection. Note that ParticipantToken is used for invoking this API instead of ConnectionToken. The participant token is valid for the lifetime of the participant – until the they are part of a contact. The response URL for WEBSOCKET Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic.  For chat, you need to publish the following on the established websocket connection:  {"topic":"aws/subscribe","content":{"topics":["aws/chat"]}}  Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.
-    public func createParticipantConnection(_ input: CreateParticipantConnectionRequest) -> Future<CreateParticipantConnectionResponse> {
+    public func createParticipantConnection(_ input: CreateParticipantConnectionRequest) -> EventLoopFuture<CreateParticipantConnectionResponse> {
         return client.send(operation: "CreateParticipantConnection", path: "/participant/connection", httpMethod: "POST", input: input)
     }
 
     ///  Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-    public func disconnectParticipant(_ input: DisconnectParticipantRequest) -> Future<DisconnectParticipantResponse> {
+    public func disconnectParticipant(_ input: DisconnectParticipantRequest) -> EventLoopFuture<DisconnectParticipantResponse> {
         return client.send(operation: "DisconnectParticipant", path: "/participant/disconnect", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a transcript of the session. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-    public func getTranscript(_ input: GetTranscriptRequest) -> Future<GetTranscriptResponse> {
+    public func getTranscript(_ input: GetTranscriptRequest) -> EventLoopFuture<GetTranscriptResponse> {
         return client.send(operation: "GetTranscript", path: "/participant/transcript", httpMethod: "POST", input: input)
     }
 
     ///  Sends an event. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-    public func sendEvent(_ input: SendEventRequest) -> Future<SendEventResponse> {
+    public func sendEvent(_ input: SendEventRequest) -> EventLoopFuture<SendEventResponse> {
         return client.send(operation: "SendEvent", path: "/participant/event", httpMethod: "POST", input: input)
     }
 
     ///  Sends a message. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-    public func sendMessage(_ input: SendMessageRequest) -> Future<SendMessageResponse> {
+    public func sendMessage(_ input: SendMessageRequest) -> EventLoopFuture<SendMessageResponse> {
         return client.send(operation: "SendMessage", path: "/participant/message", httpMethod: "POST", input: input)
     }
 }

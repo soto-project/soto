@@ -29,182 +29,182 @@ public struct WAFV2 {
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Associates a Web ACL with a regional application resource, to protect the resource. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage.  For AWS CloudFront, you can associate the Web ACL by providing the Id of the WebACL to the CloudFront API call UpdateDistribution. For information, see UpdateDistribution.
-    public func associateWebACL(_ input: AssociateWebACLRequest) -> Future<AssociateWebACLResponse> {
+    public func associateWebACL(_ input: AssociateWebACLRequest) -> EventLoopFuture<AssociateWebACLResponse> {
         return client.send(operation: "AssociateWebACL", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Returns the web ACL capacity unit (WCU) requirements for a specified scope and set of rules. You can use this to check the capacity requirements for the rules you want to use in a RuleGroup or WebACL.  AWS WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500. 
-    public func checkCapacity(_ input: CheckCapacityRequest) -> Future<CheckCapacityResponse> {
+    public func checkCapacity(_ input: CheckCapacityRequest) -> EventLoopFuture<CheckCapacityResponse> {
         return client.send(operation: "CheckCapacity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Creates an IPSet, which you use to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure AWS WAF to block them using an IPSet that lists those IP addresses. 
-    public func createIPSet(_ input: CreateIPSetRequest) -> Future<CreateIPSetResponse> {
+    public func createIPSet(_ input: CreateIPSetRequest) -> EventLoopFuture<CreateIPSetResponse> {
         return client.send(operation: "CreateIPSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Creates a RegexPatternSet per the specifications provided.
-    public func createRegexPatternSet(_ input: CreateRegexPatternSetRequest) -> Future<CreateRegexPatternSetResponse> {
+    public func createRegexPatternSet(_ input: CreateRegexPatternSetRequest) -> EventLoopFuture<CreateRegexPatternSetResponse> {
         return client.send(operation: "CreateRegexPatternSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Creates a RuleGroup per the specifications provided.   A rule group defines a collection of rules to inspect and control web requests that you can use in a WebACL. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements. 
-    public func createRuleGroup(_ input: CreateRuleGroupRequest) -> Future<CreateRuleGroupResponse> {
+    public func createRuleGroup(_ input: CreateRuleGroupRequest) -> EventLoopFuture<CreateRuleGroupResponse> {
         return client.send(operation: "CreateRuleGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Creates a WebACL per the specifications provided.  A Web ACL defines a collection of rules to use to inspect and control web requests. Each rule has an action defined (allow, block, or count) for requests that match the statement of the rule. In the Web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a Web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a Web ACL with one or more AWS resources to protect. The resources can be Amazon CloudFront, an Amazon API Gateway API, or an Application Load Balancer. 
-    public func createWebACL(_ input: CreateWebACLRequest) -> Future<CreateWebACLResponse> {
+    public func createWebACL(_ input: CreateWebACLRequest) -> EventLoopFuture<CreateWebACLResponse> {
         return client.send(operation: "CreateWebACL", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Deletes the specified IPSet. 
-    public func deleteIPSet(_ input: DeleteIPSetRequest) -> Future<DeleteIPSetResponse> {
+    public func deleteIPSet(_ input: DeleteIPSetRequest) -> EventLoopFuture<DeleteIPSetResponse> {
         return client.send(operation: "DeleteIPSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Deletes the LoggingConfiguration from the specified web ACL.
-    public func deleteLoggingConfiguration(_ input: DeleteLoggingConfigurationRequest) -> Future<DeleteLoggingConfigurationResponse> {
+    public func deleteLoggingConfiguration(_ input: DeleteLoggingConfigurationRequest) -> EventLoopFuture<DeleteLoggingConfigurationResponse> {
         return client.send(operation: "DeleteLoggingConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Deletes the specified RegexPatternSet.
-    public func deleteRegexPatternSet(_ input: DeleteRegexPatternSetRequest) -> Future<DeleteRegexPatternSetResponse> {
+    public func deleteRegexPatternSet(_ input: DeleteRegexPatternSetRequest) -> EventLoopFuture<DeleteRegexPatternSetResponse> {
         return client.send(operation: "DeleteRegexPatternSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Deletes the specified RuleGroup.
-    public func deleteRuleGroup(_ input: DeleteRuleGroupRequest) -> Future<DeleteRuleGroupResponse> {
+    public func deleteRuleGroup(_ input: DeleteRuleGroupRequest) -> EventLoopFuture<DeleteRuleGroupResponse> {
         return client.send(operation: "DeleteRuleGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Deletes the specified WebACL.
-    public func deleteWebACL(_ input: DeleteWebACLRequest) -> Future<DeleteWebACLResponse> {
+    public func deleteWebACL(_ input: DeleteWebACLRequest) -> EventLoopFuture<DeleteWebACLResponse> {
         return client.send(operation: "DeleteWebACL", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Provides high-level information for a managed rule group, including descriptions of the rules. 
-    public func describeManagedRuleGroup(_ input: DescribeManagedRuleGroupRequest) -> Future<DescribeManagedRuleGroupResponse> {
+    public func describeManagedRuleGroup(_ input: DescribeManagedRuleGroupRequest) -> EventLoopFuture<DescribeManagedRuleGroupResponse> {
         return client.send(operation: "DescribeManagedRuleGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Disassociates a Web ACL from a regional application resource. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage.  For AWS CloudFront, you can disassociate the Web ACL by providing an empty WebACLId in the CloudFront API call UpdateDistribution. For information, see UpdateDistribution.
-    public func disassociateWebACL(_ input: DisassociateWebACLRequest) -> Future<DisassociateWebACLResponse> {
+    public func disassociateWebACL(_ input: DisassociateWebACLRequest) -> EventLoopFuture<DisassociateWebACLResponse> {
         return client.send(operation: "DisassociateWebACL", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves the specified IPSet.
-    public func getIPSet(_ input: GetIPSetRequest) -> Future<GetIPSetResponse> {
+    public func getIPSet(_ input: GetIPSetRequest) -> EventLoopFuture<GetIPSetResponse> {
         return client.send(operation: "GetIPSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Returns the LoggingConfiguration for the specified web ACL.
-    public func getLoggingConfiguration(_ input: GetLoggingConfigurationRequest) -> Future<GetLoggingConfigurationResponse> {
+    public func getLoggingConfiguration(_ input: GetLoggingConfigurationRequest) -> EventLoopFuture<GetLoggingConfigurationResponse> {
         return client.send(operation: "GetLoggingConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves the keys that are currently blocked by a rate-based rule. The maximum number of managed keys that can be blocked for a single rate-based rule is 10,000. If more than 10,000 addresses exceed the rate limit, those with the highest rates are blocked.
-    public func getRateBasedStatementManagedKeys(_ input: GetRateBasedStatementManagedKeysRequest) -> Future<GetRateBasedStatementManagedKeysResponse> {
+    public func getRateBasedStatementManagedKeys(_ input: GetRateBasedStatementManagedKeysRequest) -> EventLoopFuture<GetRateBasedStatementManagedKeysResponse> {
         return client.send(operation: "GetRateBasedStatementManagedKeys", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves the specified RegexPatternSet.
-    public func getRegexPatternSet(_ input: GetRegexPatternSetRequest) -> Future<GetRegexPatternSetResponse> {
+    public func getRegexPatternSet(_ input: GetRegexPatternSetRequest) -> EventLoopFuture<GetRegexPatternSetResponse> {
         return client.send(operation: "GetRegexPatternSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves the specified RuleGroup.
-    public func getRuleGroup(_ input: GetRuleGroupRequest) -> Future<GetRuleGroupResponse> {
+    public func getRuleGroup(_ input: GetRuleGroupRequest) -> EventLoopFuture<GetRuleGroupResponse> {
         return client.send(operation: "GetRuleGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Gets detailed information about a specified number of requests--a sample--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that you choose. You can specify a sample size of up to 500 requests, and you can specify any time range in the previous three hours.  GetSampledRequests returns a time range, which is usually the time range that you specified. However, if your resource (such as a CloudFront distribution) received 5,000 requests before the specified time range elapsed, GetSampledRequests returns an updated time range. This new time range indicates the actual period during which AWS WAF selected the requests in the sample.
-    public func getSampledRequests(_ input: GetSampledRequestsRequest) -> Future<GetSampledRequestsResponse> {
+    public func getSampledRequests(_ input: GetSampledRequestsRequest) -> EventLoopFuture<GetSampledRequestsResponse> {
         return client.send(operation: "GetSampledRequests", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves the specified WebACL.
-    public func getWebACL(_ input: GetWebACLRequest) -> Future<GetWebACLResponse> {
+    public func getWebACL(_ input: GetWebACLRequest) -> EventLoopFuture<GetWebACLResponse> {
         return client.send(operation: "GetWebACL", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves the WebACL for the specified resource. 
-    public func getWebACLForResource(_ input: GetWebACLForResourceRequest) -> Future<GetWebACLForResourceResponse> {
+    public func getWebACLForResource(_ input: GetWebACLForResourceRequest) -> EventLoopFuture<GetWebACLForResourceResponse> {
         return client.send(operation: "GetWebACLForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves an array of managed rule groups that are available for you to use. This list includes all AWS managed rule groups and the AWS Marketplace managed rule groups that you're subscribed to.
-    public func listAvailableManagedRuleGroups(_ input: ListAvailableManagedRuleGroupsRequest) -> Future<ListAvailableManagedRuleGroupsResponse> {
+    public func listAvailableManagedRuleGroups(_ input: ListAvailableManagedRuleGroupsRequest) -> EventLoopFuture<ListAvailableManagedRuleGroupsResponse> {
         return client.send(operation: "ListAvailableManagedRuleGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves an array of IPSetSummary objects for the IP sets that you manage.
-    public func listIPSets(_ input: ListIPSetsRequest) -> Future<ListIPSetsResponse> {
+    public func listIPSets(_ input: ListIPSetsRequest) -> EventLoopFuture<ListIPSetsResponse> {
         return client.send(operation: "ListIPSets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves an array of your LoggingConfiguration objects.
-    public func listLoggingConfigurations(_ input: ListLoggingConfigurationsRequest) -> Future<ListLoggingConfigurationsResponse> {
+    public func listLoggingConfigurations(_ input: ListLoggingConfigurationsRequest) -> EventLoopFuture<ListLoggingConfigurationsResponse> {
         return client.send(operation: "ListLoggingConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves an array of RegexPatternSetSummary objects for the regex pattern sets that you manage.
-    public func listRegexPatternSets(_ input: ListRegexPatternSetsRequest) -> Future<ListRegexPatternSetsResponse> {
+    public func listRegexPatternSets(_ input: ListRegexPatternSetsRequest) -> EventLoopFuture<ListRegexPatternSetsResponse> {
         return client.send(operation: "ListRegexPatternSets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves an array of the Amazon Resource Names (ARNs) for the regional resources that are associated with the specified web ACL. If you want the list of AWS CloudFront resources, use the AWS CloudFront call ListDistributionsByWebACLId. 
-    public func listResourcesForWebACL(_ input: ListResourcesForWebACLRequest) -> Future<ListResourcesForWebACLResponse> {
+    public func listResourcesForWebACL(_ input: ListResourcesForWebACLRequest) -> EventLoopFuture<ListResourcesForWebACLResponse> {
         return client.send(operation: "ListResourcesForWebACL", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves an array of RuleGroupSummary objects for the rule groups that you manage. 
-    public func listRuleGroups(_ input: ListRuleGroupsRequest) -> Future<ListRuleGroupsResponse> {
+    public func listRuleGroups(_ input: ListRuleGroupsRequest) -> EventLoopFuture<ListRuleGroupsResponse> {
         return client.send(operation: "ListRuleGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves the TagInfoForResource for the specified resource. 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves an array of WebACLSummary objects for the web ACLs that you manage.
-    public func listWebACLs(_ input: ListWebACLsRequest) -> Future<ListWebACLsResponse> {
+    public func listWebACLs(_ input: ListWebACLsRequest) -> EventLoopFuture<ListWebACLsResponse> {
         return client.send(operation: "ListWebACLs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Enables the specified LoggingConfiguration, to start logging from a web ACL, according to the configuration provided. You can access information about all traffic that AWS WAF inspects using the following steps:   Create an Amazon Kinesis Data Firehose.  Create the data firehose with a PUT source and in the region that you are operating. If you are capturing logs for Amazon CloudFront, always create the firehose in US East (N. Virginia).   Do not create the data firehose using a Kinesis stream as your source.    Associate that firehose to your web ACL using a PutLoggingConfiguration request.   When you successfully enable logging using a PutLoggingConfiguration request, AWS WAF will create a service linked role with the necessary permissions to write logs to the Amazon Kinesis Data Firehose. For more information, see Logging Web ACL Traffic Information in the AWS WAF Developer Guide.
-    public func putLoggingConfiguration(_ input: PutLoggingConfigurationRequest) -> Future<PutLoggingConfigurationResponse> {
+    public func putLoggingConfiguration(_ input: PutLoggingConfigurationRequest) -> EventLoopFuture<PutLoggingConfigurationResponse> {
         return client.send(operation: "PutLoggingConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Associates tags with the specified AWS resource. Tags are key:value pairs that you can associate with AWS resources. For example, the tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50 tags to each AWS resource.
-    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Disassociates tags from an AWS resource. Tags are key:value pairs that you can associate with AWS resources. For example, the tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50 tags to each AWS resource.
-    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Updates the specified IPSet.
-    public func updateIPSet(_ input: UpdateIPSetRequest) -> Future<UpdateIPSetResponse> {
+    public func updateIPSet(_ input: UpdateIPSetRequest) -> EventLoopFuture<UpdateIPSetResponse> {
         return client.send(operation: "UpdateIPSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Updates the specified RegexPatternSet.
-    public func updateRegexPatternSet(_ input: UpdateRegexPatternSetRequest) -> Future<UpdateRegexPatternSetResponse> {
+    public func updateRegexPatternSet(_ input: UpdateRegexPatternSetRequest) -> EventLoopFuture<UpdateRegexPatternSetResponse> {
         return client.send(operation: "UpdateRegexPatternSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Updates the specified RuleGroup.  A rule group defines a collection of rules to inspect and control web requests that you can use in a WebACL. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements. 
-    public func updateRuleGroup(_ input: UpdateRuleGroupRequest) -> Future<UpdateRuleGroupResponse> {
+    public func updateRuleGroup(_ input: UpdateRuleGroupRequest) -> EventLoopFuture<UpdateRuleGroupResponse> {
         return client.send(operation: "UpdateRuleGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Updates the specified WebACL.  A Web ACL defines a collection of rules to use to inspect and control web requests. Each rule has an action defined (allow, block, or count) for requests that match the statement of the rule. In the Web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a Web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a Web ACL with one or more AWS resources to protect. The resources can be Amazon CloudFront, an Amazon API Gateway API, or an Application Load Balancer. 
-    public func updateWebACL(_ input: UpdateWebACLRequest) -> Future<UpdateWebACLResponse> {
+    public func updateWebACL(_ input: UpdateWebACLRequest) -> EventLoopFuture<UpdateWebACLResponse> {
         return client.send(operation: "UpdateWebACL", path: "/", httpMethod: "POST", input: input)
     }
 }
