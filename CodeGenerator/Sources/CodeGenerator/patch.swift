@@ -27,10 +27,6 @@ let servicePatches : [String: [Patch]] = [
     "Config" : [
         .init(.replace, entry:["serviceName"], value:"ConfigService", originalValue:"Config")
     ],
-    "DirectoryService" : [
-        // DirectoryService clashes with a macOS framework, so need to rename the framework
-        Patch(.replace, entry:["serviceName"], value:"AWSDirectoryService", originalValue:"DirectoryService")
-    ],
     "ECS" : [
         .init(.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")
     ],
