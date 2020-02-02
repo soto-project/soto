@@ -24,14 +24,25 @@ let servicePatches : [String: [Patch]] = [
     "ComprehendMedical" : [
         .init(.add, entry:["shapes", "EntitySubType", "enum"], value:"DX_NAME")
     ],
+    "Config" : [
+        .init(.replace, entry:["serviceName"], value:"ConfigService", originalValue:"Config")
+    ],
+    "DirectoryService" : [
+        // DirectoryService clashes with a macOS framework, so need to rename the framework
+        Patch(.replace, entry:["serviceName"], value:"AWSDirectoryService", originalValue:"DirectoryService")
+    ],
     "ECS" : [
         .init(.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")
     ],
     "EC2" : [
         .init(.replace, entry:["shapes", "PlatformValues", "enum", 0], value:"windows", originalValue:"Windows")
     ],
-    "ELB" : [
+    "ElasticLoadBalancing" : [
+        .init(.replace, entry:["serviceName"], value:"ELB", originalValue:"ElasticLoadBalancing"),
         .init(.replace, entry:["shapes", "SecurityGroupOwnerAlias", "type"], value:"integer", originalValue:"string")
+    ],
+    "ElasticLoadBalancingv2" : [
+        .init(.replace, entry:["serviceName"], value:"ELBV2", originalValue:"ElasticLoadBalancingv2")
     ],
     "IAM" : [
         .init(.add, entry:["shapes", "PolicySourceType", "enum"], value:"IAM Policy")
@@ -106,13 +117,13 @@ func patch(_ apiJSON: JSON) -> JSON {
             }
 
             patchedJSON[patch.entry].object = patch.value
-            
+
         case .add:
             if let array = field.array {
                 guard array.first(where:{$0.stringValue == patch.value.description}) == nil else {
                     fatalError("Attempting to add field \"\(patch.value)\" to array \(patch.entry) that aleady exists.")
                 }
-                
+
                 var newArray = field.arrayObject!
                 newArray.append(patch.value)
                 patchedJSON[patch.entry].arrayObject = newArray
@@ -130,7 +141,7 @@ func patch(_ apiJSON: JSON) -> JSON {
                 guard let firstIndex = array.firstIndex(where:{$0.stringValue == patch.value.description}) else {
                     fatalError("Attempting to remove field \"\(patch.value)\" from array \(patch.entry) that doesn't exists.")
                 }
-                
+
                 var newArray = field.arrayObject!
                 newArray.remove(at: firstIndex)
                 patchedJSON[patch.entry].arrayObject = newArray
@@ -138,7 +149,7 @@ func patch(_ apiJSON: JSON) -> JSON {
                 guard dictionary[patch.value.description] != nil else {
                     fatalError("Attempting to remove field \"\(patch.value)\" from dictionary \(patch.entry) that doesn't exists.")
                 }
-                
+
                 var newDictionary = field.dictionaryObject!
                 newDictionary[patch.value.description] = nil
                 patchedJSON[patch.entry].dictionaryObject = newDictionary

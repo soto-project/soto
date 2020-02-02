@@ -234,6 +234,18 @@ extension AWSService {
         let validation : [ValidationContext]
     }
 
+    struct ResultContext {
+        let name: String
+        let type: String
+    }
+    struct PaginatorContext {
+        let operation: OperationContext
+        let output: String
+        let initParams: [String]
+        let paginatorProtocol: String
+        let tokenType: String
+    }
+
     /// Generate the context information for outputting the error enums
     func generateErrorContext() -> [String: Any] {
         var context: [String: Any] = [:]
@@ -251,6 +263,20 @@ extension AWSService {
         return context
     }
 
+    /// generate operations context
+    func generateOperationContext(_ operation: Operation) -> OperationContext {
+        return OperationContext(
+            comment: docJSON["operations"][operation.name].stringValue.tagStriped().split(separator: "\n"),
+            funcName: operation.name.toSwiftVariableCase(),
+            inputShape: operation.inputShape?.swiftTypeName,
+            outputShape: operation.outputShape?.swiftTypeName,
+            name: operation.operationName,
+            path: operation.path,
+            httpMethod: operation.httpMethod,
+            deprecated: operation.deprecatedMessage
+        )
+    }
+    
     /// Generate the context information for outputting the service api calls
     func generateServiceContext() -> [String: Any] {
         var context: [String: Any] = [:]
@@ -287,15 +313,7 @@ extension AWSService {
         // Operations
         var operationContexts: [OperationContext] = []
         for operation in operations {
-            operationContexts.append(OperationContext(
-                comment: docJSON["operations"][operation.name].stringValue.tagStriped().split(separator: "\n"),
-                funcName: operation.name.toSwiftVariableCase(),
-                inputShape: operation.inputShape?.swiftTypeName,
-                outputShape: operation.outputShape?.swiftTypeName,
-                name: operation.operationName,
-                path: operation.path,
-                httpMethod: operation.httpMethod,
-                deprecated: operation.deprecatedMessage))
+            operationContexts.append(generateOperationContext(operation))
         }
         context["operations"] = operationContexts
         return context
@@ -499,6 +517,91 @@ extension AWSService {
         return context
     }
 
+    /// Generate paginator context
+    func generatePaginatorContext() -> [String: Any] {
+        var context: [String: Any] = [:]
+        context["name"] = serviceName
+
+        var paginatorContexts: [PaginatorContext] = []
+        
+        for paginator in paginators {
+            // get related operation and its input and output shapes
+            guard let operation = operations.first(where: {$0.name == paginator.methodName}),
+                let inputShape = operation.inputShape,
+                let outputShape = operation.outputShape,
+                case .structure(let inputShapeStruct) = inputShape.type,
+                case .structure(let outputShapeStruct) = outputShape.type else {
+                    continue
+            }
+
+            // get input token member
+            guard paginator.inputTokens.count > 0,
+                paginator.outputTokens.count > 0,
+                let inputTokenMember = inputShapeStruct.members.first(where: {$0.name == paginator.inputTokens[0]}) else {
+                    continue
+            }
+            
+            let paginatorProtocol: String
+            let tokenType: String
+            switch inputTokenMember.shape.type {
+            case .string:
+                paginatorProtocol = "AWSPaginateStringToken"
+                tokenType = "String"
+            case .integer:
+                paginatorProtocol = "AWSPaginateIntToken"
+                tokenType = "Int"
+            default:
+                // current this consists of a couple of DynamoDB calls that use dictionaries for keys !?!
+                print("Non Integer/String token \(inputTokenMember.shape.name) in \(serviceName).\(inputShape.name)")
+                continue;
+            }
+            
+            // process output tokens
+            let outputTokens = paginator.outputTokens.map { (token)->String in
+                var split = token.split(separator: ".")
+                for i in 0..<split.count {
+                    // if string contains [-1] replace with '.last'.
+                    if let negativeIndexRange = split[i].range(of: "[-1]") {
+                        split[i].removeSubrange(negativeIndexRange)
+                        
+                        var replacement = "last"
+                        // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
+                        if split.count > i+1 {
+                            replacement += "?"
+                        }
+                        split.insert(Substring(replacement), at: i+1)
+                    }
+                }
+                // if output token is member of an optional struct add ? suffix
+                if let outputTokenMember = outputShapeStruct.members.first(where: {$0.name == split[0]}), !outputTokenMember.required, split.count > 1 {
+                    split[0] += "?"
+                }
+                return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
+            }
+                        
+            var initParams: [String: String] = [:]
+            for member in inputShapeStruct.members {
+                initParams[member.name.toSwiftLabelCase()] = "self.\(member.name.toSwiftLabelCase())"
+            }
+            initParams[paginator.inputTokens[0].toSwiftLabelCase()] = "token"
+            let initParamsArray = initParams.map {"\($0.key): \($0.value)"}.sorted { $0.lowercased() < $1.lowercased() }
+            paginatorContexts.append(
+                PaginatorContext(
+                    operation: generateOperationContext(operation),
+                    output: outputTokens[0],
+                    initParams: initParamsArray,
+                    paginatorProtocol: paginatorProtocol,
+                    tokenType: tokenType
+                )
+            )
+        }
+        
+        if paginatorContexts.count > 0 {
+            context["paginators"] = paginatorContexts
+        }
+        return context
+    }
+    
     func getCustomTemplates() -> [String] {
         return Glob.entries(pattern: "\(rootPath())/CodeGenerator/Templates/Custom/\(endpointPrefix)/*.stencil")
     }
