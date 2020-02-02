@@ -5,7 +5,7 @@ import Foundation
 import NIO
 
 /**
-Client object for interacting with AWS AWSBackup service.
+Client object for interacting with AWS Backup service.
 
 AWS Backup AWS Backup is a unified backup service designed to protect AWS services and their associated data. AWS Backup simplifies the creation, migration, restoration, and deletion of backups, while also providing reporting and auditing.
 */
@@ -17,7 +17,7 @@ public struct Backup {
 
     //MARK: Initialization
 
-    /// Initialize the AWSBackup client
+    /// Initialize the Backup client
     /// - parameters:
     ///     - accessKeyId: Public access key provided by AWS
     ///     - secretAccessKey: Private access key provided by AWS
