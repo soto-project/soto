@@ -141,6 +141,7 @@ extension MediaConvert {
     public enum AudioCodec: String, CustomStringConvertible, Codable {
         case aac = "AAC"
         case mp2 = "MP2"
+        case mp3 = "MP3"
         case wav = "WAV"
         case aiff = "AIFF"
         case ac3 = "AC3"
@@ -356,6 +357,24 @@ extension MediaConvert {
     public enum CmafWriteHLSManifest: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmfcScte35Esam: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmfcScte35Source: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -1594,6 +1613,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum Mp3RateControlMode: String, CustomStringConvertible, Codable {
+        case cbr = "CBR"
+        case vbr = "VBR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Mp4CslgAtom: String, CustomStringConvertible, Codable {
         case include = "INCLUDE"
         case exclude = "EXCLUDE"
@@ -2256,6 +2281,7 @@ extension MediaConvert {
             AWSShapeMember(label: "Eac3AtmosSettings", location: .body(locationName: "eac3AtmosSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "Eac3Settings", location: .body(locationName: "eac3Settings"), required: false, type: .structure), 
             AWSShapeMember(label: "Mp2Settings", location: .body(locationName: "mp2Settings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Mp3Settings", location: .body(locationName: "mp3Settings"), required: false, type: .structure), 
             AWSShapeMember(label: "WavSettings", location: .body(locationName: "wavSettings"), required: false, type: .structure)
         ]
 
@@ -2273,10 +2299,12 @@ extension MediaConvert {
         public let eac3Settings: Eac3Settings?
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value MP2.
         public let mp2Settings: Mp2Settings?
+        /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value MP3.
+        public let mp3Settings: Mp3Settings?
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value WAV.
         public let wavSettings: WavSettings?
 
-        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, wavSettings: WavSettings? = nil) {
+        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, mp3Settings: Mp3Settings? = nil, wavSettings: WavSettings? = nil) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
             self.aiffSettings = aiffSettings
@@ -2284,6 +2312,7 @@ extension MediaConvert {
             self.eac3AtmosSettings = eac3AtmosSettings
             self.eac3Settings = eac3Settings
             self.mp2Settings = mp2Settings
+            self.mp3Settings = mp3Settings
             self.wavSettings = wavSettings
         }
 
@@ -2294,6 +2323,7 @@ extension MediaConvert {
             try self.eac3AtmosSettings?.validate(name: "\(name).eac3AtmosSettings")
             try self.eac3Settings?.validate(name: "\(name).eac3Settings")
             try self.mp2Settings?.validate(name: "\(name).mp2Settings")
+            try self.mp3Settings?.validate(name: "\(name).mp3Settings")
             try self.wavSettings?.validate(name: "\(name).wavSettings")
         }
 
@@ -2305,6 +2335,7 @@ extension MediaConvert {
             case eac3AtmosSettings = "eac3AtmosSettings"
             case eac3Settings = "eac3Settings"
             case mp2Settings = "mp2Settings"
+            case mp3Settings = "mp3Settings"
             case wavSettings = "wavSettings"
         }
     }
@@ -2331,7 +2362,7 @@ extension MediaConvert {
         public let audioType: Int?
         /// When set to FOLLOW_INPUT, if the input contains an ISO 639 audio_type, then that value is passed through to the output. If the input contains no ISO 639 audio_type, the value in Audio Type is included in the output. Otherwise the value in Audio Type is included in the output. Note that this field and audioType are both ignored if audioDescriptionBroadcasterMix is set to BROADCASTER_MIXED_AD.
         public let audioTypeControl: AudioTypeControl?
-        /// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the group of settings related to audio encoding. The settings in this group vary depending on the value that you choose for Audio codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AAC, AacSettings * MP2, Mp2Settings * WAV, WavSettings * AIFF, AiffSettings * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings
+        /// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the group of settings related to audio encoding. The settings in this group vary depending on the value that you choose for Audio codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AAC, AacSettings * MP2, Mp2Settings * MP3, Mp3Settings * WAV, WavSettings * AIFF, AiffSettings * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings
         public let codecSettings: AudioCodecSettings?
         /// Specify the language for this audio output track. The service puts this language code into your output audio track when you set Language code control (AudioLanguageCodeControl) to Use configured (USE_CONFIGURED). The service also uses your specified custom language code when you set Language code control (AudioLanguageCodeControl) to Follow input (FOLLOW_INPUT), but your input file doesn't specify a language code. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
@@ -3054,7 +3085,8 @@ extension MediaConvert {
             AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength"), required: false, type: .integer), 
             AWSShapeMember(label: "StreamInfResolution", location: .body(locationName: "streamInfResolution"), required: false, type: .enum), 
             AWSShapeMember(label: "WriteDashManifest", location: .body(locationName: "writeDashManifest"), required: false, type: .enum), 
-            AWSShapeMember(label: "WriteHlsManifest", location: .body(locationName: "writeHlsManifest"), required: false, type: .enum)
+            AWSShapeMember(label: "WriteHlsManifest", location: .body(locationName: "writeHlsManifest"), required: false, type: .enum), 
+            AWSShapeMember(label: "WriteSegmentTimelineInRepresentation", location: .body(locationName: "writeSegmentTimelineInRepresentation"), required: false, type: .enum)
         ]
 
         /// By default, the service creates one top-level .m3u8 HLS manifest and one top -level .mpd DASH manifest for each CMAF output group in your job. These default manifests reference every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here. For each additional manifest that you specify, the service creates one HLS manifest and one DASH manifest.
@@ -3093,8 +3125,10 @@ extension MediaConvert {
         public let writeDashManifest: CmafWriteDASHManifest?
         /// When set to ENABLED, an Apple HLS manifest will be generated for this output.
         public let writeHlsManifest: CmafWriteHLSManifest?
+        /// When you enable Precise segment duration in DASH manifests (writeSegmentTimelineInRepresentation), your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
+        public let writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, streamInfResolution: CmafStreamInfResolution? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil) {
+        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, streamInfResolution: CmafStreamInfResolution? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.clientCache = clientCache
@@ -3113,6 +3147,7 @@ extension MediaConvert {
             self.streamInfResolution = streamInfResolution
             self.writeDashManifest = writeDashManifest
             self.writeHlsManifest = writeHlsManifest
+            self.writeSegmentTimelineInRepresentation = writeSegmentTimelineInRepresentation
         }
 
         public func validate(name: String) throws {
@@ -3149,6 +3184,29 @@ extension MediaConvert {
             case streamInfResolution = "streamInfResolution"
             case writeDashManifest = "writeDashManifest"
             case writeHlsManifest = "writeHlsManifest"
+            case writeSegmentTimelineInRepresentation = "writeSegmentTimelineInRepresentation"
+        }
+    }
+
+    public struct CmfcSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Scte35Esam", location: .body(locationName: "scte35Esam"), required: false, type: .enum), 
+            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source"), required: false, type: .enum)
+        ]
+
+        /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
+        public let scte35Esam: CmfcScte35Esam?
+        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
+        public let scte35Source: CmfcScte35Source?
+
+        public init(scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil) {
+            self.scte35Esam = scte35Esam
+            self.scte35Source = scte35Source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scte35Esam = "scte35Esam"
+            case scte35Source = "scte35Source"
         }
     }
 
@@ -3208,6 +3266,7 @@ extension MediaConvert {
 
     public struct ContainerSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CmfcSettings", location: .body(locationName: "cmfcSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "Container", location: .body(locationName: "container"), required: false, type: .enum), 
             AWSShapeMember(label: "F4vSettings", location: .body(locationName: "f4vSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings"), required: false, type: .structure), 
@@ -3217,6 +3276,8 @@ extension MediaConvert {
             AWSShapeMember(label: "MpdSettings", location: .body(locationName: "mpdSettings"), required: false, type: .structure)
         ]
 
+        /// Settings for MP4 segments in CMAF
+        public let cmfcSettings: CmfcSettings?
         /// Container for this output. Some containers require a container settings object. If not specified, the default object will be created.
         public let container: ContainerType?
         /// Settings for F4v container
@@ -3232,7 +3293,8 @@ extension MediaConvert {
         /// Settings for MP4 segments in DASH
         public let mpdSettings: MpdSettings?
 
-        public init(container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil, mpdSettings: MpdSettings? = nil) {
+        public init(cmfcSettings: CmfcSettings? = nil, container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil, mpdSettings: MpdSettings? = nil) {
+            self.cmfcSettings = cmfcSettings
             self.container = container
             self.f4vSettings = f4vSettings
             self.m2tsSettings = m2tsSettings
@@ -3245,9 +3307,11 @@ extension MediaConvert {
         public func validate(name: String) throws {
             try self.m2tsSettings?.validate(name: "\(name).m2tsSettings")
             try self.m3u8Settings?.validate(name: "\(name).m3u8Settings")
+            try self.mp4Settings?.validate(name: "\(name).mp4Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cmfcSettings = "cmfcSettings"
             case container = "container"
             case f4vSettings = "f4vSettings"
             case m2tsSettings = "m2tsSettings"
@@ -7508,9 +7572,58 @@ extension MediaConvert {
         }
     }
 
+    public struct Mp3Settings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .integer), 
+            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer), 
+            AWSShapeMember(label: "VbrQuality", location: .body(locationName: "vbrQuality"), required: false, type: .integer)
+        ]
+
+        /// Specify the average bitrate in bits per second.
+        public let bitrate: Int?
+        /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
+        public let channels: Int?
+        /// Specify whether the service encodes this MP3 audio output with a constant bitrate (CBR) or a variable bitrate (VBR).
+        public let rateControlMode: Mp3RateControlMode?
+        /// Sample rate in hz.
+        public let sampleRate: Int?
+        /// Required when you set Bitrate control mode (rateControlMode) to VBR. Specify the audio quality of this MP3 output from 0 (highest quality) to 9 (lowest quality).
+        public let vbrQuality: Int?
+
+        public init(bitrate: Int? = nil, channels: Int? = nil, rateControlMode: Mp3RateControlMode? = nil, sampleRate: Int? = nil, vbrQuality: Int? = nil) {
+            self.bitrate = bitrate
+            self.channels = channels
+            self.rateControlMode = rateControlMode
+            self.sampleRate = sampleRate
+            self.vbrQuality = vbrQuality
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bitrate, name:"bitrate", parent: name, max: 320000)
+            try validate(self.bitrate, name:"bitrate", parent: name, min: 16000)
+            try validate(self.channels, name:"channels", parent: name, max: 2)
+            try validate(self.channels, name:"channels", parent: name, min: 1)
+            try validate(self.sampleRate, name:"sampleRate", parent: name, max: 48000)
+            try validate(self.sampleRate, name:"sampleRate", parent: name, min: 22050)
+            try validate(self.vbrQuality, name:"vbrQuality", parent: name, max: 9)
+            try validate(self.vbrQuality, name:"vbrQuality", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitrate = "bitrate"
+            case channels = "channels"
+            case rateControlMode = "rateControlMode"
+            case sampleRate = "sampleRate"
+            case vbrQuality = "vbrQuality"
+        }
+    }
+
     public struct Mp4Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CslgAtom", location: .body(locationName: "cslgAtom"), required: false, type: .enum), 
+            AWSShapeMember(label: "CttsVersion", location: .body(locationName: "cttsVersion"), required: false, type: .integer), 
             AWSShapeMember(label: "FreeSpaceBox", location: .body(locationName: "freeSpaceBox"), required: false, type: .enum), 
             AWSShapeMember(label: "MoovPlacement", location: .body(locationName: "moovPlacement"), required: false, type: .enum), 
             AWSShapeMember(label: "Mp4MajorBrand", location: .body(locationName: "mp4MajorBrand"), required: false, type: .string)
@@ -7518,6 +7631,8 @@ extension MediaConvert {
 
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
         public let cslgAtom: Mp4CslgAtom?
+        /// Ignore this setting unless compliance to the CTTS box version specification matters in your workflow. Specify a value of 1 to set your CTTS box version to 1 and make your output compliant with the specification. When you specify a value of 1, you must also set CSLG atom (cslgAtom) to the value INCLUDE. Keep the default value 0 to set your CTTS box version to 0. This can provide backward compatibility for some players and packagers.
+        public let cttsVersion: Int?
         /// Inserts a free-space box immediately after the moov box.
         public let freeSpaceBox: Mp4FreeSpaceBox?
         /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
@@ -7525,15 +7640,22 @@ extension MediaConvert {
         /// Overrides the "Major Brand" field in the output file. Usually not necessary to specify.
         public let mp4MajorBrand: String?
 
-        public init(cslgAtom: Mp4CslgAtom? = nil, freeSpaceBox: Mp4FreeSpaceBox? = nil, moovPlacement: Mp4MoovPlacement? = nil, mp4MajorBrand: String? = nil) {
+        public init(cslgAtom: Mp4CslgAtom? = nil, cttsVersion: Int? = nil, freeSpaceBox: Mp4FreeSpaceBox? = nil, moovPlacement: Mp4MoovPlacement? = nil, mp4MajorBrand: String? = nil) {
             self.cslgAtom = cslgAtom
+            self.cttsVersion = cttsVersion
             self.freeSpaceBox = freeSpaceBox
             self.moovPlacement = moovPlacement
             self.mp4MajorBrand = mp4MajorBrand
         }
 
+        public func validate(name: String) throws {
+            try validate(self.cttsVersion, name:"cttsVersion", parent: name, max: 1)
+            try validate(self.cttsVersion, name:"cttsVersion", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cslgAtom = "cslgAtom"
+            case cttsVersion = "cttsVersion"
             case freeSpaceBox = "freeSpaceBox"
             case moovPlacement = "moovPlacement"
             case mp4MajorBrand = "mp4MajorBrand"
@@ -9414,7 +9536,7 @@ extension MediaConvert {
         public let afdSignaling: AfdSignaling?
         /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
         public let antiAlias: AntiAlias?
-        /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * FRAME_CAPTURE, FrameCaptureSettings
+        /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings
         public let codecSettings: VideoCodecSettings?
         /// Choose Insert (INSERT) for this setting to include color metadata in this output. Choose Ignore (IGNORE) to exclude color metadata from this output. If you don't specify a value, the service sets this to Insert by default.
         public let colorMetadata: ColorMetadata?
@@ -9576,7 +9698,7 @@ extension MediaConvert {
             AWSShapeMember(label: "Rotate", location: .body(locationName: "rotate"), required: false, type: .enum)
         ]
 
-        /// Ignore this setting unless this input is a QuickTime animation. Specify which part of this input MediaConvert uses for your outputs. Leave this setting set to DISCARD in order to delete the alpha channel and preserve the video. Use REMAP_TO_LUMA for this setting to delete the video and map the alpha channel to the luma channel of your outputs.
+        /// Ignore this setting unless this input is a QuickTime animation with an alpha channel. Use this setting to create separate Key and Fill outputs. In each output, specify which part of the input MediaConvert uses. Leave this setting at the default value DISCARD to delete the alpha channel and preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the alpha channel to the luma channel of your outputs.
         public let alphaBehavior: AlphaBehavior?
         /// If your input video has accurate color space metadata, or if you don't know about color space, leave this set to the default value Follow (FOLLOW). The service will automatically detect your input color space. If your input video has metadata indicating the wrong color space, specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate, choose Force HDR 10 (FORCE_HDR10) here and specify correct values in the input HDR 10 metadata (Hdr10Metadata) settings. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public let colorSpace: ColorSpace?

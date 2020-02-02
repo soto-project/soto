@@ -6,6 +6,11 @@ import NIO
 
 extension ECS {
 
+    ///  Lists the account settings for a specified principal.
+    public func listAccountSettingsPaginator(_ input: ListAccountSettingsRequest, onPage: @escaping (ListAccountSettingsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listAccountSettings, tokenKey: \ListAccountSettingsResponse.nextToken, onPage: onPage)
+    }
+
     ///  Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, ListAttributes returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value, for example, to see which container instances in a cluster are running a Linux AMI (ecs.os-type=linux). 
     public func listAttributesPaginator(_ input: ListAttributesRequest, onPage: @escaping (ListAttributesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAttributes, tokenKey: \ListAttributesResponse.nextToken, onPage: onPage)
@@ -41,6 +46,20 @@ extension ECS {
         return client.paginate(input: input, command: listTasks, tokenKey: \ListTasksResponse.nextToken, onPage: onPage)
     }
 
+}
+
+extension ECS.ListAccountSettingsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ECS.ListAccountSettingsRequest {
+        return .init(
+            effectiveSettings: self.effectiveSettings, 
+            maxResults: self.maxResults, 
+            name: self.name, 
+            nextToken: token, 
+            principalArn: self.principalArn, 
+            value: self.value
+        )
+
+    }
 }
 
 extension ECS.ListAttributesRequest: AWSPaginateStringToken {

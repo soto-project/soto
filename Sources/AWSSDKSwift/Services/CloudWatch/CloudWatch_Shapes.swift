@@ -6,6 +6,13 @@ import AWSSDKSwiftCore
 extension CloudWatch {
     //MARK: Enums
 
+    public enum AnomalyDetectorStateValue: String, CustomStringConvertible, Codable {
+        case pendingTraining = "PENDING_TRAINING"
+        case trainedInsufficientData = "TRAINED_INSUFFICIENT_DATA"
+        case trained = "TRAINED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
@@ -129,7 +136,8 @@ extension CloudWatch {
             AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MetricName", required: false, type: .string), 
             AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "Stat", required: false, type: .string)
+            AWSShapeMember(label: "Stat", required: false, type: .string), 
+            AWSShapeMember(label: "StateValue", required: false, type: .enum)
         ]
 
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model, and the time zone to use for the metric.
@@ -142,13 +150,16 @@ extension CloudWatch {
         public let namespace: String?
         /// The statistic associated with the anomaly detection model.
         public let stat: String?
+        /// The current status of the anomaly detector's training. The possible values are TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA 
+        public let stateValue: AnomalyDetectorStateValue?
 
-        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil, stat: String? = nil) {
+        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil, stat: String? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
             self.stat = stat
+            self.stateValue = stateValue
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -157,6 +168,7 @@ extension CloudWatch {
             case metricName = "MetricName"
             case namespace = "Namespace"
             case stat = "Stat"
+            case stateValue = "StateValue"
         }
     }
 

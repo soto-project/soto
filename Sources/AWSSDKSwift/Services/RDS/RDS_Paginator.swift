@@ -91,6 +91,11 @@ extension RDS {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, onPage: onPage)
     }
 
+    ///  Returns information about a snapshot export to Amazon S3. This API operation supports pagination. 
+    public func describeExportTasksPaginator(_ input: DescribeExportTasksMessage, onPage: @escaping (ExportTasksMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeExportTasks, tokenKey: \ExportTasksMessage.marker, onPage: onPage)
+    }
+
     ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeGlobalClustersPaginator(_ input: DescribeGlobalClustersMessage, onPage: @escaping (GlobalClustersMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeGlobalClusters, tokenKey: \GlobalClustersMessage.marker, onPage: onPage)
@@ -356,6 +361,19 @@ extension RDS.DescribeEventsMessage: AWSPaginateStringToken {
             sourceIdentifier: self.sourceIdentifier, 
             sourceType: self.sourceType, 
             startTime: self.startTime
+        )
+
+    }
+}
+
+extension RDS.DescribeExportTasksMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeExportTasksMessage {
+        return .init(
+            exportTaskIdentifier: self.exportTaskIdentifier, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            sourceArn: self.sourceArn
         )
 
     }
