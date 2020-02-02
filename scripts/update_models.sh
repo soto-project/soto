@@ -19,7 +19,8 @@ get_aws_sdk_go()
     CURRENT_FOLDER=$(pwd)
     cd "$DESTIONATION_FOLDER"
     if [ -z "$BRANCH_NAME"]; then
-        BRANCH_NAME=$(git describe --abbrev=0 --tags)
+        RELEASE_REVISION=$(git rev-list --tags --max-count=1)
+        BRANCH_NAME=$(git describe --tags "$RELEASE_REVISION")
     fi
     git checkout "$BRANCH_NAME"
     cd "$CURRENT_FOLDER"
