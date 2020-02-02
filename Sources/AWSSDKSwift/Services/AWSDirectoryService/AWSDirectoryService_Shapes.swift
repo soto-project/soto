@@ -2148,15 +2148,15 @@ extension AWSDirectoryService {
     public struct DisableLDAPSRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
+            AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
         /// The identifier of the directory.
         public let directoryId: String
         /// The type of LDAP security that the customer wants to enable. The security can be either server or client, but currently only the default Client is supported.
-        public let `type`: LDAPSType?
+        public let `type`: LDAPSType
 
-        public init(directoryId: String, type: LDAPSType? = nil) {
+        public init(directoryId: String, type: LDAPSType) {
             self.directoryId = directoryId
             self.`type` = `type`
         }
@@ -2316,15 +2316,15 @@ extension AWSDirectoryService {
     public struct EnableLDAPSRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
+            AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
         /// The identifier of the directory.
         public let directoryId: String
         /// The type of LDAP security the customer wants to enable. The security can be either server or client, but currently only the default Client is supported.
-        public let `type`: LDAPSType?
+        public let `type`: LDAPSType
 
-        public init(directoryId: String, type: LDAPSType? = nil) {
+        public init(directoryId: String, type: LDAPSType) {
             self.directoryId = directoryId
             self.`type` = `type`
         }

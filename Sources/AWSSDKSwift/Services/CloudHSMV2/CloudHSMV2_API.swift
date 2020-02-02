@@ -61,7 +61,7 @@ public struct CloudHSMV2 {
         return client.send(operation: "CreateHsm", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request. For more information on restoring a backup, see RestoreBackup 
+    ///  Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see RestoreBackup.
     public func deleteBackup(_ input: DeleteBackupRequest) -> EventLoopFuture<DeleteBackupResponse> {
         return client.send(operation: "DeleteBackup", path: "/", httpMethod: "POST", input: input)
     }
@@ -96,7 +96,7 @@ public struct CloudHSMV2 {
         return client.send(operation: "ListTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Restores a specified AWS CloudHSM backup that is in the PENDING_DELETION state. For more information on deleting a backup, see DeleteBackup.
+    ///  Restores a specified AWS CloudHSM backup that is in the PENDING_DELETION state. For mor information on deleting a backup, see DeleteBackup.
     public func restoreBackup(_ input: RestoreBackupRequest) -> EventLoopFuture<RestoreBackupResponse> {
         return client.send(operation: "RestoreBackup", path: "/", httpMethod: "POST", input: input)
     }

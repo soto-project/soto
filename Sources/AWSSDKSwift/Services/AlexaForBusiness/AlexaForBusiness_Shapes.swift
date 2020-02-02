@@ -2322,6 +2322,7 @@ extension AlexaForBusiness {
 
     public struct DeviceData: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
             AWSShapeMember(label: "DeviceName", required: false, type: .string), 
             AWSShapeMember(label: "DeviceSerialNumber", required: false, type: .string), 
@@ -2336,6 +2337,8 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
         ]
 
+        /// The time (in epoch) when the device data was created.
+        public let createdTime: TimeStamp?
         /// The ARN of a device.
         public let deviceArn: String?
         /// The name of a device.
@@ -2361,7 +2364,8 @@ extension AlexaForBusiness {
         /// The software version of a device.
         public let softwareVersion: String?
 
-        public init(deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, roomArn: String? = nil, roomName: String? = nil, softwareVersion: String? = nil) {
+        public init(createdTime: TimeStamp? = nil, deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, roomArn: String? = nil, roomName: String? = nil, softwareVersion: String? = nil) {
+            self.createdTime = createdTime
             self.deviceArn = deviceArn
             self.deviceName = deviceName
             self.deviceSerialNumber = deviceSerialNumber
@@ -2377,6 +2381,7 @@ extension AlexaForBusiness {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
             case deviceArn = "DeviceArn"
             case deviceName = "DeviceName"
             case deviceSerialNumber = "DeviceSerialNumber"
@@ -2471,21 +2476,26 @@ extension AlexaForBusiness {
     public struct DeviceStatusInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConnectionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ConnectionStatusUpdatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DeviceStatusDetails", required: false, type: .list)
         ]
 
         /// The latest available information about the connection status of a device. 
         public let connectionStatus: ConnectionStatus?
+        /// The time (in epoch) when the device connection status changed.
+        public let connectionStatusUpdatedTime: TimeStamp?
         /// One or more device status detail descriptions.
         public let deviceStatusDetails: [DeviceStatusDetail]?
 
-        public init(connectionStatus: ConnectionStatus? = nil, deviceStatusDetails: [DeviceStatusDetail]? = nil) {
+        public init(connectionStatus: ConnectionStatus? = nil, connectionStatusUpdatedTime: TimeStamp? = nil, deviceStatusDetails: [DeviceStatusDetail]? = nil) {
             self.connectionStatus = connectionStatus
+            self.connectionStatusUpdatedTime = connectionStatusUpdatedTime
             self.deviceStatusDetails = deviceStatusDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionStatus = "ConnectionStatus"
+            case connectionStatusUpdatedTime = "ConnectionStatusUpdatedTime"
             case deviceStatusDetails = "DeviceStatusDetails"
         }
     }

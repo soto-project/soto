@@ -899,6 +899,12 @@ extension SageMaker {
         case mlM44Xlarge = "ml.m4.4xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
         case mlM5Large = "ml.m5.large"
         case mlM5Xlarge = "ml.m5.xlarge"
         case mlM52Xlarge = "ml.m5.2xlarge"
@@ -2826,7 +2832,7 @@ extension SageMaker {
         public let dataCaptureConfig: DataCaptureConfig?
         /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request. 
         public let endpointConfigName: String
-        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    // KMS Key ID   "1234abcd-12ab-34cd-56ef-1234567890ab"     // Amazon Resource Name (ARN) (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   // KMS Key Alias "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias   "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"     The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the AWS Key Management Service section Using Key Policies in AWS KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes. 
+        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the AWS Key Management Service section Using Key Policies in AWS KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes. 
         public let kmsKeyId: String?
         /// An list of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
@@ -7773,6 +7779,46 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeWorkforceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkforceName", required: true, type: .string)
+        ]
+
+        /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to "default" when a workforce is created and cannot be modified. 
+        public let workforceName: String
+
+        public init(workforceName: String) {
+            self.workforceName = workforceName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.workforceName, name:"workforceName", parent: name, max: 63)
+            try validate(self.workforceName, name:"workforceName", parent: name, min: 1)
+            try validate(self.workforceName, name:"workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workforceName = "WorkforceName"
+        }
+    }
+
+    public struct DescribeWorkforceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Workforce", required: true, type: .structure)
+        ]
+
+        /// A single private workforce, which is automatically created when you create your first private work team. You can create one private work force in each AWS Region. By default, any workforce related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
+        public let workforce: Workforce
+
+        public init(workforce: Workforce) {
+            self.workforce = workforce
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workforce = "Workforce"
+        }
+    }
+
     public struct DescribeWorkteamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkteamName", required: true, type: .string)
@@ -9301,7 +9347,7 @@ extension SageMaker {
             AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
 
-        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         MXNET/ONNX: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.  
+        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         KERAS: You must specify the name and shape (NCHW format) of expected data inputs using a dictionary format for your trained model. Note that while Keras model artifacts should be uploaded in NHWC (channel-last) format, DataInputConfig should be specified in NCHW (channel-first) format. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input_1":[1,3,224,224]}    If using the CLI, {\"input_1\":[1,3,224,224]}      Examples for two inputs:   If using the console, {"input_1": [1,3,224,224], "input_2":[1,3,224,224]}     If using the CLI, {\"input_1\": [1,3,224,224], \"input_2\":[1,3,224,224]}         MXNET/ONNX: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.  
         public let dataInputConfig: String
         /// Identifies the framework in which the model was trained. For example: TENSORFLOW.
         public let framework: Framework
@@ -12104,7 +12150,7 @@ extension SageMaker {
         public let createdAfter: TimeStamp?
         /// A filter that returns only components created before the specified time.
         public let createdBefore: TimeStamp?
-        /// A filter that returns only components that are part of the specified experiment. If you specify ExperimentName, you can't specify TrialName.
+        /// A filter that returns only components that are part of the specified experiment. If you specify ExperimentName, you can't filter by SourceArn or TrialName.
         public let experimentName: String?
         /// The maximum number of components to return in the response. The default value is 10.
         public let maxResults: Int?
@@ -12114,9 +12160,9 @@ extension SageMaker {
         public let sortBy: SortTrialComponentsBy?
         /// The sort order. The default value is Descending.
         public let sortOrder: SortOrder?
-        /// A filter that returns only components that have the specified source Amazon Resource Name (ARN).
+        /// A filter that returns only components that have the specified source Amazon Resource Name (ARN). If you specify SourceArn, you can't filter by ExperimentName or TrialName.
         public let sourceArn: String?
-        /// A filter that returns only components that are part of the specified trial. If you specify TrialName, you can't specify ExperimentName.
+        /// A filter that returns only components that are part of the specified trial. If you specify TrialName, you can't filter by ExperimentName or SourceArn.
         public let trialName: String?
 
         public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialComponentsBy? = nil, sortOrder: SortOrder? = nil, sourceArn: String? = nil, trialName: String? = nil) {
@@ -14701,6 +14747,31 @@ extension SageMaker {
         }
     }
 
+    public struct SourceIpConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cidrs", required: true, type: .list)
+        ]
+
+        /// A list of one to four Classless Inter-Domain Routing (CIDR) values. Maximum: 4 CIDR values  The following Length Constraints apply to individual CIDR values in the CIDR value list. 
+        public let cidrs: [String]
+
+        public init(cidrs: [String]) {
+            self.cidrs = cidrs
+        }
+
+        public func validate(name: String) throws {
+            try self.cidrs.forEach {
+                try validate($0, name: "cidrs[]", parent: name, max: 64)
+                try validate($0, name: "cidrs[]", parent: name, min: 4)
+                try validate($0, name: "cidrs[]", parent: name, pattern: "(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$)|(^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))$)")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrs = "Cidrs"
+        }
+    }
+
     public struct StartMonitoringScheduleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
@@ -15694,7 +15765,7 @@ extension SageMaker {
         public let accept: String?
         /// Defines how to assemble the results of the transform job as a single S3 object. Choose a format that is most convenient to you. To concatenate the results in binary format, specify None. To add a newline character at the end of every transformed record, specify Line.
         public let assembleWith: AssemblyType?
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateModel request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateModel request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The Amazon S3 path where you want Amazon SageMaker to store the results of the transform job. For example, s3://bucket-name/key-name-prefix. For every S3 object used as input for the transform job, batch transform stores the transformed data with an .out suffix in a corresponding subfolder in the location in the output prefix. For example, for the input data stored at s3://bucket-name/input-name-prefix/dataset01/data.csv, batch transform stores the transformed data at s3://bucket-name/output-name-prefix/input-name-prefix/data.csv.out. Batch transform doesn't upload partially processed objects. For an input S3 object that contains multiple records, it creates an .out file only if the transform job succeeds on the entire file. When the input contains multiple S3 objects, the batch transform job processes the listed S3 objects and uploads only the output for successfully processed objects. If any object fails in the transform job batch transform marks the job as failed to prompt investigation.
         public let s3OutputPath: String
@@ -15734,7 +15805,7 @@ extension SageMaker {
         public let instanceCount: Int
         /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.large instance types.
         public let instanceType: TransformInstanceType
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"     // KMS Key Alias    "alias/ExampleAlias"     // Amazon Resource Name (ARN) (ARN) of a KMS Key Alias   "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"   
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias   
         public let volumeKmsKeyId: String?
 
         public init(instanceCount: Int, instanceType: TransformInstanceType, volumeKmsKeyId: String? = nil) {
@@ -17071,6 +17142,52 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateWorkforceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceIpConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "WorkforceName", required: true, type: .string)
+        ]
+
+        /// A list of one to four worker IP address ranges (CIDRs) that can be used to access tasks assigned to this workforce. Maximum: 4 CIDR values
+        public let sourceIpConfig: SourceIpConfig?
+        /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to "default" when a workforce is created and cannot be modified. 
+        public let workforceName: String
+
+        public init(sourceIpConfig: SourceIpConfig? = nil, workforceName: String) {
+            self.sourceIpConfig = sourceIpConfig
+            self.workforceName = workforceName
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceIpConfig?.validate(name: "\(name).sourceIpConfig")
+            try validate(self.workforceName, name:"workforceName", parent: name, max: 63)
+            try validate(self.workforceName, name:"workforceName", parent: name, min: 1)
+            try validate(self.workforceName, name:"workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIpConfig = "SourceIpConfig"
+            case workforceName = "WorkforceName"
+        }
+    }
+
+    public struct UpdateWorkforceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Workforce", required: true, type: .structure)
+        ]
+
+        /// A single private workforce, which is automatically created when you create your first private work team. You can create one private work force in each AWS Region. By default, any workforce related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
+        public let workforce: Workforce
+
+        public init(workforce: Workforce) {
+            self.workforce = workforce
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workforce = "Workforce"
+        }
+    }
+
     public struct UpdateWorkteamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -17290,6 +17407,38 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "SecurityGroupIds"
             case subnets = "Subnets"
+        }
+    }
+
+    public struct Workforce: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceIpConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "WorkforceArn", required: true, type: .string), 
+            AWSShapeMember(label: "WorkforceName", required: true, type: .string)
+        ]
+
+        /// The most recent date that was used to successfully add one or more IP address ranges (CIDRs) to a private workforce's allow list.
+        public let lastUpdatedDate: TimeStamp?
+        /// A list of one to four IP address ranges (CIDRs) to be added to the workforce allow list.
+        public let sourceIpConfig: SourceIpConfig?
+        /// The Amazon Resource Name (ARN) of the private workforce.
+        public let workforceArn: String
+        /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to "default" when a workforce is created and cannot be modified. 
+        public let workforceName: String
+
+        public init(lastUpdatedDate: TimeStamp? = nil, sourceIpConfig: SourceIpConfig? = nil, workforceArn: String, workforceName: String) {
+            self.lastUpdatedDate = lastUpdatedDate
+            self.sourceIpConfig = sourceIpConfig
+            self.workforceArn = workforceArn
+            self.workforceName = workforceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedDate = "LastUpdatedDate"
+            case sourceIpConfig = "SourceIpConfig"
+            case workforceArn = "WorkforceArn"
+            case workforceName = "WorkforceName"
         }
     }
 

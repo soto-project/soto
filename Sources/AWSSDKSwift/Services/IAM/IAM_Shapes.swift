@@ -2184,6 +2184,7 @@ extension IAM {
             AWSShapeMember(label: "MatchedStatements", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MissingContextValues", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "OrganizationsDecisionDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "PermissionsBoundaryDecisionDetail", required: false, type: .structure), 
             AWSShapeMember(label: "ResourceSpecificResults", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
@@ -2191,7 +2192,7 @@ extension IAM {
         public let evalActionName: String
         /// The result of the simulation.
         public let evalDecision: PolicyEvaluationDecisionType
-        /// Additional details about the results of the evaluation decision. When there are both IAM policies and resource policies, this parameter explains how each set of policies contributes to the final evaluation decision. When simulating cross-account access to a resource, both the resource-based policy and the caller's IAM policy must grant access. See How IAM Roles Differ from Resource-based Policies 
+        /// Additional details about the results of the cross-account evaluation decision. This parameter is populated for only cross-account simulations. It contains a brief summary of how each policy type contributes to the final evaluation decision. If the simulation evaluates policies within the same account and includes a resource ARN, then the parameter is present but the response is empty. If the simulation evaluates policies within the same account and specifies all resources (*), then the parameter is not returned. When you make a cross-account request, AWS evaluates the request in the trusting account and the trusted account. The request is allowed only if both evaluations return true. For more information about how policies are evaluated, see Evaluating Policies Within a Single Account. If an AWS Organizations SCP included in the evaluation denies access, the simulation ends. In this case, policy evaluation does not proceed any further and this parameter is not returned.
         public let evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
         /// The ARN of the resource that the indicated API operation was tested on.
         public let evalResourceName: String?
@@ -2201,10 +2202,12 @@ extension IAM {
         public let missingContextValues: [String]?
         /// A structure that details how Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
         public let organizationsDecisionDetail: OrganizationsDecisionDetail?
+        /// Contains information about the effect that a permissions boundary has on a policy simulation when the boundary is applied to an IAM entity.
+        public let permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail?
         /// The individual results of the simulation of the API operation specified in EvalActionName on each resource.
         public let resourceSpecificResults: [ResourceSpecificResult]?
 
-        public init(evalActionName: String, evalDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceName: String? = nil, matchedStatements: [Statement]? = nil, missingContextValues: [String]? = nil, organizationsDecisionDetail: OrganizationsDecisionDetail? = nil, resourceSpecificResults: [ResourceSpecificResult]? = nil) {
+        public init(evalActionName: String, evalDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceName: String? = nil, matchedStatements: [Statement]? = nil, missingContextValues: [String]? = nil, organizationsDecisionDetail: OrganizationsDecisionDetail? = nil, permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail? = nil, resourceSpecificResults: [ResourceSpecificResult]? = nil) {
             self.evalActionName = evalActionName
             self.evalDecision = evalDecision
             self.evalDecisionDetails = evalDecisionDetails
@@ -2212,6 +2215,7 @@ extension IAM {
             self.matchedStatements = matchedStatements
             self.missingContextValues = missingContextValues
             self.organizationsDecisionDetail = organizationsDecisionDetail
+            self.permissionsBoundaryDecisionDetail = permissionsBoundaryDecisionDetail
             self.resourceSpecificResults = resourceSpecificResults
         }
 
@@ -2223,6 +2227,7 @@ extension IAM {
             case matchedStatements = "MatchedStatements"
             case missingContextValues = "MissingContextValues"
             case organizationsDecisionDetail = "OrganizationsDecisionDetail"
+            case permissionsBoundaryDecisionDetail = "PermissionsBoundaryDecisionDetail"
             case resourceSpecificResults = "ResourceSpecificResults"
         }
     }
@@ -5738,6 +5743,23 @@ extension IAM {
         }
     }
 
+    public struct PermissionsBoundaryDecisionDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedByPermissionsBoundary", required: false, type: .boolean)
+        ]
+
+        /// Specifies whether an action is allowed by a permissions boundary that is applied to an IAM entity (user or role). A value of true means that the permissions boundary does not deny the action. This means that the policy includes an Allow statement that matches the request. In this case, if an identity-based policy also allows the action, the request is allowed. A value of false means that either the requested action is not allowed (implicitly denied) or that the action is explicitly denied by the permissions boundary. In both of these cases, the action is not allowed, regardless of the identity-based policy.
+        public let allowedByPermissionsBoundary: Bool?
+
+        public init(allowedByPermissionsBoundary: Bool? = nil) {
+            self.allowedByPermissionsBoundary = allowedByPermissionsBoundary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedByPermissionsBoundary = "AllowedByPermissionsBoundary"
+        }
+    }
+
     public struct Policy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -6304,10 +6326,11 @@ extension IAM {
             AWSShapeMember(label: "EvalResourceDecision", required: true, type: .enum), 
             AWSShapeMember(label: "EvalResourceName", required: true, type: .string), 
             AWSShapeMember(label: "MatchedStatements", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MissingContextValues", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "MissingContextValues", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "PermissionsBoundaryDecisionDetail", required: false, type: .structure)
         ]
 
-        /// Additional details about the results of the evaluation decision. When there are both IAM policies and resource policies, this parameter explains how each set of policies contributes to the final evaluation decision. When simulating cross-account access to a resource, both the resource-based policy and the caller's IAM policy must grant access.
+        /// Additional details about the results of the evaluation decision on a single resource. This parameter is returned only for cross-account simulations. This parameter explains how each policy type contributes to the resource-specific evaluation decision.
         public let evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
         /// The result of the simulation of the simulated API operation on the resource specified in EvalResourceName.
         public let evalResourceDecision: PolicyEvaluationDecisionType
@@ -6317,13 +6340,16 @@ extension IAM {
         public let matchedStatements: [Statement]?
         /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when a list of ARNs is included in the ResourceArns parameter instead of "*". If you do not specify individual resources, by setting ResourceArns to "*" or by not including the ResourceArns parameter, then any missing context values are instead included under the EvaluationResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
         public let missingContextValues: [String]?
+        /// Contains information about the effect that a permissions boundary has on a policy simulation when that boundary is applied to an IAM entity.
+        public let permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail?
 
-        public init(evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceDecision: PolicyEvaluationDecisionType, evalResourceName: String, matchedStatements: [Statement]? = nil, missingContextValues: [String]? = nil) {
+        public init(evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceDecision: PolicyEvaluationDecisionType, evalResourceName: String, matchedStatements: [Statement]? = nil, missingContextValues: [String]? = nil, permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail? = nil) {
             self.evalDecisionDetails = evalDecisionDetails
             self.evalResourceDecision = evalResourceDecision
             self.evalResourceName = evalResourceName
             self.matchedStatements = matchedStatements
             self.missingContextValues = missingContextValues
+            self.permissionsBoundaryDecisionDetail = permissionsBoundaryDecisionDetail
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6332,6 +6358,7 @@ extension IAM {
             case evalResourceName = "EvalResourceName"
             case matchedStatements = "MatchedStatements"
             case missingContextValues = "MissingContextValues"
+            case permissionsBoundaryDecisionDetail = "PermissionsBoundaryDecisionDetail"
         }
     }
 
@@ -6949,6 +6976,7 @@ extension IAM {
             AWSShapeMember(label: "ContextEntries", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PermissionsBoundaryPolicyInputList", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PolicyInputList", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ResourceArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ResourceHandlingOption", required: false, type: .string), 
@@ -6966,6 +6994,8 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
+        /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions boundaries, see Permissions Boundaries for IAM Entities in the IAM User Guide. The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
+        public let permissionsBoundaryPolicyInputList: [String]?
         /// A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         public let policyInputList: [String]
         /// A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -6977,12 +7007,13 @@ extension IAM {
         /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         public let resourcePolicy: String?
 
-        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, policyInputList: [String], resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
+        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyInputList: [String], resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
             self.actionNames = actionNames
             self.callerArn = callerArn
             self.contextEntries = contextEntries
             self.marker = marker
             self.maxItems = maxItems
+            self.permissionsBoundaryPolicyInputList = permissionsBoundaryPolicyInputList
             self.policyInputList = policyInputList
             self.resourceArns = resourceArns
             self.resourceHandlingOption = resourceHandlingOption
@@ -7005,6 +7036,11 @@ extension IAM {
             try validate(self.marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try validate(self.maxItems, name:"maxItems", parent: name, max: 1000)
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
+            try self.permissionsBoundaryPolicyInputList?.forEach {
+                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, max: 131072)
+                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, min: 1)
+                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            }
             try self.policyInputList.forEach {
                 try validate($0, name: "policyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "policyInputList[]", parent: name, min: 1)
@@ -7029,6 +7065,7 @@ extension IAM {
             case contextEntries = "ContextEntries"
             case marker = "Marker"
             case maxItems = "MaxItems"
+            case permissionsBoundaryPolicyInputList = "PermissionsBoundaryPolicyInputList"
             case policyInputList = "PolicyInputList"
             case resourceArns = "ResourceArns"
             case resourceHandlingOption = "ResourceHandlingOption"
@@ -7071,6 +7108,7 @@ extension IAM {
             AWSShapeMember(label: "ContextEntries", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PermissionsBoundaryPolicyInputList", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PolicyInputList", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PolicySourceArn", required: true, type: .string), 
             AWSShapeMember(label: "ResourceArns", required: false, type: .list, encoding: .list(member:"member")), 
@@ -7089,6 +7127,8 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
+        /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permission boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions Boundaries for IAM Entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
+        public let permissionsBoundaryPolicyInputList: [String]?
         /// An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         public let policyInputList: [String]?
         /// The Amazon Resource Name (ARN) of a user, group, or role whose policies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are associated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user belongs to. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -7102,12 +7142,13 @@ extension IAM {
         /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         public let resourcePolicy: String?
 
-        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, policyInputList: [String]? = nil, policySourceArn: String, resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
+        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyInputList: [String]? = nil, policySourceArn: String, resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
             self.actionNames = actionNames
             self.callerArn = callerArn
             self.contextEntries = contextEntries
             self.marker = marker
             self.maxItems = maxItems
+            self.permissionsBoundaryPolicyInputList = permissionsBoundaryPolicyInputList
             self.policyInputList = policyInputList
             self.policySourceArn = policySourceArn
             self.resourceArns = resourceArns
@@ -7131,6 +7172,11 @@ extension IAM {
             try validate(self.marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try validate(self.maxItems, name:"maxItems", parent: name, max: 1000)
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
+            try self.permissionsBoundaryPolicyInputList?.forEach {
+                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, max: 131072)
+                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, min: 1)
+                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            }
             try self.policyInputList?.forEach {
                 try validate($0, name: "policyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "policyInputList[]", parent: name, min: 1)
@@ -7157,6 +7203,7 @@ extension IAM {
             case contextEntries = "ContextEntries"
             case marker = "Marker"
             case maxItems = "MaxItems"
+            case permissionsBoundaryPolicyInputList = "PermissionsBoundaryPolicyInputList"
             case policyInputList = "PolicyInputList"
             case policySourceArn = "PolicySourceArn"
             case resourceArns = "ResourceArns"

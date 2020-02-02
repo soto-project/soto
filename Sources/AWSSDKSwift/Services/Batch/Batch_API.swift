@@ -69,7 +69,7 @@ public struct Batch {
         return client.send(operation: "DeleteJobQueue", path: "/v1/deletejobqueue", httpMethod: "POST", input: input)
     }
 
-    ///  Deregisters an AWS Batch job definition.
+    ///  Deregisters an AWS Batch job definition. Job definitions will be permanently deleted after 180 days.
     public func deregisterJobDefinition(_ input: DeregisterJobDefinitionRequest) -> EventLoopFuture<DeregisterJobDefinitionResponse> {
         return client.send(operation: "DeregisterJobDefinition", path: "/v1/deregisterjobdefinition", httpMethod: "POST", input: input)
     }

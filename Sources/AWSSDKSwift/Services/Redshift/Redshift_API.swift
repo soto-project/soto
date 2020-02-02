@@ -64,12 +64,12 @@ public struct Redshift {
         return client.send(operation: "BatchDeleteClusterSnapshots", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the settings for a list of snapshots.
+    ///  Modifies the settings for a set of cluster snapshots.
     public func batchModifyClusterSnapshots(_ input: BatchModifyClusterSnapshotsMessage) -> EventLoopFuture<BatchModifyClusterSnapshotsOutputMessage> {
         return client.send(operation: "BatchModifyClusterSnapshots", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Cancels a resize operation.
+    ///  Cancels a resize operation for a cluster.
     public func cancelResize(_ input: CancelResizeMessage) -> EventLoopFuture<ResizeProgressMessage> {
         return client.send(operation: "CancelResize", path: "/", httpMethod: "POST", input: input)
     }
@@ -79,7 +79,7 @@ public struct Redshift {
         return client.send(operation: "CopyClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new cluster. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
+    ///  Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
     public func createCluster(_ input: CreateClusterMessage) -> EventLoopFuture<CreateClusterResult> {
         return client.send(operation: "CreateCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -129,17 +129,17 @@ public struct Redshift {
         return client.send(operation: "CreateSnapshotCopyGrant", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new snapshot schedule.
+    ///  Creates a snapshot schedule with the rate of every 12 hours.
     public func createSnapshotSchedule(_ input: CreateSnapshotScheduleMessage) -> EventLoopFuture<SnapshotSchedule> {
         return client.send(operation: "CreateSnapshotSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds one or more tags to a specified resource. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, you will receive an error and the attempt will fail. If you specify a key that already exists for the resource, the value for that key will be updated with the new value.
+    ///  Adds tags to a cluster. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, you will receive an error and the attempt will fail. If you specify a key that already exists for the resource, the value for that key will be updated with the new value.
     @discardableResult public func createTags(_ input: CreateTagsMessage) -> EventLoopFuture<Void> {
         return client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a previously provisioned cluster. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide. If you want to shut down the cluster and retain it for future use, set SkipFinalClusterSnapshot to false and specify a name for FinalClusterSnapshotIdentifier. You can later restore this snapshot to resume using the cluster. If a final cluster snapshot is requested, the status of the cluster will be "final-snapshot" while the snapshot is being taken, then it's "deleting" once Amazon Redshift begins deleting the cluster.   For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
+    ///  Deletes a previously provisioned cluster without its final snapshot being created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide. If you want to shut down the cluster and retain it for future use, set SkipFinalClusterSnapshot to false and specify a name for FinalClusterSnapshotIdentifier. You can later restore this snapshot to resume using the cluster. If a final cluster snapshot is requested, the status of the cluster will be "final-snapshot" while the snapshot is being taken, then it's "deleting" once Amazon Redshift begins deleting the cluster.   For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
     public func deleteCluster(_ input: DeleteClusterMessage) -> EventLoopFuture<DeleteClusterResult> {
         return client.send(operation: "DeleteCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -194,7 +194,7 @@ public struct Redshift {
         return client.send(operation: "DeleteSnapshotSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a tag or tags from a resource. You must provide the ARN of the resource from which you want to delete the tag or tags.
+    ///  Deletes tags from a resource. You must provide the ARN of the resource from which you want to delete the tag or tags.
     @discardableResult public func deleteTags(_ input: DeleteTagsMessage) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -324,7 +324,7 @@ public struct Redshift {
         return client.send(operation: "DescribeSnapshotSchedules", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the total amount of snapshot usage and provisioned storage in megabytes.
+    ///  Returns account level backups storage size and provisional storage.
     public func describeStorage() -> EventLoopFuture<CustomerStorageMessage> {
         return client.send(operation: "DescribeStorage", path: "/", httpMethod: "POST")
     }
@@ -369,7 +369,7 @@ public struct Redshift {
         return client.send(operation: "GetReservedNodeExchangeOfferings", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the settings for a cluster. For example, you can add another security or parameter group, update the preferred maintenance window, or change the master user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a reboot for parameters to take effect. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change.
+    ///  Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the master user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a reboot for parameters to take effect. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
     public func modifyCluster(_ input: ModifyClusterMessage) -> EventLoopFuture<ModifyClusterResult> {
         return client.send(operation: "ModifyCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -384,7 +384,7 @@ public struct Redshift {
         return client.send(operation: "ModifyClusterIamRoles", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the maintenance settings of a cluster. For example, you can defer a maintenance window. You can also update or cancel a deferment. 
+    ///  Modifies the maintenance settings of a cluster.
     public func modifyClusterMaintenance(_ input: ModifyClusterMaintenanceMessage) -> EventLoopFuture<ModifyClusterMaintenanceResult> {
         return client.send(operation: "ModifyClusterMaintenance", path: "/", httpMethod: "POST", input: input)
     }
@@ -394,7 +394,7 @@ public struct Redshift {
         return client.send(operation: "ModifyClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the settings for a snapshot.
+    ///  Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a cluster snapshot.
     public func modifyClusterSnapshot(_ input: ModifyClusterSnapshotMessage) -> EventLoopFuture<ModifyClusterSnapshotResult> {
         return client.send(operation: "ModifyClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -414,7 +414,7 @@ public struct Redshift {
         return client.send(operation: "ModifyEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modify a scheduled action. 
+    ///  Modifies a scheduled action. 
     public func modifyScheduledAction(_ input: ModifyScheduledActionMessage) -> EventLoopFuture<ScheduledAction> {
         return client.send(operation: "ModifyScheduledAction", path: "/", httpMethod: "POST", input: input)
     }

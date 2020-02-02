@@ -8,6 +8,7 @@ public enum CodePipelineErrorType: AWSErrorType {
     case actionTypeNotFoundException(message: String?)
     case approvalAlreadyCompletedException(message: String?)
     case concurrentModificationException(message: String?)
+    case duplicatedStopRequestException(message: String?)
     case invalidActionDeclarationException(message: String?)
     case invalidApprovalTokenException(message: String?)
     case invalidArnException(message: String?)
@@ -27,6 +28,7 @@ public enum CodePipelineErrorType: AWSErrorType {
     case notLatestPipelineExecutionException(message: String?)
     case outputVariablesSizeExceededException(message: String?)
     case pipelineExecutionNotFoundException(message: String?)
+    case pipelineExecutionNotStoppableException(message: String?)
     case pipelineNameInUseException(message: String?)
     case pipelineNotFoundException(message: String?)
     case pipelineVersionNotFoundException(message: String?)
@@ -53,6 +55,8 @@ extension CodePipelineErrorType {
             self = .approvalAlreadyCompletedException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
+        case "DuplicatedStopRequestException":
+            self = .duplicatedStopRequestException(message: message)
         case "InvalidActionDeclarationException":
             self = .invalidActionDeclarationException(message: message)
         case "InvalidApprovalTokenException":
@@ -91,6 +95,8 @@ extension CodePipelineErrorType {
             self = .outputVariablesSizeExceededException(message: message)
         case "PipelineExecutionNotFoundException":
             self = .pipelineExecutionNotFoundException(message: message)
+        case "PipelineExecutionNotStoppableException":
+            self = .pipelineExecutionNotStoppableException(message: message)
         case "PipelineNameInUseException":
             self = .pipelineNameInUseException(message: message)
         case "PipelineNotFoundException":
@@ -126,6 +132,8 @@ extension CodePipelineErrorType : CustomStringConvertible {
             return "ApprovalAlreadyCompletedException: \(message ?? "")"
         case .concurrentModificationException(let message):
             return "ConcurrentModificationException: \(message ?? "")"
+        case .duplicatedStopRequestException(let message):
+            return "DuplicatedStopRequestException: \(message ?? "")"
         case .invalidActionDeclarationException(let message):
             return "InvalidActionDeclarationException: \(message ?? "")"
         case .invalidApprovalTokenException(let message):
@@ -164,6 +172,8 @@ extension CodePipelineErrorType : CustomStringConvertible {
             return "OutputVariablesSizeExceededException: \(message ?? "")"
         case .pipelineExecutionNotFoundException(let message):
             return "PipelineExecutionNotFoundException: \(message ?? "")"
+        case .pipelineExecutionNotStoppableException(let message):
+            return "PipelineExecutionNotStoppableException: \(message ?? "")"
         case .pipelineNameInUseException(let message):
             return "PipelineNameInUseException: \(message ?? "")"
         case .pipelineNotFoundException(let message):

@@ -16,6 +16,11 @@ extension ApplicationInsights {
         return client.paginate(input: input, command: listComponents, tokenKey: \ListComponentsResponse.nextToken, onPage: onPage)
     }
 
+    ///   Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.   
+    public func listConfigurationHistoryPaginator(_ input: ListConfigurationHistoryRequest, onPage: @escaping (ListConfigurationHistoryResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listConfigurationHistory, tokenKey: \ListConfigurationHistoryResponse.nextToken, onPage: onPage)
+    }
+
     ///  Lists the log pattern sets in the specific application.
     public func listLogPatternSetsPaginator(_ input: ListLogPatternSetsRequest, onPage: @escaping (ListLogPatternSetsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLogPatternSets, tokenKey: \ListLogPatternSetsResponse.nextToken, onPage: onPage)
@@ -49,6 +54,20 @@ extension ApplicationInsights.ListComponentsRequest: AWSPaginateStringToken {
             maxResults: self.maxResults, 
             nextToken: token, 
             resourceGroupName: self.resourceGroupName
+        )
+
+    }
+}
+
+extension ApplicationInsights.ListConfigurationHistoryRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListConfigurationHistoryRequest {
+        return .init(
+            endTime: self.endTime, 
+            eventStatus: self.eventStatus, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            resourceGroupName: self.resourceGroupName, 
+            startTime: self.startTime
         )
 
     }

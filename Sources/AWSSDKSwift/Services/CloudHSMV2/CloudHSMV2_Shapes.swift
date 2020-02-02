@@ -53,7 +53,8 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "DeleteTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "SourceBackup", required: false, type: .string), 
             AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
-            AWSShapeMember(label: "SourceRegion", required: false, type: .string)
+            AWSShapeMember(label: "SourceRegion", required: false, type: .string), 
+            AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
 
         /// The identifier (ID) of the backup.
@@ -62,16 +63,21 @@ extension CloudHSMV2 {
         public let backupState: BackupState?
         /// The identifier (ID) of the cluster that was backed up.
         public let clusterId: String?
+        /// The date and time when the backup was copied from a source backup.
         public let copyTimestamp: TimeStamp?
         /// The date and time when the backup was created.
         public let createTimestamp: TimeStamp?
         /// The date and time when the backup will be permanently deleted.
         public let deleteTimestamp: TimeStamp?
+        /// The identifier (ID) of the source backup from which the new backup was copied.
         public let sourceBackup: String?
+        /// The identifier (ID) of the cluster containing the source backup from which the new backup was copied. .
         public let sourceCluster: String?
+        /// The AWS region that contains the source backup from which the new backup was copied.
         public let sourceRegion: String?
+        public let tagList: [Tag]?
 
-        public init(backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: TimeStamp? = nil, createTimestamp: TimeStamp? = nil, deleteTimestamp: TimeStamp? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil) {
+        public init(backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: TimeStamp? = nil, createTimestamp: TimeStamp? = nil, deleteTimestamp: TimeStamp? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil, tagList: [Tag]? = nil) {
             self.backupId = backupId
             self.backupState = backupState
             self.clusterId = clusterId
@@ -81,6 +87,7 @@ extension CloudHSMV2 {
             self.sourceBackup = sourceBackup
             self.sourceCluster = sourceCluster
             self.sourceRegion = sourceRegion
+            self.tagList = tagList
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -93,6 +100,7 @@ extension CloudHSMV2 {
             case sourceBackup = "SourceBackup"
             case sourceCluster = "SourceCluster"
             case sourceRegion = "SourceRegion"
+            case tagList = "TagList"
         }
     }
 
@@ -147,6 +155,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "StateMessage", required: false, type: .string), 
             AWSShapeMember(label: "SubnetMapping", required: false, type: .map), 
+            AWSShapeMember(label: "TagList", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
 
@@ -172,12 +181,13 @@ extension CloudHSMV2 {
         public let state: ClusterState?
         /// A description of the cluster's state.
         public let stateMessage: String?
-        /// A map of the cluster's subnets and their corresponding Availability Zones.
+        /// A map from availability zone to the cluster’s subnet in that availability zone.
         public let subnetMapping: [String: String]?
+        public let tagList: [Tag]?
         /// The identifier (ID) of the virtual private cloud (VPC) that contains the cluster.
         public let vpcId: String?
 
-        public init(backupPolicy: BackupPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: TimeStamp? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, vpcId: String? = nil) {
+        public init(backupPolicy: BackupPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: TimeStamp? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
             self.backupPolicy = backupPolicy
             self.certificates = certificates
             self.clusterId = clusterId
@@ -190,6 +200,7 @@ extension CloudHSMV2 {
             self.state = state
             self.stateMessage = stateMessage
             self.subnetMapping = subnetMapping
+            self.tagList = tagList
             self.vpcId = vpcId
         }
 
@@ -206,6 +217,7 @@ extension CloudHSMV2 {
             case state = "State"
             case stateMessage = "StateMessage"
             case subnetMapping = "SubnetMapping"
+            case tagList = "TagList"
             case vpcId = "VpcId"
         }
     }
@@ -213,27 +225,36 @@ extension CloudHSMV2 {
     public struct CopyBackupToRegionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationRegion", required: true, type: .string)
+            AWSShapeMember(label: "DestinationRegion", required: true, type: .string), 
+            AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
 
         /// The ID of the backup that will be copied to the destination region. 
         public let backupId: String
         /// The AWS region that will contain your copied CloudHSM cluster backup.
         public let destinationRegion: String
+        public let tagList: [Tag]?
 
-        public init(backupId: String, destinationRegion: String) {
+        public init(backupId: String, destinationRegion: String, tagList: [Tag]? = nil) {
             self.backupId = backupId
             self.destinationRegion = destinationRegion
+            self.tagList = tagList
         }
 
         public func validate(name: String) throws {
             try validate(self.backupId, name:"backupId", parent: name, pattern: "backup-[2-7a-zA-Z]{11,16}")
             try validate(self.destinationRegion, name:"destinationRegion", parent: name, pattern: "[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\\d")
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+            try validate(self.tagList, name:"tagList", parent: name, max: 50)
+            try validate(self.tagList, name:"tagList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
             case destinationRegion = "DestinationRegion"
+            case tagList = "TagList"
         }
     }
 
@@ -258,7 +279,8 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmType", required: true, type: .string), 
             AWSShapeMember(label: "SourceBackupId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
 
         /// The type of HSM to use in the cluster. Currently the only allowed value is hsm1.medium.
@@ -267,11 +289,13 @@ extension CloudHSMV2 {
         public let sourceBackupId: String?
         /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:   All subnets must be in the same virtual private cloud (VPC).   You can specify only one subnet per Availability Zone.  
         public let subnetIds: [String]
+        public let tagList: [Tag]?
 
-        public init(hsmType: String, sourceBackupId: String? = nil, subnetIds: [String]) {
+        public init(hsmType: String, sourceBackupId: String? = nil, subnetIds: [String], tagList: [Tag]? = nil) {
             self.hsmType = hsmType
             self.sourceBackupId = sourceBackupId
             self.subnetIds = subnetIds
+            self.tagList = tagList
         }
 
         public func validate(name: String) throws {
@@ -282,12 +306,18 @@ extension CloudHSMV2 {
             }
             try validate(self.subnetIds, name:"subnetIds", parent: name, max: 10)
             try validate(self.subnetIds, name:"subnetIds", parent: name, min: 1)
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+            try validate(self.tagList, name:"tagList", parent: name, max: 50)
+            try validate(self.tagList, name:"tagList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case hsmType = "HsmType"
             case sourceBackupId = "SourceBackupId"
             case subnetIds = "SubnetIds"
+            case tagList = "TagList"
         }
     }
 
@@ -504,6 +534,7 @@ extension CloudHSMV2 {
         public let maxResults: Int?
         /// The NextToken value that you received in the previous response. Use this value to get more backups.
         public let nextToken: String?
+        /// Designates whether or not to sort the return backups by ascending chronological order of generation.
         public let sortAscending: Bool?
 
         public init(filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortAscending: Bool? = nil) {
@@ -620,9 +651,13 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "SourceRegion", required: false, type: .string)
         ]
 
+        /// The date and time when both the source backup was created.
         public let createTimestamp: TimeStamp?
+        /// The identifier (ID) of the source backup from which the new backup was copied.
         public let sourceBackup: String?
+        /// The identifier (ID) of the cluster containing the source backup from which the new backup was copied.
         public let sourceCluster: String?
+        /// The AWS region that contains the source backup from which the new backup was copied.
         public let sourceRegion: String?
 
         public init(createTimestamp: TimeStamp? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil) {
@@ -703,7 +738,7 @@ extension CloudHSMV2 {
         public let clusterId: String
         /// The cluster certificate issued (signed) by your issuing certificate authority (CA). The certificate must be in PEM format and can contain a maximum of 5000 characters.
         public let signedCert: String
-        /// The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. This can be a root (self-signed) certificate or a certificate chain that begins with the certificate that issued the cluster certificate and ends with a root certificate. The certificate or certificate chain must be in PEM format and can contain a maximum of 5000 characters.
+        /// The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. You must use a self-signed certificate. The certificate used to sign the HSM CSR must be directly available, and thus must be the root certificate. The certificate must be in PEM format and can contain a maximum of 5000 characters.
         public let trustAnchor: String
 
         public init(clusterId: String, signedCert: String, trustAnchor: String) {
@@ -774,7 +809,7 @@ extension CloudHSMV2 {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 256)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
-            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "cluster-[2-7a-zA-Z]{11,16}")
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "(?:cluster|backup)-[2-7a-zA-Z]{11,16}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -892,7 +927,7 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "cluster-[2-7a-zA-Z]{11,16}")
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "(?:cluster|backup)-[2-7a-zA-Z]{11,16}")
             try self.tagList.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
@@ -931,7 +966,7 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "cluster-[2-7a-zA-Z]{11,16}")
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "(?:cluster|backup)-[2-7a-zA-Z]{11,16}")
             try self.tagKeyList.forEach {
                 try validate($0, name: "tagKeyList[]", parent: name, max: 128)
                 try validate($0, name: "tagKeyList[]", parent: name, min: 1)

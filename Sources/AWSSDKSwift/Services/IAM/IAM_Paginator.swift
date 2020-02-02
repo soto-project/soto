@@ -126,7 +126,7 @@ extension IAM {
         return client.paginate(input: input, command: listVirtualMFADevices, tokenKey: \ListVirtualMFADevicesResponse.marker, onPage: onPage)
     }
 
-    ///  Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and AWS resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. If you want to simulate existing policies attached to an IAM user, group, or role, use SimulatePrincipalPolicy instead. Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker parameters to paginate the results.
+    ///  Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and AWS resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. If you want to simulate existing policies that are attached to an IAM user, group, or role, use SimulatePrincipalPolicy instead. Context keys are variables that are maintained by AWS and its services and which provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker parameters to paginate the results.
     public func simulateCustomPolicyPaginator(_ input: SimulateCustomPolicyRequest, onPage: @escaping (SimulatePolicyResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: simulateCustomPolicy, tokenKey: \SimulatePolicyResponse.marker, onPage: onPage)
     }
@@ -418,6 +418,7 @@ extension IAM.SimulateCustomPolicyRequest: AWSPaginateStringToken {
             contextEntries: self.contextEntries, 
             marker: token, 
             maxItems: self.maxItems, 
+            permissionsBoundaryPolicyInputList: self.permissionsBoundaryPolicyInputList, 
             policyInputList: self.policyInputList, 
             resourceArns: self.resourceArns, 
             resourceHandlingOption: self.resourceHandlingOption, 
@@ -436,6 +437,7 @@ extension IAM.SimulatePrincipalPolicyRequest: AWSPaginateStringToken {
             contextEntries: self.contextEntries, 
             marker: token, 
             maxItems: self.maxItems, 
+            permissionsBoundaryPolicyInputList: self.permissionsBoundaryPolicyInputList, 
             policyInputList: self.policyInputList, 
             policySourceArn: self.policySourceArn, 
             resourceArns: self.resourceArns, 

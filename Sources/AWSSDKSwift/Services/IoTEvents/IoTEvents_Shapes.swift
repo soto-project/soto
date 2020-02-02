@@ -56,13 +56,13 @@ extension IoTEvents {
 
         /// Information needed to clear the timer.
         public let clearTimer: ClearTimerAction?
-        /// Sends information about the detector model instance and the event which triggered the action to a Kinesis Data Firehose delivery stream.
+        /// Sends information about the detector model instance and the event that triggered the action to a Kinesis Data Firehose delivery stream.
         public let firehose: FirehoseAction?
-        /// Sends an IoT Events input, passing in information about the detector model instance and the event which triggered the action.
+        /// Sends an IoT Events input, passing in information about the detector model instance and the event that triggered the action.
         public let iotEvents: IotEventsAction?
         /// Publishes an MQTT message with the given topic to the AWS IoT message broker.
         public let iotTopicPublish: IotTopicPublishAction?
-        /// Calls an AWS Lambda function, passing in information about the detector model instance and the event which triggered the action.
+        /// Calls a Lambda function, passing in information about the detector model instance and the event that triggered the action.
         public let lambda: LambdaAction?
         /// Information needed to reset the timer.
         public let resetTimer: ResetTimerAction?
@@ -72,7 +72,7 @@ extension IoTEvents {
         public let setVariable: SetVariableAction?
         /// Sends an Amazon SNS message.
         public let sns: SNSTopicPublishAction?
-        /// Sends information about the detector model instance and the event which triggered the action to an Amazon SQS queue.
+        /// Sends information about the detector model instance and the event that triggered the action to an Amazon SQS queue.
         public let sqs: SqsAction?
 
         public init(clearTimer: ClearTimerAction? = nil, firehose: FirehoseAction? = nil, iotEvents: IotEventsAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, lambda: LambdaAction? = nil, resetTimer: ResetTimerAction? = nil, setTimer: SetTimerAction? = nil, setVariable: SetVariableAction? = nil, sns: SNSTopicPublishAction? = nil, sqs: SqsAction? = nil) {
@@ -176,9 +176,9 @@ extension IoTEvents {
         public let detectorModelDescription: String?
         /// The name of the detector model.
         public let detectorModelName: String
-        /// When set to SERIAL, variables are updated and event conditions evaluated in the order that the events are defined. When set to BATCH, variables are updated and events performed only after all event conditions are evaluated.
+        /// Information about the order in which events are evaluated and how actions are executed. 
         public let evaluationMethod: EvaluationMethod?
-        /// The input attribute key used to identify a device or system to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
+        /// The input attribute key used to identify a device or system in order to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
         public let key: String?
         /// The ARN of the role that grants permission to AWS IoT Events to perform its operations.
         public let roleArn: String
@@ -550,9 +550,9 @@ extension IoTEvents {
         public let detectorModelName: String?
         /// The version of the detector model.
         public let detectorModelVersion: String?
-        /// When set to SERIAL, variables are updated and event conditions evaluated in the order that the events are defined. When set to BATCH, variables are updated and events performed only after all event conditions are evaluated.
+        /// Information about the order in which events are evaluated and how actions are executed. 
         public let evaluationMethod: EvaluationMethod?
-        /// The input attribute key used to identify a device or system to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
+        /// The input attribute key used to identify a device or system in order to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
         public let key: String?
         /// The time the detector model was last updated.
         public let lastUpdateTime: TimeStamp?
@@ -666,7 +666,7 @@ extension IoTEvents {
         public let detectorModelName: String?
         /// The ID of the detector model version.
         public let detectorModelVersion: String?
-        /// When set to SERIAL, variables are updated and event conditions evaluated in the order that the events are defined. When set to BATCH, variables are updated and events performed only after all event conditions are evaluated.
+        /// Information about the order in which events are evaluated and how actions are executed. 
         public let evaluationMethod: EvaluationMethod?
         /// The last time the detector model version was updated.
         public let lastUpdateTime: TimeStamp?
@@ -940,7 +940,7 @@ extension IoTEvents {
             AWSShapeMember(label: "functionArn", required: true, type: .string)
         ]
 
-        /// The ARN of the AWS Lambda function which is executed.
+        /// The ARN of the Lambda function that is executed.
         public let functionArn: String
 
         public init(functionArn: String) {
@@ -1397,7 +1397,7 @@ extension IoTEvents {
             AWSShapeMember(label: "useBase64", required: false, type: .boolean)
         ]
 
-        /// The URL of the Amazon SQS queue where the data is written.
+        /// The URL of the SQS queue where the data is written.
         public let queueUrl: String
         /// Set this to TRUE if you want the data to be Base-64 encoded before it is written to the queue. Otherwise, set this to FALSE.
         public let useBase64: Bool?
@@ -1616,7 +1616,7 @@ extension IoTEvents {
         public let detectorModelDescription: String?
         /// The name of the detector model that is updated.
         public let detectorModelName: String
-        /// When set to SERIAL, variables are updated and event conditions evaluated in the order that the events are defined. When set to BATCH, variables are updated and events performed only after all event conditions are evaluated.
+        /// Information about the order in which events are evaluated and how actions are executed. 
         public let evaluationMethod: EvaluationMethod?
         /// The ARN of the role that grants permission to AWS IoT Events to perform its operations.
         public let roleArn: String
