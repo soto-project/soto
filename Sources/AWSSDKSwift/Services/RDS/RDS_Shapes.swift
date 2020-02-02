@@ -401,6 +401,23 @@ extension RDS {
         }
     }
 
+    public struct CancelExportTaskMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportTaskIdentifier", required: true, type: .string)
+        ]
+
+        /// The identifier of the snapshot export task to cancel.
+        public let exportTaskIdentifier: String
+
+        public init(exportTaskIdentifier: String) {
+            self.exportTaskIdentifier = exportTaskIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportTaskIdentifier = "ExportTaskIdentifier"
+        }
+    }
+
     public struct Certificate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
@@ -652,9 +669,9 @@ extension RDS {
 
         /// A value that indicates whether to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot. By default, tags are not copied.
         public let copyTags: Bool?
-        /// The AWS AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another AWS Region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+        /// The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another AWS Region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
         public let kmsKeyId: String?
-        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS Region. Don't specify PreSignedUrl when you are copying an encrypted DB cluster snapshot in the same AWS Region. The pre-signed URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region. 
+        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS Region. Don't specify PreSignedUrl when you are copying an encrypted DB cluster snapshot in the same AWS Region. The pre-signed URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot is to be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region. 
         public let preSignedUrl: String?
         /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. You can't copy an encrypted, shared DB cluster snapshot from one AWS Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different AWS Region than the copy, specify a valid DB cluster snapshot ARN. For more information, go to  Copying Snapshots Across AWS Regions in the Amazon Aurora User Guide.    Example: my-cluster-snapshot1 
         public let sourceDBClusterSnapshotIdentifier: String
@@ -987,7 +1004,7 @@ extension RDS {
         public let characterSetName: String?
         /// A value that indicates whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
         public let copyTagsToSnapshot: Bool?
-        /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating.
+        /// The name for your database of up to 64 alphanumeric characters. If you do not provide a name, Amazon RDS doesn't create a database in the DB cluster you are creating.
         public let databaseName: String?
         /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
         public let dBClusterIdentifier: String
@@ -1322,7 +1339,7 @@ extension RDS {
         public let monitoringRoleArn: String?
         /// A value that indicates whether the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
-        /// Indicates that the DB instance should be associated with the specified option group. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
+        /// Indicates that the DB instance should be associated with the specified option group. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group. Also, that option group can't be removed from a DB instance once it is associated with a DB instance
         public let optionGroupName: String?
         /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let performanceInsightsKMSKeyId: String?
@@ -1924,7 +1941,7 @@ extension RDS {
         public let eventCategories: [String]?
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
         public let snsTopicArn: String
-        /// The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are supplied, SourceType must also be provided.   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
+        /// The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It can't end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are supplied, SourceType must also be provided.   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
         public let sourceIds: [String]?
         /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value isn't specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
         public let sourceType: String?
@@ -2455,7 +2472,7 @@ extension RDS {
 
         /// Contains a list of backtracks for the user.
         public let dBClusterBacktracks: [DBClusterBacktrack]?
-        /// A pagination token that can be used in a subsequent DescribeDBClusterBacktracks request.
+        /// A pagination token that can be used in a later DescribeDBClusterBacktracks request.
         public let marker: String?
 
         public init(dBClusterBacktracks: [DBClusterBacktrack]? = nil, marker: String? = nil) {
@@ -2630,7 +2647,7 @@ extension RDS {
 
         /// Contains a list of DB clusters for the user.
         public let dBClusters: [DBCluster]?
-        /// A pagination token that can be used in a subsequent DescribeDBClusters request.
+        /// A pagination token that can be used in a later DescribeDBClusters request.
         public let marker: String?
 
         public init(dBClusters: [DBCluster]? = nil, marker: String? = nil) {
@@ -4459,7 +4476,7 @@ extension RDS {
         public let deleteAutomatedBackups: Bool?
         ///  The DBSnapshotIdentifier of the new DBSnapshot created when the SkipFinalSnapshot parameter is disabled.   Specifying this parameter and also specifying to skip final DB snapshot creation in SkipFinalShapshot results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Can't be specified when deleting a Read Replica.  
         public let finalDBSnapshotIdentifier: String?
-        /// A value that indicates whether to skip the creation of a final DB snapshot before the DB instance is deleted. If skip is specified, no DB snapshot is created. If skip isn't specified, a DB snapshot is created before the DB instance is deleted. By default, skip isn't specified, and the DB snapshot is created. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when skip is specified. Specify skip when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if skip isn't specified. 
+        /// A value that indicates whether to skip the creation of a final DB snapshot before the DB instance is deleted. If skip is specified, no DB snapshot is created. If skip isn't specified, a DB snapshot is created before the DB instance is deleted. By default, skip isn't specified, and the DB snapshot is created. When a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when skip is specified. Specify skip when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if skip isn't specified. 
         public let skipFinalSnapshot: Bool?
 
         public init(dBInstanceIdentifier: String, deleteAutomatedBackups: Bool? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
@@ -5301,7 +5318,7 @@ extension RDS {
 
         /// The DB log files returned.
         public let describeDBLogFiles: [DescribeDBLogFilesDetails]?
-        /// A pagination token that can be used in a subsequent DescribeDBLogFiles request.
+        /// A pagination token that can be used in a later DescribeDBLogFiles request.
         public let marker: String?
 
         public init(describeDBLogFiles: [DescribeDBLogFilesDetails]? = nil, marker: String? = nil) {
@@ -5932,6 +5949,43 @@ extension RDS {
         }
     }
 
+    public struct DescribeExportTasksMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportTaskIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .string), 
+            AWSShapeMember(label: "SourceArn", required: false, type: .string)
+        ]
+
+        /// The identifier of the snapshot export task to be described.
+        public let exportTaskIdentifier: String?
+        /// Filters specify one or more snapshot exports to describe. The filters are specified as name-value pairs that define what to include in the output. Supported filters include the following:     export-task-identifier - An identifier for the snapshot export task.    s3-bucket - The Amazon S3 bucket the snapshot is exported to.    source-arn - The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3    status - The status of the export task.  
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous DescribeExportTasks request. If you specify this parameter, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified value, a pagination token called a marker is included in the response. You can use the marker in a later DescribeExportTasks request to retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: String?
+        /// The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
+        public let sourceArn: String?
+
+        public init(exportTaskIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: String? = nil, sourceArn: String? = nil) {
+            self.exportTaskIdentifier = exportTaskIdentifier
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportTaskIdentifier = "ExportTaskIdentifier"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case sourceArn = "SourceArn"
+        }
+    }
+
     public struct DescribeGlobalClustersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
@@ -6413,7 +6467,7 @@ extension RDS {
         public let additionalDataPending: Bool?
         /// Entries from the specified log file.
         public let logFileData: String?
-        /// A pagination token that can be used in a subsequent DownloadDBLogFilePortion request.
+        /// A pagination token that can be used in a later DownloadDBLogFilePortion request.
         public let marker: String?
 
         public init(additionalDataPending: Bool? = nil, logFileData: String? = nil, marker: String? = nil) {
@@ -6730,6 +6784,115 @@ extension RDS {
 
         private enum CodingKeys: String, CodingKey {
             case events = "Events"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ExportTask: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportOnly", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ExportTaskIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "FailureCause", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "PercentProgress", required: false, type: .integer), 
+            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "S3Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "TaskEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TaskStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TotalExtractedDataInGB", required: false, type: .integer), 
+            AWSShapeMember(label: "WarningMessage", required: false, type: .string)
+        ]
+
+        /// The data exported from the snapshot. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
+        public let exportOnly: [String]?
+        /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is exported to. 
+        public let exportTaskIdentifier: String?
+        /// The reason the export failed, if it failed.
+        public let failureCause: String?
+        /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot. 
+        public let iamRoleArn: String?
+        /// The ID of the AWS KMS key that is used to encrypt the snapshot when it's exported to Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key. The IAM role used for the snapshot export must have encryption and decryption permissions to use this KMS key. 
+        public let kmsKeyId: String?
+        /// The progress of the snapshot export task as a percentage.
+        public let percentProgress: Int?
+        /// The Amazon S3 bucket that the snapshot is exported to.
+        public let s3Bucket: String?
+        /// The Amazon S3 bucket prefix that is the file name and path of the exported snapshot.
+        public let s3Prefix: String?
+        /// The time that the snapshot was created.
+        public let snapshotTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
+        public let sourceArn: String?
+        /// The progress status of the export task.
+        public let status: String?
+        /// The time that the snapshot export task completed.
+        public let taskEndTime: TimeStamp?
+        /// The time that the snapshot export task started.
+        public let taskStartTime: TimeStamp?
+        /// The total amount of data exported, in gigabytes.
+        public let totalExtractedDataInGB: Int?
+        /// A warning about the snapshot export task.
+        public let warningMessage: String?
+
+        public init(exportOnly: [String]? = nil, exportTaskIdentifier: String? = nil, failureCause: String? = nil, iamRoleArn: String? = nil, kmsKeyId: String? = nil, percentProgress: Int? = nil, s3Bucket: String? = nil, s3Prefix: String? = nil, snapshotTime: TimeStamp? = nil, sourceArn: String? = nil, status: String? = nil, taskEndTime: TimeStamp? = nil, taskStartTime: TimeStamp? = nil, totalExtractedDataInGB: Int? = nil, warningMessage: String? = nil) {
+            self.exportOnly = exportOnly
+            self.exportTaskIdentifier = exportTaskIdentifier
+            self.failureCause = failureCause
+            self.iamRoleArn = iamRoleArn
+            self.kmsKeyId = kmsKeyId
+            self.percentProgress = percentProgress
+            self.s3Bucket = s3Bucket
+            self.s3Prefix = s3Prefix
+            self.snapshotTime = snapshotTime
+            self.sourceArn = sourceArn
+            self.status = status
+            self.taskEndTime = taskEndTime
+            self.taskStartTime = taskStartTime
+            self.totalExtractedDataInGB = totalExtractedDataInGB
+            self.warningMessage = warningMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportOnly = "ExportOnly"
+            case exportTaskIdentifier = "ExportTaskIdentifier"
+            case failureCause = "FailureCause"
+            case iamRoleArn = "IamRoleArn"
+            case kmsKeyId = "KmsKeyId"
+            case percentProgress = "PercentProgress"
+            case s3Bucket = "S3Bucket"
+            case s3Prefix = "S3Prefix"
+            case snapshotTime = "SnapshotTime"
+            case sourceArn = "SourceArn"
+            case status = "Status"
+            case taskEndTime = "TaskEndTime"
+            case taskStartTime = "TaskStartTime"
+            case totalExtractedDataInGB = "TotalExtractedDataInGB"
+            case warningMessage = "WarningMessage"
+        }
+    }
+
+    public struct ExportTasksMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportTasks", required: false, type: .list, encoding: .list(member:"ExportTask")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+
+        /// Information about an export of a snapshot to Amazon S3.
+        public let exportTasks: [ExportTask]?
+        /// A pagination token that can be used in a later DescribeExportTasks request. A marker is used for pagination to identify the location to begin output for the next response of DescribeExportTasks.
+        public let marker: String?
+
+        public init(exportTasks: [ExportTask]? = nil, marker: String? = nil) {
+            self.exportTasks = exportTasks
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportTasks = "ExportTasks"
             case marker = "Marker"
         }
     }
@@ -7650,7 +7813,7 @@ extension RDS {
 
         /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
-        /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
+        /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; later arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
         public let parameters: [Parameter]
 
         public init(dBParameterGroupName: String, parameters: [Parameter]) {
@@ -10933,6 +11096,53 @@ extension RDS {
 
         private enum CodingKeys: String, CodingKey {
             case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct StartExportTaskMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportOnly", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ExportTaskIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: true, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "S3Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "SourceArn", required: true, type: .string)
+        ]
+
+        /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
+        public let exportOnly: [String]?
+        /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is to be exported to. 
+        public let exportTaskIdentifier: String
+        /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot. 
+        public let iamRoleArn: String
+        /// The ID of the AWS KMS key to use to encrypt the snapshot exported to Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key. The IAM role used for the snapshot export must have encryption and decryption permissions to use this KMS key. 
+        public let kmsKeyId: String
+        /// The name of the Amazon S3 bucket to export the snapshot to.
+        public let s3BucketName: String
+        /// The Amazon S3 bucket prefix to use as the file name and path of the exported snapshot.
+        public let s3Prefix: String?
+        /// The Amazon Resource Name (ARN) of the snapshot to export to Amazon S3.
+        public let sourceArn: String
+
+        public init(exportOnly: [String]? = nil, exportTaskIdentifier: String, iamRoleArn: String, kmsKeyId: String, s3BucketName: String, s3Prefix: String? = nil, sourceArn: String) {
+            self.exportOnly = exportOnly
+            self.exportTaskIdentifier = exportTaskIdentifier
+            self.iamRoleArn = iamRoleArn
+            self.kmsKeyId = kmsKeyId
+            self.s3BucketName = s3BucketName
+            self.s3Prefix = s3Prefix
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportOnly = "ExportOnly"
+            case exportTaskIdentifier = "ExportTaskIdentifier"
+            case iamRoleArn = "IamRoleArn"
+            case kmsKeyId = "KmsKeyId"
+            case s3BucketName = "S3BucketName"
+            case s3Prefix = "S3Prefix"
+            case sourceArn = "SourceArn"
         }
     }
 

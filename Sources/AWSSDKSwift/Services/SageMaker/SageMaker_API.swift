@@ -407,6 +407,11 @@ public struct SageMaker {
         return client.send(operation: "DescribeUserProfile", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (CIDRs). Allowable IP address ranges are the IP addresses that workers can use to access tasks.   This operation applies only to private workforces. 
+    public func describeWorkforce(_ input: DescribeWorkforceRequest) -> EventLoopFuture<DescribeWorkforceResponse> {
+        return client.send(operation: "DescribeWorkforce", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about a specific work team. You can see information such as the create date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN).
     public func describeWorkteam(_ input: DescribeWorkteamRequest) -> EventLoopFuture<DescribeWorkteamResponse> {
         return client.send(operation: "DescribeWorkteam", path: "/", httpMethod: "POST", input: input)
@@ -557,7 +562,7 @@ public struct SageMaker {
         return client.send(operation: "ListTransformJobs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the trial components in your account. You can filter the list to show only components that were created in a specific time range. You can sort the list by trial component name or creation time.
+    ///  Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following:    ExperimentName     SourceArn     TrialName   
     public func listTrialComponents(_ input: ListTrialComponentsRequest) -> EventLoopFuture<ListTrialComponentsResponse> {
         return client.send(operation: "ListTrialComponents", path: "/", httpMethod: "POST", input: input)
     }
@@ -695,6 +700,11 @@ public struct SageMaker {
     ///  Updates a user profile.
     public func updateUserProfile(_ input: UpdateUserProfileRequest) -> EventLoopFuture<UpdateUserProfileResponse> {
         return client.send(operation: "UpdateUserProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Restricts access to tasks assigned to workers in the specified workforce to those within specific ranges of IP addresses. You specify allowed IP addresses by creating a list of up to four CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied access and get a Not Found error message on the worker portal. After restricting access with this operation, you can see the allowed IP values for a private workforce with the operation.  This operation applies only to private workforces. 
+    public func updateWorkforce(_ input: UpdateWorkforceRequest) -> EventLoopFuture<UpdateWorkforceResponse> {
+        return client.send(operation: "UpdateWorkforce", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing work team with new member definitions or description.

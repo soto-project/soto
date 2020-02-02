@@ -141,7 +141,7 @@ extension SageMaker {
         return client.paginate(input: input, command: listTransformJobs, tokenKey: \ListTransformJobsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists the trial components in your account. You can filter the list to show only components that were created in a specific time range. You can sort the list by trial component name or creation time.
+    ///  Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following:    ExperimentName     SourceArn     TrialName   
     public func listTrialComponentsPaginator(_ input: ListTrialComponentsRequest, onPage: @escaping (ListTrialComponentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTrialComponents, tokenKey: \ListTrialComponentsResponse.nextToken, onPage: onPage)
     }

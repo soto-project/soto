@@ -6,6 +6,20 @@ import AWSSDKSwiftCore
 extension ApplicationInsights {
     //MARK: Enums
 
+    public enum ConfigurationEventResourceType: String, CustomStringConvertible, Codable {
+        case cloudwatchAlarm = "CLOUDWATCH_ALARM"
+        case cloudformation = "CLOUDFORMATION"
+        case ssmAssociation = "SSM_ASSOCIATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationEventStatus: String, CustomStringConvertible, Codable {
+        case info = "INFO"
+        case warn = "WARN"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FeedbackKey: String, CustomStringConvertible, Codable {
         case insightsFeedback = "INSIGHTS_FEEDBACK"
         public var description: String { return self.rawValue }
@@ -97,7 +111,7 @@ extension ApplicationInsights {
         public let opsCenterEnabled: Bool?
         ///  The SNS topic provided to Application Insights that is associated to the created opsItems to receive SNS notifications for opsItem updates. 
         public let opsItemSNSTopicArn: String?
-        /// The issues on the user side that block Application Insights from successfully monitoring an application.
+        /// The issues on the user side that block Application Insights from successfully monitoring an application. Example remarks include:   “Configuring application, detected 1 Errors, 3 Warnings”   “Configuring application, detected 1 Unconfigured Components”  
         public let remarks: String?
         /// The name of the resource group used for the application.
         public let resourceGroupName: String?
@@ -116,6 +130,48 @@ extension ApplicationInsights {
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case remarks = "Remarks"
             case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct ConfigurationEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventDetail", required: false, type: .string), 
+            AWSShapeMember(label: "EventResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "EventResourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "EventStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MonitoredResourceARN", required: false, type: .string)
+        ]
+
+        ///  The details of the event in plain text. 
+        public let eventDetail: String?
+        ///  The name of the resource Application Insights attempted to configure. 
+        public let eventResourceName: String?
+        ///  The resource type that Application Insights attempted to configure, for example, CLOUDWATCH_ALARM. 
+        public let eventResourceType: ConfigurationEventResourceType?
+        ///  The status of the configuration update event. Possible values include INFO, WARN, and ERROR. 
+        public let eventStatus: ConfigurationEventStatus?
+        ///  The timestamp of the event. 
+        public let eventTime: TimeStamp?
+        ///  The resource monitored by Application Insights. 
+        public let monitoredResourceARN: String?
+
+        public init(eventDetail: String? = nil, eventResourceName: String? = nil, eventResourceType: ConfigurationEventResourceType? = nil, eventStatus: ConfigurationEventStatus? = nil, eventTime: TimeStamp? = nil, monitoredResourceARN: String? = nil) {
+            self.eventDetail = eventDetail
+            self.eventResourceName = eventResourceName
+            self.eventResourceType = eventResourceType
+            self.eventStatus = eventStatus
+            self.eventTime = eventTime
+            self.monitoredResourceARN = monitoredResourceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDetail = "EventDetail"
+            case eventResourceName = "EventResourceName"
+            case eventResourceType = "EventResourceType"
+            case eventStatus = "EventStatus"
+            case eventTime = "EventTime"
+            case monitoredResourceARN = "MonitoredResourceARN"
         }
     }
 
@@ -890,6 +946,78 @@ extension ApplicationInsights {
 
         private enum CodingKeys: String, CodingKey {
             case applicationComponentList = "ApplicationComponentList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConfigurationHistoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EventStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+        ]
+
+        /// The end time of the event.
+        public let endTime: TimeStamp?
+        /// The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
+        public let eventStatus: ConfigurationEventStatus?
+        ///  The maximum number of results returned by ListConfigurationHistory in paginated output. When this parameter is used, ListConfigurationHistory returns only MaxResults in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another ListConfigurationHistory request with the returned NextToken value. If this parameter is not used, then ListConfigurationHistory returns all results. 
+        public let maxResults: Int?
+        /// The NextToken value returned from a previous paginated ListConfigurationHistory request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Resource group to which the application belongs. 
+        public let resourceGroupName: String?
+        /// The start time of the event. 
+        public let startTime: TimeStamp?
+
+        public init(endTime: TimeStamp? = nil, eventStatus: ConfigurationEventStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: TimeStamp? = nil) {
+            self.endTime = endTime
+            self.eventStatus = eventStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceGroupName = resourceGroupName
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 40)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case eventStatus = "EventStatus"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceGroupName = "ResourceGroupName"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct ListConfigurationHistoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        ///  The list of configuration events and their corresponding details. 
+        public let eventList: [ConfigurationEvent]?
+        /// The NextToken value to include in a future ListConfigurationHistory request. When the results of a ListConfigurationHistory request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(eventList: [ConfigurationEvent]? = nil, nextToken: String? = nil) {
+            self.eventList = eventList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventList = "EventList"
             case nextToken = "NextToken"
         }
     }

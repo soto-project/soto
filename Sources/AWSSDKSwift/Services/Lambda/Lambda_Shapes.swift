@@ -37,6 +37,9 @@ extension Lambda {
         case insufficientrolepermissions = "InsufficientRolePermissions"
         case invalidconfiguration = "InvalidConfiguration"
         case internalerror = "InternalError"
+        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
+        case invalidsubnet = "InvalidSubnet"
+        case invalidsecuritygroup = "InvalidSecurityGroup"
         public var description: String { return self.rawValue }
     }
 
@@ -93,6 +96,8 @@ extension Lambda {
         case invalidconfiguration = "InvalidConfiguration"
         case internalerror = "InternalError"
         case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
+        case invalidsubnet = "InvalidSubnet"
+        case invalidsecuritygroup = "InvalidSecurityGroup"
         public var description: String { return self.rawValue }
     }
 
@@ -1184,7 +1189,7 @@ extension Lambda {
         public let kMSKeyArn: String?
         /// The date and time that the function was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModified: String?
-        /// The status of the last update that was performed on the function.
+        /// The status of the last update that was performed on the function. This is first set to Successful after function creation completes.
         public let lastUpdateStatus: LastUpdateStatus?
         /// The reason for the last update that was performed on the function.
         public let lastUpdateStatusReason: String?
@@ -1901,7 +1906,7 @@ extension Lambda {
 
         /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
         public let executedVersion: String?
-        /// If present, indicates that an error occurred during function execution. Details about the error are included in the response payload.    Handled - The runtime caught an error thrown by the function and formatted it into a JSON document.    Unhandled - The runtime didn't handle the error. For example, the function ran out of memory or timed out.  
+        /// If present, indicates that an error occurred during function execution. Details about the error are included in the response payload.
         public let functionError: String?
         /// The last 4 KB of the execution log, which is base64 encoded.
         public let logResult: String?
@@ -2331,7 +2336,7 @@ extension Lambda {
         public let functionVersion: FunctionVersion?
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
-        /// For Lambda@Edge functions, the AWS Region of the master function. For example, us-east-2 or ALL. If specified, you must set FunctionVersion to ALL.
+        /// For Lambda@Edge functions, the AWS Region of the master function. For example, us-east-1 filters the list of functions to only include Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
         public let masterRegion: String?
         /// Specify a value between 1 and 50 to limit the number of functions in the response.
         public let maxItems: Int?

@@ -9,6 +9,7 @@ public enum CloudHSMV2ErrorType: AWSErrorType {
     case cloudHsmInvalidRequestException(message: String?)
     case cloudHsmResourceNotFoundException(message: String?)
     case cloudHsmServiceException(message: String?)
+    case cloudHsmTagException(message: String?)
 }
 
 extension CloudHSMV2ErrorType {
@@ -28,6 +29,8 @@ extension CloudHSMV2ErrorType {
             self = .cloudHsmResourceNotFoundException(message: message)
         case "CloudHsmServiceException":
             self = .cloudHsmServiceException(message: message)
+        case "CloudHsmTagException":
+            self = .cloudHsmTagException(message: message)
         default:
             return nil
         }
@@ -47,6 +50,8 @@ extension CloudHSMV2ErrorType : CustomStringConvertible {
             return "CloudHsmResourceNotFoundException: \(message ?? "")"
         case .cloudHsmServiceException(let message):
             return "CloudHsmServiceException: \(message ?? "")"
+        case .cloudHsmTagException(let message):
+            return "CloudHsmTagException: \(message ?? "")"
         }
     }
 }

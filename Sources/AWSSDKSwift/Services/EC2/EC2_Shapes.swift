@@ -137,6 +137,7 @@ extension EC2 {
         case pendingDeprovision = "pending-deprovision"
         case pendingProvision = "pending-provision"
         case provisioned = "provisioned"
+        case provisionedNotPubliclyAdvertisable = "provisioned-not-publicly-advertisable"
         public var description: String { return self.rawValue }
     }
 
@@ -2092,7 +2093,7 @@ extension EC2 {
             AWSShapeMember(label: "DryRun", required: false, type: .boolean)
         ]
 
-        /// The IPv4 address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range.
+        /// The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range.
         public let cidr: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -2853,7 +2854,9 @@ extension EC2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmazonProvidedIpv6CidrBlock", location: .body(locationName: "amazonProvidedIpv6CidrBlock"), required: false, type: .boolean), 
             AWSShapeMember(label: "CidrBlock", required: false, type: .string), 
+            AWSShapeMember(label: "Ipv6CidrBlock", required: false, type: .string), 
             AWSShapeMember(label: "Ipv6CidrBlockNetworkBorderGroup", required: false, type: .string), 
+            AWSShapeMember(label: "Ipv6Pool", required: false, type: .string), 
             AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string)
         ]
 
@@ -2861,22 +2864,30 @@ extension EC2 {
         public let amazonProvidedIpv6CidrBlock: Bool?
         /// An IPv4 CIDR block to associate with the VPC.
         public let cidrBlock: String?
+        /// An IPv6 CIDR block from the IPv6 address pool. You must also specify Ipv6Pool in the request. To let Amazon choose the IPv6 CIDR block for you, omit this parameter.
+        public let ipv6CidrBlock: String?
         /// The name of the location from which we advertise the IPV6 CIDR block. Use this parameter to limit the CiDR block to this location.  You must set AmazonProvidedIpv6CidrBlock to true to use this parameter.  You can have one IPv6 CIDR block association per network border group.
         public let ipv6CidrBlockNetworkBorderGroup: String?
+        /// The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
+        public let ipv6Pool: String?
         /// The ID of the VPC.
         public let vpcId: String
 
-        public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil, vpcId: String) {
+        public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil, ipv6Pool: String? = nil, vpcId: String) {
             self.amazonProvidedIpv6CidrBlock = amazonProvidedIpv6CidrBlock
             self.cidrBlock = cidrBlock
+            self.ipv6CidrBlock = ipv6CidrBlock
             self.ipv6CidrBlockNetworkBorderGroup = ipv6CidrBlockNetworkBorderGroup
+            self.ipv6Pool = ipv6Pool
             self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
             case amazonProvidedIpv6CidrBlock = "amazonProvidedIpv6CidrBlock"
             case cidrBlock = "CidrBlock"
+            case ipv6CidrBlock = "Ipv6CidrBlock"
             case ipv6CidrBlockNetworkBorderGroup = "Ipv6CidrBlockNetworkBorderGroup"
+            case ipv6Pool = "Ipv6Pool"
             case vpcId = "vpcId"
         }
     }
@@ -3655,7 +3666,7 @@ extension EC2 {
             AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string)
         ]
 
-        /// The public IPv4 address range, in CIDR notation.
+        /// The address range, in CIDR notation.
         public let cidr: String?
         /// The description of the address range.
         public let description: String?
@@ -4695,6 +4706,7 @@ extension EC2 {
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item")), 
             AWSShapeMember(label: "TransportProtocol", location: .body(locationName: "transportProtocol"), required: false, type: .enum), 
+            AWSShapeMember(label: "VpnPort", location: .body(locationName: "vpnPort"), required: false, type: .integer), 
             AWSShapeMember(label: "VpnProtocol", location: .body(locationName: "vpnProtocol"), required: false, type: .enum)
         ]
 
@@ -4726,10 +4738,12 @@ extension EC2 {
         public let tags: [Tag]?
         /// The transport protocol used by the Client VPN endpoint.
         public let transportProtocol: TransportProtocol?
+        /// The port number for the Client VPN endpoint.
+        public let vpnPort: Int?
         /// The protocol used by the VPN session.
         public let vpnProtocol: VpnProtocol?
 
-        public init(authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, serverCertificateArn: String? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpnProtocol: VpnProtocol? = nil) {
+        public init(authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, serverCertificateArn: String? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -4744,6 +4758,7 @@ extension EC2 {
             self.status = status
             self.tags = tags
             self.transportProtocol = transportProtocol
+            self.vpnPort = vpnPort
             self.vpnProtocol = vpnProtocol
         }
 
@@ -4762,6 +4777,7 @@ extension EC2 {
             case status = "status"
             case tags = "tagSet"
             case transportProtocol = "transportProtocol"
+            case vpnPort = "vpnPort"
             case vpnProtocol = "vpnProtocol"
         }
     }
@@ -5480,7 +5496,8 @@ extension EC2 {
             AWSShapeMember(label: "ServerCertificateArn", required: true, type: .string), 
             AWSShapeMember(label: "SplitTunnel", required: false, type: .boolean), 
             AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .list, encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransportProtocol", required: false, type: .enum)
+            AWSShapeMember(label: "TransportProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "VpnPort", required: false, type: .integer)
         ]
 
         /// Information about the authentication method to be used to authenticate clients.
@@ -5505,8 +5522,10 @@ extension EC2 {
         public let tagSpecifications: [TagSpecification]?
         /// The transport protocol to be used by the VPN session. Default value: udp 
         public let transportProtocol: TransportProtocol?
+        /// The port number to assign to the Client VPN endpoint for TCP and UDP traffic. Valid Values: 443 | 1194  Default Value: 443 
+        public let vpnPort: Int?
 
-        public init(authenticationOptions: [ClientVpnAuthenticationRequest], clientCidrBlock: String, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions, description: String? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, serverCertificateArn: String, splitTunnel: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil) {
+        public init(authenticationOptions: [ClientVpnAuthenticationRequest], clientCidrBlock: String, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions, description: String? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, serverCertificateArn: String, splitTunnel: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil, vpnPort: Int? = nil) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientToken = clientToken
@@ -5518,6 +5537,7 @@ extension EC2 {
             self.splitTunnel = splitTunnel
             self.tagSpecifications = tagSpecifications
             self.transportProtocol = transportProtocol
+            self.vpnPort = vpnPort
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5532,6 +5552,7 @@ extension EC2 {
             case splitTunnel = "SplitTunnel"
             case tagSpecifications = "TagSpecification"
             case transportProtocol = "TransportProtocol"
+            case vpnPort = "VpnPort"
         }
     }
 
@@ -8337,7 +8358,9 @@ extension EC2 {
             AWSShapeMember(label: "CidrBlock", required: true, type: .string), 
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeMember(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy"), required: false, type: .enum), 
-            AWSShapeMember(label: "Ipv6CidrBlockNetworkBorderGroup", required: false, type: .string)
+            AWSShapeMember(label: "Ipv6CidrBlock", required: false, type: .string), 
+            AWSShapeMember(label: "Ipv6CidrBlockNetworkBorderGroup", required: false, type: .string), 
+            AWSShapeMember(label: "Ipv6Pool", required: false, type: .string)
         ]
 
         /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block.
@@ -8348,15 +8371,21 @@ extension EC2 {
         public let dryRun: Bool?
         /// The tenancy options for instances launched into the VPC. For default, instances are launched with shared tenancy by default. You can launch instances with any tenancy into a shared tenancy VPC. For dedicated, instances are launched as dedicated tenancy instances by default. You can only launch instances with a tenancy of dedicated or host into a dedicated tenancy VPC.   Important: The host value cannot be used with this parameter. Use the default or dedicated values only. Default: default 
         public let instanceTenancy: Tenancy?
+        /// The IPv6 CIDR block from the IPv6 address pool. You must also specify Ipv6Pool in the request. To let Amazon choose the IPv6 CIDR block for you, omit this parameter.
+        public let ipv6CidrBlock: String?
         /// The name of the location from which we advertise the IPV6 CIDR block. Use this parameter to limit the address to this location.  You must set AmazonProvidedIpv6CidrBlock to true to use this parameter.
         public let ipv6CidrBlockNetworkBorderGroup: String?
+        /// The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
+        public let ipv6Pool: String?
 
-        public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String, dryRun: Bool? = nil, instanceTenancy: Tenancy? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil) {
+        public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String, dryRun: Bool? = nil, instanceTenancy: Tenancy? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil, ipv6Pool: String? = nil) {
             self.amazonProvidedIpv6CidrBlock = amazonProvidedIpv6CidrBlock
             self.cidrBlock = cidrBlock
             self.dryRun = dryRun
             self.instanceTenancy = instanceTenancy
+            self.ipv6CidrBlock = ipv6CidrBlock
             self.ipv6CidrBlockNetworkBorderGroup = ipv6CidrBlockNetworkBorderGroup
+            self.ipv6Pool = ipv6Pool
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8364,7 +8393,9 @@ extension EC2 {
             case cidrBlock = "CidrBlock"
             case dryRun = "dryRun"
             case instanceTenancy = "instanceTenancy"
+            case ipv6CidrBlock = "Ipv6CidrBlock"
             case ipv6CidrBlockNetworkBorderGroup = "Ipv6CidrBlockNetworkBorderGroup"
+            case ipv6Pool = "Ipv6Pool"
         }
     }
 
@@ -10349,7 +10380,7 @@ extension EC2 {
             AWSShapeMember(label: "DryRun", required: false, type: .boolean)
         ]
 
-        /// The public IPv4 address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range.
+        /// The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range.
         public let cidr: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -13161,6 +13192,70 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case internetGateways = "internetGatewaySet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeIpv6PoolsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PoolIds", location: .body(locationName: "PoolId"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
+        public let filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The IDs of the IPv6 address pools.
+        public let poolIds: [String]?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.poolIds = poolIds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case poolIds = "PoolId"
+        }
+    }
+
+    public struct DescribeIpv6PoolsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ipv6Pools", location: .body(locationName: "ipv6PoolSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// Information about the IPv6 address pools.
+        public let ipv6Pools: [Ipv6Pool]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(ipv6Pools: [Ipv6Pool]? = nil, nextToken: String? = nil) {
+            self.ipv6Pools = ipv6Pools
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv6Pools = "ipv6PoolSet"
             case nextToken = "nextToken"
         }
     }
@@ -17038,7 +17133,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    cidr - The primary IPv4 CIDR block of the VPC. The CIDR block you specify must exactly match the VPC's CIDR block for information to be returned for the VPC. Must contain the slash followed by one or two digits (for example, /28).    cidr-block-association.cidr-block - An IPv4 CIDR block associated with the VPC.    cidr-block-association.association-id - The association ID for an IPv4 CIDR block associated with the VPC.    cidr-block-association.state - The state of an IPv4 CIDR block associated with the VPC.    dhcp-options-id - The ID of a set of DHCP options.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.association-id - The association ID for an IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the VPC.    isDefault - Indicates whether the VPC is the default VPC.    owner-id - The ID of the AWS account that owns the VPC.    state - The state of the VPC (pending | available).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC.  
+        /// One or more filters.    cidr - The primary IPv4 CIDR block of the VPC. The CIDR block you specify must exactly match the VPC's CIDR block for information to be returned for the VPC. Must contain the slash followed by one or two digits (for example, /28).    cidr-block-association.cidr-block - An IPv4 CIDR block associated with the VPC.    cidr-block-association.association-id - The association ID for an IPv4 CIDR block associated with the VPC.    cidr-block-association.state - The state of an IPv4 CIDR block associated with the VPC.    dhcp-options-id - The ID of a set of DHCP options.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.ipv6-pool - The ID of the IPv6 address pool from which the IPv6 CIDR block is allocated.    ipv6-cidr-block-association.association-id - The association ID for an IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the VPC.    isDefault - Indicates whether the VPC is the default VPC.    owner-id - The ID of the AWS account that owns the VPC.    state - The state of the VPC (pending | available).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC.  
         public let filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -20102,6 +20197,65 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case fpgas = "fpgas"
             case totalFpgaMemoryInMiB = "totalFpgaMemoryInMiB"
+        }
+    }
+
+    public struct GetAssociatedIpv6PoolCidrsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PoolId", required: true, type: .string)
+        ]
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the IPv6 address pool.
+        public let poolId: String
+
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolId: String) {
+            self.dryRun = dryRun
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.poolId = poolId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case poolId = "PoolId"
+        }
+    }
+
+    public struct GetAssociatedIpv6PoolCidrsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ipv6CidrAssociations", location: .body(locationName: "ipv6CidrAssociationSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// Information about the IPv6 CIDR block associations.
+        public let ipv6CidrAssociations: [Ipv6CidrAssociation]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(ipv6CidrAssociations: [Ipv6CidrAssociation]? = nil, nextToken: String? = nil) {
+            self.ipv6CidrAssociations = ipv6CidrAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv6CidrAssociations = "ipv6CidrAssociationSet"
+            case nextToken = "nextToken"
         }
     }
 
@@ -24082,6 +24236,28 @@ extension EC2 {
         }
     }
 
+    public struct Ipv6CidrAssociation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociatedResource", location: .body(locationName: "associatedResource"), required: false, type: .string), 
+            AWSShapeMember(label: "Ipv6Cidr", location: .body(locationName: "ipv6Cidr"), required: false, type: .string)
+        ]
+
+        /// The resource that's associated with the IPv6 CIDR block.
+        public let associatedResource: String?
+        /// The IPv6 CIDR block.
+        public let ipv6Cidr: String?
+
+        public init(associatedResource: String? = nil, ipv6Cidr: String? = nil) {
+            self.associatedResource = associatedResource
+            self.ipv6Cidr = ipv6Cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedResource = "associatedResource"
+            case ipv6Cidr = "ipv6Cidr"
+        }
+    }
+
     public struct Ipv6CidrBlock: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string)
@@ -24096,6 +24272,38 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipv6CidrBlock = "ipv6CidrBlock"
+        }
+    }
+
+    public struct Ipv6Pool: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "PoolCidrBlocks", location: .body(locationName: "poolCidrBlockSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "PoolId", location: .body(locationName: "poolId"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+
+        /// The description for the address pool.
+        public let description: String?
+        /// The CIDR blocks for the address pool.
+        public let poolCidrBlocks: [PoolCidrBlock]?
+        /// The ID of the address pool.
+        public let poolId: String?
+        /// Any tags for the address pool.
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, poolCidrBlocks: [PoolCidrBlock]? = nil, poolId: String? = nil, tags: [Tag]? = nil) {
+            self.description = description
+            self.poolCidrBlocks = poolCidrBlocks
+            self.poolId = poolId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case poolCidrBlocks = "poolCidrBlockSet"
+            case poolId = "poolId"
+            case tags = "tagSet"
         }
     }
 
@@ -25957,7 +26165,8 @@ extension EC2 {
             AWSShapeMember(label: "DnsServers", required: false, type: .structure), 
             AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
             AWSShapeMember(label: "ServerCertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "SplitTunnel", required: false, type: .boolean)
+            AWSShapeMember(label: "SplitTunnel", required: false, type: .boolean), 
+            AWSShapeMember(label: "VpnPort", required: false, type: .integer)
         ]
 
         /// The ID of the Client VPN endpoint to modify.
@@ -25974,8 +26183,10 @@ extension EC2 {
         public let serverCertificateArn: String?
         /// Indicates whether the VPN is split-tunnel. For information about split-tunnel VPN endpoints, see Split-Tunnel AWS Client VPN Endpoint in the AWS Client VPN Administrator Guide.
         public let splitTunnel: Bool?
+        /// The port number to assign to the Client VPN endpoint for TCP and UDP traffic. Valid Values: 443 | 1194  Default Value: 443 
+        public let vpnPort: Int?
 
-        public init(clientVpnEndpointId: String, connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, dnsServers: DnsServersOptionsModifyStructure? = nil, dryRun: Bool? = nil, serverCertificateArn: String? = nil, splitTunnel: Bool? = nil) {
+        public init(clientVpnEndpointId: String, connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, dnsServers: DnsServersOptionsModifyStructure? = nil, dryRun: Bool? = nil, serverCertificateArn: String? = nil, splitTunnel: Bool? = nil, vpnPort: Int? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.connectionLogOptions = connectionLogOptions
             self.description = description
@@ -25983,6 +26194,7 @@ extension EC2 {
             self.dryRun = dryRun
             self.serverCertificateArn = serverCertificateArn
             self.splitTunnel = splitTunnel
+            self.vpnPort = vpnPort
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25993,6 +26205,7 @@ extension EC2 {
             case dryRun = "DryRun"
             case serverCertificateArn = "ServerCertificateArn"
             case splitTunnel = "SplitTunnel"
+            case vpnPort = "VpnPort"
         }
     }
 
@@ -29286,6 +29499,23 @@ extension EC2 {
         }
     }
 
+    public struct PoolCidrBlock: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cidr", location: .body(locationName: "poolCidrBlock"), required: false, type: .string)
+        ]
+
+        /// The CIDR block.
+        public let cidr: String?
+
+        public init(cidr: String? = nil) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "poolCidrBlock"
+        }
+    }
+
     public struct PortRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "From", location: .body(locationName: "from"), required: false, type: .integer), 
@@ -29580,10 +29810,11 @@ extension EC2 {
             AWSShapeMember(label: "Cidr", required: true, type: .string), 
             AWSShapeMember(label: "CidrAuthorizationContext", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean)
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "PubliclyAdvertisable", required: false, type: .boolean)
         ]
 
-        /// The public IPv4 address range, in CIDR notation. The most specific prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this or another Region.
+        /// The public IPv4 or IPv6 address range, in CIDR notation. The most specific IPv4 prefix that you can specify is /24. The most specific IPv6 prefix you can specify is /56. The address range cannot overlap with another address range that you've brought to this or another Region.
         public let cidr: String
         /// A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP.
         public let cidrAuthorizationContext: CidrAuthorizationContext?
@@ -29591,12 +29822,15 @@ extension EC2 {
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// (IPv6 only) Indicate whether the address range will be publicly advertised to the internet. Default: true
+        public let publiclyAdvertisable: Bool?
 
-        public init(cidr: String, cidrAuthorizationContext: CidrAuthorizationContext? = nil, description: String? = nil, dryRun: Bool? = nil) {
+        public init(cidr: String, cidrAuthorizationContext: CidrAuthorizationContext? = nil, description: String? = nil, dryRun: Bool? = nil, publiclyAdvertisable: Bool? = nil) {
             self.cidr = cidr
             self.cidrAuthorizationContext = cidrAuthorizationContext
             self.description = description
             self.dryRun = dryRun
+            self.publiclyAdvertisable = publiclyAdvertisable
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -29604,6 +29838,7 @@ extension EC2 {
             case cidrAuthorizationContext = "CidrAuthorizationContext"
             case description = "Description"
             case dryRun = "DryRun"
+            case publiclyAdvertisable = "PubliclyAdvertisable"
         }
     }
 
@@ -29612,7 +29847,7 @@ extension EC2 {
             AWSShapeMember(label: "ByoipCidr", location: .body(locationName: "byoipCidr"), required: false, type: .structure)
         ]
 
-        /// Information about the address pool.
+        /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
         public init(byoipCidr: ByoipCidr? = nil) {
@@ -29674,7 +29909,7 @@ extension EC2 {
         public let description: String?
         /// The address ranges.
         public let poolAddressRanges: [PublicIpv4PoolRange]?
-        /// The ID of the IPv4 address pool.
+        /// The ID of the address pool.
         public let poolId: String?
         /// The total number of addresses.
         public let totalAddressCount: Int?
@@ -38151,6 +38386,7 @@ extension EC2 {
             AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string), 
             AWSShapeMember(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
             AWSShapeMember(label: "Ipv6CidrBlockState", location: .body(locationName: "ipv6CidrBlockState"), required: false, type: .structure), 
+            AWSShapeMember(label: "Ipv6Pool", location: .body(locationName: "ipv6Pool"), required: false, type: .string), 
             AWSShapeMember(label: "NetworkBorderGroup", location: .body(locationName: "networkBorderGroup"), required: false, type: .string)
         ]
 
@@ -38160,13 +38396,16 @@ extension EC2 {
         public let ipv6CidrBlock: String?
         /// Information about the state of the CIDR block.
         public let ipv6CidrBlockState: VpcCidrBlockState?
+        /// The ID of the IPv6 address pool from which the IPv6 CIDR block is allocated.
+        public let ipv6Pool: String?
         /// The name of the location from which we advertise the IPV6 CIDR block.
         public let networkBorderGroup: String?
 
-        public init(associationId: String? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockState: VpcCidrBlockState? = nil, networkBorderGroup: String? = nil) {
+        public init(associationId: String? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockState: VpcCidrBlockState? = nil, ipv6Pool: String? = nil, networkBorderGroup: String? = nil) {
             self.associationId = associationId
             self.ipv6CidrBlock = ipv6CidrBlock
             self.ipv6CidrBlockState = ipv6CidrBlockState
+            self.ipv6Pool = ipv6Pool
             self.networkBorderGroup = networkBorderGroup
         }
 
@@ -38174,6 +38413,7 @@ extension EC2 {
             case associationId = "associationId"
             case ipv6CidrBlock = "ipv6CidrBlock"
             case ipv6CidrBlockState = "ipv6CidrBlockState"
+            case ipv6Pool = "ipv6Pool"
             case networkBorderGroup = "networkBorderGroup"
         }
     }
@@ -38609,7 +38849,7 @@ extension EC2 {
             AWSShapeMember(label: "DryRun", required: false, type: .boolean)
         ]
 
-        /// The public IPv4 address range, in CIDR notation.
+        /// The address range, in CIDR notation.
         public let cidr: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?

@@ -56,10 +56,12 @@ extension EKS {
 
     public enum NodegroupIssueCode: String, CustomStringConvertible, Codable {
         case autoscalinggroupnotfound = "AutoScalingGroupNotFound"
+        case autoscalinggroupinvalidconfiguration = "AutoScalingGroupInvalidConfiguration"
         case ec2securitygroupnotfound = "Ec2SecurityGroupNotFound"
         case ec2securitygroupdeletionfailure = "Ec2SecurityGroupDeletionFailure"
         case ec2launchtemplatenotfound = "Ec2LaunchTemplateNotFound"
         case ec2launchtemplateversionmismatch = "Ec2LaunchTemplateVersionMismatch"
+        case ec2subnetnotfound = "Ec2SubnetNotFound"
         case iaminstanceprofilenotfound = "IamInstanceProfileNotFound"
         case iamnoderolenotfound = "IamNodeRoleNotFound"
         case asginstancelaunchfailures = "AsgInstanceLaunchFailures"

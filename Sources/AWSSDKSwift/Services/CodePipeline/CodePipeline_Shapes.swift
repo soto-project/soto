@@ -25,6 +25,7 @@ extension CodePipeline {
 
     public enum ActionExecutionStatus: String, CustomStringConvertible, Codable {
         case inprogress = "InProgress"
+        case abandoned = "Abandoned"
         case succeeded = "Succeeded"
         case failed = "Failed"
         public var description: String { return self.rawValue }
@@ -86,6 +87,8 @@ extension CodePipeline {
 
     public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable {
         case inprogress = "InProgress"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
         case succeeded = "Succeeded"
         case superseded = "Superseded"
         case failed = "Failed"
@@ -95,6 +98,8 @@ extension CodePipeline {
     public enum StageExecutionStatus: String, CustomStringConvertible, Codable {
         case inprogress = "InProgress"
         case failed = "Failed"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
@@ -975,7 +980,7 @@ extension CodePipeline {
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
 
-        /// The Amazon S3 bucket that contains the artifact.
+        /// The S3 bucket that contains the artifact.
         public let s3Location: S3ArtifactLocation?
         /// The type of artifact in the location.
         public let `type`: ArtifactLocationType?
@@ -1042,7 +1047,7 @@ extension CodePipeline {
 
         /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
         public let encryptionKey: EncryptionKey?
-        /// The Amazon S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder in the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any Amazon S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
+        /// The S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder in the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
         public let location: String
         /// The type of the artifact store, such as S3.
         public let `type`: ArtifactStoreType
@@ -1933,7 +1938,7 @@ extension CodePipeline {
         public let actionConfiguration: ActionConfiguration?
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId?
-        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifacts for the pipeline in AWS CodePipeline.
+        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the S3 bucket used to store artifacts for the pipeline in AWS CodePipeline.
         public let artifactCredentials: AWSSessionCredentials?
         /// A system-generated token, such as a AWS CodeDeploy deployment ID, required by a job to continue the job asynchronously.
         public let continuationToken: String?
@@ -2438,7 +2443,7 @@ extension CodePipeline {
             AWSShapeMember(label: "version", required: false, type: .integer)
         ]
 
-        /// Represents information about the Amazon S3 bucket where artifacts are stored for the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
+        /// Represents information about the S3 bucket where artifacts are stored for the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
         public let artifactStore: ArtifactStore?
         /// A mapping of artifactStore objects and their corresponding AWS Regions. There must be an artifact store for the pipeline Region and for each cross-region action in the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
         public let artifactStores: [String: ArtifactStore]?
@@ -2501,11 +2506,11 @@ extension CodePipeline {
         public let artifactRevisions: [ArtifactRevision]?
         /// The ID of the pipeline execution.
         public let pipelineExecutionId: String?
-        /// The name of the pipeline that was executed.
+        /// The name of the pipeline with the specified pipeline execution.
         public let pipelineName: String?
-        /// The version number of the pipeline that was executed.
+        /// The version number of the pipeline with the specified pipeline execution.
         public let pipelineVersion: Int?
-        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.    Failed: The pipeline execution was not completed successfully.  
+        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Stopped: The pipeline execution was manually stopped. For more information, see Stopped Executions.   Stopping: The pipeline execution received a request to be manually stopped. Depending on the selected stop mode, the execution is either completing or abandoning in-progress actions. For more information, see Stopped Executions.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead. For more information, see Superseded Executions.   Failed: The pipeline execution was not completed successfully.  
         public let status: PipelineExecutionStatus?
 
         public init(artifactRevisions: [ArtifactRevision]? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, status: PipelineExecutionStatus? = nil) {
@@ -2532,6 +2537,7 @@ extension CodePipeline {
             AWSShapeMember(label: "sourceRevisions", required: false, type: .list), 
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "stopTrigger", required: false, type: .structure), 
             AWSShapeMember(label: "trigger", required: false, type: .structure)
         ]
 
@@ -2543,17 +2549,20 @@ extension CodePipeline {
         public let sourceRevisions: [SourceRevision]?
         /// The date and time when the pipeline execution began, in timestamp format.
         public let startTime: TimeStamp?
-        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.    Failed: The pipeline execution was not completed successfully.  
+        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Stopped: The pipeline execution was manually stopped. For more information, see Stopped Executions.   Stopping: The pipeline execution received a request to be manually stopped. Depending on the selected stop mode, the execution is either completing or abandoning in-progress actions. For more information, see Stopped Executions.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead. For more information, see Superseded Executions.   Failed: The pipeline execution was not completed successfully.  
         public let status: PipelineExecutionStatus?
+        /// The interaction that stopped a pipeline execution.
+        public let stopTrigger: StopExecutionTrigger?
         /// The interaction or event that started a pipeline execution, such as automated change detection or a StartPipelineExecution API call.
         public let trigger: ExecutionTrigger?
 
-        public init(lastUpdateTime: TimeStamp? = nil, pipelineExecutionId: String? = nil, sourceRevisions: [SourceRevision]? = nil, startTime: TimeStamp? = nil, status: PipelineExecutionStatus? = nil, trigger: ExecutionTrigger? = nil) {
+        public init(lastUpdateTime: TimeStamp? = nil, pipelineExecutionId: String? = nil, sourceRevisions: [SourceRevision]? = nil, startTime: TimeStamp? = nil, status: PipelineExecutionStatus? = nil, stopTrigger: StopExecutionTrigger? = nil, trigger: ExecutionTrigger? = nil) {
             self.lastUpdateTime = lastUpdateTime
             self.pipelineExecutionId = pipelineExecutionId
             self.sourceRevisions = sourceRevisions
             self.startTime = startTime
             self.status = status
+            self.stopTrigger = stopTrigger
             self.trigger = trigger
         }
 
@@ -2563,6 +2572,7 @@ extension CodePipeline {
             case sourceRevisions = "sourceRevisions"
             case startTime = "startTime"
             case status = "status"
+            case stopTrigger = "stopTrigger"
             case trigger = "trigger"
         }
     }
@@ -3161,9 +3171,9 @@ extension CodePipeline {
             AWSShapeMember(label: "objectKey", required: true, type: .string)
         ]
 
-        /// The name of the Amazon S3 bucket.
+        /// The name of the S3 bucket.
         public let bucketName: String
-        /// The key of the object in the Amazon S3 bucket, which uniquely identifies the object in the bucket.
+        /// The key of the object in the S3 bucket, which uniquely identifies the object in the bucket.
         public let objectKey: String
 
         public init(bucketName: String, objectKey: String) {
@@ -3389,6 +3399,80 @@ extension CodePipeline {
         }
     }
 
+    public struct StopExecutionTrigger: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reason", required: false, type: .string)
+        ]
+
+        /// The user-specified reason the pipeline was stopped.
+        public let reason: String?
+
+        public init(reason: String? = nil) {
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+        }
+    }
+
+    public struct StopPipelineExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "abandon", required: false, type: .boolean), 
+            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string)
+        ]
+
+        /// Use this option to stop the pipeline execution by abandoning, rather than finishing, in-progress actions.  This option can lead to failed or out-of-sequence tasks. 
+        public let abandon: Bool?
+        /// The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExecutionId.
+        public let pipelineExecutionId: String
+        /// The name of the pipeline to stop.
+        public let pipelineName: String
+        /// Use this option to enter comments, such as the reason the pipeline was stopped.
+        public let reason: String?
+
+        public init(abandon: Bool? = nil, pipelineExecutionId: String, pipelineName: String, reason: String? = nil) {
+            self.abandon = abandon
+            self.pipelineExecutionId = pipelineExecutionId
+            self.pipelineName = pipelineName
+            self.reason = reason
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.pipelineExecutionId, name:"pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 100)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.reason, name:"reason", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abandon = "abandon"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case reason = "reason"
+        }
+    }
+
+    public struct StopPipelineExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
+        ]
+
+        /// The unique system-generated ID of the pipeline execution that was stopped.
+        public let pipelineExecutionId: String?
+
+        public init(pipelineExecutionId: String? = nil) {
+            self.pipelineExecutionId = pipelineExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .string), 
@@ -3493,7 +3577,7 @@ extension CodePipeline {
         public let actionConfiguration: ActionConfiguration?
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId?
-        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline in AWS CodePipeline. 
+        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the S3 bucket used to store artifact for the pipeline in AWS CodePipeline. 
         public let artifactCredentials: AWSSessionCredentials?
         /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires to continue the job asynchronously.
         public let continuationToken: String?

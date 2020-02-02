@@ -38,6 +38,13 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogLevel: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case basic = "BASIC"
+        case transfer = "TRANSFER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Mtime: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case preserve = "PRESERVE"
@@ -237,7 +244,7 @@ extension DataSync {
             try validate(self.activationKey, name:"activationKey", parent: name, pattern: "[A-Z0-9]{5}(-[A-Z0-9]{5}){4}")
             try validate(self.agentName, name:"agentName", parent: name, max: 256)
             try validate(self.agentName, name:"agentName", parent: name, min: 1)
-            try validate(self.agentName, name:"agentName", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(self.agentName, name:"agentName", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
             try self.securityGroupArns?.forEach {
                 try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
                 try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
@@ -336,6 +343,94 @@ extension DataSync {
         ]
 
         /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that is created.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct CreateLocationFsxWindowsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "FsxFilesystemArn", required: true, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroupArns", required: true, type: .list), 
+            AWSShapeMember(label: "Subdirectory", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "User", required: true, type: .string)
+        ]
+
+        /// The name of the Windows domain that the FSx for Windows server belongs to.
+        public let domain: String?
+        /// The Amazon Resource Name (ARN) for the FSx for Windows file system.
+        public let fsxFilesystemArn: String
+        /// The password of the user who has the permissions to access files and folders in the FSx for Windows file system.
+        public let password: String
+        /// The Amazon Resource Names (ARNs) of the security groups that are to use to configure the FSx for Windows file system.
+        public let securityGroupArns: [String]
+        /// A subdirectory in the location’s path. This subdirectory in the Amazon FSx for Windows file system is used to read data from the Amazon FSx for Windows source location or write data to the FSx for Windows destination.
+        public let subdirectory: String?
+        /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
+        public let tags: [TagListEntry]?
+        /// The user who has the permissions to access files and folders in the FSx for Windows file system.
+        public let user: String
+
+        public init(domain: String? = nil, fsxFilesystemArn: String, password: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil, user: String) {
+            self.domain = domain
+            self.fsxFilesystemArn = fsxFilesystemArn
+            self.password = password
+            self.securityGroupArns = securityGroupArns
+            self.subdirectory = subdirectory
+            self.tags = tags
+            self.user = user
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domain, name:"domain", parent: name, max: 253)
+            try validate(self.domain, name:"domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
+            try validate(self.fsxFilesystemArn, name:"fsxFilesystemArn", parent: name, max: 128)
+            try validate(self.fsxFilesystemArn, name:"fsxFilesystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):fsx:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
+            try validate(self.password, name:"password", parent: name, max: 104)
+            try validate(self.password, name:"password", parent: name, pattern: "^.{0,104}$")
+            try self.securityGroupArns.forEach {
+                try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
+                try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
+            }
+            try validate(self.securityGroupArns, name:"securityGroupArns", parent: name, max: 5)
+            try validate(self.securityGroupArns, name:"securityGroupArns", parent: name, min: 1)
+            try validate(self.subdirectory, name:"subdirectory", parent: name, max: 4096)
+            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 55)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.user, name:"user", parent: name, max: 104)
+            try validate(self.user, name:"user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case fsxFilesystemArn = "FsxFilesystemArn"
+            case password = "Password"
+            case securityGroupArns = "SecurityGroupArns"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+            case user = "User"
+        }
+    }
+
+    public struct CreateLocationFsxWindowsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the FSx for Windows file system location that is created.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -534,7 +629,7 @@ extension DataSync {
             try validate(self.serverHostname, name:"serverHostname", parent: name, max: 255)
             try validate(self.serverHostname, name:"serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
             try validate(self.subdirectory, name:"subdirectory", parent: name, max: 4096)
-            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]+$")
+            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -625,7 +720,7 @@ extension DataSync {
             try validate(self.excludes, name:"excludes", parent: name, min: 0)
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
             try self.options?.validate(name: "\(name).options")
             try self.schedule?.validate(name: "\(name).schedule")
             try validate(self.sourceLocationArn, name:"sourceLocationArn", parent: name, max: 128)
@@ -875,6 +970,70 @@ extension DataSync {
             case ec2Config = "Ec2Config"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
+        }
+    }
+
+    public struct DescribeLocationFsxWindowsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the FSx for Windows location to describe.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.locationArn, name:"locationArn", parent: name, max: 128)
+            try validate(self.locationArn, name:"locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationFsxWindowsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupArns", required: false, type: .list), 
+            AWSShapeMember(label: "User", required: false, type: .string)
+        ]
+
+        /// The time that the FSx for Windows location was created.
+        public let creationTime: TimeStamp?
+        /// The name of the Windows domain that the FSx for Windows server belongs to.
+        public let domain: String?
+        /// The Amazon resource Name (ARN) of the FSx for Windows location that was described.
+        public let locationArn: String?
+        /// The URL of the FSx for Windows location that was described.
+        public let locationUri: String?
+        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the for the FSx for Windows file system.
+        public let securityGroupArns: [String]?
+        /// The user who has the permissions to access files and folders in the FSx for Windows file system.
+        public let user: String?
+
+        public init(creationTime: TimeStamp? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, securityGroupArns: [String]? = nil, user: String? = nil) {
+            self.creationTime = creationTime
+            self.domain = domain
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+            self.securityGroupArns = securityGroupArns
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case domain = "Domain"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+            case securityGroupArns = "SecurityGroupArns"
+            case user = "User"
         }
     }
 
@@ -1664,6 +1823,7 @@ extension DataSync {
             AWSShapeMember(label: "Atime", required: false, type: .enum), 
             AWSShapeMember(label: "BytesPerSecond", required: false, type: .long), 
             AWSShapeMember(label: "Gid", required: false, type: .enum), 
+            AWSShapeMember(label: "LogLevel", required: false, type: .enum), 
             AWSShapeMember(label: "Mtime", required: false, type: .enum), 
             AWSShapeMember(label: "OverwriteMode", required: false, type: .enum), 
             AWSShapeMember(label: "PosixPermissions", required: false, type: .enum), 
@@ -1680,6 +1840,8 @@ extension DataSync {
         public let bytesPerSecond: Int64?
         /// The group ID (GID) of the file's owners.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of user ID (UID) and GID (recommended). NONE: Ignore UID and GID. 
         public let gid: Gid?
+        /// A value that determines the type of logs DataSync will deliver to your AWS CloudWatch Logs file. If set to OFF, no logs will be delivered. BASIC will deliver a few logs per transfer operation and TRANSFER will deliver a verbose log that contains logs for every file that is transferred.
+        public let logLevel: LogLevel?
         /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase.  Default value: PRESERVE.  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.  
         public let mtime: Mtime?
         /// A value that determines whether files at the destination should be overwritten or preserved when copying files. If set to NEVER a destination file will not be replaced by a source file, even if the destination file differs from the source file. If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes in the AWS DataSync User Guide.
@@ -1697,10 +1859,11 @@ extension DataSync {
         /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred.  Default value: POINT_IN_TIME_CONSISTENT. POINT_IN_TIME_CONSISTENT: Perform verification (recommended).  ONLY_FILES_TRANSFERRED: Perform verification on only files that were transferred. NONE: Skip verification.
         public let verifyMode: VerifyMode?
 
-        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, mtime: Mtime? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, taskQueueing: TaskQueueing? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
+        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, taskQueueing: TaskQueueing? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
             self.gid = gid
+            self.logLevel = logLevel
             self.mtime = mtime
             self.overwriteMode = overwriteMode
             self.posixPermissions = posixPermissions
@@ -1719,6 +1882,7 @@ extension DataSync {
             case atime = "Atime"
             case bytesPerSecond = "BytesPerSecond"
             case gid = "Gid"
+            case logLevel = "LogLevel"
             case mtime = "Mtime"
             case overwriteMode = "OverwriteMode"
             case posixPermissions = "PosixPermissions"
@@ -1877,7 +2041,7 @@ extension DataSync {
             try validate(self.key, name:"key", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
             try validate(self.value, name:"value", parent: name, max: 256)
             try validate(self.value, name:"value", parent: name, min: 1)
-            try validate(self.value, name:"value", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(self.value, name:"value", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2117,7 +2281,7 @@ extension DataSync {
             try validate(self.agentArn, name:"agentArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2175,7 +2339,7 @@ extension DataSync {
             try validate(self.excludes, name:"excludes", parent: name, min: 0)
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
             try self.options?.validate(name: "\(name).options")
             try self.schedule?.validate(name: "\(name).schedule")
             try validate(self.taskArn, name:"taskArn", parent: name, max: 128)

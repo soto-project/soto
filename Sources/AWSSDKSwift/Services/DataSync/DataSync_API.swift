@@ -61,6 +61,11 @@ public struct DataSync {
         return client.send(operation: "CreateLocationEfs", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates an endpoint for an Amazon FSx for Windows file system.
+    public func createLocationFsxWindows(_ input: CreateLocationFsxWindowsRequest) -> EventLoopFuture<CreateLocationFsxWindowsResponse> {
+        return client.send(operation: "CreateLocationFsxWindows", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Defines a file system on a Network File System (NFS) server that can be read from or written to
     public func createLocationNfs(_ input: CreateLocationNfsRequest) -> EventLoopFuture<CreateLocationNfsResponse> {
         return client.send(operation: "CreateLocationNfs", path: "/", httpMethod: "POST", input: input)
@@ -104,6 +109,11 @@ public struct DataSync {
     ///  Returns metadata, such as the path information about an Amazon EFS location.
     public func describeLocationEfs(_ input: DescribeLocationEfsRequest) -> EventLoopFuture<DescribeLocationEfsResponse> {
         return client.send(operation: "DescribeLocationEfs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns metadata, such as the path information about an Amazon FSx for Windows location.
+    public func describeLocationFsxWindows(_ input: DescribeLocationFsxWindowsRequest) -> EventLoopFuture<DescribeLocationFsxWindowsResponse> {
+        return client.send(operation: "DescribeLocationFsxWindows", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns metadata, such as the path information, about a NFS location.

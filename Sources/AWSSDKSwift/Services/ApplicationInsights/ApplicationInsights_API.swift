@@ -125,6 +125,11 @@ public struct ApplicationInsights {
         return client.send(operation: "ListComponents", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.   
+    public func listConfigurationHistory(_ input: ListConfigurationHistoryRequest) -> EventLoopFuture<ListConfigurationHistoryResponse> {
+        return client.send(operation: "ListConfigurationHistory", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists the log pattern sets in the specific application.
     public func listLogPatternSets(_ input: ListLogPatternSetsRequest) -> EventLoopFuture<ListLogPatternSetsResponse> {
         return client.send(operation: "ListLogPatternSets", path: "/", httpMethod: "POST", input: input)
