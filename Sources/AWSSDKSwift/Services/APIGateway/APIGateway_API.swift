@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS APIGateway service.
+
 Amazon API Gateway Amazon API Gateway helps developers deliver robust, secure, and scalable mobile and web application back ends. API Gateway allows developers to securely connect mobile and web applications to APIs that run on AWS Lambda, Amazon EC2, or other publicly addressable web services that are hosted outside of AWS.
 */
 public struct APIGateway {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the APIGateway client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -26,6 +41,8 @@ public struct APIGateway {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Create an ApiKey resource.  AWS CLI
     public func createApiKey(_ input: CreateApiKeyRequest) -> EventLoopFuture<ApiKey> {

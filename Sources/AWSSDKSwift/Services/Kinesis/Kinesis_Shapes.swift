@@ -4,6 +4,56 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Kinesis {
+    //MARK: Enums
+
+    public enum ConsumerStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricsName: String, CustomStringConvertible, Codable {
+        case incomingbytes = "IncomingBytes"
+        case incomingrecords = "IncomingRecords"
+        case outgoingbytes = "OutgoingBytes"
+        case outgoingrecords = "OutgoingRecords"
+        case writeprovisionedthroughputexceeded = "WriteProvisionedThroughputExceeded"
+        case readprovisionedthroughputexceeded = "ReadProvisionedThroughputExceeded"
+        case iteratoragemilliseconds = "IteratorAgeMilliseconds"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingType: String, CustomStringConvertible, Codable {
+        case uniformScaling = "UNIFORM_SCALING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShardIteratorType: String, CustomStringConvertible, Codable {
+        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
+        case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
+        case trimHorizon = "TRIM_HORIZON"
+        case latest = "LATEST"
+        case atTimestamp = "AT_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddTagsToStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -104,13 +154,6 @@ extension Kinesis {
             case consumerStatus = "ConsumerStatus"
             case streamARN = "StreamARN"
         }
-    }
-
-    public enum ConsumerStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateStreamInput: AWSShape {
@@ -479,12 +522,6 @@ extension Kinesis {
             case shardLevelMetrics = "ShardLevelMetrics"
             case streamName = "StreamName"
         }
-    }
-
-    public enum EncryptionType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
     }
 
     public struct EnhancedMetrics: AWSShape {
@@ -989,18 +1026,6 @@ extension Kinesis {
         }
     }
 
-    public enum MetricsName: String, CustomStringConvertible, Codable {
-        case incomingbytes = "IncomingBytes"
-        case incomingrecords = "IncomingRecords"
-        case outgoingbytes = "OutgoingBytes"
-        case outgoingrecords = "OutgoingRecords"
-        case writeprovisionedthroughputexceeded = "WriteProvisionedThroughputExceeded"
-        case readprovisionedthroughputexceeded = "ReadProvisionedThroughputExceeded"
-        case iteratoragemilliseconds = "IteratorAgeMilliseconds"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PutRecordInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Data", required: true, type: .blob), 
@@ -1323,11 +1348,6 @@ extension Kinesis {
         }
     }
 
-    public enum ScalingType: String, CustomStringConvertible, Codable {
-        case uniformScaling = "UNIFORM_SCALING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SequenceNumberRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndingSequenceNumber", required: false, type: .string), 
@@ -1385,15 +1405,6 @@ extension Kinesis {
             case sequenceNumberRange = "SequenceNumberRange"
             case shardId = "ShardId"
         }
-    }
-
-    public enum ShardIteratorType: String, CustomStringConvertible, Codable {
-        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
-        case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
-        case trimHorizon = "TRIM_HORIZON"
-        case latest = "LATEST"
-        case atTimestamp = "AT_TIMESTAMP"
-        public var description: String { return self.rawValue }
     }
 
     public struct SplitShardInput: AWSShape {
@@ -1653,14 +1664,6 @@ extension Kinesis {
             case streamName = "StreamName"
             case streamStatus = "StreamStatus"
         }
-    }
-
-    public enum StreamStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case active = "ACTIVE"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct SubscribeToShardInput: AWSShape {

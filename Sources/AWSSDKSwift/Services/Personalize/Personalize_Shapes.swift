@@ -4,6 +4,20 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Personalize {
+    //MARK: Enums
+
+    public enum RecipeProvider: String, CustomStringConvertible, Codable {
+        case service = "SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingMode: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case update = "UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Algorithm: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3054,11 +3068,6 @@ extension Personalize {
         }
     }
 
-    public enum RecipeProvider: String, CustomStringConvertible, Codable {
-        case service = "SERVICE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RecipeSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "creationDateTime", required: false, type: .timestamp), 
@@ -3404,12 +3413,6 @@ extension Personalize {
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
         }
-    }
-
-    public enum TrainingMode: String, CustomStringConvertible, Codable {
-        case full = "FULL"
-        case update = "UPDATE"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateCampaignRequest: AWSShape {

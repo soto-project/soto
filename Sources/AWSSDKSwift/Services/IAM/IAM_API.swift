@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS IAM service.
+
 AWS Identity and Access Management AWS Identity and Access Management (IAM) is a web service that you can use to manage users and user permissions under your AWS account. This guide provides descriptions of IAM actions that you can call programmatically. For general information about IAM, see AWS Identity and Access Management (IAM). For the user guide for IAM, see Using IAM.   AWS provides SDKs that consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .NET, iOS, Android, etc.). The SDKs provide a convenient way to create programmatic access to IAM and AWS. For example, the SDKs take care of tasks such as cryptographically signing requests (see below), managing errors, and retrying requests automatically. For information about the AWS SDKs, including how to download and install them, see the Tools for Amazon Web Services page.   We recommend that you use the AWS SDKs to make programmatic API calls to IAM. However, you can also use the IAM Query API to make direct calls to the IAM web service. To learn more about the IAM Query API, see Making Query Requests in the Using IAM guide. IAM supports GET and POST requests for all actions. That is, the API does not require you to use GET for some actions and POST for others. However, GET requests are subject to the limitation size of a URL. Therefore, for operations that require larger sizes, use a POST request.   Signing Requests  Requests must be signed using an access key ID and a secret access key. We strongly recommend that you do not use your AWS account access key ID and secret access key for everyday work with IAM. You can use the access key ID and secret access key for an IAM user or you can use the AWS Security Token Service to generate temporary security credentials and use those to sign requests. To sign requests, we recommend that you use Signature Version 4. If you have an existing application that uses Signature Version 2, you do not have to update it to use Signature Version 4. However, some operations now require Signature Version 4. The documentation for operations that require version 4 indicate this requirement.   Additional Resources  For more information, see the following:    AWS Security Credentials. This topic provides general information about the types of credentials used for accessing AWS.     IAM Best Practices. This topic presents a list of suggestions for using the IAM service to help secure your AWS resources.     Signing AWS API Requests. This set of topics walk you through the process of signing a request using an access key ID and secret access key.   
 */
 public struct IAM {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the IAM client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -28,6 +43,8 @@ public struct IAM {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
     @discardableResult public func addClientIDToOpenIDConnectProvider(_ input: AddClientIDToOpenIDConnectProviderRequest) -> EventLoopFuture<Void> {
@@ -89,7 +106,7 @@ public struct IAM {
         return client.send(operation: "CreateLoginProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC). The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between AWS and the OIDC provider. When you create the IAM OIDC provider, you specify the following:   The URL of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as audiences) that identify the application or applications that are allowed to authenticate using the OIDC provider   A list of thumbprints of the server certificate(s) that the IdP uses   You get all of this information from the OIDC IdP that you want to use to access AWS.  The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged users. 
+    ///  Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC). The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between AWS and the OIDC provider. When you create the IAM OIDC provider, you specify the following:   The URL of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as audiences) that identify the application or applications that are allowed to authenticate using the OIDC provider   A list of thumbprints of one or more server certificates that the IdP uses   You get all of this information from the OIDC IdP that you want to use to access AWS.  The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged users. 
     public func createOpenIDConnectProvider(_ input: CreateOpenIDConnectProviderRequest) -> EventLoopFuture<CreateOpenIDConnectProviderResponse> {
         return client.send(operation: "CreateOpenIDConnectProvider", path: "/", httpMethod: "POST", input: input)
     }
@@ -614,7 +631,7 @@ public struct IAM {
         return client.send(operation: "SetSecurityTokenServicePreferences", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and AWS resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. If you want to simulate existing policies attached to an IAM user, group, or role, use SimulatePrincipalPolicy instead. Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker parameters to paginate the results.
+    ///  Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and AWS resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. If you want to simulate existing policies that are attached to an IAM user, group, or role, use SimulatePrincipalPolicy instead. Context keys are variables that are maintained by AWS and its services and which provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker parameters to paginate the results.
     public func simulateCustomPolicy(_ input: SimulateCustomPolicyRequest) -> EventLoopFuture<SimulatePolicyResponse> {
         return client.send(operation: "SimulateCustomPolicy", path: "/", httpMethod: "POST", input: input)
     }

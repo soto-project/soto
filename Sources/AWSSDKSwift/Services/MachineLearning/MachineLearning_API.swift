@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS MachineLearning service.
+
 Definition of the public APIs exposed by Amazon Machine Learning
 */
 public struct MachineLearning {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the MachineLearning client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -27,6 +42,8 @@ public struct MachineLearning {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Adds one or more tags to an object, up to a limit of 10. Each tag consists of a key and an optional value. If you add a tag using a key that is already associated with the ML object, AddTags updates the tag's value.
     public func addTags(_ input: AddTagsInput) -> EventLoopFuture<AddTagsOutput> {

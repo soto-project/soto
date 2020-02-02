@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SecretsManager {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct CancelRotateSecretRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

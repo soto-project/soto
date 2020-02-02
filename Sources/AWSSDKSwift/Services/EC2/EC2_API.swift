@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS EC2 service.
+
 Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the AWS cloud. Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications faster. To learn more, see the following resources:   Amazon EC2: AmazonEC2 product page, Amazon EC2 documentation    Amazon EBS: Amazon EBS product page, Amazon EBS documentation    Amazon VPC: Amazon VPC product page, Amazon VPC documentation    AWS VPN: AWS VPN product page, AWS VPN documentation   
 */
 public struct EC2 {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the EC2 client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -25,6 +40,8 @@ public struct EC2 {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Accepts the Convertible Reserved Instance exchange quote described in the GetReservedInstancesExchangeQuote call.
     public func acceptReservedInstancesExchangeQuote(_ input: AcceptReservedInstancesExchangeQuoteRequest) -> EventLoopFuture<AcceptReservedInstancesExchangeQuoteResult> {
@@ -51,7 +68,7 @@ public struct EC2 {
         return client.send(operation: "AcceptVpcPeeringConnection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Advertises an IPv4 address range that is provisioned for use with your AWS resources through bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from AWS. To minimize down time, you can configure your AWS resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current location and start advertising it through AWS. It can take a few minutes before traffic to the specified addresses starts routing to AWS because of BGP propagation delays. To stop advertising the BYOIP CIDR, use WithdrawByoipCidr.
+    ///  Advertises an IPv4 or IPv6 address range that is provisioned for use with your AWS resources through bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from AWS. To minimize down time, you can configure your AWS resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current location and start advertising it through AWS. It can take a few minutes before traffic to the specified addresses starts routing to AWS because of BGP propagation delays. To stop advertising the BYOIP CIDR, use WithdrawByoipCidr.
     public func advertiseByoipCidr(_ input: AdvertiseByoipCidrRequest) -> EventLoopFuture<AdvertiseByoipCidrResult> {
         return client.send(operation: "AdvertiseByoipCidr", path: "/", httpMethod: "POST", input: input)
     }
@@ -121,7 +138,7 @@ public struct EC2 {
         return client.send(operation: "AssociateTransitGatewayRouteTable", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, or you can associate an Amazon-provided IPv6 CIDR block. The IPv6 CIDR block size is fixed at /56. For more information about associating CIDR blocks with your VPC and applicable restrictions, see VPC and Subnet Sizing in the Amazon Virtual Private Cloud User Guide.
+    ///  Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses (BYOIP). The IPv6 CIDR block size is fixed at /56. For more information about associating CIDR blocks with your VPC and applicable restrictions, see VPC and Subnet Sizing in the Amazon Virtual Private Cloud User Guide.
     public func associateVpcCidrBlock(_ input: AssociateVpcCidrBlockRequest) -> EventLoopFuture<AssociateVpcCidrBlockResult> {
         return client.send(operation: "AssociateVpcCidrBlock", path: "/", httpMethod: "POST", input: input)
     }
@@ -456,7 +473,7 @@ public struct EC2 {
         return client.send(operation: "CreateVolume", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4 addresses). For more information about how large to make your VPC, see Your VPC and Subnets in the Amazon Virtual Private Cloud User Guide. You can optionally request an Amazon-provided IPv6 CIDR block for the VPC. The IPv6 CIDR block uses a /56 prefix length, and is allocated from Amazon's pool of IPv6 addresses. You cannot choose the IPv6 range for your VPC. By default, each instance you launch in the VPC has the default DHCP options, which include only a default DNS server that we provide (AmazonProvidedDNS). For more information, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
+    ///  Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4 addresses). For more information about how large to make your VPC, see Your VPC and Subnets in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses (BYOIP). By default, each instance you launch in the VPC has the default DHCP options, which include only a default DNS server that we provide (AmazonProvidedDNS). For more information, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
     public func createVpc(_ input: CreateVpcRequest) -> EventLoopFuture<CreateVpcResult> {
         return client.send(operation: "CreateVpc", path: "/", httpMethod: "POST", input: input)
     }
@@ -776,7 +793,7 @@ public struct EC2 {
         return client.send(operation: "DescribeBundleTasks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the IP address ranges that were specified in calls to ProvisionByoipCidr. To describe the address pools that were created when you provisioned the address ranges, use DescribePublicIpv4Pools.
+    ///  Describes the IP address ranges that were specified in calls to ProvisionByoipCidr. To describe the address pools that were created when you provisioned the address ranges, use DescribePublicIpv4Pools or DescribeIpv6Pools.
     public func describeByoipCidrs(_ input: DescribeByoipCidrsRequest) -> EventLoopFuture<DescribeByoipCidrsResult> {
         return client.send(operation: "DescribeByoipCidrs", path: "/", httpMethod: "POST", input: input)
     }
@@ -974,6 +991,11 @@ public struct EC2 {
     ///  Describes one or more of your internet gateways.
     public func describeInternetGateways(_ input: DescribeInternetGatewaysRequest) -> EventLoopFuture<DescribeInternetGatewaysResult> {
         return client.send(operation: "DescribeInternetGateways", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes your IPv6 address pools.
+    public func describeIpv6Pools(_ input: DescribeIpv6PoolsRequest) -> EventLoopFuture<DescribeIpv6PoolsResult> {
+        return client.send(operation: "DescribeIpv6Pools", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified key pairs or all of your key pairs. For more information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
@@ -1456,6 +1478,11 @@ public struct EC2 {
         return client.send(operation: "ExportTransitGatewayRoutes", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
+    public func getAssociatedIpv6PoolCidrs(_ input: GetAssociatedIpv6PoolCidrsRequest) -> EventLoopFuture<GetAssociatedIpv6PoolCidrsResult> {
+        return client.send(operation: "GetAssociatedIpv6PoolCidrs", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each AWS account that is currently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage.
     public func getCapacityReservationUsage(_ input: GetCapacityReservationUsageRequest) -> EventLoopFuture<GetCapacityReservationUsageResult> {
         return client.send(operation: "GetCapacityReservationUsage", path: "/", httpMethod: "POST", input: input)
@@ -1761,7 +1788,7 @@ public struct EC2 {
         return client.send(operation: "MoveAddressToVpc", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Provisions an address range for use with your AWS resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr. AWS verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more information, see Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use DescribeByoipCidrs. To allocate an Elastic IP address from your address pool, use AllocateAddress with either the specific address from the address pool or the ID of the address pool.
+    ///  Provisions an IPv4 or IPv6 address range for use with your AWS resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr. AWS verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more information, see Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use DescribeByoipCidrs. To allocate an Elastic IP address from your IPv4 address pool, use AllocateAddress with either the specific address from the address pool or the ID of the address pool.
     public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest) -> EventLoopFuture<ProvisionByoipCidrResult> {
         return client.send(operation: "ProvisionByoipCidr", path: "/", httpMethod: "POST", input: input)
     }
@@ -2006,7 +2033,7 @@ public struct EC2 {
         return client.send(operation: "UpdateSecurityGroupRuleDescriptionsIngress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops advertising an IPv4 address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to AWS because of BGP propagation delays.
+    ///  Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to AWS because of BGP propagation delays.
     public func withdrawByoipCidr(_ input: WithdrawByoipCidrRequest) -> EventLoopFuture<WithdrawByoipCidrResult> {
         return client.send(operation: "WithdrawByoipCidr", path: "/", httpMethod: "POST", input: input)
     }

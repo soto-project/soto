@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ApplicationAutoScaling {
+    //MARK: Enums
 
     public enum AdjustmentType: String, CustomStringConvertible, Codable {
         case changeincapacity = "ChangeInCapacity"
@@ -11,6 +12,89 @@ extension ApplicationAutoScaling {
         case exactcapacity = "ExactCapacity"
         public var description: String { return self.rawValue }
     }
+
+    public enum MetricAggregationType: String, CustomStringConvertible, Codable {
+        case average = "Average"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
+        case average = "Average"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case samplecount = "SampleCount"
+        case sum = "Sum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricType: String, CustomStringConvertible, Codable {
+        case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
+        case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
+        case albrequestcountpertarget = "ALBRequestCountPerTarget"
+        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
+        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
+        case ec2spotfleetrequestaveragecpuutilization = "EC2SpotFleetRequestAverageCPUUtilization"
+        case ec2spotfleetrequestaveragenetworkin = "EC2SpotFleetRequestAverageNetworkIn"
+        case ec2spotfleetrequestaveragenetworkout = "EC2SpotFleetRequestAverageNetworkOut"
+        case sagemakervariantinvocationsperinstance = "SageMakerVariantInvocationsPerInstance"
+        case ecsserviceaveragecpuutilization = "ECSServiceAverageCPUUtilization"
+        case ecsserviceaveragememoryutilization = "ECSServiceAverageMemoryUtilization"
+        case appstreamaveragecapacityutilization = "AppStreamAverageCapacityUtilization"
+        case comprehendinferenceutilization = "ComprehendInferenceUtilization"
+        case lambdaprovisionedconcurrencyutilization = "LambdaProvisionedConcurrencyUtilization"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case stepscaling = "StepScaling"
+        case targettrackingscaling = "TargetTrackingScaling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalableDimension: String, CustomStringConvertible, Codable {
+        case ecsServiceDesiredcount = "ecs:service:DesiredCount"
+        case ec2SpotFleetRequestTargetcapacity = "ec2:spot-fleet-request:TargetCapacity"
+        case elasticmapreduceInstancegroupInstancecount = "elasticmapreduce:instancegroup:InstanceCount"
+        case appstreamFleetDesiredcapacity = "appstream:fleet:DesiredCapacity"
+        case dynamodbTableReadcapacityunits = "dynamodb:table:ReadCapacityUnits"
+        case dynamodbTableWritecapacityunits = "dynamodb:table:WriteCapacityUnits"
+        case dynamodbIndexReadcapacityunits = "dynamodb:index:ReadCapacityUnits"
+        case dynamodbIndexWritecapacityunits = "dynamodb:index:WriteCapacityUnits"
+        case rdsClusterReadreplicacount = "rds:cluster:ReadReplicaCount"
+        case sagemakerVariantDesiredinstancecount = "sagemaker:variant:DesiredInstanceCount"
+        case customResourceResourcetypeProperty = "custom-resource:ResourceType:Property"
+        case comprehendDocumentClassifierEndpointDesiredinferenceunits = "comprehend:document-classifier-endpoint:DesiredInferenceUnits"
+        case lambdaFunctionProvisionedconcurrency = "lambda:function:ProvisionedConcurrency"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case successful = "Successful"
+        case overridden = "Overridden"
+        case unfulfilled = "Unfulfilled"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceNamespace: String, CustomStringConvertible, Codable {
+        case ecs = "ecs"
+        case elasticmapreduce = "elasticmapreduce"
+        case ec2 = "ec2"
+        case appstream = "appstream"
+        case dynamodb = "dynamodb"
+        case rds = "rds"
+        case sagemaker = "sagemaker"
+        case customResource = "custom-resource"
+        case comprehend = "comprehend"
+        case lambda = "lambda"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Alarm: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -496,13 +580,6 @@ extension ApplicationAutoScaling {
         }
     }
 
-    public enum MetricAggregationType: String, CustomStringConvertible, Codable {
-        case average = "Average"
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MetricDimension: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -523,39 +600,6 @@ extension ApplicationAutoScaling {
             case name = "Name"
             case value = "Value"
         }
-    }
-
-    public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case average = "Average"
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        case samplecount = "SampleCount"
-        case sum = "Sum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetricType: String, CustomStringConvertible, Codable {
-        case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
-        case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
-        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
-        case ec2spotfleetrequestaveragecpuutilization = "EC2SpotFleetRequestAverageCPUUtilization"
-        case ec2spotfleetrequestaveragenetworkin = "EC2SpotFleetRequestAverageNetworkIn"
-        case ec2spotfleetrequestaveragenetworkout = "EC2SpotFleetRequestAverageNetworkOut"
-        case sagemakervariantinvocationsperinstance = "SageMakerVariantInvocationsPerInstance"
-        case ecsserviceaveragecpuutilization = "ECSServiceAverageCPUUtilization"
-        case ecsserviceaveragememoryutilization = "ECSServiceAverageMemoryUtilization"
-        case appstreamaveragecapacityutilization = "AppStreamAverageCapacityUtilization"
-        case comprehendinferenceutilization = "ComprehendInferenceUtilization"
-        case lambdaprovisionedconcurrencyutilization = "LambdaProvisionedConcurrencyUtilization"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyType: String, CustomStringConvertible, Codable {
-        case stepscaling = "StepScaling"
-        case targettrackingscaling = "TargetTrackingScaling"
-        public var description: String { return self.rawValue }
     }
 
     public struct PredefinedMetricSpecification: AWSShape {
@@ -800,23 +844,6 @@ extension ApplicationAutoScaling {
 
     }
 
-    public enum ScalableDimension: String, CustomStringConvertible, Codable {
-        case ecsServiceDesiredcount = "ecs:service:DesiredCount"
-        case ec2SpotFleetRequestTargetcapacity = "ec2:spot-fleet-request:TargetCapacity"
-        case elasticmapreduceInstancegroupInstancecount = "elasticmapreduce:instancegroup:InstanceCount"
-        case appstreamFleetDesiredcapacity = "appstream:fleet:DesiredCapacity"
-        case dynamodbTableReadcapacityunits = "dynamodb:table:ReadCapacityUnits"
-        case dynamodbTableWritecapacityunits = "dynamodb:table:WriteCapacityUnits"
-        case dynamodbIndexReadcapacityunits = "dynamodb:index:ReadCapacityUnits"
-        case dynamodbIndexWritecapacityunits = "dynamodb:index:WriteCapacityUnits"
-        case rdsClusterReadreplicacount = "rds:cluster:ReadReplicaCount"
-        case sagemakerVariantDesiredinstancecount = "sagemaker:variant:DesiredInstanceCount"
-        case customResourceResourcetypeProperty = "custom-resource:ResourceType:Property"
-        case comprehendDocumentClassifierEndpointDesiredinferenceunits = "comprehend:document-classifier-endpoint:DesiredInferenceUnits"
-        case lambdaFunctionProvisionedconcurrency = "lambda:function:ProvisionedConcurrency"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ScalableTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
@@ -957,16 +984,6 @@ extension ApplicationAutoScaling {
         }
     }
 
-    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case successful = "Successful"
-        case overridden = "Overridden"
-        case unfulfilled = "Unfulfilled"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ScalingPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Alarms", required: false, type: .list), 
@@ -1089,20 +1106,6 @@ extension ApplicationAutoScaling {
             case serviceNamespace = "ServiceNamespace"
             case startTime = "StartTime"
         }
-    }
-
-    public enum ServiceNamespace: String, CustomStringConvertible, Codable {
-        case ecs = "ecs"
-        case elasticmapreduce = "elasticmapreduce"
-        case ec2 = "ec2"
-        case appstream = "appstream"
-        case dynamodb = "dynamodb"
-        case rds = "rds"
-        case sagemaker = "sagemaker"
-        case customResource = "custom-resource"
-        case comprehend = "comprehend"
-        case lambda = "lambda"
-        public var description: String { return self.rawValue }
     }
 
     public struct StepAdjustment: AWSShape {

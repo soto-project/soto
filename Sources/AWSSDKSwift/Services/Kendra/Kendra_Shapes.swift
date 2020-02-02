@@ -4,6 +4,125 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Kendra {
+    //MARK: Enums
+
+    public enum AdditionalResultAttributeValueType: String, CustomStringConvertible, Codable {
+        case textWithHighlightsValue = "TEXT_WITH_HIGHLIGHTS_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentType: String, CustomStringConvertible, Codable {
+        case pdf = "PDF"
+        case html = "HTML"
+        case msWord = "MS_WORD"
+        case plainText = "PLAIN_TEXT"
+        case ppt = "PPT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceSyncJobStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        case syncing = "SYNCING"
+        case incomplete = "INCOMPLETE"
+        case stopping = "STOPPING"
+        case aborted = "ABORTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        case sharepoint = "SHAREPOINT"
+        case database = "DATABASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatabaseEngineType: String, CustomStringConvertible, Codable {
+        case rdsAuroraMysql = "RDS_AURORA_MYSQL"
+        case rdsAuroraPostgresql = "RDS_AURORA_POSTGRESQL"
+        case rdsMysql = "RDS_MYSQL"
+        case rdsPostgresql = "RDS_POSTGRESQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentAttributeValueType: String, CustomStringConvertible, Codable {
+        case stringValue = "STRING_VALUE"
+        case stringListValue = "STRING_LIST_VALUE"
+        case longValue = "LONG_VALUE"
+        case dateValue = "DATE_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case internalerror = "InternalError"
+        case invalidrequest = "InvalidRequest"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FaqStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IndexStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case systemUpdating = "SYSTEM_UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Order: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case group = "GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryResultType: String, CustomStringConvertible, Codable {
+        case document = "DOCUMENT"
+        case questionAnswer = "QUESTION_ANSWER"
+        case answer = "ANSWER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReadAccessType: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelevanceType: String, CustomStringConvertible, Codable {
+        case relevant = "RELEVANT"
+        case notRelevant = "NOT_RELEVANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SharePointVersion: String, CustomStringConvertible, Codable {
+        case sharepointOnline = "SHAREPOINT_ONLINE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessControlListConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -90,11 +209,6 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case textWithHighlightsValue = "TextWithHighlightsValue"
         }
-    }
-
-    public enum AdditionalResultAttributeValueType: String, CustomStringConvertible, Codable {
-        case textWithHighlightsValue = "TEXT_WITH_HIGHLIGHTS_VALUE"
-        public var description: String { return self.rawValue }
     }
 
     public class AttributeFilter: AWSShape {
@@ -484,15 +598,6 @@ extension Kendra {
         }
     }
 
-    public enum ContentType: String, CustomStringConvertible, Codable {
-        case pdf = "PDF"
-        case html = "HTML"
-        case msWord = "MS_WORD"
-        case plainText = "PLAIN_TEXT"
-        case ppt = "PPT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CreateDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Configuration", required: true, type: .structure), 
@@ -738,15 +843,6 @@ extension Kendra {
         }
     }
 
-    public enum DataSourceStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case updating = "UPDATING"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DataSourceSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
@@ -836,16 +932,6 @@ extension Kendra {
         }
     }
 
-    public enum DataSourceSyncJobStatus: String, CustomStringConvertible, Codable {
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        case syncing = "SYNCING"
-        case incomplete = "INCOMPLETE"
-        case stopping = "STOPPING"
-        case aborted = "ABORTED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DataSourceToIndexFieldMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceFieldName", required: true, type: .string), 
@@ -882,13 +968,6 @@ extension Kendra {
             case dateFieldFormat = "DateFieldFormat"
             case indexFieldName = "IndexFieldName"
         }
-    }
-
-    public enum DataSourceType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        case sharepoint = "SHAREPOINT"
-        case database = "DATABASE"
-        public var description: String { return self.rawValue }
     }
 
     public struct DataSourceVpcConfiguration: AWSShape {
@@ -971,14 +1050,6 @@ extension Kendra {
             case databaseEngineType = "DatabaseEngineType"
             case vpcConfiguration = "VpcConfiguration"
         }
-    }
-
-    public enum DatabaseEngineType: String, CustomStringConvertible, Codable {
-        case rdsAuroraMysql = "RDS_AURORA_MYSQL"
-        case rdsAuroraPostgresql = "RDS_AURORA_POSTGRESQL"
-        case rdsMysql = "RDS_MYSQL"
-        case rdsPostgresql = "RDS_POSTGRESQL"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteFaqRequest: AWSShape {
@@ -1481,14 +1552,6 @@ extension Kendra {
         }
     }
 
-    public enum DocumentAttributeValueType: String, CustomStringConvertible, Codable {
-        case stringValue = "STRING_VALUE"
-        case stringListValue = "STRING_LIST_VALUE"
-        case longValue = "LONG_VALUE"
-        case dateValue = "DATE_VALUE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DocumentMetadataConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -1548,12 +1611,6 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case s3Prefix = "S3Prefix"
         }
-    }
-
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case internalerror = "InternalError"
-        case invalidrequest = "InvalidRequest"
-        public var description: String { return self.rawValue }
     }
 
     public struct Facet: AWSShape {
@@ -1616,15 +1673,6 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case indexedQuestionAnswersCount = "IndexedQuestionAnswersCount"
         }
-    }
-
-    public enum FaqStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct FaqSummary: AWSShape {
@@ -1748,15 +1796,6 @@ extension Kendra {
             case faqStatistics = "FaqStatistics"
             case textDocumentStatistics = "TextDocumentStatistics"
         }
-    }
-
-    public enum IndexStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case systemUpdating = "SYSTEM_UPDATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListDataSourceSyncJobsRequest: AWSShape {
@@ -2005,12 +2044,6 @@ extension Kendra {
         }
     }
 
-    public enum Order: String, CustomStringConvertible, Codable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Principal: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Access", required: true, type: .enum), 
@@ -2042,12 +2075,6 @@ extension Kendra {
             case name = "Name"
             case `type` = "Type"
         }
-    }
-
-    public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case group = "GROUP"
-        public var description: String { return self.rawValue }
     }
 
     public struct QueryRequest: AWSShape {
@@ -2205,19 +2232,6 @@ extension Kendra {
         }
     }
 
-    public enum QueryResultType: String, CustomStringConvertible, Codable {
-        case document = "DOCUMENT"
-        case questionAnswer = "QUESTION_ANSWER"
-        case answer = "ANSWER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReadAccessType: String, CustomStringConvertible, Codable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Relevance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Duration", required: false, type: .string), 
@@ -2294,12 +2308,6 @@ extension Kendra {
             case relevanceValue = "RelevanceValue"
             case resultId = "ResultId"
         }
-    }
-
-    public enum RelevanceType: String, CustomStringConvertible, Codable {
-        case relevant = "RELEVANT"
-        case notRelevant = "NOT_RELEVANT"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3DataSourceConfiguration: AWSShape {
@@ -2506,11 +2514,6 @@ extension Kendra {
             case urls = "Urls"
             case vpcConfiguration = "VpcConfiguration"
         }
-    }
-
-    public enum SharePointVersion: String, CustomStringConvertible, Codable {
-        case sharepointOnline = "SHAREPOINT_ONLINE"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartDataSourceSyncJobRequest: AWSShape {

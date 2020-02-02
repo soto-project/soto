@@ -4,6 +4,24 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MediaStore {
+    //MARK: Enums
+
+    public enum ContainerStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MethodName: String, CustomStringConvertible, Codable {
+        case put = "PUT"
+        case get = "GET"
+        case delete = "DELETE"
+        case head = "HEAD"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Container: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -45,13 +63,6 @@ extension MediaStore {
             case name = "Name"
             case status = "Status"
         }
-    }
-
-    public enum ContainerStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
     }
 
     public struct CorsRule: AWSShape {
@@ -541,14 +552,6 @@ extension MediaStore {
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
-    }
-
-    public enum MethodName: String, CustomStringConvertible, Codable {
-        case put = "PUT"
-        case get = "GET"
-        case delete = "DELETE"
-        case head = "HEAD"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutContainerPolicyInput: AWSShape {

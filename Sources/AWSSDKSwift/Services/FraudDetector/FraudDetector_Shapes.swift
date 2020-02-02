@@ -4,6 +4,76 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension FraudDetector {
+    //MARK: Enums
+
+    public enum DataSource: String, CustomStringConvertible, Codable {
+        case event = "EVENT"
+        case modelScore = "MODEL_SCORE"
+        case externalModelScore = "EXTERNAL_MODEL_SCORE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case integer = "INTEGER"
+        case float = "FLOAT"
+        case boolean = "BOOLEAN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetectorVersionStatus: String, CustomStringConvertible, Codable {
+        case draft = "DRAFT"
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Language: String, CustomStringConvertible, Codable {
+        case detectorpl = "DETECTORPL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelEndpointStatus: String, CustomStringConvertible, Codable {
+        case associated = "ASSOCIATED"
+        case dissociated = "DISSOCIATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelInputDataFormat: String, CustomStringConvertible, Codable {
+        case textCsv = "TEXT_CSV"
+        case applicationJson = "APPLICATION_JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelOutputDataFormat: String, CustomStringConvertible, Codable {
+        case textCsv = "TEXT_CSV"
+        case applicationJsonlines = "APPLICATION_JSONLINES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelSource: String, CustomStringConvertible, Codable {
+        case sagemaker = "SAGEMAKER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelTypeEnum: String, CustomStringConvertible, Codable {
+        case onlineFraudInsights = "ONLINE_FRAUD_INSIGHTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelVersionStatus: String, CustomStringConvertible, Codable {
+        case trainingInProgress = "TRAINING_IN_PROGRESS"
+        case trainingComplete = "TRAINING_COMPLETE"
+        case activateRequested = "ACTIVATE_REQUESTED"
+        case activateInProgress = "ACTIVATE_IN_PROGRESS"
+        case active = "ACTIVE"
+        case inactivateInProgress = "INACTIVATE_IN_PROGRESS"
+        case inactive = "INACTIVE"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BatchCreateVariableError: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -410,21 +480,6 @@ extension FraudDetector {
 
     }
 
-    public enum DataSource: String, CustomStringConvertible, Codable {
-        case event = "EVENT"
-        case modelScore = "MODEL_SCORE"
-        case externalModelScore = "EXTERNAL_MODEL_SCORE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DataType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case integer = "INTEGER"
-        case float = "FLOAT"
-        case boolean = "BOOLEAN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeleteDetectorVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "detectorId", required: true, type: .string), 
@@ -647,13 +702,6 @@ extension FraudDetector {
             case detectorId = "detectorId"
             case lastUpdatedTime = "lastUpdatedTime"
         }
-    }
-
-    public enum DetectorVersionStatus: String, CustomStringConvertible, Codable {
-        case draft = "DRAFT"
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct DetectorVersionSummary: AWSShape {
@@ -1345,11 +1393,6 @@ extension FraudDetector {
         }
     }
 
-    public enum Language: String, CustomStringConvertible, Codable {
-        case detectorpl = "DETECTORPL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Model: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createdTime", required: false, type: .string), 
@@ -1429,12 +1472,6 @@ extension FraudDetector {
         }
     }
 
-    public enum ModelEndpointStatus: String, CustomStringConvertible, Codable {
-        case associated = "ASSOCIATED"
-        case dissociated = "DISSOCIATED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ModelInputConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "csvInputTemplate", required: false, type: .string), 
@@ -1467,12 +1504,6 @@ extension FraudDetector {
         }
     }
 
-    public enum ModelInputDataFormat: String, CustomStringConvertible, Codable {
-        case textCsv = "TEXT_CSV"
-        case applicationJson = "APPLICATION_JSON"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ModelOutputConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "csvIndexToVariableMap", required: false, type: .map), 
@@ -1500,12 +1531,6 @@ extension FraudDetector {
         }
     }
 
-    public enum ModelOutputDataFormat: String, CustomStringConvertible, Codable {
-        case textCsv = "TEXT_CSV"
-        case applicationJsonlines = "APPLICATION_JSONLINES"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ModelScores: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "modelVersion", required: false, type: .structure), 
@@ -1526,16 +1551,6 @@ extension FraudDetector {
             case modelVersion = "modelVersion"
             case scores = "scores"
         }
-    }
-
-    public enum ModelSource: String, CustomStringConvertible, Codable {
-        case sagemaker = "SAGEMAKER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ModelTypeEnum: String, CustomStringConvertible, Codable {
-        case onlineFraudInsights = "ONLINE_FRAUD_INSIGHTS"
-        public var description: String { return self.rawValue }
     }
 
     public struct ModelVariable: AWSShape {
@@ -1664,18 +1679,6 @@ extension FraudDetector {
             case trainingMetrics = "trainingMetrics"
             case validationMetrics = "validationMetrics"
         }
-    }
-
-    public enum ModelVersionStatus: String, CustomStringConvertible, Codable {
-        case trainingInProgress = "TRAINING_IN_PROGRESS"
-        case trainingComplete = "TRAINING_COMPLETE"
-        case activateRequested = "ACTIVATE_REQUESTED"
-        case activateInProgress = "ACTIVATE_IN_PROGRESS"
-        case active = "ACTIVE"
-        case inactivateInProgress = "INACTIVATE_IN_PROGRESS"
-        case inactive = "INACTIVE"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct Outcome: AWSShape {

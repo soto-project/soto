@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SNS {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct AddPermissionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [

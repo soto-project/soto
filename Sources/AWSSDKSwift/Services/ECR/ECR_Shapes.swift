@@ -4,6 +4,73 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ECR {
+    //MARK: Enums
+
+    public enum FindingSeverity: String, CustomStringConvertible, Codable {
+        case informational = "INFORMATIONAL"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        case critical = "CRITICAL"
+        case undefined = "UNDEFINED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageActionType: String, CustomStringConvertible, Codable {
+        case expire = "EXPIRE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageFailureCode: String, CustomStringConvertible, Codable {
+        case invalidimagedigest = "InvalidImageDigest"
+        case invalidimagetag = "InvalidImageTag"
+        case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
+        case imagenotfound = "ImageNotFound"
+        case missingdigestandtag = "MissingDigestAndTag"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageTagMutability: String, CustomStringConvertible, Codable {
+        case mutable = "MUTABLE"
+        case immutable = "IMMUTABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LayerAvailability: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LayerFailureCode: String, CustomStringConvertible, Codable {
+        case invalidlayerdigest = "InvalidLayerDigest"
+        case missinglayerdigest = "MissingLayerDigest"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecyclePolicyPreviewStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case complete = "COMPLETE"
+        case expired = "EXPIRED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TagStatus: String, CustomStringConvertible, Codable {
+        case tagged = "TAGGED"
+        case untagged = "UNTAGGED"
+        case any = "ANY"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Attribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -794,16 +861,6 @@ extension ECR {
         }
     }
 
-    public enum FindingSeverity: String, CustomStringConvertible, Codable {
-        case informational = "INFORMATIONAL"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case high = "HIGH"
-        case critical = "CRITICAL"
-        case undefined = "UNDEFINED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetAuthorizationTokenRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "registryIds", required: false, type: .list)
@@ -1155,11 +1212,6 @@ extension ECR {
         }
     }
 
-    public enum ImageActionType: String, CustomStringConvertible, Codable {
-        case expire = "EXPIRE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ImageDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "imageDigest", required: false, type: .string), 
@@ -1237,15 +1289,6 @@ extension ECR {
             case failureReason = "failureReason"
             case imageId = "imageId"
         }
-    }
-
-    public enum ImageFailureCode: String, CustomStringConvertible, Codable {
-        case invalidimagedigest = "InvalidImageDigest"
-        case invalidimagetag = "InvalidImageTag"
-        case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
-        case imagenotfound = "ImageNotFound"
-        case missingdigestandtag = "MissingDigestAndTag"
-        public var description: String { return self.rawValue }
     }
 
     public struct ImageIdentifier: AWSShape {
@@ -1410,12 +1453,6 @@ extension ECR {
         }
     }
 
-    public enum ImageTagMutability: String, CustomStringConvertible, Codable {
-        case mutable = "MUTABLE"
-        case immutable = "IMMUTABLE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InitiateLayerUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "registryId", required: false, type: .string), 
@@ -1499,12 +1536,6 @@ extension ECR {
         }
     }
 
-    public enum LayerAvailability: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case unavailable = "UNAVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LayerFailure: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failureCode", required: false, type: .enum), 
@@ -1530,12 +1561,6 @@ extension ECR {
             case failureReason = "failureReason"
             case layerDigest = "layerDigest"
         }
-    }
-
-    public enum LayerFailureCode: String, CustomStringConvertible, Codable {
-        case invalidlayerdigest = "InvalidLayerDigest"
-        case missinglayerdigest = "MissingLayerDigest"
-        public var description: String { return self.rawValue }
     }
 
     public struct LifecyclePolicyPreviewFilter: AWSShape {
@@ -1590,14 +1615,6 @@ extension ECR {
             case imagePushedAt = "imagePushedAt"
             case imageTags = "imageTags"
         }
-    }
-
-    public enum LifecyclePolicyPreviewStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case complete = "COMPLETE"
-        case expired = "EXPIRED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct LifecyclePolicyPreviewSummary: AWSShape {
@@ -2044,13 +2061,6 @@ extension ECR {
         }
     }
 
-    public enum ScanStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case complete = "COMPLETE"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SetRepositoryPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "force", required: false, type: .boolean), 
@@ -2302,13 +2312,6 @@ extension ECR {
         public init() {
         }
 
-    }
-
-    public enum TagStatus: String, CustomStringConvertible, Codable {
-        case tagged = "TAGGED"
-        case untagged = "UNTAGGED"
-        case any = "ANY"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

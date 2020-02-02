@@ -4,6 +4,173 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension APIGateway {
+    //MARK: Enums
+
+    public enum ApiKeySourceType: String, CustomStringConvertible, Codable {
+        case header = "HEADER"
+        case authorizer = "AUTHORIZER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApiKeysFormat: String, CustomStringConvertible, Codable {
+        case csv = "csv"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthorizerType: String, CustomStringConvertible, Codable {
+        case token = "TOKEN"
+        case request = "REQUEST"
+        case cognitoUserPools = "COGNITO_USER_POOLS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CacheClusterSize: String, CustomStringConvertible, Codable {
+        case cacheClusterSize05 = "0.5"
+        case cacheClusterSize16 = "1.6"
+        case cacheClusterSize61 = "6.1"
+        case cacheClusterSize135 = "13.5"
+        case cacheClusterSize284 = "28.4"
+        case cacheClusterSize582 = "58.2"
+        case cacheClusterSize118 = "118"
+        case cacheClusterSize237 = "237"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CacheClusterStatus: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case available = "AVAILABLE"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case notAvailable = "NOT_AVAILABLE"
+        case flushInProgress = "FLUSH_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionType: String, CustomStringConvertible, Codable {
+        case internet = "INTERNET"
+        case vpcLink = "VPC_LINK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable {
+        case convertToBinary = "CONVERT_TO_BINARY"
+        case convertToText = "CONVERT_TO_TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentationPartType: String, CustomStringConvertible, Codable {
+        case api = "API"
+        case authorizer = "AUTHORIZER"
+        case model = "MODEL"
+        case resource = "RESOURCE"
+        case method = "METHOD"
+        case pathParameter = "PATH_PARAMETER"
+        case queryParameter = "QUERY_PARAMETER"
+        case requestHeader = "REQUEST_HEADER"
+        case requestBody = "REQUEST_BODY"
+        case response = "RESPONSE"
+        case responseHeader = "RESPONSE_HEADER"
+        case responseBody = "RESPONSE_BODY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainNameStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case updating = "UPDATING"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointType: String, CustomStringConvertible, Codable {
+        case regional = "REGIONAL"
+        case edge = "EDGE"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayResponseType: String, CustomStringConvertible, Codable {
+        case default4Xx = "DEFAULT_4XX"
+        case default5Xx = "DEFAULT_5XX"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case unauthorized = "UNAUTHORIZED"
+        case invalidApiKey = "INVALID_API_KEY"
+        case accessDenied = "ACCESS_DENIED"
+        case authorizerFailure = "AUTHORIZER_FAILURE"
+        case authorizerConfigurationError = "AUTHORIZER_CONFIGURATION_ERROR"
+        case invalidSignature = "INVALID_SIGNATURE"
+        case expiredToken = "EXPIRED_TOKEN"
+        case missingAuthenticationToken = "MISSING_AUTHENTICATION_TOKEN"
+        case integrationFailure = "INTEGRATION_FAILURE"
+        case integrationTimeout = "INTEGRATION_TIMEOUT"
+        case apiConfigurationError = "API_CONFIGURATION_ERROR"
+        case unsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE"
+        case badRequestParameters = "BAD_REQUEST_PARAMETERS"
+        case badRequestBody = "BAD_REQUEST_BODY"
+        case requestTooLarge = "REQUEST_TOO_LARGE"
+        case throttled = "THROTTLED"
+        case quotaExceeded = "QUOTA_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationType: String, CustomStringConvertible, Codable {
+        case http = "HTTP"
+        case aws = "AWS"
+        case mock = "MOCK"
+        case httpProxy = "HTTP_PROXY"
+        case awsProxy = "AWS_PROXY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocationStatusType: String, CustomStringConvertible, Codable {
+        case documented = "DOCUMENTED"
+        case undocumented = "UNDOCUMENTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Op: String, CustomStringConvertible, Codable {
+        case add = "add"
+        case remove = "remove"
+        case replace = "replace"
+        case move = "move"
+        case copy = "copy"
+        case test = "test"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PutMode: String, CustomStringConvertible, Codable {
+        case merge = "merge"
+        case overwrite = "overwrite"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuotaPeriodType: String, CustomStringConvertible, Codable {
+        case day = "DAY"
+        case week = "WEEK"
+        case month = "MONTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SecurityPolicy: String, CustomStringConvertible, Codable {
+        case tls10 = "TLS_1_0"
+        case tls12 = "TLS_1_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnauthorizedCacheControlHeaderStrategy: String, CustomStringConvertible, Codable {
+        case failWith403 = "FAIL_WITH_403"
+        case succeedWithResponseHeader = "SUCCEED_WITH_RESPONSE_HEADER"
+        case succeedWithoutResponseHeader = "SUCCEED_WITHOUT_RESPONSE_HEADER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcLinkStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case pending = "PENDING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessLogSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -143,12 +310,6 @@ extension APIGateway {
         }
     }
 
-    public enum ApiKeySourceType: String, CustomStringConvertible, Codable {
-        case header = "HEADER"
-        case authorizer = "AUTHORIZER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ApiKeys: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
@@ -173,11 +334,6 @@ extension APIGateway {
             case position = "position"
             case warnings = "warnings"
         }
-    }
-
-    public enum ApiKeysFormat: String, CustomStringConvertible, Codable {
-        case csv = "csv"
-        public var description: String { return self.rawValue }
     }
 
     public struct ApiStage: AWSShape {
@@ -269,13 +425,6 @@ extension APIGateway {
         }
     }
 
-    public enum AuthorizerType: String, CustomStringConvertible, Codable {
-        case token = "TOKEN"
-        case request = "REQUEST"
-        case cognitoUserPools = "COGNITO_USER_POOLS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Authorizers: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
@@ -343,27 +492,6 @@ extension APIGateway {
             case items = "item"
             case position = "position"
         }
-    }
-
-    public enum CacheClusterSize: String, CustomStringConvertible, Codable {
-        case cacheClusterSize05 = "0.5"
-        case cacheClusterSize16 = "1.6"
-        case cacheClusterSize61 = "6.1"
-        case cacheClusterSize135 = "13.5"
-        case cacheClusterSize284 = "28.4"
-        case cacheClusterSize582 = "58.2"
-        case cacheClusterSize118 = "118"
-        case cacheClusterSize237 = "237"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CacheClusterStatus: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case available = "AVAILABLE"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case notAvailable = "NOT_AVAILABLE"
-        case flushInProgress = "FLUSH_IN_PROGRESS"
-        public var description: String { return self.rawValue }
     }
 
     public struct CanarySettings: AWSShape {
@@ -459,18 +587,6 @@ extension APIGateway {
             case items = "item"
             case position = "position"
         }
-    }
-
-    public enum ConnectionType: String, CustomStringConvertible, Codable {
-        case internet = "INTERNET"
-        case vpcLink = "VPC_LINK"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable {
-        case convertToBinary = "CONVERT_TO_BINARY"
-        case convertToText = "CONVERT_TO_TEXT"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateApiKeyRequest: AWSShape {
@@ -1772,22 +1888,6 @@ extension APIGateway {
         }
     }
 
-    public enum DocumentationPartType: String, CustomStringConvertible, Codable {
-        case api = "API"
-        case authorizer = "AUTHORIZER"
-        case model = "MODEL"
-        case resource = "RESOURCE"
-        case method = "METHOD"
-        case pathParameter = "PATH_PARAMETER"
-        case queryParameter = "QUERY_PARAMETER"
-        case requestHeader = "REQUEST_HEADER"
-        case requestBody = "REQUEST_BODY"
-        case response = "RESPONSE"
-        case responseHeader = "RESPONSE_HEADER"
-        case responseBody = "RESPONSE_BODY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DocumentationParts: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
@@ -1944,13 +2044,6 @@ extension APIGateway {
         }
     }
 
-    public enum DomainNameStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case updating = "UPDATING"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DomainNames: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
@@ -1992,13 +2085,6 @@ extension APIGateway {
             case types = "types"
             case vpcEndpointIds = "vpcEndpointIds"
         }
-    }
-
-    public enum EndpointType: String, CustomStringConvertible, Codable {
-        case regional = "REGIONAL"
-        case edge = "EDGE"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ExportResponse: AWSShape {
@@ -2109,30 +2195,6 @@ extension APIGateway {
             case responseType = "responseType"
             case statusCode = "statusCode"
         }
-    }
-
-    public enum GatewayResponseType: String, CustomStringConvertible, Codable {
-        case default4Xx = "DEFAULT_4XX"
-        case default5Xx = "DEFAULT_5XX"
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        case unauthorized = "UNAUTHORIZED"
-        case invalidApiKey = "INVALID_API_KEY"
-        case accessDenied = "ACCESS_DENIED"
-        case authorizerFailure = "AUTHORIZER_FAILURE"
-        case authorizerConfigurationError = "AUTHORIZER_CONFIGURATION_ERROR"
-        case invalidSignature = "INVALID_SIGNATURE"
-        case expiredToken = "EXPIRED_TOKEN"
-        case missingAuthenticationToken = "MISSING_AUTHENTICATION_TOKEN"
-        case integrationFailure = "INTEGRATION_FAILURE"
-        case integrationTimeout = "INTEGRATION_TIMEOUT"
-        case apiConfigurationError = "API_CONFIGURATION_ERROR"
-        case unsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE"
-        case badRequestParameters = "BAD_REQUEST_PARAMETERS"
-        case badRequestBody = "BAD_REQUEST_BODY"
-        case requestTooLarge = "REQUEST_TOO_LARGE"
-        case throttled = "THROTTLED"
-        case quotaExceeded = "QUOTA_EXCEEDED"
-        public var description: String { return self.rawValue }
     }
 
     public struct GatewayResponses: AWSShape {
@@ -3560,21 +3622,6 @@ extension APIGateway {
         }
     }
 
-    public enum IntegrationType: String, CustomStringConvertible, Codable {
-        case http = "HTTP"
-        case aws = "AWS"
-        case mock = "MOCK"
-        case httpProxy = "HTTP_PROXY"
-        case awsProxy = "AWS_PROXY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LocationStatusType: String, CustomStringConvertible, Codable {
-        case documented = "DOCUMENTED"
-        case undocumented = "UNDOCUMENTED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Method: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiKeyRequired", required: false, type: .boolean), 
@@ -3809,16 +3856,6 @@ extension APIGateway {
             case items = "item"
             case position = "position"
         }
-    }
-
-    public enum Op: String, CustomStringConvertible, Codable {
-        case add = "add"
-        case remove = "remove"
-        case replace = "replace"
-        case move = "move"
-        case copy = "copy"
-        case test = "test"
-        public var description: String { return self.rawValue }
     }
 
     public struct PatchOperation: AWSShape {
@@ -4155,12 +4192,6 @@ extension APIGateway {
         }
     }
 
-    public enum PutMode: String, CustomStringConvertible, Codable {
-        case merge = "merge"
-        case overwrite = "overwrite"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PutRestApiRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "body"
@@ -4198,13 +4229,6 @@ extension APIGateway {
             case parameters = "parameters"
             case restApiId = "restapi_id"
         }
-    }
-
-    public enum QuotaPeriodType: String, CustomStringConvertible, Codable {
-        case day = "DAY"
-        case week = "WEEK"
-        case month = "MONTH"
-        public var description: String { return self.rawValue }
     }
 
     public struct QuotaSettings: AWSShape {
@@ -4555,12 +4579,6 @@ extension APIGateway {
             case items = "item"
             case position = "position"
         }
-    }
-
-    public enum SecurityPolicy: String, CustomStringConvertible, Codable {
-        case tls10 = "TLS_1_0"
-        case tls12 = "TLS_1_2"
-        public var description: String { return self.rawValue }
     }
 
     public struct Stage: AWSShape {
@@ -4972,13 +4990,6 @@ extension APIGateway {
             case burstLimit = "burstLimit"
             case rateLimit = "rateLimit"
         }
-    }
-
-    public enum UnauthorizedCacheControlHeaderStrategy: String, CustomStringConvertible, Codable {
-        case failWith403 = "FAIL_WITH_403"
-        case succeedWithResponseHeader = "SUCCEED_WITH_RESPONSE_HEADER"
-        case succeedWithoutResponseHeader = "SUCCEED_WITHOUT_RESPONSE_HEADER"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -5802,14 +5813,6 @@ extension APIGateway {
             case tags = "tags"
             case targetArns = "targetArns"
         }
-    }
-
-    public enum VpcLinkStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case pending = "PENDING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct VpcLinks: AWSShape {

@@ -4,6 +4,66 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension NetworkManager {
+    //MARK: Enums
+
+    public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlobalNetworkState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LinkAssociationState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LinkState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SiteState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayRegistrationState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateCustomerGatewayRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -383,14 +443,6 @@ extension NetworkManager {
         }
     }
 
-    public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeleteDeviceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
@@ -710,14 +762,6 @@ extension NetworkManager {
             case `type` = "Type"
             case vendor = "Vendor"
         }
-    }
-
-    public enum DeviceState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct DisassociateCustomerGatewayRequest: AWSShape {
@@ -1224,14 +1268,6 @@ extension NetworkManager {
         }
     }
 
-    public enum GlobalNetworkState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Link: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bandwidth", required: false, type: .structure), 
@@ -1329,22 +1365,6 @@ extension NetworkManager {
             case linkAssociationState = "LinkAssociationState"
             case linkId = "LinkId"
         }
-    }
-
-    public enum LinkAssociationState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LinkState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -1499,14 +1519,6 @@ extension NetworkManager {
         }
     }
 
-    public enum SiteState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -1584,15 +1596,6 @@ extension NetworkManager {
             case state = "State"
             case transitGatewayArn = "TransitGatewayArn"
         }
-    }
-
-    public enum TransitGatewayRegistrationState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct TransitGatewayRegistrationStateReason: AWSShape {

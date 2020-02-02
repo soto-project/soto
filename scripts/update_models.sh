@@ -3,7 +3,6 @@
 set -eux
 
 TEMP_DIR=""
-COMMIT_CHANGES=""
 
 usage()
 {
@@ -17,13 +16,16 @@ get_aws_sdk_go()
     BRANCH_NAME=$2
     # clone aws-sdk-go into folder
     git clone https://github.com/aws/aws-sdk-go.git "$DESTIONATION_FOLDER"
-    if [ -n "$BRANCH_NAME" ]; then
-        CURRENT_FOLDER=$(pwd)
-        cd "$DESTIONATION_FOLDER"
-        git checkout "$BRANCH_NAME"
-        cd "$CURRENT_FOLDER"
+    CURRENT_FOLDER=$(pwd)
+    cd "$DESTIONATION_FOLDER"
+    if [ -z "$BRANCH_NAME"]; then
+        RELEASE_REVISION=$(git rev-list --tags --max-count=1)
+        BRANCH_NAME=$(git describe --tags "$RELEASE_REVISION")
     fi
-    return 0
+    git checkout "$BRANCH_NAME"
+    cd "$CURRENT_FOLDER"
+    
+    return $BRANCH_NAME
 }
 
 copy_model_files()
@@ -56,18 +58,19 @@ build_files()
 
 check_for_local_changes()
 {
-    if [ "$COMMIT_CHANGES" = 1 ]; then
-        LOCAL_CHANGES=$(git status --porcelain)
-        if [ -n "$LOCAL_CHANGES" ]; then
-            printf "You have local changes already and you have requested to commit changes after this script has run.\nEither remove the -c option or stash your local changes."
-            usage
-        fi
+    LOCAL_CHANGES=$(git status --porcelain)
+    if [ -n "$LOCAL_CHANGES" ]; then
+        printf "You have local changes.\nPlease stash your local changes before continuing."
+        usage
     fi
 }
 
 commit_changes()
 {
-    COMMIT_MSG="Sync models with aws-sdk-go $AWS_MODELS_VERSION"
+    MODELS_VERSION=$1
+    COMMIT_MSG="Sync models with aws-sdk-go $MODELS_VERSION"
+    BRANCH_NAME="aws-sdk-go-$MODELS_VERSION"
+    git checkout -b $BRANCH_NAME
     git add models
     git add Sources/AWSSDKSwift
     git commit -m "$COMMIT_MSG"
@@ -80,11 +83,12 @@ cleanup()
     fi
 }
 
+AWS_MODELS_VERSION=""
+
 while getopts 'cv:' option
 do
     case $option in
         v) AWS_MODELS_VERSION=$OPTARG ;;
-        c) COMMIT_CHANGES=1 ;;
         *) usage ;;
     esac
 done
@@ -99,7 +103,7 @@ echo "Using temp folder $TEMP_DIR"
 
 echo "Get aws-sdk-go models"
 AWS_SDK_GO=$TEMP_DIR/aws-sdk-go/
-get_aws_sdk_go "$AWS_SDK_GO" "$AWS_MODELS_VERSION"
+AWS_MODELS_VERSION=$(get_aws_sdk_go "$AWS_SDK_GO" "$AWS_MODELS_VERSION")
 
 echo "Copy models to aws-sdk-swift"
 AWS_SDK_GO_MODELS=$AWS_SDK_GO/models
@@ -108,6 +112,4 @@ copy_model_files "$AWS_SDK_GO_MODELS" "$TARGET_MODELS"
 
 build_files
 
-if [ "$COMMIT_CHANGES" = 1 ]; then
-    commit_changes
-fi
+commit_changes "$AWS_MODELS_VERSION"

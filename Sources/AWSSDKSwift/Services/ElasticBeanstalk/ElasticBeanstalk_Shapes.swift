@@ -4,6 +4,171 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ElasticBeanstalk {
+    //MARK: Enums
+
+    public enum ActionHistoryStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionStatus: String, CustomStringConvertible, Codable {
+        case scheduled = "Scheduled"
+        case pending = "Pending"
+        case running = "Running"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case instancerefresh = "InstanceRefresh"
+        case platformupdate = "PlatformUpdate"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable {
+        case processed = "Processed"
+        case unprocessed = "Unprocessed"
+        case failed = "Failed"
+        case processing = "Processing"
+        case building = "Building"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputeType: String, CustomStringConvertible, Codable {
+        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
+        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
+        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable {
+        case deployed = "deployed"
+        case pending = "pending"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable {
+        case scalar = "Scalar"
+        case list = "List"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentHealth: String, CustomStringConvertible, Codable {
+        case green = "Green"
+        case yellow = "Yellow"
+        case red = "Red"
+        case grey = "Grey"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable {
+        case status = "Status"
+        case color = "Color"
+        case causes = "Causes"
+        case applicationmetrics = "ApplicationMetrics"
+        case instanceshealth = "InstancesHealth"
+        case all = "All"
+        case healthstatus = "HealthStatus"
+        case refreshedat = "RefreshedAt"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable {
+        case nodata = "NoData"
+        case unknown = "Unknown"
+        case pending = "Pending"
+        case ok = "Ok"
+        case info = "Info"
+        case warning = "Warning"
+        case degraded = "Degraded"
+        case severe = "Severe"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentInfoType: String, CustomStringConvertible, Codable {
+        case tail = "tail"
+        case bundle = "bundle"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
+        case launching = "Launching"
+        case updating = "Updating"
+        case ready = "Ready"
+        case terminating = "Terminating"
+        case terminated = "Terminated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventSeverity: String, CustomStringConvertible, Codable {
+        case trace = "TRACE"
+        case debug = "DEBUG"
+        case info = "INFO"
+        case warn = "WARN"
+        case error = "ERROR"
+        case fatal = "FATAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FailureType: String, CustomStringConvertible, Codable {
+        case updatecancelled = "UpdateCancelled"
+        case cancellationfailed = "CancellationFailed"
+        case rollbackfailed = "RollbackFailed"
+        case rollbacksuccessful = "RollbackSuccessful"
+        case internalfailure = "InternalFailure"
+        case invalidenvironmentstate = "InvalidEnvironmentState"
+        case permissionserror = "PermissionsError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable {
+        case healthstatus = "HealthStatus"
+        case color = "Color"
+        case causes = "Causes"
+        case applicationmetrics = "ApplicationMetrics"
+        case refreshedat = "RefreshedAt"
+        case launchedat = "LaunchedAt"
+        case system = "System"
+        case deployment = "Deployment"
+        case availabilityzone = "AvailabilityZone"
+        case instancetype = "InstanceType"
+        case all = "All"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformStatus: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case failed = "Failed"
+        case ready = "Ready"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceRepository: String, CustomStringConvertible, Codable {
+        case codecommit = "CodeCommit"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case git = "Git"
+        case zip = "Zip"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationSeverity: String, CustomStringConvertible, Codable {
+        case error = "error"
+        case warning = "warning"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AbortEnvironmentUpdateMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -30,28 +195,6 @@ extension ElasticBeanstalk {
             case environmentId = "EnvironmentId"
             case environmentName = "EnvironmentName"
         }
-    }
-
-    public enum ActionHistoryStatus: String, CustomStringConvertible, Codable {
-        case completed = "Completed"
-        case failed = "Failed"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ActionStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "Scheduled"
-        case pending = "Pending"
-        case running = "Running"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ActionType: String, CustomStringConvertible, Codable {
-        case instancerefresh = "InstanceRefresh"
-        case platformupdate = "PlatformUpdate"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
     }
 
     public struct ApplicationDescription: AWSShape {
@@ -339,15 +482,6 @@ extension ElasticBeanstalk {
         }
     }
 
-    public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable {
-        case processed = "Processed"
-        case unprocessed = "Unprocessed"
-        case failed = "Failed"
-        case processing = "Processing"
-        case building = "Building"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ApplyEnvironmentManagedActionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionId", required: true, type: .string), 
@@ -617,20 +751,6 @@ extension ElasticBeanstalk {
         }
     }
 
-    public enum ComputeType: String, CustomStringConvertible, Codable {
-        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
-        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
-        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable {
-        case deployed = "deployed"
-        case pending = "pending"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ConfigurationOptionDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeSeverity", required: false, type: .string), 
@@ -733,12 +853,6 @@ extension ElasticBeanstalk {
             case resourceName = "ResourceName"
             case value = "Value"
         }
-    }
-
-    public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable {
-        case scalar = "Scalar"
-        case list = "List"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConfigurationOptionsDescription: AWSShape {
@@ -2222,39 +2336,6 @@ extension ElasticBeanstalk {
         }
     }
 
-    public enum EnvironmentHealth: String, CustomStringConvertible, Codable {
-        case green = "Green"
-        case yellow = "Yellow"
-        case red = "Red"
-        case grey = "Grey"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable {
-        case status = "Status"
-        case color = "Color"
-        case causes = "Causes"
-        case applicationmetrics = "ApplicationMetrics"
-        case instanceshealth = "InstancesHealth"
-        case all = "All"
-        case healthstatus = "HealthStatus"
-        case refreshedat = "RefreshedAt"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable {
-        case nodata = "NoData"
-        case unknown = "Unknown"
-        case pending = "Pending"
-        case ok = "Ok"
-        case info = "Info"
-        case warning = "Warning"
-        case degraded = "Degraded"
-        case severe = "Severe"
-        case suspended = "Suspended"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EnvironmentInfoDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
@@ -2285,12 +2366,6 @@ extension ElasticBeanstalk {
             case message = "Message"
             case sampleTimestamp = "SampleTimestamp"
         }
-    }
-
-    public enum EnvironmentInfoType: String, CustomStringConvertible, Codable {
-        case tail = "tail"
-        case bundle = "bundle"
-        public var description: String { return self.rawValue }
     }
 
     public struct EnvironmentLink: AWSShape {
@@ -2401,15 +2476,6 @@ extension ElasticBeanstalk {
         }
     }
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
-        case launching = "Launching"
-        case updating = "Updating"
-        case ready = "Ready"
-        case terminating = "Terminating"
-        case terminated = "Terminated"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EnvironmentTier: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -2516,27 +2582,6 @@ extension ElasticBeanstalk {
         }
     }
 
-    public enum EventSeverity: String, CustomStringConvertible, Codable {
-        case trace = "TRACE"
-        case debug = "DEBUG"
-        case info = "INFO"
-        case warn = "WARN"
-        case error = "ERROR"
-        case fatal = "FATAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FailureType: String, CustomStringConvertible, Codable {
-        case updatecancelled = "UpdateCancelled"
-        case cancellationfailed = "CancellationFailed"
-        case rollbackfailed = "RollbackFailed"
-        case rollbacksuccessful = "RollbackSuccessful"
-        case internalfailure = "InternalFailure"
-        case invalidenvironmentstate = "InvalidEnvironmentState"
-        case permissionserror = "PermissionsError"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Instance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string)
@@ -2604,21 +2649,6 @@ extension ElasticBeanstalk {
             case unknown = "Unknown"
             case warning = "Warning"
         }
-    }
-
-    public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable {
-        case healthstatus = "HealthStatus"
-        case color = "Color"
-        case causes = "Causes"
-        case applicationmetrics = "ApplicationMetrics"
-        case refreshedat = "RefreshedAt"
-        case launchedat = "LaunchedAt"
-        case system = "System"
-        case deployment = "Deployment"
-        case availabilityzone = "AvailabilityZone"
-        case instancetype = "InstanceType"
-        case all = "All"
-        public var description: String { return self.rawValue }
     }
 
     public struct Latency: AWSShape {
@@ -3235,15 +3265,6 @@ extension ElasticBeanstalk {
         }
     }
 
-    public enum PlatformStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case failed = "Failed"
-        case ready = "Ready"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PlatformSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperatingSystemName", required: false, type: .string), 
@@ -3700,18 +3721,6 @@ extension ElasticBeanstalk {
             case applicationName = "ApplicationName"
             case templateName = "TemplateName"
         }
-    }
-
-    public enum SourceRepository: String, CustomStringConvertible, Codable {
-        case codecommit = "CodeCommit"
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case git = "Git"
-        case zip = "Zip"
-        public var description: String { return self.rawValue }
     }
 
     public struct StatusCodes: AWSShape {
@@ -4234,11 +4243,5 @@ extension ElasticBeanstalk {
             case optionName = "OptionName"
             case severity = "Severity"
         }
-    }
-
-    public enum ValidationSeverity: String, CustomStringConvertible, Codable {
-        case error = "error"
-        case warning = "warning"
-        public var description: String { return self.rawValue }
     }
 }

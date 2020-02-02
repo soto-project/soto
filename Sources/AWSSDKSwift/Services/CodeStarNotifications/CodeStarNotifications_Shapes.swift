@@ -4,6 +4,51 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CodeStarNotifications {
+    //MARK: Enums
+
+    public enum DetailType: String, CustomStringConvertible, Codable {
+        case basic = "BASIC"
+        case full = "FULL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListEventTypesFilterName: String, CustomStringConvertible, Codable {
+        case resourceType = "RESOURCE_TYPE"
+        case serviceName = "SERVICE_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListNotificationRulesFilterName: String, CustomStringConvertible, Codable {
+        case eventTypeId = "EVENT_TYPE_ID"
+        case createdBy = "CREATED_BY"
+        case resource = "RESOURCE"
+        case targetAddress = "TARGET_ADDRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListTargetsFilterName: String, CustomStringConvertible, Codable {
+        case targetType = "TARGET_TYPE"
+        case targetAddress = "TARGET_ADDRESS"
+        case targetStatus = "TARGET_STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationRuleStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case unreachable = "UNREACHABLE"
+        case inactive = "INACTIVE"
+        case deactivated = "DEACTIVATED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateNotificationRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -260,12 +305,6 @@ extension CodeStarNotifications {
         }
     }
 
-    public enum DetailType: String, CustomStringConvertible, Codable {
-        case basic = "BASIC"
-        case full = "FULL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EventTypeSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventTypeId", required: false, type: .string), 
@@ -318,12 +357,6 @@ extension CodeStarNotifications {
             case name = "Name"
             case value = "Value"
         }
-    }
-
-    public enum ListEventTypesFilterName: String, CustomStringConvertible, Codable {
-        case resourceType = "RESOURCE_TYPE"
-        case serviceName = "SERVICE_NAME"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListEventTypesRequest: AWSShape {
@@ -401,14 +434,6 @@ extension CodeStarNotifications {
             case name = "Name"
             case value = "Value"
         }
-    }
-
-    public enum ListNotificationRulesFilterName: String, CustomStringConvertible, Codable {
-        case eventTypeId = "EVENT_TYPE_ID"
-        case createdBy = "CREATED_BY"
-        case resource = "RESOURCE"
-        case targetAddress = "TARGET_ADDRESS"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListNotificationRulesRequest: AWSShape {
@@ -526,13 +551,6 @@ extension CodeStarNotifications {
         }
     }
 
-    public enum ListTargetsFilterName: String, CustomStringConvertible, Codable {
-        case targetType = "TARGET_TYPE"
-        case targetAddress = "TARGET_ADDRESS"
-        case targetStatus = "TARGET_STATUS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filters", required: false, type: .list), 
@@ -586,12 +604,6 @@ extension CodeStarNotifications {
             case nextToken = "NextToken"
             case targets = "Targets"
         }
-    }
-
-    public enum NotificationRuleStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct NotificationRuleSummary: AWSShape {
@@ -743,15 +755,6 @@ extension CodeStarNotifications {
             case targetAddress = "TargetAddress"
             case targetType = "TargetType"
         }
-    }
-
-    public enum TargetStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case active = "ACTIVE"
-        case unreachable = "UNREACHABLE"
-        case inactive = "INACTIVE"
-        case deactivated = "DEACTIVATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct TargetSummary: AWSShape {

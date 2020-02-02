@@ -4,6 +4,25 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DocDB {
+    //MARK: Enums
+
+    public enum ApplyMethod: String, CustomStringConvertible, Codable {
+        case immediate = "immediate"
+        case pendingReboot = "pending-reboot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case dbInstance = "db-instance"
+        case dbParameterGroup = "db-parameter-group"
+        case dbSecurityGroup = "db-security-group"
+        case dbSnapshot = "db-snapshot"
+        case dbCluster = "db-cluster"
+        case dbClusterSnapshot = "db-cluster-snapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddTagsToResourceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -25,12 +44,6 @@ extension DocDB {
             case resourceName = "ResourceName"
             case tags = "Tags"
         }
-    }
-
-    public enum ApplyMethod: String, CustomStringConvertible, Codable {
-        case immediate = "immediate"
-        case pendingReboot = "pending-reboot"
-        public var description: String { return self.rawValue }
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSShape {
@@ -3216,16 +3229,6 @@ extension DocDB {
         private enum CodingKeys: String, CodingKey {
             case dBCluster = "DBCluster"
         }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case dbInstance = "db-instance"
-        case dbParameterGroup = "db-parameter-group"
-        case dbSecurityGroup = "db-security-group"
-        case dbSnapshot = "db-snapshot"
-        case dbCluster = "db-cluster"
-        case dbClusterSnapshot = "db-cluster-snapshot"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartDBClusterMessage: AWSShape {

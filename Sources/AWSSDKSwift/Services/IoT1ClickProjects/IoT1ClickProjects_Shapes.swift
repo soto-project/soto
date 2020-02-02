@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IoT1ClickProjects {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct AssociateDeviceWithPlacementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

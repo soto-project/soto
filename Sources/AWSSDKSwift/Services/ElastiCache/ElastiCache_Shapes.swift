@@ -4,12 +4,109 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ElastiCache {
+    //MARK: Enums
 
     public enum AZMode: String, CustomStringConvertible, Codable {
         case singleAz = "single-az"
         case crossAz = "cross-az"
         public var description: String { return self.rawValue }
     }
+
+    public enum AuthTokenUpdateStatus: String, CustomStringConvertible, Codable {
+        case setting = "SETTING"
+        case rotating = "ROTATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthTokenUpdateStrategyType: String, CustomStringConvertible, Codable {
+        case set = "SET"
+        case rotate = "ROTATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable {
+        case enabled = "enabled"
+        case disabled = "disabled"
+        case enabling = "enabling"
+        case disabling = "disabling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeType: String, CustomStringConvertible, Codable {
+        case immediate = "immediate"
+        case requiresReboot = "requires-reboot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeUpdateInitiatedBy: String, CustomStringConvertible, Codable {
+        case system = "system"
+        case customer = "customer"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeUpdateStatus: String, CustomStringConvertible, Codable {
+        case notApplied = "not-applied"
+        case waitingToStart = "waiting-to-start"
+        case inProgress = "in-progress"
+        case stopping = "stopping"
+        case stopped = "stopped"
+        case complete = "complete"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable {
+        case enabled = "enabled"
+        case disabled = "disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceUpdateSeverity: String, CustomStringConvertible, Codable {
+        case critical = "critical"
+        case important = "important"
+        case medium = "medium"
+        case low = "low"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable {
+        case available = "available"
+        case cancelled = "cancelled"
+        case expired = "expired"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceUpdateType: String, CustomStringConvertible, Codable {
+        case securityUpdate = "security-update"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlaMet: String, CustomStringConvertible, Codable {
+        case yes = "yes"
+        case no = "no"
+        case nA = "n/a"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case cacheCluster = "cache-cluster"
+        case cacheParameterGroup = "cache-parameter-group"
+        case cacheSecurityGroup = "cache-security-group"
+        case cacheSubnetGroup = "cache-subnet-group"
+        case replicationGroup = "replication-group"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateActionStatus: String, CustomStringConvertible, Codable {
+        case notApplied = "not-applied"
+        case waitingToStart = "waiting-to-start"
+        case inProgress = "in-progress"
+        case stopping = "stopping"
+        case stopped = "stopped"
+        case complete = "complete"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddTagsToResourceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -55,18 +152,6 @@ extension ElastiCache {
         }
     }
 
-    public enum AuthTokenUpdateStatus: String, CustomStringConvertible, Codable {
-        case setting = "SETTING"
-        case rotating = "ROTATING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AuthTokenUpdateStrategyType: String, CustomStringConvertible, Codable {
-        case set = "SET"
-        case rotate = "ROTATE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AuthorizeCacheSecurityGroupIngressMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
@@ -108,14 +193,6 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case cacheSecurityGroup = "CacheSecurityGroup"
         }
-    }
-
-    public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable {
-        case enabled = "enabled"
-        case disabled = "disabled"
-        case enabling = "enabling"
-        case disabling = "disabling"
-        public var description: String { return self.rawValue }
     }
 
     public struct AvailabilityZone: AWSShape {
@@ -847,12 +924,6 @@ extension ElastiCache {
             case cacheSubnetGroups = "CacheSubnetGroups"
             case marker = "Marker"
         }
-    }
-
-    public enum ChangeType: String, CustomStringConvertible, Codable {
-        case immediate = "immediate"
-        case requiresReboot = "requires-reboot"
-        public var description: String { return self.rawValue }
     }
 
     public struct CompleteMigrationMessage: AWSShape {
@@ -3157,22 +3228,6 @@ extension ElastiCache {
         }
     }
 
-    public enum NodeUpdateInitiatedBy: String, CustomStringConvertible, Codable {
-        case system = "system"
-        case customer = "customer"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NodeUpdateStatus: String, CustomStringConvertible, Codable {
-        case notApplied = "not-applied"
-        case waitingToStart = "waiting-to-start"
-        case inProgress = "in-progress"
-        case stopping = "stopping"
-        case stopped = "stopped"
-        case complete = "complete"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NotificationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TopicArn", required: false, type: .string), 
@@ -3272,12 +3327,6 @@ extension ElastiCache {
             case parameterName = "ParameterName"
             case parameterValue = "ParameterValue"
         }
-    }
-
-    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable {
-        case enabled = "enabled"
-        case disabled = "disabled"
-        public var description: String { return self.rawValue }
     }
 
     public struct PendingModifiedValues: AWSShape {
@@ -4012,26 +4061,6 @@ extension ElastiCache {
         }
     }
 
-    public enum ServiceUpdateSeverity: String, CustomStringConvertible, Codable {
-        case critical = "critical"
-        case important = "important"
-        case medium = "medium"
-        case low = "low"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable {
-        case available = "available"
-        case cancelled = "cancelled"
-        case expired = "expired"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceUpdateType: String, CustomStringConvertible, Codable {
-        case securityUpdate = "security-update"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ServiceUpdatesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -4052,13 +4081,6 @@ extension ElastiCache {
             case marker = "Marker"
             case serviceUpdates = "ServiceUpdates"
         }
-    }
-
-    public enum SlaMet: String, CustomStringConvertible, Codable {
-        case yes = "yes"
-        case no = "no"
-        case nA = "n/a"
-        public var description: String { return self.rawValue }
     }
 
     public struct SlotMigration: AWSShape {
@@ -4213,15 +4235,6 @@ extension ElastiCache {
             case topicArn = "TopicArn"
             case vpcId = "VpcId"
         }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case cacheCluster = "cache-cluster"
-        case cacheParameterGroup = "cache-parameter-group"
-        case cacheSecurityGroup = "cache-security-group"
-        case cacheSubnetGroup = "cache-subnet-group"
-        case replicationGroup = "replication-group"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartMigrationMessage: AWSShape {
@@ -4543,16 +4556,6 @@ extension ElastiCache {
             case processedUpdateActions = "ProcessedUpdateActions"
             case unprocessedUpdateActions = "UnprocessedUpdateActions"
         }
-    }
-
-    public enum UpdateActionStatus: String, CustomStringConvertible, Codable {
-        case notApplied = "not-applied"
-        case waitingToStart = "waiting-to-start"
-        case inProgress = "in-progress"
-        case stopping = "stopping"
-        case stopped = "stopped"
-        case complete = "complete"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateActionsMessage: AWSShape {

@@ -4,6 +4,91 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ApplicationDiscoveryService {
+    //MARK: Enums
+
+    public enum AgentStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case running = "RUNNING"
+        case unknown = "UNKNOWN"
+        case blacklisted = "BLACKLISTED"
+        case shutdown = "SHUTDOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchDeleteImportDataErrorCode: String, CustomStringConvertible, Codable {
+        case notFound = "NOT_FOUND"
+        case internalServerError = "INTERNAL_SERVER_ERROR"
+        case overLimit = "OVER_LIMIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationItemType: String, CustomStringConvertible, Codable {
+        case server = "SERVER"
+        case process = "PROCESS"
+        case connection = "CONNECTION"
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContinuousExportStatus: String, CustomStringConvertible, Codable {
+        case startInProgress = "START_IN_PROGRESS"
+        case startFailed = "START_FAILED"
+        case active = "ACTIVE"
+        case error = "ERROR"
+        case stopInProgress = "STOP_IN_PROGRESS"
+        case stopFailed = "STOP_FAILED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSource: String, CustomStringConvertible, Codable {
+        case agent = "AGENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportDataFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case graphml = "GRAPHML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportStatus: String, CustomStringConvertible, Codable {
+        case importInProgress = "IMPORT_IN_PROGRESS"
+        case importComplete = "IMPORT_COMPLETE"
+        case importCompleteWithErrors = "IMPORT_COMPLETE_WITH_ERRORS"
+        case importFailed = "IMPORT_FAILED"
+        case importFailedServerLimitExceeded = "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED"
+        case importFailedRecordLimitExceeded = "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleteComplete = "DELETE_COMPLETE"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteFailedLimitExceeded = "DELETE_FAILED_LIMIT_EXCEEDED"
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportTaskFilterName: String, CustomStringConvertible, Codable {
+        case importTaskId = "IMPORT_TASK_ID"
+        case status = "STATUS"
+        case name = "NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderString: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AgentConfigurationStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -116,16 +201,6 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public enum AgentStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case running = "RUNNING"
-        case unknown = "UNKNOWN"
-        case blacklisted = "BLACKLISTED"
-        case shutdown = "SHUTDOWN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AssociateConfigurationItemsToApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationConfigurationId", required: true, type: .string), 
@@ -183,13 +258,6 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public enum BatchDeleteImportDataErrorCode: String, CustomStringConvertible, Codable {
-        case notFound = "NOT_FOUND"
-        case internalServerError = "INTERNAL_SERVER_ERROR"
-        case overLimit = "OVER_LIMIT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BatchDeleteImportDataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "importTaskIds", required: true, type: .list)
@@ -227,14 +295,6 @@ extension ApplicationDiscoveryService {
         private enum CodingKeys: String, CodingKey {
             case errors = "errors"
         }
-    }
-
-    public enum ConfigurationItemType: String, CustomStringConvertible, Codable {
-        case server = "SERVER"
-        case process = "PROCESS"
-        case connection = "CONNECTION"
-        case application = "APPLICATION"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConfigurationTag: AWSShape {
@@ -324,17 +384,6 @@ extension ApplicationDiscoveryService {
             case statusDetail = "statusDetail"
             case stopTime = "stopTime"
         }
-    }
-
-    public enum ContinuousExportStatus: String, CustomStringConvertible, Codable {
-        case startInProgress = "START_IN_PROGRESS"
-        case startFailed = "START_FAILED"
-        case active = "ACTIVE"
-        case error = "ERROR"
-        case stopInProgress = "STOP_IN_PROGRESS"
-        case stopFailed = "STOP_FAILED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateApplicationRequest: AWSShape {
@@ -498,11 +547,6 @@ extension ApplicationDiscoveryService {
             case unhealthyConnectors = "unhealthyConnectors"
             case unknownConnectors = "unknownConnectors"
         }
-    }
-
-    public enum DataSource: String, CustomStringConvertible, Codable {
-        case agent = "AGENT"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteApplicationsRequest: AWSShape {
@@ -957,12 +1001,6 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public enum ExportDataFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case graphml = "GRAPHML"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ExportFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "condition", required: true, type: .string), 
@@ -1042,13 +1080,6 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable {
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "condition", required: true, type: .string), 
@@ -1124,21 +1155,6 @@ extension ApplicationDiscoveryService {
             case serversMappedToApplications = "serversMappedToApplications"
             case serversMappedtoTags = "serversMappedtoTags"
         }
-    }
-
-    public enum ImportStatus: String, CustomStringConvertible, Codable {
-        case importInProgress = "IMPORT_IN_PROGRESS"
-        case importComplete = "IMPORT_COMPLETE"
-        case importCompleteWithErrors = "IMPORT_COMPLETE_WITH_ERRORS"
-        case importFailed = "IMPORT_FAILED"
-        case importFailedServerLimitExceeded = "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED"
-        case importFailedRecordLimitExceeded = "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleteComplete = "DELETE_COMPLETE"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteFailedLimitExceeded = "DELETE_FAILED_LIMIT_EXCEEDED"
-        case internalError = "INTERNAL_ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct ImportTask: AWSShape {
@@ -1249,13 +1265,6 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public enum ImportTaskFilterName: String, CustomStringConvertible, Codable {
-        case importTaskId = "IMPORT_TASK_ID"
-        case status = "STATUS"
-        case name = "NAME"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurationType", required: true, type: .enum), 
@@ -1267,13 +1276,13 @@ extension ApplicationDiscoveryService {
 
         /// A valid configuration identified by Application Discovery Service. 
         public let configurationType: ConfigurationItemType
-        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "serverType", "value": "webServer"}  For a complete list of filter options and guidance about using them with this action, see Querying Discovered Configuration Items. 
+        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "serverType", "value": "webServer"}  For a complete list of filter options and guidance about using them with this action, see Using the ListConfigurations Action in the AWS Application Discovery Service User Guide.
         public let filters: [Filter]?
         /// The total number of items to return. The maximum value is 100.
         public let maxResults: Int?
         /// Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
         public let nextToken: String?
-        /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action.
+        /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action in the AWS Application Discovery Service User Guide.
         public let orderBy: [OrderByElement]?
 
         public init(configurationType: ConfigurationItemType, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderBy: [OrderByElement]? = nil) {
@@ -1769,11 +1778,5 @@ extension ApplicationDiscoveryService {
         public init() {
         }
 
-    }
-
-    public enum OrderString: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
     }
 }

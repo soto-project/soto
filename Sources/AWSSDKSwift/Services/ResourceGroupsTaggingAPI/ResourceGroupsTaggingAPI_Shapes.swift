@@ -4,6 +4,29 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ResourceGroupsTaggingAPI {
+    //MARK: Enums
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case internalserviceexception = "InternalServiceException"
+        case invalidparameterexception = "InvalidParameterException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GroupByAttribute: String, CustomStringConvertible, Codable {
+        case targetId = "TARGET_ID"
+        case region = "REGION"
+        case resourceType = "RESOURCE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetIdType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case ou = "OU"
+        case root = "ROOT"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ComplianceDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -65,12 +88,6 @@ extension ResourceGroupsTaggingAPI {
             case s3Location = "S3Location"
             case status = "Status"
         }
-    }
-
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case internalserviceexception = "InternalServiceException"
-        case invalidparameterexception = "InvalidParameterException"
-        public var description: String { return self.rawValue }
     }
 
     public struct FailureInfo: AWSShape {
@@ -386,13 +403,6 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public enum GroupByAttribute: String, CustomStringConvertible, Codable {
-        case targetId = "TARGET_ID"
-        case region = "REGION"
-        case resourceType = "RESOURCE_TYPE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceTagMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceDetails", required: false, type: .structure), 
@@ -605,13 +615,6 @@ extension ResourceGroupsTaggingAPI {
         private enum CodingKeys: String, CodingKey {
             case failedResourcesMap = "FailedResourcesMap"
         }
-    }
-
-    public enum TargetIdType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case ou = "OU"
-        case root = "ROOT"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourcesInput: AWSShape {

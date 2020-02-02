@@ -4,6 +4,199 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Route53 {
+    //MARK: Enums
+
+    public enum AccountLimitType: String, CustomStringConvertible, Codable {
+        case maxHealthChecksByOwner = "MAX_HEALTH_CHECKS_BY_OWNER"
+        case maxHostedZonesByOwner = "MAX_HOSTED_ZONES_BY_OWNER"
+        case maxTrafficPolicyInstancesByOwner = "MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER"
+        case maxReusableDelegationSetsByOwner = "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER"
+        case maxTrafficPoliciesByOwner = "MAX_TRAFFIC_POLICIES_BY_OWNER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeAction: String, CustomStringConvertible, Codable {
+        case create = "CREATE"
+        case delete = "DELETE"
+        case upsert = "UPSERT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case insync = "INSYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudWatchRegion: String, CustomStringConvertible, Codable {
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case caCentral1 = "ca-central-1"
+        case euCentral1 = "eu-central-1"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case apEast1 = "ap-east-1"
+        case meSouth1 = "me-south-1"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
+        case euNorth1 = "eu-north-1"
+        case saEast1 = "sa-east-1"
+        case cnNorthwest1 = "cn-northwest-1"
+        case cnNorth1 = "cn-north-1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
+        case greaterthanthreshold = "GreaterThanThreshold"
+        case lessthanthreshold = "LessThanThreshold"
+        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthCheckRegion: String, CustomStringConvertible, Codable {
+        case usEast1 = "us-east-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case euWest1 = "eu-west-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        case saEast1 = "sa-east-1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthCheckType: String, CustomStringConvertible, Codable {
+        case http = "HTTP"
+        case https = "HTTPS"
+        case httpStrMatch = "HTTP_STR_MATCH"
+        case httpsStrMatch = "HTTPS_STR_MATCH"
+        case tcp = "TCP"
+        case calculated = "CALCULATED"
+        case cloudwatchMetric = "CLOUDWATCH_METRIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HostedZoneLimitType: String, CustomStringConvertible, Codable {
+        case maxRrsetsByZone = "MAX_RRSETS_BY_ZONE"
+        case maxVpcsAssociatedByZone = "MAX_VPCS_ASSOCIATED_BY_ZONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable {
+        case healthy = "Healthy"
+        case unhealthy = "Unhealthy"
+        case lastknownstatus = "LastKnownStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RRType: String, CustomStringConvertible, Codable {
+        case soa = "SOA"
+        case a = "A"
+        case txt = "TXT"
+        case ns = "NS"
+        case cname = "CNAME"
+        case mx = "MX"
+        case naptr = "NAPTR"
+        case ptr = "PTR"
+        case srv = "SRV"
+        case spf = "SPF"
+        case aaaa = "AAAA"
+        case caa = "CAA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResettableElementName: String, CustomStringConvertible, Codable {
+        case fullyqualifieddomainname = "FullyQualifiedDomainName"
+        case regions = "Regions"
+        case resourcepath = "ResourcePath"
+        case childhealthchecks = "ChildHealthChecks"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceRecordSetFailover: String, CustomStringConvertible, Codable {
+        case primary = "PRIMARY"
+        case secondary = "SECONDARY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable {
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case caCentral1 = "ca-central-1"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case euCentral1 = "eu-central-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
+        case euNorth1 = "eu-north-1"
+        case saEast1 = "sa-east-1"
+        case cnNorth1 = "cn-north-1"
+        case cnNorthwest1 = "cn-northwest-1"
+        case apEast1 = "ap-east-1"
+        case meSouth1 = "me-south-1"
+        case apSouth1 = "ap-south-1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReusableDelegationSetLimitType: String, CustomStringConvertible, Codable {
+        case maxZonesByReusableDelegationSet = "MAX_ZONES_BY_REUSABLE_DELEGATION_SET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Statistic: String, CustomStringConvertible, Codable {
+        case average = "Average"
+        case sum = "Sum"
+        case samplecount = "SampleCount"
+        case maximum = "Maximum"
+        case minimum = "Minimum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TagResourceType: String, CustomStringConvertible, Codable {
+        case healthcheck = "healthcheck"
+        case hostedzone = "hostedzone"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VPCRegion: String, CustomStringConvertible, Codable {
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case euCentral1 = "eu-central-1"
+        case apEast1 = "ap-east-1"
+        case meSouth1 = "me-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apSouth1 = "ap-south-1"
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
+        case euNorth1 = "eu-north-1"
+        case saEast1 = "sa-east-1"
+        case caCentral1 = "ca-central-1"
+        case cnNorth1 = "cn-north-1"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountLimit: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -25,15 +218,6 @@ extension Route53 {
             case `type` = "Type"
             case value = "Value"
         }
-    }
-
-    public enum AccountLimitType: String, CustomStringConvertible, Codable {
-        case maxHealthChecksByOwner = "MAX_HEALTH_CHECKS_BY_OWNER"
-        case maxHostedZonesByOwner = "MAX_HOSTED_ZONES_BY_OWNER"
-        case maxTrafficPolicyInstancesByOwner = "MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER"
-        case maxReusableDelegationSetsByOwner = "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER"
-        case maxTrafficPoliciesByOwner = "MAX_TRAFFIC_POLICIES_BY_OWNER"
-        public var description: String { return self.rawValue }
     }
 
     public struct AlarmIdentifier: AWSShape {
@@ -170,13 +354,6 @@ extension Route53 {
         }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable {
-        case create = "CREATE"
-        case delete = "DELETE"
-        case upsert = "UPSERT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ChangeBatch: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Changes", required: true, type: .list, encoding: .list(member:"Change")), 
@@ -283,12 +460,6 @@ extension Route53 {
         }
     }
 
-    public enum ChangeStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case insync = "INSYNC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ChangeTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AddTags", required: false, type: .list, encoding: .list(member:"Tag")), 
@@ -393,39 +564,6 @@ extension Route53 {
             case statistic = "Statistic"
             case threshold = "Threshold"
         }
-    }
-
-    public enum CloudWatchRegion: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case caCentral1 = "ca-central-1"
-        case euCentral1 = "eu-central-1"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case apEast1 = "ap-east-1"
-        case meSouth1 = "me-south-1"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case euNorth1 = "eu-north-1"
-        case saEast1 = "sa-east-1"
-        case cnNorthwest1 = "cn-northwest-1"
-        case cnNorth1 = "cn-north-1"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
-        case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanthreshold = "LessThanThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateHealthCheckRequest: AWSShape {
@@ -2132,29 +2270,6 @@ extension Route53 {
         }
     }
 
-    public enum HealthCheckRegion: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case euWest1 = "eu-west-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case saEast1 = "sa-east-1"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HealthCheckType: String, CustomStringConvertible, Codable {
-        case http = "HTTP"
-        case https = "HTTPS"
-        case httpStrMatch = "HTTP_STR_MATCH"
-        case httpsStrMatch = "HTTPS_STR_MATCH"
-        case tcp = "TCP"
-        case calculated = "CALCULATED"
-        case cloudwatchMetric = "CLOUDWATCH_METRIC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HostedZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
@@ -2243,19 +2358,6 @@ extension Route53 {
             case `type` = "Type"
             case value = "Value"
         }
-    }
-
-    public enum HostedZoneLimitType: String, CustomStringConvertible, Codable {
-        case maxRrsetsByZone = "MAX_RRSETS_BY_ZONE"
-        case maxVpcsAssociatedByZone = "MAX_VPCS_ASSOCIATED_BY_ZONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable {
-        case healthy = "Healthy"
-        case unhealthy = "Unhealthy"
-        case lastknownstatus = "LastKnownStatus"
-        public var description: String { return self.rawValue }
     }
 
     public struct LinkedService: AWSShape {
@@ -3323,30 +3425,6 @@ extension Route53 {
         }
     }
 
-    public enum RRType: String, CustomStringConvertible, Codable {
-        case soa = "SOA"
-        case a = "A"
-        case txt = "TXT"
-        case ns = "NS"
-        case cname = "CNAME"
-        case mx = "MX"
-        case naptr = "NAPTR"
-        case ptr = "PTR"
-        case srv = "SRV"
-        case spf = "SPF"
-        case aaaa = "AAAA"
-        case caa = "CAA"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResettableElementName: String, CustomStringConvertible, Codable {
-        case fullyqualifieddomainname = "FullyQualifiedDomainName"
-        case regions = "Regions"
-        case resourcepath = "ResourcePath"
-        case childhealthchecks = "ChildHealthChecks"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceRecord: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string)
@@ -3464,37 +3542,6 @@ extension Route53 {
         }
     }
 
-    public enum ResourceRecordSetFailover: String, CustomStringConvertible, Codable {
-        case primary = "PRIMARY"
-        case secondary = "SECONDARY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case caCentral1 = "ca-central-1"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euCentral1 = "eu-central-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case euNorth1 = "eu-north-1"
-        case saEast1 = "sa-east-1"
-        case cnNorth1 = "cn-north-1"
-        case cnNorthwest1 = "cn-northwest-1"
-        case apEast1 = "ap-east-1"
-        case meSouth1 = "me-south-1"
-        case apSouth1 = "ap-south-1"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceTagSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
@@ -3544,20 +3591,6 @@ extension Route53 {
         }
     }
 
-    public enum ReusableDelegationSetLimitType: String, CustomStringConvertible, Codable {
-        case maxZonesByReusableDelegationSet = "MAX_ZONES_BY_REUSABLE_DELEGATION_SET"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Statistic: String, CustomStringConvertible, Codable {
-        case average = "Average"
-        case sum = "Sum"
-        case samplecount = "SampleCount"
-        case maximum = "Maximum"
-        case minimum = "Minimum"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StatusReport: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CheckedTime", required: false, type: .timestamp), 
@@ -3605,12 +3638,6 @@ extension Route53 {
             case key = "Key"
             case value = "Value"
         }
-    }
-
-    public enum TagResourceType: String, CustomStringConvertible, Codable {
-        case healthcheck = "healthcheck"
-        case hostedzone = "hostedzone"
-        public var description: String { return self.rawValue }
     }
 
     public struct TestDNSAnswerRequest: AWSShape {
@@ -4161,29 +4188,5 @@ extension Route53 {
             case vPCId = "VPCId"
             case vPCRegion = "VPCRegion"
         }
-    }
-
-    public enum VPCRegion: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euCentral1 = "eu-central-1"
-        case apEast1 = "ap-east-1"
-        case meSouth1 = "me-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apSouth1 = "ap-south-1"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case euNorth1 = "eu-north-1"
-        case saEast1 = "sa-east-1"
-        case caCentral1 = "ca-central-1"
-        case cnNorth1 = "cn-north-1"
-        public var description: String { return self.rawValue }
     }
 }

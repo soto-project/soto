@@ -4,6 +4,135 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ElasticsearchService {
+    //MARK: Enums
+
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
+        case pendingUpdate = "PENDING_UPDATE"
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case notEligible = "NOT_ELIGIBLE"
+        case eligible = "ELIGIBLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ESPartitionInstanceType: String, CustomStringConvertible, Codable {
+        case m3MediumElasticsearch = "m3.medium.elasticsearch"
+        case m3LargeElasticsearch = "m3.large.elasticsearch"
+        case m3XlargeElasticsearch = "m3.xlarge.elasticsearch"
+        case m32XlargeElasticsearch = "m3.2xlarge.elasticsearch"
+        case m4LargeElasticsearch = "m4.large.elasticsearch"
+        case m4XlargeElasticsearch = "m4.xlarge.elasticsearch"
+        case m42XlargeElasticsearch = "m4.2xlarge.elasticsearch"
+        case m44XlargeElasticsearch = "m4.4xlarge.elasticsearch"
+        case m410XlargeElasticsearch = "m4.10xlarge.elasticsearch"
+        case m5LargeElasticsearch = "m5.large.elasticsearch"
+        case m5XlargeElasticsearch = "m5.xlarge.elasticsearch"
+        case m52XlargeElasticsearch = "m5.2xlarge.elasticsearch"
+        case m54XlargeElasticsearch = "m5.4xlarge.elasticsearch"
+        case m512XlargeElasticsearch = "m5.12xlarge.elasticsearch"
+        case r5LargeElasticsearch = "r5.large.elasticsearch"
+        case r5XlargeElasticsearch = "r5.xlarge.elasticsearch"
+        case r52XlargeElasticsearch = "r5.2xlarge.elasticsearch"
+        case r54XlargeElasticsearch = "r5.4xlarge.elasticsearch"
+        case r512XlargeElasticsearch = "r5.12xlarge.elasticsearch"
+        case c5LargeElasticsearch = "c5.large.elasticsearch"
+        case c5XlargeElasticsearch = "c5.xlarge.elasticsearch"
+        case c52XlargeElasticsearch = "c5.2xlarge.elasticsearch"
+        case c54XlargeElasticsearch = "c5.4xlarge.elasticsearch"
+        case c59XlargeElasticsearch = "c5.9xlarge.elasticsearch"
+        case c518XlargeElasticsearch = "c5.18xlarge.elasticsearch"
+        case ultrawarm1MediumElasticsearch = "ultrawarm1.medium.elasticsearch"
+        case ultrawarm1LargeElasticsearch = "ultrawarm1.large.elasticsearch"
+        case t2MicroElasticsearch = "t2.micro.elasticsearch"
+        case t2SmallElasticsearch = "t2.small.elasticsearch"
+        case t2MediumElasticsearch = "t2.medium.elasticsearch"
+        case r3LargeElasticsearch = "r3.large.elasticsearch"
+        case r3XlargeElasticsearch = "r3.xlarge.elasticsearch"
+        case r32XlargeElasticsearch = "r3.2xlarge.elasticsearch"
+        case r34XlargeElasticsearch = "r3.4xlarge.elasticsearch"
+        case r38XlargeElasticsearch = "r3.8xlarge.elasticsearch"
+        case i2XlargeElasticsearch = "i2.xlarge.elasticsearch"
+        case i22XlargeElasticsearch = "i2.2xlarge.elasticsearch"
+        case d2XlargeElasticsearch = "d2.xlarge.elasticsearch"
+        case d22XlargeElasticsearch = "d2.2xlarge.elasticsearch"
+        case d24XlargeElasticsearch = "d2.4xlarge.elasticsearch"
+        case d28XlargeElasticsearch = "d2.8xlarge.elasticsearch"
+        case c4LargeElasticsearch = "c4.large.elasticsearch"
+        case c4XlargeElasticsearch = "c4.xlarge.elasticsearch"
+        case c42XlargeElasticsearch = "c4.2xlarge.elasticsearch"
+        case c44XlargeElasticsearch = "c4.4xlarge.elasticsearch"
+        case c48XlargeElasticsearch = "c4.8xlarge.elasticsearch"
+        case r4LargeElasticsearch = "r4.large.elasticsearch"
+        case r4XlargeElasticsearch = "r4.xlarge.elasticsearch"
+        case r42XlargeElasticsearch = "r4.2xlarge.elasticsearch"
+        case r44XlargeElasticsearch = "r4.4xlarge.elasticsearch"
+        case r48XlargeElasticsearch = "r4.8xlarge.elasticsearch"
+        case r416XlargeElasticsearch = "r4.16xlarge.elasticsearch"
+        case i3LargeElasticsearch = "i3.large.elasticsearch"
+        case i3XlargeElasticsearch = "i3.xlarge.elasticsearch"
+        case i32XlargeElasticsearch = "i3.2xlarge.elasticsearch"
+        case i34XlargeElasticsearch = "i3.4xlarge.elasticsearch"
+        case i38XlargeElasticsearch = "i3.8xlarge.elasticsearch"
+        case i316XlargeElasticsearch = "i3.16xlarge.elasticsearch"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ESWarmPartitionInstanceType: String, CustomStringConvertible, Codable {
+        case ultrawarm1MediumElasticsearch = "ultrawarm1.medium.elasticsearch"
+        case ultrawarm1LargeElasticsearch = "ultrawarm1.large.elasticsearch"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogType: String, CustomStringConvertible, Codable {
+        case indexSlowLogs = "INDEX_SLOW_LOGS"
+        case searchSlowLogs = "SEARCH_SLOW_LOGS"
+        case esApplicationLogs = "ES_APPLICATION_LOGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OptionState: String, CustomStringConvertible, Codable {
+        case requiresindexdocuments = "RequiresIndexDocuments"
+        case processing = "Processing"
+        case active = "Active"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservedElasticsearchInstancePaymentOption: String, CustomStringConvertible, Codable {
+        case allUpfront = "ALL_UPFRONT"
+        case partialUpfront = "PARTIAL_UPFRONT"
+        case noUpfront = "NO_UPFRONT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
+        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
+        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpgradeStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case succeededWithIssues = "SUCCEEDED_WITH_ISSUES"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpgradeStep: String, CustomStringConvertible, Codable {
+        case preUpgradeCheck = "PRE_UPGRADE_CHECK"
+        case snapshot = "SNAPSHOT"
+        case upgrade = "UPGRADE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VolumeType: String, CustomStringConvertible, Codable {
+        case standard = "standard"
+        case gp2 = "gp2"
+        case io1 = "io1"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessPoliciesStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -365,15 +494,6 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case domainStatus = "DomainStatus"
         }
-    }
-
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
-        case pendingUpdate = "PENDING_UPDATE"
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case notEligible = "NOT_ELIGIBLE"
-        case eligible = "ELIGIBLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeElasticsearchDomainConfigRequest: AWSShape {
@@ -768,74 +888,6 @@ extension ElasticsearchService {
             case options = "Options"
             case status = "Status"
         }
-    }
-
-    public enum ESPartitionInstanceType: String, CustomStringConvertible, Codable {
-        case m3MediumElasticsearch = "m3.medium.elasticsearch"
-        case m3LargeElasticsearch = "m3.large.elasticsearch"
-        case m3XlargeElasticsearch = "m3.xlarge.elasticsearch"
-        case m32XlargeElasticsearch = "m3.2xlarge.elasticsearch"
-        case m4LargeElasticsearch = "m4.large.elasticsearch"
-        case m4XlargeElasticsearch = "m4.xlarge.elasticsearch"
-        case m42XlargeElasticsearch = "m4.2xlarge.elasticsearch"
-        case m44XlargeElasticsearch = "m4.4xlarge.elasticsearch"
-        case m410XlargeElasticsearch = "m4.10xlarge.elasticsearch"
-        case m5LargeElasticsearch = "m5.large.elasticsearch"
-        case m5XlargeElasticsearch = "m5.xlarge.elasticsearch"
-        case m52XlargeElasticsearch = "m5.2xlarge.elasticsearch"
-        case m54XlargeElasticsearch = "m5.4xlarge.elasticsearch"
-        case m512XlargeElasticsearch = "m5.12xlarge.elasticsearch"
-        case r5LargeElasticsearch = "r5.large.elasticsearch"
-        case r5XlargeElasticsearch = "r5.xlarge.elasticsearch"
-        case r52XlargeElasticsearch = "r5.2xlarge.elasticsearch"
-        case r54XlargeElasticsearch = "r5.4xlarge.elasticsearch"
-        case r512XlargeElasticsearch = "r5.12xlarge.elasticsearch"
-        case c5LargeElasticsearch = "c5.large.elasticsearch"
-        case c5XlargeElasticsearch = "c5.xlarge.elasticsearch"
-        case c52XlargeElasticsearch = "c5.2xlarge.elasticsearch"
-        case c54XlargeElasticsearch = "c5.4xlarge.elasticsearch"
-        case c59XlargeElasticsearch = "c5.9xlarge.elasticsearch"
-        case c518XlargeElasticsearch = "c5.18xlarge.elasticsearch"
-        case ultrawarm1MediumElasticsearch = "ultrawarm1.medium.elasticsearch"
-        case ultrawarm1LargeElasticsearch = "ultrawarm1.large.elasticsearch"
-        case t2MicroElasticsearch = "t2.micro.elasticsearch"
-        case t2SmallElasticsearch = "t2.small.elasticsearch"
-        case t2MediumElasticsearch = "t2.medium.elasticsearch"
-        case r3LargeElasticsearch = "r3.large.elasticsearch"
-        case r3XlargeElasticsearch = "r3.xlarge.elasticsearch"
-        case r32XlargeElasticsearch = "r3.2xlarge.elasticsearch"
-        case r34XlargeElasticsearch = "r3.4xlarge.elasticsearch"
-        case r38XlargeElasticsearch = "r3.8xlarge.elasticsearch"
-        case i2XlargeElasticsearch = "i2.xlarge.elasticsearch"
-        case i22XlargeElasticsearch = "i2.2xlarge.elasticsearch"
-        case d2XlargeElasticsearch = "d2.xlarge.elasticsearch"
-        case d22XlargeElasticsearch = "d2.2xlarge.elasticsearch"
-        case d24XlargeElasticsearch = "d2.4xlarge.elasticsearch"
-        case d28XlargeElasticsearch = "d2.8xlarge.elasticsearch"
-        case c4LargeElasticsearch = "c4.large.elasticsearch"
-        case c4XlargeElasticsearch = "c4.xlarge.elasticsearch"
-        case c42XlargeElasticsearch = "c4.2xlarge.elasticsearch"
-        case c44XlargeElasticsearch = "c4.4xlarge.elasticsearch"
-        case c48XlargeElasticsearch = "c4.8xlarge.elasticsearch"
-        case r4LargeElasticsearch = "r4.large.elasticsearch"
-        case r4XlargeElasticsearch = "r4.xlarge.elasticsearch"
-        case r42XlargeElasticsearch = "r4.2xlarge.elasticsearch"
-        case r44XlargeElasticsearch = "r4.4xlarge.elasticsearch"
-        case r48XlargeElasticsearch = "r4.8xlarge.elasticsearch"
-        case r416XlargeElasticsearch = "r4.16xlarge.elasticsearch"
-        case i3LargeElasticsearch = "i3.large.elasticsearch"
-        case i3XlargeElasticsearch = "i3.xlarge.elasticsearch"
-        case i32XlargeElasticsearch = "i3.2xlarge.elasticsearch"
-        case i34XlargeElasticsearch = "i3.4xlarge.elasticsearch"
-        case i38XlargeElasticsearch = "i3.8xlarge.elasticsearch"
-        case i316XlargeElasticsearch = "i3.16xlarge.elasticsearch"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ESWarmPartitionInstanceType: String, CustomStringConvertible, Codable {
-        case ultrawarm1MediumElasticsearch = "ultrawarm1.medium.elasticsearch"
-        case ultrawarm1LargeElasticsearch = "ultrawarm1.large.elasticsearch"
-        public var description: String { return self.rawValue }
     }
 
     public struct ElasticsearchClusterConfig: AWSShape {
@@ -1589,13 +1641,6 @@ extension ElasticsearchService {
         }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable {
-        case indexSlowLogs = "INDEX_SLOW_LOGS"
-        case searchSlowLogs = "SEARCH_SLOW_LOGS"
-        case esApplicationLogs = "ES_APPLICATION_LOGS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NodeToNodeEncryptionOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
@@ -1633,13 +1678,6 @@ extension ElasticsearchService {
             case options = "Options"
             case status = "Status"
         }
-    }
-
-    public enum OptionState: String, CustomStringConvertible, Codable {
-        case requiresindexdocuments = "RequiresIndexDocuments"
-        case processing = "Processing"
-        case active = "Active"
-        public var description: String { return self.rawValue }
     }
 
     public struct OptionStatus: AWSShape {
@@ -1908,13 +1946,6 @@ extension ElasticsearchService {
         }
     }
 
-    public enum ReservedElasticsearchInstancePaymentOption: String, CustomStringConvertible, Codable {
-        case allUpfront = "ALL_UPFRONT"
-        case partialUpfront = "PARTIAL_UPFRONT"
-        case noUpfront = "NO_UPFRONT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ServiceSoftwareOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutomatedUpdateDate", required: false, type: .timestamp), 
@@ -2086,12 +2117,6 @@ extension ElasticsearchService {
             case limitName = "LimitName"
             case limitValues = "LimitValues"
         }
-    }
-
-    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
-        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
-        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {
@@ -2299,21 +2324,6 @@ extension ElasticsearchService {
         }
     }
 
-    public enum UpgradeStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case succeededWithIssues = "SUCCEEDED_WITH_ISSUES"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UpgradeStep: String, CustomStringConvertible, Codable {
-        case preUpgradeCheck = "PRE_UPGRADE_CHECK"
-        case snapshot = "SNAPSHOT"
-        case upgrade = "UPGRADE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UpgradeStepItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Issues", required: false, type: .list), 
@@ -2420,13 +2430,6 @@ extension ElasticsearchService {
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
         }
-    }
-
-    public enum VolumeType: String, CustomStringConvertible, Codable {
-        case standard = "standard"
-        case gp2 = "gp2"
-        case io1 = "io1"
-        public var description: String { return self.rawValue }
     }
 
     public struct ZoneAwarenessConfig: AWSShape {

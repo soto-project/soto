@@ -4,6 +4,62 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IoTAnalytics {
+    //MARK: Enums
+
+    public enum ChannelStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputeType: String, CustomStringConvertible, Codable {
+        case acu1 = "ACU_1"
+        case acu2 = "ACU_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetActionType: String, CustomStringConvertible, Codable {
+        case query = "QUERY"
+        case container = "CONTAINER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetContentState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatastoreStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoggingLevel: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReprocessingStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddAttributesActivity: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -257,13 +313,6 @@ extension IoTAnalytics {
         }
     }
 
-    public enum ChannelStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ChannelStorage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "customerManagedS3", required: false, type: .structure), 
@@ -347,12 +396,6 @@ extension IoTAnalytics {
             case lastUpdateTime = "lastUpdateTime"
             case status = "status"
         }
-    }
-
-    public enum ComputeType: String, CustomStringConvertible, Codable {
-        case acu1 = "ACU_1"
-        case acu2 = "ACU_2"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContainerDatasetAction: AWSShape {
@@ -999,12 +1042,6 @@ extension IoTAnalytics {
         }
     }
 
-    public enum DatasetActionType: String, CustomStringConvertible, Codable {
-        case query = "QUERY"
-        case container = "CONTAINER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DatasetContentDeliveryDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "iotEventsDestinationConfiguration", required: false, type: .structure), 
@@ -1056,13 +1093,6 @@ extension IoTAnalytics {
             case destination = "destination"
             case entryName = "entryName"
         }
-    }
-
-    public enum DatasetContentState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DatasetContentStatus: AWSShape {
@@ -1167,13 +1197,6 @@ extension IoTAnalytics {
             case dataURI = "dataURI"
             case entryName = "entryName"
         }
-    }
-
-    public enum DatasetStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
     }
 
     public struct DatasetSummary: AWSShape {
@@ -1336,13 +1359,6 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case size = "size"
         }
-    }
-
-    public enum DatastoreStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
     }
 
     public struct DatastoreStorage: AWSShape {
@@ -2401,11 +2417,6 @@ extension IoTAnalytics {
         }
     }
 
-    public enum LoggingLevel: String, CustomStringConvertible, Codable {
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoggingOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "enabled", required: true, type: .boolean), 
@@ -2754,14 +2765,6 @@ extension IoTAnalytics {
             case name = "name"
             case next = "next"
         }
-    }
-
-    public enum ReprocessingStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReprocessingSummary: AWSShape {

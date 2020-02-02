@@ -4,6 +4,135 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DirectConnect {
+    //MARK: Enums
+
+    public enum AddressFamily: String, CustomStringConvertible, Codable {
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BGPPeerState: String, CustomStringConvertible, Codable {
+        case verifying = "verifying"
+        case pending = "pending"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BGPStatus: String, CustomStringConvertible, Codable {
+        case up = "up"
+        case down = "down"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionState: String, CustomStringConvertible, Codable {
+        case ordering = "ordering"
+        case requested = "requested"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        case rejected = "rejected"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable {
+        case requested = "requested"
+        case accepted = "accepted"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable {
+        case associating = "associating"
+        case associated = "associated"
+        case disassociating = "disassociating"
+        case disassociated = "disassociated"
+        case updating = "updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable {
+        case attaching = "attaching"
+        case attached = "attached"
+        case detaching = "detaching"
+        case detached = "detached"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable {
+        case transitvirtualinterface = "TransitVirtualInterface"
+        case privatevirtualinterface = "PrivateVirtualInterface"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayType: String, CustomStringConvertible, Codable {
+        case virtualprivategateway = "virtualPrivateGateway"
+        case transitgateway = "transitGateway"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable {
+        case unknown = "unknown"
+        case yes = "yes"
+        case no = "no"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InterconnectState: String, CustomStringConvertible, Codable {
+        case requested = "requested"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LagState: String, CustomStringConvertible, Codable {
+        case requested = "requested"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoaContentType: String, CustomStringConvertible, Codable {
+        case applicationPdf = "application/pdf"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable {
+        case confirming = "confirming"
+        case verifying = "verifying"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        case rejected = "rejected"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptDirectConnectGatewayAssociationProposalRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -51,12 +180,6 @@ extension DirectConnect {
         private enum CodingKeys: String, CodingKey {
             case directConnectGatewayAssociation = "directConnectGatewayAssociation"
         }
-    }
-
-    public enum AddressFamily: String, CustomStringConvertible, Codable {
-        case ipv4 = "ipv4"
-        case ipv6 = "ipv6"
-        public var description: String { return self.rawValue }
     }
 
     public struct AllocateConnectionOnInterconnectRequest: AWSShape {
@@ -409,22 +532,6 @@ extension DirectConnect {
         }
     }
 
-    public enum BGPPeerState: String, CustomStringConvertible, Codable {
-        case verifying = "verifying"
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BGPStatus: String, CustomStringConvertible, Codable {
-        case up = "up"
-        case down = "down"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ConfirmConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionId", required: true, type: .string)
@@ -671,19 +778,6 @@ extension DirectConnect {
             case tags = "tags"
             case vlan = "vlan"
         }
-    }
-
-    public enum ConnectionState: String, CustomStringConvertible, Codable {
-        case ordering = "ordering"
-        case requested = "requested"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case rejected = "rejected"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
     }
 
     public struct Connections: AWSShape {
@@ -2035,22 +2129,6 @@ extension DirectConnect {
         }
     }
 
-    public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable {
-        case requested = "requested"
-        case accepted = "accepted"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        case updating = "updating"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DirectConnectGatewayAttachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachmentState", required: false, type: .enum), 
@@ -2098,28 +2176,6 @@ extension DirectConnect {
         }
     }
 
-    public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable {
-        case attaching = "attaching"
-        case attached = "attached"
-        case detaching = "detaching"
-        case detached = "detached"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable {
-        case transitvirtualinterface = "TransitVirtualInterface"
-        case privatevirtualinterface = "PrivateVirtualInterface"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DisassociateConnectionFromLagRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
@@ -2140,19 +2196,6 @@ extension DirectConnect {
             case connectionId = "connectionId"
             case lagId = "lagId"
         }
-    }
-
-    public enum GatewayType: String, CustomStringConvertible, Codable {
-        case virtualprivategateway = "virtualPrivateGateway"
-        case transitgateway = "transitGateway"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable {
-        case unknown = "unknown"
-        case yes = "yes"
-        case no = "no"
-        public var description: String { return self.rawValue }
     }
 
     public struct Interconnect: AWSShape {
@@ -2235,17 +2278,6 @@ extension DirectConnect {
             case region = "region"
             case tags = "tags"
         }
-    }
-
-    public enum InterconnectState: String, CustomStringConvertible, Codable {
-        case requested = "requested"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
     }
 
     public struct Interconnects: AWSShape {
@@ -2362,17 +2394,6 @@ extension DirectConnect {
         }
     }
 
-    public enum LagState: String, CustomStringConvertible, Codable {
-        case requested = "requested"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Lags: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lags", required: false, type: .list)
@@ -2410,11 +2431,6 @@ extension DirectConnect {
             case loaContent = "loaContent"
             case loaContentType = "loaContentType"
         }
-    }
-
-    public enum LoaContentType: String, CustomStringConvertible, Codable {
-        case applicationPdf = "application/pdf"
-        public var description: String { return self.rawValue }
     }
 
     public struct Location: AWSShape {
@@ -3313,19 +3329,6 @@ extension DirectConnect {
             case virtualInterfaceType = "virtualInterfaceType"
             case vlan = "vlan"
         }
-    }
-
-    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable {
-        case confirming = "confirming"
-        case verifying = "verifying"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case rejected = "rejected"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
     }
 
     public struct VirtualInterfaces: AWSShape {

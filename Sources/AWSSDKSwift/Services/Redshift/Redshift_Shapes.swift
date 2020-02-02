@@ -4,6 +4,107 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Redshift {
+    //MARK: Enums
+
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case restoreCluster = "restore-cluster"
+        case recommendNodeConfig = "recommend-node-config"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mode: String, CustomStringConvertible, Codable {
+        case standard = "standard"
+        case highPerformance = "high-performance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable {
+        case nodetype = "NodeType"
+        case numberofnodes = "NumberOfNodes"
+        case estimateddiskutilizationpercent = "EstimatedDiskUtilizationPercent"
+        case mode = "Mode"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperatorType: String, CustomStringConvertible, Codable {
+        case eq = "eq"
+        case lt = "lt"
+        case gt = "gt"
+        case le = "le"
+        case ge = "ge"
+        case `in` = "in"
+        case between = "between"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterApplyType: String, CustomStringConvertible, Codable {
+        case `static` = "static"
+        case dynamic = "dynamic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservedNodeOfferingType: String, CustomStringConvertible, Codable {
+        case regular = "Regular"
+        case upgradable = "Upgradable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduleState: String, CustomStringConvertible, Codable {
+        case modifying = "MODIFYING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledActionFilterName: String, CustomStringConvertible, Codable {
+        case clusterIdentifier = "cluster-identifier"
+        case iamRole = "iam-role"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledActionState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
+        case resizecluster = "ResizeCluster"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotAttributeToSortBy: String, CustomStringConvertible, Codable {
+        case sourceType = "SOURCE_TYPE"
+        case totalSize = "TOTAL_SIZE"
+        case createTime = "CREATE_TIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortByOrder: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case cluster = "cluster"
+        case clusterParameterGroup = "cluster-parameter-group"
+        case clusterSecurityGroup = "cluster-security-group"
+        case clusterSnapshot = "cluster-snapshot"
+        case scheduledAction = "scheduled-action"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableRestoreStatusType: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptReservedNodeExchangeInputMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -102,12 +203,6 @@ extension Redshift {
             case accountAlias = "AccountAlias"
             case accountId = "AccountId"
         }
-    }
-
-    public enum ActionType: String, CustomStringConvertible, Codable {
-        case restoreCluster = "restore-cluster"
-        case recommendNodeConfig = "recommend-node-config"
-        public var description: String { return self.rawValue }
     }
 
     public struct AttributeValueTarget: AWSShape {
@@ -1223,7 +1318,7 @@ extension Redshift {
         public let allowVersionUpgrade: Bool?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  Default: 1  Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
-        /// The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 instances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-1d  Constraint: The specified Availability Zone must be in the same region as the current endpoint.
+        /// The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 instances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-2d  Constraint: The specified Availability Zone must be in the same region as the current endpoint.
         public let availabilityZone: String?
         /// A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.   Example: myexamplecluster 
         public let clusterIdentifier: String
@@ -1570,7 +1665,7 @@ extension Redshift {
         public let snsTopicArn: String
         /// A list of one or more identifiers of Amazon Redshift source objects. All of the objects must be of the same type as was specified in the source type parameter. The event subscription will return only events generated by the specified objects. If not specified, then events are returned for all objects within the source type specified. Example: my-cluster-1, my-cluster-2 Example: my-snapshot-20131010
         public let sourceIds: [String]?
-        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your AWS account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, and cluster-snapshot.
+        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your AWS account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot, and scheduled-action.
         public let sourceType: String?
         /// The name of the event subscription to be created. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let subscriptionName: String
@@ -1858,7 +1953,7 @@ extension Redshift {
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
 
-        /// The Amazon Resource Name (ARN) to which you want to add the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
+        /// The Amazon Resource Name (ARN) to which you want to add the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1. 
         public let resourceName: String
         /// One or more name/value pairs to add as tags to the specified resource. Each tag name is passed in with the parameter Key and the corresponding value is passed in with the parameter Value. The Key and Value parameters are separated by a comma (,). Separate multiple tags with a space. For example, --tags "Key"="owner","Value"="admin" "Key"="environment","Value"="test" "Key"="version","Value"="1.0". 
         public let tags: [Tag]
@@ -2237,7 +2332,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"TagKey"))
         ]
 
-        /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
+        /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1. 
         public let resourceName: String
         /// The tag key that you want to delete.
         public let tagKeys: [String]
@@ -2655,7 +2750,7 @@ extension Redshift {
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
 
-        /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, and cluster-security-group.
+        /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group, and scheduled-action.
         public let sourceType: String?
 
         public init(sourceType: String? = nil) {
@@ -3191,7 +3286,7 @@ extension Redshift {
         public let marker: String?
         /// The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. 
         public let maxRecords: Int?
-        /// The Amazon Resource Name (ARN) for which you want to describe the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
+        /// The Amazon Resource Name (ARN) for which you want to describe the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1. 
         public let resourceName: String?
         /// The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide. 
         public let resourceType: String?
@@ -3572,7 +3667,7 @@ extension Redshift {
         public let snsTopicArn: String?
         /// A list of the sources that publish events to the Amazon Redshift event notification subscription.
         public let sourceIdsList: [String]?
-        /// The source type of the events returned the Amazon Redshift event notification, such as cluster, or cluster-snapshot.
+        /// The source type of the events returned by the Amazon Redshift event notification, such as cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group, or scheduled-action. 
         public let sourceType: String?
         /// The status of the Amazon Redshift event notification subscription. Constraints:   Can be one of the following: active | no-permission | topic-not-exist   The status "no-permission" indicates that Amazon Redshift no longer has permission to post to the Amazon SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.  
         public let status: String?
@@ -3976,12 +4071,6 @@ extension Redshift {
         }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable {
-        case standard = "standard"
-        case highPerformance = "high-performance"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ModifyClusterDbRevisionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
@@ -4163,7 +4252,7 @@ extension Redshift {
         public let clusterVersion: String?
         /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
         public let elasticIp: String?
-        /// Indicates whether the cluster is encrypted. If the cluster is encrypted and you provide a value for the KmsKeyId parameter, we will encrypt the cluster with the provided KmsKeyId. If you don't provide a KmsKeyId, we will encrypt with the default key. In the China region we will use legacy encryption if you specify that the cluster is encrypted.
+        /// Indicates whether the cluster is encrypted. If the value is encrypted (true) and you provide a value for the KmsKeyId parameter, we encrypt the cluster with the provided KmsKeyId. If you don't provide a KmsKeyId, we encrypt with the default key. In the China region we use legacy encryption if you specify that the cluster is encrypted. If the value is not encrypted (false), then the cluster is decrypted. 
         public let encrypted: Bool?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
@@ -4181,9 +4270,9 @@ extension Redshift {
         public let masterUserPassword: String?
         /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.   Example: examplecluster 
         public let newClusterIdentifier: String?
-        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.16xlarge 
+        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter.  For more information about resizing clusters, go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide. Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.16xlarge 
         public let nodeType: String?
-        /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: Integer greater than 0.
+        /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter.  For more information about resizing clusters, go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide. Valid Values: Integer greater than 0.
         public let numberOfNodes: Int?
         /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes.
         public let preferredMaintenanceWindow: String?
@@ -4415,7 +4504,7 @@ extension Redshift {
         public let snsTopicArn: String?
         /// A list of one or more identifiers of Amazon Redshift source objects. All of the objects must be of the same type as was specified in the source type parameter. The event subscription will return only events generated by the specified objects. If not specified, then events are returned for all objects within the source type specified. Example: my-cluster-1, my-cluster-2 Example: my-snapshot-20131010
         public let sourceIds: [String]?
-        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your AWS account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, and cluster-snapshot.
+        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your AWS account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot, and scheduled-action.
         public let sourceType: String?
         /// The name of the modified Amazon Redshift event notification subscription.
         public let subscriptionName: String
@@ -4633,14 +4722,6 @@ extension Redshift {
         }
     }
 
-    public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable {
-        case nodetype = "NodeType"
-        case numberofnodes = "NumberOfNodes"
-        case estimateddiskutilizationpercent = "EstimatedDiskUtilizationPercent"
-        case mode = "Mode"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NodeConfigurationOptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -4661,17 +4742,6 @@ extension Redshift {
             case marker = "Marker"
             case nodeConfigurationOptionList = "NodeConfigurationOptionList"
         }
-    }
-
-    public enum OperatorType: String, CustomStringConvertible, Codable {
-        case eq = "eq"
-        case lt = "lt"
-        case gt = "gt"
-        case le = "le"
-        case ge = "ge"
-        case `in` = "in"
-        case between = "between"
-        public var description: String { return self.rawValue }
     }
 
     public struct OrderableClusterOption: AWSShape {
@@ -4783,12 +4853,6 @@ extension Redshift {
             case parameterValue = "ParameterValue"
             case source = "Source"
         }
-    }
-
-    public enum ParameterApplyType: String, CustomStringConvertible, Codable {
-        case `static` = "static"
-        case dynamic = "dynamic"
-        public var description: String { return self.rawValue }
     }
 
     public struct PendingModifiedValues: AWSShape {
@@ -5083,12 +5147,6 @@ extension Redshift {
         }
     }
 
-    public enum ReservedNodeOfferingType: String, CustomStringConvertible, Codable {
-        case regular = "Regular"
-        case upgradable = "Upgradable"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReservedNodeOfferingsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -5363,7 +5421,7 @@ extension Redshift {
         public let allowVersionUpgrade: Bool?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
-        /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-1a 
+        /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a 
         public let availabilityZone: String?
         /// The identifier of the cluster that will be created from restoring the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
         public let clusterIdentifier: String
@@ -5746,13 +5804,6 @@ extension Redshift {
         }
     }
 
-    public enum ScheduleState: String, CustomStringConvertible, Codable {
-        case modifying = "MODIFYING"
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ScheduledAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
@@ -5832,18 +5883,6 @@ extension Redshift {
         }
     }
 
-    public enum ScheduledActionFilterName: String, CustomStringConvertible, Codable {
-        case clusterIdentifier = "cluster-identifier"
-        case iamRole = "iam-role"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScheduledActionState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ScheduledActionType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResizeCluster", required: false, type: .structure)
@@ -5859,11 +5898,6 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case resizeCluster = "ResizeCluster"
         }
-    }
-
-    public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
-        case resizecluster = "ResizeCluster"
-        public var description: String { return self.rawValue }
     }
 
     public struct ScheduledActionsMessage: AWSShape {
@@ -6065,13 +6099,6 @@ extension Redshift {
         }
     }
 
-    public enum SnapshotAttributeToSortBy: String, CustomStringConvertible, Codable {
-        case sourceType = "SOURCE_TYPE"
-        case totalSize = "TOTAL_SIZE"
-        case createTime = "CREATE_TIME"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SnapshotCopyGrant: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
@@ -6243,21 +6270,6 @@ extension Redshift {
         }
     }
 
-    public enum SortByOrder: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case cluster = "cluster"
-        case clusterParameterGroup = "cluster-parameter-group"
-        case clusterSecurityGroup = "cluster-security-group"
-        case clusterSnapshot = "cluster-snapshot"
-        case scheduledAction = "scheduled-action"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Subnet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
@@ -6421,15 +6433,6 @@ extension Redshift {
         }
     }
 
-    public enum TableRestoreStatusType: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -6459,7 +6462,7 @@ extension Redshift {
             AWSShapeMember(label: "Tag", required: false, type: .structure)
         ]
 
-        /// The Amazon Resource Name (ARN) with which the tag is associated, for example: arn:aws:redshift:us-east-1:123456789:cluster:t1.
+        /// The Amazon Resource Name (ARN) with which the tag is associated, for example: arn:aws:redshift:us-east-2:123456789:cluster:t1.
         public let resourceName: String?
         /// The type of resource with which the tag is associated. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   For more information about Amazon Redshift resource types and constructing ARNs, go to Constructing an Amazon Redshift Amazon Resource Name (ARN) in the Amazon Redshift Cluster Management Guide. 
         public let resourceType: String?

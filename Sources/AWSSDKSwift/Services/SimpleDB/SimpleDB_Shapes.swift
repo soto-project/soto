@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SimpleDB {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct Attribute: AWSShape {
         public static var _members: [AWSShapeMember] = [

@@ -4,6 +4,48 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MediaConnect {
+    //MARK: Enums
+
+    public enum Algorithm: String, CustomStringConvertible, Codable {
+        case aes128 = "aes128"
+        case aes192 = "aes192"
+        case aes256 = "aes256"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyType: String, CustomStringConvertible, Codable {
+        case speke = "speke"
+        case staticKey = "static-key"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case zixiPush = "zixi-push"
+        case rtpFec = "rtp-fec"
+        case rtp = "rtp"
+        case zixiPull = "zixi-pull"
+        case rist = "rist"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case owned = "OWNED"
+        case entitled = "ENTITLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case standby = "STANDBY"
+        case active = "ACTIVE"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddFlowOutputsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -113,13 +155,6 @@ extension MediaConnect {
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
         }
-    }
-
-    public enum Algorithm: String, CustomStringConvertible, Codable {
-        case aes128 = "aes128"
-        case aes192 = "aes192"
-        case aes256 = "aes256"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateFlowRequest: AWSShape {
@@ -483,12 +518,6 @@ extension MediaConnect {
         }
     }
 
-    public enum KeyType: String, CustomStringConvertible, Codable {
-        case speke = "speke"
-        case staticKey = "static-key"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListEntitlementsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -764,15 +793,6 @@ extension MediaConnect {
         }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case zixiPush = "zixi-push"
-        case rtpFec = "rtp-fec"
-        case rtp = "rtp"
-        case zixiPull = "zixi-pull"
-        case rist = "rist"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RemoveFlowOutputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
@@ -981,12 +1001,6 @@ extension MediaConnect {
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case owned = "OWNED"
-        case entitled = "ENTITLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StartFlowRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
@@ -1023,17 +1037,6 @@ extension MediaConnect {
             case flowArn = "flowArn"
             case status = "status"
         }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case standby = "STANDBY"
-        case active = "ACTIVE"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct StopFlowRequest: AWSShape {

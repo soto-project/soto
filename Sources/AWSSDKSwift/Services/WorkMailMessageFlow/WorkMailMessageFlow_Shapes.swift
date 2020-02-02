@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension WorkMailMessageFlow {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct GetRawMessageContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

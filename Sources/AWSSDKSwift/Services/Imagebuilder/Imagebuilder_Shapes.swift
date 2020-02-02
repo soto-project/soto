@@ -4,6 +4,69 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Imagebuilder {
+    //MARK: Enums
+
+    public enum ComponentFormat: String, CustomStringConvertible, Codable {
+        case shell = "SHELL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComponentType: String, CustomStringConvertible, Codable {
+        case build = "BUILD"
+        case test = "TEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EbsVolumeType: String, CustomStringConvertible, Codable {
+        case standard = "standard"
+        case io1 = "io1"
+        case gp2 = "gp2"
+        case sc1 = "sc1"
+        case st1 = "st1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case creating = "CREATING"
+        case building = "BUILDING"
+        case testing = "TESTING"
+        case distributing = "DISTRIBUTING"
+        case integrating = "INTEGRATING"
+        case available = "AVAILABLE"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case deprecated = "DEPRECATED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ownership: String, CustomStringConvertible, Codable {
+        case `self` = "Self"
+        case shared = "Shared"
+        case amazon = "Amazon"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PipelineExecutionStartCondition: String, CustomStringConvertible, Codable {
+        case expressionMatchOnly = "EXPRESSION_MATCH_ONLY"
+        case expressionMatchAndDependencyUpdatesAvailable = "EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PipelineStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Platform: String, CustomStringConvertible, Codable {
+        case windows = "Windows"
+        case linux = "Linux"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Ami: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -240,11 +303,6 @@ extension Imagebuilder {
         }
     }
 
-    public enum ComponentFormat: String, CustomStringConvertible, Codable {
-        case shell = "SHELL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ComponentSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
@@ -305,12 +363,6 @@ extension Imagebuilder {
             case `type` = "type"
             case version = "version"
         }
-    }
-
-    public enum ComponentType: String, CustomStringConvertible, Codable {
-        case build = "BUILD"
-        case test = "TEST"
-        public var description: String { return self.rawValue }
     }
 
     public struct ComponentVersion: AWSShape {
@@ -1420,15 +1472,6 @@ extension Imagebuilder {
         }
     }
 
-    public enum EbsVolumeType: String, CustomStringConvertible, Codable {
-        case standard = "standard"
-        case io1 = "io1"
-        case gp2 = "gp2"
-        case sc1 = "sc1"
-        case st1 = "st1"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -2150,21 +2193,6 @@ extension Imagebuilder {
             case reason = "reason"
             case status = "status"
         }
-    }
-
-    public enum ImageStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case creating = "CREATING"
-        case building = "BUILDING"
-        case testing = "TESTING"
-        case distributing = "DISTRIBUTING"
-        case integrating = "INTEGRATING"
-        case available = "AVAILABLE"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        case deprecated = "DEPRECATED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ImageSummary: AWSShape {
@@ -3303,31 +3331,6 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case amis = "amis"
         }
-    }
-
-    public enum Ownership: String, CustomStringConvertible, Codable {
-        case `self` = "Self"
-        case shared = "Shared"
-        case amazon = "Amazon"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PipelineExecutionStartCondition: String, CustomStringConvertible, Codable {
-        case expressionMatchOnly = "EXPRESSION_MATCH_ONLY"
-        case expressionMatchAndDependencyUpdatesAvailable = "EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PipelineStatus: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Platform: String, CustomStringConvertible, Codable {
-        case windows = "Windows"
-        case linux = "Linux"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutComponentPolicyRequest: AWSShape {

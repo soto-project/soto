@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension KinesisVideo {
+    //MARK: Enums
 
     public enum APIName: String, CustomStringConvertible, Codable {
         case putMedia = "PUT_MEDIA"
@@ -14,6 +15,44 @@ extension KinesisVideo {
         case getDashStreamingSessionUrl = "GET_DASH_STREAMING_SESSION_URL"
         public var description: String { return self.rawValue }
     }
+
+    public enum ChannelProtocol: String, CustomStringConvertible, Codable {
+        case wss = "WSS"
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelRole: String, CustomStringConvertible, Codable {
+        case master = "MASTER"
+        case viewer = "VIEWER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelType: String, CustomStringConvertible, Codable {
+        case singleMaster = "SINGLE_MASTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case beginsWith = "BEGINS_WITH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateDataRetentionOperation: String, CustomStringConvertible, Codable {
+        case increaseDataRetention = "INCREASE_DATA_RETENTION"
+        case decreaseDataRetention = "DECREASE_DATA_RETENTION"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ChannelInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -88,28 +127,6 @@ extension KinesisVideo {
             case comparisonOperator = "ComparisonOperator"
             case comparisonValue = "ComparisonValue"
         }
-    }
-
-    public enum ChannelProtocol: String, CustomStringConvertible, Codable {
-        case wss = "WSS"
-        case https = "HTTPS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChannelRole: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
-        case viewer = "VIEWER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChannelType: String, CustomStringConvertible, Codable {
-        case singleMaster = "SINGLE_MASTER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case beginsWith = "BEGINS_WITH"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateSignalingChannelInput: AWSShape {
@@ -829,14 +846,6 @@ extension KinesisVideo {
         }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StreamInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
@@ -1188,12 +1197,6 @@ extension KinesisVideo {
             case streamARN = "StreamARN"
             case streamName = "StreamName"
         }
-    }
-
-    public enum UpdateDataRetentionOperation: String, CustomStringConvertible, Codable {
-        case increaseDataRetention = "INCREASE_DATA_RETENTION"
-        case decreaseDataRetention = "DECREASE_DATA_RETENTION"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateDataRetentionOutput: AWSShape {

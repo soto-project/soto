@@ -4,6 +4,22 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CodeGuruProfiler {
+    //MARK: Enums
+
+    public enum AggregationPeriod: String, CustomStringConvertible, Codable {
+        case p1d = "P1D"
+        case pt1h = "PT1H"
+        case pt5m = "PT5M"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderBy: String, CustomStringConvertible, Codable {
+        case timestampascending = "TimestampAscending"
+        case timestampdescending = "TimestampDescending"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AgentConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -64,13 +80,6 @@ extension CodeGuruProfiler {
             case period = "period"
             case start = "start"
         }
-    }
-
-    public enum AggregationPeriod: String, CustomStringConvertible, Codable {
-        case p1d = "P1D"
-        case pt1h = "PT1H"
-        case pt5m = "PT5M"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConfigureAgentRequest: AWSShape {
@@ -451,12 +460,6 @@ extension CodeGuruProfiler {
             case profilingGroupNames = "profilingGroupNames"
             case profilingGroups = "profilingGroups"
         }
-    }
-
-    public enum OrderBy: String, CustomStringConvertible, Codable {
-        case timestampascending = "TimestampAscending"
-        case timestampdescending = "TimestampDescending"
-        public var description: String { return self.rawValue }
     }
 
     public struct PostAgentProfileRequest: AWSShape {

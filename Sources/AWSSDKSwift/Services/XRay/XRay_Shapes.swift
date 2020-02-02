@@ -4,6 +4,33 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension XRay {
+    //MARK: Enums
+
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable {
+        case updating = "UPDATING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SamplingStrategyName: String, CustomStringConvertible, Codable {
+        case partialscan = "PartialScan"
+        case fixedrate = "FixedRate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimeRangeType: String, CustomStringConvertible, Codable {
+        case traceid = "TraceId"
+        case event = "Event"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Alias: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -430,18 +457,6 @@ extension XRay {
             case status = "Status"
             case `type` = "Type"
         }
-    }
-
-    public enum EncryptionStatus: String, CustomStringConvertible, Codable {
-        case updating = "UPDATING"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EncryptionType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
     }
 
     public struct ErrorRootCause: AWSShape {
@@ -1905,12 +1920,6 @@ extension XRay {
         }
     }
 
-    public enum SamplingStrategyName: String, CustomStringConvertible, Codable {
-        case partialscan = "PartialScan"
-        case fixedrate = "FixedRate"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SamplingTargetDocument: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FixedRate", required: false, type: .double), 
@@ -2146,12 +2155,6 @@ extension XRay {
             case segmentsSpilloverCount = "SegmentsSpilloverCount"
             case timestamp = "Timestamp"
         }
-    }
-
-    public enum TimeRangeType: String, CustomStringConvertible, Codable {
-        case traceid = "TraceId"
-        case event = "Event"
-        public var description: String { return self.rawValue }
     }
 
     public struct TimeSeriesServiceStatistics: AWSShape {

@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IoTDataPlane {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct DeleteThingShadowRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

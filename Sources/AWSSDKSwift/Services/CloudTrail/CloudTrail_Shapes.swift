@@ -4,6 +4,38 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudTrail {
+    //MARK: Enums
+
+    public enum EventCategory: String, CustomStringConvertible, Codable {
+        case insight = "insight"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightType: String, CustomStringConvertible, Codable {
+        case apicallrateinsight = "ApiCallRateInsight"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LookupAttributeKey: String, CustomStringConvertible, Codable {
+        case eventid = "EventId"
+        case eventname = "EventName"
+        case readonly = "ReadOnly"
+        case username = "Username"
+        case resourcetype = "ResourceType"
+        case resourcename = "ResourceName"
+        case eventsource = "EventSource"
+        case accesskeyid = "AccessKeyId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReadWriteType: String, CustomStringConvertible, Codable {
+        case readonly = "ReadOnly"
+        case writeonly = "WriteOnly"
+        case all = "All"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -321,11 +353,6 @@ extension CloudTrail {
         }
     }
 
-    public enum EventCategory: String, CustomStringConvertible, Codable {
-        case insight = "insight"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EventSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataResources", required: false, type: .list), 
@@ -600,11 +627,6 @@ extension CloudTrail {
         }
     }
 
-    public enum InsightType: String, CustomStringConvertible, Codable {
-        case apicallrateinsight = "ApiCallRateInsight"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListPublicKeysRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
@@ -757,18 +779,6 @@ extension CloudTrail {
             case attributeKey = "AttributeKey"
             case attributeValue = "AttributeValue"
         }
-    }
-
-    public enum LookupAttributeKey: String, CustomStringConvertible, Codable {
-        case eventid = "EventId"
-        case eventname = "EventName"
-        case readonly = "ReadOnly"
-        case username = "Username"
-        case resourcetype = "ResourceType"
-        case resourcename = "ResourceName"
-        case eventsource = "EventSource"
-        case accesskeyid = "AccessKeyId"
-        public var description: String { return self.rawValue }
     }
 
     public struct LookupEventsRequest: AWSShape {
@@ -958,13 +968,6 @@ extension CloudTrail {
             case insightSelectors = "InsightSelectors"
             case trailARN = "TrailARN"
         }
-    }
-
-    public enum ReadWriteType: String, CustomStringConvertible, Codable {
-        case readonly = "ReadOnly"
-        case writeonly = "WriteOnly"
-        case all = "All"
-        public var description: String { return self.rawValue }
     }
 
     public struct RemoveTagsRequest: AWSShape {

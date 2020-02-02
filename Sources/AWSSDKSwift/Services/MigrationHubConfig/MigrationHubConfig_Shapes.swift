@@ -4,6 +4,14 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MigrationHubConfig {
+    //MARK: Enums
+
+    public enum TargetType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateHomeRegionControlRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -213,10 +221,5 @@ extension MigrationHubConfig {
             case id = "Id"
             case `type` = "Type"
         }
-    }
-
-    public enum TargetType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
     }
 }

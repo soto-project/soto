@@ -4,12 +4,396 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Lightsail {
+    //MARK: Enums
 
     public enum AccessDirection: String, CustomStringConvertible, Codable {
         case inbound = "inbound"
         case outbound = "outbound"
         public var description: String { return self.rawValue }
     }
+
+    public enum AddOnType: String, CustomStringConvertible, Codable {
+        case autosnapshot = "AutoSnapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoSnapshotStatus: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case notfound = "NotFound"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlueprintType: String, CustomStringConvertible, Codable {
+        case os = "os"
+        case app = "app"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudFormationStackRecordSourceType: String, CustomStringConvertible, Codable {
+        case exportsnapshotrecord = "ExportSnapshotRecord"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DiskSnapshotState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case completed = "completed"
+        case error = "error"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DiskState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case error = "error"
+        case available = "available"
+        case inUse = "in-use"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportSnapshotRecordSourceType: String, CustomStringConvertible, Codable {
+        case instancesnapshot = "InstanceSnapshot"
+        case disksnapshot = "DiskSnapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable {
+        case ssh = "ssh"
+        case rdp = "rdp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceHealthReason: String, CustomStringConvertible, Codable {
+        case lbRegistrationinprogress = "Lb.RegistrationInProgress"
+        case lbInitialhealthchecking = "Lb.InitialHealthChecking"
+        case lbInternalerror = "Lb.InternalError"
+        case instanceResponsecodemismatch = "Instance.ResponseCodeMismatch"
+        case instanceTimeout = "Instance.Timeout"
+        case instanceFailedhealthchecks = "Instance.FailedHealthChecks"
+        case instanceNotregistered = "Instance.NotRegistered"
+        case instanceNotinuse = "Instance.NotInUse"
+        case instanceDeregistrationinprogress = "Instance.DeregistrationInProgress"
+        case instanceInvalidstate = "Instance.InvalidState"
+        case instanceIpunusable = "Instance.IpUnusable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceHealthState: String, CustomStringConvertible, Codable {
+        case initial = "initial"
+        case healthy = "healthy"
+        case unhealthy = "unhealthy"
+        case unused = "unused"
+        case draining = "draining"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceMetricName: String, CustomStringConvertible, Codable {
+        case cpuutilization = "CPUUtilization"
+        case networkin = "NetworkIn"
+        case networkout = "NetworkOut"
+        case statuscheckfailed = "StatusCheckFailed"
+        case statuscheckfailedInstance = "StatusCheckFailed_Instance"
+        case statuscheckfailedSystem = "StatusCheckFailed_System"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstancePlatform: String, CustomStringConvertible, Codable {
+        case linuxUnix = "LINUX_UNIX"
+        case windows = "WINDOWS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceSnapshotState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case error = "error"
+        case available = "available"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerAttributeName: String, CustomStringConvertible, Codable {
+        case healthcheckpath = "HealthCheckPath"
+        case sessionstickinessenabled = "SessionStickinessEnabled"
+        case sessionstickinessLbCookiedurationseconds = "SessionStickiness_LB_CookieDurationSeconds"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerMetricName: String, CustomStringConvertible, Codable {
+        case clienttlsnegotiationerrorcount = "ClientTLSNegotiationErrorCount"
+        case healthyhostcount = "HealthyHostCount"
+        case unhealthyhostcount = "UnhealthyHostCount"
+        case httpcodeLb4XxCount = "HTTPCode_LB_4XX_Count"
+        case httpcodeLb5XxCount = "HTTPCode_LB_5XX_Count"
+        case httpcodeInstance2XxCount = "HTTPCode_Instance_2XX_Count"
+        case httpcodeInstance3XxCount = "HTTPCode_Instance_3XX_Count"
+        case httpcodeInstance4XxCount = "HTTPCode_Instance_4XX_Count"
+        case httpcodeInstance5XxCount = "HTTPCode_Instance_5XX_Count"
+        case instanceresponsetime = "InstanceResponseTime"
+        case rejectedconnectioncount = "RejectedConnectionCount"
+        case requestcount = "RequestCount"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerProtocol: String, CustomStringConvertible, Codable {
+        case httpHttps = "HTTP_HTTPS"
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerState: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case provisioning = "provisioning"
+        case activeImpaired = "active_impaired"
+        case failed = "failed"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerTlsCertificateDomainStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case failed = "FAILED"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerTlsCertificateFailureReason: String, CustomStringConvertible, Codable {
+        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
+        case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
+        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
+        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerTlsCertificateRenewalStatus: String, CustomStringConvertible, Codable {
+        case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
+        case pendingValidation = "PENDING_VALIDATION"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerTlsCertificateRevocationReason: String, CustomStringConvertible, Codable {
+        case unspecified = "UNSPECIFIED"
+        case keyCompromise = "KEY_COMPROMISE"
+        case caCompromise = "CA_COMPROMISE"
+        case affiliationChanged = "AFFILIATION_CHANGED"
+        case superceded = "SUPERCEDED"
+        case cessationOfOperation = "CESSATION_OF_OPERATION"
+        case certificateHold = "CERTIFICATE_HOLD"
+        case removeFromCrl = "REMOVE_FROM_CRL"
+        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
+        case aACompromise = "A_A_COMPROMISE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerTlsCertificateStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case issued = "ISSUED"
+        case inactive = "INACTIVE"
+        case expired = "EXPIRED"
+        case validationTimedOut = "VALIDATION_TIMED_OUT"
+        case revoked = "REVOKED"
+        case failed = "FAILED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case sum = "Sum"
+        case average = "Average"
+        case samplecount = "SampleCount"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricUnit: String, CustomStringConvertible, Codable {
+        case seconds = "Seconds"
+        case microseconds = "Microseconds"
+        case milliseconds = "Milliseconds"
+        case bytes = "Bytes"
+        case kilobytes = "Kilobytes"
+        case megabytes = "Megabytes"
+        case gigabytes = "Gigabytes"
+        case terabytes = "Terabytes"
+        case bits = "Bits"
+        case kilobits = "Kilobits"
+        case megabits = "Megabits"
+        case gigabits = "Gigabits"
+        case terabits = "Terabits"
+        case percent = "Percent"
+        case count = "Count"
+        case bytesSecond = "Bytes/Second"
+        case kilobytesSecond = "Kilobytes/Second"
+        case megabytesSecond = "Megabytes/Second"
+        case gigabytesSecond = "Gigabytes/Second"
+        case terabytesSecond = "Terabytes/Second"
+        case bitsSecond = "Bits/Second"
+        case kilobitsSecond = "Kilobits/Second"
+        case megabitsSecond = "Megabits/Second"
+        case gigabitsSecond = "Gigabits/Second"
+        case terabitsSecond = "Terabits/Second"
+        case countSecond = "Count/Second"
+        case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "tcp"
+        case all = "all"
+        case udp = "udp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
+        case notstarted = "NotStarted"
+        case started = "Started"
+        case failed = "Failed"
+        case completed = "Completed"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationType: String, CustomStringConvertible, Codable {
+        case deleteknownhostkeys = "DeleteKnownHostKeys"
+        case deleteinstance = "DeleteInstance"
+        case createinstance = "CreateInstance"
+        case stopinstance = "StopInstance"
+        case startinstance = "StartInstance"
+        case rebootinstance = "RebootInstance"
+        case openinstancepublicports = "OpenInstancePublicPorts"
+        case putinstancepublicports = "PutInstancePublicPorts"
+        case closeinstancepublicports = "CloseInstancePublicPorts"
+        case allocatestaticip = "AllocateStaticIp"
+        case releasestaticip = "ReleaseStaticIp"
+        case attachstaticip = "AttachStaticIp"
+        case detachstaticip = "DetachStaticIp"
+        case updatedomainentry = "UpdateDomainEntry"
+        case deletedomainentry = "DeleteDomainEntry"
+        case createdomain = "CreateDomain"
+        case deletedomain = "DeleteDomain"
+        case createinstancesnapshot = "CreateInstanceSnapshot"
+        case deleteinstancesnapshot = "DeleteInstanceSnapshot"
+        case createinstancesfromsnapshot = "CreateInstancesFromSnapshot"
+        case createloadbalancer = "CreateLoadBalancer"
+        case deleteloadbalancer = "DeleteLoadBalancer"
+        case attachinstancestoloadbalancer = "AttachInstancesToLoadBalancer"
+        case detachinstancesfromloadbalancer = "DetachInstancesFromLoadBalancer"
+        case updateloadbalancerattribute = "UpdateLoadBalancerAttribute"
+        case createloadbalancertlscertificate = "CreateLoadBalancerTlsCertificate"
+        case deleteloadbalancertlscertificate = "DeleteLoadBalancerTlsCertificate"
+        case attachloadbalancertlscertificate = "AttachLoadBalancerTlsCertificate"
+        case createdisk = "CreateDisk"
+        case deletedisk = "DeleteDisk"
+        case attachdisk = "AttachDisk"
+        case detachdisk = "DetachDisk"
+        case createdisksnapshot = "CreateDiskSnapshot"
+        case deletedisksnapshot = "DeleteDiskSnapshot"
+        case creatediskfromsnapshot = "CreateDiskFromSnapshot"
+        case createrelationaldatabase = "CreateRelationalDatabase"
+        case updaterelationaldatabase = "UpdateRelationalDatabase"
+        case deleterelationaldatabase = "DeleteRelationalDatabase"
+        case createrelationaldatabasefromsnapshot = "CreateRelationalDatabaseFromSnapshot"
+        case createrelationaldatabasesnapshot = "CreateRelationalDatabaseSnapshot"
+        case deleterelationaldatabasesnapshot = "DeleteRelationalDatabaseSnapshot"
+        case updaterelationaldatabaseparameters = "UpdateRelationalDatabaseParameters"
+        case startrelationaldatabase = "StartRelationalDatabase"
+        case rebootrelationaldatabase = "RebootRelationalDatabase"
+        case stoprelationaldatabase = "StopRelationalDatabase"
+        case enableaddon = "EnableAddOn"
+        case disableaddon = "DisableAddOn"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PortAccessType: String, CustomStringConvertible, Codable {
+        case `public` = "Public"
+        case `private` = "Private"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PortInfoSourceType: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case instance = "INSTANCE"
+        case none = "NONE"
+        case closed = "CLOSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PortState: String, CustomStringConvertible, Codable {
+        case open = "open"
+        case closed = "closed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordState: String, CustomStringConvertible, Codable {
+        case started = "Started"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegionName: String, CustomStringConvertible, Codable {
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case euCentral1 = "eu-central-1"
+        case caCentral1 = "ca-central-1"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelationalDatabaseEngine: String, CustomStringConvertible, Codable {
+        case mysql = "mysql"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelationalDatabaseMetricName: String, CustomStringConvertible, Codable {
+        case cpuutilization = "CPUUtilization"
+        case databaseconnections = "DatabaseConnections"
+        case diskqueuedepth = "DiskQueueDepth"
+        case freestoragespace = "FreeStorageSpace"
+        case networkreceivethroughput = "NetworkReceiveThroughput"
+        case networktransmitthroughput = "NetworkTransmitThroughput"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelationalDatabasePasswordVersion: String, CustomStringConvertible, Codable {
+        case current = "CURRENT"
+        case previous = "PREVIOUS"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case instance = "Instance"
+        case staticip = "StaticIp"
+        case keypair = "KeyPair"
+        case instancesnapshot = "InstanceSnapshot"
+        case domain = "Domain"
+        case peeredvpc = "PeeredVpc"
+        case loadbalancer = "LoadBalancer"
+        case loadbalancertlscertificate = "LoadBalancerTlsCertificate"
+        case disk = "Disk"
+        case disksnapshot = "DiskSnapshot"
+        case relationaldatabase = "RelationalDatabase"
+        case relationaldatabasesnapshot = "RelationalDatabaseSnapshot"
+        case exportsnapshotrecord = "ExportSnapshotRecord"
+        case cloudformationstackrecord = "CloudFormationStackRecord"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddOn: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -67,11 +451,6 @@ extension Lightsail {
             case addOnType = "addOnType"
             case autoSnapshotAddOnRequest = "autoSnapshotAddOnRequest"
         }
-    }
-
-    public enum AddOnType: String, CustomStringConvertible, Codable {
-        case autosnapshot = "AutoSnapshot"
-        public var description: String { return self.rawValue }
     }
 
     public struct AllocateStaticIpRequest: AWSShape {
@@ -371,14 +750,6 @@ extension Lightsail {
         }
     }
 
-    public enum AutoSnapshotStatus: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case failed = "Failed"
-        case inprogress = "InProgress"
-        case notfound = "NotFound"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AvailabilityZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "state", required: false, type: .string), 
@@ -471,12 +842,6 @@ extension Lightsail {
             case version = "version"
             case versionCode = "versionCode"
         }
-    }
-
-    public enum BlueprintType: String, CustomStringConvertible, Codable {
-        case os = "os"
-        case app = "app"
-        public var description: String { return self.rawValue }
     }
 
     public struct Bundle: AWSShape {
@@ -667,11 +1032,6 @@ extension Lightsail {
             case name = "name"
             case resourceType = "resourceType"
         }
-    }
-
-    public enum CloudFormationStackRecordSourceType: String, CustomStringConvertible, Codable {
-        case exportsnapshotrecord = "ExportSnapshotRecord"
-        public var description: String { return self.rawValue }
     }
 
     public struct CopySnapshotRequest: AWSShape {
@@ -2663,23 +3023,6 @@ extension Lightsail {
         }
     }
 
-    public enum DiskSnapshotState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case completed = "completed"
-        case error = "error"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DiskState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case error = "error"
-        case available = "available"
-        case inUse = "in-use"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Domain: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
@@ -2949,12 +3292,6 @@ extension Lightsail {
             case name = "name"
             case resourceType = "resourceType"
         }
-    }
-
-    public enum ExportSnapshotRecordSourceType: String, CustomStringConvertible, Codable {
-        case instancesnapshot = "InstanceSnapshot"
-        case disksnapshot = "DiskSnapshot"
-        public var description: String { return self.rawValue }
     }
 
     public struct ExportSnapshotRequest: AWSShape {
@@ -5162,12 +5499,6 @@ extension Lightsail {
         }
     }
 
-    public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable {
-        case ssh = "ssh"
-        case rdp = "rdp"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
@@ -5237,31 +5568,6 @@ extension Lightsail {
         }
     }
 
-    public enum InstanceHealthReason: String, CustomStringConvertible, Codable {
-        case lbRegistrationinprogress = "Lb.RegistrationInProgress"
-        case lbInitialhealthchecking = "Lb.InitialHealthChecking"
-        case lbInternalerror = "Lb.InternalError"
-        case instanceResponsecodemismatch = "Instance.ResponseCodeMismatch"
-        case instanceTimeout = "Instance.Timeout"
-        case instanceFailedhealthchecks = "Instance.FailedHealthChecks"
-        case instanceNotregistered = "Instance.NotRegistered"
-        case instanceNotinuse = "Instance.NotInUse"
-        case instanceDeregistrationinprogress = "Instance.DeregistrationInProgress"
-        case instanceInvalidstate = "Instance.InvalidState"
-        case instanceIpunusable = "Instance.IpUnusable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceHealthState: String, CustomStringConvertible, Codable {
-        case initial = "initial"
-        case healthy = "healthy"
-        case unhealthy = "unhealthy"
-        case unused = "unused"
-        case draining = "draining"
-        case unavailable = "unavailable"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceHealthSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceHealth", required: false, type: .enum), 
@@ -5289,16 +5595,6 @@ extension Lightsail {
         }
     }
 
-    public enum InstanceMetricName: String, CustomStringConvertible, Codable {
-        case cpuutilization = "CPUUtilization"
-        case networkin = "NetworkIn"
-        case networkout = "NetworkOut"
-        case statuscheckfailed = "StatusCheckFailed"
-        case statuscheckfailedInstance = "StatusCheckFailed_Instance"
-        case statuscheckfailedSystem = "StatusCheckFailed_System"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceNetworking: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "monthlyTransfer", required: false, type: .structure), 
@@ -5319,12 +5615,6 @@ extension Lightsail {
             case monthlyTransfer = "monthlyTransfer"
             case ports = "ports"
         }
-    }
-
-    public enum InstancePlatform: String, CustomStringConvertible, Codable {
-        case linuxUnix = "LINUX_UNIX"
-        case windows = "WINDOWS"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstancePortInfo: AWSShape {
@@ -5525,13 +5815,6 @@ extension Lightsail {
         }
     }
 
-    public enum InstanceSnapshotState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case error = "error"
-        case available = "available"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceState: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "code", required: false, type: .integer), 
@@ -5723,44 +6006,6 @@ extension Lightsail {
         }
     }
 
-    public enum LoadBalancerAttributeName: String, CustomStringConvertible, Codable {
-        case healthcheckpath = "HealthCheckPath"
-        case sessionstickinessenabled = "SessionStickinessEnabled"
-        case sessionstickinessLbCookiedurationseconds = "SessionStickiness_LB_CookieDurationSeconds"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerMetricName: String, CustomStringConvertible, Codable {
-        case clienttlsnegotiationerrorcount = "ClientTLSNegotiationErrorCount"
-        case healthyhostcount = "HealthyHostCount"
-        case unhealthyhostcount = "UnhealthyHostCount"
-        case httpcodeLb4XxCount = "HTTPCode_LB_4XX_Count"
-        case httpcodeLb5XxCount = "HTTPCode_LB_5XX_Count"
-        case httpcodeInstance2XxCount = "HTTPCode_Instance_2XX_Count"
-        case httpcodeInstance3XxCount = "HTTPCode_Instance_3XX_Count"
-        case httpcodeInstance4XxCount = "HTTPCode_Instance_4XX_Count"
-        case httpcodeInstance5XxCount = "HTTPCode_Instance_5XX_Count"
-        case instanceresponsetime = "InstanceResponseTime"
-        case rejectedconnectioncount = "RejectedConnectionCount"
-        case requestcount = "RequestCount"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerProtocol: String, CustomStringConvertible, Codable {
-        case httpHttps = "HTTP_HTTPS"
-        case http = "HTTP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerState: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case provisioning = "provisioning"
-        case activeImpaired = "active_impaired"
-        case failed = "failed"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoadBalancerTlsCertificate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
@@ -5898,13 +6143,6 @@ extension Lightsail {
         }
     }
 
-    public enum LoadBalancerTlsCertificateDomainStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case failed = "FAILED"
-        case success = "SUCCESS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoadBalancerTlsCertificateDomainValidationOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domainName", required: false, type: .string), 
@@ -5964,23 +6202,6 @@ extension Lightsail {
         }
     }
 
-    public enum LoadBalancerTlsCertificateFailureReason: String, CustomStringConvertible, Codable {
-        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
-        case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
-        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
-        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerTlsCertificateRenewalStatus: String, CustomStringConvertible, Codable {
-        case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
-        case pendingValidation = "PENDING_VALIDATION"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoadBalancerTlsCertificateRenewalSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domainValidationOptions", required: false, type: .list), 
@@ -6001,32 +6222,6 @@ extension Lightsail {
             case domainValidationOptions = "domainValidationOptions"
             case renewalStatus = "renewalStatus"
         }
-    }
-
-    public enum LoadBalancerTlsCertificateRevocationReason: String, CustomStringConvertible, Codable {
-        case unspecified = "UNSPECIFIED"
-        case keyCompromise = "KEY_COMPROMISE"
-        case caCompromise = "CA_COMPROMISE"
-        case affiliationChanged = "AFFILIATION_CHANGED"
-        case superceded = "SUPERCEDED"
-        case cessationOfOperation = "CESSATION_OF_OPERATION"
-        case certificateHold = "CERTIFICATE_HOLD"
-        case removeFromCrl = "REMOVE_FROM_CRL"
-        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
-        case aACompromise = "A_A_COMPROMISE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerTlsCertificateStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case issued = "ISSUED"
-        case inactive = "INACTIVE"
-        case expired = "EXPIRED"
-        case validationTimedOut = "VALIDATION_TIMED_OUT"
-        case revoked = "REVOKED"
-        case failed = "FAILED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
     }
 
     public struct LoadBalancerTlsCertificateSummary: AWSShape {
@@ -6120,46 +6315,6 @@ extension Lightsail {
         }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        case sum = "Sum"
-        case average = "Average"
-        case samplecount = "SampleCount"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetricUnit: String, CustomStringConvertible, Codable {
-        case seconds = "Seconds"
-        case microseconds = "Microseconds"
-        case milliseconds = "Milliseconds"
-        case bytes = "Bytes"
-        case kilobytes = "Kilobytes"
-        case megabytes = "Megabytes"
-        case gigabytes = "Gigabytes"
-        case terabytes = "Terabytes"
-        case bits = "Bits"
-        case kilobits = "Kilobits"
-        case megabits = "Megabits"
-        case gigabits = "Gigabits"
-        case terabits = "Terabits"
-        case percent = "Percent"
-        case count = "Count"
-        case bytesSecond = "Bytes/Second"
-        case kilobytesSecond = "Kilobytes/Second"
-        case megabytesSecond = "Megabytes/Second"
-        case gigabytesSecond = "Gigabytes/Second"
-        case terabytesSecond = "Terabytes/Second"
-        case bitsSecond = "Bits/Second"
-        case kilobitsSecond = "Kilobits/Second"
-        case megabitsSecond = "Megabits/Second"
-        case gigabitsSecond = "Gigabits/Second"
-        case terabitsSecond = "Terabits/Second"
-        case countSecond = "Count/Second"
-        case none = "None"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MonthlyTransfer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "gbPerMonthAllocated", required: false, type: .integer)
@@ -6175,13 +6330,6 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case gbPerMonthAllocated = "gbPerMonthAllocated"
         }
-    }
-
-    public enum NetworkProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "tcp"
-        case all = "all"
-        case udp = "udp"
-        public var description: String { return self.rawValue }
     }
 
     public struct OpenInstancePublicPortsRequest: AWSShape {
@@ -6300,66 +6448,6 @@ extension Lightsail {
         }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable {
-        case notstarted = "NotStarted"
-        case started = "Started"
-        case failed = "Failed"
-        case completed = "Completed"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OperationType: String, CustomStringConvertible, Codable {
-        case deleteknownhostkeys = "DeleteKnownHostKeys"
-        case deleteinstance = "DeleteInstance"
-        case createinstance = "CreateInstance"
-        case stopinstance = "StopInstance"
-        case startinstance = "StartInstance"
-        case rebootinstance = "RebootInstance"
-        case openinstancepublicports = "OpenInstancePublicPorts"
-        case putinstancepublicports = "PutInstancePublicPorts"
-        case closeinstancepublicports = "CloseInstancePublicPorts"
-        case allocatestaticip = "AllocateStaticIp"
-        case releasestaticip = "ReleaseStaticIp"
-        case attachstaticip = "AttachStaticIp"
-        case detachstaticip = "DetachStaticIp"
-        case updatedomainentry = "UpdateDomainEntry"
-        case deletedomainentry = "DeleteDomainEntry"
-        case createdomain = "CreateDomain"
-        case deletedomain = "DeleteDomain"
-        case createinstancesnapshot = "CreateInstanceSnapshot"
-        case deleteinstancesnapshot = "DeleteInstanceSnapshot"
-        case createinstancesfromsnapshot = "CreateInstancesFromSnapshot"
-        case createloadbalancer = "CreateLoadBalancer"
-        case deleteloadbalancer = "DeleteLoadBalancer"
-        case attachinstancestoloadbalancer = "AttachInstancesToLoadBalancer"
-        case detachinstancesfromloadbalancer = "DetachInstancesFromLoadBalancer"
-        case updateloadbalancerattribute = "UpdateLoadBalancerAttribute"
-        case createloadbalancertlscertificate = "CreateLoadBalancerTlsCertificate"
-        case deleteloadbalancertlscertificate = "DeleteLoadBalancerTlsCertificate"
-        case attachloadbalancertlscertificate = "AttachLoadBalancerTlsCertificate"
-        case createdisk = "CreateDisk"
-        case deletedisk = "DeleteDisk"
-        case attachdisk = "AttachDisk"
-        case detachdisk = "DetachDisk"
-        case createdisksnapshot = "CreateDiskSnapshot"
-        case deletedisksnapshot = "DeleteDiskSnapshot"
-        case creatediskfromsnapshot = "CreateDiskFromSnapshot"
-        case createrelationaldatabase = "CreateRelationalDatabase"
-        case updaterelationaldatabase = "UpdateRelationalDatabase"
-        case deleterelationaldatabase = "DeleteRelationalDatabase"
-        case createrelationaldatabasefromsnapshot = "CreateRelationalDatabaseFromSnapshot"
-        case createrelationaldatabasesnapshot = "CreateRelationalDatabaseSnapshot"
-        case deleterelationaldatabasesnapshot = "DeleteRelationalDatabaseSnapshot"
-        case updaterelationaldatabaseparameters = "UpdateRelationalDatabaseParameters"
-        case startrelationaldatabase = "StartRelationalDatabase"
-        case rebootrelationaldatabase = "RebootRelationalDatabase"
-        case stoprelationaldatabase = "StopRelationalDatabase"
-        case enableaddon = "EnableAddOn"
-        case disableaddon = "DisableAddOn"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PasswordData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ciphertext", required: false, type: .string), 
@@ -6461,12 +6549,6 @@ extension Lightsail {
         }
     }
 
-    public enum PortAccessType: String, CustomStringConvertible, Codable {
-        case `public` = "Public"
-        case `private` = "Private"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PortInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fromPort", required: false, type: .integer), 
@@ -6499,20 +6581,6 @@ extension Lightsail {
             case `protocol` = "protocol"
             case toPort = "toPort"
         }
-    }
-
-    public enum PortInfoSourceType: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case instance = "INSTANCE"
-        case none = "NONE"
-        case closed = "CLOSED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PortState: String, CustomStringConvertible, Codable {
-        case open = "open"
-        case closed = "closed"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutInstancePublicPortsRequest: AWSShape {
@@ -6637,13 +6705,6 @@ extension Lightsail {
         }
     }
 
-    public enum RecordState: String, CustomStringConvertible, Codable {
-        case started = "Started"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Region: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "availabilityZones", required: false, type: .list), 
@@ -6684,24 +6745,6 @@ extension Lightsail {
             case name = "name"
             case relationalDatabaseAvailabilityZones = "relationalDatabaseAvailabilityZones"
         }
-    }
-
-    public enum RegionName: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euCentral1 = "eu-central-1"
-        case caCentral1 = "ca-central-1"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        public var description: String { return self.rawValue }
     }
 
     public struct RelationalDatabase: AWSShape {
@@ -6967,11 +7010,6 @@ extension Lightsail {
         }
     }
 
-    public enum RelationalDatabaseEngine: String, CustomStringConvertible, Codable {
-        case mysql = "mysql"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RelationalDatabaseEvent: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
@@ -7031,16 +7069,6 @@ extension Lightsail {
         }
     }
 
-    public enum RelationalDatabaseMetricName: String, CustomStringConvertible, Codable {
-        case cpuutilization = "CPUUtilization"
-        case databaseconnections = "DatabaseConnections"
-        case diskqueuedepth = "DiskQueueDepth"
-        case freestoragespace = "FreeStorageSpace"
-        case networkreceivethroughput = "NetworkReceiveThroughput"
-        case networktransmitthroughput = "NetworkTransmitThroughput"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RelationalDatabaseParameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "allowedValues", required: false, type: .string), 
@@ -7091,13 +7119,6 @@ extension Lightsail {
             case parameterName = "parameterName"
             case parameterValue = "parameterValue"
         }
-    }
-
-    public enum RelationalDatabasePasswordVersion: String, CustomStringConvertible, Codable {
-        case current = "CURRENT"
-        case previous = "PREVIOUS"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct RelationalDatabaseSnapshot: AWSShape {
@@ -7245,24 +7266,6 @@ extension Lightsail {
             case availabilityZone = "availabilityZone"
             case regionName = "regionName"
         }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case instance = "Instance"
-        case staticip = "StaticIp"
-        case keypair = "KeyPair"
-        case instancesnapshot = "InstanceSnapshot"
-        case domain = "Domain"
-        case peeredvpc = "PeeredVpc"
-        case loadbalancer = "LoadBalancer"
-        case loadbalancertlscertificate = "LoadBalancerTlsCertificate"
-        case disk = "Disk"
-        case disksnapshot = "DiskSnapshot"
-        case relationaldatabase = "RelationalDatabase"
-        case relationaldatabasesnapshot = "RelationalDatabaseSnapshot"
-        case exportsnapshotrecord = "ExportSnapshotRecord"
-        case cloudformationstackrecord = "CloudFormationStackRecord"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartInstanceRequest: AWSShape {

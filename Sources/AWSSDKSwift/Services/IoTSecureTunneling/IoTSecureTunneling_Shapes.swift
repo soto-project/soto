@@ -4,6 +4,21 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IoTSecureTunneling {
+    //MARK: Enums
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
+        case connected = "CONNECTED"
+        case disconnected = "DISCONNECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TunnelStatus: String, CustomStringConvertible, Codable {
+        case open = "OPEN"
+        case closed = "CLOSED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CloseTunnelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -59,12 +74,6 @@ extension IoTSecureTunneling {
             case lastUpdatedAt = "lastUpdatedAt"
             case status = "status"
         }
-    }
-
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
-        case connected = "CONNECTED"
-        case disconnected = "DISCONNECTED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeTunnelRequest: AWSShape {
@@ -470,12 +479,6 @@ extension IoTSecureTunneling {
             case tunnelArn = "tunnelArn"
             case tunnelId = "tunnelId"
         }
-    }
-
-    public enum TunnelStatus: String, CustomStringConvertible, Codable {
-        case open = "OPEN"
-        case closed = "CLOSED"
-        public var description: String { return self.rawValue }
     }
 
     public struct TunnelSummary: AWSShape {

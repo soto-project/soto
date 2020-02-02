@@ -4,6 +4,15 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MediaTailor {
+    //MARK: Enums
+
+    public enum OriginManifestType: String, CustomStringConvertible, Codable {
+        case singlePeriod = "SINGLE_PERIOD"
+        case multiPeriod = "MULTI_PERIOD"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CdnConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -309,12 +318,6 @@ extension MediaTailor {
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case maxDurationSeconds = "MaxDurationSeconds"
         }
-    }
-
-    public enum OriginManifestType: String, CustomStringConvertible, Codable {
-        case singlePeriod = "SINGLE_PERIOD"
-        case multiPeriod = "MULTI_PERIOD"
-        public var description: String { return self.rawValue }
     }
 
     public struct PlaybackConfiguration: AWSShape {

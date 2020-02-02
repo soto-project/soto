@@ -4,6 +4,81 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Glacier {
+    //MARK: Enums
+
+    public enum ActionCode: String, CustomStringConvertible, Codable {
+        case archiveretrieval = "ArchiveRetrieval"
+        case inventoryretrieval = "InventoryRetrieval"
+        case select = "Select"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CannedACL: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case awsExecRead = "aws-exec-read"
+        case authenticatedRead = "authenticated-read"
+        case bucketOwnerRead = "bucket-owner-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case awsKms = "aws:kms"
+        case aes256 = "AES256"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpressionType: String, CustomStringConvertible, Codable {
+        case sql = "SQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
+        case use = "USE"
+        case ignore = "IGNORE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case fullControl = "FULL_CONTROL"
+        case write = "WRITE"
+        case writeAcp = "WRITE_ACP"
+        case read = "READ"
+        case readAcp = "READ_ACP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuoteFields: String, CustomStringConvertible, Codable {
+        case always = "ALWAYS"
+        case asneeded = "ASNEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusCode: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case standardIa = "STANDARD_IA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case amazoncustomerbyemail = "AmazonCustomerByEmail"
+        case canonicaluser = "CanonicalUser"
+        case group = "Group"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AbortMultipartUploadInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -52,13 +127,6 @@ extension Glacier {
             case accountId = "accountId"
             case vaultName = "vaultName"
         }
-    }
-
-    public enum ActionCode: String, CustomStringConvertible, Codable {
-        case archiveretrieval = "ArchiveRetrieval"
-        case inventoryretrieval = "InventoryRetrieval"
-        case select = "Select"
-        public var description: String { return self.rawValue }
     }
 
     public struct AddTagsToVaultInput: AWSShape {
@@ -192,17 +260,6 @@ extension Glacier {
             case quoteFields = "QuoteFields"
             case recordDelimiter = "RecordDelimiter"
         }
-    }
-
-    public enum CannedACL: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case awsExecRead = "aws-exec-read"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        public var description: String { return self.rawValue }
     }
 
     public struct CompleteMultipartUploadInput: AWSShape {
@@ -556,24 +613,6 @@ extension Glacier {
             case kMSContext = "KMSContext"
             case kMSKeyId = "KMSKeyId"
         }
-    }
-
-    public enum EncryptionType: String, CustomStringConvertible, Codable {
-        case awsKms = "aws:kms"
-        case aes256 = "AES256"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExpressionType: String, CustomStringConvertible, Codable {
-        case sql = "SQL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
-        case use = "USE"
-        case ignore = "IGNORE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetDataRetrievalPolicyInput: AWSShape {
@@ -1687,15 +1726,6 @@ extension Glacier {
         }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable {
-        case fullControl = "FULL_CONTROL"
-        case write = "WRITE"
-        case writeAcp = "WRITE_ACP"
-        case read = "READ"
-        case readAcp = "READ_ACP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProvisionedCapacityDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CapacityId", required: false, type: .string), 
@@ -1755,12 +1785,6 @@ extension Glacier {
         private enum CodingKeys: String, CodingKey {
             case capacityId = "x-amz-capacity-id"
         }
-    }
-
-    public enum QuoteFields: String, CustomStringConvertible, Codable {
-        case always = "ALWAYS"
-        case asneeded = "ASNEEDED"
-        public var description: String { return self.rawValue }
     }
 
     public struct RemoveTagsFromVaultInput: AWSShape {
@@ -1952,27 +1976,6 @@ extension Glacier {
             case vaultName = "vaultName"
             case vaultNotificationConfig = "vaultNotificationConfig"
         }
-    }
-
-    public enum StatusCode: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case reducedRedundancy = "REDUCED_REDUNDANCY"
-        case standardIa = "STANDARD_IA"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable {
-        case amazoncustomerbyemail = "AmazonCustomerByEmail"
-        case canonicaluser = "CanonicalUser"
-        case group = "Group"
-        public var description: String { return self.rawValue }
     }
 
     public struct UploadArchiveInput: AWSShape {

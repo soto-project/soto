@@ -4,6 +4,100 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Greengrass {
+    //MARK: Enums
+
+    public enum BulkDeploymentStatus: String, CustomStringConvertible, Codable {
+        case initializing = "Initializing"
+        case running = "Running"
+        case completed = "Completed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentType: String, CustomStringConvertible, Codable {
+        case newdeployment = "NewDeployment"
+        case redeployment = "Redeployment"
+        case resetdeployment = "ResetDeployment"
+        case forceresetdeployment = "ForceResetDeployment"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncodingType: String, CustomStringConvertible, Codable {
+        case binary = "binary"
+        case json = "json"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FunctionIsolationMode: String, CustomStringConvertible, Codable {
+        case greengrasscontainer = "GreengrassContainer"
+        case nocontainer = "NoContainer"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoggerComponent: String, CustomStringConvertible, Codable {
+        case greengrasssystem = "GreengrassSystem"
+        case lambda = "Lambda"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoggerLevel: String, CustomStringConvertible, Codable {
+        case debug = "DEBUG"
+        case info = "INFO"
+        case warn = "WARN"
+        case error = "ERROR"
+        case fatal = "FATAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoggerType: String, CustomStringConvertible, Codable {
+        case filesystem = "FileSystem"
+        case awscloudwatch = "AWSCloudWatch"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case ro = "ro"
+        case rw = "rw"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SoftwareToUpdate: String, CustomStringConvertible, Codable {
+        case core = "core"
+        case otaAgent = "ota_agent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateAgentLogLevel: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case trace = "TRACE"
+        case debug = "DEBUG"
+        case verbose = "VERBOSE"
+        case info = "INFO"
+        case warn = "WARN"
+        case error = "ERROR"
+        case fatal = "FATAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable {
+        case armv6l = "armv6l"
+        case armv7l = "armv7l"
+        case x8664 = "x86_64"
+        case aarch64 = "aarch64"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable {
+        case ubuntu = "ubuntu"
+        case raspbian = "raspbian"
+        case amazonLinux = "amazon_linux"
+        case openwrt = "openwrt"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateRoleToGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -181,16 +275,6 @@ extension Greengrass {
             case errorMessage = "ErrorMessage"
             case groupArn = "GroupArn"
         }
-    }
-
-    public enum BulkDeploymentStatus: String, CustomStringConvertible, Codable {
-        case initializing = "Initializing"
-        case running = "Running"
-        case completed = "Completed"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConnectivityInfo: AWSShape {
@@ -1748,14 +1832,6 @@ extension Greengrass {
         }
     }
 
-    public enum DeploymentType: String, CustomStringConvertible, Codable {
-        case newdeployment = "NewDeployment"
-        case redeployment = "Redeployment"
-        case resetdeployment = "ResetDeployment"
-        case forceresetdeployment = "ForceResetDeployment"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Device: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
@@ -1861,12 +1937,6 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case disassociatedAt = "DisassociatedAt"
         }
-    }
-
-    public enum EncodingType: String, CustomStringConvertible, Codable {
-        case binary = "binary"
-        case json = "json"
-        public var description: String { return self.rawValue }
     }
 
     public struct ErrorDetail: AWSShape {
@@ -2073,12 +2143,6 @@ extension Greengrass {
             case isolationMode = "IsolationMode"
             case runAs = "RunAs"
         }
-    }
-
-    public enum FunctionIsolationMode: String, CustomStringConvertible, Codable {
-        case greengrasscontainer = "GreengrassContainer"
-        case nocontainer = "NoContainer"
-        public var description: String { return self.rawValue }
     }
 
     public struct FunctionRunAsConfig: AWSShape {
@@ -4488,12 +4552,6 @@ extension Greengrass {
         }
     }
 
-    public enum LoggerComponent: String, CustomStringConvertible, Codable {
-        case greengrasssystem = "GreengrassSystem"
-        case lambda = "Lambda"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoggerDefinitionVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Loggers", required: false, type: .list)
@@ -4509,27 +4567,6 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case loggers = "Loggers"
         }
-    }
-
-    public enum LoggerLevel: String, CustomStringConvertible, Codable {
-        case debug = "DEBUG"
-        case info = "INFO"
-        case warn = "WARN"
-        case error = "ERROR"
-        case fatal = "FATAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoggerType: String, CustomStringConvertible, Codable {
-        case filesystem = "FileSystem"
-        case awscloudwatch = "AWSCloudWatch"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Permission: String, CustomStringConvertible, Codable {
-        case ro = "ro"
-        case rw = "rw"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResetDeploymentsRequest: AWSShape {
@@ -4778,12 +4815,6 @@ extension Greengrass {
         }
     }
 
-    public enum SoftwareToUpdate: String, CustomStringConvertible, Codable {
-        case core = "core"
-        case otaAgent = "ota_agent"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StartBulkDeploymentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
@@ -4947,18 +4978,6 @@ extension Greengrass {
             case resourceArn = "resource-arn"
             case tagKeys = "tagKeys"
         }
-    }
-
-    public enum UpdateAgentLogLevel: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case trace = "TRACE"
-        case debug = "DEBUG"
-        case verbose = "VERBOSE"
-        case info = "INFO"
-        case warn = "WARN"
-        case error = "ERROR"
-        case fatal = "FATAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateConnectivityInfoRequest: AWSShape {
@@ -5271,22 +5290,6 @@ extension Greengrass {
         public init() {
         }
 
-    }
-
-    public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable {
-        case armv6l = "armv6l"
-        case armv7l = "armv7l"
-        case x8664 = "x86_64"
-        case aarch64 = "aarch64"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable {
-        case ubuntu = "ubuntu"
-        case raspbian = "raspbian"
-        case amazonLinux = "amazon_linux"
-        case openwrt = "openwrt"
-        public var description: String { return self.rawValue }
     }
 
     public struct VersionInformation: AWSShape {

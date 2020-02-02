@@ -4,6 +4,118 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AppSync {
+    //MARK: Enums
+
+    public enum ApiCacheStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case modifying = "MODIFYING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApiCacheType: String, CustomStringConvertible, Codable {
+        case t2Small = "T2_SMALL"
+        case t2Medium = "T2_MEDIUM"
+        case r4Large = "R4_LARGE"
+        case r4Xlarge = "R4_XLARGE"
+        case r42Xlarge = "R4_2XLARGE"
+        case r44Xlarge = "R4_4XLARGE"
+        case r48Xlarge = "R4_8XLARGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApiCachingBehavior: String, CustomStringConvertible, Codable {
+        case fullRequestCaching = "FULL_REQUEST_CACHING"
+        case perResolverCaching = "PER_RESOLVER_CACHING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticationType: String, CustomStringConvertible, Codable {
+        case apiKey = "API_KEY"
+        case awsIam = "AWS_IAM"
+        case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
+        case openidConnect = "OPENID_CONNECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthorizationType: String, CustomStringConvertible, Codable {
+        case awsIam = "AWS_IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConflictDetectionType: String, CustomStringConvertible, Codable {
+        case version = "VERSION"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConflictHandlerType: String, CustomStringConvertible, Codable {
+        case optimisticConcurrency = "OPTIMISTIC_CONCURRENCY"
+        case lambda = "LAMBDA"
+        case automerge = "AUTOMERGE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceType: String, CustomStringConvertible, Codable {
+        case awsLambda = "AWS_LAMBDA"
+        case amazonDynamodb = "AMAZON_DYNAMODB"
+        case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
+        case none = "NONE"
+        case http = "HTTP"
+        case relationalDatabase = "RELATIONAL_DATABASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DefaultAction: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FieldLogLevel: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case error = "ERROR"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputType: String, CustomStringConvertible, Codable {
+        case sdl = "SDL"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelationalDatabaseSourceType: String, CustomStringConvertible, Codable {
+        case rdsHttpEndpoint = "RDS_HTTP_ENDPOINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverKind: String, CustomStringConvertible, Codable {
+        case unit = "UNIT"
+        case pipeline = "PIPELINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchemaStatus: String, CustomStringConvertible, Codable {
+        case processing = "PROCESSING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case success = "SUCCESS"
+        case notApplicable = "NOT_APPLICABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TypeDefinitionFormat: String, CustomStringConvertible, Codable {
+        case sdl = "SDL"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AdditionalAuthenticationProvider: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -74,32 +186,6 @@ extension AppSync {
         }
     }
 
-    public enum ApiCacheStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case modifying = "MODIFYING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ApiCacheType: String, CustomStringConvertible, Codable {
-        case t2Small = "T2_SMALL"
-        case t2Medium = "T2_MEDIUM"
-        case r4Large = "R4_LARGE"
-        case r4Xlarge = "R4_XLARGE"
-        case r42Xlarge = "R4_2XLARGE"
-        case r44Xlarge = "R4_4XLARGE"
-        case r48Xlarge = "R4_8XLARGE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ApiCachingBehavior: String, CustomStringConvertible, Codable {
-        case fullRequestCaching = "FULL_REQUEST_CACHING"
-        case perResolverCaching = "PER_RESOLVER_CACHING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ApiKey: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
@@ -127,14 +213,6 @@ extension AppSync {
         }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable {
-        case apiKey = "API_KEY"
-        case awsIam = "AWS_IAM"
-        case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
-        case openidConnect = "OPENID_CONNECT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AuthorizationConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizationType", required: true, type: .enum), 
@@ -155,11 +233,6 @@ extension AppSync {
             case authorizationType = "authorizationType"
             case awsIamConfig = "awsIamConfig"
         }
-    }
-
-    public enum AuthorizationType: String, CustomStringConvertible, Codable {
-        case awsIam = "AWS_IAM"
-        public var description: String { return self.rawValue }
     }
 
     public struct AwsIamConfig: AWSShape {
@@ -231,20 +304,6 @@ extension AppSync {
             case awsRegion = "awsRegion"
             case userPoolId = "userPoolId"
         }
-    }
-
-    public enum ConflictDetectionType: String, CustomStringConvertible, Codable {
-        case version = "VERSION"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConflictHandlerType: String, CustomStringConvertible, Codable {
-        case optimisticConcurrency = "OPTIMISTIC_CONCURRENCY"
-        case lambda = "LAMBDA"
-        case automerge = "AUTOMERGE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateApiCacheRequest: AWSShape {
@@ -786,22 +845,6 @@ extension AppSync {
         }
     }
 
-    public enum DataSourceType: String, CustomStringConvertible, Codable {
-        case awsLambda = "AWS_LAMBDA"
-        case amazonDynamodb = "AMAZON_DYNAMODB"
-        case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
-        case none = "NONE"
-        case http = "HTTP"
-        case relationalDatabase = "RELATIONAL_DATABASE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DefaultAction: String, CustomStringConvertible, Codable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeleteApiCacheRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
@@ -1118,13 +1161,6 @@ extension AppSync {
             case awsRegion = "awsRegion"
             case endpoint = "endpoint"
         }
-    }
-
-    public enum FieldLogLevel: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case error = "ERROR"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct FlushApiCacheRequest: AWSShape {
@@ -2175,12 +2211,6 @@ extension AppSync {
         }
     }
 
-    public enum OutputType: String, CustomStringConvertible, Codable {
-        case sdl = "SDL"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PipelineConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "functions", required: false, type: .list)
@@ -2257,11 +2287,6 @@ extension AppSync {
         }
     }
 
-    public enum RelationalDatabaseSourceType: String, CustomStringConvertible, Codable {
-        case rdsHttpEndpoint = "RDS_HTTP_ENDPOINT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Resolver: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cachingConfig", required: false, type: .structure), 
@@ -2322,22 +2347,6 @@ extension AppSync {
             case syncConfig = "syncConfig"
             case typeName = "typeName"
         }
-    }
-
-    public enum ResolverKind: String, CustomStringConvertible, Codable {
-        case unit = "UNIT"
-        case pipeline = "PIPELINE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SchemaStatus: String, CustomStringConvertible, Codable {
-        case processing = "PROCESSING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case success = "SUCCESS"
-        case notApplicable = "NOT_APPLICABLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartSchemaCreationRequest: AWSShape {
@@ -2483,12 +2492,6 @@ extension AppSync {
             case format = "format"
             case name = "name"
         }
-    }
-
-    public enum TypeDefinitionFormat: String, CustomStringConvertible, Codable {
-        case sdl = "SDL"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

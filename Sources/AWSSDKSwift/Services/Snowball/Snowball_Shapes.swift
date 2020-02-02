@@ -4,6 +4,67 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Snowball {
+    //MARK: Enums
+
+    public enum ClusterState: String, CustomStringConvertible, Codable {
+        case awaitingquorum = "AwaitingQuorum"
+        case pending = "Pending"
+        case inuse = "InUse"
+        case complete = "Complete"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobState: String, CustomStringConvertible, Codable {
+        case new = "New"
+        case preparingappliance = "PreparingAppliance"
+        case preparingshipment = "PreparingShipment"
+        case intransittocustomer = "InTransitToCustomer"
+        case withcustomer = "WithCustomer"
+        case intransittoaws = "InTransitToAWS"
+        case withawssortingfacility = "WithAWSSortingFacility"
+        case withaws = "WithAWS"
+        case inprogress = "InProgress"
+        case complete = "Complete"
+        case cancelled = "Cancelled"
+        case listing = "Listing"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobType: String, CustomStringConvertible, Codable {
+        case `import` = "IMPORT"
+        case export = "EXPORT"
+        case localUse = "LOCAL_USE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShippingOption: String, CustomStringConvertible, Codable {
+        case secondDay = "SECOND_DAY"
+        case nextDay = "NEXT_DAY"
+        case express = "EXPRESS"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnowballCapacity: String, CustomStringConvertible, Codable {
+        case t50 = "T50"
+        case t80 = "T80"
+        case t100 = "T100"
+        case t42 = "T42"
+        case nopreference = "NoPreference"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnowballType: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case edge = "EDGE"
+        case edgeC = "EDGE_C"
+        case edgeCg = "EDGE_CG"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Address: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -274,15 +335,6 @@ extension Snowball {
             case shippingOption = "ShippingOption"
             case snowballType = "SnowballType"
         }
-    }
-
-    public enum ClusterState: String, CustomStringConvertible, Codable {
-        case awaitingquorum = "AwaitingQuorum"
-        case pending = "Pending"
-        case inuse = "InUse"
-        case complete = "Complete"
-        case cancelled = "Cancelled"
-        public var description: String { return self.rawValue }
     }
 
     public struct CompatibleImage: AWSShape {
@@ -1165,30 +1217,6 @@ extension Snowball {
         }
     }
 
-    public enum JobState: String, CustomStringConvertible, Codable {
-        case new = "New"
-        case preparingappliance = "PreparingAppliance"
-        case preparingshipment = "PreparingShipment"
-        case intransittocustomer = "InTransitToCustomer"
-        case withcustomer = "WithCustomer"
-        case intransittoaws = "InTransitToAWS"
-        case withawssortingfacility = "WithAWSSortingFacility"
-        case withaws = "WithAWS"
-        case inprogress = "InProgress"
-        case complete = "Complete"
-        case cancelled = "Cancelled"
-        case listing = "Listing"
-        case pending = "Pending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobType: String, CustomStringConvertible, Codable {
-        case `import` = "IMPORT"
-        case export = "EXPORT"
-        case localUse = "LOCAL_USE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct KeyRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BeginMarker", required: false, type: .string), 
@@ -1559,31 +1587,6 @@ extension Snowball {
             case outboundShipment = "OutboundShipment"
             case shippingOption = "ShippingOption"
         }
-    }
-
-    public enum ShippingOption: String, CustomStringConvertible, Codable {
-        case secondDay = "SECOND_DAY"
-        case nextDay = "NEXT_DAY"
-        case express = "EXPRESS"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SnowballCapacity: String, CustomStringConvertible, Codable {
-        case t50 = "T50"
-        case t80 = "T80"
-        case t100 = "T100"
-        case t42 = "T42"
-        case nopreference = "NoPreference"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SnowballType: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case edge = "EDGE"
-        case edgeC = "EDGE_C"
-        case edgeCg = "EDGE_CG"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateClusterRequest: AWSShape {

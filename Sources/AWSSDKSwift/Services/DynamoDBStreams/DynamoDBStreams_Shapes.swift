@@ -4,6 +4,46 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DynamoDBStreams {
+    //MARK: Enums
+
+    public enum KeyType: String, CustomStringConvertible, Codable {
+        case hash = "HASH"
+        case range = "RANGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationType: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case modify = "MODIFY"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShardIteratorType: String, CustomStringConvertible, Codable {
+        case trimHorizon = "TRIM_HORIZON"
+        case latest = "LATEST"
+        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
+        case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamStatus: String, CustomStringConvertible, Codable {
+        case enabling = "ENABLING"
+        case enabled = "ENABLED"
+        case disabling = "DISABLING"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamViewType: String, CustomStringConvertible, Codable {
+        case newImage = "NEW_IMAGE"
+        case oldImage = "OLD_IMAGE"
+        case newAndOldImages = "NEW_AND_OLD_IMAGES"
+        case keysOnly = "KEYS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public class AttributeValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -271,12 +311,6 @@ extension DynamoDBStreams {
         }
     }
 
-    public enum KeyType: String, CustomStringConvertible, Codable {
-        case hash = "HASH"
-        case range = "RANGE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListStreamsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExclusiveStartStreamArn", required: false, type: .string), 
@@ -333,13 +367,6 @@ extension DynamoDBStreams {
             case lastEvaluatedStreamArn = "LastEvaluatedStreamArn"
             case streams = "Streams"
         }
-    }
-
-    public enum OperationType: String, CustomStringConvertible, Codable {
-        case insert = "INSERT"
-        case modify = "MODIFY"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct Record: AWSShape {
@@ -436,14 +463,6 @@ extension DynamoDBStreams {
             case sequenceNumberRange = "SequenceNumberRange"
             case shardId = "ShardId"
         }
-    }
-
-    public enum ShardIteratorType: String, CustomStringConvertible, Codable {
-        case trimHorizon = "TRIM_HORIZON"
-        case latest = "LATEST"
-        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
-        case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
-        public var description: String { return self.rawValue }
     }
 
     public struct Stream: AWSShape {
@@ -575,21 +594,5 @@ extension DynamoDBStreams {
             case sizeBytes = "SizeBytes"
             case streamViewType = "StreamViewType"
         }
-    }
-
-    public enum StreamStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StreamViewType: String, CustomStringConvertible, Codable {
-        case newImage = "NEW_IMAGE"
-        case oldImage = "OLD_IMAGE"
-        case newAndOldImages = "NEW_AND_OLD_IMAGES"
-        case keysOnly = "KEYS_ONLY"
-        public var description: String { return self.rawValue }
     }
 }

@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Support {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct AddAttachmentsToSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

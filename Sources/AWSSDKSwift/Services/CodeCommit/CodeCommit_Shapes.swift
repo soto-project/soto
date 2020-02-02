@@ -4,6 +4,117 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CodeCommit {
+    //MARK: Enums
+
+    public enum ApprovalState: String, CustomStringConvertible, Codable {
+        case approve = "APPROVE"
+        case revoke = "REVOKE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeTypeEnum: String, CustomStringConvertible, Codable {
+        case a = "A"
+        case m = "M"
+        case d = "D"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConflictDetailLevelTypeEnum: String, CustomStringConvertible, Codable {
+        case fileLevel = "FILE_LEVEL"
+        case lineLevel = "LINE_LEVEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConflictResolutionStrategyTypeEnum: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case acceptSource = "ACCEPT_SOURCE"
+        case acceptDestination = "ACCEPT_DESTINATION"
+        case automerge = "AUTOMERGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileModeTypeEnum: String, CustomStringConvertible, Codable {
+        case executable = "EXECUTABLE"
+        case normal = "NORMAL"
+        case symlink = "SYMLINK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MergeOptionTypeEnum: String, CustomStringConvertible, Codable {
+        case fastForwardMerge = "FAST_FORWARD_MERGE"
+        case squashMerge = "SQUASH_MERGE"
+        case threeWayMerge = "THREE_WAY_MERGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectTypeEnum: String, CustomStringConvertible, Codable {
+        case file = "FILE"
+        case directory = "DIRECTORY"
+        case gitLink = "GIT_LINK"
+        case symbolicLink = "SYMBOLIC_LINK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderEnum: String, CustomStringConvertible, Codable {
+        case ascending = "ascending"
+        case descending = "descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OverrideStatus: String, CustomStringConvertible, Codable {
+        case override = "OVERRIDE"
+        case revoke = "REVOKE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PullRequestEventType: String, CustomStringConvertible, Codable {
+        case pullRequestCreated = "PULL_REQUEST_CREATED"
+        case pullRequestStatusChanged = "PULL_REQUEST_STATUS_CHANGED"
+        case pullRequestSourceReferenceUpdated = "PULL_REQUEST_SOURCE_REFERENCE_UPDATED"
+        case pullRequestMergeStateChanged = "PULL_REQUEST_MERGE_STATE_CHANGED"
+        case pullRequestApprovalRuleCreated = "PULL_REQUEST_APPROVAL_RULE_CREATED"
+        case pullRequestApprovalRuleUpdated = "PULL_REQUEST_APPROVAL_RULE_UPDATED"
+        case pullRequestApprovalRuleDeleted = "PULL_REQUEST_APPROVAL_RULE_DELETED"
+        case pullRequestApprovalRuleOverridden = "PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN"
+        case pullRequestApprovalStateChanged = "PULL_REQUEST_APPROVAL_STATE_CHANGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PullRequestStatusEnum: String, CustomStringConvertible, Codable {
+        case open = "OPEN"
+        case closed = "CLOSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelativeFileVersionEnum: String, CustomStringConvertible, Codable {
+        case before = "BEFORE"
+        case after = "AFTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplacementTypeEnum: String, CustomStringConvertible, Codable {
+        case keepBase = "KEEP_BASE"
+        case keepSource = "KEEP_SOURCE"
+        case keepDestination = "KEEP_DESTINATION"
+        case useNewContent = "USE_NEW_CONTENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable {
+        case all = "all"
+        case updatereference = "updateReference"
+        case createreference = "createReference"
+        case deletereference = "deleteReference"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortByEnum: String, CustomStringConvertible, Codable {
+        case repositoryname = "repositoryName"
+        case lastmodifieddate = "lastModifiedDate"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Approval: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -178,12 +289,6 @@ extension CodeCommit {
             case lastModifiedUser = "lastModifiedUser"
             case ruleContentSha256 = "ruleContentSha256"
         }
-    }
-
-    public enum ApprovalState: String, CustomStringConvertible, Codable {
-        case approve = "APPROVE"
-        case revoke = "REVOKE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ApprovalStateChangedEventMetadata: AWSShape {
@@ -710,13 +815,6 @@ extension CodeCommit {
         }
     }
 
-    public enum ChangeTypeEnum: String, CustomStringConvertible, Codable {
-        case a = "A"
-        case m = "M"
-        case d = "D"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Comment: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorArn", required: false, type: .string), 
@@ -937,12 +1035,6 @@ extension CodeCommit {
         }
     }
 
-    public enum ConflictDetailLevelTypeEnum: String, CustomStringConvertible, Codable {
-        case fileLevel = "FILE_LEVEL"
-        case lineLevel = "LINE_LEVEL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ConflictMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "contentConflict", required: false, type: .boolean), 
@@ -1036,14 +1128,6 @@ extension CodeCommit {
             case replaceContents = "replaceContents"
             case setFileModes = "setFileModes"
         }
-    }
-
-    public enum ConflictResolutionStrategyTypeEnum: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case acceptSource = "ACCEPT_SOURCE"
-        case acceptDestination = "ACCEPT_DESTINATION"
-        case automerge = "AUTOMERGE"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateApprovalRuleTemplateInput: AWSShape {
@@ -2167,13 +2251,6 @@ extension CodeCommit {
             case blobId = "blobId"
             case fileMode = "fileMode"
         }
-    }
-
-    public enum FileModeTypeEnum: String, CustomStringConvertible, Codable {
-        case executable = "EXECUTABLE"
-        case normal = "NORMAL"
-        case symlink = "SYMLINK"
-        public var description: String { return self.rawValue }
     }
 
     public struct FileModes: AWSShape {
@@ -4070,13 +4147,6 @@ extension CodeCommit {
         }
     }
 
-    public enum MergeOptionTypeEnum: String, CustomStringConvertible, Codable {
-        case fastForwardMerge = "FAST_FORWARD_MERGE"
-        case squashMerge = "SQUASH_MERGE"
-        case threeWayMerge = "THREE_WAY_MERGE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MergePullRequestByFastForwardInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
@@ -4297,14 +4367,6 @@ extension CodeCommit {
         }
     }
 
-    public enum ObjectTypeEnum: String, CustomStringConvertible, Codable {
-        case file = "FILE"
-        case directory = "DIRECTORY"
-        case gitLink = "GIT_LINK"
-        case symbolicLink = "SYMBOLIC_LINK"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ObjectTypes: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "base", required: false, type: .enum), 
@@ -4330,12 +4392,6 @@ extension CodeCommit {
             case destination = "destination"
             case source = "source"
         }
-    }
-
-    public enum OrderEnum: String, CustomStringConvertible, Codable {
-        case ascending = "ascending"
-        case descending = "descending"
-        public var description: String { return self.rawValue }
     }
 
     public struct OriginApprovalRuleTemplate: AWSShape {
@@ -4385,12 +4441,6 @@ extension CodeCommit {
             case pullRequestId = "pullRequestId"
             case revisionId = "revisionId"
         }
-    }
-
-    public enum OverrideStatus: String, CustomStringConvertible, Codable {
-        case override = "OVERRIDE"
-        case revoke = "REVOKE"
-        public var description: String { return self.rawValue }
     }
 
     public struct PostCommentForComparedCommitInput: AWSShape {
@@ -4803,19 +4853,6 @@ extension CodeCommit {
         }
     }
 
-    public enum PullRequestEventType: String, CustomStringConvertible, Codable {
-        case pullRequestCreated = "PULL_REQUEST_CREATED"
-        case pullRequestStatusChanged = "PULL_REQUEST_STATUS_CHANGED"
-        case pullRequestSourceReferenceUpdated = "PULL_REQUEST_SOURCE_REFERENCE_UPDATED"
-        case pullRequestMergeStateChanged = "PULL_REQUEST_MERGE_STATE_CHANGED"
-        case pullRequestApprovalRuleCreated = "PULL_REQUEST_APPROVAL_RULE_CREATED"
-        case pullRequestApprovalRuleUpdated = "PULL_REQUEST_APPROVAL_RULE_UPDATED"
-        case pullRequestApprovalRuleDeleted = "PULL_REQUEST_APPROVAL_RULE_DELETED"
-        case pullRequestApprovalRuleOverridden = "PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN"
-        case pullRequestApprovalStateChanged = "PULL_REQUEST_APPROVAL_STATE_CHANGED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PullRequestMergedStateChangedEventMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "destinationReference", required: false, type: .string), 
@@ -4890,12 +4927,6 @@ extension CodeCommit {
         private enum CodingKeys: String, CodingKey {
             case pullRequestStatus = "pullRequestStatus"
         }
-    }
-
-    public enum PullRequestStatusEnum: String, CustomStringConvertible, Codable {
-        case open = "OPEN"
-        case closed = "CLOSED"
-        public var description: String { return self.rawValue }
     }
 
     public struct PullRequestTarget: AWSShape {
@@ -5122,12 +5153,6 @@ extension CodeCommit {
         }
     }
 
-    public enum RelativeFileVersionEnum: String, CustomStringConvertible, Codable {
-        case before = "BEFORE"
-        case after = "AFTER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReplaceContentEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "content", required: false, type: .blob), 
@@ -5162,14 +5187,6 @@ extension CodeCommit {
             case filePath = "filePath"
             case replacementType = "replacementType"
         }
-    }
-
-    public enum ReplacementTypeEnum: String, CustomStringConvertible, Codable {
-        case keepBase = "KEEP_BASE"
-        case keepSource = "KEEP_SOURCE"
-        case keepDestination = "KEEP_DESTINATION"
-        case useNewContent = "USE_NEW_CONTENT"
-        public var description: String { return self.rawValue }
     }
 
     public struct RepositoryMetadata: AWSShape {
@@ -5300,14 +5317,6 @@ extension CodeCommit {
         }
     }
 
-    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable {
-        case all = "all"
-        case updatereference = "updateReference"
-        case createreference = "createReference"
-        case deletereference = "deleteReference"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RepositoryTriggerExecutionFailure: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failureMessage", required: false, type: .string), 
@@ -5350,12 +5359,6 @@ extension CodeCommit {
             case fileMode = "fileMode"
             case filePath = "filePath"
         }
-    }
-
-    public enum SortByEnum: String, CustomStringConvertible, Codable {
-        case repositoryname = "repositoryName"
-        case lastmodifieddate = "lastModifiedDate"
-        public var description: String { return self.rawValue }
     }
 
     public struct SourceFileSpecifier: AWSShape {

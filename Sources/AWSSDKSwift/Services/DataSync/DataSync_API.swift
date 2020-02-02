@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS DataSync service.
+
 AWS DataSync AWS DataSync is a managed data transfer service that makes it simpler for you to automate moving data between on-premises storage and Amazon Simple Storage Service (Amazon S3) or Amazon Elastic File System (Amazon EFS).  This API interface reference for AWS DataSync contains documentation for a programming interface that you can use to manage AWS DataSync.
 */
 public struct DataSync {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the DataSync client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -28,6 +43,8 @@ public struct DataSync {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Cancels execution of a task.  When you cancel a task execution, the transfer of some files are abruptly interrupted. The contents of files that are transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution on the same task and you allow the task execution to complete, file content on the destination is complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, AWS DataSync successfully complete the transfer when you start the next task execution.
     public func cancelTaskExecution(_ input: CancelTaskExecutionRequest) -> EventLoopFuture<CancelTaskExecutionResponse> {
@@ -42,6 +59,11 @@ public struct DataSync {
     ///  Creates an endpoint for an Amazon EFS file system.
     public func createLocationEfs(_ input: CreateLocationEfsRequest) -> EventLoopFuture<CreateLocationEfsResponse> {
         return client.send(operation: "CreateLocationEfs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an endpoint for an Amazon FSx for Windows file system.
+    public func createLocationFsxWindows(_ input: CreateLocationFsxWindowsRequest) -> EventLoopFuture<CreateLocationFsxWindowsResponse> {
+        return client.send(operation: "CreateLocationFsxWindows", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Defines a file system on a Network File System (NFS) server that can be read from or written to
@@ -87,6 +109,11 @@ public struct DataSync {
     ///  Returns metadata, such as the path information about an Amazon EFS location.
     public func describeLocationEfs(_ input: DescribeLocationEfsRequest) -> EventLoopFuture<DescribeLocationEfsResponse> {
         return client.send(operation: "DescribeLocationEfs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns metadata, such as the path information about an Amazon FSx for Windows location.
+    public func describeLocationFsxWindows(_ input: DescribeLocationFsxWindowsRequest) -> EventLoopFuture<DescribeLocationFsxWindowsResponse> {
+        return client.send(operation: "DescribeLocationFsxWindows", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns metadata, such as the path information, about a NFS location.

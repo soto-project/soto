@@ -4,6 +4,308 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudFormation {
+    //MARK: Enums
+
+    public enum AccountGateStatus: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case skipped = "SKIPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Capability: String, CustomStringConvertible, Codable {
+        case capabilityIam = "CAPABILITY_IAM"
+        case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
+        case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeAction: String, CustomStringConvertible, Codable {
+        case add = "Add"
+        case modify = "Modify"
+        case remove = "Remove"
+        case `import` = "Import"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeSetStatus: String, CustomStringConvertible, Codable {
+        case createPending = "CREATE_PENDING"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createComplete = "CREATE_COMPLETE"
+        case deleteComplete = "DELETE_COMPLETE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeSetType: String, CustomStringConvertible, Codable {
+        case create = "CREATE"
+        case update = "UPDATE"
+        case `import` = "IMPORT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeSource: String, CustomStringConvertible, Codable {
+        case resourcereference = "ResourceReference"
+        case parameterreference = "ParameterReference"
+        case resourceattribute = "ResourceAttribute"
+        case directmodification = "DirectModification"
+        case automatic = "Automatic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeType: String, CustomStringConvertible, Codable {
+        case resource = "Resource"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeprecatedStatus: String, CustomStringConvertible, Codable {
+        case live = "LIVE"
+        case deprecated = "DEPRECATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DifferenceType: String, CustomStringConvertible, Codable {
+        case add = "ADD"
+        case remove = "REMOVE"
+        case notEqual = "NOT_EQUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationType: String, CustomStringConvertible, Codable {
+        case `static` = "Static"
+        case dynamic = "Dynamic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
+        case unavailable = "UNAVAILABLE"
+        case available = "AVAILABLE"
+        case executeInProgress = "EXECUTE_IN_PROGRESS"
+        case executeComplete = "EXECUTE_COMPLETE"
+        case executeFailed = "EXECUTE_FAILED"
+        case obsolete = "OBSOLETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HandlerErrorCode: String, CustomStringConvertible, Codable {
+        case notupdatable = "NotUpdatable"
+        case invalidrequest = "InvalidRequest"
+        case accessdenied = "AccessDenied"
+        case invalidcredentials = "InvalidCredentials"
+        case alreadyexists = "AlreadyExists"
+        case notfound = "NotFound"
+        case resourceconflict = "ResourceConflict"
+        case throttling = "Throttling"
+        case servicelimitexceeded = "ServiceLimitExceeded"
+        case notstabilized = "NotStabilized"
+        case generalserviceexception = "GeneralServiceException"
+        case serviceinternalerror = "ServiceInternalError"
+        case networkfailure = "NetworkFailure"
+        case internalfailure = "InternalFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OnFailure: String, CustomStringConvertible, Codable {
+        case doNothing = "DO_NOTHING"
+        case rollback = "ROLLBACK"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case inProgress = "IN_PROGRESS"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProvisioningType: String, CustomStringConvertible, Codable {
+        case nonProvisionable = "NON_PROVISIONABLE"
+        case immutable = "IMMUTABLE"
+        case fullyMutable = "FULLY_MUTABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case inProgress = "IN_PROGRESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistryType: String, CustomStringConvertible, Codable {
+        case resource = "RESOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Replacement: String, CustomStringConvertible, Codable {
+        case `true` = "True"
+        case `false` = "False"
+        case conditional = "Conditional"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequiresRecreation: String, CustomStringConvertible, Codable {
+        case never = "Never"
+        case conditionally = "Conditionally"
+        case always = "Always"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceAttribute: String, CustomStringConvertible, Codable {
+        case properties = "Properties"
+        case metadata = "Metadata"
+        case creationpolicy = "CreationPolicy"
+        case updatepolicy = "UpdatePolicy"
+        case deletionpolicy = "DeletionPolicy"
+        case tags = "Tags"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceSignalStatus: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case failure = "FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceStatus: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case createComplete = "CREATE_COMPLETE"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteComplete = "DELETE_COMPLETE"
+        case deleteSkipped = "DELETE_SKIPPED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
+        case updateComplete = "UPDATE_COMPLETE"
+        case importFailed = "IMPORT_FAILED"
+        case importComplete = "IMPORT_COMPLETE"
+        case importInProgress = "IMPORT_IN_PROGRESS"
+        case importRollbackInProgress = "IMPORT_ROLLBACK_IN_PROGRESS"
+        case importRollbackFailed = "IMPORT_ROLLBACK_FAILED"
+        case importRollbackComplete = "IMPORT_ROLLBACK_COMPLETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackDriftDetectionStatus: String, CustomStringConvertible, Codable {
+        case detectionInProgress = "DETECTION_IN_PROGRESS"
+        case detectionFailed = "DETECTION_FAILED"
+        case detectionComplete = "DETECTION_COMPLETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackDriftStatus: String, CustomStringConvertible, Codable {
+        case drifted = "DRIFTED"
+        case inSync = "IN_SYNC"
+        case unknown = "UNKNOWN"
+        case notChecked = "NOT_CHECKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackInstanceStatus: String, CustomStringConvertible, Codable {
+        case current = "CURRENT"
+        case outdated = "OUTDATED"
+        case inoperable = "INOPERABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackResourceDriftStatus: String, CustomStringConvertible, Codable {
+        case inSync = "IN_SYNC"
+        case modified = "MODIFIED"
+        case deleted = "DELETED"
+        case notChecked = "NOT_CHECKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackSetDriftDetectionStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case partialSuccess = "PARTIAL_SUCCESS"
+        case inProgress = "IN_PROGRESS"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackSetDriftStatus: String, CustomStringConvertible, Codable {
+        case drifted = "DRIFTED"
+        case inSync = "IN_SYNC"
+        case notChecked = "NOT_CHECKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackSetOperationAction: String, CustomStringConvertible, Codable {
+        case create = "CREATE"
+        case update = "UPDATE"
+        case delete = "DELETE"
+        case detectDrift = "DETECT_DRIFT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackSetOperationResultStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackSetOperationStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackSetStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackStatus: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case createComplete = "CREATE_COMPLETE"
+        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
+        case rollbackFailed = "ROLLBACK_FAILED"
+        case rollbackComplete = "ROLLBACK_COMPLETE"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteComplete = "DELETE_COMPLETE"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateCompleteCleanupInProgress = "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS"
+        case updateComplete = "UPDATE_COMPLETE"
+        case updateRollbackInProgress = "UPDATE_ROLLBACK_IN_PROGRESS"
+        case updateRollbackFailed = "UPDATE_ROLLBACK_FAILED"
+        case updateRollbackCompleteCleanupInProgress = "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS"
+        case updateRollbackComplete = "UPDATE_ROLLBACK_COMPLETE"
+        case reviewInProgress = "REVIEW_IN_PROGRESS"
+        case importInProgress = "IMPORT_IN_PROGRESS"
+        case importComplete = "IMPORT_COMPLETE"
+        case importRollbackInProgress = "IMPORT_ROLLBACK_IN_PROGRESS"
+        case importRollbackFailed = "IMPORT_ROLLBACK_FAILED"
+        case importRollbackComplete = "IMPORT_ROLLBACK_COMPLETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemplateStage: String, CustomStringConvertible, Codable {
+        case original = "Original"
+        case processed = "Processed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Visibility: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountGateResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -25,13 +327,6 @@ extension CloudFormation {
             case status = "Status"
             case statusReason = "StatusReason"
         }
-    }
-
-    public enum AccountGateStatus: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case skipped = "SKIPPED"
-        public var description: String { return self.rawValue }
     }
 
     public struct AccountLimit: AWSShape {
@@ -84,13 +379,6 @@ extension CloudFormation {
         }
     }
 
-    public enum Capability: String, CustomStringConvertible, Codable {
-        case capabilityIam = "CAPABILITY_IAM"
-        case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
-        case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Change: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceChange", required: false, type: .structure), 
@@ -111,23 +399,6 @@ extension CloudFormation {
             case resourceChange = "ResourceChange"
             case `type` = "Type"
         }
-    }
-
-    public enum ChangeAction: String, CustomStringConvertible, Codable {
-        case add = "Add"
-        case modify = "Modify"
-        case remove = "Remove"
-        case `import` = "Import"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChangeSetStatus: String, CustomStringConvertible, Codable {
-        case createPending = "CREATE_PENDING"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createComplete = "CREATE_COMPLETE"
-        case deleteComplete = "DELETE_COMPLETE"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ChangeSetSummary: AWSShape {
@@ -185,27 +456,6 @@ extension CloudFormation {
             case status = "Status"
             case statusReason = "StatusReason"
         }
-    }
-
-    public enum ChangeSetType: String, CustomStringConvertible, Codable {
-        case create = "CREATE"
-        case update = "UPDATE"
-        case `import` = "IMPORT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChangeSource: String, CustomStringConvertible, Codable {
-        case resourcereference = "ResourceReference"
-        case parameterreference = "ParameterReference"
-        case resourceattribute = "ResourceAttribute"
-        case directmodification = "DirectModification"
-        case automatic = "Automatic"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChangeType: String, CustomStringConvertible, Codable {
-        case resource = "Resource"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContinueUpdateRollbackInput: AWSShape {
@@ -884,12 +1134,6 @@ extension CloudFormation {
         public init() {
         }
 
-    }
-
-    public enum DeprecatedStatus: String, CustomStringConvertible, Codable {
-        case live = "LIVE"
-        case deprecated = "DEPRECATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeregisterTypeInput: AWSShape {
@@ -1884,13 +2128,6 @@ extension CloudFormation {
         }
     }
 
-    public enum DifferenceType: String, CustomStringConvertible, Codable {
-        case add = "ADD"
-        case remove = "REMOVE"
-        case notEqual = "NOT_EQUAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EstimateTemplateCostInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
@@ -1941,12 +2178,6 @@ extension CloudFormation {
         }
     }
 
-    public enum EvaluationType: String, CustomStringConvertible, Codable {
-        case `static` = "Static"
-        case dynamic = "Dynamic"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ExecuteChangeSetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeSetName", required: true, type: .string), 
@@ -1991,16 +2222,6 @@ extension CloudFormation {
         public init() {
         }
 
-    }
-
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
-        case unavailable = "UNAVAILABLE"
-        case available = "AVAILABLE"
-        case executeInProgress = "EXECUTE_IN_PROGRESS"
-        case executeComplete = "EXECUTE_COMPLETE"
-        case executeFailed = "EXECUTE_FAILED"
-        case obsolete = "OBSOLETE"
-        public var description: String { return self.rawValue }
     }
 
     public struct Export: AWSShape {
@@ -2215,24 +2436,6 @@ extension CloudFormation {
             case resourceTypes = "ResourceTypes"
             case version = "Version"
         }
-    }
-
-    public enum HandlerErrorCode: String, CustomStringConvertible, Codable {
-        case notupdatable = "NotUpdatable"
-        case invalidrequest = "InvalidRequest"
-        case accessdenied = "AccessDenied"
-        case invalidcredentials = "InvalidCredentials"
-        case alreadyexists = "AlreadyExists"
-        case notfound = "NotFound"
-        case resourceconflict = "ResourceConflict"
-        case throttling = "Throttling"
-        case servicelimitexceeded = "ServiceLimitExceeded"
-        case notstabilized = "NotStabilized"
-        case generalserviceexception = "GeneralServiceException"
-        case serviceinternalerror = "ServiceInternalError"
-        case networkfailure = "NetworkFailure"
-        case internalfailure = "InternalFailure"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListChangeSetsInput: AWSShape {
@@ -2969,21 +3172,6 @@ extension CloudFormation {
         }
     }
 
-    public enum OnFailure: String, CustomStringConvertible, Codable {
-        case doNothing = "DO_NOTHING"
-        case rollback = "ROLLBACK"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OperationStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case inProgress = "IN_PROGRESS"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Output: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -3161,13 +3349,6 @@ extension CloudFormation {
         }
     }
 
-    public enum ProvisioningType: String, CustomStringConvertible, Codable {
-        case nonProvisionable = "NON_PROVISIONABLE"
-        case immutable = "IMMUTABLE"
-        case fullyMutable = "FULLY_MUTABLE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RecordHandlerProgressInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BearerToken", required: true, type: .string), 
@@ -3308,42 +3489,6 @@ extension CloudFormation {
         }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
-        case complete = "COMPLETE"
-        case inProgress = "IN_PROGRESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistryType: String, CustomStringConvertible, Codable {
-        case resource = "RESOURCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Replacement: String, CustomStringConvertible, Codable {
-        case `true` = "True"
-        case `false` = "False"
-        case conditional = "Conditional"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RequiresRecreation: String, CustomStringConvertible, Codable {
-        case never = "Never"
-        case conditionally = "Conditionally"
-        case always = "Always"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceAttribute: String, CustomStringConvertible, Codable {
-        case properties = "Properties"
-        case metadata = "Metadata"
-        case creationpolicy = "CreationPolicy"
-        case updatepolicy = "UpdatePolicy"
-        case deletionpolicy = "DeletionPolicy"
-        case tags = "Tags"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceChange: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: false, type: .enum), 
@@ -3448,32 +3593,6 @@ extension CloudFormation {
             case resourceIdentifiers = "ResourceIdentifiers"
             case resourceType = "ResourceType"
         }
-    }
-
-    public enum ResourceSignalStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case failure = "FAILURE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceStatus: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createFailed = "CREATE_FAILED"
-        case createComplete = "CREATE_COMPLETE"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteComplete = "DELETE_COMPLETE"
-        case deleteSkipped = "DELETE_SKIPPED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateFailed = "UPDATE_FAILED"
-        case updateComplete = "UPDATE_COMPLETE"
-        case importFailed = "IMPORT_FAILED"
-        case importComplete = "IMPORT_COMPLETE"
-        case importInProgress = "IMPORT_IN_PROGRESS"
-        case importRollbackInProgress = "IMPORT_ROLLBACK_IN_PROGRESS"
-        case importRollbackFailed = "IMPORT_ROLLBACK_FAILED"
-        case importRollbackComplete = "IMPORT_ROLLBACK_COMPLETE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceTargetDefinition: AWSShape {
@@ -3837,13 +3956,6 @@ extension CloudFormation {
         }
     }
 
-    public enum StackDriftDetectionStatus: String, CustomStringConvertible, Codable {
-        case detectionInProgress = "DETECTION_IN_PROGRESS"
-        case detectionFailed = "DETECTION_FAILED"
-        case detectionComplete = "DETECTION_COMPLETE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StackDriftInformation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastCheckTimestamp", required: false, type: .timestamp), 
@@ -3886,14 +3998,6 @@ extension CloudFormation {
             case lastCheckTimestamp = "LastCheckTimestamp"
             case stackDriftStatus = "StackDriftStatus"
         }
-    }
-
-    public enum StackDriftStatus: String, CustomStringConvertible, Codable {
-        case drifted = "DRIFTED"
-        case inSync = "IN_SYNC"
-        case unknown = "UNKNOWN"
-        case notChecked = "NOT_CHECKED"
-        public var description: String { return self.rawValue }
     }
 
     public struct StackEvent: AWSShape {
@@ -4018,13 +4122,6 @@ extension CloudFormation {
             case status = "Status"
             case statusReason = "StatusReason"
         }
-    }
-
-    public enum StackInstanceStatus: String, CustomStringConvertible, Codable {
-        case current = "CURRENT"
-        case outdated = "OUTDATED"
-        case inoperable = "INOPERABLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct StackInstanceSummary: AWSShape {
@@ -4314,14 +4411,6 @@ extension CloudFormation {
         }
     }
 
-    public enum StackResourceDriftStatus: String, CustomStringConvertible, Codable {
-        case inSync = "IN_SYNC"
-        case modified = "MODIFIED"
-        case deleted = "DELETED"
-        case notChecked = "NOT_CHECKED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StackResourceSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DriftInformation", required: false, type: .structure), 
@@ -4493,22 +4582,6 @@ extension CloudFormation {
         }
     }
 
-    public enum StackSetDriftDetectionStatus: String, CustomStringConvertible, Codable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case partialSuccess = "PARTIAL_SUCCESS"
-        case inProgress = "IN_PROGRESS"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StackSetDriftStatus: String, CustomStringConvertible, Codable {
-        case drifted = "DRIFTED"
-        case inSync = "IN_SYNC"
-        case notChecked = "NOT_CHECKED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StackSetOperation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: false, type: .enum), 
@@ -4576,14 +4649,6 @@ extension CloudFormation {
         }
     }
 
-    public enum StackSetOperationAction: String, CustomStringConvertible, Codable {
-        case create = "CREATE"
-        case update = "UPDATE"
-        case delete = "DELETE"
-        case detectDrift = "DETECT_DRIFT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StackSetOperationPreferences: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailureToleranceCount", required: false, type: .integer), 
@@ -4630,15 +4695,6 @@ extension CloudFormation {
         }
     }
 
-    public enum StackSetOperationResultStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case cancelled = "CANCELLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StackSetOperationResultSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Account", required: false, type: .string), 
@@ -4676,15 +4732,6 @@ extension CloudFormation {
         }
     }
 
-    public enum StackSetOperationStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StackSetOperationSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: false, type: .enum), 
@@ -4720,12 +4767,6 @@ extension CloudFormation {
             case operationId = "OperationId"
             case status = "Status"
         }
-    }
-
-    public enum StackSetStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
     }
 
     public struct StackSetSummary: AWSShape {
@@ -4768,32 +4809,6 @@ extension CloudFormation {
             case stackSetName = "StackSetName"
             case status = "Status"
         }
-    }
-
-    public enum StackStatus: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createFailed = "CREATE_FAILED"
-        case createComplete = "CREATE_COMPLETE"
-        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
-        case rollbackFailed = "ROLLBACK_FAILED"
-        case rollbackComplete = "ROLLBACK_COMPLETE"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteComplete = "DELETE_COMPLETE"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateCompleteCleanupInProgress = "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS"
-        case updateComplete = "UPDATE_COMPLETE"
-        case updateRollbackInProgress = "UPDATE_ROLLBACK_IN_PROGRESS"
-        case updateRollbackFailed = "UPDATE_ROLLBACK_FAILED"
-        case updateRollbackCompleteCleanupInProgress = "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS"
-        case updateRollbackComplete = "UPDATE_ROLLBACK_COMPLETE"
-        case reviewInProgress = "REVIEW_IN_PROGRESS"
-        case importInProgress = "IMPORT_IN_PROGRESS"
-        case importComplete = "IMPORT_COMPLETE"
-        case importRollbackInProgress = "IMPORT_ROLLBACK_IN_PROGRESS"
-        case importRollbackFailed = "IMPORT_ROLLBACK_FAILED"
-        case importRollbackComplete = "IMPORT_ROLLBACK_COMPLETE"
-        public var description: String { return self.rawValue }
     }
 
     public struct StackSummary: AWSShape {
@@ -4958,12 +4973,6 @@ extension CloudFormation {
             case noEcho = "NoEcho"
             case parameterKey = "ParameterKey"
         }
-    }
-
-    public enum TemplateStage: String, CustomStringConvertible, Codable {
-        case original = "Original"
-        case processed = "Processed"
-        public var description: String { return self.rawValue }
     }
 
     public struct TypeSummary: AWSShape {
@@ -5488,11 +5497,5 @@ extension CloudFormation {
             case description = "Description"
             case parameters = "Parameters"
         }
-    }
-
-    public enum Visibility: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
     }
 }

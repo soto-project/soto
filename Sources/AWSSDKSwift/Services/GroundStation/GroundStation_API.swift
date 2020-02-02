@@ -5,6 +5,8 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS GroundStation service.
+
 Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that
       enables you to control satellite communications, downlink and process satellite data, and
       scale your satellite operations efficiently and cost-effectively without having
@@ -12,8 +14,21 @@ Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully m
 */
 public struct GroundStation {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the GroundStation client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -29,6 +44,8 @@ public struct GroundStation {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Cancels a contact with a specified contact ID.
     public func cancelContact(_ input: CancelContactRequest) -> EventLoopFuture<ContactIdResponse> {

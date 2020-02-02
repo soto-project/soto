@@ -4,6 +4,42 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension WorkMail {
+    //MARK: Enums
+
+    public enum EntityState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MemberType: String, CustomStringConvertible, Codable {
+        case group = "GROUP"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PermissionType: String, CustomStringConvertible, Codable {
+        case fullAccess = "FULL_ACCESS"
+        case sendAs = "SEND_AS"
+        case sendOnBehalf = "SEND_ON_BEHALF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case room = "ROOM"
+        case equipment = "EQUIPMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserRole: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case resource = "RESOURCE"
+        case systemUser = "SYSTEM_USER"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateDelegateToResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -956,13 +992,6 @@ extension WorkMail {
 
     }
 
-    public enum EntityState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetMailboxDetailsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
@@ -1575,12 +1604,6 @@ extension WorkMail {
         }
     }
 
-    public enum MemberType: String, CustomStringConvertible, Codable {
-        case group = "GROUP"
-        case user = "USER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OrganizationSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Alias", required: false, type: .string), 
@@ -1638,13 +1661,6 @@ extension WorkMail {
             case granteeType = "GranteeType"
             case permissionValues = "PermissionValues"
         }
-    }
-
-    public enum PermissionType: String, CustomStringConvertible, Codable {
-        case fullAccess = "FULL_ACCESS"
-        case sendAs = "SEND_AS"
-        case sendOnBehalf = "SEND_ON_BEHALF"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutMailboxPermissionsRequest: AWSShape {
@@ -1827,12 +1843,6 @@ extension WorkMail {
             case state = "State"
             case `type` = "Type"
         }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case room = "ROOM"
-        case equipment = "EQUIPMENT"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateMailboxQuotaRequest: AWSShape {
@@ -2019,12 +2029,5 @@ extension WorkMail {
             case state = "State"
             case userRole = "UserRole"
         }
-    }
-
-    public enum UserRole: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case resource = "RESOURCE"
-        case systemUser = "SYSTEM_USER"
-        public var description: String { return self.rawValue }
     }
 }

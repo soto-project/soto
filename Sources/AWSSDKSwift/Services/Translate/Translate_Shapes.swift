@@ -4,6 +4,36 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Translate {
+    //MARK: Enums
+
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case completedWithError = "COMPLETED_WITH_ERROR"
+        case failed = "FAILED"
+        case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MergeStrategy: String, CustomStringConvertible, Codable {
+        case overwrite = "OVERWRITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TerminologyDataFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case tmx = "TMX"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AppliedTerminology: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -116,11 +146,6 @@ extension Translate {
             case id = "Id"
             case `type` = "Type"
         }
-    }
-
-    public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetTerminologyRequest: AWSShape {
@@ -293,17 +318,6 @@ extension Translate {
         }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case completedWithError = "COMPLETED_WITH_ERROR"
-        case failed = "FAILED"
-        case stopRequested = "STOP_REQUESTED"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListTerminologiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
@@ -410,11 +424,6 @@ extension Translate {
             case nextToken = "NextToken"
             case textTranslationJobPropertiesList = "TextTranslationJobPropertiesList"
         }
-    }
-
-    public enum MergeStrategy: String, CustomStringConvertible, Codable {
-        case overwrite = "OVERWRITE"
-        public var description: String { return self.rawValue }
     }
 
     public struct OutputDataConfig: AWSShape {
@@ -631,12 +640,6 @@ extension Translate {
             case file = "File"
             case format = "Format"
         }
-    }
-
-    public enum TerminologyDataFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case tmx = "TMX"
-        public var description: String { return self.rawValue }
     }
 
     public struct TerminologyDataLocation: AWSShape {

@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension PersonalizeEvents {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [

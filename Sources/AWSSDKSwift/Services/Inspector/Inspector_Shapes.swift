@@ -4,6 +4,126 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Inspector {
+    //MARK: Enums
+
+    public enum AgentHealth: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgentHealthCode: String, CustomStringConvertible, Codable {
+        case idle = "IDLE"
+        case running = "RUNNING"
+        case shutdown = "SHUTDOWN"
+        case unhealthy = "UNHEALTHY"
+        case throttled = "THROTTLED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case topicDoesNotExist = "TOPIC_DOES_NOT_EXIST"
+        case accessDenied = "ACCESS_DENIED"
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssessmentRunState: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case startDataCollectionPending = "START_DATA_COLLECTION_PENDING"
+        case startDataCollectionInProgress = "START_DATA_COLLECTION_IN_PROGRESS"
+        case collectingData = "COLLECTING_DATA"
+        case stopDataCollectionPending = "STOP_DATA_COLLECTION_PENDING"
+        case dataCollected = "DATA_COLLECTED"
+        case startEvaluatingRulesPending = "START_EVALUATING_RULES_PENDING"
+        case evaluatingRules = "EVALUATING_RULES"
+        case failed = "FAILED"
+        case error = "ERROR"
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssetType: String, CustomStringConvertible, Codable {
+        case ec2Instance = "ec2-instance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FailedItemErrorCode: String, CustomStringConvertible, Codable {
+        case invalidArn = "INVALID_ARN"
+        case duplicateArn = "DUPLICATE_ARN"
+        case itemDoesNotExist = "ITEM_DOES_NOT_EXIST"
+        case accessDenied = "ACCESS_DENIED"
+        case limitExceeded = "LIMIT_EXCEEDED"
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InspectorEvent: String, CustomStringConvertible, Codable {
+        case assessmentRunStarted = "ASSESSMENT_RUN_STARTED"
+        case assessmentRunCompleted = "ASSESSMENT_RUN_COMPLETED"
+        case assessmentRunStateChanged = "ASSESSMENT_RUN_STATE_CHANGED"
+        case findingReported = "FINDING_REPORTED"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Locale: String, CustomStringConvertible, Codable {
+        case enUs = "EN_US"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreviewStatus: String, CustomStringConvertible, Codable {
+        case workInProgress = "WORK_IN_PROGRESS"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportFileFormat: String, CustomStringConvertible, Codable {
+        case html = "HTML"
+        case pdf = "PDF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportStatus: String, CustomStringConvertible, Codable {
+        case workInProgress = "WORK_IN_PROGRESS"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportType: String, CustomStringConvertible, Codable {
+        case finding = "FINDING"
+        case full = "FULL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScopeType: String, CustomStringConvertible, Codable {
+        case instanceId = "INSTANCE_ID"
+        case rulesPackageArn = "RULES_PACKAGE_ARN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Severity: String, CustomStringConvertible, Codable {
+        case low = "Low"
+        case medium = "Medium"
+        case high = "High"
+        case informational = "Informational"
+        case undefined = "Undefined"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StopAction: String, CustomStringConvertible, Codable {
+        case startEvaluation = "START_EVALUATION"
+        case skipEvaluation = "SKIP_EVALUATION"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddAttributesToFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -85,23 +205,6 @@ extension Inspector {
             case agentHealthCodes = "agentHealthCodes"
             case agentHealths = "agentHealths"
         }
-    }
-
-    public enum AgentHealth: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AgentHealthCode: String, CustomStringConvertible, Codable {
-        case idle = "IDLE"
-        case running = "RUNNING"
-        case shutdown = "SHUTDOWN"
-        case unhealthy = "UNHEALTHY"
-        case throttled = "THROTTLED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
     }
 
     public struct AgentPreview: AWSShape {
@@ -393,31 +496,6 @@ extension Inspector {
         }
     }
 
-    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case topicDoesNotExist = "TOPIC_DOES_NOT_EXIST"
-        case accessDenied = "ACCESS_DENIED"
-        case internalError = "INTERNAL_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AssessmentRunState: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case startDataCollectionPending = "START_DATA_COLLECTION_PENDING"
-        case startDataCollectionInProgress = "START_DATA_COLLECTION_IN_PROGRESS"
-        case collectingData = "COLLECTING_DATA"
-        case stopDataCollectionPending = "STOP_DATA_COLLECTION_PENDING"
-        case dataCollected = "DATA_COLLECTED"
-        case startEvaluatingRulesPending = "START_EVALUATING_RULES_PENDING"
-        case evaluatingRules = "EVALUATING_RULES"
-        case failed = "FAILED"
-        case error = "ERROR"
-        case completed = "COMPLETED"
-        case completedWithErrors = "COMPLETED_WITH_ERRORS"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AssessmentRunStateChange: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "state", required: true, type: .enum), 
@@ -645,11 +723,6 @@ extension Inspector {
             case schemaVersion = "schemaVersion"
             case tags = "tags"
         }
-    }
-
-    public enum AssetType: String, CustomStringConvertible, Codable {
-        case ec2Instance = "ec2-instance"
-        public var description: String { return self.rawValue }
     }
 
     public struct Attribute: AWSShape {
@@ -1477,16 +1550,6 @@ extension Inspector {
         }
     }
 
-    public enum FailedItemErrorCode: String, CustomStringConvertible, Codable {
-        case invalidArn = "INVALID_ARN"
-        case duplicateArn = "DUPLICATE_ARN"
-        case itemDoesNotExist = "ITEM_DOES_NOT_EXIST"
-        case accessDenied = "ACCESS_DENIED"
-        case limitExceeded = "LIMIT_EXCEEDED"
-        case internalError = "INTERNAL_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Finding: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string), 
@@ -1842,15 +1905,6 @@ extension Inspector {
         private enum CodingKeys: String, CodingKey {
             case telemetryMetadata = "telemetryMetadata"
         }
-    }
-
-    public enum InspectorEvent: String, CustomStringConvertible, Codable {
-        case assessmentRunStarted = "ASSESSMENT_RUN_STARTED"
-        case assessmentRunCompleted = "ASSESSMENT_RUN_COMPLETED"
-        case assessmentRunStateChanged = "ASSESSMENT_RUN_STATE_CHANGED"
-        case findingReported = "FINDING_REPORTED"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
     }
 
     public struct InspectorServiceAttributes: AWSShape {
@@ -2395,11 +2449,6 @@ extension Inspector {
         }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable {
-        case enUs = "EN_US"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NetworkInterface: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ipv6Addresses", required: false, type: .list), 
@@ -2518,12 +2567,6 @@ extension Inspector {
         }
     }
 
-    public enum PreviewStatus: String, CustomStringConvertible, Codable {
-        case workInProgress = "WORK_IN_PROGRESS"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PrivateIp: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "privateDnsName", required: false, type: .string), 
@@ -2620,25 +2663,6 @@ extension Inspector {
         private enum CodingKeys: String, CodingKey {
             case failedItems = "failedItems"
         }
-    }
-
-    public enum ReportFileFormat: String, CustomStringConvertible, Codable {
-        case html = "HTML"
-        case pdf = "PDF"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReportStatus: String, CustomStringConvertible, Codable {
-        case workInProgress = "WORK_IN_PROGRESS"
-        case failed = "FAILED"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReportType: String, CustomStringConvertible, Codable {
-        case finding = "FINDING"
-        case full = "FULL"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceGroup: AWSShape {
@@ -2756,12 +2780,6 @@ extension Inspector {
         }
     }
 
-    public enum ScopeType: String, CustomStringConvertible, Codable {
-        case instanceId = "INSTANCE_ID"
-        case rulesPackageArn = "RULES_PACKAGE_ARN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "groupId", required: false, type: .string), 
@@ -2816,15 +2834,6 @@ extension Inspector {
         }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable {
-        case low = "Low"
-        case medium = "Medium"
-        case high = "High"
-        case informational = "Informational"
-        case undefined = "Undefined"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StartAssessmentRunRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentRunName", required: false, type: .string), 
@@ -2869,12 +2878,6 @@ extension Inspector {
         private enum CodingKeys: String, CodingKey {
             case assessmentRunArn = "assessmentRunArn"
         }
-    }
-
-    public enum StopAction: String, CustomStringConvertible, Codable {
-        case startEvaluation = "START_EVALUATION"
-        case skipEvaluation = "SKIP_EVALUATION"
-        public var description: String { return self.rawValue }
     }
 
     public struct StopAssessmentRunRequest: AWSShape {

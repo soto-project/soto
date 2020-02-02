@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension EC2InstanceConnect {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct SendSSHPublicKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

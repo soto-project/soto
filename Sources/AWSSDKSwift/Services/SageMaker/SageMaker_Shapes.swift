@@ -4,6 +4,1016 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SageMaker {
+    //MARK: Enums
+
+    public enum AlgorithmSortBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AlgorithmStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case deleting = "Deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppInstanceType: String, CustomStringConvertible, Codable {
+        case system = "system"
+        case mlT3Micro = "ml.t3.micro"
+        case mlT3Small = "ml.t3.small"
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Xlarge = "ml.t3.xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM58Xlarge = "ml.m5.8xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM516Xlarge = "ml.m5.16xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlC5Large = "ml.c5.large"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC512Xlarge = "ml.c5.12xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlC524Xlarge = "ml.c5.24xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppSortKey: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppStatus: String, CustomStringConvertible, Codable {
+        case deleted = "Deleted"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inservice = "InService"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppType: String, CustomStringConvertible, Codable {
+        case jupyterserver = "JupyterServer"
+        case kernelgateway = "KernelGateway"
+        case tensorboard = "TensorBoard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssemblyType: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case line = "Line"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthMode: String, CustomStringConvertible, Codable {
+        case sso = "SSO"
+        case iam = "IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLJobObjectiveType: String, CustomStringConvertible, Codable {
+        case maximize = "Maximize"
+        case minimize = "Minimize"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLJobSecondaryStatus: String, CustomStringConvertible, Codable {
+        case starting = "Starting"
+        case analyzingdata = "AnalyzingData"
+        case featureengineering = "FeatureEngineering"
+        case modeltuning = "ModelTuning"
+        case maxcandidatesreached = "MaxCandidatesReached"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case maxautomljobruntimereached = "MaxAutoMLJobRuntimeReached"
+        case stopping = "Stopping"
+        case candidatedefinitionsgenerated = "CandidateDefinitionsGenerated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLJobStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLMetricEnum: String, CustomStringConvertible, Codable {
+        case accuracy = "Accuracy"
+        case mse = "MSE"
+        case f1 = "F1"
+        case f1macro = "F1macro"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLS3DataType: String, CustomStringConvertible, Codable {
+        case manifestfile = "ManifestFile"
+        case s3prefix = "S3Prefix"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLSortBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AwsManagedHumanLoopRequestSource: String, CustomStringConvertible, Codable {
+        case awsRekognitionDetectmoderationlabelsImageV3 = "AWS/Rekognition/DetectModerationLabels/Image/V3"
+        case awsTextractAnalyzedocumentFormsV1 = "AWS/Textract/AnalyzeDocument/Forms/V1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchStrategy: String, CustomStringConvertible, Codable {
+        case multirecord = "MultiRecord"
+        case singlerecord = "SingleRecord"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BooleanOperator: String, CustomStringConvertible, Codable {
+        case and = "And"
+        case or = "Or"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CandidateSortBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case status = "Status"
+        case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CandidateStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CandidateStepType: String, CustomStringConvertible, Codable {
+        case awsSagemakerTrainingjob = "AWS::SageMaker::TrainingJob"
+        case awsSagemakerTransformjob = "AWS::SageMaker::TransformJob"
+        case awsSagemakerProcessingjob = "AWS::SageMaker::ProcessingJob"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CaptureMode: String, CustomStringConvertible, Codable {
+        case input = "Input"
+        case output = "Output"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CaptureStatus: String, CustomStringConvertible, Codable {
+        case started = "Started"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodeRepositorySortBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case lastmodifiedtime = "LastModifiedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodeRepositorySortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CompilationJobStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "INPROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CompressionType: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case gzip = "Gzip"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerMode: String, CustomStringConvertible, Codable {
+        case singlemodel = "SingleModel"
+        case multimodel = "MultiModel"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentClassifier: String, CustomStringConvertible, Codable {
+        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        case freeofadultcontent = "FreeOfAdultContent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetailedAlgorithmStatus: String, CustomStringConvertible, Codable {
+        case notstarted = "NotStarted"
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetailedModelPackageStatus: String, CustomStringConvertible, Codable {
+        case notstarted = "NotStarted"
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectInternetAccess: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainStatus: String, CustomStringConvertible, Codable {
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inservice = "InService"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointStatus: String, CustomStringConvertible, Codable {
+        case outofservice = "OutOfService"
+        case creating = "Creating"
+        case updating = "Updating"
+        case systemupdating = "SystemUpdating"
+        case rollingback = "RollingBack"
+        case inservice = "InService"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case completed = "Completed"
+        case completedwithviolations = "CompletedWithViolations"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileSystemAccessMode: String, CustomStringConvertible, Codable {
+        case rw = "rw"
+        case ro = "ro"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileSystemType: String, CustomStringConvertible, Codable {
+        case efs = "EFS"
+        case fsxlustre = "FSxLustre"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowDefinitionStatus: String, CustomStringConvertible, Codable {
+        case initializing = "Initializing"
+        case active = "Active"
+        case failed = "Failed"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Framework: String, CustomStringConvertible, Codable {
+        case tensorflow = "TENSORFLOW"
+        case keras = "KERAS"
+        case mxnet = "MXNET"
+        case onnx = "ONNX"
+        case pytorch = "PYTORCH"
+        case xgboost = "XGBOOST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HyperParameterScalingType: String, CustomStringConvertible, Codable {
+        case auto = "Auto"
+        case linear = "Linear"
+        case logarithmic = "Logarithmic"
+        case reverselogarithmic = "ReverseLogarithmic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HyperParameterTuningJobObjectiveType: String, CustomStringConvertible, Codable {
+        case maximize = "Maximize"
+        case minimize = "Minimize"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HyperParameterTuningJobSortByOptions: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case status = "Status"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HyperParameterTuningJobStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HyperParameterTuningJobStrategyType: String, CustomStringConvertible, Codable {
+        case bayesian = "Bayesian"
+        case random = "Random"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HyperParameterTuningJobWarmStartType: String, CustomStringConvertible, Codable {
+        case identicaldataandalgorithm = "IdenticalDataAndAlgorithm"
+        case transferlearning = "TransferLearning"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceType: String, CustomStringConvertible, Codable {
+        case mlT2Medium = "ml.t2.medium"
+        case mlT2Large = "ml.t2.large"
+        case mlT2Xlarge = "ml.t2.xlarge"
+        case mlT22Xlarge = "ml.t2.2xlarge"
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Xlarge = "ml.t3.xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlC5DXlarge = "ml.c5d.xlarge"
+        case mlC5D2Xlarge = "ml.c5d.2xlarge"
+        case mlC5D4Xlarge = "ml.c5d.4xlarge"
+        case mlC5D9Xlarge = "ml.c5d.9xlarge"
+        case mlC5D18Xlarge = "ml.c5d.18xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JoinSource: String, CustomStringConvertible, Codable {
+        case input = "Input"
+        case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LabelingJobStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListCompilationJobsSortBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListLabelingJobsForWorkteamSortByOptions: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListWorkteamsSortByOptions: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case createdate = "CreateDate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelPackageSortBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelPackageStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case deleting = "Deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitoringExecutionSortKey: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case scheduledtime = "ScheduledTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitoringScheduleSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookInstanceAcceleratorType: String, CustomStringConvertible, Codable {
+        case mlEia1Medium = "ml.eia1.medium"
+        case mlEia1Large = "ml.eia1.large"
+        case mlEia1Xlarge = "ml.eia1.xlarge"
+        case mlEia2Medium = "ml.eia2.medium"
+        case mlEia2Large = "ml.eia2.large"
+        case mlEia2Xlarge = "ml.eia2.xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookInstanceLifecycleConfigSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case lastmodifiedtime = "LastModifiedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookInstanceLifecycleConfigSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookInstanceSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookInstanceSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookInstanceStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inservice = "InService"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        case failed = "Failed"
+        case deleting = "Deleting"
+        case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookOutputOption: String, CustomStringConvertible, Codable {
+        case allowed = "Allowed"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectiveStatus: String, CustomStringConvertible, Codable {
+        case succeeded = "Succeeded"
+        case pending = "Pending"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Operator`: String, CustomStringConvertible, Codable {
+        case equals = "Equals"
+        case notequals = "NotEquals"
+        case greaterthan = "GreaterThan"
+        case greaterthanorequalto = "GreaterThanOrEqualTo"
+        case lessthan = "LessThan"
+        case lessthanorequalto = "LessThanOrEqualTo"
+        case contains = "Contains"
+        case exists = "Exists"
+        case notexists = "NotExists"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderKey: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterType: String, CustomStringConvertible, Codable {
+        case integer = "Integer"
+        case continuous = "Continuous"
+        case categorical = "Categorical"
+        case freetext = "FreeText"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProblemType: String, CustomStringConvertible, Codable {
+        case binaryclassification = "BinaryClassification"
+        case multiclassclassification = "MulticlassClassification"
+        case regression = "Regression"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingInstanceType: String, CustomStringConvertible, Codable {
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Xlarge = "ml.t3.xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlR5Large = "ml.r5.large"
+        case mlR5Xlarge = "ml.r5.xlarge"
+        case mlR52Xlarge = "ml.r5.2xlarge"
+        case mlR54Xlarge = "ml.r5.4xlarge"
+        case mlR58Xlarge = "ml.r5.8xlarge"
+        case mlR512Xlarge = "ml.r5.12xlarge"
+        case mlR516Xlarge = "ml.r5.16xlarge"
+        case mlR524Xlarge = "ml.r5.24xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingJobStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingS3CompressionType: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case gzip = "Gzip"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingS3DataDistributionType: String, CustomStringConvertible, Codable {
+        case fullyreplicated = "FullyReplicated"
+        case shardedbys3key = "ShardedByS3Key"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingS3DataType: String, CustomStringConvertible, Codable {
+        case manifestfile = "ManifestFile"
+        case s3prefix = "S3Prefix"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingS3InputMode: String, CustomStringConvertible, Codable {
+        case pipe = "Pipe"
+        case file = "File"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingS3UploadMode: String, CustomStringConvertible, Codable {
+        case continuous = "Continuous"
+        case endofjob = "EndOfJob"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProductionVariantAcceleratorType: String, CustomStringConvertible, Codable {
+        case mlEia1Medium = "ml.eia1.medium"
+        case mlEia1Large = "ml.eia1.large"
+        case mlEia1Xlarge = "ml.eia1.xlarge"
+        case mlEia2Medium = "ml.eia2.medium"
+        case mlEia2Large = "ml.eia2.large"
+        case mlEia2Xlarge = "ml.eia2.xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProductionVariantInstanceType: String, CustomStringConvertible, Codable {
+        case mlT2Medium = "ml.t2.medium"
+        case mlT2Large = "ml.t2.large"
+        case mlT2Xlarge = "ml.t2.xlarge"
+        case mlT22Xlarge = "ml.t2.2xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM5DLarge = "ml.m5d.large"
+        case mlM5DXlarge = "ml.m5d.xlarge"
+        case mlM5D2Xlarge = "ml.m5d.2xlarge"
+        case mlM5D4Xlarge = "ml.m5d.4xlarge"
+        case mlM5D12Xlarge = "ml.m5d.12xlarge"
+        case mlM5D24Xlarge = "ml.m5d.24xlarge"
+        case mlC4Large = "ml.c4.large"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlC5Large = "ml.c5.large"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlC5DLarge = "ml.c5d.large"
+        case mlC5DXlarge = "ml.c5d.xlarge"
+        case mlC5D2Xlarge = "ml.c5d.2xlarge"
+        case mlC5D4Xlarge = "ml.c5d.4xlarge"
+        case mlC5D9Xlarge = "ml.c5d.9xlarge"
+        case mlC5D18Xlarge = "ml.c5d.18xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlR5Large = "ml.r5.large"
+        case mlR5Xlarge = "ml.r5.xlarge"
+        case mlR52Xlarge = "ml.r5.2xlarge"
+        case mlR54Xlarge = "ml.r5.4xlarge"
+        case mlR512Xlarge = "ml.r5.12xlarge"
+        case mlR524Xlarge = "ml.r5.24xlarge"
+        case mlR5DLarge = "ml.r5d.large"
+        case mlR5DXlarge = "ml.r5d.xlarge"
+        case mlR5D2Xlarge = "ml.r5d.2xlarge"
+        case mlR5D4Xlarge = "ml.r5d.4xlarge"
+        case mlR5D12Xlarge = "ml.r5d.12xlarge"
+        case mlR5D24Xlarge = "ml.r5d.24xlarge"
+        case mlInf1Xlarge = "ml.inf1.xlarge"
+        case mlInf12Xlarge = "ml.inf1.2xlarge"
+        case mlInf16Xlarge = "ml.inf1.6xlarge"
+        case mlInf124Xlarge = "ml.inf1.24xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordWrapper: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case recordio = "RecordIO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case trainingjob = "TrainingJob"
+        case experiment = "Experiment"
+        case experimenttrial = "ExperimentTrial"
+        case experimenttrialcomponent = "ExperimentTrialComponent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetentionType: String, CustomStringConvertible, Codable {
+        case retain = "Retain"
+        case delete = "Delete"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RootAccess: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleEvaluationStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case noissuesfound = "NoIssuesFound"
+        case issuesfound = "IssuesFound"
+        case error = "Error"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3DataDistribution: String, CustomStringConvertible, Codable {
+        case fullyreplicated = "FullyReplicated"
+        case shardedbys3key = "ShardedByS3Key"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3DataType: String, CustomStringConvertible, Codable {
+        case manifestfile = "ManifestFile"
+        case s3prefix = "S3Prefix"
+        case augmentedmanifestfile = "AugmentedManifestFile"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduleStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case failed = "Failed"
+        case scheduled = "Scheduled"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SecondaryStatus: String, CustomStringConvertible, Codable {
+        case starting = "Starting"
+        case launchingmlinstances = "LaunchingMLInstances"
+        case preparingtrainingstack = "PreparingTrainingStack"
+        case downloading = "Downloading"
+        case downloadingtrainingimage = "DownloadingTrainingImage"
+        case training = "Training"
+        case uploading = "Uploading"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        case maxruntimeexceeded = "MaxRuntimeExceeded"
+        case completed = "Completed"
+        case failed = "Failed"
+        case interrupted = "Interrupted"
+        case maxwaittimeexceeded = "MaxWaitTimeExceeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortExperimentsBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortTrialComponentsBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortTrialsBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SplitType: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case line = "Line"
+        case recordio = "RecordIO"
+        case tfrecord = "TFRecord"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetDevice: String, CustomStringConvertible, Codable {
+        case lambda = "lambda"
+        case mlM4 = "ml_m4"
+        case mlM5 = "ml_m5"
+        case mlC4 = "ml_c4"
+        case mlC5 = "ml_c5"
+        case mlP2 = "ml_p2"
+        case mlP3 = "ml_p3"
+        case mlInf1 = "ml_inf1"
+        case jetsonTx1 = "jetson_tx1"
+        case jetsonTx2 = "jetson_tx2"
+        case jetsonNano = "jetson_nano"
+        case rasp3b = "rasp3b"
+        case deeplens = "deeplens"
+        case rk3399 = "rk3399"
+        case rk3288 = "rk3288"
+        case aisage = "aisage"
+        case sbeC = "sbe_c"
+        case qcs605 = "qcs605"
+        case qcs603 = "qcs603"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingInputMode: String, CustomStringConvertible, Codable {
+        case pipe = "Pipe"
+        case file = "File"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingInstanceType: String, CustomStringConvertible, Codable {
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingJobEarlyStoppingType: String, CustomStringConvertible, Codable {
+        case off = "Off"
+        case auto = "Auto"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingJobSortByOptions: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingJobStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransformInstanceType: String, CustomStringConvertible, Codable {
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransformJobStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrialComponentPrimaryStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserProfileSortKey: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case lastmodifiedtime = "LastModifiedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserProfileStatus: String, CustomStringConvertible, Codable {
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inservice = "InService"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -54,12 +1064,6 @@ extension SageMaker {
         }
     }
 
-    public enum AlgorithmSortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AlgorithmSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmName", required: false, type: .string), 
@@ -108,15 +1112,6 @@ extension SageMaker {
             case trainingImage = "TrainingImage"
             case trainingInputMode = "TrainingInputMode"
         }
-    }
-
-    public enum AlgorithmStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        case deleting = "Deleting"
-        public var description: String { return self.rawValue }
     }
 
     public struct AlgorithmStatusDetails: AWSShape {
@@ -337,47 +1332,6 @@ extension SageMaker {
         }
     }
 
-    public enum AppInstanceType: String, CustomStringConvertible, Codable {
-        case system = "system"
-        case mlT3Micro = "ml.t3.micro"
-        case mlT3Small = "ml.t3.small"
-        case mlT3Medium = "ml.t3.medium"
-        case mlT3Large = "ml.t3.large"
-        case mlT3Xlarge = "ml.t3.xlarge"
-        case mlT32Xlarge = "ml.t3.2xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM58Xlarge = "ml.m5.8xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM516Xlarge = "ml.m5.16xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlC5Large = "ml.c5.large"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC54Xlarge = "ml.c5.4xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC512Xlarge = "ml.c5.12xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlC524Xlarge = "ml.c5.24xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlG4DnXlarge = "ml.g4dn.xlarge"
-        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
-        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
-        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
-        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
-        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AppSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AppSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContainerArguments", required: false, type: .list), 
@@ -420,28 +1374,6 @@ extension SageMaker {
             case containerEntrypoint = "ContainerEntrypoint"
             case imageUri = "ImageUri"
         }
-    }
-
-    public enum AppStatus: String, CustomStringConvertible, Codable {
-        case deleted = "Deleted"
-        case deleting = "Deleting"
-        case failed = "Failed"
-        case inservice = "InService"
-        case pending = "Pending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AppType: String, CustomStringConvertible, Codable {
-        case jupyterserver = "JupyterServer"
-        case kernelgateway = "KernelGateway"
-        case tensorboard = "TensorBoard"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AssemblyType: String, CustomStringConvertible, Codable {
-        case none = "None"
-        case line = "Line"
-        public var description: String { return self.rawValue }
     }
 
     public struct AssociateTrialComponentRequest: AWSShape {
@@ -495,12 +1427,6 @@ extension SageMaker {
             case trialArn = "TrialArn"
             case trialComponentArn = "TrialComponentArn"
         }
-    }
-
-    public enum AuthMode: String, CustomStringConvertible, Codable {
-        case sso = "SSO"
-        case iam = "IAM"
-        public var description: String { return self.rawValue }
     }
 
     public struct AutoMLCandidate: AWSShape {
@@ -770,35 +1696,6 @@ extension SageMaker {
         }
     }
 
-    public enum AutoMLJobObjectiveType: String, CustomStringConvertible, Codable {
-        case maximize = "Maximize"
-        case minimize = "Minimize"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AutoMLJobSecondaryStatus: String, CustomStringConvertible, Codable {
-        case starting = "Starting"
-        case analyzingdata = "AnalyzingData"
-        case featureengineering = "FeatureEngineering"
-        case modeltuning = "ModelTuning"
-        case maxcandidatesreached = "MaxCandidatesReached"
-        case failed = "Failed"
-        case stopped = "Stopped"
-        case maxautomljobruntimereached = "MaxAutoMLJobRuntimeReached"
-        case stopping = "Stopping"
-        case candidatedefinitionsgenerated = "CandidateDefinitionsGenerated"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AutoMLJobStatus: String, CustomStringConvertible, Codable {
-        case completed = "Completed"
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case stopped = "Stopped"
-        case stopping = "Stopping"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AutoMLJobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoMLJobArn", required: true, type: .string), 
@@ -849,14 +1746,6 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case lastModifiedTime = "LastModifiedTime"
         }
-    }
-
-    public enum AutoMLMetricEnum: String, CustomStringConvertible, Codable {
-        case accuracy = "Accuracy"
-        case mse = "MSE"
-        case f1 = "F1"
-        case f1macro = "F1macro"
-        public var description: String { return self.rawValue }
     }
 
     public struct AutoMLOutputDataConfig: AWSShape {
@@ -915,12 +1804,6 @@ extension SageMaker {
         }
     }
 
-    public enum AutoMLS3DataType: String, CustomStringConvertible, Codable {
-        case manifestfile = "ManifestFile"
-        case s3prefix = "S3Prefix"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AutoMLSecurityConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
@@ -952,60 +1835,6 @@ extension SageMaker {
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
-    }
-
-    public enum AutoMLSortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AutoMLSortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AwsManagedHumanLoopRequestSource: String, CustomStringConvertible, Codable {
-        case awsRekognitionDetectmoderationlabelsImageV3 = "AWS/Rekognition/DetectModerationLabels/Image/V3"
-        case awsTextractAnalyzedocumentFormsV1 = "AWS/Textract/AnalyzeDocument/Forms/V1"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BatchStrategy: String, CustomStringConvertible, Codable {
-        case multirecord = "MultiRecord"
-        case singlerecord = "SingleRecord"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BooleanOperator: String, CustomStringConvertible, Codable {
-        case and = "And"
-        case or = "Or"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CandidateSortBy: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case status = "Status"
-        case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CandidateStatus: String, CustomStringConvertible, Codable {
-        case completed = "Completed"
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case stopped = "Stopped"
-        case stopping = "Stopping"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CandidateStepType: String, CustomStringConvertible, Codable {
-        case awsSagemakerTrainingjob = "AWS::SageMaker::TrainingJob"
-        case awsSagemakerTransformjob = "AWS::SageMaker::TransformJob"
-        case awsSagemakerProcessingjob = "AWS::SageMaker::ProcessingJob"
-        public var description: String { return self.rawValue }
     }
 
     public struct CaptureContentTypeHeader: AWSShape {
@@ -1043,12 +1872,6 @@ extension SageMaker {
         }
     }
 
-    public enum CaptureMode: String, CustomStringConvertible, Codable {
-        case input = "Input"
-        case output = "Output"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CaptureOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CaptureMode", required: true, type: .enum)
@@ -1063,12 +1886,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case captureMode = "CaptureMode"
         }
-    }
-
-    public enum CaptureStatus: String, CustomStringConvertible, Codable {
-        case started = "Started"
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
     }
 
     public struct CategoricalParameterRange: AWSShape {
@@ -1270,19 +2087,6 @@ extension SageMaker {
         }
     }
 
-    public enum CodeRepositorySortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case lastmodifiedtime = "LastModifiedTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CodeRepositorySortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CodeRepositorySummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeRepositoryArn", required: true, type: .string), 
@@ -1394,16 +2198,6 @@ extension SageMaker {
         }
     }
 
-    public enum CompilationJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "INPROGRESS"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CompilationJobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompilationEndTime", required: false, type: .timestamp), 
@@ -1454,12 +2248,6 @@ extension SageMaker {
             case creationTime = "CreationTime"
             case lastModifiedTime = "LastModifiedTime"
         }
-    }
-
-    public enum CompressionType: String, CustomStringConvertible, Codable {
-        case none = "None"
-        case gzip = "Gzip"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContainerDefinition: AWSShape {
@@ -1520,18 +2308,6 @@ extension SageMaker {
             case modelDataUrl = "ModelDataUrl"
             case modelPackageName = "ModelPackageName"
         }
-    }
-
-    public enum ContainerMode: String, CustomStringConvertible, Codable {
-        case singlemodel = "SingleModel"
-        case multimodel = "MultiModel"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
-        case freeofadultcontent = "FreeOfAdultContent"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContinuousParameterRange: AWSShape {
@@ -2056,7 +2832,7 @@ extension SageMaker {
         public let dataCaptureConfig: DataCaptureConfig?
         /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request. 
         public let endpointConfigName: String
-        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    // KMS Key ID   "1234abcd-12ab-34cd-56ef-1234567890ab"     // Amazon Resource Name (ARN) (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   // KMS Key Alias "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias   "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"     The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the AWS Key Management Service section Using Key Policies in AWS KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes. 
+        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the AWS Key Management Service section Using Key Policies in AWS KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes. 
         public let kmsKeyId: String?
         /// An list of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
@@ -7003,6 +7779,46 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeWorkforceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkforceName", required: true, type: .string)
+        ]
+
+        /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to "default" when a workforce is created and cannot be modified. 
+        public let workforceName: String
+
+        public init(workforceName: String) {
+            self.workforceName = workforceName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.workforceName, name:"workforceName", parent: name, max: 63)
+            try validate(self.workforceName, name:"workforceName", parent: name, min: 1)
+            try validate(self.workforceName, name:"workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workforceName = "WorkforceName"
+        }
+    }
+
+    public struct DescribeWorkforceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Workforce", required: true, type: .structure)
+        ]
+
+        /// A single private workforce, which is automatically created when you create your first private work team. You can create one private work force in each AWS Region. By default, any workforce related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
+        public let workforce: Workforce
+
+        public init(workforce: Workforce) {
+            self.workforce = workforce
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workforce = "Workforce"
+        }
+    }
+
     public struct DescribeWorkteamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkteamName", required: true, type: .string)
@@ -7075,28 +7891,6 @@ extension SageMaker {
             case desiredWeight = "DesiredWeight"
             case variantName = "VariantName"
         }
-    }
-
-    public enum DetailedAlgorithmStatus: String, CustomStringConvertible, Codable {
-        case notstarted = "NotStarted"
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DetailedModelPackageStatus: String, CustomStringConvertible, Codable {
-        case notstarted = "NotStarted"
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DirectInternetAccess: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
     }
 
     public struct DisassociateTrialComponentRequest: AWSShape {
@@ -7199,20 +7993,6 @@ extension SageMaker {
         }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable {
-        case deleting = "Deleting"
-        case failed = "Failed"
-        case inservice = "InService"
-        case pending = "Pending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EndpointConfigSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
@@ -7279,25 +8059,6 @@ extension SageMaker {
         }
     }
 
-    public enum EndpointSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EndpointStatus: String, CustomStringConvertible, Codable {
-        case outofservice = "OutOfService"
-        case creating = "Creating"
-        case updating = "Updating"
-        case systemupdating = "SystemUpdating"
-        case rollingback = "RollingBack"
-        case inservice = "InService"
-        case deleting = "Deleting"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EndpointSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
@@ -7333,17 +8094,6 @@ extension SageMaker {
             case endpointStatus = "EndpointStatus"
             case lastModifiedTime = "LastModifiedTime"
         }
-    }
-
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case completed = "Completed"
-        case completedwithviolations = "CompletedWithViolations"
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
     }
 
     public struct Experiment: AWSShape {
@@ -7507,12 +8257,6 @@ extension SageMaker {
         }
     }
 
-    public enum FileSystemAccessMode: String, CustomStringConvertible, Codable {
-        case rw = "rw"
-        case ro = "ro"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FileSystemDataSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryPath", required: true, type: .string), 
@@ -7550,12 +8294,6 @@ extension SageMaker {
             case fileSystemId = "FileSystemId"
             case fileSystemType = "FileSystemType"
         }
-    }
-
-    public enum FileSystemType: String, CustomStringConvertible, Codable {
-        case efs = "EFS"
-        case fsxlustre = "FSxLustre"
-        public var description: String { return self.rawValue }
     }
 
     public struct Filter: AWSShape {
@@ -7677,15 +8415,6 @@ extension SageMaker {
         }
     }
 
-    public enum FlowDefinitionStatus: String, CustomStringConvertible, Codable {
-        case initializing = "Initializing"
-        case active = "Active"
-        case failed = "Failed"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FlowDefinitionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
@@ -7721,16 +8450,6 @@ extension SageMaker {
             case flowDefinitionName = "FlowDefinitionName"
             case flowDefinitionStatus = "FlowDefinitionStatus"
         }
-    }
-
-    public enum Framework: String, CustomStringConvertible, Codable {
-        case tensorflow = "TENSORFLOW"
-        case keras = "KERAS"
-        case mxnet = "MXNET"
-        case onnx = "ONNX"
-        case pytorch = "PYTORCH"
-        case xgboost = "XGBOOST"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetSearchSuggestionsRequest: AWSShape {
@@ -8158,14 +8877,6 @@ extension SageMaker {
         }
     }
 
-    public enum HyperParameterScalingType: String, CustomStringConvertible, Codable {
-        case auto = "Auto"
-        case linear = "Linear"
-        case logarithmic = "Logarithmic"
-        case reverselogarithmic = "ReverseLogarithmic"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HyperParameterSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
@@ -8483,34 +9194,6 @@ extension SageMaker {
         }
     }
 
-    public enum HyperParameterTuningJobObjectiveType: String, CustomStringConvertible, Codable {
-        case maximize = "Maximize"
-        case minimize = "Minimize"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HyperParameterTuningJobSortByOptions: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case status = "Status"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HyperParameterTuningJobStatus: String, CustomStringConvertible, Codable {
-        case completed = "Completed"
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case stopped = "Stopped"
-        case stopping = "Stopping"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HyperParameterTuningJobStrategyType: String, CustomStringConvertible, Codable {
-        case bayesian = "Bayesian"
-        case random = "Random"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HyperParameterTuningJobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
@@ -8603,12 +9286,6 @@ extension SageMaker {
         }
     }
 
-    public enum HyperParameterTuningJobWarmStartType: String, CustomStringConvertible, Codable {
-        case identicaldataandalgorithm = "IdenticalDataAndAlgorithm"
-        case transferlearning = "TransferLearning"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InferenceSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Containers", required: true, type: .list), 
@@ -8670,7 +9347,7 @@ extension SageMaker {
             AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
 
-        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         MXNET/ONNX: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.  
+        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         KERAS: You must specify the name and shape (NCHW format) of expected data inputs using a dictionary format for your trained model. Note that while Keras model artifacts should be uploaded in NHWC (channel-last) format, DataInputConfig should be specified in NCHW (channel-first) format. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input_1":[1,3,224,224]}    If using the CLI, {\"input_1\":[1,3,224,224]}      Examples for two inputs:   If using the console, {"input_1": [1,3,224,224], "input_2":[1,3,224,224]}     If using the CLI, {\"input_1\": [1,3,224,224], \"input_2\":[1,3,224,224]}         MXNET/ONNX: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.  
         public let dataInputConfig: String
         /// Identifies the framework in which the model was trained. For example: TENSORFLOW.
         public let framework: Framework
@@ -8696,48 +9373,6 @@ extension SageMaker {
             case framework = "Framework"
             case s3Uri = "S3Uri"
         }
-    }
-
-    public enum InstanceType: String, CustomStringConvertible, Codable {
-        case mlT2Medium = "ml.t2.medium"
-        case mlT2Large = "ml.t2.large"
-        case mlT2Xlarge = "ml.t2.xlarge"
-        case mlT22Xlarge = "ml.t2.2xlarge"
-        case mlT3Medium = "ml.t3.medium"
-        case mlT3Large = "ml.t3.large"
-        case mlT3Xlarge = "ml.t3.xlarge"
-        case mlT32Xlarge = "ml.t3.2xlarge"
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
-        case mlC42Xlarge = "ml.c4.2xlarge"
-        case mlC44Xlarge = "ml.c4.4xlarge"
-        case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC54Xlarge = "ml.c5.4xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlC5DXlarge = "ml.c5d.xlarge"
-        case mlC5D2Xlarge = "ml.c5d.2xlarge"
-        case mlC5D4Xlarge = "ml.c5d.4xlarge"
-        case mlC5D9Xlarge = "ml.c5d.9xlarge"
-        case mlC5D18Xlarge = "ml.c5d.18xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        public var description: String { return self.rawValue }
     }
 
     public struct IntegerParameterRange: AWSShape {
@@ -8808,12 +9443,6 @@ extension SageMaker {
             case maxValue = "MaxValue"
             case minValue = "MinValue"
         }
-    }
-
-    public enum JoinSource: String, CustomStringConvertible, Codable {
-        case input = "Input"
-        case none = "None"
-        public var description: String { return self.rawValue }
     }
 
     public struct JupyterServerAppSettings: AWSShape {
@@ -9161,15 +9790,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case manifestS3Uri = "ManifestS3Uri"
         }
-    }
-
-    public enum LabelingJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
     }
 
     public struct LabelingJobStoppingConditions: AWSShape {
@@ -9779,13 +10399,6 @@ extension SageMaker {
         }
     }
 
-    public enum ListCompilationJobsSortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListDomainsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
@@ -10388,11 +11001,6 @@ extension SageMaker {
             case labelingJobSummaryList = "LabelingJobSummaryList"
             case nextToken = "NextToken"
         }
-    }
-
-    public enum ListLabelingJobsForWorkteamSortByOptions: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListLabelingJobsRequest: AWSShape {
@@ -11542,7 +12150,7 @@ extension SageMaker {
         public let createdAfter: TimeStamp?
         /// A filter that returns only components created before the specified time.
         public let createdBefore: TimeStamp?
-        /// A filter that returns only components that are part of the specified experiment. If you specify ExperimentName, you can't specify TrialName.
+        /// A filter that returns only components that are part of the specified experiment. If you specify ExperimentName, you can't filter by SourceArn or TrialName.
         public let experimentName: String?
         /// The maximum number of components to return in the response. The default value is 10.
         public let maxResults: Int?
@@ -11552,9 +12160,9 @@ extension SageMaker {
         public let sortBy: SortTrialComponentsBy?
         /// The sort order. The default value is Descending.
         public let sortOrder: SortOrder?
-        /// A filter that returns only components that have the specified source Amazon Resource Name (ARN).
+        /// A filter that returns only components that have the specified source Amazon Resource Name (ARN). If you specify SourceArn, you can't filter by ExperimentName or TrialName.
         public let sourceArn: String?
-        /// A filter that returns only components that are part of the specified trial. If you specify TrialName, you can't specify ExperimentName.
+        /// A filter that returns only components that are part of the specified trial. If you specify TrialName, you can't filter by ExperimentName or SourceArn.
         public let trialName: String?
 
         public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialComponentsBy? = nil, sortOrder: SortOrder? = nil, sourceArn: String? = nil, trialName: String? = nil) {
@@ -11840,12 +12448,6 @@ extension SageMaker {
         }
     }
 
-    public enum ListWorkteamsSortByOptions: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case createdate = "CreateDate"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MemberDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CognitoMemberDefinition", required: false, type: .structure)
@@ -11990,21 +12592,6 @@ extension SageMaker {
             case modelDataUrl = "ModelDataUrl"
             case productId = "ProductId"
         }
-    }
-
-    public enum ModelPackageSortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ModelPackageStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        case deleting = "Deleting"
-        public var description: String { return self.rawValue }
     }
 
     public struct ModelPackageStatusDetails: AWSShape {
@@ -12153,12 +12740,6 @@ extension SageMaker {
             case validationProfiles = "ValidationProfiles"
             case validationRole = "ValidationRole"
         }
-    }
-
-    public enum ModelSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
     }
 
     public struct ModelSummary: AWSShape {
@@ -12334,13 +12915,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case s3Uri = "S3Uri"
         }
-    }
-
-    public enum MonitoringExecutionSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case scheduledtime = "ScheduledTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
     }
 
     public struct MonitoringExecutionSummary: AWSShape {
@@ -12631,13 +13205,6 @@ extension SageMaker {
         }
     }
 
-    public enum MonitoringScheduleSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MonitoringScheduleSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
@@ -12782,29 +13349,6 @@ extension SageMaker {
         }
     }
 
-    public enum NotebookInstanceAcceleratorType: String, CustomStringConvertible, Codable {
-        case mlEia1Medium = "ml.eia1.medium"
-        case mlEia1Large = "ml.eia1.large"
-        case mlEia1Xlarge = "ml.eia1.xlarge"
-        case mlEia2Medium = "ml.eia2.medium"
-        case mlEia2Large = "ml.eia2.large"
-        case mlEia2Xlarge = "ml.eia2.xlarge"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotebookInstanceLifecycleConfigSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case lastmodifiedtime = "LastModifiedTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotebookInstanceLifecycleConfigSortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NotebookInstanceLifecycleConfigSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
@@ -12858,30 +13402,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
         }
-    }
-
-    public enum NotebookInstanceSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotebookInstanceSortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotebookInstanceStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inservice = "InService"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        case failed = "Failed"
-        case deleting = "Deleting"
-        case updating = "Updating"
-        public var description: String { return self.rawValue }
     }
 
     public struct NotebookInstanceSummary: AWSShape {
@@ -12946,12 +13466,6 @@ extension SageMaker {
         }
     }
 
-    public enum NotebookOutputOption: String, CustomStringConvertible, Codable {
-        case allowed = "Allowed"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NotificationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string)
@@ -12971,13 +13485,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case notificationTopicArn = "NotificationTopicArn"
         }
-    }
-
-    public enum ObjectiveStatus: String, CustomStringConvertible, Codable {
-        case succeeded = "Succeeded"
-        case pending = "Pending"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct ObjectiveStatusCounters: AWSShape {
@@ -13005,25 +13512,6 @@ extension SageMaker {
             case pending = "Pending"
             case succeeded = "Succeeded"
         }
-    }
-
-    public enum `Operator`: String, CustomStringConvertible, Codable {
-        case equals = "Equals"
-        case notequals = "NotEquals"
-        case greaterthan = "GreaterThan"
-        case greaterthanorequalto = "GreaterThanOrEqualTo"
-        case lessthan = "LessThan"
-        case lessthanorequalto = "LessThanOrEqualTo"
-        case contains = "Contains"
-        case exists = "Exists"
-        case notexists = "NotExists"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OrderKey: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
     }
 
     public struct OutputConfig: AWSShape {
@@ -13160,14 +13648,6 @@ extension SageMaker {
         }
     }
 
-    public enum ParameterType: String, CustomStringConvertible, Codable {
-        case integer = "Integer"
-        case continuous = "Continuous"
-        case categorical = "Categorical"
-        case freetext = "FreeText"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Parent: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
@@ -13211,13 +13691,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case hyperParameterTuningJobName = "HyperParameterTuningJobName"
         }
-    }
-
-    public enum ProblemType: String, CustomStringConvertible, Codable {
-        case binaryclassification = "BinaryClassification"
-        case multiclassclassification = "MulticlassClassification"
-        case regression = "Regression"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProcessingClusterConfig: AWSShape {
@@ -13285,57 +13758,6 @@ extension SageMaker {
             case inputName = "InputName"
             case s3Input = "S3Input"
         }
-    }
-
-    public enum ProcessingInstanceType: String, CustomStringConvertible, Codable {
-        case mlT3Medium = "ml.t3.medium"
-        case mlT3Large = "ml.t3.large"
-        case mlT3Xlarge = "ml.t3.xlarge"
-        case mlT32Xlarge = "ml.t3.2xlarge"
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
-        case mlC42Xlarge = "ml.c4.2xlarge"
-        case mlC44Xlarge = "ml.c4.4xlarge"
-        case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC54Xlarge = "ml.c5.4xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlR5Large = "ml.r5.large"
-        case mlR5Xlarge = "ml.r5.xlarge"
-        case mlR52Xlarge = "ml.r5.2xlarge"
-        case mlR54Xlarge = "ml.r5.4xlarge"
-        case mlR58Xlarge = "ml.r5.8xlarge"
-        case mlR512Xlarge = "ml.r5.12xlarge"
-        case mlR516Xlarge = "ml.r5.16xlarge"
-        case mlR524Xlarge = "ml.r5.24xlarge"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProcessingJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProcessingJobSummary: AWSShape {
@@ -13469,24 +13891,6 @@ extension SageMaker {
         }
     }
 
-    public enum ProcessingS3CompressionType: String, CustomStringConvertible, Codable {
-        case none = "None"
-        case gzip = "Gzip"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProcessingS3DataDistributionType: String, CustomStringConvertible, Codable {
-        case fullyreplicated = "FullyReplicated"
-        case shardedbys3key = "ShardedByS3Key"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProcessingS3DataType: String, CustomStringConvertible, Codable {
-        case manifestfile = "ManifestFile"
-        case s3prefix = "S3Prefix"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProcessingS3Input: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocalPath", required: true, type: .string), 
@@ -13536,12 +13940,6 @@ extension SageMaker {
         }
     }
 
-    public enum ProcessingS3InputMode: String, CustomStringConvertible, Codable {
-        case pipe = "Pipe"
-        case file = "File"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProcessingS3Output: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocalPath", required: true, type: .string), 
@@ -13574,12 +13972,6 @@ extension SageMaker {
             case s3UploadMode = "S3UploadMode"
             case s3Uri = "S3Uri"
         }
-    }
-
-    public enum ProcessingS3UploadMode: String, CustomStringConvertible, Codable {
-        case continuous = "Continuous"
-        case endofjob = "EndOfJob"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProcessingStoppingCondition: AWSShape {
@@ -13653,86 +14045,6 @@ extension SageMaker {
             case modelName = "ModelName"
             case variantName = "VariantName"
         }
-    }
-
-    public enum ProductionVariantAcceleratorType: String, CustomStringConvertible, Codable {
-        case mlEia1Medium = "ml.eia1.medium"
-        case mlEia1Large = "ml.eia1.large"
-        case mlEia1Xlarge = "ml.eia1.xlarge"
-        case mlEia2Medium = "ml.eia2.medium"
-        case mlEia2Large = "ml.eia2.large"
-        case mlEia2Xlarge = "ml.eia2.xlarge"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProductionVariantInstanceType: String, CustomStringConvertible, Codable {
-        case mlT2Medium = "ml.t2.medium"
-        case mlT2Large = "ml.t2.large"
-        case mlT2Xlarge = "ml.t2.xlarge"
-        case mlT22Xlarge = "ml.t2.2xlarge"
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlM5DLarge = "ml.m5d.large"
-        case mlM5DXlarge = "ml.m5d.xlarge"
-        case mlM5D2Xlarge = "ml.m5d.2xlarge"
-        case mlM5D4Xlarge = "ml.m5d.4xlarge"
-        case mlM5D12Xlarge = "ml.m5d.12xlarge"
-        case mlM5D24Xlarge = "ml.m5d.24xlarge"
-        case mlC4Large = "ml.c4.large"
-        case mlC4Xlarge = "ml.c4.xlarge"
-        case mlC42Xlarge = "ml.c4.2xlarge"
-        case mlC44Xlarge = "ml.c4.4xlarge"
-        case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlC5Large = "ml.c5.large"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC54Xlarge = "ml.c5.4xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlC5DLarge = "ml.c5d.large"
-        case mlC5DXlarge = "ml.c5d.xlarge"
-        case mlC5D2Xlarge = "ml.c5d.2xlarge"
-        case mlC5D4Xlarge = "ml.c5d.4xlarge"
-        case mlC5D9Xlarge = "ml.c5d.9xlarge"
-        case mlC5D18Xlarge = "ml.c5d.18xlarge"
-        case mlG4DnXlarge = "ml.g4dn.xlarge"
-        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
-        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
-        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
-        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
-        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
-        case mlR5Large = "ml.r5.large"
-        case mlR5Xlarge = "ml.r5.xlarge"
-        case mlR52Xlarge = "ml.r5.2xlarge"
-        case mlR54Xlarge = "ml.r5.4xlarge"
-        case mlR512Xlarge = "ml.r5.12xlarge"
-        case mlR524Xlarge = "ml.r5.24xlarge"
-        case mlR5DLarge = "ml.r5d.large"
-        case mlR5DXlarge = "ml.r5d.xlarge"
-        case mlR5D2Xlarge = "ml.r5d.2xlarge"
-        case mlR5D4Xlarge = "ml.r5d.4xlarge"
-        case mlR5D12Xlarge = "ml.r5d.12xlarge"
-        case mlR5D24Xlarge = "ml.r5d.24xlarge"
-        case mlInf1Xlarge = "ml.inf1.xlarge"
-        case mlInf12Xlarge = "ml.inf1.2xlarge"
-        case mlInf16Xlarge = "ml.inf1.6xlarge"
-        case mlInf124Xlarge = "ml.inf1.24xlarge"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProductionVariantSummary: AWSShape {
@@ -13836,12 +14148,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case amountInUsd = "AmountInUsd"
         }
-    }
-
-    public enum RecordWrapper: String, CustomStringConvertible, Codable {
-        case none = "None"
-        case recordio = "RecordIO"
-        public var description: String { return self.rawValue }
     }
 
     public struct RenderUiTemplateRequest: AWSShape {
@@ -14064,14 +14370,6 @@ extension SageMaker {
         }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case trainingjob = "TrainingJob"
-        case experiment = "Experiment"
-        case experimenttrial = "ExperimentTrial"
-        case experimenttrialcomponent = "ExperimentTrialComponent"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RetentionPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HomeEfsFileSystem", required: false, type: .enum)
@@ -14087,34 +14385,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case homeEfsFileSystem = "HomeEfsFileSystem"
         }
-    }
-
-    public enum RetentionType: String, CustomStringConvertible, Codable {
-        case retain = "Retain"
-        case delete = "Delete"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RootAccess: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RuleEvaluationStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case noissuesfound = "NoIssuesFound"
-        case issuesfound = "IssuesFound"
-        case error = "Error"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum S3DataDistribution: String, CustomStringConvertible, Codable {
-        case fullyreplicated = "FullyReplicated"
-        case shardedbys3key = "ShardedByS3Key"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3DataSource: AWSShape {
@@ -14160,13 +14430,6 @@ extension SageMaker {
         }
     }
 
-    public enum S3DataType: String, CustomStringConvertible, Codable {
-        case manifestfile = "ManifestFile"
-        case s3prefix = "S3Prefix"
-        case augmentedmanifestfile = "AugmentedManifestFile"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ScheduleConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScheduleExpression", required: true, type: .string)
@@ -14187,14 +14450,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case scheduleExpression = "ScheduleExpression"
         }
-    }
-
-    public enum ScheduleStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case failed = "Failed"
-        case scheduled = "Scheduled"
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
     }
 
     public class SearchExpression: AWSShape {
@@ -14354,30 +14609,6 @@ extension SageMaker {
         }
     }
 
-    public enum SearchSortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SecondaryStatus: String, CustomStringConvertible, Codable {
-        case starting = "Starting"
-        case launchingmlinstances = "LaunchingMLInstances"
-        case preparingtrainingstack = "PreparingTrainingStack"
-        case downloading = "Downloading"
-        case downloadingtrainingimage = "DownloadingTrainingImage"
-        case training = "Training"
-        case uploading = "Uploading"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        case maxruntimeexceeded = "MaxRuntimeExceeded"
-        case completed = "Completed"
-        case failed = "Failed"
-        case interrupted = "Interrupted"
-        case maxwaittimeexceeded = "MaxWaitTimeExceeded"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SecondaryStatusTransition: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
@@ -14461,37 +14692,6 @@ extension SageMaker {
         }
     }
 
-    public enum SortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortExperimentsBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortTrialComponentsBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortTrialsBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SourceAlgorithm: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmName", required: true, type: .string), 
@@ -14547,12 +14747,29 @@ extension SageMaker {
         }
     }
 
-    public enum SplitType: String, CustomStringConvertible, Codable {
-        case none = "None"
-        case line = "Line"
-        case recordio = "RecordIO"
-        case tfrecord = "TFRecord"
-        public var description: String { return self.rawValue }
+    public struct SourceIpConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cidrs", required: true, type: .list)
+        ]
+
+        /// A list of one to four Classless Inter-Domain Routing (CIDR) values. Maximum: 4 CIDR values  The following Length Constraints apply to individual CIDR values in the CIDR value list. 
+        public let cidrs: [String]
+
+        public init(cidrs: [String]) {
+            self.cidrs = cidrs
+        }
+
+        public func validate(name: String) throws {
+            try self.cidrs.forEach {
+                try validate($0, name: "cidrs[]", parent: name, max: 64)
+                try validate($0, name: "cidrs[]", parent: name, min: 4)
+                try validate($0, name: "cidrs[]", parent: name, pattern: "(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$)|(^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))$)")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrs = "Cidrs"
+        }
     }
 
     public struct StartMonitoringScheduleRequest: AWSShape {
@@ -14921,29 +15138,6 @@ extension SageMaker {
         }
     }
 
-    public enum TargetDevice: String, CustomStringConvertible, Codable {
-        case lambda = "lambda"
-        case mlM4 = "ml_m4"
-        case mlM5 = "ml_m5"
-        case mlC4 = "ml_c4"
-        case mlC5 = "ml_c5"
-        case mlP2 = "ml_p2"
-        case mlP3 = "ml_p3"
-        case mlInf1 = "ml_inf1"
-        case jetsonTx1 = "jetson_tx1"
-        case jetsonTx2 = "jetson_tx2"
-        case jetsonNano = "jetson_nano"
-        case rasp3b = "rasp3b"
-        case deeplens = "deeplens"
-        case rk3399 = "rk3399"
-        case rk3288 = "rk3288"
-        case aisage = "aisage"
-        case sbeC = "sbe_c"
-        case qcs605 = "qcs605"
-        case qcs603 = "qcs603"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TensorBoardAppSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultResourceSpec", required: false, type: .structure)
@@ -14992,43 +15186,6 @@ extension SageMaker {
             case localPath = "LocalPath"
             case s3OutputPath = "S3OutputPath"
         }
-    }
-
-    public enum TrainingInputMode: String, CustomStringConvertible, Codable {
-        case pipe = "Pipe"
-        case file = "File"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrainingInstanceType: String, CustomStringConvertible, Codable {
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
-        case mlC42Xlarge = "ml.c4.2xlarge"
-        case mlC44Xlarge = "ml.c4.4xlarge"
-        case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC54Xlarge = "ml.c5.4xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        public var description: String { return self.rawValue }
     }
 
     public struct TrainingJob: AWSShape {
@@ -15273,29 +15430,6 @@ extension SageMaker {
         }
     }
 
-    public enum TrainingJobEarlyStoppingType: String, CustomStringConvertible, Codable {
-        case off = "Off"
-        case auto = "Auto"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrainingJobSortByOptions: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case creationtime = "CreationTime"
-        case status = "Status"
-        case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrainingJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TrainingJobStatusCounters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Completed", required: false, type: .integer), 
@@ -15511,36 +15645,6 @@ extension SageMaker {
         }
     }
 
-    public enum TransformInstanceType: String, CustomStringConvertible, Codable {
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
-        case mlC42Xlarge = "ml.c4.2xlarge"
-        case mlC44Xlarge = "ml.c4.4xlarge"
-        case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC54Xlarge = "ml.c5.4xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TransformJobDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchStrategy", required: false, type: .enum), 
@@ -15602,15 +15706,6 @@ extension SageMaker {
         }
     }
 
-    public enum TransformJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TransformJobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
@@ -15670,7 +15765,7 @@ extension SageMaker {
         public let accept: String?
         /// Defines how to assemble the results of the transform job as a single S3 object. Choose a format that is most convenient to you. To concatenate the results in binary format, specify None. To add a newline character at the end of every transformed record, specify Line.
         public let assembleWith: AssemblyType?
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateModel request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateModel request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The Amazon S3 path where you want Amazon SageMaker to store the results of the transform job. For example, s3://bucket-name/key-name-prefix. For every S3 object used as input for the transform job, batch transform stores the transformed data with an .out suffix in a corresponding subfolder in the location in the output prefix. For example, for the input data stored at s3://bucket-name/input-name-prefix/dataset01/data.csv, batch transform stores the transformed data at s3://bucket-name/output-name-prefix/input-name-prefix/data.csv.out. Batch transform doesn't upload partially processed objects. For an input S3 object that contains multiple records, it creates an .out file only if the transform job succeeds on the entire file. When the input contains multiple S3 objects, the batch transform job processes the listed S3 objects and uploads only the output for successfully processed objects. If any object fails in the transform job batch transform marks the job as failed to prompt investigation.
         public let s3OutputPath: String
@@ -15710,7 +15805,7 @@ extension SageMaker {
         public let instanceCount: Int
         /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.large instance types.
         public let instanceType: TransformInstanceType
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"     // KMS Key Alias    "alias/ExampleAlias"     // Amazon Resource Name (ARN) (ARN) of a KMS Key Alias   "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"   
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias   
         public let volumeKmsKeyId: String?
 
         public init(instanceCount: Int, instanceType: TransformInstanceType, volumeKmsKeyId: String? = nil) {
@@ -16032,13 +16127,6 @@ extension SageMaker {
             case numberValue = "NumberValue"
             case stringValue = "StringValue"
         }
-    }
-
-    public enum TrialComponentPrimaryStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct TrialComponentSimpleSummary: AWSShape {
@@ -17054,6 +17142,52 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateWorkforceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceIpConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "WorkforceName", required: true, type: .string)
+        ]
+
+        /// A list of one to four worker IP address ranges (CIDRs) that can be used to access tasks assigned to this workforce. Maximum: 4 CIDR values
+        public let sourceIpConfig: SourceIpConfig?
+        /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to "default" when a workforce is created and cannot be modified. 
+        public let workforceName: String
+
+        public init(sourceIpConfig: SourceIpConfig? = nil, workforceName: String) {
+            self.sourceIpConfig = sourceIpConfig
+            self.workforceName = workforceName
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceIpConfig?.validate(name: "\(name).sourceIpConfig")
+            try validate(self.workforceName, name:"workforceName", parent: name, max: 63)
+            try validate(self.workforceName, name:"workforceName", parent: name, min: 1)
+            try validate(self.workforceName, name:"workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIpConfig = "SourceIpConfig"
+            case workforceName = "WorkforceName"
+        }
+    }
+
+    public struct UpdateWorkforceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Workforce", required: true, type: .structure)
+        ]
+
+        /// A single private workforce, which is automatically created when you create your first private work team. You can create one private work force in each AWS Region. By default, any workforce related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
+        public let workforce: Workforce
+
+        public init(workforce: Workforce) {
+            self.workforce = workforce
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workforce = "Workforce"
+        }
+    }
+
     public struct UpdateWorkteamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -17182,20 +17316,6 @@ extension SageMaker {
         }
     }
 
-    public enum UserProfileSortKey: String, CustomStringConvertible, Codable {
-        case creationtime = "CreationTime"
-        case lastmodifiedtime = "LastModifiedTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UserProfileStatus: String, CustomStringConvertible, Codable {
-        case deleting = "Deleting"
-        case failed = "Failed"
-        case inservice = "InService"
-        case pending = "Pending"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UserSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExecutionRole", required: false, type: .string), 
@@ -17287,6 +17407,38 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "SecurityGroupIds"
             case subnets = "Subnets"
+        }
+    }
+
+    public struct Workforce: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceIpConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "WorkforceArn", required: true, type: .string), 
+            AWSShapeMember(label: "WorkforceName", required: true, type: .string)
+        ]
+
+        /// The most recent date that was used to successfully add one or more IP address ranges (CIDRs) to a private workforce's allow list.
+        public let lastUpdatedDate: TimeStamp?
+        /// A list of one to four IP address ranges (CIDRs) to be added to the workforce allow list.
+        public let sourceIpConfig: SourceIpConfig?
+        /// The Amazon Resource Name (ARN) of the private workforce.
+        public let workforceArn: String
+        /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to "default" when a workforce is created and cannot be modified. 
+        public let workforceName: String
+
+        public init(lastUpdatedDate: TimeStamp? = nil, sourceIpConfig: SourceIpConfig? = nil, workforceArn: String, workforceName: String) {
+            self.lastUpdatedDate = lastUpdatedDate
+            self.sourceIpConfig = sourceIpConfig
+            self.workforceArn = workforceArn
+            self.workforceName = workforceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedDate = "LastUpdatedDate"
+            case sourceIpConfig = "SourceIpConfig"
+            case workforceArn = "WorkforceArn"
+            case workforceName = "WorkforceName"
         }
     }
 

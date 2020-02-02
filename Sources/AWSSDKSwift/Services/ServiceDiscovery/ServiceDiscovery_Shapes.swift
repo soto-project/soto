@@ -4,6 +4,107 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ServiceDiscovery {
+    //MARK: Enums
+
+    public enum CustomHealthStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterCondition: String, CustomStringConvertible, Codable {
+        case eq = "EQ"
+        case `in` = "IN"
+        case between = "BETWEEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthCheckType: String, CustomStringConvertible, Codable {
+        case http = "HTTP"
+        case https = "HTTPS"
+        case tcp = "TCP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthStatusFilter: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NamespaceFilterName: String, CustomStringConvertible, Codable {
+        case `type` = "TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NamespaceType: String, CustomStringConvertible, Codable {
+        case dnsPublic = "DNS_PUBLIC"
+        case dnsPrivate = "DNS_PRIVATE"
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationFilterName: String, CustomStringConvertible, Codable {
+        case namespaceId = "NAMESPACE_ID"
+        case serviceId = "SERVICE_ID"
+        case status = "STATUS"
+        case `type` = "TYPE"
+        case updateDate = "UPDATE_DATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        case fail = "FAIL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationTargetType: String, CustomStringConvertible, Codable {
+        case namespace = "NAMESPACE"
+        case service = "SERVICE"
+        case instance = "INSTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationType: String, CustomStringConvertible, Codable {
+        case createNamespace = "CREATE_NAMESPACE"
+        case deleteNamespace = "DELETE_NAMESPACE"
+        case updateService = "UPDATE_SERVICE"
+        case registerInstance = "REGISTER_INSTANCE"
+        case deregisterInstance = "DEREGISTER_INSTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordType: String, CustomStringConvertible, Codable {
+        case srv = "SRV"
+        case a = "A"
+        case aaaa = "AAAA"
+        case cname = "CNAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RoutingPolicy: String, CustomStringConvertible, Codable {
+        case multivalue = "MULTIVALUE"
+        case weighted = "WEIGHTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceFilterName: String, CustomStringConvertible, Codable {
+        case namespaceId = "NAMESPACE_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateHttpNamespaceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -233,12 +334,6 @@ extension ServiceDiscovery {
         private enum CodingKeys: String, CodingKey {
             case service = "Service"
         }
-    }
-
-    public enum CustomHealthStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteNamespaceRequest: AWSShape {
@@ -510,13 +605,6 @@ extension ServiceDiscovery {
             case ttl = "TTL"
             case `type` = "Type"
         }
-    }
-
-    public enum FilterCondition: String, CustomStringConvertible, Codable {
-        case eq = "EQ"
-        case `in` = "IN"
-        case between = "BETWEEN"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetInstanceRequest: AWSShape {
@@ -795,27 +883,6 @@ extension ServiceDiscovery {
         private enum CodingKeys: String, CodingKey {
             case failureThreshold = "FailureThreshold"
         }
-    }
-
-    public enum HealthCheckType: String, CustomStringConvertible, Codable {
-        case http = "HTTP"
-        case https = "HTTPS"
-        case tcp = "TCP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HealthStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HealthStatusFilter: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct HttpInstanceSummary: AWSShape {
@@ -1242,11 +1309,6 @@ extension ServiceDiscovery {
         }
     }
 
-    public enum NamespaceFilterName: String, CustomStringConvertible, Codable {
-        case `type` = "TYPE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NamespaceProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DnsProperties", required: false, type: .structure), 
@@ -1318,13 +1380,6 @@ extension ServiceDiscovery {
             case serviceCount = "ServiceCount"
             case `type` = "Type"
         }
-    }
-
-    public enum NamespaceType: String, CustomStringConvertible, Codable {
-        case dnsPublic = "DNS_PUBLIC"
-        case dnsPrivate = "DNS_PRIVATE"
-        case http = "HTTP"
-        public var description: String { return self.rawValue }
     }
 
     public struct Operation: AWSShape {
@@ -1413,23 +1468,6 @@ extension ServiceDiscovery {
         }
     }
 
-    public enum OperationFilterName: String, CustomStringConvertible, Codable {
-        case namespaceId = "NAMESPACE_ID"
-        case serviceId = "SERVICE_ID"
-        case status = "STATUS"
-        case `type` = "TYPE"
-        case updateDate = "UPDATE_DATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OperationStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case pending = "PENDING"
-        case success = "SUCCESS"
-        case fail = "FAIL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OperationSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string), 
@@ -1450,30 +1488,6 @@ extension ServiceDiscovery {
             case id = "Id"
             case status = "Status"
         }
-    }
-
-    public enum OperationTargetType: String, CustomStringConvertible, Codable {
-        case namespace = "NAMESPACE"
-        case service = "SERVICE"
-        case instance = "INSTANCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OperationType: String, CustomStringConvertible, Codable {
-        case createNamespace = "CREATE_NAMESPACE"
-        case deleteNamespace = "DELETE_NAMESPACE"
-        case updateService = "UPDATE_SERVICE"
-        case registerInstance = "REGISTER_INSTANCE"
-        case deregisterInstance = "DEREGISTER_INSTANCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RecordType: String, CustomStringConvertible, Codable {
-        case srv = "SRV"
-        case a = "A"
-        case aaaa = "AAAA"
-        case cname = "CNAME"
-        public var description: String { return self.rawValue }
     }
 
     public struct RegisterInstanceRequest: AWSShape {
@@ -1533,12 +1547,6 @@ extension ServiceDiscovery {
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
         }
-    }
-
-    public enum RoutingPolicy: String, CustomStringConvertible, Codable {
-        case multivalue = "MULTIVALUE"
-        case weighted = "WEIGHTED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Service: AWSShape {
@@ -1672,11 +1680,6 @@ extension ServiceDiscovery {
             case name = "Name"
             case values = "Values"
         }
-    }
-
-    public enum ServiceFilterName: String, CustomStringConvertible, Codable {
-        case namespaceId = "NAMESPACE_ID"
-        public var description: String { return self.rawValue }
     }
 
     public struct ServiceSummary: AWSShape {

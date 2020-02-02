@@ -4,185 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension WAFV2 {
-
-    public struct AllQueryArguments: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
-    public struct AllowAction: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
-    public struct AndStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statements", required: true, type: .list)
-        ]
-
-        /// The statements to combine with AND logic. You can use any statements that can be nested. 
-        public let statements: [Statement]
-
-        public init(statements: [Statement]) {
-            self.statements = statements
-        }
-
-        public func validate(name: String) throws {
-            try self.statements.forEach {
-                try $0.validate(name: "\(name).statements[]")
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statements = "Statements"
-        }
-    }
-
-    public struct AssociateWebACLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "WebACLArn", required: true, type: .string)
-        ]
-
-        /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For a CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an Application Load Balancer: arn:aws:elasticloadbalancing: region:account-id:loadbalancer/app/load-balancer-name /load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region ::/restapis/api-id/stages/stage-name    
-        public let resourceArn: String
-        /// The Amazon Resource Name (ARN) of the Web ACL that you want to associate with the resource.
-        public let webACLArn: String
-
-        public init(resourceArn: String, webACLArn: String) {
-            self.resourceArn = resourceArn
-            self.webACLArn = webACLArn
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
-            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
-            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: ".*\\S.*")
-            try validate(self.webACLArn, name:"webACLArn", parent: name, max: 2048)
-            try validate(self.webACLArn, name:"webACLArn", parent: name, min: 20)
-            try validate(self.webACLArn, name:"webACLArn", parent: name, pattern: ".*\\S.*")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case webACLArn = "WebACLArn"
-        }
-    }
-
-    public struct AssociateWebACLResponse: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
-    public struct BlockAction: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
-    public struct Body: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
-    public struct ByteMatchStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeMember(label: "PositionalConstraint", required: true, type: .enum), 
-            AWSShapeMember(label: "SearchString", required: true, type: .blob), 
-            AWSShapeMember(label: "TextTransformations", required: true, type: .list)
-        ]
-
-        /// The part of a web request that you want AWS WAF to inspect. For more information, see FieldToMatch. 
-        public let fieldToMatch: FieldToMatch
-        /// The area within the portion of a web request that you want AWS WAF to search for SearchString. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of SearchString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of SearchString, and SearchString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, SearchString must be a word, which means that both of the following are true:    SearchString is at the beginning of the specified part of the web request or is preceded by a character other than an alphanumeric character or underscore (_). Examples include the value of a header and ;BadBot.    SearchString is at the end of the specified part of the web request or is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot; and -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of SearchString.  STARTS_WITH  The value of SearchString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of SearchString must appear at the end of the specified part of the web request.
-        public let positionalConstraint: PositionalConstraint
-        /// A string value that you want AWS WAF to search for. AWS WAF searches only in the part of web requests that you designate for inspection in FieldToMatch. The maximum length of the value is 50 bytes. Valid values depend on the areas that you specify for inspection in FieldToMatch:    Method: The HTTP method that you want AWS WAF to search for. This indicates the type of operation specified in the request.     UriPath: The value that you want AWS WAF to search for in the URI path, for example, /images/daily-ad.jpg.    If SearchString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the AWS WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 50 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of SearchString.  If you're using the AWS CLI or one of the AWS SDKs  The value that you want AWS WAF to search for. The SDK automatically base64 encodes the value.
-        public let searchString: Data
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. If you specify one or more transformations in a rule statement, AWS WAF performs all transformations on the content identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
-        public let textTransformations: [TextTransformation]
-
-        public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, searchString: Data, textTransformations: [TextTransformation]) {
-            self.fieldToMatch = fieldToMatch
-            self.positionalConstraint = positionalConstraint
-            self.searchString = searchString
-            self.textTransformations = textTransformations
-        }
-
-        public func validate(name: String) throws {
-            try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
-            try self.textTransformations.forEach {
-                try $0.validate(name: "\(name).textTransformations[]")
-            }
-            try validate(self.textTransformations, name:"textTransformations", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldToMatch = "FieldToMatch"
-            case positionalConstraint = "PositionalConstraint"
-            case searchString = "SearchString"
-            case textTransformations = "TextTransformations"
-        }
-    }
-
-    public struct CheckCapacityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: true, type: .list), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
-
-        /// An array of Rule that you're configuring to use in a rule group or web ACL. 
-        public let rules: [Rule]
-        /// Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
-        public let scope: Scope
-
-        public init(rules: [Rule], scope: Scope) {
-            self.rules = rules
-            self.scope = scope
-        }
-
-        public func validate(name: String) throws {
-            try self.rules.forEach {
-                try $0.validate(name: "\(name).rules[]")
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rules"
-            case scope = "Scope"
-        }
-    }
-
-    public struct CheckCapacityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capacity", required: false, type: .long)
-        ]
-
-        /// The capacity required by the rules and scope.
-        public let capacity: Int64?
-
-        public init(capacity: Int64? = nil) {
-            self.capacity = capacity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case capacity = "Capacity"
-        }
-    }
+    //MARK: Enums
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case eq = "EQ"
@@ -192,14 +14,6 @@ extension WAFV2 {
         case ge = "GE"
         case gt = "GT"
         public var description: String { return self.rawValue }
-    }
-
-    public struct CountAction: AWSShape {
-
-
-        public init() {
-        }
-
     }
 
     public enum CountryCode: String, CustomStringConvertible, Codable {
@@ -453,6 +267,237 @@ extension WAFV2 {
         case zm = "ZM"
         case zw = "ZW"
         public var description: String { return self.rawValue }
+    }
+
+    public enum IPAddressVersion: String, CustomStringConvertible, Codable {
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PositionalConstraint: String, CustomStringConvertible, Codable {
+        case exactly = "EXACTLY"
+        case startsWith = "STARTS_WITH"
+        case endsWith = "ENDS_WITH"
+        case contains = "CONTAINS"
+        case containsWord = "CONTAINS_WORD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RateBasedStatementAggregateKeyType: String, CustomStringConvertible, Codable {
+        case ip = "IP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case applicationLoadBalancer = "APPLICATION_LOAD_BALANCER"
+        case apiGateway = "API_GATEWAY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Scope: String, CustomStringConvertible, Codable {
+        case cloudfront = "CLOUDFRONT"
+        case regional = "REGIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TextTransformationType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case compressWhiteSpace = "COMPRESS_WHITE_SPACE"
+        case htmlEntityDecode = "HTML_ENTITY_DECODE"
+        case lowercase = "LOWERCASE"
+        case cmdLine = "CMD_LINE"
+        case urlDecode = "URL_DECODE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
+
+    public struct AllQueryArguments: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct AllowAction: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct AndStatement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Statements", required: true, type: .list)
+        ]
+
+        /// The statements to combine with AND logic. You can use any statements that can be nested. 
+        public let statements: [Statement]
+
+        public init(statements: [Statement]) {
+            self.statements = statements
+        }
+
+        public func validate(name: String) throws {
+            try self.statements.forEach {
+                try $0.validate(name: "\(name).statements[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statements = "Statements"
+        }
+    }
+
+    public struct AssociateWebACLRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "WebACLArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For a CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an Application Load Balancer: arn:aws:elasticloadbalancing: region:account-id:loadbalancer/app/load-balancer-name /load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region ::/restapis/api-id/stages/stage-name    
+        public let resourceArn: String
+        /// The Amazon Resource Name (ARN) of the Web ACL that you want to associate with the resource.
+        public let webACLArn: String
+
+        public init(resourceArn: String, webACLArn: String) {
+            self.resourceArn = resourceArn
+            self.webACLArn = webACLArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.webACLArn, name:"webACLArn", parent: name, max: 2048)
+            try validate(self.webACLArn, name:"webACLArn", parent: name, min: 20)
+            try validate(self.webACLArn, name:"webACLArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case webACLArn = "WebACLArn"
+        }
+    }
+
+    public struct AssociateWebACLResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct BlockAction: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct Body: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct ByteMatchStatement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
+            AWSShapeMember(label: "PositionalConstraint", required: true, type: .enum), 
+            AWSShapeMember(label: "SearchString", required: true, type: .blob), 
+            AWSShapeMember(label: "TextTransformations", required: true, type: .list)
+        ]
+
+        /// The part of a web request that you want AWS WAF to inspect. For more information, see FieldToMatch. 
+        public let fieldToMatch: FieldToMatch
+        /// The area within the portion of a web request that you want AWS WAF to search for SearchString. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of SearchString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of SearchString, and SearchString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, SearchString must be a word, which means that both of the following are true:    SearchString is at the beginning of the specified part of the web request or is preceded by a character other than an alphanumeric character or underscore (_). Examples include the value of a header and ;BadBot.    SearchString is at the end of the specified part of the web request or is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot; and -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of SearchString.  STARTS_WITH  The value of SearchString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of SearchString must appear at the end of the specified part of the web request.
+        public let positionalConstraint: PositionalConstraint
+        /// A string value that you want AWS WAF to search for. AWS WAF searches only in the part of web requests that you designate for inspection in FieldToMatch. The maximum length of the value is 50 bytes. Valid values depend on the areas that you specify for inspection in FieldToMatch:    Method: The HTTP method that you want AWS WAF to search for. This indicates the type of operation specified in the request.     UriPath: The value that you want AWS WAF to search for in the URI path, for example, /images/daily-ad.jpg.    If SearchString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the AWS WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 50 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of SearchString.  If you're using the AWS CLI or one of the AWS SDKs  The value that you want AWS WAF to search for. The SDK automatically base64 encodes the value.
+        public let searchString: Data
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. If you specify one or more transformations in a rule statement, AWS WAF performs all transformations on the content identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
+        public let textTransformations: [TextTransformation]
+
+        public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, searchString: Data, textTransformations: [TextTransformation]) {
+            self.fieldToMatch = fieldToMatch
+            self.positionalConstraint = positionalConstraint
+            self.searchString = searchString
+            self.textTransformations = textTransformations
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.textTransformations.forEach {
+                try $0.validate(name: "\(name).textTransformations[]")
+            }
+            try validate(self.textTransformations, name:"textTransformations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldToMatch = "FieldToMatch"
+            case positionalConstraint = "PositionalConstraint"
+            case searchString = "SearchString"
+            case textTransformations = "TextTransformations"
+        }
+    }
+
+    public struct CheckCapacityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: true, type: .list), 
+            AWSShapeMember(label: "Scope", required: true, type: .enum)
+        ]
+
+        /// An array of Rule that you're configuring to use in a rule group or web ACL. 
+        public let rules: [Rule]
+        /// Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
+        public let scope: Scope
+
+        public init(rules: [Rule], scope: Scope) {
+            self.rules = rules
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+            case scope = "Scope"
+        }
+    }
+
+    public struct CheckCapacityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Capacity", required: false, type: .long)
+        ]
+
+        /// The capacity required by the rules and scope.
+        public let capacity: Int64?
+
+        public init(capacity: Int64? = nil) {
+            self.capacity = capacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "Capacity"
+        }
+    }
+
+    public struct CountAction: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateIPSetRequest: AWSShape {
@@ -1725,12 +1770,6 @@ extension WAFV2 {
         }
     }
 
-    public enum IPAddressVersion: String, CustomStringConvertible, Codable {
-        case ipv4 = "IPV4"
-        case ipv6 = "IPV6"
-        public var description: String { return self.rawValue }
-    }
-
     public struct IPSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Addresses", required: true, type: .list), 
@@ -2467,15 +2506,6 @@ extension WAFV2 {
         }
     }
 
-    public enum PositionalConstraint: String, CustomStringConvertible, Codable {
-        case exactly = "EXACTLY"
-        case startsWith = "STARTS_WITH"
-        case endsWith = "ENDS_WITH"
-        case contains = "CONTAINS"
-        case containsWord = "CONTAINS_WORD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PutLoggingConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggingConfiguration", required: true, type: .structure)
@@ -2551,11 +2581,6 @@ extension WAFV2 {
             case limit = "Limit"
             case scopeDownStatement = "ScopeDownStatement"
         }
-    }
-
-    public enum RateBasedStatementAggregateKeyType: String, CustomStringConvertible, Codable {
-        case ip = "IP"
-        public var description: String { return self.rawValue }
     }
 
     public struct RateBasedStatementManagedKeysIPSet: AWSShape {
@@ -2712,12 +2737,6 @@ extension WAFV2 {
             case lockToken = "LockToken"
             case name = "Name"
         }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case applicationLoadBalancer = "APPLICATION_LOAD_BALANCER"
-        case apiGateway = "API_GATEWAY"
-        public var description: String { return self.rawValue }
     }
 
     public struct Rule: AWSShape {
@@ -2969,12 +2988,6 @@ extension WAFV2 {
             case timestamp = "Timestamp"
             case weight = "Weight"
         }
-    }
-
-    public enum Scope: String, CustomStringConvertible, Codable {
-        case cloudfront = "CLOUDFRONT"
-        case regional = "REGIONAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct SingleHeader: AWSShape {
@@ -3305,16 +3318,6 @@ extension WAFV2 {
             case priority = "Priority"
             case `type` = "Type"
         }
-    }
-
-    public enum TextTransformationType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case compressWhiteSpace = "COMPRESS_WHITE_SPACE"
-        case htmlEntityDecode = "HTML_ENTITY_DECODE"
-        case lowercase = "LOWERCASE"
-        case cmdLine = "CMD_LINE"
-        case urlDecode = "URL_DECODE"
-        public var description: String { return self.rawValue }
     }
 
     public struct TimeWindow: AWSShape {

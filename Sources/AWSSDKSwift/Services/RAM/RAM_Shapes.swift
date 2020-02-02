@@ -4,6 +4,63 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension RAM {
+    //MARK: Enums
+
+    public enum ResourceOwner: String, CustomStringConvertible, Codable {
+        case `self` = "SELF"
+        case otherAccounts = "OTHER-ACCOUNTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceShareAssociationStatus: String, CustomStringConvertible, Codable {
+        case associating = "ASSOCIATING"
+        case associated = "ASSOCIATED"
+        case failed = "FAILED"
+        case disassociating = "DISASSOCIATING"
+        case disassociated = "DISASSOCIATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceShareAssociationType: String, CustomStringConvertible, Codable {
+        case principal = "PRINCIPAL"
+        case resource = "RESOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceShareFeatureSet: String, CustomStringConvertible, Codable {
+        case createdFromPolicy = "CREATED_FROM_POLICY"
+        case promotingToStandard = "PROMOTING_TO_STANDARD"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceShareInvitationStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case accepted = "ACCEPTED"
+        case rejected = "REJECTED"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceShareStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case zonalResourceInaccessible = "ZONAL_RESOURCE_INACCESSIBLE"
+        case limitExceeded = "LIMIT_EXCEEDED"
+        case unavailable = "UNAVAILABLE"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptResourceShareInvitationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1180,12 +1237,6 @@ extension RAM {
         }
     }
 
-    public enum ResourceOwner: String, CustomStringConvertible, Codable {
-        case `self` = "SELF"
-        case otherAccounts = "OTHER-ACCOUNTS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceShare: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
@@ -1305,28 +1356,6 @@ extension RAM {
         }
     }
 
-    public enum ResourceShareAssociationStatus: String, CustomStringConvertible, Codable {
-        case associating = "ASSOCIATING"
-        case associated = "ASSOCIATED"
-        case failed = "FAILED"
-        case disassociating = "DISASSOCIATING"
-        case disassociated = "DISASSOCIATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceShareAssociationType: String, CustomStringConvertible, Codable {
-        case principal = "PRINCIPAL"
-        case resource = "RESOURCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceShareFeatureSet: String, CustomStringConvertible, Codable {
-        case createdFromPolicy = "CREATED_FROM_POLICY"
-        case promotingToStandard = "PROMOTING_TO_STANDARD"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceShareInvitation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "invitationTimestamp", required: false, type: .timestamp), 
@@ -1372,14 +1401,6 @@ extension RAM {
             case senderAccountId = "senderAccountId"
             case status = "status"
         }
-    }
-
-    public enum ResourceShareInvitationStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case accepted = "ACCEPTED"
-        case rejected = "REJECTED"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceSharePermissionDetail: AWSShape {
@@ -1484,24 +1505,6 @@ extension RAM {
             case status = "status"
             case version = "version"
         }
-    }
-
-    public enum ResourceShareStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case zonalResourceInaccessible = "ZONAL_RESOURCE_INACCESSIBLE"
-        case limitExceeded = "LIMIT_EXCEEDED"
-        case unavailable = "UNAVAILABLE"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

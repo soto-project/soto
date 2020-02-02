@@ -6,7 +6,7 @@ import NIO
 
 extension EC2 {
 
-    ///  Describes the IP address ranges that were specified in calls to ProvisionByoipCidr. To describe the address pools that were created when you provisioned the address ranges, use DescribePublicIpv4Pools.
+    ///  Describes the IP address ranges that were specified in calls to ProvisionByoipCidr. To describe the address pools that were created when you provisioned the address ranges, use DescribePublicIpv4Pools or DescribeIpv6Pools.
     public func describeByoipCidrsPaginator(_ input: DescribeByoipCidrsRequest, onPage: @escaping (DescribeByoipCidrsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeByoipCidrs, tokenKey: \DescribeByoipCidrsResult.nextToken, onPage: onPage)
     }
@@ -129,6 +129,11 @@ extension EC2 {
     ///  Describes one or more of your internet gateways.
     public func describeInternetGatewaysPaginator(_ input: DescribeInternetGatewaysRequest, onPage: @escaping (DescribeInternetGatewaysResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInternetGateways, tokenKey: \DescribeInternetGatewaysResult.nextToken, onPage: onPage)
+    }
+
+    ///  Describes your IPv6 address pools.
+    public func describeIpv6PoolsPaginator(_ input: DescribeIpv6PoolsRequest, onPage: @escaping (DescribeIpv6PoolsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeIpv6Pools, tokenKey: \DescribeIpv6PoolsResult.nextToken, onPage: onPage)
     }
 
     ///  Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions.
@@ -334,6 +339,11 @@ extension EC2 {
     ///  Describes one or more of your VPCs.
     public func describeVpcsPaginator(_ input: DescribeVpcsRequest, onPage: @escaping (DescribeVpcsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeVpcs, tokenKey: \DescribeVpcsResult.nextToken, onPage: onPage)
+    }
+
+    ///  Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
+    public func getAssociatedIpv6PoolCidrsPaginator(_ input: GetAssociatedIpv6PoolCidrsRequest, onPage: @escaping (GetAssociatedIpv6PoolCidrsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getAssociatedIpv6PoolCidrs, tokenKey: \GetAssociatedIpv6PoolCidrsResult.nextToken, onPage: onPage)
     }
 
     ///  Lists the route tables to which the specified resource attachment propagates routes.
@@ -671,6 +681,19 @@ extension EC2.DescribeInternetGatewaysRequest: AWSPaginateStringToken {
             internetGatewayIds: self.internetGatewayIds, 
             maxResults: self.maxResults, 
             nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeIpv6PoolsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeIpv6PoolsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            poolIds: self.poolIds
         )
 
     }
@@ -1217,6 +1240,18 @@ extension EC2.DescribeVpcsRequest: AWSPaginateStringToken {
             maxResults: self.maxResults, 
             nextToken: token, 
             vpcIds: self.vpcIds
+        )
+
+    }
+}
+
+extension EC2.GetAssociatedIpv6PoolCidrsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetAssociatedIpv6PoolCidrsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            poolId: self.poolId
         )
 
     }

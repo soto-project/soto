@@ -4,6 +4,97 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SFN {
+    //MARK: Enums
+
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timedOut = "TIMED_OUT"
+        case aborted = "ABORTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HistoryEventType: String, CustomStringConvertible, Codable {
+        case activityfailed = "ActivityFailed"
+        case activityscheduled = "ActivityScheduled"
+        case activityschedulefailed = "ActivityScheduleFailed"
+        case activitystarted = "ActivityStarted"
+        case activitysucceeded = "ActivitySucceeded"
+        case activitytimedout = "ActivityTimedOut"
+        case choicestateentered = "ChoiceStateEntered"
+        case choicestateexited = "ChoiceStateExited"
+        case executionaborted = "ExecutionAborted"
+        case executionfailed = "ExecutionFailed"
+        case executionstarted = "ExecutionStarted"
+        case executionsucceeded = "ExecutionSucceeded"
+        case executiontimedout = "ExecutionTimedOut"
+        case failstateentered = "FailStateEntered"
+        case lambdafunctionfailed = "LambdaFunctionFailed"
+        case lambdafunctionscheduled = "LambdaFunctionScheduled"
+        case lambdafunctionschedulefailed = "LambdaFunctionScheduleFailed"
+        case lambdafunctionstarted = "LambdaFunctionStarted"
+        case lambdafunctionstartfailed = "LambdaFunctionStartFailed"
+        case lambdafunctionsucceeded = "LambdaFunctionSucceeded"
+        case lambdafunctiontimedout = "LambdaFunctionTimedOut"
+        case mapiterationaborted = "MapIterationAborted"
+        case mapiterationfailed = "MapIterationFailed"
+        case mapiterationstarted = "MapIterationStarted"
+        case mapiterationsucceeded = "MapIterationSucceeded"
+        case mapstateaborted = "MapStateAborted"
+        case mapstateentered = "MapStateEntered"
+        case mapstateexited = "MapStateExited"
+        case mapstatefailed = "MapStateFailed"
+        case mapstatestarted = "MapStateStarted"
+        case mapstatesucceeded = "MapStateSucceeded"
+        case parallelstateaborted = "ParallelStateAborted"
+        case parallelstateentered = "ParallelStateEntered"
+        case parallelstateexited = "ParallelStateExited"
+        case parallelstatefailed = "ParallelStateFailed"
+        case parallelstatestarted = "ParallelStateStarted"
+        case parallelstatesucceeded = "ParallelStateSucceeded"
+        case passstateentered = "PassStateEntered"
+        case passstateexited = "PassStateExited"
+        case succeedstateentered = "SucceedStateEntered"
+        case succeedstateexited = "SucceedStateExited"
+        case taskfailed = "TaskFailed"
+        case taskscheduled = "TaskScheduled"
+        case taskstarted = "TaskStarted"
+        case taskstartfailed = "TaskStartFailed"
+        case taskstateaborted = "TaskStateAborted"
+        case taskstateentered = "TaskStateEntered"
+        case taskstateexited = "TaskStateExited"
+        case tasksubmitfailed = "TaskSubmitFailed"
+        case tasksubmitted = "TaskSubmitted"
+        case tasksucceeded = "TaskSucceeded"
+        case tasktimedout = "TaskTimedOut"
+        case waitstateaborted = "WaitStateAborted"
+        case waitstateentered = "WaitStateEntered"
+        case waitstateexited = "WaitStateExited"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogLevel: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case error = "ERROR"
+        case fatal = "FATAL"
+        case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StateMachineStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StateMachineType: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case express = "EXPRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ActivityFailedEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -737,15 +828,6 @@ extension SFN {
         }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case timedOut = "TIMED_OUT"
-        case aborted = "ABORTED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ExecutionSucceededEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "output", required: false, type: .string)
@@ -1073,65 +1155,6 @@ extension SFN {
             case timestamp = "timestamp"
             case `type` = "type"
         }
-    }
-
-    public enum HistoryEventType: String, CustomStringConvertible, Codable {
-        case activityfailed = "ActivityFailed"
-        case activityscheduled = "ActivityScheduled"
-        case activityschedulefailed = "ActivityScheduleFailed"
-        case activitystarted = "ActivityStarted"
-        case activitysucceeded = "ActivitySucceeded"
-        case activitytimedout = "ActivityTimedOut"
-        case choicestateentered = "ChoiceStateEntered"
-        case choicestateexited = "ChoiceStateExited"
-        case executionaborted = "ExecutionAborted"
-        case executionfailed = "ExecutionFailed"
-        case executionstarted = "ExecutionStarted"
-        case executionsucceeded = "ExecutionSucceeded"
-        case executiontimedout = "ExecutionTimedOut"
-        case failstateentered = "FailStateEntered"
-        case lambdafunctionfailed = "LambdaFunctionFailed"
-        case lambdafunctionscheduled = "LambdaFunctionScheduled"
-        case lambdafunctionschedulefailed = "LambdaFunctionScheduleFailed"
-        case lambdafunctionstarted = "LambdaFunctionStarted"
-        case lambdafunctionstartfailed = "LambdaFunctionStartFailed"
-        case lambdafunctionsucceeded = "LambdaFunctionSucceeded"
-        case lambdafunctiontimedout = "LambdaFunctionTimedOut"
-        case mapiterationaborted = "MapIterationAborted"
-        case mapiterationfailed = "MapIterationFailed"
-        case mapiterationstarted = "MapIterationStarted"
-        case mapiterationsucceeded = "MapIterationSucceeded"
-        case mapstateaborted = "MapStateAborted"
-        case mapstateentered = "MapStateEntered"
-        case mapstateexited = "MapStateExited"
-        case mapstatefailed = "MapStateFailed"
-        case mapstatestarted = "MapStateStarted"
-        case mapstatesucceeded = "MapStateSucceeded"
-        case parallelstateaborted = "ParallelStateAborted"
-        case parallelstateentered = "ParallelStateEntered"
-        case parallelstateexited = "ParallelStateExited"
-        case parallelstatefailed = "ParallelStateFailed"
-        case parallelstatestarted = "ParallelStateStarted"
-        case parallelstatesucceeded = "ParallelStateSucceeded"
-        case passstateentered = "PassStateEntered"
-        case passstateexited = "PassStateExited"
-        case succeedstateentered = "SucceedStateEntered"
-        case succeedstateexited = "SucceedStateExited"
-        case taskfailed = "TaskFailed"
-        case taskscheduled = "TaskScheduled"
-        case taskstarted = "TaskStarted"
-        case taskstartfailed = "TaskStartFailed"
-        case taskstateaborted = "TaskStateAborted"
-        case taskstateentered = "TaskStateEntered"
-        case taskstateexited = "TaskStateExited"
-        case tasksubmitfailed = "TaskSubmitFailed"
-        case tasksubmitted = "TaskSubmitted"
-        case tasksucceeded = "TaskSucceeded"
-        case tasktimedout = "TaskTimedOut"
-        case waitstateaborted = "WaitStateAborted"
-        case waitstateentered = "WaitStateEntered"
-        case waitstateexited = "WaitStateExited"
-        public var description: String { return self.rawValue }
     }
 
     public struct LambdaFunctionFailedEventDetails: AWSShape {
@@ -1490,14 +1513,6 @@ extension SFN {
         }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case error = "ERROR"
-        case fatal = "FATAL"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoggingConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "destinations", required: false, type: .list), 
@@ -1810,18 +1825,6 @@ extension SFN {
             case stateMachineArn = "stateMachineArn"
             case `type` = "type"
         }
-    }
-
-    public enum StateMachineStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StateMachineType: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case express = "EXPRESS"
-        public var description: String { return self.rawValue }
     }
 
     public struct StopExecutionInput: AWSShape {

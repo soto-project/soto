@@ -4,6 +4,109 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SavingsPlans {
+    //MARK: Enums
+
+    public enum CurrencyCode: String, CustomStringConvertible, Codable {
+        case cny = "CNY"
+        case usd = "USD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable {
+        case region = "region"
+        case instancefamily = "instanceFamily"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable {
+        case region = "region"
+        case instancefamily = "instanceFamily"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanPaymentOption: String, CustomStringConvertible, Codable {
+        case allUpfront = "All Upfront"
+        case partialUpfront = "Partial Upfront"
+        case noUpfront = "No Upfront"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanProductType: String, CustomStringConvertible, Codable {
+        case ec2 = "EC2"
+        case fargate = "Fargate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable {
+        case region = "region"
+        case instancefamily = "instanceFamily"
+        case instancetype = "instanceType"
+        case productdescription = "productDescription"
+        case tenancy = "tenancy"
+        case productid = "productId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable {
+        case region = "region"
+        case instancetype = "instanceType"
+        case productdescription = "productDescription"
+        case tenancy = "tenancy"
+        case producttype = "productType"
+        case servicecode = "serviceCode"
+        case usagetype = "usageType"
+        case operation = "operation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable {
+        case region = "region"
+        case instancetype = "instanceType"
+        case instancefamily = "instanceFamily"
+        case productdescription = "productDescription"
+        case tenancy = "tenancy"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable {
+        case amazonec2 = "AmazonEC2"
+        case amazonecs = "AmazonECS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable {
+        case hrs = "Hrs"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanState: String, CustomStringConvertible, Codable {
+        case paymentPending = "payment-pending"
+        case paymentFailed = "payment-failed"
+        case active = "active"
+        case retired = "retired"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlanType: String, CustomStringConvertible, Codable {
+        case compute = "Compute"
+        case ec2instance = "EC2Instance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlansFilterName: String, CustomStringConvertible, Codable {
+        case region = "region"
+        case ec2InstanceFamily = "ec2-instance-family"
+        case commitment = "commitment"
+        case upfront = "upfront"
+        case term = "term"
+        case savingsPlanType = "savings-plan-type"
+        case paymentOption = "payment-option"
+        case start = "start"
+        case end = "end"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateSavingsPlanRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -57,12 +160,6 @@ extension SavingsPlans {
         private enum CodingKeys: String, CodingKey {
             case savingsPlanId = "savingsPlanId"
         }
-    }
-
-    public enum CurrencyCode: String, CustomStringConvertible, Codable {
-        case cny = "CNY"
-        case usd = "USD"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeSavingsPlanRatesRequest: AWSShape {
@@ -712,12 +809,6 @@ extension SavingsPlans {
         }
     }
 
-    public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable {
-        case region = "region"
-        case instancefamily = "instanceFamily"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SavingsPlanOfferingFilterElement: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .enum), 
@@ -766,12 +857,6 @@ extension SavingsPlans {
             case name = "name"
             case value = "value"
         }
-    }
-
-    public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable {
-        case region = "region"
-        case instancefamily = "instanceFamily"
-        public var description: String { return self.rawValue }
     }
 
     public struct SavingsPlanOfferingRate: AWSShape {
@@ -876,19 +961,6 @@ extension SavingsPlans {
         }
     }
 
-    public enum SavingsPlanPaymentOption: String, CustomStringConvertible, Codable {
-        case allUpfront = "All Upfront"
-        case partialUpfront = "Partial Upfront"
-        case noUpfront = "No Upfront"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SavingsPlanProductType: String, CustomStringConvertible, Codable {
-        case ec2 = "EC2"
-        case fargate = "Fargate"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SavingsPlanRate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "currency", required: false, type: .enum), 
@@ -963,28 +1035,6 @@ extension SavingsPlans {
         }
     }
 
-    public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable {
-        case region = "region"
-        case instancefamily = "instanceFamily"
-        case instancetype = "instanceType"
-        case productdescription = "productDescription"
-        case tenancy = "tenancy"
-        case productid = "productId"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable {
-        case region = "region"
-        case instancetype = "instanceType"
-        case productdescription = "productDescription"
-        case tenancy = "tenancy"
-        case producttype = "productType"
-        case servicecode = "serviceCode"
-        case usagetype = "usageType"
-        case operation = "operation"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SavingsPlanRateProperty: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .enum), 
@@ -1005,53 +1055,6 @@ extension SavingsPlans {
             case name = "name"
             case value = "value"
         }
-    }
-
-    public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable {
-        case region = "region"
-        case instancetype = "instanceType"
-        case instancefamily = "instanceFamily"
-        case productdescription = "productDescription"
-        case tenancy = "tenancy"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable {
-        case amazonec2 = "AmazonEC2"
-        case amazonecs = "AmazonECS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable {
-        case hrs = "Hrs"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SavingsPlanState: String, CustomStringConvertible, Codable {
-        case paymentPending = "payment-pending"
-        case paymentFailed = "payment-failed"
-        case active = "active"
-        case retired = "retired"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SavingsPlanType: String, CustomStringConvertible, Codable {
-        case compute = "Compute"
-        case ec2instance = "EC2Instance"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SavingsPlansFilterName: String, CustomStringConvertible, Codable {
-        case region = "region"
-        case ec2InstanceFamily = "ec2-instance-family"
-        case commitment = "commitment"
-        case upfront = "upfront"
-        case term = "term"
-        case savingsPlanType = "savings-plan-type"
-        case paymentOption = "payment-option"
-        case start = "start"
-        case end = "end"
-        public var description: String { return self.rawValue }
     }
 
     public struct TagResourceRequest: AWSShape {

@@ -4,6 +4,54 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Amplify {
+    //MARK: Enums
+
+    public enum DomainStatus: String, CustomStringConvertible, Codable {
+        case pendingVerification = "PENDING_VERIFICATION"
+        case inProgress = "IN_PROGRESS"
+        case available = "AVAILABLE"
+        case pendingDeployment = "PENDING_DEPLOYMENT"
+        case failed = "FAILED"
+        case creating = "CREATING"
+        case requestingCertificate = "REQUESTING_CERTIFICATE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case provisioning = "PROVISIONING"
+        case running = "RUNNING"
+        case failed = "FAILED"
+        case succeed = "SUCCEED"
+        case cancelling = "CANCELLING"
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobType: String, CustomStringConvertible, Codable {
+        case release = "RELEASE"
+        case retry = "RETRY"
+        case manual = "MANUAL"
+        case webHook = "WEB_HOOK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Platform: String, CustomStringConvertible, Codable {
+        case web = "WEB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Stage: String, CustomStringConvertible, Codable {
+        case production = "PRODUCTION"
+        case beta = "BETA"
+        case development = "DEVELOPMENT"
+        case experimental = "EXPERIMENTAL"
+        case pullRequest = "PULL_REQUEST"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct App: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1272,18 +1320,6 @@ extension Amplify {
         }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable {
-        case pendingVerification = "PENDING_VERIFICATION"
-        case inProgress = "IN_PROGRESS"
-        case available = "AVAILABLE"
-        case pendingDeployment = "PENDING_DEPLOYMENT"
-        case failed = "FAILED"
-        case creating = "CREATING"
-        case requestingCertificate = "REQUESTING_CERTIFICATE"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GenerateAccessLogsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
@@ -1667,17 +1703,6 @@ extension Amplify {
         }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case provisioning = "PROVISIONING"
-        case running = "RUNNING"
-        case failed = "FAILED"
-        case succeed = "SUCCEED"
-        case cancelling = "CANCELLING"
-        case cancelled = "CANCELLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct JobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "commitId", required: true, type: .string), 
@@ -1733,14 +1758,6 @@ extension Amplify {
             case startTime = "startTime"
             case status = "status"
         }
-    }
-
-    public enum JobType: String, CustomStringConvertible, Codable {
-        case release = "RELEASE"
-        case retry = "RETRY"
-        case manual = "MANUAL"
-        case webHook = "WEB_HOOK"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListAppsRequest: AWSShape {
@@ -2200,11 +2217,6 @@ extension Amplify {
         }
     }
 
-    public enum Platform: String, CustomStringConvertible, Codable {
-        case web = "WEB"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProductionBranch: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "branchName", required: false, type: .string), 
@@ -2235,15 +2247,6 @@ extension Amplify {
             case status = "status"
             case thumbnailUrl = "thumbnailUrl"
         }
-    }
-
-    public enum Stage: String, CustomStringConvertible, Codable {
-        case production = "PRODUCTION"
-        case beta = "BETA"
-        case development = "DEVELOPMENT"
-        case experimental = "EXPERIMENTAL"
-        case pullRequest = "PULL_REQUEST"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartDeploymentRequest: AWSShape {

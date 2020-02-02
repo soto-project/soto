@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS Route53Resolver service.
+
 Here's how you set up to query an Amazon Route 53 private hosted zone from your network:   Connect your network to a VPC using AWS Direct Connect or a VPN.   Run the following AWS CLI command to create a Resolver endpoint:  create-resolver-endpoint --name [endpoint_name] --direction INBOUND --creator-request-id [unique_string] --security-group-ids [security_group_with_inbound_rules] --ip-addresses SubnetId=[subnet_id] SubnetId=[subnet_id_in_different_AZ]  Note the resolver endpoint ID that appears in the response. You'll use it in step 3.   Get the IP addresses for the Resolver endpoints:  get-resolver-endpoint --resolver-endpoint-id [resolver_endpoint_id]    In your network configuration, define the IP addresses that you got in step 3 as DNS servers. You can now query instance names in your VPCs and the names of records in your private hosted zone.   You can also perform the following operations using the AWS CLI:    list-resolver-endpoints: List all endpoints. The syntax includes options for pagination and filtering.    update-resolver-endpoints: Add IP addresses to an endpoint or remove IP addresses from an endpoint.    To delete an endpoint, use the following AWS CLI command:  delete-resolver-endpoint --resolver-endpoint-id [resolver_endpoint_id] 
 */
 public struct Route53Resolver {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the Route53Resolver client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -27,6 +42,8 @@ public struct Route53Resolver {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Adds IP addresses to an inbound or an outbound resolver endpoint. If you want to adding more than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see DisassociateResolverEndpointIpAddress.
     public func associateResolverEndpointIpAddress(_ input: AssociateResolverEndpointIpAddressRequest) -> EventLoopFuture<AssociateResolverEndpointIpAddressResponse> {

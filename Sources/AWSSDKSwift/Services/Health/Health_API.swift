@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS Health service.
+
 AWS Health The AWS Health API provides programmatic access to the AWS Health information that is presented in the AWS Personal Health Dashboard. You can get information about events that affect your AWS resources:    DescribeEvents: Summary information about events.    DescribeEventDetails: Detailed information about one or more events.    DescribeAffectedEntities: Information about AWS resources that are affected by one or more events.   In addition, these operations provide information about event types and summary counts of events or affected entities:    DescribeEventTypes: Information about the kinds of events that AWS Health tracks.    DescribeEventAggregates: A count of the number of events that meet specified criteria.    DescribeEntityAggregates: A count of the number of affected entities that meet specified criteria.   AWS Health integrates with AWS Organizations to provide a centralized view of AWS Health events across all accounts in your organization.    DescribeEventsForOrganization: Summary information about events across the organization.    DescribeAffectedAccountsForOrganization: List of accounts in your organization impacted by an event.    DescribeEventDetailsForOrganization: Detailed information about events in your organization.    DescribeAffectedEntitiesForOrganization: Information about AWS resources in your organization that are affected by events.   You can use the following operations to enable or disable AWS Health from working with AWS Organizations.    EnableHealthServiceAccessForOrganization: Enables AWS Health to work with AWS Organizations.    DisableHealthServiceAccessForOrganization: Disables AWS Health from working with AWS Organizations.    DescribeHealthServiceStatusForOrganization: Status information about enabling or disabling AWS Health from working with AWS Organizations.   The Health API requires a Business or Enterprise support plan from AWS Support. Calling the Health API from an account that does not have a Business or Enterprise support plan causes a SubscriptionRequiredException. For authentication of requests, AWS Health uses the Signature Version 4 Signing Process. See the AWS Health User Guide for information about how to use the API.  Service Endpoint  The HTTP endpoint for the AWS Health API is:   https://health.us-east-1.amazonaws.com   
 */
 public struct Health {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the Health client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -27,6 +42,8 @@ public struct Health {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Returns a list of accounts in the organization from AWS Organizations that are affected by the provided event. Before you can call this operation, you must first enable AWS Health to work with AWS Organizations. To do this, call the EnableHealthServiceAccessForOrganization operation from your organization's master account.
     public func describeAffectedAccountsForOrganization(_ input: DescribeAffectedAccountsForOrganizationRequest) -> EventLoopFuture<DescribeAffectedAccountsForOrganizationResponse> {

@@ -4,6 +4,104 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudSearch {
+    //MARK: Enums
+
+    public enum AlgorithmicStemming: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case minimal = "minimal"
+        case light = "light"
+        case full = "full"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalysisSchemeLanguage: String, CustomStringConvertible, Codable {
+        case ar = "ar"
+        case bg = "bg"
+        case ca = "ca"
+        case cs = "cs"
+        case da = "da"
+        case de = "de"
+        case el = "el"
+        case en = "en"
+        case es = "es"
+        case eu = "eu"
+        case fa = "fa"
+        case fi = "fi"
+        case fr = "fr"
+        case ga = "ga"
+        case gl = "gl"
+        case he = "he"
+        case hi = "hi"
+        case hu = "hu"
+        case hy = "hy"
+        case id = "id"
+        case it = "it"
+        case ja = "ja"
+        case ko = "ko"
+        case lv = "lv"
+        case mul = "mul"
+        case nl = "nl"
+        case no = "no"
+        case pt = "pt"
+        case ro = "ro"
+        case ru = "ru"
+        case sv = "sv"
+        case th = "th"
+        case tr = "tr"
+        case zhHans = "zh-Hans"
+        case zhHant = "zh-Hant"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IndexFieldType: String, CustomStringConvertible, Codable {
+        case int = "int"
+        case double = "double"
+        case literal = "literal"
+        case text = "text"
+        case date = "date"
+        case latlon = "latlon"
+        case intArray = "int-array"
+        case doubleArray = "double-array"
+        case literalArray = "literal-array"
+        case textArray = "text-array"
+        case dateArray = "date-array"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OptionState: String, CustomStringConvertible, Codable {
+        case requiresindexdocuments = "RequiresIndexDocuments"
+        case processing = "Processing"
+        case active = "Active"
+        case failedtovalidate = "FailedToValidate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PartitionInstanceType: String, CustomStringConvertible, Codable {
+        case searchM1Small = "search.m1.small"
+        case searchM1Large = "search.m1.large"
+        case searchM2Xlarge = "search.m2.xlarge"
+        case searchM22Xlarge = "search.m2.2xlarge"
+        case searchM3Medium = "search.m3.medium"
+        case searchM3Large = "search.m3.large"
+        case searchM3Xlarge = "search.m3.xlarge"
+        case searchM32Xlarge = "search.m3.2xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case low = "low"
+        case high = "high"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
+        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
+        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessPoliciesStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -23,14 +121,6 @@ extension CloudSearch {
             case options = "Options"
             case status = "Status"
         }
-    }
-
-    public enum AlgorithmicStemming: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case minimal = "minimal"
-        case light = "light"
-        case full = "full"
-        public var description: String { return self.rawValue }
     }
 
     public struct AnalysisOptions: AWSShape {
@@ -98,45 +188,6 @@ extension CloudSearch {
             case analysisSchemeLanguage = "AnalysisSchemeLanguage"
             case analysisSchemeName = "AnalysisSchemeName"
         }
-    }
-
-    public enum AnalysisSchemeLanguage: String, CustomStringConvertible, Codable {
-        case ar = "ar"
-        case bg = "bg"
-        case ca = "ca"
-        case cs = "cs"
-        case da = "da"
-        case de = "de"
-        case el = "el"
-        case en = "en"
-        case es = "es"
-        case eu = "eu"
-        case fa = "fa"
-        case fi = "fi"
-        case fr = "fr"
-        case ga = "ga"
-        case gl = "gl"
-        case he = "he"
-        case hi = "hi"
-        case hu = "hu"
-        case hy = "hy"
-        case id = "id"
-        case it = "it"
-        case ja = "ja"
-        case ko = "ko"
-        case lv = "lv"
-        case mul = "mul"
-        case nl = "nl"
-        case no = "no"
-        case pt = "pt"
-        case ro = "ro"
-        case ru = "ru"
-        case sv = "sv"
-        case th = "th"
-        case tr = "tr"
-        case zhHans = "zh-Hans"
-        case zhHant = "zh-Hant"
-        public var description: String { return self.rawValue }
     }
 
     public struct AnalysisSchemeStatus: AWSShape {
@@ -1612,21 +1663,6 @@ extension CloudSearch {
         }
     }
 
-    public enum IndexFieldType: String, CustomStringConvertible, Codable {
-        case int = "int"
-        case double = "double"
-        case literal = "literal"
-        case text = "text"
-        case date = "date"
-        case latlon = "latlon"
-        case intArray = "int-array"
-        case doubleArray = "double-array"
-        case literalArray = "literal-array"
-        case textArray = "text-array"
-        case dateArray = "date-array"
-        public var description: String { return self.rawValue }
-    }
-
     public struct IntArrayOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultValue", required: false, type: .long), 
@@ -1894,14 +1930,6 @@ extension CloudSearch {
         }
     }
 
-    public enum OptionState: String, CustomStringConvertible, Codable {
-        case requiresindexdocuments = "RequiresIndexDocuments"
-        case processing = "Processing"
-        case active = "Active"
-        case failedtovalidate = "FailedToValidate"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OptionStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDate", required: true, type: .timestamp), 
@@ -1937,18 +1965,6 @@ extension CloudSearch {
             case updateDate = "UpdateDate"
             case updateVersion = "UpdateVersion"
         }
-    }
-
-    public enum PartitionInstanceType: String, CustomStringConvertible, Codable {
-        case searchM1Small = "search.m1.small"
-        case searchM1Large = "search.m1.large"
-        case searchM2Xlarge = "search.m2.xlarge"
-        case searchM22Xlarge = "search.m2.2xlarge"
-        case searchM3Medium = "search.m3.medium"
-        case searchM3Large = "search.m3.large"
-        case searchM3Xlarge = "search.m3.xlarge"
-        case searchM32Xlarge = "search.m3.2xlarge"
-        public var description: String { return self.rawValue }
     }
 
     public struct ScalingParameters: AWSShape {
@@ -2046,13 +2062,6 @@ extension CloudSearch {
         }
     }
 
-    public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case low = "low"
-        case high = "high"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SuggesterStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: true, type: .structure), 
@@ -2071,12 +2080,6 @@ extension CloudSearch {
             case options = "Options"
             case status = "Status"
         }
-    }
-
-    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
-        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
-        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
-        public var description: String { return self.rawValue }
     }
 
     public struct TextArrayOptions: AWSShape {

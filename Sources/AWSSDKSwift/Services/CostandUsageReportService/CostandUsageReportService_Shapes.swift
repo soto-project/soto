@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CostandUsageReportService {
+    //MARK: Enums
 
     public enum AWSRegion: String, CustomStringConvertible, Codable {
         case usEast1 = "us-east-1"
@@ -33,6 +34,31 @@ extension CostandUsageReportService {
         case parquet = "Parquet"
         public var description: String { return self.rawValue }
     }
+
+    public enum ReportFormat: String, CustomStringConvertible, Codable {
+        case textorcsv = "textORcsv"
+        case parquet = "Parquet"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportVersioning: String, CustomStringConvertible, Codable {
+        case createNewReport = "CREATE_NEW_REPORT"
+        case overwriteReport = "OVERWRITE_REPORT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchemaElement: String, CustomStringConvertible, Codable {
+        case resources = "RESOURCES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimeUnit: String, CustomStringConvertible, Codable {
+        case hourly = "HOURLY"
+        case daily = "DAILY"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct DeleteReportDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -246,28 +272,5 @@ extension CostandUsageReportService {
             case s3Region = "S3Region"
             case timeUnit = "TimeUnit"
         }
-    }
-
-    public enum ReportFormat: String, CustomStringConvertible, Codable {
-        case textorcsv = "textORcsv"
-        case parquet = "Parquet"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReportVersioning: String, CustomStringConvertible, Codable {
-        case createNewReport = "CREATE_NEW_REPORT"
-        case overwriteReport = "OVERWRITE_REPORT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SchemaElement: String, CustomStringConvertible, Codable {
-        case resources = "RESOURCES"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TimeUnit: String, CustomStringConvertible, Codable {
-        case hourly = "HOURLY"
-        case daily = "DAILY"
-        public var description: String { return self.rawValue }
     }
 }

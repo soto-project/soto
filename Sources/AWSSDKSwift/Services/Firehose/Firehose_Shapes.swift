@@ -4,6 +4,144 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Firehose {
+    //MARK: Enums
+
+    public enum CompressionFormat: String, CustomStringConvertible, Codable {
+        case uncompressed = "UNCOMPRESSED"
+        case gzip = "GZIP"
+        case zip = "ZIP"
+        case snappy = "Snappy"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryStreamEncryptionStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case enablingFailed = "ENABLING_FAILED"
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case disablingFailed = "DISABLING_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryStreamFailureType: String, CustomStringConvertible, Codable {
+        case retireKmsGrantFailed = "RETIRE_KMS_GRANT_FAILED"
+        case createKmsGrantFailed = "CREATE_KMS_GRANT_FAILED"
+        case kmsAccessDenied = "KMS_ACCESS_DENIED"
+        case disabledKmsKey = "DISABLED_KMS_KEY"
+        case invalidKmsKey = "INVALID_KMS_KEY"
+        case kmsKeyNotFound = "KMS_KEY_NOT_FOUND"
+        case kmsOptInRequired = "KMS_OPT_IN_REQUIRED"
+        case unknownError = "UNKNOWN_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryStreamStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case creatingFailed = "CREATING_FAILED"
+        case deleting = "DELETING"
+        case deletingFailed = "DELETING_FAILED"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryStreamType: String, CustomStringConvertible, Codable {
+        case directput = "DirectPut"
+        case kinesisstreamassource = "KinesisStreamAsSource"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible, Codable {
+        case norotation = "NoRotation"
+        case onehour = "OneHour"
+        case oneday = "OneDay"
+        case oneweek = "OneWeek"
+        case onemonth = "OneMonth"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ElasticsearchS3BackupMode: String, CustomStringConvertible, Codable {
+        case faileddocumentsonly = "FailedDocumentsOnly"
+        case alldocuments = "AllDocuments"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HECEndpointType: String, CustomStringConvertible, Codable {
+        case raw = "Raw"
+        case event = "Event"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyType: String, CustomStringConvertible, Codable {
+        case awsOwnedCmk = "AWS_OWNED_CMK"
+        case customerManagedCmk = "CUSTOMER_MANAGED_CMK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NoEncryptionConfig: String, CustomStringConvertible, Codable {
+        case noencryption = "NoEncryption"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrcCompression: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case zlib = "ZLIB"
+        case snappy = "SNAPPY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrcFormatVersion: String, CustomStringConvertible, Codable {
+        case v011 = "V0_11"
+        case v012 = "V0_12"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParquetCompression: String, CustomStringConvertible, Codable {
+        case uncompressed = "UNCOMPRESSED"
+        case gzip = "GZIP"
+        case snappy = "SNAPPY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParquetWriterVersion: String, CustomStringConvertible, Codable {
+        case v1 = "V1"
+        case v2 = "V2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessorParameterName: String, CustomStringConvertible, Codable {
+        case lambdaarn = "LambdaArn"
+        case numberofretries = "NumberOfRetries"
+        case rolearn = "RoleArn"
+        case buffersizeinmbs = "BufferSizeInMBs"
+        case bufferintervalinseconds = "BufferIntervalInSeconds"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessorType: String, CustomStringConvertible, Codable {
+        case lambda = "Lambda"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RedshiftS3BackupMode: String, CustomStringConvertible, Codable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3BackupMode: String, CustomStringConvertible, Codable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SplunkS3BackupMode: String, CustomStringConvertible, Codable {
+        case failedeventsonly = "FailedEventsOnly"
+        case allevents = "AllEvents"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BufferingHints: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -59,14 +197,6 @@ extension Firehose {
             case logGroupName = "LogGroupName"
             case logStreamName = "LogStreamName"
         }
-    }
-
-    public enum CompressionFormat: String, CustomStringConvertible, Codable {
-        case uncompressed = "UNCOMPRESSED"
-        case gzip = "GZIP"
-        case zip = "ZIP"
-        case snappy = "Snappy"
-        public var description: String { return self.rawValue }
     }
 
     public struct CopyCommand: AWSShape {
@@ -395,43 +525,6 @@ extension Firehose {
             case keyARN = "KeyARN"
             case keyType = "KeyType"
         }
-    }
-
-    public enum DeliveryStreamEncryptionStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        case enablingFailed = "ENABLING_FAILED"
-        case disabled = "DISABLED"
-        case disabling = "DISABLING"
-        case disablingFailed = "DISABLING_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeliveryStreamFailureType: String, CustomStringConvertible, Codable {
-        case retireKmsGrantFailed = "RETIRE_KMS_GRANT_FAILED"
-        case createKmsGrantFailed = "CREATE_KMS_GRANT_FAILED"
-        case kmsAccessDenied = "KMS_ACCESS_DENIED"
-        case disabledKmsKey = "DISABLED_KMS_KEY"
-        case invalidKmsKey = "INVALID_KMS_KEY"
-        case kmsKeyNotFound = "KMS_KEY_NOT_FOUND"
-        case kmsOptInRequired = "KMS_OPT_IN_REQUIRED"
-        case unknownError = "UNKNOWN_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeliveryStreamStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case creatingFailed = "CREATING_FAILED"
-        case deleting = "DELETING"
-        case deletingFailed = "DELETING_FAILED"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeliveryStreamType: String, CustomStringConvertible, Codable {
-        case directput = "DirectPut"
-        case kinesisstreamassource = "KinesisStreamAsSource"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeDeliveryStreamInput: AWSShape {
@@ -837,15 +930,6 @@ extension Firehose {
         }
     }
 
-    public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible, Codable {
-        case norotation = "NoRotation"
-        case onehour = "OneHour"
-        case oneday = "OneDay"
-        case oneweek = "OneWeek"
-        case onemonth = "OneMonth"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ElasticsearchRetryOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
@@ -866,12 +950,6 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
         }
-    }
-
-    public enum ElasticsearchS3BackupMode: String, CustomStringConvertible, Codable {
-        case faileddocumentsonly = "FailedDocumentsOnly"
-        case alldocuments = "AllDocuments"
-        public var description: String { return self.rawValue }
     }
 
     public struct EncryptionConfiguration: AWSShape {
@@ -1166,12 +1244,6 @@ extension Firehose {
         }
     }
 
-    public enum HECEndpointType: String, CustomStringConvertible, Codable {
-        case raw = "Raw"
-        case event = "Event"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HiveJsonSerDe: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimestampFormats", required: false, type: .list)
@@ -1237,12 +1309,6 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case aWSKMSKeyARN = "AWSKMSKeyARN"
         }
-    }
-
-    public enum KeyType: String, CustomStringConvertible, Codable {
-        case awsOwnedCmk = "AWS_OWNED_CMK"
-        case customerManagedCmk = "CUSTOMER_MANAGED_CMK"
-        public var description: String { return self.rawValue }
     }
 
     public struct KinesisStreamSourceConfiguration: AWSShape {
@@ -1419,11 +1485,6 @@ extension Firehose {
         }
     }
 
-    public enum NoEncryptionConfig: String, CustomStringConvertible, Codable {
-        case noencryption = "NoEncryption"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OpenXJsonSerDe: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CaseInsensitive", required: false, type: .boolean), 
@@ -1456,19 +1517,6 @@ extension Firehose {
             case columnToJsonKeyMappings = "ColumnToJsonKeyMappings"
             case convertDotsInJsonKeysToUnderscores = "ConvertDotsInJsonKeysToUnderscores"
         }
-    }
-
-    public enum OrcCompression: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case zlib = "ZLIB"
-        case snappy = "SNAPPY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OrcFormatVersion: String, CustomStringConvertible, Codable {
-        case v011 = "V0_11"
-        case v012 = "V0_12"
-        public var description: String { return self.rawValue }
     }
 
     public struct OrcSerDe: AWSShape {
@@ -1569,13 +1617,6 @@ extension Firehose {
         }
     }
 
-    public enum ParquetCompression: String, CustomStringConvertible, Codable {
-        case uncompressed = "UNCOMPRESSED"
-        case gzip = "GZIP"
-        case snappy = "SNAPPY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ParquetSerDe: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BlockSizeBytes", required: false, type: .integer), 
@@ -1622,12 +1663,6 @@ extension Firehose {
             case pageSizeBytes = "PageSizeBytes"
             case writerVersion = "WriterVersion"
         }
-    }
-
-    public enum ParquetWriterVersion: String, CustomStringConvertible, Codable {
-        case v1 = "V1"
-        case v2 = "V2"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProcessingConfiguration: AWSShape {
@@ -1711,20 +1746,6 @@ extension Firehose {
             case parameterName = "ParameterName"
             case parameterValue = "ParameterValue"
         }
-    }
-
-    public enum ProcessorParameterName: String, CustomStringConvertible, Codable {
-        case lambdaarn = "LambdaArn"
-        case numberofretries = "NumberOfRetries"
-        case rolearn = "RoleArn"
-        case buffersizeinmbs = "BufferSizeInMBs"
-        case bufferintervalinseconds = "BufferIntervalInSeconds"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProcessorType: String, CustomStringConvertible, Codable {
-        case lambda = "Lambda"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutRecordBatchInput: AWSShape {
@@ -2133,18 +2154,6 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
         }
-    }
-
-    public enum RedshiftS3BackupMode: String, CustomStringConvertible, Codable {
-        case disabled = "Disabled"
-        case enabled = "Enabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum S3BackupMode: String, CustomStringConvertible, Codable {
-        case disabled = "Disabled"
-        case enabled = "Enabled"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3DestinationConfiguration: AWSShape {
@@ -2627,12 +2636,6 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
         }
-    }
-
-    public enum SplunkS3BackupMode: String, CustomStringConvertible, Codable {
-        case failedeventsonly = "FailedEventsOnly"
-        case allevents = "AllEvents"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartDeliveryStreamEncryptionInput: AWSShape {

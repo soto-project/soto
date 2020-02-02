@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension FMS {
+    //MARK: Enums
 
     public enum AccountRoleStatus: String, CustomStringConvertible, Codable {
         case ready = "READY"
@@ -13,6 +14,49 @@ extension FMS {
         case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
+
+    public enum CustomerPolicyScopeIdType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DependentServiceName: String, CustomStringConvertible, Codable {
+        case awsconfig = "AWSCONFIG"
+        case awswaf = "AWSWAF"
+        case awsshieldAdvanced = "AWSSHIELD_ADVANCED"
+        case awsvpc = "AWSVPC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyComplianceStatusType: String, CustomStringConvertible, Codable {
+        case compliant = "COMPLIANT"
+        case nonCompliant = "NON_COMPLIANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SecurityServiceType: String, CustomStringConvertible, Codable {
+        case waf = "WAF"
+        case shieldAdvanced = "SHIELD_ADVANCED"
+        case securityGroupsCommon = "SECURITY_GROUPS_COMMON"
+        case securityGroupsContentAudit = "SECURITY_GROUPS_CONTENT_AUDIT"
+        case securityGroupsUsageAudit = "SECURITY_GROUPS_USAGE_AUDIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ViolationReason: String, CustomStringConvertible, Codable {
+        case webAclMissingRuleGroup = "WEB_ACL_MISSING_RULE_GROUP"
+        case resourceMissingWebAcl = "RESOURCE_MISSING_WEB_ACL"
+        case resourceIncorrectWebAcl = "RESOURCE_INCORRECT_WEB_ACL"
+        case resourceMissingShieldProtection = "RESOURCE_MISSING_SHIELD_PROTECTION"
+        case resourceMissingWebAclOrShieldProtection = "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION"
+        case resourceMissingSecurityGroup = "RESOURCE_MISSING_SECURITY_GROUP"
+        case resourceViolatesAuditSecurityGroup = "RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP"
+        case securityGroupUnused = "SECURITY_GROUP_UNUSED"
+        case securityGroupRedundant = "SECURITY_GROUP_REDUNDANT"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateAdminAccountRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -64,11 +108,6 @@ extension FMS {
         }
     }
 
-    public enum CustomerPolicyScopeIdType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeleteNotificationChannelRequest: AWSShape {
 
 
@@ -103,14 +142,6 @@ extension FMS {
             case deleteAllPolicyResources = "DeleteAllPolicyResources"
             case policyId = "PolicyId"
         }
-    }
-
-    public enum DependentServiceName: String, CustomStringConvertible, Codable {
-        case awsconfig = "AWSCONFIG"
-        case awswaf = "AWSWAF"
-        case awsshieldAdvanced = "AWSSHIELD_ADVANCED"
-        case awsvpc = "AWSVPC"
-        public var description: String { return self.rawValue }
     }
 
     public struct DisassociateAdminAccountRequest: AWSShape {
@@ -780,12 +811,6 @@ extension FMS {
         }
     }
 
-    public enum PolicyComplianceStatusType: String, CustomStringConvertible, Codable {
-        case compliant = "COMPLIANT"
-        case nonCompliant = "NON_COMPLIANT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PolicySummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
@@ -969,15 +994,6 @@ extension FMS {
         }
     }
 
-    public enum SecurityServiceType: String, CustomStringConvertible, Codable {
-        case waf = "WAF"
-        case shieldAdvanced = "SHIELD_ADVANCED"
-        case securityGroupsCommon = "SECURITY_GROUPS_COMMON"
-        case securityGroupsContentAudit = "SECURITY_GROUPS_CONTENT_AUDIT"
-        case securityGroupsUsageAudit = "SECURITY_GROUPS_USAGE_AUDIT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string), 
@@ -1091,18 +1107,5 @@ extension FMS {
         public init() {
         }
 
-    }
-
-    public enum ViolationReason: String, CustomStringConvertible, Codable {
-        case webAclMissingRuleGroup = "WEB_ACL_MISSING_RULE_GROUP"
-        case resourceMissingWebAcl = "RESOURCE_MISSING_WEB_ACL"
-        case resourceIncorrectWebAcl = "RESOURCE_INCORRECT_WEB_ACL"
-        case resourceMissingShieldProtection = "RESOURCE_MISSING_SHIELD_PROTECTION"
-        case resourceMissingWebAclOrShieldProtection = "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION"
-        case resourceMissingSecurityGroup = "RESOURCE_MISSING_SECURITY_GROUP"
-        case resourceViolatesAuditSecurityGroup = "RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP"
-        case securityGroupUnused = "SECURITY_GROUP_UNUSED"
-        case securityGroupRedundant = "SECURITY_GROUP_REDUNDANT"
-        public var description: String { return self.rawValue }
     }
 }

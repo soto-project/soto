@@ -4,6 +4,40 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension LicenseManager {
+    //MARK: Enums
+
+    public enum InventoryFilterCondition: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        case notEquals = "NOT_EQUALS"
+        case beginsWith = "BEGINS_WITH"
+        case contains = "CONTAINS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseConfigurationStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseCountingType: String, CustomStringConvertible, Codable {
+        case vcpu = "vCPU"
+        case instance = "Instance"
+        case core = "Core"
+        case socket = "Socket"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case ec2Instance = "EC2_INSTANCE"
+        case ec2Host = "EC2_HOST"
+        case ec2Ami = "EC2_AMI"
+        case rds = "RDS"
+        case systemsManagerManagedInstance = "SYSTEMS_MANAGER_MANAGED_INSTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AutomatedDiscoveryInformation: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -341,14 +375,6 @@ extension LicenseManager {
         }
     }
 
-    public enum InventoryFilterCondition: String, CustomStringConvertible, Codable {
-        case equals = "EQUALS"
-        case notEquals = "NOT_EQUALS"
-        case beginsWith = "BEGINS_WITH"
-        case contains = "CONTAINS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LicenseConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutomatedDiscoveryInformation", required: false, type: .structure), 
@@ -468,12 +494,6 @@ extension LicenseManager {
         }
     }
 
-    public enum LicenseConfigurationStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LicenseConfigurationUsage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociationTime", required: false, type: .timestamp), 
@@ -514,14 +534,6 @@ extension LicenseManager {
             case resourceStatus = "ResourceStatus"
             case resourceType = "ResourceType"
         }
-    }
-
-    public enum LicenseCountingType: String, CustomStringConvertible, Codable {
-        case vcpu = "vCPU"
-        case instance = "Instance"
-        case core = "Core"
-        case socket = "Socket"
-        public var description: String { return self.rawValue }
     }
 
     public struct LicenseOperationFailure: AWSShape {
@@ -1081,15 +1093,6 @@ extension LicenseManager {
             case resourceOwningAccountId = "ResourceOwningAccountId"
             case resourceType = "ResourceType"
         }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case ec2Instance = "EC2_INSTANCE"
-        case ec2Host = "EC2_HOST"
-        case ec2Ami = "EC2_AMI"
-        case rds = "RDS"
-        case systemsManagerManagedInstance = "SYSTEMS_MANAGER_MANAGED_INSTANCE"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

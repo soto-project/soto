@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CodeStar {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct AssociateTeamMemberRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

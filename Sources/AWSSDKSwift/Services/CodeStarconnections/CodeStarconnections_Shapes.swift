@@ -4,6 +4,21 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CodeStarconnections {
+    //MARK: Enums
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProviderType: String, CustomStringConvertible, Codable {
+        case bitbucket = "Bitbucket"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Connection: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -40,13 +55,6 @@ extension CodeStarconnections {
             case ownerAccountId = "OwnerAccountId"
             case providerType = "ProviderType"
         }
-    }
-
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateConnectionInput: AWSShape {
@@ -219,10 +227,5 @@ extension CodeStarconnections {
             case connections = "Connections"
             case nextToken = "NextToken"
         }
-    }
-
-    public enum ProviderType: String, CustomStringConvertible, Codable {
-        case bitbucket = "Bitbucket"
-        public var description: String { return self.rawValue }
     }
 }

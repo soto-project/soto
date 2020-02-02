@@ -4,6 +4,314 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DeviceFarm {
+    //MARK: Enums
+
+    public enum ArtifactCategory: String, CustomStringConvertible, Codable {
+        case screenshot = "SCREENSHOT"
+        case file = "FILE"
+        case log = "LOG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArtifactType: String, CustomStringConvertible, Codable {
+        case unknown = "UNKNOWN"
+        case screenshot = "SCREENSHOT"
+        case deviceLog = "DEVICE_LOG"
+        case messageLog = "MESSAGE_LOG"
+        case videoLog = "VIDEO_LOG"
+        case resultLog = "RESULT_LOG"
+        case serviceLog = "SERVICE_LOG"
+        case webkitLog = "WEBKIT_LOG"
+        case instrumentationOutput = "INSTRUMENTATION_OUTPUT"
+        case exerciserMonkeyOutput = "EXERCISER_MONKEY_OUTPUT"
+        case calabashJsonOutput = "CALABASH_JSON_OUTPUT"
+        case calabashPrettyOutput = "CALABASH_PRETTY_OUTPUT"
+        case calabashStandardOutput = "CALABASH_STANDARD_OUTPUT"
+        case calabashJavaXmlOutput = "CALABASH_JAVA_XML_OUTPUT"
+        case automationOutput = "AUTOMATION_OUTPUT"
+        case appiumServerOutput = "APPIUM_SERVER_OUTPUT"
+        case appiumJavaOutput = "APPIUM_JAVA_OUTPUT"
+        case appiumJavaXmlOutput = "APPIUM_JAVA_XML_OUTPUT"
+        case appiumPythonOutput = "APPIUM_PYTHON_OUTPUT"
+        case appiumPythonXmlOutput = "APPIUM_PYTHON_XML_OUTPUT"
+        case explorerEventLog = "EXPLORER_EVENT_LOG"
+        case explorerSummaryLog = "EXPLORER_SUMMARY_LOG"
+        case applicationCrashReport = "APPLICATION_CRASH_REPORT"
+        case xctestLog = "XCTEST_LOG"
+        case video = "VIDEO"
+        case customerArtifact = "CUSTOMER_ARTIFACT"
+        case customerArtifactLog = "CUSTOMER_ARTIFACT_LOG"
+        case testspecOutput = "TESTSPEC_OUTPUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingMethod: String, CustomStringConvertible, Codable {
+        case metered = "METERED"
+        case unmetered = "UNMETERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CurrencyCode: String, CustomStringConvertible, Codable {
+        case usd = "USD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceAttribute: String, CustomStringConvertible, Codable {
+        case arn = "ARN"
+        case platform = "PLATFORM"
+        case formFactor = "FORM_FACTOR"
+        case manufacturer = "MANUFACTURER"
+        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
+        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
+        case appiumVersion = "APPIUM_VERSION"
+        case instanceArn = "INSTANCE_ARN"
+        case instanceLabels = "INSTANCE_LABELS"
+        case fleetType = "FLEET_TYPE"
+        case osVersion = "OS_VERSION"
+        case model = "MODEL"
+        case availability = "AVAILABILITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceAvailability: String, CustomStringConvertible, Codable {
+        case temporaryNotAvailable = "TEMPORARY_NOT_AVAILABLE"
+        case busy = "BUSY"
+        case available = "AVAILABLE"
+        case highlyAvailable = "HIGHLY_AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceFilterAttribute: String, CustomStringConvertible, Codable {
+        case arn = "ARN"
+        case platform = "PLATFORM"
+        case osVersion = "OS_VERSION"
+        case model = "MODEL"
+        case availability = "AVAILABILITY"
+        case formFactor = "FORM_FACTOR"
+        case manufacturer = "MANUFACTURER"
+        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
+        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
+        case instanceArn = "INSTANCE_ARN"
+        case instanceLabels = "INSTANCE_LABELS"
+        case fleetType = "FLEET_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceFormFactor: String, CustomStringConvertible, Codable {
+        case phone = "PHONE"
+        case tablet = "TABLET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DevicePlatform: String, CustomStringConvertible, Codable {
+        case android = "ANDROID"
+        case ios = "IOS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DevicePoolType: String, CustomStringConvertible, Codable {
+        case curated = "CURATED"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionResult: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case passed = "PASSED"
+        case warned = "WARNED"
+        case failed = "FAILED"
+        case skipped = "SKIPPED"
+        case errored = "ERRORED"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionResultCode: String, CustomStringConvertible, Codable {
+        case parsingFailed = "PARSING_FAILED"
+        case vpcEndpointSetupFailed = "VPC_ENDPOINT_SETUP_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case pendingConcurrency = "PENDING_CONCURRENCY"
+        case pendingDevice = "PENDING_DEVICE"
+        case processing = "PROCESSING"
+        case scheduling = "SCHEDULING"
+        case preparing = "PREPARING"
+        case running = "RUNNING"
+        case completed = "COMPLETED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceStatus: String, CustomStringConvertible, Codable {
+        case inUse = "IN_USE"
+        case preparing = "PREPARING"
+        case available = "AVAILABLE"
+        case notAvailable = "NOT_AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InteractionMode: String, CustomStringConvertible, Codable {
+        case interactive = "INTERACTIVE"
+        case noVideo = "NO_VIDEO"
+        case videoOnly = "VIDEO_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkProfileType: String, CustomStringConvertible, Codable {
+        case curated = "CURATED"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OfferingTransactionType: String, CustomStringConvertible, Codable {
+        case purchase = "PURCHASE"
+        case renew = "RENEW"
+        case system = "SYSTEM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OfferingType: String, CustomStringConvertible, Codable {
+        case recurring = "RECURRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable {
+        case monthly = "MONTHLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleOperator: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEquals = "LESS_THAN_OR_EQUALS"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEquals = "GREATER_THAN_OR_EQUALS"
+        case `in` = "IN"
+        case notIn = "NOT_IN"
+        case contains = "CONTAINS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SampleType: String, CustomStringConvertible, Codable {
+        case cpu = "CPU"
+        case memory = "MEMORY"
+        case threads = "THREADS"
+        case rxRate = "RX_RATE"
+        case txRate = "TX_RATE"
+        case rx = "RX"
+        case tx = "TX"
+        case nativeFrames = "NATIVE_FRAMES"
+        case nativeFps = "NATIVE_FPS"
+        case nativeMinDrawtime = "NATIVE_MIN_DRAWTIME"
+        case nativeAvgDrawtime = "NATIVE_AVG_DRAWTIME"
+        case nativeMaxDrawtime = "NATIVE_MAX_DRAWTIME"
+        case openglFrames = "OPENGL_FRAMES"
+        case openglFps = "OPENGL_FPS"
+        case openglMinDrawtime = "OPENGL_MIN_DRAWTIME"
+        case openglAvgDrawtime = "OPENGL_AVG_DRAWTIME"
+        case openglMaxDrawtime = "OPENGL_MAX_DRAWTIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestGridSessionArtifactCategory: String, CustomStringConvertible, Codable {
+        case video = "VIDEO"
+        case log = "LOG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestGridSessionArtifactType: String, CustomStringConvertible, Codable {
+        case unknown = "UNKNOWN"
+        case video = "VIDEO"
+        case seleniumLog = "SELENIUM_LOG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestGridSessionStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case closed = "CLOSED"
+        case errored = "ERRORED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestType: String, CustomStringConvertible, Codable {
+        case builtinFuzz = "BUILTIN_FUZZ"
+        case builtinExplorer = "BUILTIN_EXPLORER"
+        case webPerformanceProfile = "WEB_PERFORMANCE_PROFILE"
+        case appiumJavaJunit = "APPIUM_JAVA_JUNIT"
+        case appiumJavaTestng = "APPIUM_JAVA_TESTNG"
+        case appiumPython = "APPIUM_PYTHON"
+        case appiumNode = "APPIUM_NODE"
+        case appiumRuby = "APPIUM_RUBY"
+        case appiumWebJavaJunit = "APPIUM_WEB_JAVA_JUNIT"
+        case appiumWebJavaTestng = "APPIUM_WEB_JAVA_TESTNG"
+        case appiumWebPython = "APPIUM_WEB_PYTHON"
+        case appiumWebNode = "APPIUM_WEB_NODE"
+        case appiumWebRuby = "APPIUM_WEB_RUBY"
+        case calabash = "CALABASH"
+        case instrumentation = "INSTRUMENTATION"
+        case uiautomation = "UIAUTOMATION"
+        case uiautomator = "UIAUTOMATOR"
+        case xctest = "XCTEST"
+        case xctestUi = "XCTEST_UI"
+        case remoteAccessRecord = "REMOTE_ACCESS_RECORD"
+        case remoteAccessReplay = "REMOTE_ACCESS_REPLAY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UploadCategory: String, CustomStringConvertible, Codable {
+        case curated = "CURATED"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UploadStatus: String, CustomStringConvertible, Codable {
+        case initialized = "INITIALIZED"
+        case processing = "PROCESSING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UploadType: String, CustomStringConvertible, Codable {
+        case androidApp = "ANDROID_APP"
+        case iosApp = "IOS_APP"
+        case webApp = "WEB_APP"
+        case externalData = "EXTERNAL_DATA"
+        case appiumJavaJunitTestPackage = "APPIUM_JAVA_JUNIT_TEST_PACKAGE"
+        case appiumJavaTestngTestPackage = "APPIUM_JAVA_TESTNG_TEST_PACKAGE"
+        case appiumPythonTestPackage = "APPIUM_PYTHON_TEST_PACKAGE"
+        case appiumNodeTestPackage = "APPIUM_NODE_TEST_PACKAGE"
+        case appiumRubyTestPackage = "APPIUM_RUBY_TEST_PACKAGE"
+        case appiumWebJavaJunitTestPackage = "APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE"
+        case appiumWebJavaTestngTestPackage = "APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE"
+        case appiumWebPythonTestPackage = "APPIUM_WEB_PYTHON_TEST_PACKAGE"
+        case appiumWebNodeTestPackage = "APPIUM_WEB_NODE_TEST_PACKAGE"
+        case appiumWebRubyTestPackage = "APPIUM_WEB_RUBY_TEST_PACKAGE"
+        case calabashTestPackage = "CALABASH_TEST_PACKAGE"
+        case instrumentationTestPackage = "INSTRUMENTATION_TEST_PACKAGE"
+        case uiautomationTestPackage = "UIAUTOMATION_TEST_PACKAGE"
+        case uiautomatorTestPackage = "UIAUTOMATOR_TEST_PACKAGE"
+        case xctestTestPackage = "XCTEST_TEST_PACKAGE"
+        case xctestUiTestPackage = "XCTEST_UI_TEST_PACKAGE"
+        case appiumJavaJunitTestSpec = "APPIUM_JAVA_JUNIT_TEST_SPEC"
+        case appiumJavaTestngTestSpec = "APPIUM_JAVA_TESTNG_TEST_SPEC"
+        case appiumPythonTestSpec = "APPIUM_PYTHON_TEST_SPEC"
+        case appiumNodeTestSpec = "APPIUM_NODE_TEST_SPEC"
+        case appiumRubyTestSpec = "APPIUM_RUBY_TEST_SPEC"
+        case appiumWebJavaJunitTestSpec = "APPIUM_WEB_JAVA_JUNIT_TEST_SPEC"
+        case appiumWebJavaTestngTestSpec = "APPIUM_WEB_JAVA_TESTNG_TEST_SPEC"
+        case appiumWebPythonTestSpec = "APPIUM_WEB_PYTHON_TEST_SPEC"
+        case appiumWebNodeTestSpec = "APPIUM_WEB_NODE_TEST_SPEC"
+        case appiumWebRubyTestSpec = "APPIUM_WEB_RUBY_TEST_SPEC"
+        case instrumentationTestSpec = "INSTRUMENTATION_TEST_SPEC"
+        case xctestUiTestSpec = "XCTEST_UI_TEST_SPEC"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -92,51 +400,6 @@ extension DeviceFarm {
             case `type` = "type"
             case url = "url"
         }
-    }
-
-    public enum ArtifactCategory: String, CustomStringConvertible, Codable {
-        case screenshot = "SCREENSHOT"
-        case file = "FILE"
-        case log = "LOG"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ArtifactType: String, CustomStringConvertible, Codable {
-        case unknown = "UNKNOWN"
-        case screenshot = "SCREENSHOT"
-        case deviceLog = "DEVICE_LOG"
-        case messageLog = "MESSAGE_LOG"
-        case videoLog = "VIDEO_LOG"
-        case resultLog = "RESULT_LOG"
-        case serviceLog = "SERVICE_LOG"
-        case webkitLog = "WEBKIT_LOG"
-        case instrumentationOutput = "INSTRUMENTATION_OUTPUT"
-        case exerciserMonkeyOutput = "EXERCISER_MONKEY_OUTPUT"
-        case calabashJsonOutput = "CALABASH_JSON_OUTPUT"
-        case calabashPrettyOutput = "CALABASH_PRETTY_OUTPUT"
-        case calabashStandardOutput = "CALABASH_STANDARD_OUTPUT"
-        case calabashJavaXmlOutput = "CALABASH_JAVA_XML_OUTPUT"
-        case automationOutput = "AUTOMATION_OUTPUT"
-        case appiumServerOutput = "APPIUM_SERVER_OUTPUT"
-        case appiumJavaOutput = "APPIUM_JAVA_OUTPUT"
-        case appiumJavaXmlOutput = "APPIUM_JAVA_XML_OUTPUT"
-        case appiumPythonOutput = "APPIUM_PYTHON_OUTPUT"
-        case appiumPythonXmlOutput = "APPIUM_PYTHON_XML_OUTPUT"
-        case explorerEventLog = "EXPLORER_EVENT_LOG"
-        case explorerSummaryLog = "EXPLORER_SUMMARY_LOG"
-        case applicationCrashReport = "APPLICATION_CRASH_REPORT"
-        case xctestLog = "XCTEST_LOG"
-        case video = "VIDEO"
-        case customerArtifact = "CUSTOMER_ARTIFACT"
-        case customerArtifactLog = "CUSTOMER_ARTIFACT_LOG"
-        case testspecOutput = "TESTSPEC_OUTPUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BillingMethod: String, CustomStringConvertible, Codable {
-        case metered = "METERED"
-        case unmetered = "UNMETERED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CPU: AWSShape {
@@ -845,11 +1108,6 @@ extension DeviceFarm {
         }
     }
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable {
-        case usd = "USD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CustomerArtifactPaths: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "androidPaths", required: false, type: .list), 
@@ -1273,31 +1531,6 @@ extension DeviceFarm {
         }
     }
 
-    public enum DeviceAttribute: String, CustomStringConvertible, Codable {
-        case arn = "ARN"
-        case platform = "PLATFORM"
-        case formFactor = "FORM_FACTOR"
-        case manufacturer = "MANUFACTURER"
-        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
-        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
-        case appiumVersion = "APPIUM_VERSION"
-        case instanceArn = "INSTANCE_ARN"
-        case instanceLabels = "INSTANCE_LABELS"
-        case fleetType = "FLEET_TYPE"
-        case osVersion = "OS_VERSION"
-        case model = "MODEL"
-        case availability = "AVAILABILITY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeviceAvailability: String, CustomStringConvertible, Codable {
-        case temporaryNotAvailable = "TEMPORARY_NOT_AVAILABLE"
-        case busy = "BUSY"
-        case available = "AVAILABLE"
-        case highlyAvailable = "HIGHLY_AVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeviceFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attribute", required: false, type: .enum), 
@@ -1323,28 +1556,6 @@ extension DeviceFarm {
             case `operator` = "operator"
             case values = "values"
         }
-    }
-
-    public enum DeviceFilterAttribute: String, CustomStringConvertible, Codable {
-        case arn = "ARN"
-        case platform = "PLATFORM"
-        case osVersion = "OS_VERSION"
-        case model = "MODEL"
-        case availability = "AVAILABILITY"
-        case formFactor = "FORM_FACTOR"
-        case manufacturer = "MANUFACTURER"
-        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
-        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
-        case instanceArn = "INSTANCE_ARN"
-        case instanceLabels = "INSTANCE_LABELS"
-        case fleetType = "FLEET_TYPE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeviceFormFactor: String, CustomStringConvertible, Codable {
-        case phone = "PHONE"
-        case tablet = "TABLET"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeviceInstance: AWSShape {
@@ -1416,12 +1627,6 @@ extension DeviceFarm {
         }
     }
 
-    public enum DevicePlatform: String, CustomStringConvertible, Codable {
-        case android = "ANDROID"
-        case ios = "IOS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DevicePool: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
@@ -1489,12 +1694,6 @@ extension DeviceFarm {
             case device = "device"
             case incompatibilityMessages = "incompatibilityMessages"
         }
-    }
-
-    public enum DevicePoolType: String, CustomStringConvertible, Codable {
-        case curated = "CURATED"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeviceSelectionConfiguration: AWSShape {
@@ -1581,36 +1780,6 @@ extension DeviceFarm {
             case skipAppResign = "skipAppResign"
             case videoCapture = "videoCapture"
         }
-    }
-
-    public enum ExecutionResult: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case passed = "PASSED"
-        case warned = "WARNED"
-        case failed = "FAILED"
-        case skipped = "SKIPPED"
-        case errored = "ERRORED"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExecutionResultCode: String, CustomStringConvertible, Codable {
-        case parsingFailed = "PARSING_FAILED"
-        case vpcEndpointSetupFailed = "VPC_ENDPOINT_SETUP_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case pendingConcurrency = "PENDING_CONCURRENCY"
-        case pendingDevice = "PENDING_DEVICE"
-        case processing = "PROCESSING"
-        case scheduling = "SCHEDULING"
-        case preparing = "PREPARING"
-        case running = "RUNNING"
-        case completed = "COMPLETED"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetAccountSettingsRequest: AWSShape {
@@ -2483,21 +2652,6 @@ extension DeviceFarm {
             case packageCleanup = "packageCleanup"
             case rebootAfterUse = "rebootAfterUse"
         }
-    }
-
-    public enum InstanceStatus: String, CustomStringConvertible, Codable {
-        case inUse = "IN_USE"
-        case preparing = "PREPARING"
-        case available = "AVAILABLE"
-        case notAvailable = "NOT_AVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InteractionMode: String, CustomStringConvertible, Codable {
-        case interactive = "INTERACTIVE"
-        case noVideo = "NO_VIDEO"
-        case videoOnly = "VIDEO_ONLY"
-        public var description: String { return self.rawValue }
     }
 
     public struct Job: AWSShape {
@@ -3981,12 +4135,6 @@ extension DeviceFarm {
         }
     }
 
-    public enum NetworkProfileType: String, CustomStringConvertible, Codable {
-        case curated = "CURATED"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Offering: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
@@ -4113,18 +4261,6 @@ extension DeviceFarm {
             case offeringStatus = "offeringStatus"
             case transactionId = "transactionId"
         }
-    }
-
-    public enum OfferingTransactionType: String, CustomStringConvertible, Codable {
-        case purchase = "PURCHASE"
-        case renew = "RENEW"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OfferingType: String, CustomStringConvertible, Codable {
-        case recurring = "RECURRING"
-        public var description: String { return self.rawValue }
     }
 
     public struct Problem: AWSShape {
@@ -4329,11 +4465,6 @@ extension DeviceFarm {
             case cost = "cost"
             case frequency = "frequency"
         }
-    }
-
-    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable {
-        case monthly = "MONTHLY"
-        public var description: String { return self.rawValue }
     }
 
     public struct RemoteAccessSession: AWSShape {
@@ -4545,18 +4676,6 @@ extension DeviceFarm {
         }
     }
 
-    public enum RuleOperator: String, CustomStringConvertible, Codable {
-        case equals = "EQUALS"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEquals = "LESS_THAN_OR_EQUALS"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEquals = "GREATER_THAN_OR_EQUALS"
-        case `in` = "IN"
-        case notIn = "NOT_IN"
-        case contains = "CONTAINS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Run: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appUpload", required: false, type: .string), 
@@ -4749,27 +4868,6 @@ extension DeviceFarm {
             case `type` = "type"
             case url = "url"
         }
-    }
-
-    public enum SampleType: String, CustomStringConvertible, Codable {
-        case cpu = "CPU"
-        case memory = "MEMORY"
-        case threads = "THREADS"
-        case rxRate = "RX_RATE"
-        case txRate = "TX_RATE"
-        case rx = "RX"
-        case tx = "TX"
-        case nativeFrames = "NATIVE_FRAMES"
-        case nativeFps = "NATIVE_FPS"
-        case nativeMinDrawtime = "NATIVE_MIN_DRAWTIME"
-        case nativeAvgDrawtime = "NATIVE_AVG_DRAWTIME"
-        case nativeMaxDrawtime = "NATIVE_MAX_DRAWTIME"
-        case openglFrames = "OPENGL_FRAMES"
-        case openglFps = "OPENGL_FPS"
-        case openglMinDrawtime = "OPENGL_MIN_DRAWTIME"
-        case openglAvgDrawtime = "OPENGL_AVG_DRAWTIME"
-        case openglMaxDrawtime = "OPENGL_MAX_DRAWTIME"
-        public var description: String { return self.rawValue }
     }
 
     public struct ScheduleRunConfiguration: AWSShape {
@@ -5440,51 +5538,6 @@ extension DeviceFarm {
             case `type` = "type"
             case url = "url"
         }
-    }
-
-    public enum TestGridSessionArtifactCategory: String, CustomStringConvertible, Codable {
-        case video = "VIDEO"
-        case log = "LOG"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TestGridSessionArtifactType: String, CustomStringConvertible, Codable {
-        case unknown = "UNKNOWN"
-        case video = "VIDEO"
-        case seleniumLog = "SELENIUM_LOG"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TestGridSessionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case closed = "CLOSED"
-        case errored = "ERRORED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TestType: String, CustomStringConvertible, Codable {
-        case builtinFuzz = "BUILTIN_FUZZ"
-        case builtinExplorer = "BUILTIN_EXPLORER"
-        case webPerformanceProfile = "WEB_PERFORMANCE_PROFILE"
-        case appiumJavaJunit = "APPIUM_JAVA_JUNIT"
-        case appiumJavaTestng = "APPIUM_JAVA_TESTNG"
-        case appiumPython = "APPIUM_PYTHON"
-        case appiumNode = "APPIUM_NODE"
-        case appiumRuby = "APPIUM_RUBY"
-        case appiumWebJavaJunit = "APPIUM_WEB_JAVA_JUNIT"
-        case appiumWebJavaTestng = "APPIUM_WEB_JAVA_TESTNG"
-        case appiumWebPython = "APPIUM_WEB_PYTHON"
-        case appiumWebNode = "APPIUM_WEB_NODE"
-        case appiumWebRuby = "APPIUM_WEB_RUBY"
-        case calabash = "CALABASH"
-        case instrumentation = "INSTRUMENTATION"
-        case uiautomation = "UIAUTOMATION"
-        case uiautomator = "UIAUTOMATOR"
-        case xctest = "XCTEST"
-        case xctestUi = "XCTEST_UI"
-        case remoteAccessRecord = "REMOTE_ACCESS_RECORD"
-        case remoteAccessReplay = "REMOTE_ACCESS_REPLAY"
-        public var description: String { return self.rawValue }
     }
 
     public struct TrialMinutes: AWSShape {
@@ -6161,56 +6214,6 @@ extension DeviceFarm {
             case `type` = "type"
             case url = "url"
         }
-    }
-
-    public enum UploadCategory: String, CustomStringConvertible, Codable {
-        case curated = "CURATED"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UploadStatus: String, CustomStringConvertible, Codable {
-        case initialized = "INITIALIZED"
-        case processing = "PROCESSING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UploadType: String, CustomStringConvertible, Codable {
-        case androidApp = "ANDROID_APP"
-        case iosApp = "IOS_APP"
-        case webApp = "WEB_APP"
-        case externalData = "EXTERNAL_DATA"
-        case appiumJavaJunitTestPackage = "APPIUM_JAVA_JUNIT_TEST_PACKAGE"
-        case appiumJavaTestngTestPackage = "APPIUM_JAVA_TESTNG_TEST_PACKAGE"
-        case appiumPythonTestPackage = "APPIUM_PYTHON_TEST_PACKAGE"
-        case appiumNodeTestPackage = "APPIUM_NODE_TEST_PACKAGE"
-        case appiumRubyTestPackage = "APPIUM_RUBY_TEST_PACKAGE"
-        case appiumWebJavaJunitTestPackage = "APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE"
-        case appiumWebJavaTestngTestPackage = "APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE"
-        case appiumWebPythonTestPackage = "APPIUM_WEB_PYTHON_TEST_PACKAGE"
-        case appiumWebNodeTestPackage = "APPIUM_WEB_NODE_TEST_PACKAGE"
-        case appiumWebRubyTestPackage = "APPIUM_WEB_RUBY_TEST_PACKAGE"
-        case calabashTestPackage = "CALABASH_TEST_PACKAGE"
-        case instrumentationTestPackage = "INSTRUMENTATION_TEST_PACKAGE"
-        case uiautomationTestPackage = "UIAUTOMATION_TEST_PACKAGE"
-        case uiautomatorTestPackage = "UIAUTOMATOR_TEST_PACKAGE"
-        case xctestTestPackage = "XCTEST_TEST_PACKAGE"
-        case xctestUiTestPackage = "XCTEST_UI_TEST_PACKAGE"
-        case appiumJavaJunitTestSpec = "APPIUM_JAVA_JUNIT_TEST_SPEC"
-        case appiumJavaTestngTestSpec = "APPIUM_JAVA_TESTNG_TEST_SPEC"
-        case appiumPythonTestSpec = "APPIUM_PYTHON_TEST_SPEC"
-        case appiumNodeTestSpec = "APPIUM_NODE_TEST_SPEC"
-        case appiumRubyTestSpec = "APPIUM_RUBY_TEST_SPEC"
-        case appiumWebJavaJunitTestSpec = "APPIUM_WEB_JAVA_JUNIT_TEST_SPEC"
-        case appiumWebJavaTestngTestSpec = "APPIUM_WEB_JAVA_TESTNG_TEST_SPEC"
-        case appiumWebPythonTestSpec = "APPIUM_WEB_PYTHON_TEST_SPEC"
-        case appiumWebNodeTestSpec = "APPIUM_WEB_NODE_TEST_SPEC"
-        case appiumWebRubyTestSpec = "APPIUM_WEB_RUBY_TEST_SPEC"
-        case instrumentationTestSpec = "INSTRUMENTATION_TEST_SPEC"
-        case xctestUiTestSpec = "XCTEST_UI_TEST_SPEC"
-        public var description: String { return self.rawValue }
     }
 
     public struct VPCEConfiguration: AWSShape {

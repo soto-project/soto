@@ -4,6 +4,100 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension GuardDuty {
+    //MARK: Enums
+
+    public enum DestinationType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetectorStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Feedback: String, CustomStringConvertible, Codable {
+        case useful = "USEFUL"
+        case notUseful = "NOT_USEFUL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterAction: String, CustomStringConvertible, Codable {
+        case noop = "NOOP"
+        case archive = "ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable {
+        case fifteenMinutes = "FIFTEEN_MINUTES"
+        case oneHour = "ONE_HOUR"
+        case sixHours = "SIX_HOURS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FindingStatisticType: String, CustomStringConvertible, Codable {
+        case countBySeverity = "COUNT_BY_SEVERITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpSetFormat: String, CustomStringConvertible, Codable {
+        case txt = "TXT"
+        case stix = "STIX"
+        case otxCsv = "OTX_CSV"
+        case alienVault = "ALIEN_VAULT"
+        case proofPoint = "PROOF_POINT"
+        case fireEye = "FIRE_EYE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpSetStatus: String, CustomStringConvertible, Codable {
+        case inactive = "INACTIVE"
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case deactivating = "DEACTIVATING"
+        case error = "ERROR"
+        case deletePending = "DELETE_PENDING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderBy: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PublishingStatus: String, CustomStringConvertible, Codable {
+        case pendingVerification = "PENDING_VERIFICATION"
+        case publishing = "PUBLISHING"
+        case unableToPublishFixDestinationProperty = "UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThreatIntelSetFormat: String, CustomStringConvertible, Codable {
+        case txt = "TXT"
+        case stix = "STIX"
+        case otxCsv = "OTX_CSV"
+        case alienVault = "ALIEN_VAULT"
+        case proofPoint = "PROOF_POINT"
+        case fireEye = "FIRE_EYE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThreatIntelSetStatus: String, CustomStringConvertible, Codable {
+        case inactive = "INACTIVE"
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case deactivating = "DEACTIVATING"
+        case error = "ERROR"
+        case deletePending = "DELETE_PENDING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1177,17 +1271,6 @@ extension GuardDuty {
         }
     }
 
-    public enum DestinationType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DetectorStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DisassociateFromMasterAccountRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
@@ -1319,18 +1402,6 @@ extension GuardDuty {
         }
     }
 
-    public enum Feedback: String, CustomStringConvertible, Codable {
-        case useful = "USEFUL"
-        case notUseful = "NOT_USEFUL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FilterAction: String, CustomStringConvertible, Codable {
-        case noop = "NOOP"
-        case archive = "ARCHIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Finding: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string), 
@@ -1431,18 +1502,6 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case criterion = "criterion"
         }
-    }
-
-    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable {
-        case fifteenMinutes = "FIFTEEN_MINUTES"
-        case oneHour = "ONE_HOUR"
-        case sixHours = "SIX_HOURS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FindingStatisticType: String, CustomStringConvertible, Codable {
-        case countBySeverity = "COUNT_BY_SEVERITY"
-        public var description: String { return self.rawValue }
     }
 
     public struct FindingStatistics: AWSShape {
@@ -2156,27 +2215,6 @@ extension GuardDuty {
         }
     }
 
-    public enum IpSetFormat: String, CustomStringConvertible, Codable {
-        case txt = "TXT"
-        case stix = "STIX"
-        case otxCsv = "OTX_CSV"
-        case alienVault = "ALIEN_VAULT"
-        case proofPoint = "PROOF_POINT"
-        case fireEye = "FIRE_EYE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IpSetStatus: String, CustomStringConvertible, Codable {
-        case inactive = "INACTIVE"
-        case activating = "ACTIVATING"
-        case active = "ACTIVE"
-        case deactivating = "DEACTIVATING"
-        case error = "ERROR"
-        case deletePending = "DELETE_PENDING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListDetectorsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -2869,12 +2907,6 @@ extension GuardDuty {
         }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Organization: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Asn", location: .body(locationName: "asn"), required: false, type: .string), 
@@ -2993,14 +3025,6 @@ extension GuardDuty {
             case code = "code"
             case productType = "productType"
         }
-    }
-
-    public enum PublishingStatus: String, CustomStringConvertible, Codable {
-        case pendingVerification = "PENDING_VERIFICATION"
-        case publishing = "PUBLISHING"
-        case unableToPublishFixDestinationProperty = "UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
     }
 
     public struct RemoteIpDetails: AWSShape {
@@ -3355,27 +3379,6 @@ extension GuardDuty {
         public init() {
         }
 
-    }
-
-    public enum ThreatIntelSetFormat: String, CustomStringConvertible, Codable {
-        case txt = "TXT"
-        case stix = "STIX"
-        case otxCsv = "OTX_CSV"
-        case alienVault = "ALIEN_VAULT"
-        case proofPoint = "PROOF_POINT"
-        case fireEye = "FIRE_EYE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ThreatIntelSetStatus: String, CustomStringConvertible, Codable {
-        case inactive = "INACTIVE"
-        case activating = "ACTIVATING"
-        case active = "ACTIVE"
-        case deactivating = "DEACTIVATING"
-        case error = "ERROR"
-        case deletePending = "DELETE_PENDING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ThreatIntelligenceDetail: AWSShape {

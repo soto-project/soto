@@ -4,6 +4,44 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AppConfig {
+    //MARK: Enums
+
+    public enum DeploymentState: String, CustomStringConvertible, Codable {
+        case baking = "BAKING"
+        case validating = "VALIDATING"
+        case deploying = "DEPLOYING"
+        case complete = "COMPLETE"
+        case rollingBack = "ROLLING_BACK"
+        case rolledBack = "ROLLED_BACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentState: String, CustomStringConvertible, Codable {
+        case readyForDeployment = "READY_FOR_DEPLOYMENT"
+        case deploying = "DEPLOYING"
+        case rollingBack = "ROLLING_BACK"
+        case rolledBack = "ROLLED_BACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GrowthType: String, CustomStringConvertible, Codable {
+        case linear = "LINEAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicateTo: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case ssmDocument = "SSM_DOCUMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidatorType: String, CustomStringConvertible, Codable {
+        case jsonSchema = "JSON_SCHEMA"
+        case lambda = "LAMBDA"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Application: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -616,16 +654,6 @@ extension AppConfig {
         }
     }
 
-    public enum DeploymentState: String, CustomStringConvertible, Codable {
-        case baking = "BAKING"
-        case validating = "VALIDATING"
-        case deploying = "DEPLOYING"
-        case complete = "COMPLETE"
-        case rollingBack = "ROLLING_BACK"
-        case rolledBack = "ROLLED_BACK"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeploymentStrategies: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .list), 
@@ -831,14 +859,6 @@ extension AppConfig {
         }
     }
 
-    public enum EnvironmentState: String, CustomStringConvertible, Codable {
-        case readyForDeployment = "READY_FOR_DEPLOYMENT"
-        case deploying = "DEPLOYING"
-        case rollingBack = "ROLLING_BACK"
-        case rolledBack = "ROLLED_BACK"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Environments: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .list), 
@@ -1037,11 +1057,6 @@ extension AppConfig {
             case applicationId = "ApplicationId"
             case environmentId = "EnvironmentId"
         }
-    }
-
-    public enum GrowthType: String, CustomStringConvertible, Codable {
-        case linear = "LINEAR"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListApplicationsRequest: AWSShape {
@@ -1265,12 +1280,6 @@ extension AppConfig {
             case alarmArn = "AlarmArn"
             case alarmRoleArn = "AlarmRoleArn"
         }
-    }
-
-    public enum ReplicateTo: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case ssmDocument = "SSM_DOCUMENT"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceTags: AWSShape {
@@ -1710,11 +1719,5 @@ extension AppConfig {
             case content = "Content"
             case `type` = "Type"
         }
-    }
-
-    public enum ValidatorType: String, CustomStringConvertible, Codable {
-        case jsonSchema = "JSON_SCHEMA"
-        case lambda = "LAMBDA"
-        public var description: String { return self.rawValue }
     }
 }

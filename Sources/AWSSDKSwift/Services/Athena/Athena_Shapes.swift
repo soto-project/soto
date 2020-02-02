@@ -4,6 +4,45 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Athena {
+    //MARK: Enums
+
+    public enum ColumnNullable: String, CustomStringConvertible, Codable {
+        case notNull = "NOT_NULL"
+        case nullable = "NULLABLE"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionOption: String, CustomStringConvertible, Codable {
+        case sseS3 = "SSE_S3"
+        case sseKms = "SSE_KMS"
+        case cseKms = "CSE_KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryExecutionState: String, CustomStringConvertible, Codable {
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatementType: String, CustomStringConvertible, Codable {
+        case ddl = "DDL"
+        case dml = "DML"
+        case utility = "UTILITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkGroupState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BatchGetNamedQueryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -153,13 +192,6 @@ extension Athena {
             case tableName = "TableName"
             case `type` = "Type"
         }
-    }
-
-    public enum ColumnNullable: String, CustomStringConvertible, Codable {
-        case notNull = "NOT_NULL"
-        case nullable = "NULLABLE"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateNamedQueryInput: AWSShape {
@@ -381,13 +413,6 @@ extension Athena {
             case encryptionOption = "EncryptionOption"
             case kmsKey = "KmsKey"
         }
-    }
-
-    public enum EncryptionOption: String, CustomStringConvertible, Codable {
-        case sseS3 = "SSE_S3"
-        case sseKms = "SSE_KMS"
-        case cseKms = "CSE_KMS"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetNamedQueryInput: AWSShape {
@@ -895,15 +920,6 @@ extension Athena {
         }
     }
 
-    public enum QueryExecutionState: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case cancelled = "CANCELLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct QueryExecutionStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataManifestLocation", required: false, type: .string), 
@@ -1154,13 +1170,6 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case queryExecutionId = "QueryExecutionId"
         }
-    }
-
-    public enum StatementType: String, CustomStringConvertible, Codable {
-        case ddl = "DDL"
-        case dml = "DML"
-        case utility = "UTILITY"
-        public var description: String { return self.rawValue }
     }
 
     public struct StopQueryExecutionInput: AWSShape {
@@ -1517,12 +1526,6 @@ extension Athena {
             case requesterPaysEnabled = "RequesterPaysEnabled"
             case resultConfigurationUpdates = "ResultConfigurationUpdates"
         }
-    }
-
-    public enum WorkGroupState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct WorkGroupSummary: AWSShape {

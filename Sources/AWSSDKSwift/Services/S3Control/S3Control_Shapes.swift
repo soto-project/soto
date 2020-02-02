@@ -4,6 +4,139 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension S3Control {
+    //MARK: Enums
+
+    public enum JobManifestFieldName: String, CustomStringConvertible, Codable {
+        case ignore = "Ignore"
+        case bucket = "Bucket"
+        case key = "Key"
+        case versionid = "VersionId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobManifestFormat: String, CustomStringConvertible, Codable {
+        case s3batchoperationsCsv20180820 = "S3BatchOperations_CSV_20180820"
+        case s3inventoryreportCsv20161130 = "S3InventoryReport_CSV_20161130"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobReportFormat: String, CustomStringConvertible, Codable {
+        case reportCsv20180820 = "Report_CSV_20180820"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobReportScope: String, CustomStringConvertible, Codable {
+        case alltasks = "AllTasks"
+        case failedtasksonly = "FailedTasksOnly"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case cancelled = "Cancelled"
+        case cancelling = "Cancelling"
+        case complete = "Complete"
+        case completing = "Completing"
+        case failed = "Failed"
+        case failing = "Failing"
+        case new = "New"
+        case paused = "Paused"
+        case pausing = "Pausing"
+        case preparing = "Preparing"
+        case ready = "Ready"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkOrigin: String, CustomStringConvertible, Codable {
+        case internet = "Internet"
+        case vpc = "VPC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationName: String, CustomStringConvertible, Codable {
+        case lambdainvoke = "LambdaInvoke"
+        case s3putobjectcopy = "S3PutObjectCopy"
+        case s3putobjectacl = "S3PutObjectAcl"
+        case s3putobjecttagging = "S3PutObjectTagging"
+        case s3initiaterestoreobject = "S3InitiateRestoreObject"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestedJobStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "Cancelled"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case awsExecRead = "aws-exec-read"
+        case authenticatedRead = "authenticated-read"
+        case bucketOwnerRead = "bucket-owner-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3GlacierJobTier: String, CustomStringConvertible, Codable {
+        case bulk = "BULK"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable {
+        case id = "id"
+        case emailaddress = "emailAddress"
+        case uri = "uri"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3MetadataDirective: String, CustomStringConvertible, Codable {
+        case copy = "COPY"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case on = "ON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ObjectLockMode: String, CustomStringConvertible, Codable {
+        case compliance = "COMPLIANCE"
+        case governance = "GOVERNANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3Permission: String, CustomStringConvertible, Codable {
+        case fullControl = "FULL_CONTROL"
+        case read = "READ"
+        case write = "WRITE"
+        case readAcp = "READ_ACP"
+        case writeAcp = "WRITE_ACP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3SSEAlgorithm: String, CustomStringConvertible, Codable {
+        case aes256 = "AES256"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3StorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case glacier = "GLACIER"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case deepArchive = "DEEP_ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessPoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -686,20 +819,6 @@ extension S3Control {
         }
     }
 
-    public enum JobManifestFieldName: String, CustomStringConvertible, Codable {
-        case ignore = "Ignore"
-        case bucket = "Bucket"
-        case key = "Key"
-        case versionid = "VersionId"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobManifestFormat: String, CustomStringConvertible, Codable {
-        case s3batchoperationsCsv20180820 = "S3BatchOperations_CSV_20180820"
-        case s3inventoryreportCsv20161130 = "S3InventoryReport_CSV_20161130"
-        public var description: String { return self.rawValue }
-    }
-
     public struct JobManifestLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", required: true, type: .string), 
@@ -871,34 +990,6 @@ extension S3Control {
         }
     }
 
-    public enum JobReportFormat: String, CustomStringConvertible, Codable {
-        case reportCsv20180820 = "Report_CSV_20180820"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobReportScope: String, CustomStringConvertible, Codable {
-        case alltasks = "AllTasks"
-        case failedtasksonly = "FailedTasksOnly"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case cancelled = "Cancelled"
-        case cancelling = "Cancelling"
-        case complete = "Complete"
-        case completing = "Completing"
-        case failed = "Failed"
-        case failing = "Failing"
-        case new = "New"
-        case paused = "Paused"
-        case pausing = "Pausing"
-        case preparing = "Preparing"
-        case ready = "Ready"
-        case suspended = "Suspended"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LambdaInvokeOperation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionArn", required: false, type: .string)
@@ -1046,21 +1137,6 @@ extension S3Control {
         }
     }
 
-    public enum NetworkOrigin: String, CustomStringConvertible, Codable {
-        case internet = "Internet"
-        case vpc = "VPC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OperationName: String, CustomStringConvertible, Codable {
-        case lambdainvoke = "LambdaInvoke"
-        case s3putobjectcopy = "S3PutObjectCopy"
-        case s3putobjectacl = "S3PutObjectAcl"
-        case s3putobjecttagging = "S3PutObjectTagging"
-        case s3initiaterestoreobject = "S3InitiateRestoreObject"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PolicyStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsPublic", location: .body(locationName: "IsPublic"), required: false, type: .boolean)
@@ -1171,12 +1247,6 @@ extension S3Control {
         }
     }
 
-    public enum RequestedJobStatus: String, CustomStringConvertible, Codable {
-        case cancelled = "Cancelled"
-        case ready = "Ready"
-        public var description: String { return self.rawValue }
-    }
-
     public struct S3AccessControlList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Grants", required: false, type: .list, encoding: .list(member:"member")), 
@@ -1226,17 +1296,6 @@ extension S3Control {
             case accessControlList = "AccessControlList"
             case cannedAccessControlList = "CannedAccessControlList"
         }
-    }
-
-    public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case awsExecRead = "aws-exec-read"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3CopyObjectOperation: AWSShape {
@@ -1333,12 +1392,6 @@ extension S3Control {
         }
     }
 
-    public enum S3GlacierJobTier: String, CustomStringConvertible, Codable {
-        case bulk = "BULK"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct S3Grant: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Grantee", required: false, type: .structure), 
@@ -1394,13 +1447,6 @@ extension S3Control {
         }
     }
 
-    public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable {
-        case id = "id"
-        case emailaddress = "emailAddress"
-        case uri = "uri"
-        public var description: String { return self.rawValue }
-    }
-
     public struct S3InitiateRestoreObjectOperation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExpirationInDays", required: false, type: .integer), 
@@ -1423,24 +1469,6 @@ extension S3Control {
             case expirationInDays = "ExpirationInDays"
             case glacierJobTier = "GlacierJobTier"
         }
-    }
-
-    public enum S3MetadataDirective: String, CustomStringConvertible, Codable {
-        case copy = "COPY"
-        case replace = "REPLACE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum S3ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case on = "ON"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum S3ObjectLockMode: String, CustomStringConvertible, Codable {
-        case compliance = "COMPLIANCE"
-        case governance = "GOVERNANCE"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3ObjectMetadata: AWSShape {
@@ -1547,21 +1575,6 @@ extension S3Control {
         }
     }
 
-    public enum S3Permission: String, CustomStringConvertible, Codable {
-        case fullControl = "FULL_CONTROL"
-        case read = "READ"
-        case write = "WRITE"
-        case readAcp = "READ_ACP"
-        case writeAcp = "WRITE_ACP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum S3SSEAlgorithm: String, CustomStringConvertible, Codable {
-        case aes256 = "AES256"
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct S3SetObjectAclOperation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessControlPolicy", required: false, type: .structure)
@@ -1602,16 +1615,6 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case tagSet = "TagSet"
         }
-    }
-
-    public enum S3StorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case glacier = "GLACIER"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case deepArchive = "DEEP_ARCHIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3Tag: AWSShape {

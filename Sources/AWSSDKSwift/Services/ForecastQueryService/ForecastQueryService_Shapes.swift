@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ForecastQueryService {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct DataPoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
