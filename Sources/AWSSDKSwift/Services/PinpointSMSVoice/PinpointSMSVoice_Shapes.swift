@@ -4,6 +4,20 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension PinpointSMSVoice {
+    //MARK: Enums
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case initiatedCall = "INITIATED_CALL"
+        case ringing = "RINGING"
+        case answered = "ANSWERED"
+        case completedCall = "COMPLETED_CALL"
+        case busy = "BUSY"
+        case failed = "FAILED"
+        case noAnswer = "NO_ANSWER"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CallInstructionsMessageType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -223,17 +237,6 @@ extension PinpointSMSVoice {
             case matchingEventTypes = "MatchingEventTypes"
             case snsDestination = "SnsDestination"
         }
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case initiatedCall = "INITIATED_CALL"
-        case ringing = "RINGING"
-        case answered = "ANSWERED"
-        case completedCall = "COMPLETED_CALL"
-        case busy = "BUSY"
-        case failed = "FAILED"
-        case noAnswer = "NO_ANSWER"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSShape {

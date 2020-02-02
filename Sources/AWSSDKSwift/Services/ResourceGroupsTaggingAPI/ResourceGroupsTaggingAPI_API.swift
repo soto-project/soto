@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS ResourceGroupsTaggingAPI service.
+
 Resource Groups Tagging API This guide describes the API operations for the resource groups tagging. A tag is a label that you assign to an AWS resource. A tag consists of a key and a value, both of which you define. For example, if you have two Amazon EC2 instances, you might assign both a tag key of "Stack." But the value of "Stack" might be "Testing" for one and "Production" for the other. Tagging can help you organize your resources and enables you to simplify resource management, access management and cost allocation.  You can use the resource groups tagging API operations to complete the following tasks:   Tag and untag supported resources located in the specified Region for the AWS account.   Use tag-based filters to search for resources located in the specified Region for the AWS account.   List all existing tag keys in the specified Region for the AWS account.   List all existing values for the specified key in the specified Region for the AWS account.   To use resource groups tagging API operations, you must add the following permissions to your IAM policy:    tag:GetResources     tag:TagResources     tag:UntagResources     tag:GetTagKeys     tag:GetTagValues    You'll also need permissions to access the resources of individual services so that you can tag and untag those resources. For more information on IAM policies, see Managing IAM Policies in the IAM User Guide. You can use the Resource Groups Tagging API to tag resources for the following AWS services.   Alexa for Business (a4b)   API Gateway   Amazon AppStream   AWS AppSync   AWS App Mesh   Amazon Athena   Amazon Aurora   AWS Backup   AWS Certificate Manager   AWS Certificate Manager Private CA   Amazon Cloud Directory   AWS CloudFormation   Amazon CloudFront   AWS CloudHSM   AWS CloudTrail   Amazon CloudWatch (alarms only)   Amazon CloudWatch Events   Amazon CloudWatch Logs   AWS CodeBuild   AWS CodeCommit   AWS CodePipeline   AWS CodeStar   Amazon Cognito Identity   Amazon Cognito User Pools   Amazon Comprehend   AWS Config   AWS Data Pipeline   AWS Database Migration Service   AWS DataSync   AWS Direct Connect   AWS Directory Service   Amazon DynamoDB   Amazon EBS   Amazon EC2   Amazon ECR   Amazon ECS   AWS Elastic Beanstalk   Amazon Elastic File System   Elastic Load Balancing   Amazon ElastiCache   Amazon Elasticsearch Service   AWS Elemental MediaLive   AWS Elemental MediaPackage   AWS Elemental MediaTailor   Amazon EMR   Amazon FSx   Amazon S3 Glacier   AWS Glue   Amazon GuardDuty   Amazon Inspector   AWS IoT Analytics   AWS IoT Core   AWS IoT Device Defender   AWS IoT Device Management   AWS IoT Events   AWS IoT Greengrass   AWS Key Management Service   Amazon Kinesis   Amazon Kinesis Data Analytics   Amazon Kinesis Data Firehose   AWS Lambda   AWS License Manager   Amazon Machine Learning   Amazon MQ   Amazon MSK   Amazon Neptune   AWS OpsWorks   AWS Organizations   Amazon Quantum Ledger Database (QLDB)   Amazon RDS   Amazon Redshift   AWS Resource Access Manager   AWS Resource Groups   AWS RoboMaker   Amazon Route 53   Amazon Route 53 Resolver   Amazon S3 (buckets only)   Amazon SageMaker   AWS Secrets Manager   AWS Security Hub   AWS Service Catalog   Amazon Simple Notification Service (SNS)   Amazon Simple Queue Service (SQS)   AWS Step Functions   AWS Storage Gateway   AWS Systems Manager   AWS Transfer for SFTP   Amazon VPC   Amazon WorkSpaces  
 */
 public struct ResourceGroupsTaggingAPI {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the ResourceGroupsTaggingAPI client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -27,6 +42,8 @@ public struct ResourceGroupsTaggingAPI {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Describes the status of the StartReportCreation operation.  You can call this operation only from the organization's master account and from the us-east-1 Region.
     public func describeReportCreation(_ input: DescribeReportCreationInput) -> EventLoopFuture<DescribeReportCreationOutput> {

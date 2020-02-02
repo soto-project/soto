@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ApiGatewayManagementApi {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct DeleteConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

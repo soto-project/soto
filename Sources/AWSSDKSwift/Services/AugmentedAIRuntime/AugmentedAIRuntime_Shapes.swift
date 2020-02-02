@@ -4,12 +4,30 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AugmentedAIRuntime {
+    //MARK: Enums
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
         case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
         case freeofadultcontent = "FreeOfAdultContent"
         public var description: String { return self.rawValue }
     }
+
+    public enum HumanLoopStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case completed = "Completed"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct DeleteHumanLoopRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -199,15 +217,6 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public enum HumanLoopStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case completed = "Completed"
-        case stopped = "Stopped"
-        case stopping = "Stopping"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HumanLoopSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
@@ -330,12 +339,6 @@ extension AugmentedAIRuntime {
             case humanLoopSummaries = "HumanLoopSummaries"
             case nextToken = "NextToken"
         }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "Ascending"
-        case descending = "Descending"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartHumanLoopRequest: AWSShape {

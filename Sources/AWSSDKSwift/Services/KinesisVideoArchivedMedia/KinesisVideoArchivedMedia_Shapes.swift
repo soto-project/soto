@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension KinesisVideoArchivedMedia {
+    //MARK: Enums
 
     public enum ContainerFormat: String, CustomStringConvertible, Codable {
         case fragmentedMp4 = "FRAGMENTED_MP4"
@@ -22,6 +23,53 @@ extension KinesisVideoArchivedMedia {
         case never = "NEVER"
         public var description: String { return self.rawValue }
     }
+
+    public enum DASHFragmentSelectorType: String, CustomStringConvertible, Codable {
+        case producerTimestamp = "PRODUCER_TIMESTAMP"
+        case serverTimestamp = "SERVER_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DASHPlaybackMode: String, CustomStringConvertible, Codable {
+        case live = "LIVE"
+        case liveReplay = "LIVE_REPLAY"
+        case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FragmentSelectorType: String, CustomStringConvertible, Codable {
+        case producerTimestamp = "PRODUCER_TIMESTAMP"
+        case serverTimestamp = "SERVER_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HLSDiscontinuityMode: String, CustomStringConvertible, Codable {
+        case always = "ALWAYS"
+        case never = "NEVER"
+        case onDiscontinuity = "ON_DISCONTINUITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HLSDisplayFragmentTimestamp: String, CustomStringConvertible, Codable {
+        case always = "ALWAYS"
+        case never = "NEVER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HLSFragmentSelectorType: String, CustomStringConvertible, Codable {
+        case producerTimestamp = "PRODUCER_TIMESTAMP"
+        case serverTimestamp = "SERVER_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HLSPlaybackMode: String, CustomStringConvertible, Codable {
+        case live = "LIVE"
+        case liveReplay = "LIVE_REPLAY"
+        case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct DASHFragmentSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -43,19 +91,6 @@ extension KinesisVideoArchivedMedia {
             case fragmentSelectorType = "FragmentSelectorType"
             case timestampRange = "TimestampRange"
         }
-    }
-
-    public enum DASHFragmentSelectorType: String, CustomStringConvertible, Codable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DASHPlaybackMode: String, CustomStringConvertible, Codable {
-        case live = "LIVE"
-        case liveReplay = "LIVE_REPLAY"
-        case onDemand = "ON_DEMAND"
-        public var description: String { return self.rawValue }
     }
 
     public struct DASHTimestampRange: AWSShape {
@@ -137,12 +172,6 @@ extension KinesisVideoArchivedMedia {
             case fragmentSelectorType = "FragmentSelectorType"
             case timestampRange = "TimestampRange"
         }
-    }
-
-    public enum FragmentSelectorType: String, CustomStringConvertible, Codable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetDASHStreamingSessionURLInput: AWSShape {
@@ -373,19 +402,6 @@ extension KinesisVideoArchivedMedia {
         }
     }
 
-    public enum HLSDiscontinuityMode: String, CustomStringConvertible, Codable {
-        case always = "ALWAYS"
-        case never = "NEVER"
-        case onDiscontinuity = "ON_DISCONTINUITY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HLSDisplayFragmentTimestamp: String, CustomStringConvertible, Codable {
-        case always = "ALWAYS"
-        case never = "NEVER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HLSFragmentSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FragmentSelectorType", required: false, type: .enum), 
@@ -406,19 +422,6 @@ extension KinesisVideoArchivedMedia {
             case fragmentSelectorType = "FragmentSelectorType"
             case timestampRange = "TimestampRange"
         }
-    }
-
-    public enum HLSFragmentSelectorType: String, CustomStringConvertible, Codable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HLSPlaybackMode: String, CustomStringConvertible, Codable {
-        case live = "LIVE"
-        case liveReplay = "LIVE_REPLAY"
-        case onDemand = "ON_DEMAND"
-        public var description: String { return self.rawValue }
     }
 
     public struct HLSTimestampRange: AWSShape {

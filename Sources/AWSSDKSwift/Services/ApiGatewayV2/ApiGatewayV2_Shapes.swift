@@ -4,6 +4,89 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ApiGatewayV2 {
+    //MARK: Enums
+
+    public enum AuthorizationType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case awsIam = "AWS_IAM"
+        case custom = "CUSTOM"
+        case jwt = "JWT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthorizerType: String, CustomStringConvertible, Codable {
+        case request = "REQUEST"
+        case jwt = "JWT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionType: String, CustomStringConvertible, Codable {
+        case internet = "INTERNET"
+        case vpcLink = "VPC_LINK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable {
+        case convertToBinary = "CONVERT_TO_BINARY"
+        case convertToText = "CONVERT_TO_TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case failed = "FAILED"
+        case deployed = "DEPLOYED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainNameStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointType: String, CustomStringConvertible, Codable {
+        case regional = "REGIONAL"
+        case edge = "EDGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationType: String, CustomStringConvertible, Codable {
+        case aws = "AWS"
+        case http = "HTTP"
+        case mock = "MOCK"
+        case httpProxy = "HTTP_PROXY"
+        case awsProxy = "AWS_PROXY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoggingLevel: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case info = "INFO"
+        case `false` = "false"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PassthroughBehavior: String, CustomStringConvertible, Codable {
+        case whenNoMatch = "WHEN_NO_MATCH"
+        case never = "NEVER"
+        case whenNoTemplates = "WHEN_NO_TEMPLATES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtocolType: String, CustomStringConvertible, Codable {
+        case websocket = "WEBSOCKET"
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SecurityPolicy: String, CustomStringConvertible, Codable {
+        case tls10 = "TLS_1_0"
+        case tls12 = "TLS_1_2"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessLogSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -141,14 +224,6 @@ extension ApiGatewayV2 {
         }
     }
 
-    public enum AuthorizationType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case awsIam = "AWS_IAM"
-        case custom = "CUSTOM"
-        case jwt = "JWT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Authorizer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn"), required: false, type: .string), 
@@ -205,24 +280,6 @@ extension ApiGatewayV2 {
             case jwtConfiguration = "jwtConfiguration"
             case name = "name"
         }
-    }
-
-    public enum AuthorizerType: String, CustomStringConvertible, Codable {
-        case request = "REQUEST"
-        case jwt = "JWT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConnectionType: String, CustomStringConvertible, Codable {
-        case internet = "INTERNET"
-        case vpcLink = "VPC_LINK"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable {
-        case convertToBinary = "CONVERT_TO_BINARY"
-        case convertToText = "CONVERT_TO_TEXT"
-        public var description: String { return self.rawValue }
     }
 
     public struct Cors: AWSShape {
@@ -1588,13 +1645,6 @@ extension ApiGatewayV2 {
         }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case failed = "FAILED"
-        case deployed = "DEPLOYED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DomainName: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
@@ -1682,18 +1732,6 @@ extension ApiGatewayV2 {
             case hostedZoneId = "hostedZoneId"
             case securityPolicy = "securityPolicy"
         }
-    }
-
-    public enum DomainNameStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EndpointType: String, CustomStringConvertible, Codable {
-        case regional = "REGIONAL"
-        case edge = "EDGE"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetApiMappingRequest: AWSShape {
@@ -3224,15 +3262,6 @@ extension ApiGatewayV2 {
         }
     }
 
-    public enum IntegrationType: String, CustomStringConvertible, Codable {
-        case aws = "AWS"
-        case http = "HTTP"
-        case mock = "MOCK"
-        case httpProxy = "HTTP_PROXY"
-        case awsProxy = "AWS_PROXY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct JWTConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Audience", location: .body(locationName: "audience"), required: false, type: .list), 
@@ -3254,13 +3283,6 @@ extension ApiGatewayV2 {
             case audience = "audience"
             case issuer = "issuer"
         }
-    }
-
-    public enum LoggingLevel: String, CustomStringConvertible, Codable {
-        case error = "ERROR"
-        case info = "INFO"
-        case `false` = "false"
-        public var description: String { return self.rawValue }
     }
 
     public struct Model: AWSShape {
@@ -3315,19 +3337,6 @@ extension ApiGatewayV2 {
         private enum CodingKeys: String, CodingKey {
             case required = "required"
         }
-    }
-
-    public enum PassthroughBehavior: String, CustomStringConvertible, Codable {
-        case whenNoMatch = "WHEN_NO_MATCH"
-        case never = "NEVER"
-        case whenNoTemplates = "WHEN_NO_TEMPLATES"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProtocolType: String, CustomStringConvertible, Codable {
-        case websocket = "WEBSOCKET"
-        case http = "HTTP"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReimportApiRequest: AWSShape {
@@ -3575,12 +3584,6 @@ extension ApiGatewayV2 {
             case throttlingBurstLimit = "throttlingBurstLimit"
             case throttlingRateLimit = "throttlingRateLimit"
         }
-    }
-
-    public enum SecurityPolicy: String, CustomStringConvertible, Codable {
-        case tls10 = "TLS_1_0"
-        case tls12 = "TLS_1_2"
-        public var description: String { return self.rawValue }
     }
 
     public struct Stage: AWSShape {

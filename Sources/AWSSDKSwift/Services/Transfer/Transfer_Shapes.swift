@@ -4,6 +4,38 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Transfer {
+    //MARK: Enums
+
+    public enum EndpointType: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case vpc = "VPC"
+        case vpcEndpoint = "VPC_ENDPOINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HomeDirectoryType: String, CustomStringConvertible, Codable {
+        case path = "PATH"
+        case logical = "LOGICAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityProviderType: String, CustomStringConvertible, Codable {
+        case serviceManaged = "SERVICE_MANAGED"
+        case apiGateway = "API_GATEWAY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable {
+        case offline = "OFFLINE"
+        case online = "ONLINE"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
+        case startFailed = "START_FAILED"
+        case stopFailed = "STOP_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateServerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -537,13 +569,6 @@ extension Transfer {
         }
     }
 
-    public enum EndpointType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case vpc = "VPC"
-        case vpcEndpoint = "VPC_ENDPOINT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HomeDirectoryMapEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Entry", required: true, type: .string), 
@@ -573,12 +598,6 @@ extension Transfer {
         }
     }
 
-    public enum HomeDirectoryType: String, CustomStringConvertible, Codable {
-        case path = "PATH"
-        case logical = "LOGICAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct IdentityProviderDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InvocationRole", required: false, type: .string), 
@@ -606,12 +625,6 @@ extension Transfer {
             case invocationRole = "InvocationRole"
             case url = "Url"
         }
-    }
-
-    public enum IdentityProviderType: String, CustomStringConvertible, Codable {
-        case serviceManaged = "SERVICE_MANAGED"
-        case apiGateway = "API_GATEWAY"
-        public var description: String { return self.rawValue }
     }
 
     public struct ImportSshPublicKeyRequest: AWSShape {
@@ -995,16 +1008,6 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
         }
-    }
-
-    public enum State: String, CustomStringConvertible, Codable {
-        case offline = "OFFLINE"
-        case online = "ONLINE"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
-        case startFailed = "START_FAILED"
-        case stopFailed = "STOP_FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct StopServerRequest: AWSShape {

@@ -4,230 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Route53Domains {
-
-    public struct BillingRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BillDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "InvoiceId", required: false, type: .string), 
-            AWSShapeMember(label: "Operation", required: false, type: .enum), 
-            AWSShapeMember(label: "Price", required: false, type: .double)
-        ]
-
-        /// The date that the operation was billed, in Unix format.
-        public let billDate: TimeStamp?
-        /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see DNS Domain Name Format in the Amazon Route 53 Developer Guidezzz.
-        public let domainName: String?
-        /// The ID of the invoice that is associated with the billing record.
-        public let invoiceId: String?
-        /// The operation that you were charged for.
-        public let operation: OperationType?
-        /// The price that you were charged for the operation, in US dollars. Example value: 12.0
-        public let price: Double?
-
-        public init(billDate: TimeStamp? = nil, domainName: String? = nil, invoiceId: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
-            self.billDate = billDate
-            self.domainName = domainName
-            self.invoiceId = invoiceId
-            self.operation = operation
-            self.price = price
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case billDate = "BillDate"
-            case domainName = "DomainName"
-            case invoiceId = "InvoiceId"
-            case operation = "Operation"
-            case price = "Price"
-        }
-    }
-
-    public struct CheckDomainAvailabilityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "IdnLangCode", required: false, type: .string)
-        ]
-
-        /// The name of the domain that you want to get availability for. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-        public let domainName: String
-        /// Reserved for future use.
-        public let idnLangCode: String?
-
-        public init(domainName: String, idnLangCode: String? = nil) {
-            self.domainName = domainName
-            self.idnLangCode = idnLangCode
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.domainName, name:"domainName", parent: name, max: 255)
-            try validate(self.idnLangCode, name:"idnLangCode", parent: name, max: 3)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case idnLangCode = "IdnLangCode"
-        }
-    }
-
-    public struct CheckDomainAvailabilityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Availability", required: true, type: .enum)
-        ]
-
-        /// Whether the domain name is available for registering.  You can register only domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
-        public let availability: DomainAvailability
-
-        public init(availability: DomainAvailability) {
-            self.availability = availability
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availability = "Availability"
-        }
-    }
-
-    public struct CheckDomainTransferabilityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthCode", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-
-        /// If the registrar for the top-level domain (TLD) requires an authorization code to transfer the domain, the code that you got from the current registrar for the domain.
-        public let authCode: String?
-        /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-        public let domainName: String
-
-        public init(authCode: String? = nil, domainName: String) {
-            self.authCode = authCode
-            self.domainName = domainName
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.authCode, name:"authCode", parent: name, max: 1024)
-            try validate(self.domainName, name:"domainName", parent: name, max: 255)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authCode = "AuthCode"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct CheckDomainTransferabilityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Transferability", required: true, type: .structure)
-        ]
-
-        /// A complex type that contains information about whether the specified domain can be transferred to Amazon Route 53.
-        public let transferability: DomainTransferability
-
-        public init(transferability: DomainTransferability) {
-            self.transferability = transferability
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case transferability = "Transferability"
-        }
-    }
-
-    public struct ContactDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressLine1", required: false, type: .string), 
-            AWSShapeMember(label: "AddressLine2", required: false, type: .string), 
-            AWSShapeMember(label: "City", required: false, type: .string), 
-            AWSShapeMember(label: "ContactType", required: false, type: .enum), 
-            AWSShapeMember(label: "CountryCode", required: false, type: .enum), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraParams", required: false, type: .list), 
-            AWSShapeMember(label: "Fax", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "ZipCode", required: false, type: .string)
-        ]
-
-        /// First line of the contact's address.
-        public let addressLine1: String?
-        /// Second line of contact's address, if any.
-        public let addressLine2: String?
-        /// The city of the contact's address.
-        public let city: String?
-        /// Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON, you must enter an organization name, and you can't enable privacy protection for the contact.
-        public let contactType: ContactType?
-        /// Code for the country of the contact's address.
-        public let countryCode: CountryCode?
-        /// Email address of the contact.
-        public let email: String?
-        /// A list of name-value pairs for parameters required by certain top-level domains.
-        public let extraParams: [ExtraParam]?
-        /// Fax number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890".
-        public let fax: String?
-        /// First name of contact.
-        public let firstName: String?
-        /// Last name of contact.
-        public let lastName: String?
-        /// Name of the organization for contact types other than PERSON.
-        public let organizationName: String?
-        /// The phone number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code&gt;]". For example, a US phone number might appear as "+1.1234567890".
-        public let phoneNumber: String?
-        /// The state or province of the contact's city.
-        public let state: String?
-        /// The zip or postal code of the contact's address.
-        public let zipCode: String?
-
-        public init(addressLine1: String? = nil, addressLine2: String? = nil, city: String? = nil, contactType: ContactType? = nil, countryCode: CountryCode? = nil, email: String? = nil, extraParams: [ExtraParam]? = nil, fax: String? = nil, firstName: String? = nil, lastName: String? = nil, organizationName: String? = nil, phoneNumber: String? = nil, state: String? = nil, zipCode: String? = nil) {
-            self.addressLine1 = addressLine1
-            self.addressLine2 = addressLine2
-            self.city = city
-            self.contactType = contactType
-            self.countryCode = countryCode
-            self.email = email
-            self.extraParams = extraParams
-            self.fax = fax
-            self.firstName = firstName
-            self.lastName = lastName
-            self.organizationName = organizationName
-            self.phoneNumber = phoneNumber
-            self.state = state
-            self.zipCode = zipCode
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.addressLine1, name:"addressLine1", parent: name, max: 255)
-            try validate(self.addressLine2, name:"addressLine2", parent: name, max: 255)
-            try validate(self.city, name:"city", parent: name, max: 255)
-            try validate(self.email, name:"email", parent: name, max: 254)
-            try self.extraParams?.forEach {
-                try $0.validate(name: "\(name).extraParams[]")
-            }
-            try validate(self.fax, name:"fax", parent: name, max: 30)
-            try validate(self.firstName, name:"firstName", parent: name, max: 255)
-            try validate(self.lastName, name:"lastName", parent: name, max: 255)
-            try validate(self.organizationName, name:"organizationName", parent: name, max: 255)
-            try validate(self.phoneNumber, name:"phoneNumber", parent: name, max: 30)
-            try validate(self.state, name:"state", parent: name, max: 255)
-            try validate(self.zipCode, name:"zipCode", parent: name, max: 255)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case addressLine1 = "AddressLine1"
-            case addressLine2 = "AddressLine2"
-            case city = "City"
-            case contactType = "ContactType"
-            case countryCode = "CountryCode"
-            case email = "Email"
-            case extraParams = "ExtraParams"
-            case fax = "Fax"
-            case firstName = "FirstName"
-            case lastName = "LastName"
-            case organizationName = "OrganizationName"
-            case phoneNumber = "PhoneNumber"
-            case state = "State"
-            case zipCode = "ZipCode"
-        }
-    }
+    //MARK: Enums
 
     public enum ContactType: String, CustomStringConvertible, Codable {
         case person = "PERSON"
@@ -471,6 +248,317 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
+    public enum DomainAvailability: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case availableReserved = "AVAILABLE_RESERVED"
+        case availablePreorder = "AVAILABLE_PREORDER"
+        case unavailable = "UNAVAILABLE"
+        case unavailablePremium = "UNAVAILABLE_PREMIUM"
+        case unavailableRestricted = "UNAVAILABLE_RESTRICTED"
+        case reserved = "RESERVED"
+        case dontKnow = "DONT_KNOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExtraParamName: String, CustomStringConvertible, Codable {
+        case dunsNumber = "DUNS_NUMBER"
+        case brandNumber = "BRAND_NUMBER"
+        case birthDepartment = "BIRTH_DEPARTMENT"
+        case birthDateInYyyyMmDd = "BIRTH_DATE_IN_YYYY_MM_DD"
+        case birthCountry = "BIRTH_COUNTRY"
+        case birthCity = "BIRTH_CITY"
+        case documentNumber = "DOCUMENT_NUMBER"
+        case auIdNumber = "AU_ID_NUMBER"
+        case auIdType = "AU_ID_TYPE"
+        case caLegalType = "CA_LEGAL_TYPE"
+        case caBusinessEntityType = "CA_BUSINESS_ENTITY_TYPE"
+        case esIdentification = "ES_IDENTIFICATION"
+        case esIdentificationType = "ES_IDENTIFICATION_TYPE"
+        case esLegalForm = "ES_LEGAL_FORM"
+        case fiBusinessNumber = "FI_BUSINESS_NUMBER"
+        case fiIdNumber = "FI_ID_NUMBER"
+        case fiNationality = "FI_NATIONALITY"
+        case fiOrganizationType = "FI_ORGANIZATION_TYPE"
+        case itPin = "IT_PIN"
+        case itRegistrantEntityType = "IT_REGISTRANT_ENTITY_TYPE"
+        case ruPassportData = "RU_PASSPORT_DATA"
+        case seIdNumber = "SE_ID_NUMBER"
+        case sgIdNumber = "SG_ID_NUMBER"
+        case vatNumber = "VAT_NUMBER"
+        case ukContactType = "UK_CONTACT_TYPE"
+        case ukCompanyNumber = "UK_COMPANY_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case inProgress = "IN_PROGRESS"
+        case error = "ERROR"
+        case successful = "SUCCESSFUL"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationType: String, CustomStringConvertible, Codable {
+        case registerDomain = "REGISTER_DOMAIN"
+        case deleteDomain = "DELETE_DOMAIN"
+        case transferInDomain = "TRANSFER_IN_DOMAIN"
+        case updateDomainContact = "UPDATE_DOMAIN_CONTACT"
+        case updateNameserver = "UPDATE_NAMESERVER"
+        case changePrivacyProtection = "CHANGE_PRIVACY_PROTECTION"
+        case domainLock = "DOMAIN_LOCK"
+        case enableAutorenew = "ENABLE_AUTORENEW"
+        case disableAutorenew = "DISABLE_AUTORENEW"
+        case addDnssec = "ADD_DNSSEC"
+        case removeDnssec = "REMOVE_DNSSEC"
+        case expireDomain = "EXPIRE_DOMAIN"
+        case transferOutDomain = "TRANSFER_OUT_DOMAIN"
+        case changeDomainOwner = "CHANGE_DOMAIN_OWNER"
+        case renewDomain = "RENEW_DOMAIN"
+        case pushDomain = "PUSH_DOMAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReachabilityStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case done = "DONE"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Transferable: String, CustomStringConvertible, Codable {
+        case transferable = "TRANSFERABLE"
+        case untransferable = "UNTRANSFERABLE"
+        case dontKnow = "DONT_KNOW"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
+
+    public struct BillingRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BillDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "InvoiceId", required: false, type: .string), 
+            AWSShapeMember(label: "Operation", required: false, type: .enum), 
+            AWSShapeMember(label: "Price", required: false, type: .double)
+        ]
+
+        /// The date that the operation was billed, in Unix format.
+        public let billDate: TimeStamp?
+        /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see DNS Domain Name Format in the Amazon Route 53 Developer Guidezzz.
+        public let domainName: String?
+        /// The ID of the invoice that is associated with the billing record.
+        public let invoiceId: String?
+        /// The operation that you were charged for.
+        public let operation: OperationType?
+        /// The price that you were charged for the operation, in US dollars. Example value: 12.0
+        public let price: Double?
+
+        public init(billDate: TimeStamp? = nil, domainName: String? = nil, invoiceId: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
+            self.billDate = billDate
+            self.domainName = domainName
+            self.invoiceId = invoiceId
+            self.operation = operation
+            self.price = price
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billDate = "BillDate"
+            case domainName = "DomainName"
+            case invoiceId = "InvoiceId"
+            case operation = "Operation"
+            case price = "Price"
+        }
+    }
+
+    public struct CheckDomainAvailabilityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "IdnLangCode", required: false, type: .string)
+        ]
+
+        /// The name of the domain that you want to get availability for. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
+        public let domainName: String
+        /// Reserved for future use.
+        public let idnLangCode: String?
+
+        public init(domainName: String, idnLangCode: String? = nil) {
+            self.domainName = domainName
+            self.idnLangCode = idnLangCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.idnLangCode, name:"idnLangCode", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case idnLangCode = "IdnLangCode"
+        }
+    }
+
+    public struct CheckDomainAvailabilityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Availability", required: true, type: .enum)
+        ]
+
+        /// Whether the domain name is available for registering.  You can register only domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
+        public let availability: DomainAvailability
+
+        public init(availability: DomainAvailability) {
+            self.availability = availability
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availability = "Availability"
+        }
+    }
+
+    public struct CheckDomainTransferabilityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthCode", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+
+        /// If the registrar for the top-level domain (TLD) requires an authorization code to transfer the domain, the code that you got from the current registrar for the domain.
+        public let authCode: String?
+        /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
+        public let domainName: String
+
+        public init(authCode: String? = nil, domainName: String) {
+            self.authCode = authCode
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.authCode, name:"authCode", parent: name, max: 1024)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authCode = "AuthCode"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct CheckDomainTransferabilityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Transferability", required: true, type: .structure)
+        ]
+
+        /// A complex type that contains information about whether the specified domain can be transferred to Amazon Route 53.
+        public let transferability: DomainTransferability
+
+        public init(transferability: DomainTransferability) {
+            self.transferability = transferability
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transferability = "Transferability"
+        }
+    }
+
+    public struct ContactDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddressLine1", required: false, type: .string), 
+            AWSShapeMember(label: "AddressLine2", required: false, type: .string), 
+            AWSShapeMember(label: "City", required: false, type: .string), 
+            AWSShapeMember(label: "ContactType", required: false, type: .enum), 
+            AWSShapeMember(label: "CountryCode", required: false, type: .enum), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraParams", required: false, type: .list), 
+            AWSShapeMember(label: "Fax", required: false, type: .string), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationName", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "ZipCode", required: false, type: .string)
+        ]
+
+        /// First line of the contact's address.
+        public let addressLine1: String?
+        /// Second line of contact's address, if any.
+        public let addressLine2: String?
+        /// The city of the contact's address.
+        public let city: String?
+        /// Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON, you must enter an organization name, and you can't enable privacy protection for the contact.
+        public let contactType: ContactType?
+        /// Code for the country of the contact's address.
+        public let countryCode: CountryCode?
+        /// Email address of the contact.
+        public let email: String?
+        /// A list of name-value pairs for parameters required by certain top-level domains.
+        public let extraParams: [ExtraParam]?
+        /// Fax number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890".
+        public let fax: String?
+        /// First name of contact.
+        public let firstName: String?
+        /// Last name of contact.
+        public let lastName: String?
+        /// Name of the organization for contact types other than PERSON.
+        public let organizationName: String?
+        /// The phone number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code&gt;]". For example, a US phone number might appear as "+1.1234567890".
+        public let phoneNumber: String?
+        /// The state or province of the contact's city.
+        public let state: String?
+        /// The zip or postal code of the contact's address.
+        public let zipCode: String?
+
+        public init(addressLine1: String? = nil, addressLine2: String? = nil, city: String? = nil, contactType: ContactType? = nil, countryCode: CountryCode? = nil, email: String? = nil, extraParams: [ExtraParam]? = nil, fax: String? = nil, firstName: String? = nil, lastName: String? = nil, organizationName: String? = nil, phoneNumber: String? = nil, state: String? = nil, zipCode: String? = nil) {
+            self.addressLine1 = addressLine1
+            self.addressLine2 = addressLine2
+            self.city = city
+            self.contactType = contactType
+            self.countryCode = countryCode
+            self.email = email
+            self.extraParams = extraParams
+            self.fax = fax
+            self.firstName = firstName
+            self.lastName = lastName
+            self.organizationName = organizationName
+            self.phoneNumber = phoneNumber
+            self.state = state
+            self.zipCode = zipCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.addressLine1, name:"addressLine1", parent: name, max: 255)
+            try validate(self.addressLine2, name:"addressLine2", parent: name, max: 255)
+            try validate(self.city, name:"city", parent: name, max: 255)
+            try validate(self.email, name:"email", parent: name, max: 254)
+            try self.extraParams?.forEach {
+                try $0.validate(name: "\(name).extraParams[]")
+            }
+            try validate(self.fax, name:"fax", parent: name, max: 30)
+            try validate(self.firstName, name:"firstName", parent: name, max: 255)
+            try validate(self.lastName, name:"lastName", parent: name, max: 255)
+            try validate(self.organizationName, name:"organizationName", parent: name, max: 255)
+            try validate(self.phoneNumber, name:"phoneNumber", parent: name, max: 30)
+            try validate(self.state, name:"state", parent: name, max: 255)
+            try validate(self.zipCode, name:"zipCode", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressLine1 = "AddressLine1"
+            case addressLine2 = "AddressLine2"
+            case city = "City"
+            case contactType = "ContactType"
+            case countryCode = "CountryCode"
+            case email = "Email"
+            case extraParams = "ExtraParams"
+            case fax = "Fax"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case organizationName = "OrganizationName"
+            case phoneNumber = "PhoneNumber"
+            case state = "State"
+            case zipCode = "ZipCode"
+        }
+    }
+
     public struct DeleteTagsForDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
@@ -570,18 +658,6 @@ extension Route53Domains {
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
         }
-    }
-
-    public enum DomainAvailability: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case availableReserved = "AVAILABLE_RESERVED"
-        case availablePreorder = "AVAILABLE_PREORDER"
-        case unavailable = "UNAVAILABLE"
-        case unavailablePremium = "UNAVAILABLE_PREMIUM"
-        case unavailableRestricted = "UNAVAILABLE_RESTRICTED"
-        case reserved = "RESERVED"
-        case dontKnow = "DONT_KNOW"
-        public var description: String { return self.rawValue }
     }
 
     public struct DomainSuggestion: AWSShape {
@@ -745,36 +821,6 @@ extension Route53Domains {
             case name = "Name"
             case value = "Value"
         }
-    }
-
-    public enum ExtraParamName: String, CustomStringConvertible, Codable {
-        case dunsNumber = "DUNS_NUMBER"
-        case brandNumber = "BRAND_NUMBER"
-        case birthDepartment = "BIRTH_DEPARTMENT"
-        case birthDateInYyyyMmDd = "BIRTH_DATE_IN_YYYY_MM_DD"
-        case birthCountry = "BIRTH_COUNTRY"
-        case birthCity = "BIRTH_CITY"
-        case documentNumber = "DOCUMENT_NUMBER"
-        case auIdNumber = "AU_ID_NUMBER"
-        case auIdType = "AU_ID_TYPE"
-        case caLegalType = "CA_LEGAL_TYPE"
-        case caBusinessEntityType = "CA_BUSINESS_ENTITY_TYPE"
-        case esIdentification = "ES_IDENTIFICATION"
-        case esIdentificationType = "ES_IDENTIFICATION_TYPE"
-        case esLegalForm = "ES_LEGAL_FORM"
-        case fiBusinessNumber = "FI_BUSINESS_NUMBER"
-        case fiIdNumber = "FI_ID_NUMBER"
-        case fiNationality = "FI_NATIONALITY"
-        case fiOrganizationType = "FI_ORGANIZATION_TYPE"
-        case itPin = "IT_PIN"
-        case itRegistrantEntityType = "IT_REGISTRANT_ENTITY_TYPE"
-        case ruPassportData = "RU_PASSPORT_DATA"
-        case seIdNumber = "SE_ID_NUMBER"
-        case sgIdNumber = "SG_ID_NUMBER"
-        case vatNumber = "VAT_NUMBER"
-        case ukContactType = "UK_CONTACT_TYPE"
-        case ukCompanyNumber = "UK_COMPANY_NUMBER"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetContactReachabilityStatusRequest: AWSShape {
@@ -1240,15 +1286,6 @@ extension Route53Domains {
         }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
-        case error = "ERROR"
-        case successful = "SUCCESSFUL"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OperationSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperationId", required: true, type: .string), 
@@ -1279,33 +1316,6 @@ extension Route53Domains {
             case submittedDate = "SubmittedDate"
             case `type` = "Type"
         }
-    }
-
-    public enum OperationType: String, CustomStringConvertible, Codable {
-        case registerDomain = "REGISTER_DOMAIN"
-        case deleteDomain = "DELETE_DOMAIN"
-        case transferInDomain = "TRANSFER_IN_DOMAIN"
-        case updateDomainContact = "UPDATE_DOMAIN_CONTACT"
-        case updateNameserver = "UPDATE_NAMESERVER"
-        case changePrivacyProtection = "CHANGE_PRIVACY_PROTECTION"
-        case domainLock = "DOMAIN_LOCK"
-        case enableAutorenew = "ENABLE_AUTORENEW"
-        case disableAutorenew = "DISABLE_AUTORENEW"
-        case addDnssec = "ADD_DNSSEC"
-        case removeDnssec = "REMOVE_DNSSEC"
-        case expireDomain = "EXPIRE_DOMAIN"
-        case transferOutDomain = "TRANSFER_OUT_DOMAIN"
-        case changeDomainOwner = "CHANGE_DOMAIN_OWNER"
-        case renewDomain = "RENEW_DOMAIN"
-        case pushDomain = "PUSH_DOMAIN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReachabilityStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case done = "DONE"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
     }
 
     public struct RegisterDomainRequest: AWSShape {
@@ -1656,13 +1666,6 @@ extension Route53Domains {
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
         }
-    }
-
-    public enum Transferable: String, CustomStringConvertible, Codable {
-        case transferable = "TRANSFERABLE"
-        case untransferable = "UNTRANSFERABLE"
-        case dontKnow = "DONT_KNOW"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateDomainContactPrivacyRequest: AWSShape {

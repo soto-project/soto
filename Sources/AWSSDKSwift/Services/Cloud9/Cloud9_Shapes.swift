@@ -4,6 +4,48 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Cloud9 {
+    //MARK: Enums
+
+    public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case createFailed = "CREATE_FAILED"
+        case deleting = "DELETING"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
+        case error = "error"
+        case creating = "creating"
+        case connecting = "connecting"
+        case ready = "ready"
+        case stopping = "stopping"
+        case stopped = "stopped"
+        case deleting = "deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentType: String, CustomStringConvertible, Codable {
+        case ssh = "ssh"
+        case ec2 = "ec2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MemberPermissions: String, CustomStringConvertible, Codable {
+        case readWrite = "read-write"
+        case readOnly = "read-only"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permissions: String, CustomStringConvertible, Codable {
+        case owner = "owner"
+        case readWrite = "read-write"
+        case readOnly = "read-only"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateEnvironmentEC2Request: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -421,15 +463,6 @@ extension Cloud9 {
         }
     }
 
-    public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case created = "CREATED"
-        case createFailed = "CREATE_FAILED"
-        case deleting = "DELETING"
-        case deleteFailed = "DELETE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EnvironmentMember: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "environmentId", required: false, type: .string), 
@@ -465,23 +498,6 @@ extension Cloud9 {
             case userArn = "userArn"
             case userId = "userId"
         }
-    }
-
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
-        case error = "error"
-        case creating = "creating"
-        case connecting = "connecting"
-        case ready = "ready"
-        case stopping = "stopping"
-        case stopped = "stopped"
-        case deleting = "deleting"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EnvironmentType: String, CustomStringConvertible, Codable {
-        case ssh = "ssh"
-        case ec2 = "ec2"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListEnvironmentsRequest: AWSShape {
@@ -531,19 +547,6 @@ extension Cloud9 {
             case environmentIds = "environmentIds"
             case nextToken = "nextToken"
         }
-    }
-
-    public enum MemberPermissions: String, CustomStringConvertible, Codable {
-        case readWrite = "read-write"
-        case readOnly = "read-only"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Permissions: String, CustomStringConvertible, Codable {
-        case owner = "owner"
-        case readWrite = "read-write"
-        case readOnly = "read-only"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateEnvironmentMembershipRequest: AWSShape {

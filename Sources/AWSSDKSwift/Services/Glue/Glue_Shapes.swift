@@ -4,6 +4,279 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Glue {
+    //MARK: Enums
+
+    public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case sseKms = "SSE-KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudWatchEncryptionMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case sseKms = "SSE-KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Comparator: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case greaterThanEquals = "GREATER_THAN_EQUALS"
+        case lessThanEquals = "LESS_THAN_EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable {
+        case host = "HOST"
+        case port = "PORT"
+        case username = "USERNAME"
+        case password = "PASSWORD"
+        case encryptedPassword = "ENCRYPTED_PASSWORD"
+        case jdbcDriverJarUri = "JDBC_DRIVER_JAR_URI"
+        case jdbcDriverClassName = "JDBC_DRIVER_CLASS_NAME"
+        case jdbcEngine = "JDBC_ENGINE"
+        case jdbcEngineVersion = "JDBC_ENGINE_VERSION"
+        case configFiles = "CONFIG_FILES"
+        case instanceId = "INSTANCE_ID"
+        case jdbcConnectionUrl = "JDBC_CONNECTION_URL"
+        case jdbcEnforceSsl = "JDBC_ENFORCE_SSL"
+        case customJdbcCert = "CUSTOM_JDBC_CERT"
+        case skipCustomJdbcCertValidation = "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
+        case customJdbcCertString = "CUSTOM_JDBC_CERT_STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionType: String, CustomStringConvertible, Codable {
+        case jdbc = "JDBC"
+        case sftp = "SFTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CrawlState: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CrawlerState: String, CustomStringConvertible, Codable {
+        case ready = "READY"
+        case running = "RUNNING"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CsvHeaderOption: String, CustomStringConvertible, Codable {
+        case unknown = "UNKNOWN"
+        case present = "PRESENT"
+        case absent = "ABSENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeleteBehavior: String, CustomStringConvertible, Codable {
+        case log = "LOG"
+        case deleteFromDatabase = "DELETE_FROM_DATABASE"
+        case deprecateInDatabase = "DEPRECATE_IN_DATABASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExistCondition: String, CustomStringConvertible, Codable {
+        case mustExist = "MUST_EXIST"
+        case notExist = "NOT_EXIST"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobBookmarksEncryptionMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case cseKms = "CSE-KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobRunState: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Language: String, CustomStringConvertible, Codable {
+        case python = "PYTHON"
+        case scala = "SCALA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastCrawlStatus: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Logical: String, CustomStringConvertible, Codable {
+        case and = "AND"
+        case any = "ANY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogicalOperator: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeType: String, CustomStringConvertible, Codable {
+        case crawler = "CRAWLER"
+        case job = "JOB"
+        case trigger = "TRIGGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case select = "SELECT"
+        case alter = "ALTER"
+        case drop = "DROP"
+        case delete = "DELETE"
+        case insert = "INSERT"
+        case createDatabase = "CREATE_DATABASE"
+        case createTable = "CREATE_TABLE"
+        case dataLocationAccess = "DATA_LOCATION_ACCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case role = "ROLE"
+        case group = "GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case jar = "JAR"
+        case file = "FILE"
+        case archive = "ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3EncryptionMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case sseKms = "SSE-KMS"
+        case sseS3 = "SSE-S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduleState: String, CustomStringConvertible, Codable {
+        case scheduled = "SCHEDULED"
+        case notScheduled = "NOT_SCHEDULED"
+        case transitioning = "TRANSITIONING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Sort: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortDirectionType: String, CustomStringConvertible, Codable {
+        case descending = "DESCENDING"
+        case ascending = "ASCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskRunSortColumnType: String, CustomStringConvertible, Codable {
+        case taskRunType = "TASK_RUN_TYPE"
+        case status = "STATUS"
+        case started = "STARTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskStatusType: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskType: String, CustomStringConvertible, Codable {
+        case evaluation = "EVALUATION"
+        case labelingSetGeneration = "LABELING_SET_GENERATION"
+        case importLabels = "IMPORT_LABELS"
+        case exportLabels = "EXPORT_LABELS"
+        case findMatches = "FIND_MATCHES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransformSortColumnType: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case transformType = "TRANSFORM_TYPE"
+        case status = "STATUS"
+        case created = "CREATED"
+        case lastModified = "LAST_MODIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransformStatusType: String, CustomStringConvertible, Codable {
+        case notReady = "NOT_READY"
+        case ready = "READY"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransformType: String, CustomStringConvertible, Codable {
+        case findMatches = "FIND_MATCHES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case activating = "ACTIVATING"
+        case activated = "ACTIVATED"
+        case deactivating = "DEACTIVATING"
+        case deactivated = "DEACTIVATED"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerType: String, CustomStringConvertible, Codable {
+        case scheduled = "SCHEDULED"
+        case conditional = "CONDITIONAL"
+        case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateBehavior: String, CustomStringConvertible, Codable {
+        case log = "LOG"
+        case updateInDatabase = "UPDATE_IN_DATABASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkerType: String, CustomStringConvertible, Codable {
+        case standard = "Standard"
+        case g1X = "G.1X"
+        case g2X = "G.2X"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkflowRunStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Action: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -854,12 +1127,6 @@ extension Glue {
         }
     }
 
-    public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case sseKms = "SSE-KMS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CatalogEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
@@ -1008,12 +1275,6 @@ extension Glue {
             case cloudWatchEncryptionMode = "CloudWatchEncryptionMode"
             case kmsKeyArn = "KmsKeyArn"
         }
-    }
-
-    public enum CloudWatchEncryptionMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case sseKms = "SSE-KMS"
-        public var description: String { return self.rawValue }
     }
 
     public struct CodeGenEdge: AWSShape {
@@ -1167,15 +1428,6 @@ extension Glue {
             case parameters = "Parameters"
             case `type` = "Type"
         }
-    }
-
-    public enum Comparator: String, CustomStringConvertible, Codable {
-        case equals = "EQUALS"
-        case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
-        case greaterThanEquals = "GREATER_THAN_EQUALS"
-        case lessThanEquals = "LESS_THAN_EQUALS"
-        public var description: String { return self.rawValue }
     }
 
     public struct Condition: AWSShape {
@@ -1403,32 +1655,6 @@ extension Glue {
         }
     }
 
-    public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable {
-        case host = "HOST"
-        case port = "PORT"
-        case username = "USERNAME"
-        case password = "PASSWORD"
-        case encryptedPassword = "ENCRYPTED_PASSWORD"
-        case jdbcDriverJarUri = "JDBC_DRIVER_JAR_URI"
-        case jdbcDriverClassName = "JDBC_DRIVER_CLASS_NAME"
-        case jdbcEngine = "JDBC_ENGINE"
-        case jdbcEngineVersion = "JDBC_ENGINE_VERSION"
-        case configFiles = "CONFIG_FILES"
-        case instanceId = "INSTANCE_ID"
-        case jdbcConnectionUrl = "JDBC_CONNECTION_URL"
-        case jdbcEnforceSsl = "JDBC_ENFORCE_SSL"
-        case customJdbcCert = "CUSTOM_JDBC_CERT"
-        case skipCustomJdbcCertValidation = "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
-        case customJdbcCertString = "CUSTOM_JDBC_CERT_STRING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConnectionType: String, CustomStringConvertible, Codable {
-        case jdbc = "JDBC"
-        case sftp = "SFTP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ConnectionsList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Connections", required: false, type: .list)
@@ -1486,14 +1712,6 @@ extension Glue {
             case startedOn = "StartedOn"
             case state = "State"
         }
-    }
-
-    public enum CrawlState: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Crawler: AWSShape {
@@ -1660,13 +1878,6 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case crawls = "Crawls"
         }
-    }
-
-    public enum CrawlerState: String, CustomStringConvertible, Codable {
-        case ready = "READY"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
     }
 
     public struct CrawlerTargets: AWSShape {
@@ -3030,13 +3241,6 @@ extension Glue {
         }
     }
 
-    public enum CsvHeaderOption: String, CustomStringConvertible, Codable {
-        case unknown = "UNKNOWN"
-        case present = "PRESENT"
-        case absent = "ABSENT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DataCatalogEncryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConnectionPasswordEncryption", required: false, type: .structure), 
@@ -3184,13 +3388,6 @@ extension Glue {
             case name = "Name"
             case parameters = "Parameters"
         }
-    }
-
-    public enum DeleteBehavior: String, CustomStringConvertible, Codable {
-        case log = "LOG"
-        case deleteFromDatabase = "DELETE_FROM_DATABASE"
-        case deprecateInDatabase = "DEPRECATE_IN_DATABASE"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteClassifierRequest: AWSShape {
@@ -4104,13 +4301,6 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case maxConcurrentRuns = "MaxConcurrentRuns"
         }
-    }
-
-    public enum ExistCondition: String, CustomStringConvertible, Codable {
-        case mustExist = "MUST_EXIST"
-        case notExist = "NOT_EXIST"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ExportLabelsTaskRunProperties: AWSShape {
@@ -7006,12 +7196,6 @@ extension Glue {
         }
     }
 
-    public enum JobBookmarksEncryptionMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case cseKms = "CSE-KMS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct JobCommand: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -7177,17 +7361,6 @@ extension Glue {
         }
     }
 
-    public enum JobRunState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case timeout = "TIMEOUT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct JobUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Command", required: false, type: .structure), 
@@ -7344,12 +7517,6 @@ extension Glue {
         }
     }
 
-    public enum Language: String, CustomStringConvertible, Codable {
-        case python = "PYTHON"
-        case scala = "SCALA"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LastCrawlInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
@@ -7390,13 +7557,6 @@ extension Glue {
             case startTime = "StartTime"
             case status = "Status"
         }
-    }
-
-    public enum LastCrawlStatus: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListCrawlersRequest: AWSShape {
@@ -7732,17 +7892,6 @@ extension Glue {
         }
     }
 
-    public enum Logical: String, CustomStringConvertible, Codable {
-        case and = "AND"
-        case any = "ANY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LogicalOperator: String, CustomStringConvertible, Codable {
-        case equals = "EQUALS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MLTransform: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
@@ -7927,13 +8076,6 @@ extension Glue {
             case `type` = "Type"
             case uniqueId = "UniqueId"
         }
-    }
-
-    public enum NodeType: String, CustomStringConvertible, Codable {
-        case crawler = "CRAWLER"
-        case job = "JOB"
-        case trigger = "TRIGGER"
-        public var description: String { return self.rawValue }
     }
 
     public struct NotificationProperty: AWSShape {
@@ -8134,19 +8276,6 @@ extension Glue {
         }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case select = "SELECT"
-        case alter = "ALTER"
-        case drop = "DROP"
-        case delete = "DELETE"
-        case insert = "INSERT"
-        case createDatabase = "CREATE_DATABASE"
-        case createTable = "CREATE_TABLE"
-        case dataLocationAccess = "DATA_LOCATION_ACCESS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PhysicalConnectionRequirements: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
@@ -8264,13 +8393,6 @@ extension Glue {
             case permissions = "Permissions"
             case principal = "Principal"
         }
-    }
-
-    public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case role = "ROLE"
-        case group = "GROUP"
-        public var description: String { return self.rawValue }
     }
 
     public struct PropertyPredicate: AWSShape {
@@ -8482,13 +8604,6 @@ extension Glue {
         }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case jar = "JAR"
-        case file = "FILE"
-        case archive = "ARCHIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceUri: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
@@ -8543,13 +8658,6 @@ extension Glue {
         }
     }
 
-    public enum S3EncryptionMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case sseKms = "SSE-KMS"
-        case sseS3 = "SSE-S3"
-        public var description: String { return self.rawValue }
-    }
-
     public struct S3Target: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Exclusions", required: false, type: .list), 
@@ -8592,13 +8700,6 @@ extension Glue {
             case scheduleExpression = "ScheduleExpression"
             case state = "State"
         }
-    }
-
-    public enum ScheduleState: String, CustomStringConvertible, Codable {
-        case scheduled = "SCHEDULED"
-        case notScheduled = "NOT_SCHEDULED"
-        case transitioning = "TRANSITIONING"
-        public var description: String { return self.rawValue }
     }
 
     public struct SchemaChangePolicy: AWSShape {
@@ -8867,12 +8968,6 @@ extension Glue {
         }
     }
 
-    public enum Sort: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SortCriterion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldName", required: false, type: .string), 
@@ -8897,12 +8992,6 @@ extension Glue {
             case fieldName = "FieldName"
             case sort = "Sort"
         }
-    }
-
-    public enum SortDirectionType: String, CustomStringConvertible, Codable {
-        case descending = "DESCENDING"
-        case ascending = "ASCENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartCrawlerRequest: AWSShape {
@@ -9956,13 +10045,6 @@ extension Glue {
         }
     }
 
-    public enum TaskRunSortColumnType: String, CustomStringConvertible, Codable {
-        case taskRunType = "TASK_RUN_TYPE"
-        case status = "STATUS"
-        case started = "STARTED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TaskRunSortCriteria: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Column", required: true, type: .enum), 
@@ -9983,26 +10065,6 @@ extension Glue {
             case column = "Column"
             case sortDirection = "SortDirection"
         }
-    }
-
-    public enum TaskStatusType: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case timeout = "TIMEOUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaskType: String, CustomStringConvertible, Codable {
-        case evaluation = "EVALUATION"
-        case labelingSetGeneration = "LABELING_SET_GENERATION"
-        case importLabels = "IMPORT_LABELS"
-        case exportLabels = "EXPORT_LABELS"
-        case findMatches = "FIND_MATCHES"
-        public var description: String { return self.rawValue }
     }
 
     public struct TransformFilterCriteria: AWSShape {
@@ -10101,15 +10163,6 @@ extension Glue {
         }
     }
 
-    public enum TransformSortColumnType: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case transformType = "TRANSFORM_TYPE"
-        case status = "STATUS"
-        case created = "CREATED"
-        case lastModified = "LAST_MODIFIED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TransformSortCriteria: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Column", required: true, type: .enum), 
@@ -10130,18 +10183,6 @@ extension Glue {
             case column = "Column"
             case sortDirection = "SortDirection"
         }
-    }
-
-    public enum TransformStatusType: String, CustomStringConvertible, Codable {
-        case notReady = "NOT_READY"
-        case ready = "READY"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TransformType: String, CustomStringConvertible, Codable {
-        case findMatches = "FIND_MATCHES"
-        public var description: String { return self.rawValue }
     }
 
     public struct Trigger: AWSShape {
@@ -10216,25 +10257,6 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case trigger = "Trigger"
         }
-    }
-
-    public enum TriggerState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case created = "CREATED"
-        case activating = "ACTIVATING"
-        case activated = "ACTIVATED"
-        case deactivating = "DEACTIVATING"
-        case deactivated = "DEACTIVATED"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TriggerType: String, CustomStringConvertible, Codable {
-        case scheduled = "SCHEDULED"
-        case conditional = "CONDITIONAL"
-        case onDemand = "ON_DEMAND"
-        public var description: String { return self.rawValue }
     }
 
     public struct TriggerUpdate: AWSShape {
@@ -10327,12 +10349,6 @@ extension Glue {
         public init() {
         }
 
-    }
-
-    public enum UpdateBehavior: String, CustomStringConvertible, Codable {
-        case log = "LOG"
-        case updateInDatabase = "UPDATE_IN_DATABASE"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateClassifierRequest: AWSShape {
@@ -11346,13 +11362,6 @@ extension Glue {
         }
     }
 
-    public enum WorkerType: String, CustomStringConvertible, Codable {
-        case standard = "Standard"
-        case g1X = "G.1X"
-        case g2X = "G.2X"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Workflow: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
@@ -11514,12 +11523,6 @@ extension Glue {
             case timeoutActions = "TimeoutActions"
             case totalActions = "TotalActions"
         }
-    }
-
-    public enum WorkflowRunStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
     }
 
     public struct XMLClassifier: AWSShape {

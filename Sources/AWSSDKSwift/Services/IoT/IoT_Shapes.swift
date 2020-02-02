@@ -4,11 +4,383 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IoT {
+    //MARK: Enums
 
     public enum AbortAction: String, CustomStringConvertible, Codable {
         case cancel = "CANCEL"
         public var description: String { return self.rawValue }
     }
+
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case publish = "PUBLISH"
+        case subscribe = "SUBSCRIBE"
+        case receive = "RECEIVE"
+        case connect = "CONNECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AlertTargetType: String, CustomStringConvertible, Codable {
+        case sns = "SNS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditCheckRunStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case waitingForDataCollection = "WAITING_FOR_DATA_COLLECTION"
+        case canceled = "CANCELED"
+        case completedCompliant = "COMPLETED_COMPLIANT"
+        case completedNonCompliant = "COMPLETED_NON_COMPLIANT"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditFindingSeverity: String, CustomStringConvertible, Codable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case medium = "MEDIUM"
+        case low = "LOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditFrequency: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        case weekly = "WEEKLY"
+        case biweekly = "BIWEEKLY"
+        case monthly = "MONTHLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditMitigationActionsExecutionStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case canceled = "CANCELED"
+        case skipped = "SKIPPED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditMitigationActionsTaskStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditNotificationType: String, CustomStringConvertible, Codable {
+        case sns = "SNS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditTaskStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditTaskType: String, CustomStringConvertible, Codable {
+        case onDemandAuditTask = "ON_DEMAND_AUDIT_TASK"
+        case scheduledAuditTask = "SCHEDULED_AUDIT_TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthDecision: String, CustomStringConvertible, Codable {
+        case allowed = "ALLOWED"
+        case explicitDeny = "EXPLICIT_DENY"
+        case implicitDeny = "IMPLICIT_DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthorizerStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoRegistrationStatus: String, CustomStringConvertible, Codable {
+        case enable = "ENABLE"
+        case disable = "DISABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CACertificateStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CACertificateUpdateAction: String, CustomStringConvertible, Codable {
+        case deactivate = "DEACTIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CannedAccessControlList: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case awsExecRead = "aws-exec-read"
+        case authenticatedRead = "authenticated-read"
+        case bucketOwnerRead = "bucket-owner-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case logDeliveryWrite = "log-delivery-write"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case revoked = "REVOKED"
+        case pendingTransfer = "PENDING_TRANSFER"
+        case registerInactive = "REGISTER_INACTIVE"
+        case pendingActivation = "PENDING_ACTIVATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case lessThan = "less-than"
+        case lessThanEquals = "less-than-equals"
+        case greaterThan = "greater-than"
+        case greaterThanEquals = "greater-than-equals"
+        case inCidrSet = "in-cidr-set"
+        case notInCidrSet = "not-in-cidr-set"
+        case inPortSet = "in-port-set"
+        case notInPortSet = "not-in-port-set"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DayOfWeek: String, CustomStringConvertible, Codable {
+        case sun = "SUN"
+        case mon = "MON"
+        case tue = "TUE"
+        case wed = "WED"
+        case thu = "THU"
+        case fri = "FRI"
+        case sat = "SAT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceCertificateUpdateAction: String, CustomStringConvertible, Codable {
+        case deactivate = "DEACTIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainConfigurationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainType: String, CustomStringConvertible, Codable {
+        case endpoint = "ENDPOINT"
+        case awsManaged = "AWS_MANAGED"
+        case customerManaged = "CUSTOMER_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DynamicGroupStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case building = "BUILDING"
+        case rebuilding = "REBUILDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DynamoKeyType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case number = "NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case thing = "THING"
+        case thingGroup = "THING_GROUP"
+        case thingType = "THING_TYPE"
+        case thingGroupMembership = "THING_GROUP_MEMBERSHIP"
+        case thingGroupHierarchy = "THING_GROUP_HIERARCHY"
+        case thingTypeAssociation = "THING_TYPE_ASSOCIATION"
+        case job = "JOB"
+        case jobExecution = "JOB_EXECUTION"
+        case policy = "POLICY"
+        case certificate = "CERTIFICATE"
+        case caCertificate = "CA_CERTIFICATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FieldType: String, CustomStringConvertible, Codable {
+        case number = "Number"
+        case string = "String"
+        case boolean = "Boolean"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IndexStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case building = "BUILDING"
+        case rebuilding = "REBUILDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobExecutionFailureType: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case rejected = "REJECTED"
+        case timedOut = "TIMED_OUT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobExecutionStatus: String, CustomStringConvertible, Codable {
+        case queued = "QUEUED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timedOut = "TIMED_OUT"
+        case rejected = "REJECTED"
+        case removed = "REMOVED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case canceled = "CANCELED"
+        case completed = "COMPLETED"
+        case deletionInProgress = "DELETION_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogLevel: String, CustomStringConvertible, Codable {
+        case debug = "DEBUG"
+        case info = "INFO"
+        case error = "ERROR"
+        case warn = "WARN"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogTargetType: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case thingGroup = "THING_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageFormat: String, CustomStringConvertible, Codable {
+        case raw = "RAW"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MitigationActionType: String, CustomStringConvertible, Codable {
+        case updateDeviceCertificate = "UPDATE_DEVICE_CERTIFICATE"
+        case updateCaCertificate = "UPDATE_CA_CERTIFICATE"
+        case addThingsToThingGroup = "ADD_THINGS_TO_THING_GROUP"
+        case replaceDefaultPolicyVersion = "REPLACE_DEFAULT_POLICY_VERSION"
+        case enableIotLogging = "ENABLE_IOT_LOGGING"
+        case publishFindingToSns = "PUBLISH_FINDING_TO_SNS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OTAUpdateStatus: String, CustomStringConvertible, Codable {
+        case createPending = "CREATE_PENDING"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyTemplateName: String, CustomStringConvertible, Codable {
+        case blankPolicy = "BLANK_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case mqtt = "MQTT"
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportType: String, CustomStringConvertible, Codable {
+        case errors = "ERRORS"
+        case results = "RESULTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case deviceCertificate = "DEVICE_CERTIFICATE"
+        case caCertificate = "CA_CERTIFICATE"
+        case iotPolicy = "IOT_POLICY"
+        case cognitoIdentityPool = "COGNITO_IDENTITY_POOL"
+        case clientId = "CLIENT_ID"
+        case accountSettings = "ACCOUNT_SETTINGS"
+        case roleAlias = "ROLE_ALIAS"
+        case iamRole = "IAM_ROLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerCertificateStatus: String, CustomStringConvertible, Codable {
+        case invalid = "INVALID"
+        case valid = "VALID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceType: String, CustomStringConvertible, Codable {
+        case data = "DATA"
+        case credentialProvider = "CREDENTIAL_PROVIDER"
+        case jobs = "JOBS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        case cancelling = "Cancelling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetSelection: String, CustomStringConvertible, Codable {
+        case continuous = "CONTINUOUS"
+        case snapshot = "SNAPSHOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThingConnectivityIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case status = "STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThingGroupIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case on = "ON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThingIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case registry = "REGISTRY"
+        case registryAndShadow = "REGISTRY_AND_SHADOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopicRuleDestinationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case inProgress = "IN_PROGRESS"
+        case disabled = "DISABLED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ViolationEventType: String, CustomStringConvertible, Codable {
+        case inAlarm = "in-alarm"
+        case alarmCleared = "alarm-cleared"
+        case alarmInvalidated = "alarm-invalidated"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AbortConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -209,14 +581,6 @@ extension IoT {
             case sqs = "sqs"
             case stepFunctions = "stepFunctions"
         }
-    }
-
-    public enum ActionType: String, CustomStringConvertible, Codable {
-        case publish = "PUBLISH"
-        case subscribe = "SUBSCRIBE"
-        case receive = "RECEIVE"
-        case connect = "CONNECT"
-        public var description: String { return self.rawValue }
     }
 
     public struct ActiveViolation: AWSShape {
@@ -426,11 +790,6 @@ extension IoT {
             case alertTargetArn = "alertTargetArn"
             case roleArn = "roleArn"
         }
-    }
-
-    public enum AlertTargetType: String, CustomStringConvertible, Codable {
-        case sns = "SNS"
-        public var description: String { return self.rawValue }
     }
 
     public struct Allowed: AWSShape {
@@ -821,16 +1180,6 @@ extension IoT {
         }
     }
 
-    public enum AuditCheckRunStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case waitingForDataCollection = "WAITING_FOR_DATA_COLLECTION"
-        case canceled = "CANCELED"
-        case completedCompliant = "COMPLETED_COMPLIANT"
-        case completedNonCompliant = "COMPLETED_NON_COMPLIANT"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AuditFinding: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checkName", required: false, type: .string), 
@@ -893,22 +1242,6 @@ extension IoT {
         }
     }
 
-    public enum AuditFindingSeverity: String, CustomStringConvertible, Codable {
-        case critical = "CRITICAL"
-        case high = "HIGH"
-        case medium = "MEDIUM"
-        case low = "LOW"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AuditFrequency: String, CustomStringConvertible, Codable {
-        case daily = "DAILY"
-        case weekly = "WEEKLY"
-        case biweekly = "BIWEEKLY"
-        case monthly = "MONTHLY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AuditMitigationActionExecutionMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "actionId", required: false, type: .string), 
@@ -966,16 +1299,6 @@ extension IoT {
         }
     }
 
-    public enum AuditMitigationActionsExecutionStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case canceled = "CANCELED"
-        case skipped = "SKIPPED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AuditMitigationActionsTaskMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
@@ -1001,14 +1324,6 @@ extension IoT {
             case taskId = "taskId"
             case taskStatus = "taskStatus"
         }
-    }
-
-    public enum AuditMitigationActionsTaskStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
     }
 
     public struct AuditMitigationActionsTaskTarget: AWSShape {
@@ -1087,11 +1402,6 @@ extension IoT {
         }
     }
 
-    public enum AuditNotificationType: String, CustomStringConvertible, Codable {
-        case sns = "SNS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AuditTaskMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskId", required: false, type: .string), 
@@ -1117,27 +1427,6 @@ extension IoT {
             case taskStatus = "taskStatus"
             case taskType = "taskType"
         }
-    }
-
-    public enum AuditTaskStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AuditTaskType: String, CustomStringConvertible, Codable {
-        case onDemandAuditTask = "ON_DEMAND_AUDIT_TASK"
-        case scheduledAuditTask = "SCHEDULED_AUDIT_TASK"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AuthDecision: String, CustomStringConvertible, Codable {
-        case allowed = "ALLOWED"
-        case explicitDeny = "EXPLICIT_DENY"
-        case implicitDeny = "IMPLICIT_DENY"
-        public var description: String { return self.rawValue }
     }
 
     public struct AuthInfo: AWSShape {
@@ -1284,12 +1573,6 @@ extension IoT {
         }
     }
 
-    public enum AuthorizerStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AuthorizerSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
@@ -1310,12 +1593,6 @@ extension IoT {
             case authorizerArn = "authorizerArn"
             case authorizerName = "authorizerName"
         }
-    }
-
-    public enum AutoRegistrationStatus: String, CustomStringConvertible, Codable {
-        case enable = "ENABLE"
-        case disable = "DISABLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct AwsJobExecutionsRolloutConfig: AWSShape {
@@ -1580,17 +1857,6 @@ extension IoT {
         }
     }
 
-    public enum CACertificateStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CACertificateUpdateAction: String, CustomStringConvertible, Codable {
-        case deactivate = "DEACTIVATE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CancelAuditMitigationActionsTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
@@ -1799,18 +2065,6 @@ extension IoT {
         }
     }
 
-    public enum CannedAccessControlList: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case awsExecRead = "aws-exec-read"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        case logDeliveryWrite = "log-delivery-write"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Certificate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "certificateArn", required: false, type: .string), 
@@ -1918,16 +2172,6 @@ extension IoT {
             case transferData = "transferData"
             case validity = "validity"
         }
-    }
-
-    public enum CertificateStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        case revoked = "REVOKED"
-        case pendingTransfer = "PENDING_TRANSFER"
-        case registerInactive = "REGISTER_INACTIVE"
-        case pendingActivation = "PENDING_ACTIVATION"
-        public var description: String { return self.rawValue }
     }
 
     public struct CertificateValidity: AWSShape {
@@ -2110,18 +2354,6 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case inlineDocument = "inlineDocument"
         }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case lessThan = "less-than"
-        case lessThanEquals = "less-than-equals"
-        case greaterThan = "greater-than"
-        case greaterThanEquals = "greater-than-equals"
-        case inCidrSet = "in-cidr-set"
-        case notInCidrSet = "not-in-cidr-set"
-        case inPortSet = "in-port-set"
-        case notInPortSet = "not-in-port-set"
-        public var description: String { return self.rawValue }
     }
 
     public struct Configuration: AWSShape {
@@ -3804,17 +4036,6 @@ extension IoT {
             case signature = "signature"
             case signatureAlgorithm = "signatureAlgorithm"
         }
-    }
-
-    public enum DayOfWeek: String, CustomStringConvertible, Codable {
-        case sun = "SUN"
-        case mon = "MON"
-        case tue = "TUE"
-        case wed = "WED"
-        case thu = "THU"
-        case fri = "FRI"
-        case sat = "SAT"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteAccountAuditConfigurationRequest: AWSShape {
@@ -6291,11 +6512,6 @@ extension IoT {
 
     }
 
-    public enum DeviceCertificateUpdateAction: String, CustomStringConvertible, Codable {
-        case deactivate = "DEACTIVATE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DisableTopicRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
@@ -6317,12 +6533,6 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case ruleName = "ruleName"
         }
-    }
-
-    public enum DomainConfigurationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DomainConfigurationSummary: AWSShape {
@@ -6350,20 +6560,6 @@ extension IoT {
             case domainConfigurationName = "domainConfigurationName"
             case serviceType = "serviceType"
         }
-    }
-
-    public enum DomainType: String, CustomStringConvertible, Codable {
-        case endpoint = "ENDPOINT"
-        case awsManaged = "AWS_MANAGED"
-        case customerManaged = "CUSTOMER_MANAGED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DynamicGroupStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case building = "BUILDING"
-        case rebuilding = "REBUILDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct DynamoDBAction: AWSShape {
@@ -6448,12 +6644,6 @@ extension IoT {
             case putItem = "putItem"
             case roleArn = "roleArn"
         }
-    }
-
-    public enum DynamoKeyType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case number = "NUMBER"
-        public var description: String { return self.rawValue }
     }
 
     public struct EffectivePolicy: AWSShape {
@@ -6596,21 +6786,6 @@ extension IoT {
         }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case thing = "THING"
-        case thingGroup = "THING_GROUP"
-        case thingType = "THING_TYPE"
-        case thingGroupMembership = "THING_GROUP_MEMBERSHIP"
-        case thingGroupHierarchy = "THING_GROUP_HIERARCHY"
-        case thingTypeAssociation = "THING_TYPE_ASSOCIATION"
-        case job = "JOB"
-        case jobExecution = "JOB_EXECUTION"
-        case policy = "POLICY"
-        case certificate = "CERTIFICATE"
-        case caCertificate = "CA_CERTIFICATE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ExplicitDeny: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "policies", required: false, type: .list)
@@ -6683,13 +6858,6 @@ extension IoT {
             case name = "name"
             case `type` = "type"
         }
-    }
-
-    public enum FieldType: String, CustomStringConvertible, Codable {
-        case number = "Number"
-        case string = "String"
-        case boolean = "Boolean"
-        public var description: String { return self.rawValue }
     }
 
     public struct FileLocation: AWSShape {
@@ -7623,13 +7791,6 @@ extension IoT {
         }
     }
 
-    public enum IndexStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case building = "BUILDING"
-        case rebuilding = "REBUILDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct IotAnalyticsAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "channelArn", required: false, type: .string), 
@@ -7883,26 +8044,6 @@ extension IoT {
         }
     }
 
-    public enum JobExecutionFailureType: String, CustomStringConvertible, Codable {
-        case failed = "FAILED"
-        case rejected = "REJECTED"
-        case timedOut = "TIMED_OUT"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobExecutionStatus: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case timedOut = "TIMED_OUT"
-        case rejected = "REJECTED"
-        case removed = "REMOVED"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct JobExecutionStatusDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "detailsMap", required: false, type: .map)
@@ -8083,14 +8224,6 @@ extension IoT {
             case numberOfTimedOutThings = "numberOfTimedOutThings"
             case processingTargets = "processingTargets"
         }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case canceled = "CANCELED"
-        case completed = "COMPLETED"
-        case deletionInProgress = "DELETION_IN_PROGRESS"
-        public var description: String { return self.rawValue }
     }
 
     public struct JobSummary: AWSShape {
@@ -10960,15 +11093,6 @@ extension IoT {
         }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable {
-        case debug = "DEBUG"
-        case info = "INFO"
-        case error = "ERROR"
-        case warn = "WARN"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LogTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "targetName", required: false, type: .string), 
@@ -11013,12 +11137,6 @@ extension IoT {
         }
     }
 
-    public enum LogTargetType: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case thingGroup = "THING_GROUP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoggingOptionsPayload: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "logLevel", required: false, type: .enum), 
@@ -11039,12 +11157,6 @@ extension IoT {
             case logLevel = "logLevel"
             case roleArn = "roleArn"
         }
-    }
-
-    public enum MessageFormat: String, CustomStringConvertible, Codable {
-        case raw = "RAW"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
     }
 
     public struct MetricValue: AWSShape {
@@ -11192,16 +11304,6 @@ extension IoT {
             case updateCACertificateParams = "updateCACertificateParams"
             case updateDeviceCertificateParams = "updateDeviceCertificateParams"
         }
-    }
-
-    public enum MitigationActionType: String, CustomStringConvertible, Codable {
-        case updateDeviceCertificate = "UPDATE_DEVICE_CERTIFICATE"
-        case updateCaCertificate = "UPDATE_CA_CERTIFICATE"
-        case addThingsToThingGroup = "ADD_THINGS_TO_THING_GROUP"
-        case replaceDefaultPolicyVersion = "REPLACE_DEFAULT_POLICY_VERSION"
-        case enableIotLogging = "ENABLE_IOT_LOGGING"
-        case publishFindingToSns = "PUBLISH_FINDING_TO_SNS"
-        public var description: String { return self.rawValue }
     }
 
     public struct MqttContext: AWSShape {
@@ -11401,14 +11503,6 @@ extension IoT {
         }
     }
 
-    public enum OTAUpdateStatus: String, CustomStringConvertible, Codable {
-        case createPending = "CREATE_PENDING"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createComplete = "CREATE_COMPLETE"
-        case createFailed = "CREATE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OTAUpdateSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
@@ -11522,11 +11616,6 @@ extension IoT {
         }
     }
 
-    public enum PolicyTemplateName: String, CustomStringConvertible, Codable {
-        case blankPolicy = "BLANK_POLICY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PolicyVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createDate", required: false, type: .timestamp), 
@@ -11610,12 +11699,6 @@ extension IoT {
             case expiresInSec = "expiresInSec"
             case roleArn = "roleArn"
         }
-    }
-
-    public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case mqtt = "MQTT"
-        case http = "HTTP"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProvisioningTemplateSummary: AWSShape {
@@ -12194,12 +12277,6 @@ extension IoT {
         }
     }
 
-    public enum ReportType: String, CustomStringConvertible, Codable {
-        case errors = "ERRORS"
-        case results = "RESULTS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RepublishAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "qos", required: false, type: .integer), 
@@ -12299,18 +12376,6 @@ extension IoT {
             case policyVersionIdentifier = "policyVersionIdentifier"
             case roleAliasArn = "roleAliasArn"
         }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case deviceCertificate = "DEVICE_CERTIFICATE"
-        case caCertificate = "CA_CERTIFICATE"
-        case iotPolicy = "IOT_POLICY"
-        case cognitoIdentityPool = "COGNITO_IDENTITY_POOL"
-        case clientId = "CLIENT_ID"
-        case accountSettings = "ACCOUNT_SETTINGS"
-        case roleAlias = "ROLE_ALIAS"
-        case iamRole = "IAM_ROLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct RoleAliasDescription: AWSShape {
@@ -12649,12 +12714,6 @@ extension IoT {
         }
     }
 
-    public enum ServerCertificateStatus: String, CustomStringConvertible, Codable {
-        case invalid = "INVALID"
-        case valid = "VALID"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ServerCertificateSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "serverCertificateArn", required: false, type: .string), 
@@ -12680,13 +12739,6 @@ extension IoT {
             case serverCertificateStatus = "serverCertificateStatus"
             case serverCertificateStatusDetail = "serverCertificateStatusDetail"
         }
-    }
-
-    public enum ServiceType: String, CustomStringConvertible, Codable {
-        case data = "DATA"
-        case credentialProvider = "CREDENTIAL_PROVIDER"
-        case jobs = "JOBS"
-        public var description: String { return self.rawValue }
     }
 
     public struct SetDefaultAuthorizerRequest: AWSShape {
@@ -13200,15 +13252,6 @@ extension IoT {
         }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
-        case cancelling = "Cancelling"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StepFunctionsAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "executionNamePrefix", required: false, type: .string), 
@@ -13457,12 +13500,6 @@ extension IoT {
         public init() {
         }
 
-    }
-
-    public enum TargetSelection: String, CustomStringConvertible, Codable {
-        case continuous = "CONTINUOUS"
-        case snapshot = "SNAPSHOT"
-        public var description: String { return self.rawValue }
     }
 
     public struct TaskStatistics: AWSShape {
@@ -13775,12 +13812,6 @@ extension IoT {
         }
     }
 
-    public enum ThingConnectivityIndexingMode: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case status = "STATUS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ThingDocument: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributes", required: false, type: .map), 
@@ -13892,12 +13923,6 @@ extension IoT {
         }
     }
 
-    public enum ThingGroupIndexingMode: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case on = "ON"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ThingGroupMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
@@ -13983,13 +14008,6 @@ extension IoT {
             case thingConnectivityIndexingMode = "thingConnectivityIndexingMode"
             case thingIndexingMode = "thingIndexingMode"
         }
-    }
-
-    public enum ThingIndexingMode: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case registry = "REGISTRY"
-        case registryAndShadow = "REGISTRY_AND_SHADOW"
-        public var description: String { return self.rawValue }
     }
 
     public struct ThingTypeDefinition: AWSShape {
@@ -14224,14 +14242,6 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case httpUrlConfiguration = "httpUrlConfiguration"
         }
-    }
-
-    public enum TopicRuleDestinationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case inProgress = "IN_PROGRESS"
-        case disabled = "DISABLED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct TopicRuleDestinationSummary: AWSShape {
@@ -15729,12 +15739,5 @@ extension IoT {
             case violationEventType = "violationEventType"
             case violationId = "violationId"
         }
-    }
-
-    public enum ViolationEventType: String, CustomStringConvertible, Codable {
-        case inAlarm = "in-alarm"
-        case alarmCleared = "alarm-cleared"
-        case alarmInvalidated = "alarm-invalidated"
-        public var description: String { return self.rawValue }
     }
 }

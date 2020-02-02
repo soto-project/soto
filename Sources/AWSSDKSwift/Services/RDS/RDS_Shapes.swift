@@ -4,6 +4,72 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension RDS {
+    //MARK: Enums
+
+    public enum ActivityStreamMode: String, CustomStringConvertible, Codable {
+        case sync = "sync"
+        case async = "async"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActivityStreamStatus: String, CustomStringConvertible, Codable {
+        case stopped = "stopped"
+        case starting = "starting"
+        case started = "started"
+        case stopping = "stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplyMethod: String, CustomStringConvertible, Codable {
+        case immediate = "immediate"
+        case pendingReboot = "pending-reboot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthScheme: String, CustomStringConvertible, Codable {
+        case secrets = "SECRETS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DBProxyStatus: String, CustomStringConvertible, Codable {
+        case available = "available"
+        case modifying = "modifying"
+        case incompatibleNetwork = "incompatible-network"
+        case insufficientResourceLimits = "insufficient-resource-limits"
+        case creating = "creating"
+        case deleting = "deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EngineFamily: String, CustomStringConvertible, Codable {
+        case mysql = "MYSQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IAMAuthMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case dbInstance = "db-instance"
+        case dbParameterGroup = "db-parameter-group"
+        case dbSecurityGroup = "db-security-group"
+        case dbSnapshot = "db-snapshot"
+        case dbCluster = "db-cluster"
+        case dbClusterSnapshot = "db-cluster-snapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetType: String, CustomStringConvertible, Codable {
+        case rdsInstance = "RDS_INSTANCE"
+        case rdsServerlessEndpoint = "RDS_SERVERLESS_ENDPOINT"
+        case trackedCluster = "TRACKED_CLUSTER"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountAttributesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -47,20 +113,6 @@ extension RDS {
             case max = "Max"
             case used = "Used"
         }
-    }
-
-    public enum ActivityStreamMode: String, CustomStringConvertible, Codable {
-        case sync = "sync"
-        case async = "async"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ActivityStreamStatus: String, CustomStringConvertible, Codable {
-        case stopped = "stopped"
-        case starting = "starting"
-        case started = "started"
-        case stopping = "stopping"
-        public var description: String { return self.rawValue }
     }
 
     public struct AddRoleToDBClusterMessage: AWSShape {
@@ -177,12 +229,6 @@ extension RDS {
         }
     }
 
-    public enum ApplyMethod: String, CustomStringConvertible, Codable {
-        case immediate = "immediate"
-        case pendingReboot = "pending-reboot"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ApplyPendingMaintenanceActionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplyAction", required: true, type: .string), 
@@ -224,11 +270,6 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
         }
-    }
-
-    public enum AuthScheme: String, CustomStringConvertible, Codable {
-        case secrets = "SECRETS"
-        public var description: String { return self.rawValue }
     }
 
     public struct AuthorizeDBSecurityGroupIngressMessage: AWSShape {
@@ -3761,16 +3802,6 @@ extension RDS {
         }
     }
 
-    public enum DBProxyStatus: String, CustomStringConvertible, Codable {
-        case available = "available"
-        case modifying = "modifying"
-        case incompatibleNetwork = "incompatible-network"
-        case insufficientResourceLimits = "insufficient-resource-limits"
-        case creating = "creating"
-        case deleting = "deleting"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DBProxyTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Endpoint", required: false, type: .string), 
@@ -6516,11 +6547,6 @@ extension RDS {
         }
     }
 
-    public enum EngineFamily: String, CustomStringConvertible, Codable {
-        case mysql = "MYSQL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Date", required: false, type: .timestamp), 
@@ -6877,12 +6903,6 @@ extension RDS {
             case globalClusters = "GlobalClusters"
             case marker = "Marker"
         }
-    }
-
-    public enum IAMAuthMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case required = "REQUIRED"
-        public var description: String { return self.rawValue }
     }
 
     public struct IPRange: AWSShape {
@@ -10781,16 +10801,6 @@ extension RDS {
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case dbInstance = "db-instance"
-        case dbParameterGroup = "db-parameter-group"
-        case dbSecurityGroup = "db-security-group"
-        case dbSnapshot = "db-snapshot"
-        case dbCluster = "db-cluster"
-        case dbClusterSnapshot = "db-cluster-snapshot"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StartActivityStreamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
@@ -11109,13 +11119,6 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case tagList = "TagList"
         }
-    }
-
-    public enum TargetType: String, CustomStringConvertible, Codable {
-        case rdsInstance = "RDS_INSTANCE"
-        case rdsServerlessEndpoint = "RDS_SERVERLESS_ENDPOINT"
-        case trackedCluster = "TRACKED_CLUSTER"
-        public var description: String { return self.rawValue }
     }
 
     public struct Timezone: AWSShape {

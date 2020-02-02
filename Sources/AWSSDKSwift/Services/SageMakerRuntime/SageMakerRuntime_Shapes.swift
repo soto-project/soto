@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SageMakerRuntime {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct InvokeEndpointInput: AWSShape {
         /// The key for the payload

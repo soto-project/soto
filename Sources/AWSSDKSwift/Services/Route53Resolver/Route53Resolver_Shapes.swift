@@ -4,6 +4,70 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Route53Resolver {
+    //MARK: Enums
+
+    public enum IpAddressStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case failedCreation = "FAILED_CREATION"
+        case attaching = "ATTACHING"
+        case attached = "ATTACHED"
+        case remapDetaching = "REMAP_DETACHING"
+        case remapAttaching = "REMAP_ATTACHING"
+        case detaching = "DETACHING"
+        case failedResourceGone = "FAILED_RESOURCE_GONE"
+        case deleting = "DELETING"
+        case deleteFailedFasExpired = "DELETE_FAILED_FAS_EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverEndpointDirection: String, CustomStringConvertible, Codable {
+        case inbound = "INBOUND"
+        case outbound = "OUTBOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverEndpointStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case operational = "OPERATIONAL"
+        case updating = "UPDATING"
+        case autoRecovering = "AUTO_RECOVERING"
+        case actionNeeded = "ACTION_NEEDED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverRuleAssociationStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case complete = "COMPLETE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case overridden = "OVERRIDDEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverRuleStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleTypeOption: String, CustomStringConvertible, Codable {
+        case forward = "FORWARD"
+        case system = "SYSTEM"
+        case recursive = "RECURSIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareStatus: String, CustomStringConvertible, Codable {
+        case notShared = "NOT_SHARED"
+        case sharedWithMe = "SHARED_WITH_ME"
+        case sharedByMe = "SHARED_BY_ME"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateResolverEndpointIpAddressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -689,20 +753,6 @@ extension Route53Resolver {
         }
     }
 
-    public enum IpAddressStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case failedCreation = "FAILED_CREATION"
-        case attaching = "ATTACHING"
-        case attached = "ATTACHED"
-        case remapDetaching = "REMAP_DETACHING"
-        case remapAttaching = "REMAP_ATTACHING"
-        case detaching = "DETACHING"
-        case failedResourceGone = "FAILED_RESOURCE_GONE"
-        case deleting = "DELETING"
-        case deleteFailedFasExpired = "DELETE_FAILED_FAS_EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct IpAddressUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ip", required: false, type: .string), 
@@ -1159,22 +1209,6 @@ extension Route53Resolver {
         }
     }
 
-    public enum ResolverEndpointDirection: String, CustomStringConvertible, Codable {
-        case inbound = "INBOUND"
-        case outbound = "OUTBOUND"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResolverEndpointStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case operational = "OPERATIONAL"
-        case updating = "UPDATING"
-        case autoRecovering = "AUTO_RECOVERING"
-        case actionNeeded = "ACTION_NEEDED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResolverRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -1289,15 +1323,6 @@ extension Route53Resolver {
         }
     }
 
-    public enum ResolverRuleAssociationStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case complete = "COMPLETE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case overridden = "OVERRIDDEN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResolverRuleConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1334,28 +1359,6 @@ extension Route53Resolver {
             case resolverEndpointId = "ResolverEndpointId"
             case targetIps = "TargetIps"
         }
-    }
-
-    public enum ResolverRuleStatus: String, CustomStringConvertible, Codable {
-        case complete = "COMPLETE"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RuleTypeOption: String, CustomStringConvertible, Codable {
-        case forward = "FORWARD"
-        case system = "SYSTEM"
-        case recursive = "RECURSIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ShareStatus: String, CustomStringConvertible, Codable {
-        case notShared = "NOT_SHARED"
-        case sharedWithMe = "SHARED_WITH_ME"
-        case sharedByMe = "SHARED_BY_ME"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

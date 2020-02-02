@@ -4,6 +4,21 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IoTJobsDataPlane {
+    //MARK: Enums
+
+    public enum JobExecutionStatus: String, CustomStringConvertible, Codable {
+        case queued = "QUEUED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timedOut = "TIMED_OUT"
+        case rejected = "REJECTED"
+        case removed = "REMOVED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct DescribeJobExecutionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -198,18 +213,6 @@ extension IoTJobsDataPlane {
             case statusDetails = "statusDetails"
             case versionNumber = "versionNumber"
         }
-    }
-
-    public enum JobExecutionStatus: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case timedOut = "TIMED_OUT"
-        case rejected = "REJECTED"
-        case removed = "REMOVED"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
     }
 
     public struct JobExecutionSummary: AWSShape {

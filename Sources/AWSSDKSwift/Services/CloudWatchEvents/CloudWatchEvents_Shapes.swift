@@ -4,6 +4,34 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudWatchEvents {
+    //MARK: Enums
+
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventSourceState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchType: String, CustomStringConvertible, Codable {
+        case ec2 = "EC2"
+        case fargate = "FARGATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ActivateEventSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -26,12 +54,6 @@ extension CloudWatchEvents {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
-    }
-
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct AwsVpcConfiguration: AWSShape {
@@ -790,13 +812,6 @@ extension CloudWatchEvents {
         }
     }
 
-    public enum EventSourceState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InputTransformer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputPathsMap", required: false, type: .map), 
@@ -849,12 +864,6 @@ extension CloudWatchEvents {
         private enum CodingKeys: String, CodingKey {
             case partitionKeyPath = "PartitionKeyPath"
         }
-    }
-
-    public enum LaunchType: String, CustomStringConvertible, Codable {
-        case ec2 = "EC2"
-        case fargate = "FARGATE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListEventBusesRequest: AWSShape {
@@ -2043,12 +2052,6 @@ extension CloudWatchEvents {
             case scheduleExpression = "ScheduleExpression"
             case state = "State"
         }
-    }
-
-    public enum RuleState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct RunCommandParameters: AWSShape {

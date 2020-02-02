@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MediaPackage {
+    //MARK: Enums
 
     public enum AdMarkers: String, CustomStringConvertible, Codable {
         case none = "NONE"
@@ -19,6 +20,77 @@ extension MediaPackage {
         case both = "BOTH"
         public var description: String { return self.rawValue }
     }
+
+    public enum EncryptionMethod: String, CustomStringConvertible, Codable {
+        case aes128 = "AES_128"
+        case sampleAes = "SAMPLE_AES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManifestLayout: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case compact = "COMPACT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Origination: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlaylistType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case event = "EVENT"
+        case vod = "VOD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Profile: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case hbbtv15 = "HBBTV_1_5"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable {
+        case numberWithTimeline = "NUMBER_WITH_TIMELINE"
+        case timeWithTimeline = "TIME_WITH_TIMELINE"
+        case numberWithDuration = "NUMBER_WITH_DURATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamOrder: String, CustomStringConvertible, Codable {
+        case original = "ORIGINAL"
+        case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
+        case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Adtriggerselement: String, CustomStringConvertible, Codable {
+        case spliceInsert = "SPLICE_INSERT"
+        case `break` = "BREAK"
+        case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
+        case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
+        case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
+        case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
+        case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
+        case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Periodtriggerselement: String, CustomStringConvertible, Codable {
+        case ads = "ADS"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Authorization: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -800,12 +872,6 @@ extension MediaPackage {
         }
     }
 
-    public enum EncryptionMethod: String, CustomStringConvertible, Codable {
-        case aes128 = "AES_128"
-        case sampleAes = "SAMPLE_AES"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HarvestJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
@@ -1347,12 +1413,6 @@ extension MediaPackage {
         }
     }
 
-    public enum ManifestLayout: String, CustomStringConvertible, Codable {
-        case full = "FULL"
-        case compact = "COMPACT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MssEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure)
@@ -1489,25 +1549,6 @@ extension MediaPackage {
         }
     }
 
-    public enum Origination: String, CustomStringConvertible, Codable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PlaylistType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case event = "EVENT"
-        case vod = "VOD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Profile: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case hbbtv15 = "HBBTV_1_5"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RotateChannelCredentialsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
@@ -1635,13 +1676,6 @@ extension MediaPackage {
         }
     }
 
-    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable {
-        case numberWithTimeline = "NUMBER_WITH_TIMELINE"
-        case timeWithTimeline = "TIME_WITH_TIMELINE"
-        case numberWithDuration = "NUMBER_WITH_DURATION"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SpekeKeyProvider: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn"), required: false, type: .string), 
@@ -1680,20 +1714,6 @@ extension MediaPackage {
             case systemIds = "systemIds"
             case url = "url"
         }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StreamOrder: String, CustomStringConvertible, Codable {
-        case original = "ORIGINAL"
-        case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
-        case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct StreamSelection: AWSShape {
@@ -1949,22 +1969,5 @@ extension MediaPackage {
             case url = "url"
             case whitelist = "whitelist"
         }
-    }
-
-    public enum Adtriggerselement: String, CustomStringConvertible, Codable {
-        case spliceInsert = "SPLICE_INSERT"
-        case `break` = "BREAK"
-        case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
-        case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
-        case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
-        case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
-        case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
-        case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Periodtriggerselement: String, CustomStringConvertible, Codable {
-        case ads = "ADS"
-        public var description: String { return self.rawValue }
     }
 }

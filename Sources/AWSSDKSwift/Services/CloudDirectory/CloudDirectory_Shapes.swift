@@ -4,6 +4,92 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudDirectory {
+    //MARK: Enums
+
+    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable {
+        case validationexception = "ValidationException"
+        case invalidarnexception = "InvalidArnException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        case invalidnexttokenexception = "InvalidNextTokenException"
+        case accessdeniedexception = "AccessDeniedException"
+        case notnodeexception = "NotNodeException"
+        case facetvalidationexception = "FacetValidationException"
+        case cannotlistparentofrootexception = "CannotListParentOfRootException"
+        case notindexexception = "NotIndexException"
+        case notpolicyexception = "NotPolicyException"
+        case directorynotenabledexception = "DirectoryNotEnabledException"
+        case limitexceededexception = "LimitExceededException"
+        case internalserviceexception = "InternalServiceException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConsistencyLevel: String, CustomStringConvertible, Codable {
+        case serializable = "SERIALIZABLE"
+        case eventual = "EVENTUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectoryState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FacetAttributeType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case binary = "BINARY"
+        case boolean = "BOOLEAN"
+        case number = "NUMBER"
+        case datetime = "DATETIME"
+        case variant = "VARIANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FacetStyle: String, CustomStringConvertible, Codable {
+        case `static` = "STATIC"
+        case dynamic = "DYNAMIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectType: String, CustomStringConvertible, Codable {
+        case node = "NODE"
+        case leafNode = "LEAF_NODE"
+        case policy = "POLICY"
+        case index = "INDEX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RangeMode: String, CustomStringConvertible, Codable {
+        case first = "FIRST"
+        case last = "LAST"
+        case lastBeforeMissingValues = "LAST_BEFORE_MISSING_VALUES"
+        case inclusive = "INCLUSIVE"
+        case exclusive = "EXCLUSIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable {
+        case requiredAlways = "REQUIRED_ALWAYS"
+        case notRequired = "NOT_REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleType: String, CustomStringConvertible, Codable {
+        case binaryLength = "BINARY_LENGTH"
+        case numberComparison = "NUMBER_COMPARISON"
+        case stringFromSet = "STRING_FROM_SET"
+        case stringLength = "STRING_LENGTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateActionType: String, CustomStringConvertible, Codable {
+        case createOrUpdate = "CREATE_OR_UPDATE"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddFacetToObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1682,23 +1768,6 @@ extension CloudDirectory {
         }
     }
 
-    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable {
-        case validationexception = "ValidationException"
-        case invalidarnexception = "InvalidArnException"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case invalidnexttokenexception = "InvalidNextTokenException"
-        case accessdeniedexception = "AccessDeniedException"
-        case notnodeexception = "NotNodeException"
-        case facetvalidationexception = "FacetValidationException"
-        case cannotlistparentofrootexception = "CannotListParentOfRootException"
-        case notindexexception = "NotIndexException"
-        case notpolicyexception = "NotPolicyException"
-        case directorynotenabledexception = "DirectoryNotEnabledException"
-        case limitexceededexception = "LimitExceededException"
-        case internalserviceexception = "InternalServiceException"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BatchReadOperation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GetLinkAttributes", required: false, type: .structure), 
@@ -2295,12 +2364,6 @@ extension CloudDirectory {
         private enum CodingKeys: String, CodingKey {
             case responses = "Responses"
         }
-    }
-
-    public enum ConsistencyLevel: String, CustomStringConvertible, Codable {
-        case serializable = "SERIALIZABLE"
-        case eventual = "EVENTUAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateDirectoryRequest: AWSShape {
@@ -2975,13 +3038,6 @@ extension CloudDirectory {
         }
     }
 
-    public enum DirectoryState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DisableDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
@@ -3188,16 +3244,6 @@ extension CloudDirectory {
         }
     }
 
-    public enum FacetAttributeType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case binary = "BINARY"
-        case boolean = "BOOLEAN"
-        case number = "NUMBER"
-        case datetime = "DATETIME"
-        case variant = "VARIANT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FacetAttributeUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: false, type: .enum), 
@@ -3222,12 +3268,6 @@ extension CloudDirectory {
             case action = "Action"
             case attribute = "Attribute"
         }
-    }
-
-    public enum FacetStyle: String, CustomStringConvertible, Codable {
-        case `static` = "STATIC"
-        case dynamic = "DYNAMIC"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetAppliedSchemaVersionRequest: AWSShape {
@@ -5057,14 +5097,6 @@ extension CloudDirectory {
         }
     }
 
-    public enum ObjectType: String, CustomStringConvertible, Codable {
-        case node = "NODE"
-        case leafNode = "LEAF_NODE"
-        case policy = "POLICY"
-        case index = "INDEX"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PathToObjectIdentifiers: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list), 
@@ -5236,15 +5268,6 @@ extension CloudDirectory {
         }
     }
 
-    public enum RangeMode: String, CustomStringConvertible, Codable {
-        case first = "FIRST"
-        case last = "LAST"
-        case lastBeforeMissingValues = "LAST_BEFORE_MISSING_VALUES"
-        case inclusive = "INCLUSIVE"
-        case exclusive = "EXCLUSIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RemoveFacetFromObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
@@ -5284,12 +5307,6 @@ extension CloudDirectory {
 
     }
 
-    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable {
-        case requiredAlways = "REQUIRED_ALWAYS"
-        case notRequired = "NOT_REQUIRED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Rule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: false, type: .map), 
@@ -5310,14 +5327,6 @@ extension CloudDirectory {
             case parameters = "Parameters"
             case `type` = "Type"
         }
-    }
-
-    public enum RuleType: String, CustomStringConvertible, Codable {
-        case binaryLength = "BINARY_LENGTH"
-        case numberComparison = "NUMBER_COMPARISON"
-        case stringFromSet = "STRING_FROM_SET"
-        case stringLength = "STRING_LENGTH"
-        public var description: String { return self.rawValue }
     }
 
     public struct SchemaFacet: AWSShape {
@@ -5708,12 +5717,6 @@ extension CloudDirectory {
         public init() {
         }
 
-    }
-
-    public enum UpdateActionType: String, CustomStringConvertible, Codable {
-        case createOrUpdate = "CREATE_OR_UPDATE"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateFacetRequest: AWSShape {

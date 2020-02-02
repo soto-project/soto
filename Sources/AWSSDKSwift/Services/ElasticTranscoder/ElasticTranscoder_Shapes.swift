@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ElasticTranscoder {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct Artwork: AWSShape {
         public static var _members: [AWSShapeMember] = [

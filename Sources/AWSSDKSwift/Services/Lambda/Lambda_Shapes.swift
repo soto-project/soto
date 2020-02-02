@@ -4,6 +4,105 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Lambda {
+    //MARK: Enums
+
+    public enum EventSourcePosition: String, CustomStringConvertible, Codable {
+        case trimHorizon = "TRIM_HORIZON"
+        case latest = "LATEST"
+        case atTimestamp = "AT_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FunctionVersion: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvocationType: String, CustomStringConvertible, Codable {
+        case event = "Event"
+        case requestresponse = "RequestResponse"
+        case dryrun = "DryRun"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastUpdateStatus: String, CustomStringConvertible, Codable {
+        case successful = "Successful"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable {
+        case enilimitexceeded = "EniLimitExceeded"
+        case insufficientrolepermissions = "InsufficientRolePermissions"
+        case invalidconfiguration = "InvalidConfiguration"
+        case internalerror = "InternalError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogType: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case tail = "Tail"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProvisionedConcurrencyStatusEnum: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case ready = "READY"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Runtime: String, CustomStringConvertible, Codable {
+        case nodejs = "nodejs"
+        case nodejs43 = "nodejs4.3"
+        case nodejs610 = "nodejs6.10"
+        case nodejs810 = "nodejs8.10"
+        case nodejs10X = "nodejs10.x"
+        case nodejs12X = "nodejs12.x"
+        case java8 = "java8"
+        case java11 = "java11"
+        case python27 = "python2.7"
+        case python36 = "python3.6"
+        case python37 = "python3.7"
+        case python38 = "python3.8"
+        case dotnetcore10 = "dotnetcore1.0"
+        case dotnetcore20 = "dotnetcore2.0"
+        case dotnetcore21 = "dotnetcore2.1"
+        case nodejs43Edge = "nodejs4.3-edge"
+        case go1X = "go1.x"
+        case ruby25 = "ruby2.5"
+        case provided = "provided"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case active = "Active"
+        case inactive = "Inactive"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StateReasonCode: String, CustomStringConvertible, Codable {
+        case idle = "Idle"
+        case creating = "Creating"
+        case restoring = "Restoring"
+        case enilimitexceeded = "EniLimitExceeded"
+        case insufficientrolepermissions = "InsufficientRolePermissions"
+        case invalidconfiguration = "InvalidConfiguration"
+        case internalerror = "InternalError"
+        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TracingMode: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case passthrough = "PassThrough"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountLimit: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -971,13 +1070,6 @@ extension Lambda {
         }
     }
 
-    public enum EventSourcePosition: String, CustomStringConvertible, Codable {
-        case trimHorizon = "TRIM_HORIZON"
-        case latest = "LATEST"
-        case atTimestamp = "AT_TIMESTAMP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FunctionCode: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
@@ -1219,11 +1311,6 @@ extension Lambda {
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
         }
-    }
-
-    public enum FunctionVersion: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetAccountSettingsRequest: AWSShape {
@@ -1840,13 +1927,6 @@ extension Lambda {
         }
     }
 
-    public enum InvocationType: String, CustomStringConvertible, Codable {
-        case event = "Event"
-        case requestresponse = "RequestResponse"
-        case dryrun = "DryRun"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InvokeAsyncRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "InvokeArgs"
@@ -1892,21 +1972,6 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
         }
-    }
-
-    public enum LastUpdateStatus: String, CustomStringConvertible, Codable {
-        case successful = "Successful"
-        case failed = "Failed"
-        case inprogress = "InProgress"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable {
-        case enilimitexceeded = "EniLimitExceeded"
-        case insufficientrolepermissions = "InsufficientRolePermissions"
-        case invalidconfiguration = "InvalidConfiguration"
-        case internalerror = "InternalError"
-        public var description: String { return self.rawValue }
     }
 
     public struct Layer: AWSShape {
@@ -2582,12 +2647,6 @@ extension Lambda {
         }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable {
-        case none = "None"
-        case tail = "Tail"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OnFailure: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destination", required: false, type: .string)
@@ -2679,13 +2738,6 @@ extension Lambda {
             case status = "Status"
             case statusReason = "StatusReason"
         }
-    }
-
-    public enum ProvisionedConcurrencyStatusEnum: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case ready = "READY"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct PublishLayerVersionRequest: AWSShape {
@@ -3072,49 +3124,6 @@ extension Lambda {
         }
     }
 
-    public enum Runtime: String, CustomStringConvertible, Codable {
-        case nodejs = "nodejs"
-        case nodejs43 = "nodejs4.3"
-        case nodejs610 = "nodejs6.10"
-        case nodejs810 = "nodejs8.10"
-        case nodejs10X = "nodejs10.x"
-        case nodejs12X = "nodejs12.x"
-        case java8 = "java8"
-        case java11 = "java11"
-        case python27 = "python2.7"
-        case python36 = "python3.6"
-        case python37 = "python3.7"
-        case python38 = "python3.8"
-        case dotnetcore10 = "dotnetcore1.0"
-        case dotnetcore20 = "dotnetcore2.0"
-        case dotnetcore21 = "dotnetcore2.1"
-        case nodejs43Edge = "nodejs4.3-edge"
-        case go1X = "go1.x"
-        case ruby25 = "ruby2.5"
-        case provided = "provided"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum State: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case active = "Active"
-        case inactive = "Inactive"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StateReasonCode: String, CustomStringConvertible, Codable {
-        case idle = "Idle"
-        case creating = "Creating"
-        case restoring = "Restoring"
-        case enilimitexceeded = "EniLimitExceeded"
-        case insufficientrolepermissions = "InsufficientRolePermissions"
-        case invalidconfiguration = "InvalidConfiguration"
-        case internalerror = "InternalError"
-        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string), 
@@ -3173,12 +3182,6 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case mode = "Mode"
         }
-    }
-
-    public enum TracingMode: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case passthrough = "PassThrough"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

@@ -4,6 +4,27 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Mobile {
+    //MARK: Enums
+
+    public enum Platform: String, CustomStringConvertible, Codable {
+        case osx = "OSX"
+        case windows = "WINDOWS"
+        case linux = "LINUX"
+        case objc = "OBJC"
+        case swift = "SWIFT"
+        case android = "ANDROID"
+        case javascript = "JAVASCRIPT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectState: String, CustomStringConvertible, Codable {
+        case normal = "NORMAL"
+        case syncing = "SYNCING"
+        case importing = "IMPORTING"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BundleDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -377,17 +398,6 @@ extension Mobile {
         }
     }
 
-    public enum Platform: String, CustomStringConvertible, Codable {
-        case osx = "OSX"
-        case windows = "WINDOWS"
-        case linux = "LINUX"
-        case objc = "OBJC"
-        case swift = "SWIFT"
-        case android = "ANDROID"
-        case javascript = "JAVASCRIPT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProjectDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "consoleUrl", required: false, type: .string), 
@@ -433,13 +443,6 @@ extension Mobile {
             case resources = "resources"
             case state = "state"
         }
-    }
-
-    public enum ProjectState: String, CustomStringConvertible, Codable {
-        case normal = "NORMAL"
-        case syncing = "SYNCING"
-        case importing = "IMPORTING"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProjectSummary: AWSShape {

@@ -4,6 +4,14 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Pricing {
+    //MARK: Enums
+
+    public enum FilterType: String, CustomStringConvertible, Codable {
+        case termMatch = "TERM_MATCH"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AttributeValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -111,11 +119,6 @@ extension Pricing {
             case `type` = "Type"
             case value = "Value"
         }
-    }
-
-    public enum FilterType: String, CustomStringConvertible, Codable {
-        case termMatch = "TERM_MATCH"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetAttributeValuesRequest: AWSShape {

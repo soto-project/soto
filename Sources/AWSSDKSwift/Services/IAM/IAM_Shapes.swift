@@ -4,6 +4,173 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IAM {
+    //MARK: Enums
+
+    public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable {
+        case string = "string"
+        case stringlist = "stringList"
+        case numeric = "numeric"
+        case numericlist = "numericList"
+        case boolean = "boolean"
+        case booleanlist = "booleanList"
+        case ip = "ip"
+        case iplist = "ipList"
+        case binary = "binary"
+        case binarylist = "binaryList"
+        case date = "date"
+        case datelist = "dateList"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeletionTaskStatusType: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case inProgress = "IN_PROGRESS"
+        case failed = "FAILED"
+        case notStarted = "NOT_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityType: String, CustomStringConvertible, Codable {
+        case user = "User"
+        case role = "Role"
+        case group = "Group"
+        case localmanagedpolicy = "LocalManagedPolicy"
+        case awsmanagedpolicy = "AWSManagedPolicy"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PermissionsBoundaryAttachmentType: String, CustomStringConvertible, Codable {
+        case permissionsboundarypolicy = "PermissionsBoundaryPolicy"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyEvaluationDecisionType: String, CustomStringConvertible, Codable {
+        case allowed = "allowed"
+        case explicitdeny = "explicitDeny"
+        case implicitdeny = "implicitDeny"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicySourceType: String, CustomStringConvertible, Codable {
+        case user = "user"
+        case group = "group"
+        case role = "role"
+        case awsManaged = "aws-managed"
+        case userManaged = "user-managed"
+        case resource = "resource"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyUsageType: String, CustomStringConvertible, Codable {
+        case permissionspolicy = "PermissionsPolicy"
+        case permissionsboundary = "PermissionsBoundary"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportFormatType: String, CustomStringConvertible, Codable {
+        case textCsv = "text/csv"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportStateType: String, CustomStringConvertible, Codable {
+        case started = "STARTED"
+        case inprogress = "INPROGRESS"
+        case complete = "COMPLETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssignmentStatusType: String, CustomStringConvertible, Codable {
+        case assigned = "Assigned"
+        case unassigned = "Unassigned"
+        case any = "Any"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncodingType: String, CustomStringConvertible, Codable {
+        case ssh = "SSH"
+        case pem = "PEM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable {
+        case v1token = "v1Token"
+        case v2token = "v2Token"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatusType: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyOwnerEntityType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case role = "ROLE"
+        case group = "GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyScopeType: String, CustomStringConvertible, Codable {
+        case all = "All"
+        case aws = "AWS"
+        case local = "Local"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case inline = "INLINE"
+        case managed = "MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortKeyType: String, CustomStringConvertible, Codable {
+        case serviceNamespaceAscending = "SERVICE_NAMESPACE_ASCENDING"
+        case serviceNamespaceDescending = "SERVICE_NAMESPACE_DESCENDING"
+        case lastAuthenticatedTimeAscending = "LAST_AUTHENTICATED_TIME_ASCENDING"
+        case lastAuthenticatedTimeDescending = "LAST_AUTHENTICATED_TIME_DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SummaryKeyType: String, CustomStringConvertible, Codable {
+        case users = "Users"
+        case usersquota = "UsersQuota"
+        case groups = "Groups"
+        case groupsquota = "GroupsQuota"
+        case servercertificates = "ServerCertificates"
+        case servercertificatesquota = "ServerCertificatesQuota"
+        case userpolicysizequota = "UserPolicySizeQuota"
+        case grouppolicysizequota = "GroupPolicySizeQuota"
+        case groupsperuserquota = "GroupsPerUserQuota"
+        case signingcertificatesperuserquota = "SigningCertificatesPerUserQuota"
+        case accesskeysperuserquota = "AccessKeysPerUserQuota"
+        case mfadevices = "MFADevices"
+        case mfadevicesinuse = "MFADevicesInUse"
+        case accountmfaenabled = "AccountMFAEnabled"
+        case accountaccesskeyspresent = "AccountAccessKeysPresent"
+        case accountsigningcertificatespresent = "AccountSigningCertificatesPresent"
+        case attachedpoliciespergroupquota = "AttachedPoliciesPerGroupQuota"
+        case attachedpoliciesperrolequota = "AttachedPoliciesPerRoleQuota"
+        case attachedpoliciesperuserquota = "AttachedPoliciesPerUserQuota"
+        case policies = "Policies"
+        case policiesquota = "PoliciesQuota"
+        case policysizequota = "PolicySizeQuota"
+        case policyversionsinuse = "PolicyVersionsInUse"
+        case policyversionsinusequota = "PolicyVersionsInUseQuota"
+        case versionsperpolicyquota = "VersionsPerPolicyQuota"
+        case globalendpointtokenversion = "GlobalEndpointTokenVersion"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -428,22 +595,6 @@ extension IAM {
             case contextKeyType = "ContextKeyType"
             case contextKeyValues = "ContextKeyValues"
         }
-    }
-
-    public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable {
-        case string = "string"
-        case stringlist = "stringList"
-        case numeric = "numeric"
-        case numericlist = "numericList"
-        case boolean = "boolean"
-        case booleanlist = "booleanList"
-        case ip = "ip"
-        case iplist = "ipList"
-        case binary = "binary"
-        case binarylist = "binaryList"
-        case date = "date"
-        case datelist = "dateList"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateAccessKeyRequest: AWSShape {
@@ -1807,14 +1958,6 @@ extension IAM {
         }
     }
 
-    public enum DeletionTaskStatusType: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
-        case inProgress = "IN_PROGRESS"
-        case failed = "FAILED"
-        case notStarted = "NOT_STARTED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DetachGroupPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupName", required: true, type: .string), 
@@ -2008,15 +2151,6 @@ extension IAM {
             case path = "Path"
             case `type` = "Type"
         }
-    }
-
-    public enum EntityType: String, CustomStringConvertible, Codable {
-        case user = "User"
-        case role = "Role"
-        case group = "Group"
-        case localmanagedpolicy = "LocalManagedPolicy"
-        case awsmanagedpolicy = "AWSManagedPolicy"
-        public var description: String { return self.rawValue }
     }
 
     public struct ErrorDetails: AWSShape {
@@ -5604,11 +5738,6 @@ extension IAM {
         }
     }
 
-    public enum PermissionsBoundaryAttachmentType: String, CustomStringConvertible, Codable {
-        case permissionsboundarypolicy = "PermissionsBoundaryPolicy"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Policy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -5697,13 +5826,6 @@ extension IAM {
         }
     }
 
-    public enum PolicyEvaluationDecisionType: String, CustomStringConvertible, Codable {
-        case allowed = "allowed"
-        case explicitdeny = "explicitDeny"
-        case implicitdeny = "implicitDeny"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PolicyGrantingServiceAccess: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EntityName", required: false, type: .string), 
@@ -5782,23 +5904,6 @@ extension IAM {
             case roleId = "RoleId"
             case roleName = "RoleName"
         }
-    }
-
-    public enum PolicySourceType: String, CustomStringConvertible, Codable {
-        case user = "user"
-        case group = "group"
-        case role = "role"
-        case awsManaged = "aws-managed"
-        case userManaged = "user-managed"
-        case resource = "resource"
-        case none = "none"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyUsageType: String, CustomStringConvertible, Codable {
-        case permissionspolicy = "PermissionsPolicy"
-        case permissionsboundary = "PermissionsBoundary"
-        public var description: String { return self.rawValue }
     }
 
     public struct PolicyUser: AWSShape {
@@ -6143,18 +6248,6 @@ extension IAM {
             case groupName = "GroupName"
             case userName = "UserName"
         }
-    }
-
-    public enum ReportFormatType: String, CustomStringConvertible, Codable {
-        case textCsv = "text/csv"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReportStateType: String, CustomStringConvertible, Codable {
-        case started = "STARTED"
-        case inprogress = "INPROGRESS"
-        case complete = "COMPLETE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResetServiceSpecificCredentialRequest: AWSShape {
@@ -8147,95 +8240,5 @@ extension IAM {
             case serialNumber = "SerialNumber"
             case user = "User"
         }
-    }
-
-    public enum AssignmentStatusType: String, CustomStringConvertible, Codable {
-        case assigned = "Assigned"
-        case unassigned = "Unassigned"
-        case any = "Any"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EncodingType: String, CustomStringConvertible, Codable {
-        case ssh = "SSH"
-        case pem = "PEM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable {
-        case v1token = "v1Token"
-        case v2token = "v2Token"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobStatusType: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyOwnerEntityType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case role = "ROLE"
-        case group = "GROUP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyScopeType: String, CustomStringConvertible, Codable {
-        case all = "All"
-        case aws = "AWS"
-        case local = "Local"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyType: String, CustomStringConvertible, Codable {
-        case inline = "INLINE"
-        case managed = "MANAGED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortKeyType: String, CustomStringConvertible, Codable {
-        case serviceNamespaceAscending = "SERVICE_NAMESPACE_ASCENDING"
-        case serviceNamespaceDescending = "SERVICE_NAMESPACE_DESCENDING"
-        case lastAuthenticatedTimeAscending = "LAST_AUTHENTICATED_TIME_ASCENDING"
-        case lastAuthenticatedTimeDescending = "LAST_AUTHENTICATED_TIME_DESCENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StatusType: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SummaryKeyType: String, CustomStringConvertible, Codable {
-        case users = "Users"
-        case usersquota = "UsersQuota"
-        case groups = "Groups"
-        case groupsquota = "GroupsQuota"
-        case servercertificates = "ServerCertificates"
-        case servercertificatesquota = "ServerCertificatesQuota"
-        case userpolicysizequota = "UserPolicySizeQuota"
-        case grouppolicysizequota = "GroupPolicySizeQuota"
-        case groupsperuserquota = "GroupsPerUserQuota"
-        case signingcertificatesperuserquota = "SigningCertificatesPerUserQuota"
-        case accesskeysperuserquota = "AccessKeysPerUserQuota"
-        case mfadevices = "MFADevices"
-        case mfadevicesinuse = "MFADevicesInUse"
-        case accountmfaenabled = "AccountMFAEnabled"
-        case accountaccesskeyspresent = "AccountAccessKeysPresent"
-        case accountsigningcertificatespresent = "AccountSigningCertificatesPresent"
-        case attachedpoliciespergroupquota = "AttachedPoliciesPerGroupQuota"
-        case attachedpoliciesperrolequota = "AttachedPoliciesPerRoleQuota"
-        case attachedpoliciesperuserquota = "AttachedPoliciesPerUserQuota"
-        case policies = "Policies"
-        case policiesquota = "PoliciesQuota"
-        case policysizequota = "PolicySizeQuota"
-        case policyversionsinuse = "PolicyVersionsInUse"
-        case policyversionsinusequota = "PolicyVersionsInUseQuota"
-        case versionsperpolicyquota = "VersionsPerPolicyQuota"
-        case globalendpointtokenversion = "GlobalEndpointTokenVersion"
-        public var description: String { return self.rawValue }
     }
 }

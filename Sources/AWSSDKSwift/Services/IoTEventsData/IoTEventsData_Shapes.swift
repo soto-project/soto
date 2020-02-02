@@ -4,6 +4,18 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IoTEventsData {
+    //MARK: Enums
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        case invalidrequestexception = "InvalidRequestException"
+        case internalfailureexception = "InternalFailureException"
+        case serviceunavailableexception = "ServiceUnavailableException"
+        case throttlingexception = "ThrottlingException"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BatchPutMessageErrorEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -353,15 +365,6 @@ extension IoTEventsData {
             case lastUpdateTime = "lastUpdateTime"
             case state = "state"
         }
-    }
-
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case invalidrequestexception = "InvalidRequestException"
-        case internalfailureexception = "InternalFailureException"
-        case serviceunavailableexception = "ServiceUnavailableException"
-        case throttlingexception = "ThrottlingException"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListDetectorsRequest: AWSShape {

@@ -4,6 +4,130 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CodePipeline {
+    //MARK: Enums
+
+    public enum ActionCategory: String, CustomStringConvertible, Codable {
+        case source = "Source"
+        case build = "Build"
+        case deploy = "Deploy"
+        case test = "Test"
+        case invoke = "Invoke"
+        case approval = "Approval"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable {
+        case string = "String"
+        case number = "Number"
+        case boolean = "Boolean"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionExecutionStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionOwner: String, CustomStringConvertible, Codable {
+        case aws = "AWS"
+        case thirdparty = "ThirdParty"
+        case custom = "Custom"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApprovalStatus: String, CustomStringConvertible, Codable {
+        case approved = "Approved"
+        case rejected = "Rejected"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArtifactLocationType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArtifactStoreType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlockerType: String, CustomStringConvertible, Codable {
+        case schedule = "Schedule"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FailureType: String, CustomStringConvertible, Codable {
+        case jobfailed = "JobFailed"
+        case configurationerror = "ConfigurationError"
+        case permissionerror = "PermissionError"
+        case revisionoutofsync = "RevisionOutOfSync"
+        case revisionunavailable = "RevisionUnavailable"
+        case systemunavailable = "SystemUnavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case created = "Created"
+        case queued = "Queued"
+        case dispatched = "Dispatched"
+        case inprogress = "InProgress"
+        case timedout = "TimedOut"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case superseded = "Superseded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StageExecutionStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StageRetryMode: String, CustomStringConvertible, Codable {
+        case failedActions = "FAILED_ACTIONS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StageTransitionType: String, CustomStringConvertible, Codable {
+        case inbound = "Inbound"
+        case outbound = "Outbound"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerType: String, CustomStringConvertible, Codable {
+        case createpipeline = "CreatePipeline"
+        case startpipelineexecution = "StartPipelineExecution"
+        case pollforsourcechanges = "PollForSourceChanges"
+        case webhook = "Webhook"
+        case cloudwatchevent = "CloudWatchEvent"
+        case putactionrevision = "PutActionRevision"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebhookAuthenticationType: String, CustomStringConvertible, Codable {
+        case githubHmac = "GITHUB_HMAC"
+        case ip = "IP"
+        case unauthenticated = "UNAUTHENTICATED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AWSSessionCredentials: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -130,16 +254,6 @@ extension CodePipeline {
         }
     }
 
-    public enum ActionCategory: String, CustomStringConvertible, Codable {
-        case source = "Source"
-        case build = "Build"
-        case deploy = "Deploy"
-        case test = "Test"
-        case invoke = "Invoke"
-        case approval = "Approval"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ActionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configuration", required: false, type: .map)
@@ -209,13 +323,6 @@ extension CodePipeline {
             case secret = "secret"
             case `type` = "type"
         }
-    }
-
-    public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable {
-        case string = "String"
-        case number = "Number"
-        case boolean = "Boolean"
-        public var description: String { return self.rawValue }
     }
 
     public struct ActionContext: AWSShape {
@@ -565,20 +672,6 @@ extension CodePipeline {
         }
     }
 
-    public enum ActionExecutionStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ActionOwner: String, CustomStringConvertible, Codable {
-        case aws = "AWS"
-        case thirdparty = "ThirdParty"
-        case custom = "Custom"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ActionRevision: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "created", required: true, type: .timestamp), 
@@ -798,12 +891,6 @@ extension CodePipeline {
         }
     }
 
-    public enum ApprovalStatus: String, CustomStringConvertible, Codable {
-        case approved = "Approved"
-        case rejected = "Rejected"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Artifact: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "location", required: false, type: .structure), 
@@ -904,11 +991,6 @@ extension CodePipeline {
         }
     }
 
-    public enum ArtifactLocationType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ArtifactRevision: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "created", required: false, type: .timestamp), 
@@ -985,11 +1067,6 @@ extension CodePipeline {
         }
     }
 
-    public enum ArtifactStoreType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BlockerDeclaration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
@@ -1015,11 +1092,6 @@ extension CodePipeline {
             case name = "name"
             case `type` = "type"
         }
-    }
-
-    public enum BlockerType: String, CustomStringConvertible, Codable {
-        case schedule = "Schedule"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateCustomActionTypeInput: AWSShape {
@@ -1435,11 +1507,6 @@ extension CodePipeline {
         }
     }
 
-    public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ErrorDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "code", required: false, type: .string), 
@@ -1552,16 +1619,6 @@ extension CodePipeline {
             case message = "message"
             case `type` = "type"
         }
-    }
-
-    public enum FailureType: String, CustomStringConvertible, Codable {
-        case jobfailed = "JobFailed"
-        case configurationerror = "ConfigurationError"
-        case permissionerror = "PermissionError"
-        case revisionoutofsync = "RevisionOutOfSync"
-        case revisionunavailable = "RevisionUnavailable"
-        case systemunavailable = "SystemUnavailable"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetJobDetailsInput: AWSShape {
@@ -1937,17 +1994,6 @@ extension CodePipeline {
             case data = "data"
             case id = "id"
         }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case created = "Created"
-        case queued = "Queued"
-        case dispatched = "Dispatched"
-        case inprogress = "InProgress"
-        case timedout = "TimedOut"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListActionExecutionsInput: AWSShape {
@@ -2477,14 +2523,6 @@ extension CodePipeline {
             case pipelineVersion = "pipelineVersion"
             case status = "status"
         }
-    }
-
-    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case superseded = "Superseded"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct PipelineExecutionSummary: AWSShape {
@@ -3271,18 +3309,6 @@ extension CodePipeline {
         }
     }
 
-    public enum StageExecutionStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StageRetryMode: String, CustomStringConvertible, Codable {
-        case failedActions = "FAILED_ACTIONS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StageState: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "actionStates", required: false, type: .list), 
@@ -3313,12 +3339,6 @@ extension CodePipeline {
             case latestExecution = "latestExecution"
             case stageName = "stageName"
         }
-    }
-
-    public enum StageTransitionType: String, CustomStringConvertible, Codable {
-        case inbound = "Inbound"
-        case outbound = "Outbound"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartPipelineExecutionInput: AWSShape {
@@ -3568,16 +3588,6 @@ extension CodePipeline {
         }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable {
-        case createpipeline = "CreatePipeline"
-        case startpipelineexecution = "StartPipelineExecution"
-        case pollforsourcechanges = "PollForSourceChanges"
-        case webhook = "Webhook"
-        case cloudwatchevent = "CloudWatchEvent"
-        case putactionrevision = "PutActionRevision"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UntagResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
@@ -3681,13 +3691,6 @@ extension CodePipeline {
             case allowedIPRange = "AllowedIPRange"
             case secretToken = "SecretToken"
         }
-    }
-
-    public enum WebhookAuthenticationType: String, CustomStringConvertible, Codable {
-        case githubHmac = "GITHUB_HMAC"
-        case ip = "IP"
-        case unauthenticated = "UNAUTHENTICATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct WebhookDefinition: AWSShape {

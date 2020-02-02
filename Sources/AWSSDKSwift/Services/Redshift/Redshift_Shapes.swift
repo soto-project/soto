@@ -4,6 +4,107 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Redshift {
+    //MARK: Enums
+
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case restoreCluster = "restore-cluster"
+        case recommendNodeConfig = "recommend-node-config"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mode: String, CustomStringConvertible, Codable {
+        case standard = "standard"
+        case highPerformance = "high-performance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable {
+        case nodetype = "NodeType"
+        case numberofnodes = "NumberOfNodes"
+        case estimateddiskutilizationpercent = "EstimatedDiskUtilizationPercent"
+        case mode = "Mode"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperatorType: String, CustomStringConvertible, Codable {
+        case eq = "eq"
+        case lt = "lt"
+        case gt = "gt"
+        case le = "le"
+        case ge = "ge"
+        case `in` = "in"
+        case between = "between"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterApplyType: String, CustomStringConvertible, Codable {
+        case `static` = "static"
+        case dynamic = "dynamic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservedNodeOfferingType: String, CustomStringConvertible, Codable {
+        case regular = "Regular"
+        case upgradable = "Upgradable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduleState: String, CustomStringConvertible, Codable {
+        case modifying = "MODIFYING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledActionFilterName: String, CustomStringConvertible, Codable {
+        case clusterIdentifier = "cluster-identifier"
+        case iamRole = "iam-role"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledActionState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
+        case resizecluster = "ResizeCluster"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotAttributeToSortBy: String, CustomStringConvertible, Codable {
+        case sourceType = "SOURCE_TYPE"
+        case totalSize = "TOTAL_SIZE"
+        case createTime = "CREATE_TIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortByOrder: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case cluster = "cluster"
+        case clusterParameterGroup = "cluster-parameter-group"
+        case clusterSecurityGroup = "cluster-security-group"
+        case clusterSnapshot = "cluster-snapshot"
+        case scheduledAction = "scheduled-action"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableRestoreStatusType: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptReservedNodeExchangeInputMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -102,12 +203,6 @@ extension Redshift {
             case accountAlias = "AccountAlias"
             case accountId = "AccountId"
         }
-    }
-
-    public enum ActionType: String, CustomStringConvertible, Codable {
-        case restoreCluster = "restore-cluster"
-        case recommendNodeConfig = "recommend-node-config"
-        public var description: String { return self.rawValue }
     }
 
     public struct AttributeValueTarget: AWSShape {
@@ -3976,12 +4071,6 @@ extension Redshift {
         }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable {
-        case standard = "standard"
-        case highPerformance = "high-performance"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ModifyClusterDbRevisionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
@@ -4633,14 +4722,6 @@ extension Redshift {
         }
     }
 
-    public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable {
-        case nodetype = "NodeType"
-        case numberofnodes = "NumberOfNodes"
-        case estimateddiskutilizationpercent = "EstimatedDiskUtilizationPercent"
-        case mode = "Mode"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NodeConfigurationOptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -4661,17 +4742,6 @@ extension Redshift {
             case marker = "Marker"
             case nodeConfigurationOptionList = "NodeConfigurationOptionList"
         }
-    }
-
-    public enum OperatorType: String, CustomStringConvertible, Codable {
-        case eq = "eq"
-        case lt = "lt"
-        case gt = "gt"
-        case le = "le"
-        case ge = "ge"
-        case `in` = "in"
-        case between = "between"
-        public var description: String { return self.rawValue }
     }
 
     public struct OrderableClusterOption: AWSShape {
@@ -4783,12 +4853,6 @@ extension Redshift {
             case parameterValue = "ParameterValue"
             case source = "Source"
         }
-    }
-
-    public enum ParameterApplyType: String, CustomStringConvertible, Codable {
-        case `static` = "static"
-        case dynamic = "dynamic"
-        public var description: String { return self.rawValue }
     }
 
     public struct PendingModifiedValues: AWSShape {
@@ -5081,12 +5145,6 @@ extension Redshift {
             case reservedNodeOfferingType = "ReservedNodeOfferingType"
             case usagePrice = "UsagePrice"
         }
-    }
-
-    public enum ReservedNodeOfferingType: String, CustomStringConvertible, Codable {
-        case regular = "Regular"
-        case upgradable = "Upgradable"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReservedNodeOfferingsMessage: AWSShape {
@@ -5746,13 +5804,6 @@ extension Redshift {
         }
     }
 
-    public enum ScheduleState: String, CustomStringConvertible, Codable {
-        case modifying = "MODIFYING"
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ScheduledAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
@@ -5832,18 +5883,6 @@ extension Redshift {
         }
     }
 
-    public enum ScheduledActionFilterName: String, CustomStringConvertible, Codable {
-        case clusterIdentifier = "cluster-identifier"
-        case iamRole = "iam-role"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScheduledActionState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ScheduledActionType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResizeCluster", required: false, type: .structure)
@@ -5859,11 +5898,6 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case resizeCluster = "ResizeCluster"
         }
-    }
-
-    public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
-        case resizecluster = "ResizeCluster"
-        public var description: String { return self.rawValue }
     }
 
     public struct ScheduledActionsMessage: AWSShape {
@@ -6065,13 +6099,6 @@ extension Redshift {
         }
     }
 
-    public enum SnapshotAttributeToSortBy: String, CustomStringConvertible, Codable {
-        case sourceType = "SOURCE_TYPE"
-        case totalSize = "TOTAL_SIZE"
-        case createTime = "CREATE_TIME"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SnapshotCopyGrant: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
@@ -6243,21 +6270,6 @@ extension Redshift {
         }
     }
 
-    public enum SortByOrder: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case cluster = "cluster"
-        case clusterParameterGroup = "cluster-parameter-group"
-        case clusterSecurityGroup = "cluster-security-group"
-        case clusterSnapshot = "cluster-snapshot"
-        case scheduledAction = "scheduled-action"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Subnet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
@@ -6419,15 +6431,6 @@ extension Redshift {
             case marker = "Marker"
             case tableRestoreStatusDetails = "TableRestoreStatusDetails"
         }
-    }
-
-    public enum TableRestoreStatusType: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

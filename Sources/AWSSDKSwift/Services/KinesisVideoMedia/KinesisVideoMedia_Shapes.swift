@@ -4,6 +4,19 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension KinesisVideoMedia {
+    //MARK: Enums
+
+    public enum StartSelectorType: String, CustomStringConvertible, Codable {
+        case fragmentNumber = "FRAGMENT_NUMBER"
+        case serverTimestamp = "SERVER_TIMESTAMP"
+        case producerTimestamp = "PRODUCER_TIMESTAMP"
+        case now = "NOW"
+        case earliest = "EARLIEST"
+        case continuationToken = "CONTINUATION_TOKEN"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct GetMediaInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -105,15 +118,5 @@ extension KinesisVideoMedia {
             case startSelectorType = "StartSelectorType"
             case startTimestamp = "StartTimestamp"
         }
-    }
-
-    public enum StartSelectorType: String, CustomStringConvertible, Codable {
-        case fragmentNumber = "FRAGMENT_NUMBER"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case now = "NOW"
-        case earliest = "EARLIEST"
-        case continuationToken = "CONTINUATION_TOKEN"
-        public var description: String { return self.rawValue }
     }
 }

@@ -4,6 +4,236 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ServiceCatalog {
+    //MARK: Enums
+
+    public enum AccessLevelFilterKey: String, CustomStringConvertible, Codable {
+        case account = "Account"
+        case role = "Role"
+        case user = "User"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccessStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case underChange = "UNDER_CHANGE"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeAction: String, CustomStringConvertible, Codable {
+        case add = "ADD"
+        case modify = "MODIFY"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CopyOption: String, CustomStringConvertible, Codable {
+        case copytags = "CopyTags"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CopyProductStatus: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case inProgress = "IN_PROGRESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationType: String, CustomStringConvertible, Codable {
+        case `static` = "STATIC"
+        case dynamic = "DYNAMIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrganizationNodeType: String, CustomStringConvertible, Codable {
+        case organization = "ORGANIZATION"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PortfolioShareType: String, CustomStringConvertible, Codable {
+        case imported = "IMPORTED"
+        case awsServicecatalog = "AWS_SERVICECATALOG"
+        case awsOrganizations = "AWS_ORGANIZATIONS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
+        case iam = "IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProductSource: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProductType: String, CustomStringConvertible, Codable {
+        case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
+        case marketplace = "MARKETPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProductViewFilterBy: String, CustomStringConvertible, Codable {
+        case fulltextsearch = "FullTextSearch"
+        case owner = "Owner"
+        case producttype = "ProductType"
+        case sourceproductid = "SourceProductId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProductViewSortBy: String, CustomStringConvertible, Codable {
+        case title = "Title"
+        case versioncount = "VersionCount"
+        case creationdate = "CreationDate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PropertyKey: String, CustomStringConvertible, Codable {
+        case owner = "OWNER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProvisionedProductPlanStatus: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createSuccess = "CREATE_SUCCESS"
+        case createFailed = "CREATE_FAILED"
+        case executeInProgress = "EXECUTE_IN_PROGRESS"
+        case executeSuccess = "EXECUTE_SUCCESS"
+        case executeFailed = "EXECUTE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProvisionedProductPlanType: String, CustomStringConvertible, Codable {
+        case cloudformation = "CLOUDFORMATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProvisionedProductStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case underChange = "UNDER_CHANGE"
+        case tainted = "TAINTED"
+        case error = "ERROR"
+        case planInProgress = "PLAN_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProvisionedProductViewFilterBy: String, CustomStringConvertible, Codable {
+        case searchquery = "SearchQuery"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProvisioningArtifactGuidance: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case deprecated = "DEPRECATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProvisioningArtifactPropertyName: String, CustomStringConvertible, Codable {
+        case id = "Id"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProvisioningArtifactType: String, CustomStringConvertible, Codable {
+        case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
+        case marketplaceAmi = "MARKETPLACE_AMI"
+        case marketplaceCar = "MARKETPLACE_CAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordStatus: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case inProgress = "IN_PROGRESS"
+        case inProgressInError = "IN_PROGRESS_IN_ERROR"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Replacement: String, CustomStringConvertible, Codable {
+        case `true` = "TRUE"
+        case `false` = "FALSE"
+        case conditional = "CONDITIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequiresRecreation: String, CustomStringConvertible, Codable {
+        case never = "NEVER"
+        case conditionally = "CONDITIONALLY"
+        case always = "ALWAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceAttribute: String, CustomStringConvertible, Codable {
+        case properties = "PROPERTIES"
+        case metadata = "METADATA"
+        case creationpolicy = "CREATIONPOLICY"
+        case updatepolicy = "UPDATEPOLICY"
+        case deletionpolicy = "DELETIONPOLICY"
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceActionAssociationErrorCode: String, CustomStringConvertible, Codable {
+        case duplicateResource = "DUPLICATE_RESOURCE"
+        case internalFailure = "INTERNAL_FAILURE"
+        case limitExceeded = "LIMIT_EXCEEDED"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case throttling = "THROTTLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceActionDefinitionKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case version = "Version"
+        case assumerole = "AssumeRole"
+        case parameters = "Parameters"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceActionDefinitionType: String, CustomStringConvertible, Codable {
+        case ssmAutomation = "SSM_AUTOMATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareStatus: String, CustomStringConvertible, Codable {
+        case notStarted = "NOT_STARTED"
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackInstanceStatus: String, CustomStringConvertible, Codable {
+        case current = "CURRENT"
+        case outdated = "OUTDATED"
+        case inoperable = "INOPERABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackSetOperationType: String, CustomStringConvertible, Codable {
+        case create = "CREATE"
+        case update = "UPDATE"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptPortfolioShareInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -67,20 +297,6 @@ extension ServiceCatalog {
             case key = "Key"
             case value = "Value"
         }
-    }
-
-    public enum AccessLevelFilterKey: String, CustomStringConvertible, Codable {
-        case account = "Account"
-        case role = "Role"
-        case user = "User"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AccessStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case underChange = "UNDER_CHANGE"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct AssociateBudgetWithResourceInput: AWSShape {
@@ -424,13 +640,6 @@ extension ServiceCatalog {
         }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable {
-        case add = "ADD"
-        case modify = "MODIFY"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CloudWatchDashboard: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
@@ -500,11 +709,6 @@ extension ServiceCatalog {
             case description = "Description"
             case `type` = "Type"
         }
-    }
-
-    public enum CopyOption: String, CustomStringConvertible, Codable {
-        case copytags = "CopyTags"
-        public var description: String { return self.rawValue }
     }
 
     public struct CopyProductInput: AWSShape {
@@ -583,13 +787,6 @@ extension ServiceCatalog {
         private enum CodingKeys: String, CodingKey {
             case copyProductToken = "CopyProductToken"
         }
-    }
-
-    public enum CopyProductStatus: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
-        case inProgress = "IN_PROGRESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateConstraintInput: AWSShape {
@@ -2717,12 +2914,6 @@ extension ServiceCatalog {
 
     }
 
-    public enum EvaluationType: String, CustomStringConvertible, Codable {
-        case `static` = "STATIC"
-        case dynamic = "DYNAMIC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ExecuteProvisionedProductPlanInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -4192,13 +4383,6 @@ extension ServiceCatalog {
         }
     }
 
-    public enum OrganizationNodeType: String, CustomStringConvertible, Codable {
-        case organization = "ORGANIZATION"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ParameterConstraints: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedValues", required: false, type: .list)
@@ -4258,13 +4442,6 @@ extension ServiceCatalog {
         }
     }
 
-    public enum PortfolioShareType: String, CustomStringConvertible, Codable {
-        case imported = "IMPORTED"
-        case awsServicecatalog = "AWS_SERVICECATALOG"
-        case awsOrganizations = "AWS_ORGANIZATIONS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Principal: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PrincipalARN", required: false, type: .string), 
@@ -4285,22 +4462,6 @@ extension ServiceCatalog {
             case principalARN = "PrincipalARN"
             case principalType = "PrincipalType"
         }
-    }
-
-    public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case iam = "IAM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProductSource: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProductType: String, CustomStringConvertible, Codable {
-        case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
-        case marketplace = "MARKETPLACE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProductViewAggregationValue: AWSShape {
@@ -4355,21 +4516,6 @@ extension ServiceCatalog {
             case productViewSummary = "ProductViewSummary"
             case status = "Status"
         }
-    }
-
-    public enum ProductViewFilterBy: String, CustomStringConvertible, Codable {
-        case fulltextsearch = "FullTextSearch"
-        case owner = "Owner"
-        case producttype = "ProductType"
-        case sourceproductid = "SourceProductId"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProductViewSortBy: String, CustomStringConvertible, Codable {
-        case title = "Title"
-        case versioncount = "VersionCount"
-        case creationdate = "CreationDate"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProductViewSummary: AWSShape {
@@ -4437,11 +4583,6 @@ extension ServiceCatalog {
             case supportUrl = "SupportUrl"
             case `type` = "Type"
         }
-    }
-
-    public enum PropertyKey: String, CustomStringConvertible, Codable {
-        case owner = "OWNER"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProvisionProductInput: AWSShape {
@@ -4797,16 +4938,6 @@ extension ServiceCatalog {
         }
     }
 
-    public enum ProvisionedProductPlanStatus: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createSuccess = "CREATE_SUCCESS"
-        case createFailed = "CREATE_FAILED"
-        case executeInProgress = "EXECUTE_IN_PROGRESS"
-        case executeSuccess = "EXECUTE_SUCCESS"
-        case executeFailed = "EXECUTE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProvisionedProductPlanSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlanId", required: false, type: .string), 
@@ -4847,25 +4978,6 @@ extension ServiceCatalog {
             case provisionProductId = "ProvisionProductId"
             case provisionProductName = "ProvisionProductName"
         }
-    }
-
-    public enum ProvisionedProductPlanType: String, CustomStringConvertible, Codable {
-        case cloudformation = "CLOUDFORMATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProvisionedProductStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case underChange = "UNDER_CHANGE"
-        case tainted = "TAINTED"
-        case error = "ERROR"
-        case planInProgress = "PLAN_IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProvisionedProductViewFilterBy: String, CustomStringConvertible, Codable {
-        case searchquery = "SearchQuery"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProvisioningArtifact: AWSShape {
@@ -4950,12 +5062,6 @@ extension ServiceCatalog {
             case name = "Name"
             case `type` = "Type"
         }
-    }
-
-    public enum ProvisioningArtifactGuidance: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case deprecated = "DEPRECATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProvisioningArtifactParameter: AWSShape {
@@ -5059,11 +5165,6 @@ extension ServiceCatalog {
         }
     }
 
-    public enum ProvisioningArtifactPropertyName: String, CustomStringConvertible, Codable {
-        case id = "Id"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProvisioningArtifactSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
@@ -5099,13 +5200,6 @@ extension ServiceCatalog {
             case name = "Name"
             case provisioningArtifactMetadata = "ProvisioningArtifactMetadata"
         }
-    }
-
-    public enum ProvisioningArtifactType: String, CustomStringConvertible, Codable {
-        case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
-        case marketplaceAmi = "MARKETPLACE_AMI"
-        case marketplaceCar = "MARKETPLACE_CAR"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProvisioningArtifactView: AWSShape {
@@ -5338,15 +5432,6 @@ extension ServiceCatalog {
         }
     }
 
-    public enum RecordStatus: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case inProgress = "IN_PROGRESS"
-        case inProgressInError = "IN_PROGRESS_IN_ERROR"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RecordTag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -5409,30 +5494,6 @@ extension ServiceCatalog {
         public init() {
         }
 
-    }
-
-    public enum Replacement: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
-        case `false` = "FALSE"
-        case conditional = "CONDITIONAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RequiresRecreation: String, CustomStringConvertible, Codable {
-        case never = "NEVER"
-        case conditionally = "CONDITIONALLY"
-        case always = "ALWAYS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceAttribute: String, CustomStringConvertible, Codable {
-        case properties = "PROPERTIES"
-        case metadata = "METADATA"
-        case creationpolicy = "CREATIONPOLICY"
-        case updatepolicy = "UPDATEPOLICY"
-        case deletionpolicy = "DELETIONPOLICY"
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceChange: AWSShape {
@@ -5918,28 +5979,6 @@ extension ServiceCatalog {
         }
     }
 
-    public enum ServiceActionAssociationErrorCode: String, CustomStringConvertible, Codable {
-        case duplicateResource = "DUPLICATE_RESOURCE"
-        case internalFailure = "INTERNAL_FAILURE"
-        case limitExceeded = "LIMIT_EXCEEDED"
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        case throttling = "THROTTLING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceActionDefinitionKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case version = "Version"
-        case assumerole = "AssumeRole"
-        case parameters = "Parameters"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceActionDefinitionType: String, CustomStringConvertible, Codable {
-        case ssmAutomation = "SSM_AUTOMATION"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ServiceActionDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Definition", required: false, type: .map), 
@@ -6043,21 +6082,6 @@ extension ServiceCatalog {
         }
     }
 
-    public enum ShareStatus: String, CustomStringConvertible, Codable {
-        case notStarted = "NOT_STARTED"
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case completedWithErrors = "COMPLETED_WITH_ERRORS"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StackInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Account", required: false, type: .string), 
@@ -6083,27 +6107,6 @@ extension ServiceCatalog {
             case region = "Region"
             case stackInstanceStatus = "StackInstanceStatus"
         }
-    }
-
-    public enum StackInstanceStatus: String, CustomStringConvertible, Codable {
-        case current = "CURRENT"
-        case outdated = "OUTDATED"
-        case inoperable = "INOPERABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StackSetOperationType: String, CustomStringConvertible, Codable {
-        case create = "CREATE"
-        case update = "UPDATE"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case creating = "CREATING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

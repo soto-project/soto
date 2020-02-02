@@ -4,6 +4,46 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DLM {
+    //MARK: Enums
+
+    public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntervalUnitValues: String, CustomStringConvertible, Codable {
+        case hours = "HOURS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyTypeValues: String, CustomStringConvertible, Codable {
+        case ebsSnapshotManagement = "EBS_SNAPSHOT_MANAGEMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceTypeValues: String, CustomStringConvertible, Codable {
+        case volume = "VOLUME"
+        case instance = "INSTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetentionIntervalUnitValues: String, CustomStringConvertible, Codable {
+        case days = "DAYS"
+        case weeks = "WEEKS"
+        case months = "MONTHS"
+        case years = "YEARS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateLifecyclePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -380,18 +420,6 @@ extension DLM {
         }
     }
 
-    public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IntervalUnitValues: String, CustomStringConvertible, Codable {
-        case hours = "HOURS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LifecyclePolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
@@ -595,17 +623,6 @@ extension DLM {
         }
     }
 
-    public enum PolicyTypeValues: String, CustomStringConvertible, Codable {
-        case ebsSnapshotManagement = "EBS_SNAPSHOT_MANAGEMENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceTypeValues: String, CustomStringConvertible, Codable {
-        case volume = "VOLUME"
-        case instance = "INSTANCE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RetainRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Count", required: false, type: .integer), 
@@ -637,14 +654,6 @@ extension DLM {
             case interval = "Interval"
             case intervalUnit = "IntervalUnit"
         }
-    }
-
-    public enum RetentionIntervalUnitValues: String, CustomStringConvertible, Codable {
-        case days = "DAYS"
-        case weeks = "WEEKS"
-        case months = "MONTHS"
-        case years = "YEARS"
-        public var description: String { return self.rawValue }
     }
 
     public struct Schedule: AWSShape {
@@ -721,12 +730,6 @@ extension DLM {
             case tagsToAdd = "TagsToAdd"
             case variableTags = "VariableTags"
         }
-    }
-
-    public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

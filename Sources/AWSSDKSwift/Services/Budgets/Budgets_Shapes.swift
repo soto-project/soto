@@ -4,6 +4,58 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Budgets {
+    //MARK: Enums
+
+    public enum BudgetType: String, CustomStringConvertible, Codable {
+        case usage = "USAGE"
+        case cost = "COST"
+        case riUtilization = "RI_UTILIZATION"
+        case riCoverage = "RI_COVERAGE"
+        case savingsPlansUtilization = "SAVINGS_PLANS_UTILIZATION"
+        case savingsPlansCoverage = "SAVINGS_PLANS_COVERAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case equalTo = "EQUAL_TO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationState: String, CustomStringConvertible, Codable {
+        case ok = "OK"
+        case alarm = "ALARM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationType: String, CustomStringConvertible, Codable {
+        case actual = "ACTUAL"
+        case forecasted = "FORECASTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionType: String, CustomStringConvertible, Codable {
+        case sns = "SNS"
+        case email = "EMAIL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThresholdType: String, CustomStringConvertible, Codable {
+        case percentage = "PERCENTAGE"
+        case absoluteValue = "ABSOLUTE_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimeUnit: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        case monthly = "MONTHLY"
+        case quarterly = "QUARTERLY"
+        case annually = "ANNUALLY"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Budget: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -125,16 +177,6 @@ extension Budgets {
         }
     }
 
-    public enum BudgetType: String, CustomStringConvertible, Codable {
-        case usage = "USAGE"
-        case cost = "COST"
-        case riUtilization = "RI_UTILIZATION"
-        case riCoverage = "RI_COVERAGE"
-        case savingsPlansUtilization = "SAVINGS_PLANS_UTILIZATION"
-        case savingsPlansCoverage = "SAVINGS_PLANS_COVERAGE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BudgetedAndActualAmounts: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActualAmount", required: false, type: .structure), 
@@ -187,13 +229,6 @@ extension Budgets {
             case actualSpend = "ActualSpend"
             case forecastedSpend = "ForecastedSpend"
         }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
-        case equalTo = "EQUAL_TO"
-        public var description: String { return self.rawValue }
     }
 
     public struct CostTypes: AWSShape {
@@ -910,18 +945,6 @@ extension Budgets {
         }
     }
 
-    public enum NotificationState: String, CustomStringConvertible, Codable {
-        case ok = "OK"
-        case alarm = "ALARM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotificationType: String, CustomStringConvertible, Codable {
-        case actual = "ACTUAL"
-        case forecasted = "FORECASTED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NotificationWithSubscribers: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
@@ -1012,18 +1035,6 @@ extension Budgets {
         }
     }
 
-    public enum SubscriptionType: String, CustomStringConvertible, Codable {
-        case sns = "SNS"
-        case email = "EMAIL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ThresholdType: String, CustomStringConvertible, Codable {
-        case percentage = "PERCENTAGE"
-        case absoluteValue = "ABSOLUTE_VALUE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TimePeriod: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "End", required: false, type: .timestamp), 
@@ -1044,14 +1055,6 @@ extension Budgets {
             case end = "End"
             case start = "Start"
         }
-    }
-
-    public enum TimeUnit: String, CustomStringConvertible, Codable {
-        case daily = "DAILY"
-        case monthly = "MONTHLY"
-        case quarterly = "QUARTERLY"
-        case annually = "ANNUALLY"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateBudgetRequest: AWSShape {

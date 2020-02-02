@@ -4,12 +4,43 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DAX {
+    //MARK: Enums
 
     public enum ChangeType: String, CustomStringConvertible, Codable {
         case immediate = "IMMEDIATE"
         case requiresReboot = "REQUIRES_REBOOT"
         public var description: String { return self.rawValue }
     }
+
+    public enum IsModifiable: String, CustomStringConvertible, Codable {
+        case `true` = "TRUE"
+        case `false` = "FALSE"
+        case conditional = "CONDITIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterType: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case nodeTypeSpecific = "NODE_TYPE_SPECIFIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SSEStatus: String, CustomStringConvertible, Codable {
+        case enabling = "ENABLING"
+        case enabled = "ENABLED"
+        case disabling = "DISABLING"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case cluster = "CLUSTER"
+        case parameterGroup = "PARAMETER_GROUP"
+        case subnetGroup = "SUBNET_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Cluster: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -848,13 +879,6 @@ extension DAX {
         }
     }
 
-    public enum IsModifiable: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
-        case `false` = "FALSE"
-        case conditional = "CONDITIONAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -1118,12 +1142,6 @@ extension DAX {
         }
     }
 
-    public enum ParameterType: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case nodeTypeSpecific = "NODE_TYPE_SPECIFIC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RebootNodeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterName", required: true, type: .string), 
@@ -1197,14 +1215,6 @@ extension DAX {
         }
     }
 
-    public enum SSEStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SecurityGroupMembership: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroupIdentifier", required: false, type: .string), 
@@ -1225,13 +1235,6 @@ extension DAX {
             case securityGroupIdentifier = "SecurityGroupIdentifier"
             case status = "Status"
         }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case cluster = "CLUSTER"
-        case parameterGroup = "PARAMETER_GROUP"
-        case subnetGroup = "SUBNET_GROUP"
-        public var description: String { return self.rawValue }
     }
 
     public struct Subnet: AWSShape {

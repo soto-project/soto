@@ -4,6 +4,107 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ELBV2 {
+    //MARK: Enums
+
+    public enum ActionTypeEnum: String, CustomStringConvertible, Codable {
+        case forward = "forward"
+        case authenticateOidc = "authenticate-oidc"
+        case authenticateCognito = "authenticate-cognito"
+        case redirect = "redirect"
+        case fixedResponse = "fixed-response"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
+        case deny = "deny"
+        case allow = "allow"
+        case authenticate = "authenticate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
+        case deny = "deny"
+        case allow = "allow"
+        case authenticate = "authenticate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpAddressType: String, CustomStringConvertible, Codable {
+        case ipv4 = "ipv4"
+        case dualstack = "dualstack"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable {
+        case internetFacing = "internet-facing"
+        case `internal` = "internal"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerStateEnum: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case provisioning = "provisioning"
+        case activeImpaired = "active_impaired"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerTypeEnum: String, CustomStringConvertible, Codable {
+        case application = "application"
+        case network = "network"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtocolEnum: String, CustomStringConvertible, Codable {
+        case http = "HTTP"
+        case https = "HTTPS"
+        case tcp = "TCP"
+        case tls = "TLS"
+        case udp = "UDP"
+        case tcpUdp = "TCP_UDP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RedirectActionStatusCodeEnum: String, CustomStringConvertible, Codable {
+        case http301 = "HTTP_301"
+        case http302 = "HTTP_302"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetHealthReasonEnum: String, CustomStringConvertible, Codable {
+        case elbRegistrationinprogress = "Elb.RegistrationInProgress"
+        case elbInitialhealthchecking = "Elb.InitialHealthChecking"
+        case targetResponsecodemismatch = "Target.ResponseCodeMismatch"
+        case targetTimeout = "Target.Timeout"
+        case targetFailedhealthchecks = "Target.FailedHealthChecks"
+        case targetNotregistered = "Target.NotRegistered"
+        case targetNotinuse = "Target.NotInUse"
+        case targetDeregistrationinprogress = "Target.DeregistrationInProgress"
+        case targetInvalidstate = "Target.InvalidState"
+        case targetIpunusable = "Target.IpUnusable"
+        case targetHealthcheckdisabled = "Target.HealthCheckDisabled"
+        case elbInternalerror = "Elb.InternalError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetHealthStateEnum: String, CustomStringConvertible, Codable {
+        case initial = "initial"
+        case healthy = "healthy"
+        case unhealthy = "unhealthy"
+        case unused = "unused"
+        case draining = "draining"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetTypeEnum: String, CustomStringConvertible, Codable {
+        case instance = "instance"
+        case ip = "ip"
+        case lambda = "lambda"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Action: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -62,15 +163,6 @@ extension ELBV2 {
             case targetGroupArn = "TargetGroupArn"
             case `type` = "Type"
         }
-    }
-
-    public enum ActionTypeEnum: String, CustomStringConvertible, Codable {
-        case forward = "forward"
-        case authenticateOidc = "authenticate-oidc"
-        case authenticateCognito = "authenticate-cognito"
-        case redirect = "redirect"
-        case fixedResponse = "fixed-response"
-        public var description: String { return self.rawValue }
     }
 
     public struct AddListenerCertificatesInput: AWSShape {
@@ -149,13 +241,6 @@ extension ELBV2 {
 
     }
 
-    public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
-        case deny = "deny"
-        case allow = "allow"
-        case authenticate = "authenticate"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AuthenticateCognitoActionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
@@ -206,13 +291,6 @@ extension ELBV2 {
             case userPoolClientId = "UserPoolClientId"
             case userPoolDomain = "UserPoolDomain"
         }
-    }
-
-    public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
-        case deny = "deny"
-        case allow = "allow"
-        case authenticate = "authenticate"
-        public var description: String { return self.rawValue }
     }
 
     public struct AuthenticateOidcActionConfig: AWSShape {
@@ -1469,12 +1547,6 @@ extension ELBV2 {
         }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable {
-        case ipv4 = "ipv4"
-        case dualstack = "dualstack"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Limit: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Max", required: false, type: .string), 
@@ -1671,12 +1743,6 @@ extension ELBV2 {
         }
     }
 
-    public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable {
-        case internetFacing = "internet-facing"
-        case `internal` = "internal"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoadBalancerState: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -1697,20 +1763,6 @@ extension ELBV2 {
             case code = "Code"
             case reason = "Reason"
         }
-    }
-
-    public enum LoadBalancerStateEnum: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case provisioning = "provisioning"
-        case activeImpaired = "active_impaired"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerTypeEnum: String, CustomStringConvertible, Codable {
-        case application = "application"
-        case network = "network"
-        public var description: String { return self.rawValue }
     }
 
     public struct Matcher: AWSShape {
@@ -2050,16 +2102,6 @@ extension ELBV2 {
         }
     }
 
-    public enum ProtocolEnum: String, CustomStringConvertible, Codable {
-        case http = "HTTP"
-        case https = "HTTPS"
-        case tcp = "TCP"
-        case tls = "TLS"
-        case udp = "UDP"
-        case tcpUdp = "TCP_UDP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct QueryStringConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
@@ -2149,12 +2191,6 @@ extension ELBV2 {
             case query = "Query"
             case statusCode = "StatusCode"
         }
-    }
-
-    public enum RedirectActionStatusCodeEnum: String, CustomStringConvertible, Codable {
-        case http301 = "HTTP_301"
-        case http302 = "HTTP_302"
-        public var description: String { return self.rawValue }
     }
 
     public struct RegisterTargetsInput: AWSShape {
@@ -2914,38 +2950,5 @@ extension ELBV2 {
             case target = "Target"
             case targetHealth = "TargetHealth"
         }
-    }
-
-    public enum TargetHealthReasonEnum: String, CustomStringConvertible, Codable {
-        case elbRegistrationinprogress = "Elb.RegistrationInProgress"
-        case elbInitialhealthchecking = "Elb.InitialHealthChecking"
-        case targetResponsecodemismatch = "Target.ResponseCodeMismatch"
-        case targetTimeout = "Target.Timeout"
-        case targetFailedhealthchecks = "Target.FailedHealthChecks"
-        case targetNotregistered = "Target.NotRegistered"
-        case targetNotinuse = "Target.NotInUse"
-        case targetDeregistrationinprogress = "Target.DeregistrationInProgress"
-        case targetInvalidstate = "Target.InvalidState"
-        case targetIpunusable = "Target.IpUnusable"
-        case targetHealthcheckdisabled = "Target.HealthCheckDisabled"
-        case elbInternalerror = "Elb.InternalError"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TargetHealthStateEnum: String, CustomStringConvertible, Codable {
-        case initial = "initial"
-        case healthy = "healthy"
-        case unhealthy = "unhealthy"
-        case unused = "unused"
-        case draining = "draining"
-        case unavailable = "unavailable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TargetTypeEnum: String, CustomStringConvertible, Codable {
-        case instance = "instance"
-        case ip = "ip"
-        case lambda = "lambda"
-        public var description: String { return self.rawValue }
     }
 }

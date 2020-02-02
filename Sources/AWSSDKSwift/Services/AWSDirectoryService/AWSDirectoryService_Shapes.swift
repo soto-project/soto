@@ -4,6 +4,200 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AWSDirectoryService {
+    //MARK: Enums
+
+    public enum CertificateState: String, CustomStringConvertible, Codable {
+        case registering = "Registering"
+        case registered = "Registered"
+        case registerfailed = "RegisterFailed"
+        case deregistering = "Deregistering"
+        case deregistered = "Deregistered"
+        case deregisterfailed = "DeregisterFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectoryEdition: String, CustomStringConvertible, Codable {
+        case enterprise = "Enterprise"
+        case standard = "Standard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectorySize: String, CustomStringConvertible, Codable {
+        case small = "Small"
+        case large = "Large"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectoryStage: String, CustomStringConvertible, Codable {
+        case requested = "Requested"
+        case creating = "Creating"
+        case created = "Created"
+        case active = "Active"
+        case inoperable = "Inoperable"
+        case impaired = "Impaired"
+        case restoring = "Restoring"
+        case restorefailed = "RestoreFailed"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectoryType: String, CustomStringConvertible, Codable {
+        case simplead = "SimpleAD"
+        case adconnector = "ADConnector"
+        case microsoftad = "MicrosoftAD"
+        case sharedmicrosoftad = "SharedMicrosoftAD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainControllerStatus: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case active = "Active"
+        case impaired = "Impaired"
+        case restoring = "Restoring"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable {
+        case adding = "Adding"
+        case added = "Added"
+        case removing = "Removing"
+        case removed = "Removed"
+        case addfailed = "AddFailed"
+        case removefailed = "RemoveFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LDAPSStatus: String, CustomStringConvertible, Codable {
+        case enabling = "Enabling"
+        case enabled = "Enabled"
+        case enablefailed = "EnableFailed"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LDAPSType: String, CustomStringConvertible, Codable {
+        case client = "Client"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RadiusAuthenticationProtocol: String, CustomStringConvertible, Codable {
+        case pap = "PAP"
+        case chap = "CHAP"
+        case msChapv1 = "MS-CHAPv1"
+        case msChapv2 = "MS-CHAPv2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RadiusStatus: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationScope: String, CustomStringConvertible, Codable {
+        case domain = "Domain"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable {
+        case initializing = "Initializing"
+        case creatingsnapshot = "CreatingSnapshot"
+        case updatingschema = "UpdatingSchema"
+        case replicating = "Replicating"
+        case cancelinprogress = "CancelInProgress"
+        case rollbackinprogress = "RollbackInProgress"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        case completed = "Completed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelectiveAuth: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareMethod: String, CustomStringConvertible, Codable {
+        case organizations = "ORGANIZATIONS"
+        case handshake = "HANDSHAKE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareStatus: String, CustomStringConvertible, Codable {
+        case shared = "Shared"
+        case pendingacceptance = "PendingAcceptance"
+        case rejected = "Rejected"
+        case rejecting = "Rejecting"
+        case rejectfailed = "RejectFailed"
+        case sharing = "Sharing"
+        case sharefailed = "ShareFailed"
+        case deleted = "Deleted"
+        case deleting = "Deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotStatus: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotType: String, CustomStringConvertible, Codable {
+        case auto = "Auto"
+        case manual = "Manual"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopicStatus: String, CustomStringConvertible, Codable {
+        case registered = "Registered"
+        case topicNotFound = "Topic not found"
+        case failed = "Failed"
+        case deleted = "Deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrustDirection: String, CustomStringConvertible, Codable {
+        case oneWayOutgoing = "One-Way: Outgoing"
+        case oneWayIncoming = "One-Way: Incoming"
+        case twoWay = "Two-Way"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrustState: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case created = "Created"
+        case verifying = "Verifying"
+        case verifyfailed = "VerifyFailed"
+        case verified = "Verified"
+        case updating = "Updating"
+        case updatefailed = "UpdateFailed"
+        case updated = "Updated"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrustType: String, CustomStringConvertible, Codable {
+        case forest = "Forest"
+        case external = "External"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptSharedDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -250,16 +444,6 @@ extension AWSDirectoryService {
             case commonName = "CommonName"
             case state = "State"
         }
-    }
-
-    public enum CertificateState: String, CustomStringConvertible, Codable {
-        case registering = "Registering"
-        case registered = "Registered"
-        case registerfailed = "RegisterFailed"
-        case deregistering = "Deregistering"
-        case deregistered = "Deregistered"
-        case deregisterfailed = "DeregisterFailed"
-        public var description: String { return self.rawValue }
     }
 
     public struct Computer: AWSShape {
@@ -1843,12 +2027,6 @@ extension AWSDirectoryService {
         }
     }
 
-    public enum DirectoryEdition: String, CustomStringConvertible, Codable {
-        case enterprise = "Enterprise"
-        case standard = "Standard"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DirectoryLimits: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudOnlyDirectoriesCurrentCount", required: false, type: .integer), 
@@ -1904,35 +2082,6 @@ extension AWSDirectoryService {
             case connectedDirectoriesLimit = "ConnectedDirectoriesLimit"
             case connectedDirectoriesLimitReached = "ConnectedDirectoriesLimitReached"
         }
-    }
-
-    public enum DirectorySize: String, CustomStringConvertible, Codable {
-        case small = "Small"
-        case large = "Large"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DirectoryStage: String, CustomStringConvertible, Codable {
-        case requested = "Requested"
-        case creating = "Creating"
-        case created = "Created"
-        case active = "Active"
-        case inoperable = "Inoperable"
-        case impaired = "Impaired"
-        case restoring = "Restoring"
-        case restorefailed = "RestoreFailed"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DirectoryType: String, CustomStringConvertible, Codable {
-        case simplead = "SimpleAD"
-        case adconnector = "ADConnector"
-        case microsoftad = "MicrosoftAD"
-        case sharedmicrosoftad = "SharedMicrosoftAD"
-        public var description: String { return self.rawValue }
     }
 
     public struct DirectoryVpcSettings: AWSShape {
@@ -2162,17 +2311,6 @@ extension AWSDirectoryService {
             case subnetId = "SubnetId"
             case vpcId = "VpcId"
         }
-    }
-
-    public enum DomainControllerStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case active = "Active"
-        case impaired = "Impaired"
-        case restoring = "Restoring"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct EnableLDAPSRequest: AWSShape {
@@ -2458,16 +2596,6 @@ extension AWSDirectoryService {
         }
     }
 
-    public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable {
-        case adding = "Adding"
-        case added = "Added"
-        case removing = "Removing"
-        case removed = "Removed"
-        case addfailed = "AddFailed"
-        case removefailed = "RemoveFailed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LDAPSSettingInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
@@ -2493,19 +2621,6 @@ extension AWSDirectoryService {
             case lDAPSStatus = "LDAPSStatus"
             case lDAPSStatusReason = "LDAPSStatusReason"
         }
-    }
-
-    public enum LDAPSStatus: String, CustomStringConvertible, Codable {
-        case enabling = "Enabling"
-        case enabled = "Enabled"
-        case enablefailed = "EnableFailed"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LDAPSType: String, CustomStringConvertible, Codable {
-        case client = "Client"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListCertificatesRequest: AWSShape {
@@ -2848,14 +2963,6 @@ extension AWSDirectoryService {
         }
     }
 
-    public enum RadiusAuthenticationProtocol: String, CustomStringConvertible, Codable {
-        case pap = "PAP"
-        case chap = "CHAP"
-        case msChapv1 = "MS-CHAPv1"
-        case msChapv2 = "MS-CHAPv2"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RadiusSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationProtocol", required: false, type: .enum), 
@@ -2923,13 +3030,6 @@ extension AWSDirectoryService {
             case sharedSecret = "SharedSecret"
             case useSameUsername = "UseSameUsername"
         }
-    }
-
-    public enum RadiusStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case completed = "Completed"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct RegisterCertificateRequest: AWSShape {
@@ -3128,11 +3228,6 @@ extension AWSDirectoryService {
 
     }
 
-    public enum ReplicationScope: String, CustomStringConvertible, Codable {
-        case domain = "Domain"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResetUserPasswordRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
@@ -3253,25 +3348,6 @@ extension AWSDirectoryService {
         }
     }
 
-    public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable {
-        case initializing = "Initializing"
-        case creatingsnapshot = "CreatingSnapshot"
-        case updatingschema = "UpdatingSchema"
-        case replicating = "Replicating"
-        case cancelinprogress = "CancelInProgress"
-        case rollbackinprogress = "RollbackInProgress"
-        case cancelled = "Cancelled"
-        case failed = "Failed"
-        case completed = "Completed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SelectiveAuth: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ShareDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
@@ -3325,25 +3401,6 @@ extension AWSDirectoryService {
         private enum CodingKeys: String, CodingKey {
             case sharedDirectoryId = "SharedDirectoryId"
         }
-    }
-
-    public enum ShareMethod: String, CustomStringConvertible, Codable {
-        case organizations = "ORGANIZATIONS"
-        case handshake = "HANDSHAKE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ShareStatus: String, CustomStringConvertible, Codable {
-        case shared = "Shared"
-        case pendingacceptance = "PendingAcceptance"
-        case rejected = "Rejected"
-        case rejecting = "Rejecting"
-        case rejectfailed = "RejectFailed"
-        case sharing = "Sharing"
-        case sharefailed = "ShareFailed"
-        case deleted = "Deleted"
-        case deleting = "Deleting"
-        public var description: String { return self.rawValue }
     }
 
     public struct ShareTarget: AWSShape {
@@ -3499,19 +3556,6 @@ extension AWSDirectoryService {
         }
     }
 
-    public enum SnapshotStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case completed = "Completed"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SnapshotType: String, CustomStringConvertible, Codable {
-        case auto = "Auto"
-        case manual = "Manual"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StartSchemaExtensionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateSnapshotBeforeSchemaExtension", required: true, type: .boolean), 
@@ -3601,19 +3645,6 @@ extension AWSDirectoryService {
         }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TopicStatus: String, CustomStringConvertible, Codable {
-        case registered = "Registered"
-        case topicNotFound = "Topic not found"
-        case failed = "Failed"
-        case deleted = "Deleted"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Trust: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
@@ -3679,34 +3710,6 @@ extension AWSDirectoryService {
             case trustStateReason = "TrustStateReason"
             case trustType = "TrustType"
         }
-    }
-
-    public enum TrustDirection: String, CustomStringConvertible, Codable {
-        case oneWayOutgoing = "One-Way: Outgoing"
-        case oneWayIncoming = "One-Way: Incoming"
-        case twoWay = "Two-Way"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrustState: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case created = "Created"
-        case verifying = "Verifying"
-        case verifyfailed = "VerifyFailed"
-        case verified = "Verified"
-        case updating = "Updating"
-        case updatefailed = "UpdateFailed"
-        case updated = "Updated"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrustType: String, CustomStringConvertible, Codable {
-        case forest = "Forest"
-        case external = "External"
-        public var description: String { return self.rawValue }
     }
 
     public struct UnshareDirectoryRequest: AWSShape {

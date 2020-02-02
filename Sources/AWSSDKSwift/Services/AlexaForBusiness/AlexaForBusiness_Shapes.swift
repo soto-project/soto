@@ -4,6 +4,220 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AlexaForBusiness {
+    //MARK: Enums
+
+    public enum BusinessReportFailureCode: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case noSuchBucket = "NO_SUCH_BUCKET"
+        case internalFailure = "INTERNAL_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BusinessReportFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case csvZip = "CSV_ZIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BusinessReportInterval: String, CustomStringConvertible, Codable {
+        case oneDay = "ONE_DAY"
+        case oneWeek = "ONE_WEEK"
+        case thirtyDays = "THIRTY_DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BusinessReportStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommsProtocol: String, CustomStringConvertible, Codable {
+        case sip = "SIP"
+        case sips = "SIPS"
+        case h323 = "H323"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConferenceProviderType: String, CustomStringConvertible, Codable {
+        case chime = "CHIME"
+        case bluejeans = "BLUEJEANS"
+        case fuze = "FUZE"
+        case googleHangouts = "GOOGLE_HANGOUTS"
+        case polycom = "POLYCOM"
+        case ringcentral = "RINGCENTRAL"
+        case skypeForBusiness = "SKYPE_FOR_BUSINESS"
+        case webex = "WEBEX"
+        case zoom = "ZOOM"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
+        case online = "ONLINE"
+        case offline = "OFFLINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceEventType: String, CustomStringConvertible, Codable {
+        case connectionStatus = "CONNECTION_STATUS"
+        case deviceStatus = "DEVICE_STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceStatus: String, CustomStringConvertible, Codable {
+        case ready = "READY"
+        case pending = "PENDING"
+        case wasOffline = "WAS_OFFLINE"
+        case deregistered = "DEREGISTERED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceStatusDetailCode: String, CustomStringConvertible, Codable {
+        case deviceSoftwareUpdateNeeded = "DEVICE_SOFTWARE_UPDATE_NEEDED"
+        case deviceWasOffline = "DEVICE_WAS_OFFLINE"
+        case credentialsAccessFailure = "CREDENTIALS_ACCESS_FAILURE"
+        case tlsVersionMismatch = "TLS_VERSION_MISMATCH"
+        case associationRejection = "ASSOCIATION_REJECTION"
+        case authenticationFailure = "AUTHENTICATION_FAILURE"
+        case dhcpFailure = "DHCP_FAILURE"
+        case internetUnavailable = "INTERNET_UNAVAILABLE"
+        case dnsFailure = "DNS_FAILURE"
+        case unknownFailure = "UNKNOWN_FAILURE"
+        case certificateIssuingLimitExceeded = "CERTIFICATE_ISSUING_LIMIT_EXCEEDED"
+        case invalidCertificateAuthority = "INVALID_CERTIFICATE_AUTHORITY"
+        case networkProfileNotFound = "NETWORK_PROFILE_NOT_FOUND"
+        case invalidPasswordState = "INVALID_PASSWORD_STATE"
+        case passwordNotFound = "PASSWORD_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceUsageType: String, CustomStringConvertible, Codable {
+        case voice = "VOICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DistanceUnit: String, CustomStringConvertible, Codable {
+        case metric = "METRIC"
+        case imperial = "IMPERIAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnablementType: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnablementTypeFilter: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndOfMeetingReminderType: String, CustomStringConvertible, Codable {
+        case announcementTimeCheck = "ANNOUNCEMENT_TIME_CHECK"
+        case announcementVariableTimeLeft = "ANNOUNCEMENT_VARIABLE_TIME_LEFT"
+        case chime = "CHIME"
+        case knock = "KNOCK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnrollmentStatus: String, CustomStringConvertible, Codable {
+        case initialized = "INITIALIZED"
+        case pending = "PENDING"
+        case registered = "REGISTERED"
+        case disassociating = "DISASSOCIATING"
+        case deregistering = "DEREGISTERING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Feature: String, CustomStringConvertible, Codable {
+        case bluetooth = "BLUETOOTH"
+        case volume = "VOLUME"
+        case notifications = "NOTIFICATIONS"
+        case lists = "LISTS"
+        case skills = "SKILLS"
+        case networkProfile = "NETWORK_PROFILE"
+        case settings = "SETTINGS"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Locale: String, CustomStringConvertible, Codable {
+        case enUs = "en-US"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkEapMethod: String, CustomStringConvertible, Codable {
+        case eapTls = "EAP_TLS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkSecurityType: String, CustomStringConvertible, Codable {
+        case open = "OPEN"
+        case wep = "WEP"
+        case wpaPsk = "WPA_PSK"
+        case wpa2Psk = "WPA2_PSK"
+        case wpa2Enterprise = "WPA2_ENTERPRISE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhoneNumberType: String, CustomStringConvertible, Codable {
+        case mobile = "MOBILE"
+        case work = "WORK"
+        case home = "HOME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequirePin: String, CustomStringConvertible, Codable {
+        case yes = "YES"
+        case no = "NO"
+        case optional = "OPTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SipType: String, CustomStringConvertible, Codable {
+        case work = "WORK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SkillType: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SkillTypeFilter: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortValue: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemperatureUnit: String, CustomStringConvertible, Codable {
+        case fahrenheit = "FAHRENHEIT"
+        case celsius = "CELSIUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WakeWord: String, CustomStringConvertible, Codable {
+        case alexa = "ALEXA"
+        case amazon = "AMAZON"
+        case echo = "ECHO"
+        case computer = "COMPUTER"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddressBook: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -374,26 +588,6 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum BusinessReportFailureCode: String, CustomStringConvertible, Codable {
-        case accessDenied = "ACCESS_DENIED"
-        case noSuchBucket = "NO_SUCH_BUCKET"
-        case internalFailure = "INTERNAL_FAILURE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BusinessReportFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case csvZip = "CSV_ZIP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BusinessReportInterval: String, CustomStringConvertible, Codable {
-        case oneDay = "ONE_DAY"
-        case oneWeek = "ONE_WEEK"
-        case thirtyDays = "THIRTY_DAYS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BusinessReportRecurrence: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartDate", required: false, type: .string)
@@ -489,13 +683,6 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum BusinessReportStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Category: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CategoryId", required: false, type: .long), 
@@ -516,13 +703,6 @@ extension AlexaForBusiness {
             case categoryId = "CategoryId"
             case categoryName = "CategoryName"
         }
-    }
-
-    public enum CommsProtocol: String, CustomStringConvertible, Codable {
-        case sip = "SIP"
-        case sips = "SIPS"
-        case h323 = "H323"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConferencePreference: AWSShape {
@@ -586,26 +766,6 @@ extension AlexaForBusiness {
             case pSTNDialIn = "PSTNDialIn"
             case `type` = "Type"
         }
-    }
-
-    public enum ConferenceProviderType: String, CustomStringConvertible, Codable {
-        case chime = "CHIME"
-        case bluejeans = "BLUEJEANS"
-        case fuze = "FUZE"
-        case googleHangouts = "GOOGLE_HANGOUTS"
-        case polycom = "POLYCOM"
-        case ringcentral = "RINGCENTRAL"
-        case skypeForBusiness = "SKYPE_FOR_BUSINESS"
-        case webex = "WEBEX"
-        case zoom = "ZOOM"
-        case custom = "CUSTOM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
-        case online = "ONLINE"
-        case offline = "OFFLINE"
-        public var description: String { return self.rawValue }
     }
 
     public struct Contact: AWSShape {
@@ -2259,12 +2419,6 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum DeviceEventType: String, CustomStringConvertible, Codable {
-        case connectionStatus = "CONNECTION_STATUS"
-        case deviceStatus = "DEVICE_STATUS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeviceNetworkProfileInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
@@ -2292,15 +2446,6 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum DeviceStatus: String, CustomStringConvertible, Codable {
-        case ready = "READY"
-        case pending = "PENDING"
-        case wasOffline = "WAS_OFFLINE"
-        case deregistered = "DEREGISTERED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeviceStatusDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -2323,25 +2468,6 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum DeviceStatusDetailCode: String, CustomStringConvertible, Codable {
-        case deviceSoftwareUpdateNeeded = "DEVICE_SOFTWARE_UPDATE_NEEDED"
-        case deviceWasOffline = "DEVICE_WAS_OFFLINE"
-        case credentialsAccessFailure = "CREDENTIALS_ACCESS_FAILURE"
-        case tlsVersionMismatch = "TLS_VERSION_MISMATCH"
-        case associationRejection = "ASSOCIATION_REJECTION"
-        case authenticationFailure = "AUTHENTICATION_FAILURE"
-        case dhcpFailure = "DHCP_FAILURE"
-        case internetUnavailable = "INTERNET_UNAVAILABLE"
-        case dnsFailure = "DNS_FAILURE"
-        case unknownFailure = "UNKNOWN_FAILURE"
-        case certificateIssuingLimitExceeded = "CERTIFICATE_ISSUING_LIMIT_EXCEEDED"
-        case invalidCertificateAuthority = "INVALID_CERTIFICATE_AUTHORITY"
-        case networkProfileNotFound = "NETWORK_PROFILE_NOT_FOUND"
-        case invalidPasswordState = "INVALID_PASSWORD_STATE"
-        case passwordNotFound = "PASSWORD_NOT_FOUND"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeviceStatusInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConnectionStatus", required: false, type: .enum), 
@@ -2362,11 +2488,6 @@ extension AlexaForBusiness {
             case connectionStatus = "ConnectionStatus"
             case deviceStatusDetails = "DeviceStatusDetails"
         }
-    }
-
-    public enum DeviceUsageType: String, CustomStringConvertible, Codable {
-        case voice = "VOICE"
-        public var description: String { return self.rawValue }
     }
 
     public struct DisassociateContactFromAddressBookRequest: AWSShape {
@@ -2532,24 +2653,6 @@ extension AlexaForBusiness {
 
     }
 
-    public enum DistanceUnit: String, CustomStringConvertible, Codable {
-        case metric = "METRIC"
-        case imperial = "IMPERIAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EnablementType: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EnablementTypeFilter: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EndOfMeetingReminder: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
@@ -2575,35 +2678,6 @@ extension AlexaForBusiness {
             case reminderAtMinutes = "ReminderAtMinutes"
             case reminderType = "ReminderType"
         }
-    }
-
-    public enum EndOfMeetingReminderType: String, CustomStringConvertible, Codable {
-        case announcementTimeCheck = "ANNOUNCEMENT_TIME_CHECK"
-        case announcementVariableTimeLeft = "ANNOUNCEMENT_VARIABLE_TIME_LEFT"
-        case chime = "CHIME"
-        case knock = "KNOCK"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EnrollmentStatus: String, CustomStringConvertible, Codable {
-        case initialized = "INITIALIZED"
-        case pending = "PENDING"
-        case registered = "REGISTERED"
-        case disassociating = "DISASSOCIATING"
-        case deregistering = "DEREGISTERING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Feature: String, CustomStringConvertible, Codable {
-        case bluetooth = "BLUETOOTH"
-        case volume = "VOLUME"
-        case notifications = "NOTIFICATIONS"
-        case lists = "LISTS"
-        case skills = "SKILLS"
-        case networkProfile = "NETWORK_PROFILE"
-        case settings = "SETTINGS"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct Filter: AWSShape {
@@ -3895,11 +3969,6 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable {
-        case enUs = "en-US"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MeetingRoomConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndOfMeetingReminder", required: false, type: .structure), 
@@ -3947,11 +4016,6 @@ extension AlexaForBusiness {
         private enum CodingKeys: String, CodingKey {
             case requirePin = "RequirePin"
         }
-    }
-
-    public enum NetworkEapMethod: String, CustomStringConvertible, Codable {
-        case eapTls = "EAP_TLS"
-        public var description: String { return self.rawValue }
     }
 
     public struct NetworkProfile: AWSShape {
@@ -4063,15 +4127,6 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum NetworkSecurityType: String, CustomStringConvertible, Codable {
-        case open = "OPEN"
-        case wep = "WEP"
-        case wpaPsk = "WPA_PSK"
-        case wpa2Psk = "WPA2_PSK"
-        case wpa2Enterprise = "WPA2_ENTERPRISE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PSTNDialIn: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CountryCode", required: true, type: .string), 
@@ -4139,13 +4194,6 @@ extension AlexaForBusiness {
             case number = "Number"
             case `type` = "Type"
         }
-    }
-
-    public enum PhoneNumberType: String, CustomStringConvertible, Codable {
-        case mobile = "MOBILE"
-        case work = "WORK"
-        case home = "HOME"
-        public var description: String { return self.rawValue }
     }
 
     public struct Profile: AWSShape {
@@ -4562,13 +4610,6 @@ extension AlexaForBusiness {
             case enabled = "Enabled"
             case releaseAfterMinutes = "ReleaseAfterMinutes"
         }
-    }
-
-    public enum RequirePin: String, CustomStringConvertible, Codable {
-        case yes = "YES"
-        case no = "NO"
-        case optional = "OPTIONAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResolveRoomRequest: AWSShape {
@@ -5480,11 +5521,6 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum SipType: String, CustomStringConvertible, Codable {
-        case work = "WORK"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SkillDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BulletPoints", required: false, type: .list), 
@@ -5638,19 +5674,6 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum SkillType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SkillTypeFilter: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SkillsStoreSkill: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IconUrl", required: false, type: .string), 
@@ -5750,12 +5773,6 @@ extension AlexaForBusiness {
             case key = "Key"
             case value = "Value"
         }
-    }
-
-    public enum SortValue: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
     }
 
     public struct Ssml: AWSShape {
@@ -5921,12 +5938,6 @@ extension AlexaForBusiness {
         public init() {
         }
 
-    }
-
-    public enum TemperatureUnit: String, CustomStringConvertible, Codable {
-        case fahrenheit = "FAHRENHEIT"
-        case celsius = "CELSIUS"
-        public var description: String { return self.rawValue }
     }
 
     public struct Text: AWSShape {
@@ -6799,13 +6810,5 @@ extension AlexaForBusiness {
             case lastName = "LastName"
             case userArn = "UserArn"
         }
-    }
-
-    public enum WakeWord: String, CustomStringConvertible, Codable {
-        case alexa = "ALEXA"
-        case amazon = "AMAZON"
-        case echo = "ECHO"
-        case computer = "COMPUTER"
-        public var description: String { return self.rawValue }
     }
 }

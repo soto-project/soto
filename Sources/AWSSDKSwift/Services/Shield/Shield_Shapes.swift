@@ -4,6 +4,53 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Shield {
+    //MARK: Enums
+
+    public enum AttackLayer: String, CustomStringConvertible, Codable {
+        case network = "NETWORK"
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttackPropertyIdentifier: String, CustomStringConvertible, Codable {
+        case destinationUrl = "DESTINATION_URL"
+        case referrer = "REFERRER"
+        case sourceAsn = "SOURCE_ASN"
+        case sourceCountry = "SOURCE_COUNTRY"
+        case sourceIpAddress = "SOURCE_IP_ADDRESS"
+        case sourceUserAgent = "SOURCE_USER_AGENT"
+        case wordpressPingbackReflector = "WORDPRESS_PINGBACK_REFLECTOR"
+        case wordpressPingbackSource = "WORDPRESS_PINGBACK_SOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoRenew: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubResourceType: String, CustomStringConvertible, Codable {
+        case ip = "IP"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Unit: String, CustomStringConvertible, Codable {
+        case bits = "BITS"
+        case bytes = "BYTES"
+        case packets = "PACKETS"
+        case requests = "REQUESTS"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateDRTLogBucketRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -119,12 +166,6 @@ extension Shield {
         }
     }
 
-    public enum AttackLayer: String, CustomStringConvertible, Codable {
-        case network = "NETWORK"
-        case application = "APPLICATION"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AttackProperty: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttackLayer", required: false, type: .enum), 
@@ -160,18 +201,6 @@ extension Shield {
             case total = "Total"
             case unit = "Unit"
         }
-    }
-
-    public enum AttackPropertyIdentifier: String, CustomStringConvertible, Codable {
-        case destinationUrl = "DESTINATION_URL"
-        case referrer = "REFERRER"
-        case sourceAsn = "SOURCE_ASN"
-        case sourceCountry = "SOURCE_COUNTRY"
-        case sourceIpAddress = "SOURCE_IP_ADDRESS"
-        case sourceUserAgent = "SOURCE_USER_AGENT"
-        case wordpressPingbackReflector = "WORDPRESS_PINGBACK_REFLECTOR"
-        case wordpressPingbackSource = "WORDPRESS_PINGBACK_SOURCE"
-        public var description: String { return self.rawValue }
     }
 
     public struct AttackSummary: AWSShape {
@@ -226,12 +255,6 @@ extension Shield {
         private enum CodingKeys: String, CodingKey {
             case vectorType = "VectorType"
         }
-    }
-
-    public enum AutoRenew: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Contributor: AWSShape {
@@ -852,12 +875,6 @@ extension Shield {
         }
     }
 
-    public enum SubResourceType: String, CustomStringConvertible, Codable {
-        case ip = "IP"
-        case url = "URL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Subscription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoRenew", required: false, type: .enum), 
@@ -893,12 +910,6 @@ extension Shield {
             case startTime = "StartTime"
             case timeCommitmentInSeconds = "TimeCommitmentInSeconds"
         }
-    }
-
-    public enum SubscriptionState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct SummarizedAttackVector: AWSShape {
@@ -985,14 +996,6 @@ extension Shield {
             case fromInclusive = "FromInclusive"
             case toExclusive = "ToExclusive"
         }
-    }
-
-    public enum Unit: String, CustomStringConvertible, Codable {
-        case bits = "BITS"
-        case bytes = "BYTES"
-        case packets = "PACKETS"
-        case requests = "REQUESTS"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateEmergencyContactSettingsRequest: AWSShape {

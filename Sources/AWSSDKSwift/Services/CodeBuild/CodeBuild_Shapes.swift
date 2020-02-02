@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CodeBuild {
+    //MARK: Enums
 
     public enum ArtifactNamespace: String, CustomStringConvertible, Codable {
         case none = "NONE"
@@ -30,6 +31,193 @@ extension CodeBuild {
         case personalAccessToken = "PERSONAL_ACCESS_TOKEN"
         public var description: String { return self.rawValue }
     }
+
+    public enum BuildPhaseType: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case queued = "QUEUED"
+        case provisioning = "PROVISIONING"
+        case downloadSource = "DOWNLOAD_SOURCE"
+        case install = "INSTALL"
+        case preBuild = "PRE_BUILD"
+        case build = "BUILD"
+        case postBuild = "POST_BUILD"
+        case uploadArtifacts = "UPLOAD_ARTIFACTS"
+        case finalizing = "FINALIZING"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CacheMode: String, CustomStringConvertible, Codable {
+        case localDockerLayerCache = "LOCAL_DOCKER_LAYER_CACHE"
+        case localSourceCache = "LOCAL_SOURCE_CACHE"
+        case localCustomCache = "LOCAL_CUSTOM_CACHE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CacheType: String, CustomStringConvertible, Codable {
+        case noCache = "NO_CACHE"
+        case s3 = "S3"
+        case local = "LOCAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputeType: String, CustomStringConvertible, Codable {
+        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
+        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
+        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
+        case buildGeneral12Xlarge = "BUILD_GENERAL1_2XLARGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CredentialProviderType: String, CustomStringConvertible, Codable {
+        case secretsManager = "SECRETS_MANAGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentType: String, CustomStringConvertible, Codable {
+        case windowsContainer = "WINDOWS_CONTAINER"
+        case linuxContainer = "LINUX_CONTAINER"
+        case linuxGpuContainer = "LINUX_GPU_CONTAINER"
+        case armContainer = "ARM_CONTAINER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentVariableType: String, CustomStringConvertible, Codable {
+        case plaintext = "PLAINTEXT"
+        case parameterStore = "PARAMETER_STORE"
+        case secretsManager = "SECRETS_MANAGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImagePullCredentialsType: String, CustomStringConvertible, Codable {
+        case codebuild = "CODEBUILD"
+        case serviceRole = "SERVICE_ROLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LanguageType: String, CustomStringConvertible, Codable {
+        case java = "JAVA"
+        case python = "PYTHON"
+        case nodeJs = "NODE_JS"
+        case ruby = "RUBY"
+        case golang = "GOLANG"
+        case docker = "DOCKER"
+        case android = "ANDROID"
+        case dotnet = "DOTNET"
+        case base = "BASE"
+        case php = "PHP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogsConfigStatusType: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformType: String, CustomStringConvertible, Codable {
+        case debian = "DEBIAN"
+        case amazonLinux = "AMAZON_LINUX"
+        case ubuntu = "UBUNTU"
+        case windowsServer = "WINDOWS_SERVER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectSortByType: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case createdTime = "CREATED_TIME"
+        case lastModifiedTime = "LAST_MODIFIED_TIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportExportConfigType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        case noExport = "NO_EXPORT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportGroupSortByType: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case createdTime = "CREATED_TIME"
+        case lastModifiedTime = "LAST_MODIFIED_TIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportPackagingType: String, CustomStringConvertible, Codable {
+        case zip = "ZIP"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportStatusType: String, CustomStringConvertible, Codable {
+        case generating = "GENERATING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case incomplete = "INCOMPLETE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportType: String, CustomStringConvertible, Codable {
+        case test = "TEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerType: String, CustomStringConvertible, Codable {
+        case github = "GITHUB"
+        case bitbucket = "BITBUCKET"
+        case githubEnterprise = "GITHUB_ENTERPRISE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SharedResourceSortByType: String, CustomStringConvertible, Codable {
+        case arn = "ARN"
+        case modifiedTime = "MODIFIED_TIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrderType: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceAuthType: String, CustomStringConvertible, Codable {
+        case oauth = "OAUTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case codecommit = "CODECOMMIT"
+        case codepipeline = "CODEPIPELINE"
+        case github = "GITHUB"
+        case s3 = "S3"
+        case bitbucket = "BITBUCKET"
+        case githubEnterprise = "GITHUB_ENTERPRISE"
+        case noSource = "NO_SOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case fault = "FAULT"
+        case timedOut = "TIMED_OUT"
+        case inProgress = "IN_PROGRESS"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebhookFilterType: String, CustomStringConvertible, Codable {
+        case event = "EVENT"
+        case baseRef = "BASE_REF"
+        case headRef = "HEAD_REF"
+        case actorAccountId = "ACTOR_ACCOUNT_ID"
+        case filePath = "FILE_PATH"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BatchDeleteBuildsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -529,35 +717,6 @@ extension CodeBuild {
         }
     }
 
-    public enum BuildPhaseType: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case queued = "QUEUED"
-        case provisioning = "PROVISIONING"
-        case downloadSource = "DOWNLOAD_SOURCE"
-        case install = "INSTALL"
-        case preBuild = "PRE_BUILD"
-        case build = "BUILD"
-        case postBuild = "POST_BUILD"
-        case uploadArtifacts = "UPLOAD_ARTIFACTS"
-        case finalizing = "FINALIZING"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CacheMode: String, CustomStringConvertible, Codable {
-        case localDockerLayerCache = "LOCAL_DOCKER_LAYER_CACHE"
-        case localSourceCache = "LOCAL_SOURCE_CACHE"
-        case localCustomCache = "LOCAL_CUSTOM_CACHE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CacheType: String, CustomStringConvertible, Codable {
-        case noCache = "NO_CACHE"
-        case s3 = "S3"
-        case local = "LOCAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CloudWatchLogsConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "groupName", required: false, type: .string), 
@@ -583,14 +742,6 @@ extension CodeBuild {
             case status = "status"
             case streamName = "streamName"
         }
-    }
-
-    public enum ComputeType: String, CustomStringConvertible, Codable {
-        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
-        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
-        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
-        case buildGeneral12Xlarge = "BUILD_GENERAL1_2XLARGE"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateProjectInput: AWSShape {
@@ -841,11 +992,6 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case webhook = "webhook"
         }
-    }
-
-    public enum CredentialProviderType: String, CustomStringConvertible, Codable {
-        case secretsManager = "SECRETS_MANAGER"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteProjectInput: AWSShape {
@@ -1163,14 +1309,6 @@ extension CodeBuild {
         }
     }
 
-    public enum EnvironmentType: String, CustomStringConvertible, Codable {
-        case windowsContainer = "WINDOWS_CONTAINER"
-        case linuxContainer = "LINUX_CONTAINER"
-        case linuxGpuContainer = "LINUX_GPU_CONTAINER"
-        case armContainer = "ARM_CONTAINER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EnvironmentVariable: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
@@ -1200,13 +1338,6 @@ extension CodeBuild {
             case `type` = "type"
             case value = "value"
         }
-    }
-
-    public enum EnvironmentVariableType: String, CustomStringConvertible, Codable {
-        case plaintext = "PLAINTEXT"
-        case parameterStore = "PARAMETER_STORE"
-        case secretsManager = "SECRETS_MANAGER"
-        public var description: String { return self.rawValue }
     }
 
     public struct ExportedEnvironmentVariable: AWSShape {
@@ -1284,12 +1415,6 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case fetchSubmodules = "fetchSubmodules"
         }
-    }
-
-    public enum ImagePullCredentialsType: String, CustomStringConvertible, Codable {
-        case codebuild = "CODEBUILD"
-        case serviceRole = "SERVICE_ROLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ImportSourceCredentialsInput: AWSShape {
@@ -1378,20 +1503,6 @@ extension CodeBuild {
         public init() {
         }
 
-    }
-
-    public enum LanguageType: String, CustomStringConvertible, Codable {
-        case java = "JAVA"
-        case python = "PYTHON"
-        case nodeJs = "NODE_JS"
-        case ruby = "RUBY"
-        case golang = "GOLANG"
-        case docker = "DOCKER"
-        case android = "ANDROID"
-        case dotnet = "DOTNET"
-        case base = "BASE"
-        case php = "PHP"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListBuildsForProjectInput: AWSShape {
@@ -1917,12 +2028,6 @@ extension CodeBuild {
         }
     }
 
-    public enum LogsConfigStatusType: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LogsLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cloudWatchLogs", required: false, type: .structure), 
@@ -2017,14 +2122,6 @@ extension CodeBuild {
             case message = "message"
             case statusCode = "statusCode"
         }
-    }
-
-    public enum PlatformType: String, CustomStringConvertible, Codable {
-        case debian = "DEBIAN"
-        case amazonLinux = "AMAZON_LINUX"
-        case ubuntu = "UBUNTU"
-        case windowsServer = "WINDOWS_SERVER"
-        public var description: String { return self.rawValue }
     }
 
     public struct Project: AWSShape {
@@ -2315,13 +2412,6 @@ extension CodeBuild {
         }
     }
 
-    public enum ProjectSortByType: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case createdTime = "CREATED_TIME"
-        case lastModifiedTime = "LAST_MODIFIED_TIME"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProjectSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "auth", required: false, type: .structure), 
@@ -2568,12 +2658,6 @@ extension CodeBuild {
         }
     }
 
-    public enum ReportExportConfigType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        case noExport = "NO_EXPORT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReportFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: false, type: .enum)
@@ -2631,33 +2715,6 @@ extension CodeBuild {
             case name = "name"
             case `type` = "type"
         }
-    }
-
-    public enum ReportGroupSortByType: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case createdTime = "CREATED_TIME"
-        case lastModifiedTime = "LAST_MODIFIED_TIME"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReportPackagingType: String, CustomStringConvertible, Codable {
-        case zip = "ZIP"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReportStatusType: String, CustomStringConvertible, Codable {
-        case generating = "GENERATING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case incomplete = "INCOMPLETE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReportType: String, CustomStringConvertible, Codable {
-        case test = "TEST"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3LogsConfig: AWSShape {
@@ -2729,25 +2786,6 @@ extension CodeBuild {
         }
     }
 
-    public enum ServerType: String, CustomStringConvertible, Codable {
-        case github = "GITHUB"
-        case bitbucket = "BITBUCKET"
-        case githubEnterprise = "GITHUB_ENTERPRISE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SharedResourceSortByType: String, CustomStringConvertible, Codable {
-        case arn = "ARN"
-        case modifiedTime = "MODIFIED_TIME"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortOrderType: String, CustomStringConvertible, Codable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SourceAuth: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resource", required: false, type: .string), 
@@ -2768,11 +2806,6 @@ extension CodeBuild {
             case resource = "resource"
             case `type` = "type"
         }
-    }
-
-    public enum SourceAuthType: String, CustomStringConvertible, Codable {
-        case oauth = "OAUTH"
-        public var description: String { return self.rawValue }
     }
 
     public struct SourceCredentialsInfo: AWSShape {
@@ -2800,17 +2833,6 @@ extension CodeBuild {
             case authType = "authType"
             case serverType = "serverType"
         }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case codecommit = "CODECOMMIT"
-        case codepipeline = "CODEPIPELINE"
-        case github = "GITHUB"
-        case s3 = "S3"
-        case bitbucket = "BITBUCKET"
-        case githubEnterprise = "GITHUB_ENTERPRISE"
-        case noSource = "NO_SOURCE"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartBuildInput: AWSShape {
@@ -3010,16 +3032,6 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case build = "build"
         }
-    }
-
-    public enum StatusType: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case fault = "FAULT"
-        case timedOut = "TIMED_OUT"
-        case inProgress = "IN_PROGRESS"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
     }
 
     public struct StopBuildInput: AWSShape {
@@ -3540,14 +3552,5 @@ extension CodeBuild {
             case pattern = "pattern"
             case `type` = "type"
         }
-    }
-
-    public enum WebhookFilterType: String, CustomStringConvertible, Codable {
-        case event = "EVENT"
-        case baseRef = "BASE_REF"
-        case headRef = "HEAD_REF"
-        case actorAccountId = "ACTOR_ACCOUNT_ID"
-        case filePath = "FILE_PATH"
-        public var description: String { return self.rawValue }
     }
 }

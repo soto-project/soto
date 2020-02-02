@@ -4,6 +4,39 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension EFS {
+    //MARK: Enums
+
+    public enum LifeCycleState: String, CustomStringConvertible, Codable {
+        case creating = "creating"
+        case available = "available"
+        case updating = "updating"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PerformanceMode: String, CustomStringConvertible, Codable {
+        case generalpurpose = "generalPurpose"
+        case maxio = "maxIO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThroughputMode: String, CustomStringConvertible, Codable {
+        case bursting = "bursting"
+        case provisioned = "provisioned"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitionToIARules: String, CustomStringConvertible, Codable {
+        case after7Days = "AFTER_7_DAYS"
+        case after14Days = "AFTER_14_DAYS"
+        case after30Days = "AFTER_30_DAYS"
+        case after60Days = "AFTER_60_DAYS"
+        case after90Days = "AFTER_90_DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessPointDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -823,15 +856,6 @@ extension EFS {
         }
     }
 
-    public enum LifeCycleState: String, CustomStringConvertible, Codable {
-        case creating = "creating"
-        case available = "available"
-        case updating = "updating"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LifecycleConfigurationDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LifecyclePolicies", required: false, type: .list)
@@ -1000,12 +1024,6 @@ extension EFS {
             case ownerId = "OwnerId"
             case subnetId = "SubnetId"
         }
-    }
-
-    public enum PerformanceMode: String, CustomStringConvertible, Codable {
-        case generalpurpose = "generalPurpose"
-        case maxio = "maxIO"
-        public var description: String { return self.rawValue }
     }
 
     public struct PosixUser: AWSShape {
@@ -1178,21 +1196,6 @@ extension EFS {
             case resourceId = "ResourceId"
             case tags = "Tags"
         }
-    }
-
-    public enum ThroughputMode: String, CustomStringConvertible, Codable {
-        case bursting = "bursting"
-        case provisioned = "provisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TransitionToIARules: String, CustomStringConvertible, Codable {
-        case after7Days = "AFTER_7_DAYS"
-        case after14Days = "AFTER_14_DAYS"
-        case after30Days = "AFTER_30_DAYS"
-        case after60Days = "AFTER_60_DAYS"
-        case after90Days = "AFTER_90_DAYS"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

@@ -4,6 +4,44 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudHSMV2 {
+    //MARK: Enums
+
+    public enum BackupPolicy: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupState: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case ready = "READY"
+        case deleted = "DELETED"
+        case pendingDeletion = "PENDING_DELETION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterState: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case uninitialized = "UNINITIALIZED"
+        case initializeInProgress = "INITIALIZE_IN_PROGRESS"
+        case initialized = "INITIALIZED"
+        case active = "ACTIVE"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HsmState: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case active = "ACTIVE"
+        case degraded = "DEGRADED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Backup: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -56,19 +94,6 @@ extension CloudHSMV2 {
             case sourceCluster = "SourceCluster"
             case sourceRegion = "SourceRegion"
         }
-    }
-
-    public enum BackupPolicy: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BackupState: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case ready = "READY"
-        case deleted = "DELETED"
-        case pendingDeletion = "PENDING_DELETION"
-        public var description: String { return self.rawValue }
     }
 
     public struct Certificates: AWSShape {
@@ -183,19 +208,6 @@ extension CloudHSMV2 {
             case subnetMapping = "SubnetMapping"
             case vpcId = "VpcId"
         }
-    }
-
-    public enum ClusterState: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case uninitialized = "UNINITIALIZED"
-        case initializeInProgress = "INITIALIZE_IN_PROGRESS"
-        case initialized = "INITIALIZED"
-        case active = "ACTIVE"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleted = "DELETED"
-        case degraded = "DEGRADED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CopyBackupToRegionRequest: AWSShape {
@@ -678,15 +690,6 @@ extension CloudHSMV2 {
             case stateMessage = "StateMessage"
             case subnetId = "SubnetId"
         }
-    }
-
-    public enum HsmState: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case active = "ACTIVE"
-        case degraded = "DEGRADED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
     }
 
     public struct InitializeClusterRequest: AWSShape {

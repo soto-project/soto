@@ -4,6 +4,44 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Signer {
+    //MARK: Enums
+
+    public enum Category: String, CustomStringConvertible, Codable {
+        case awsiot = "AWSIoT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionAlgorithm: String, CustomStringConvertible, Codable {
+        case rsa = "RSA"
+        case ecdsa = "ECDSA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HashAlgorithm: String, CustomStringConvertible, Codable {
+        case sha1 = "SHA1"
+        case sha256 = "SHA256"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageFormat: String, CustomStringConvertible, Codable {
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SigningProfileStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case canceled = "Canceled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SigningStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CancelSigningProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -26,11 +64,6 @@ extension Signer {
         private enum CodingKeys: String, CodingKey {
             case profileName = "profileName"
         }
-    }
-
-    public enum Category: String, CustomStringConvertible, Codable {
-        case awsiot = "AWSIoT"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeSigningJobRequest: AWSShape {
@@ -142,12 +175,6 @@ extension Signer {
         private enum CodingKeys: String, CodingKey {
             case s3 = "s3"
         }
-    }
-
-    public enum EncryptionAlgorithm: String, CustomStringConvertible, Codable {
-        case rsa = "RSA"
-        case ecdsa = "ECDSA"
-        public var description: String { return self.rawValue }
     }
 
     public struct EncryptionAlgorithmOptions: AWSShape {
@@ -316,12 +343,6 @@ extension Signer {
         }
     }
 
-    public enum HashAlgorithm: String, CustomStringConvertible, Codable {
-        case sha1 = "SHA1"
-        case sha256 = "SHA256"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HashAlgorithmOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "allowedValues", required: true, type: .list), 
@@ -342,11 +363,6 @@ extension Signer {
             case allowedValues = "allowedValues"
             case defaultValue = "defaultValue"
         }
-    }
-
-    public enum ImageFormat: String, CustomStringConvertible, Codable {
-        case json = "JSON"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListSigningJobsRequest: AWSShape {
@@ -962,19 +978,6 @@ extension Signer {
             case status = "status"
             case tags = "tags"
         }
-    }
-
-    public enum SigningProfileStatus: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case canceled = "Canceled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SigningStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
     }
 
     public struct Source: AWSShape {

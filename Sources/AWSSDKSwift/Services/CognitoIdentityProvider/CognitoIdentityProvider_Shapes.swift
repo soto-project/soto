@@ -4,6 +4,257 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CognitoIdentityProvider {
+    //MARK: Enums
+
+    public enum AccountTakeoverEventActionType: String, CustomStringConvertible, Codable {
+        case block = "BLOCK"
+        case mfaIfConfigured = "MFA_IF_CONFIGURED"
+        case mfaRequired = "MFA_REQUIRED"
+        case noAction = "NO_ACTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AdvancedSecurityModeType: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case audit = "AUDIT"
+        case enforced = "ENFORCED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AliasAttributeType: String, CustomStringConvertible, Codable {
+        case phoneNumber = "phone_number"
+        case email = "email"
+        case preferredUsername = "preferred_username"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttributeDataType: String, CustomStringConvertible, Codable {
+        case string = "String"
+        case number = "Number"
+        case datetime = "DateTime"
+        case boolean = "Boolean"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthFlowType: String, CustomStringConvertible, Codable {
+        case userSrpAuth = "USER_SRP_AUTH"
+        case refreshTokenAuth = "REFRESH_TOKEN_AUTH"
+        case refreshToken = "REFRESH_TOKEN"
+        case customAuth = "CUSTOM_AUTH"
+        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
+        case userPasswordAuth = "USER_PASSWORD_AUTH"
+        case adminUserPasswordAuth = "ADMIN_USER_PASSWORD_AUTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChallengeName: String, CustomStringConvertible, Codable {
+        case password = "Password"
+        case mfa = "Mfa"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChallengeNameType: String, CustomStringConvertible, Codable {
+        case smsMfa = "SMS_MFA"
+        case softwareTokenMfa = "SOFTWARE_TOKEN_MFA"
+        case selectMfaType = "SELECT_MFA_TYPE"
+        case mfaSetup = "MFA_SETUP"
+        case passwordVerifier = "PASSWORD_VERIFIER"
+        case customChallenge = "CUSTOM_CHALLENGE"
+        case deviceSrpAuth = "DEVICE_SRP_AUTH"
+        case devicePasswordVerifier = "DEVICE_PASSWORD_VERIFIER"
+        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
+        case newPasswordRequired = "NEW_PASSWORD_REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChallengeResponse: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case failure = "Failure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CompromisedCredentialsEventActionType: String, CustomStringConvertible, Codable {
+        case block = "BLOCK"
+        case noAction = "NO_ACTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DefaultEmailOptionType: String, CustomStringConvertible, Codable {
+        case confirmWithLink = "CONFIRM_WITH_LINK"
+        case confirmWithCode = "CONFIRM_WITH_CODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryMediumType: String, CustomStringConvertible, Codable {
+        case sms = "SMS"
+        case email = "EMAIL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceRememberedStatusType: String, CustomStringConvertible, Codable {
+        case remembered = "remembered"
+        case notRemembered = "not_remembered"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainStatusType: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EmailSendingAccountType: String, CustomStringConvertible, Codable {
+        case cognitoDefault = "COGNITO_DEFAULT"
+        case developer = "DEVELOPER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventFilterType: String, CustomStringConvertible, Codable {
+        case signIn = "SIGN_IN"
+        case passwordChange = "PASSWORD_CHANGE"
+        case signUp = "SIGN_UP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventResponseType: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case failure = "Failure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case signin = "SignIn"
+        case signup = "SignUp"
+        case forgotpassword = "ForgotPassword"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExplicitAuthFlowsType: String, CustomStringConvertible, Codable {
+        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
+        case customAuthFlowOnly = "CUSTOM_AUTH_FLOW_ONLY"
+        case userPasswordAuth = "USER_PASSWORD_AUTH"
+        case allowAdminUserPasswordAuth = "ALLOW_ADMIN_USER_PASSWORD_AUTH"
+        case allowCustomAuth = "ALLOW_CUSTOM_AUTH"
+        case allowUserPasswordAuth = "ALLOW_USER_PASSWORD_AUTH"
+        case allowUserSrpAuth = "ALLOW_USER_SRP_AUTH"
+        case allowRefreshTokenAuth = "ALLOW_REFRESH_TOKEN_AUTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeedbackValueType: String, CustomStringConvertible, Codable {
+        case valid = "Valid"
+        case invalid = "Invalid"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityProviderTypeType: String, CustomStringConvertible, Codable {
+        case saml = "SAML"
+        case facebook = "Facebook"
+        case google = "Google"
+        case loginwithamazon = "LoginWithAmazon"
+        case signinwithapple = "SignInWithApple"
+        case oidc = "OIDC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageActionType: String, CustomStringConvertible, Codable {
+        case resend = "RESEND"
+        case suppress = "SUPPRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OAuthFlowType: String, CustomStringConvertible, Codable {
+        case code = "code"
+        case implicit = "implicit"
+        case clientCredentials = "client_credentials"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreventUserExistenceErrorTypes: String, CustomStringConvertible, Codable {
+        case legacy = "LEGACY"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecoveryOptionNameType: String, CustomStringConvertible, Codable {
+        case verifiedEmail = "verified_email"
+        case verifiedPhoneNumber = "verified_phone_number"
+        case adminOnly = "admin_only"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RiskDecisionType: String, CustomStringConvertible, Codable {
+        case norisk = "NoRisk"
+        case accounttakeover = "AccountTakeover"
+        case block = "Block"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RiskLevelType: String, CustomStringConvertible, Codable {
+        case low = "Low"
+        case medium = "Medium"
+        case high = "High"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserImportJobStatusType: String, CustomStringConvertible, Codable {
+        case created = "Created"
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case stopping = "Stopping"
+        case expired = "Expired"
+        case stopped = "Stopped"
+        case failed = "Failed"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserPoolMfaType: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case on = "ON"
+        case optional = "OPTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserStatusType: String, CustomStringConvertible, Codable {
+        case unconfirmed = "UNCONFIRMED"
+        case confirmed = "CONFIRMED"
+        case archived = "ARCHIVED"
+        case compromised = "COMPROMISED"
+        case unknown = "UNKNOWN"
+        case resetRequired = "RESET_REQUIRED"
+        case forceChangePassword = "FORCE_CHANGE_PASSWORD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UsernameAttributeType: String, CustomStringConvertible, Codable {
+        case phoneNumber = "phone_number"
+        case email = "email"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerifiedAttributeType: String, CustomStringConvertible, Codable {
+        case phoneNumber = "phone_number"
+        case email = "email"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerifySoftwareTokenResponseType: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountRecoverySettingType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -77,14 +328,6 @@ extension CognitoIdentityProvider {
             case lowAction = "LowAction"
             case mediumAction = "MediumAction"
         }
-    }
-
-    public enum AccountTakeoverEventActionType: String, CustomStringConvertible, Codable {
-        case block = "BLOCK"
-        case mfaIfConfigured = "MFA_IF_CONFIGURED"
-        case mfaRequired = "MFA_REQUIRED"
-        case noAction = "NO_ACTION"
-        public var description: String { return self.rawValue }
     }
 
     public struct AccountTakeoverRiskConfigurationType: AWSShape {
@@ -1587,20 +1830,6 @@ extension CognitoIdentityProvider {
 
     }
 
-    public enum AdvancedSecurityModeType: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case audit = "AUDIT"
-        case enforced = "ENFORCED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AliasAttributeType: String, CustomStringConvertible, Codable {
-        case phoneNumber = "phone_number"
-        case email = "email"
-        case preferredUsername = "preferred_username"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AnalyticsConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
@@ -1707,14 +1936,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum AttributeDataType: String, CustomStringConvertible, Codable {
-        case string = "String"
-        case number = "Number"
-        case datetime = "DateTime"
-        case boolean = "Boolean"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AttributeType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -1796,17 +2017,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum AuthFlowType: String, CustomStringConvertible, Codable {
-        case userSrpAuth = "USER_SRP_AUTH"
-        case refreshTokenAuth = "REFRESH_TOKEN_AUTH"
-        case refreshToken = "REFRESH_TOKEN"
-        case customAuth = "CUSTOM_AUTH"
-        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
-        case userPasswordAuth = "USER_PASSWORD_AUTH"
-        case adminUserPasswordAuth = "ADMIN_USER_PASSWORD_AUTH"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AuthenticationResultType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessToken", required: false, type: .string), 
@@ -1847,32 +2057,6 @@ extension CognitoIdentityProvider {
             case refreshToken = "RefreshToken"
             case tokenType = "TokenType"
         }
-    }
-
-    public enum ChallengeName: String, CustomStringConvertible, Codable {
-        case password = "Password"
-        case mfa = "Mfa"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChallengeNameType: String, CustomStringConvertible, Codable {
-        case smsMfa = "SMS_MFA"
-        case softwareTokenMfa = "SOFTWARE_TOKEN_MFA"
-        case selectMfaType = "SELECT_MFA_TYPE"
-        case mfaSetup = "MFA_SETUP"
-        case passwordVerifier = "PASSWORD_VERIFIER"
-        case customChallenge = "CUSTOM_CHALLENGE"
-        case deviceSrpAuth = "DEVICE_SRP_AUTH"
-        case devicePasswordVerifier = "DEVICE_PASSWORD_VERIFIER"
-        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
-        case newPasswordRequired = "NEW_PASSWORD_REQUIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChallengeResponse: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case failure = "Failure"
-        public var description: String { return self.rawValue }
     }
 
     public struct ChallengeResponseType: AWSShape {
@@ -1984,12 +2168,6 @@ extension CognitoIdentityProvider {
         private enum CodingKeys: String, CodingKey {
             case eventAction = "EventAction"
         }
-    }
-
-    public enum CompromisedCredentialsEventActionType: String, CustomStringConvertible, Codable {
-        case block = "BLOCK"
-        case noAction = "NO_ACTION"
-        public var description: String { return self.rawValue }
     }
 
     public struct CompromisedCredentialsRiskConfigurationType: AWSShape {
@@ -2931,12 +3109,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum DefaultEmailOptionType: String, CustomStringConvertible, Codable {
-        case confirmWithLink = "CONFIRM_WITH_LINK"
-        case confirmWithCode = "CONFIRM_WITH_CODE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeleteGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupName", required: true, type: .string), 
@@ -3181,12 +3353,6 @@ extension CognitoIdentityProvider {
         private enum CodingKeys: String, CodingKey {
             case accessToken = "AccessToken"
         }
-    }
-
-    public enum DeliveryMediumType: String, CustomStringConvertible, Codable {
-        case sms = "SMS"
-        case email = "EMAIL"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeIdentityProviderRequest: AWSShape {
@@ -3531,12 +3697,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum DeviceRememberedStatusType: String, CustomStringConvertible, Codable {
-        case remembered = "remembered"
-        case notRemembered = "not_remembered"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeviceSecretVerifierConfigType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PasswordVerifier", required: false, type: .string), 
@@ -3648,15 +3808,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum DomainStatusType: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EmailConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSet", required: false, type: .string), 
@@ -3702,12 +3853,6 @@ extension CognitoIdentityProvider {
             case replyToEmailAddress = "ReplyToEmailAddress"
             case sourceArn = "SourceArn"
         }
-    }
-
-    public enum EmailSendingAccountType: String, CustomStringConvertible, Codable {
-        case cognitoDefault = "COGNITO_DEFAULT"
-        case developer = "DEVELOPER"
-        public var description: String { return self.rawValue }
     }
 
     public struct EventContextDataType: AWSShape {
@@ -3774,19 +3919,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum EventFilterType: String, CustomStringConvertible, Codable {
-        case signIn = "SIGN_IN"
-        case passwordChange = "PASSWORD_CHANGE"
-        case signUp = "SIGN_UP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EventResponseType: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case failure = "Failure"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EventRiskType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RiskDecision", required: false, type: .enum), 
@@ -3807,31 +3939,6 @@ extension CognitoIdentityProvider {
             case riskDecision = "RiskDecision"
             case riskLevel = "RiskLevel"
         }
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case signin = "SignIn"
-        case signup = "SignUp"
-        case forgotpassword = "ForgotPassword"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExplicitAuthFlowsType: String, CustomStringConvertible, Codable {
-        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
-        case customAuthFlowOnly = "CUSTOM_AUTH_FLOW_ONLY"
-        case userPasswordAuth = "USER_PASSWORD_AUTH"
-        case allowAdminUserPasswordAuth = "ALLOW_ADMIN_USER_PASSWORD_AUTH"
-        case allowCustomAuth = "ALLOW_CUSTOM_AUTH"
-        case allowUserPasswordAuth = "ALLOW_USER_PASSWORD_AUTH"
-        case allowUserSrpAuth = "ALLOW_USER_SRP_AUTH"
-        case allowRefreshTokenAuth = "ALLOW_REFRESH_TOKEN_AUTH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FeedbackValueType: String, CustomStringConvertible, Codable {
-        case valid = "Valid"
-        case invalid = "Invalid"
-        public var description: String { return self.rawValue }
     }
 
     public struct ForgetDeviceRequest: AWSShape {
@@ -4516,16 +4623,6 @@ extension CognitoIdentityProvider {
             case providerType = "ProviderType"
             case userPoolId = "UserPoolId"
         }
-    }
-
-    public enum IdentityProviderTypeType: String, CustomStringConvertible, Codable {
-        case saml = "SAML"
-        case facebook = "Facebook"
-        case google = "Google"
-        case loginwithamazon = "LoginWithAmazon"
-        case signinwithapple = "SignInWithApple"
-        case oidc = "OIDC"
-        public var description: String { return self.rawValue }
     }
 
     public struct InitiateAuthRequest: AWSShape {
@@ -5316,12 +5413,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum MessageActionType: String, CustomStringConvertible, Codable {
-        case resend = "RESEND"
-        case suppress = "SUPPRESS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MessageTemplateType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
@@ -5495,13 +5586,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum OAuthFlowType: String, CustomStringConvertible, Codable {
-        case code = "code"
-        case implicit = "implicit"
-        case clientCredentials = "client_credentials"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PasswordPolicyType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MinimumLength", required: false, type: .integer), 
@@ -5549,12 +5633,6 @@ extension CognitoIdentityProvider {
             case requireUppercase = "RequireUppercase"
             case temporaryPasswordValidityDays = "TemporaryPasswordValidityDays"
         }
-    }
-
-    public enum PreventUserExistenceErrorTypes: String, CustomStringConvertible, Codable {
-        case legacy = "LEGACY"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProviderDescription: AWSShape {
@@ -5620,13 +5698,6 @@ extension CognitoIdentityProvider {
             case providerAttributeValue = "ProviderAttributeValue"
             case providerName = "ProviderName"
         }
-    }
-
-    public enum RecoveryOptionNameType: String, CustomStringConvertible, Codable {
-        case verifiedEmail = "verified_email"
-        case verifiedPhoneNumber = "verified_phone_number"
-        case adminOnly = "admin_only"
-        public var description: String { return self.rawValue }
     }
 
     public struct RecoveryOptionType: AWSShape {
@@ -5918,13 +5989,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum RiskDecisionType: String, CustomStringConvertible, Codable {
-        case norisk = "NoRisk"
-        case accounttakeover = "AccountTakeover"
-        case block = "Block"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RiskExceptionConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BlockedIPRangeList", required: false, type: .list), 
@@ -5950,13 +6014,6 @@ extension CognitoIdentityProvider {
             case blockedIPRangeList = "BlockedIPRangeList"
             case skippedIPRangeList = "SkippedIPRangeList"
         }
-    }
-
-    public enum RiskLevelType: String, CustomStringConvertible, Codable {
-        case low = "Low"
-        case medium = "Medium"
-        case high = "High"
-        public var description: String { return self.rawValue }
     }
 
     public struct SMSMfaSettingsType: AWSShape {
@@ -6546,12 +6603,6 @@ extension CognitoIdentityProvider {
         private enum CodingKeys: String, CodingKey {
             case userImportJob = "UserImportJob"
         }
-    }
-
-    public enum StatusType: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
     }
 
     public struct StopUserImportJobRequest: AWSShape {
@@ -7480,18 +7531,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum UserImportJobStatusType: String, CustomStringConvertible, Codable {
-        case created = "Created"
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case stopping = "Stopping"
-        case expired = "Expired"
-        case stopped = "Stopped"
-        case failed = "Failed"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UserImportJobType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
@@ -7762,13 +7801,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum UserPoolMfaType: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case on = "ON"
-        case optional = "OPTIONAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UserPoolPolicyType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PasswordPolicy", required: false, type: .structure)
@@ -7952,17 +7984,6 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public enum UserStatusType: String, CustomStringConvertible, Codable {
-        case unconfirmed = "UNCONFIRMED"
-        case confirmed = "CONFIRMED"
-        case archived = "ARCHIVED"
-        case compromised = "COMPROMISED"
-        case unknown = "UNKNOWN"
-        case resetRequired = "RESET_REQUIRED"
-        case forceChangePassword = "FORCE_CHANGE_PASSWORD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UserType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .list), 
@@ -8008,12 +8029,6 @@ extension CognitoIdentityProvider {
             case username = "Username"
             case userStatus = "UserStatus"
         }
-    }
-
-    public enum UsernameAttributeType: String, CustomStringConvertible, Codable {
-        case phoneNumber = "phone_number"
-        case email = "email"
-        public var description: String { return self.rawValue }
     }
 
     public struct VerificationMessageTemplateType: AWSShape {
@@ -8074,12 +8089,6 @@ extension CognitoIdentityProvider {
             case emailSubjectByLink = "EmailSubjectByLink"
             case smsMessage = "SmsMessage"
         }
-    }
-
-    public enum VerifiedAttributeType: String, CustomStringConvertible, Codable {
-        case phoneNumber = "phone_number"
-        case email = "email"
-        public var description: String { return self.rawValue }
     }
 
     public struct VerifySoftwareTokenRequest: AWSShape {
@@ -8143,12 +8152,6 @@ extension CognitoIdentityProvider {
             case session = "Session"
             case status = "Status"
         }
-    }
-
-    public enum VerifySoftwareTokenResponseType: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct VerifyUserAttributeRequest: AWSShape {

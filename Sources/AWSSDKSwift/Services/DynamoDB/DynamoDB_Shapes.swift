@@ -4,6 +4,217 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DynamoDB {
+    //MARK: Enums
+
+    public enum AttributeAction: String, CustomStringConvertible, Codable {
+        case add = "ADD"
+        case put = "PUT"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case available = "AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case system = "SYSTEM"
+        case awsBackup = "AWS_BACKUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupTypeFilter: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case system = "SYSTEM"
+        case awsBackup = "AWS_BACKUP"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingMode: String, CustomStringConvertible, Codable {
+        case provisioned = "PROVISIONED"
+        case payPerRequest = "PAY_PER_REQUEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case eq = "EQ"
+        case ne = "NE"
+        case `in` = "IN"
+        case le = "LE"
+        case lt = "LT"
+        case ge = "GE"
+        case gt = "GT"
+        case between = "BETWEEN"
+        case notNull = "NOT_NULL"
+        case null = "NULL"
+        case contains = "CONTAINS"
+        case notContains = "NOT_CONTAINS"
+        case beginsWith = "BEGINS_WITH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConditionalOperator: String, CustomStringConvertible, Codable {
+        case and = "AND"
+        case or = "OR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContinuousBackupsStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContributorInsightsAction: String, CustomStringConvertible, Codable {
+        case enable = "ENABLE"
+        case disable = "DISABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContributorInsightsStatus: String, CustomStringConvertible, Codable {
+        case enabling = "ENABLING"
+        case enabled = "ENABLED"
+        case disabling = "DISABLING"
+        case disabled = "DISABLED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlobalTableStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IndexStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyType: String, CustomStringConvertible, Codable {
+        case hash = "HASH"
+        case range = "RANGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectionType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case keysOnly = "KEYS_ONLY"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicaStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case creationFailed = "CREATION_FAILED"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReturnConsumedCapacity: String, CustomStringConvertible, Codable {
+        case indexes = "INDEXES"
+        case total = "TOTAL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReturnItemCollectionMetrics: String, CustomStringConvertible, Codable {
+        case size = "SIZE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReturnValue: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case allOld = "ALL_OLD"
+        case updatedOld = "UPDATED_OLD"
+        case allNew = "ALL_NEW"
+        case updatedNew = "UPDATED_NEW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReturnValuesOnConditionCheckFailure: String, CustomStringConvertible, Codable {
+        case allOld = "ALL_OLD"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SSEStatus: String, CustomStringConvertible, Codable {
+        case enabling = "ENABLING"
+        case enabled = "ENABLED"
+        case disabling = "DISABLING"
+        case disabled = "DISABLED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SSEType: String, CustomStringConvertible, Codable {
+        case aes256 = "AES256"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalarAttributeType: String, CustomStringConvertible, Codable {
+        case s = "S"
+        case n = "N"
+        case b = "B"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Select: String, CustomStringConvertible, Codable {
+        case allAttributes = "ALL_ATTRIBUTES"
+        case allProjectedAttributes = "ALL_PROJECTED_ATTRIBUTES"
+        case specificAttributes = "SPECIFIC_ATTRIBUTES"
+        case count = "COUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamViewType: String, CustomStringConvertible, Codable {
+        case newImage = "NEW_IMAGE"
+        case oldImage = "OLD_IMAGE"
+        case newAndOldImages = "NEW_AND_OLD_IMAGES"
+        case keysOnly = "KEYS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
+        case inaccessibleEncryptionCredentials = "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
+        case archiving = "ARCHIVING"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimeToLiveStatus: String, CustomStringConvertible, Codable {
+        case enabling = "ENABLING"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ArchivalSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -30,13 +241,6 @@ extension DynamoDB {
             case archivalDateTime = "ArchivalDateTime"
             case archivalReason = "ArchivalReason"
         }
-    }
-
-    public enum AttributeAction: String, CustomStringConvertible, Codable {
-        case add = "ADD"
-        case put = "PUT"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
     }
 
     public struct AttributeDefinition: AWSShape {
@@ -435,13 +639,6 @@ extension DynamoDB {
         }
     }
 
-    public enum BackupStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case deleted = "DELETED"
-        case available = "AVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BackupSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupArn", required: false, type: .string), 
@@ -502,21 +699,6 @@ extension DynamoDB {
             case tableId = "TableId"
             case tableName = "TableName"
         }
-    }
-
-    public enum BackupType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case system = "SYSTEM"
-        case awsBackup = "AWS_BACKUP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BackupTypeFilter: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case system = "SYSTEM"
-        case awsBackup = "AWS_BACKUP"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct BatchGetItemInput: AWSShape {
@@ -639,12 +821,6 @@ extension DynamoDB {
         }
     }
 
-    public enum BillingMode: String, CustomStringConvertible, Codable {
-        case provisioned = "PROVISIONED"
-        case payPerRequest = "PAY_PER_REQUEST"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BillingModeSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BillingMode", required: false, type: .enum), 
@@ -692,23 +868,6 @@ extension DynamoDB {
             case readCapacityUnits = "ReadCapacityUnits"
             case writeCapacityUnits = "WriteCapacityUnits"
         }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case eq = "EQ"
-        case ne = "NE"
-        case `in` = "IN"
-        case le = "LE"
-        case lt = "LT"
-        case ge = "GE"
-        case gt = "GT"
-        case between = "BETWEEN"
-        case notNull = "NOT_NULL"
-        case null = "NULL"
-        case contains = "CONTAINS"
-        case notContains = "NOT_CONTAINS"
-        case beginsWith = "BEGINS_WITH"
-        public var description: String { return self.rawValue }
     }
 
     public struct Condition: AWSShape {
@@ -797,12 +956,6 @@ extension DynamoDB {
         }
     }
 
-    public enum ConditionalOperator: String, CustomStringConvertible, Codable {
-        case and = "AND"
-        case or = "OR"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ConsumedCapacity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CapacityUnits", required: false, type: .double), 
@@ -870,27 +1023,6 @@ extension DynamoDB {
             case continuousBackupsStatus = "ContinuousBackupsStatus"
             case pointInTimeRecoveryDescription = "PointInTimeRecoveryDescription"
         }
-    }
-
-    public enum ContinuousBackupsStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContributorInsightsAction: String, CustomStringConvertible, Codable {
-        case enable = "ENABLE"
-        case disable = "DISABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContributorInsightsStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
-        case disabled = "DISABLED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContributorInsightsSummary: AWSShape {
@@ -2467,22 +2599,6 @@ extension DynamoDB {
         }
     }
 
-    public enum GlobalTableStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IndexStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ItemCollectionMetrics: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ItemCollectionKey", required: false, type: .map), 
@@ -2547,12 +2663,6 @@ extension DynamoDB {
             case attributeName = "AttributeName"
             case keyType = "KeyType"
         }
-    }
-
-    public enum KeyType: String, CustomStringConvertible, Codable {
-        case hash = "HASH"
-        case range = "RANGE"
-        public var description: String { return self.rawValue }
     }
 
     public struct KeysAndAttributes: AWSShape {
@@ -3043,12 +3153,6 @@ extension DynamoDB {
         }
     }
 
-    public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Projection: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NonKeyAttributes", required: false, type: .list), 
@@ -3078,13 +3182,6 @@ extension DynamoDB {
             case nonKeyAttributes = "NonKeyAttributes"
             case projectionType = "ProjectionType"
         }
-    }
-
-    public enum ProjectionType: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case keysOnly = "KEYS_ONLY"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProvisionedThroughput: AWSShape {
@@ -3939,15 +4036,6 @@ extension DynamoDB {
         }
     }
 
-    public enum ReplicaStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case creationFailed = "CREATION_FAILED"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReplicaUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Create", required: false, type: .structure), 
@@ -4193,34 +4281,6 @@ extension DynamoDB {
         }
     }
 
-    public enum ReturnConsumedCapacity: String, CustomStringConvertible, Codable {
-        case indexes = "INDEXES"
-        case total = "TOTAL"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReturnItemCollectionMetrics: String, CustomStringConvertible, Codable {
-        case size = "SIZE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReturnValue: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case allOld = "ALL_OLD"
-        case updatedOld = "UPDATED_OLD"
-        case allNew = "ALL_NEW"
-        case updatedNew = "UPDATED_NEW"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReturnValuesOnConditionCheckFailure: String, CustomStringConvertible, Codable {
-        case allOld = "ALL_OLD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SSEDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InaccessibleEncryptionDateTime", required: false, type: .timestamp), 
@@ -4278,28 +4338,6 @@ extension DynamoDB {
             case kMSMasterKeyId = "KMSMasterKeyId"
             case sSEType = "SSEType"
         }
-    }
-
-    public enum SSEStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
-        case disabled = "DISABLED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SSEType: String, CustomStringConvertible, Codable {
-        case aes256 = "AES256"
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScalarAttributeType: String, CustomStringConvertible, Codable {
-        case s = "S"
-        case n = "N"
-        case b = "B"
-        public var description: String { return self.rawValue }
     }
 
     public struct ScanInput: AWSShape {
@@ -4462,14 +4500,6 @@ extension DynamoDB {
         }
     }
 
-    public enum Select: String, CustomStringConvertible, Codable {
-        case allAttributes = "ALL_ATTRIBUTES"
-        case allProjectedAttributes = "ALL_PROJECTED_ATTRIBUTES"
-        case specificAttributes = "SPECIFIC_ATTRIBUTES"
-        case count = "COUNT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SourceTableDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BillingMode", required: false, type: .enum), 
@@ -4584,14 +4614,6 @@ extension DynamoDB {
             case streamEnabled = "StreamEnabled"
             case streamViewType = "StreamViewType"
         }
-    }
-
-    public enum StreamViewType: String, CustomStringConvertible, Codable {
-        case newImage = "NEW_IMAGE"
-        case oldImage = "OLD_IMAGE"
-        case newAndOldImages = "NEW_AND_OLD_IMAGES"
-        case keysOnly = "KEYS_ONLY"
-        public var description: String { return self.rawValue }
     }
 
     public struct TableAutoScalingDescription: AWSShape {
@@ -4738,17 +4760,6 @@ extension DynamoDB {
         }
     }
 
-    public enum TableStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case active = "ACTIVE"
-        case inaccessibleEncryptionCredentials = "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
-        case archiving = "ARCHIVING"
-        case archived = "ARCHIVED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string), 
@@ -4855,14 +4866,6 @@ extension DynamoDB {
             case attributeName = "AttributeName"
             case enabled = "Enabled"
         }
-    }
-
-    public enum TimeToLiveStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case disabling = "DISABLING"
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct TransactGetItem: AWSShape {

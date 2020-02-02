@@ -4,6 +4,14 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension EBS {
+    //MARK: Enums
+
+    public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable {
+        case sha256 = "SHA256"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Block: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -52,11 +60,6 @@ extension EBS {
             case firstBlockToken = "FirstBlockToken"
             case secondBlockToken = "SecondBlockToken"
         }
-    }
-
-    public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable {
-        case sha256 = "SHA256"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetSnapshotBlockRequest: AWSShape {

@@ -4,6 +4,278 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CodeDeploy {
+    //MARK: Enums
+
+    public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable {
+        case registertime = "registerTime"
+        case firstusedtime = "firstUsedTime"
+        case lastusedtime = "lastUsedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoRollbackEvent: String, CustomStringConvertible, Codable {
+        case deploymentFailure = "DEPLOYMENT_FAILURE"
+        case deploymentStopOnAlarm = "DEPLOYMENT_STOP_ON_ALARM"
+        case deploymentStopOnRequest = "DEPLOYMENT_STOP_ON_REQUEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BundleType: String, CustomStringConvertible, Codable {
+        case tar = "tar"
+        case tgz = "tgz"
+        case zip = "zip"
+        case yaml = "YAML"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputePlatform: String, CustomStringConvertible, Codable {
+        case server = "Server"
+        case lambda = "Lambda"
+        case ecs = "ECS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentCreator: String, CustomStringConvertible, Codable {
+        case user = "user"
+        case autoscaling = "autoscaling"
+        case codedeployrollback = "codeDeployRollback"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentOption: String, CustomStringConvertible, Codable {
+        case withTrafficControl = "WITH_TRAFFIC_CONTROL"
+        case withoutTrafficControl = "WITHOUT_TRAFFIC_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentReadyAction: String, CustomStringConvertible, Codable {
+        case continueDeployment = "CONTINUE_DEPLOYMENT"
+        case stopDeployment = "STOP_DEPLOYMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
+        case created = "Created"
+        case queued = "Queued"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentTargetType: String, CustomStringConvertible, Codable {
+        case instancetarget = "InstanceTarget"
+        case lambdatarget = "LambdaTarget"
+        case ecstarget = "ECSTarget"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentType: String, CustomStringConvertible, Codable {
+        case inPlace = "IN_PLACE"
+        case blueGreen = "BLUE_GREEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentWaitType: String, CustomStringConvertible, Codable {
+        case readyWait = "READY_WAIT"
+        case terminationWait = "TERMINATION_WAIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EC2TagFilterType: String, CustomStringConvertible, Codable {
+        case keyOnly = "KEY_ONLY"
+        case valueOnly = "VALUE_ONLY"
+        case keyAndValue = "KEY_AND_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case agentIssue = "AGENT_ISSUE"
+        case alarmActive = "ALARM_ACTIVE"
+        case applicationMissing = "APPLICATION_MISSING"
+        case autoscalingValidationError = "AUTOSCALING_VALIDATION_ERROR"
+        case autoScalingConfiguration = "AUTO_SCALING_CONFIGURATION"
+        case autoScalingIamRolePermissions = "AUTO_SCALING_IAM_ROLE_PERMISSIONS"
+        case codedeployResourceCannotBeFound = "CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND"
+        case customerApplicationUnhealthy = "CUSTOMER_APPLICATION_UNHEALTHY"
+        case deploymentGroupMissing = "DEPLOYMENT_GROUP_MISSING"
+        case ecsUpdateError = "ECS_UPDATE_ERROR"
+        case elasticLoadBalancingInvalid = "ELASTIC_LOAD_BALANCING_INVALID"
+        case elbInvalidInstance = "ELB_INVALID_INSTANCE"
+        case healthConstraints = "HEALTH_CONSTRAINTS"
+        case healthConstraintsInvalid = "HEALTH_CONSTRAINTS_INVALID"
+        case hookExecutionFailure = "HOOK_EXECUTION_FAILURE"
+        case iamRoleMissing = "IAM_ROLE_MISSING"
+        case iamRolePermissions = "IAM_ROLE_PERMISSIONS"
+        case internalError = "INTERNAL_ERROR"
+        case invalidEcsService = "INVALID_ECS_SERVICE"
+        case invalidLambdaConfiguration = "INVALID_LAMBDA_CONFIGURATION"
+        case invalidLambdaFunction = "INVALID_LAMBDA_FUNCTION"
+        case invalidRevision = "INVALID_REVISION"
+        case manualStop = "MANUAL_STOP"
+        case missingBlueGreenDeploymentConfiguration = "MISSING_BLUE_GREEN_DEPLOYMENT_CONFIGURATION"
+        case missingElbInformation = "MISSING_ELB_INFORMATION"
+        case missingGithubToken = "MISSING_GITHUB_TOKEN"
+        case noEc2Subscription = "NO_EC2_SUBSCRIPTION"
+        case noInstances = "NO_INSTANCES"
+        case overMaxInstances = "OVER_MAX_INSTANCES"
+        case resourceLimitExceeded = "RESOURCE_LIMIT_EXCEEDED"
+        case revisionMissing = "REVISION_MISSING"
+        case throttled = "THROTTLED"
+        case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileExistsBehavior: String, CustomStringConvertible, Codable {
+        case disallow = "DISALLOW"
+        case overwrite = "OVERWRITE"
+        case retain = "RETAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GreenFleetProvisioningAction: String, CustomStringConvertible, Codable {
+        case discoverExisting = "DISCOVER_EXISTING"
+        case copyAutoScalingGroup = "COPY_AUTO_SCALING_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceAction: String, CustomStringConvertible, Codable {
+        case terminate = "TERMINATE"
+        case keepAlive = "KEEP_ALIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case skipped = "Skipped"
+        case unknown = "Unknown"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceType: String, CustomStringConvertible, Codable {
+        case blue = "Blue"
+        case green = "Green"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecycleErrorCode: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case scriptmissing = "ScriptMissing"
+        case scriptnotexecutable = "ScriptNotExecutable"
+        case scripttimedout = "ScriptTimedOut"
+        case scriptfailed = "ScriptFailed"
+        case unknownerror = "UnknownError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecycleEventStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case skipped = "Skipped"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListStateFilterAction: String, CustomStringConvertible, Codable {
+        case include = "include"
+        case exclude = "exclude"
+        case ignore = "ignore"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MinimumHealthyHostsType: String, CustomStringConvertible, Codable {
+        case hostCount = "HOST_COUNT"
+        case fleetPercent = "FLEET_PERCENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
+        case registered = "Registered"
+        case deregistered = "Deregistered"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RevisionLocationType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        case github = "GitHub"
+        case string = "String"
+        case appspeccontent = "AppSpecContent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ascending"
+        case descending = "descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StopStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TagFilterType: String, CustomStringConvertible, Codable {
+        case keyOnly = "KEY_ONLY"
+        case valueOnly = "VALUE_ONLY"
+        case keyAndValue = "KEY_AND_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetFilterName: String, CustomStringConvertible, Codable {
+        case targetstatus = "TargetStatus"
+        case serverinstancelabel = "ServerInstanceLabel"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetLabel: String, CustomStringConvertible, Codable {
+        case blue = "Blue"
+        case green = "Green"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case skipped = "Skipped"
+        case unknown = "Unknown"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficRoutingType: String, CustomStringConvertible, Codable {
+        case timebasedcanary = "TimeBasedCanary"
+        case timebasedlinear = "TimeBasedLinear"
+        case allatonce = "AllAtOnce"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerEventType: String, CustomStringConvertible, Codable {
+        case deploymentstart = "DeploymentStart"
+        case deploymentsuccess = "DeploymentSuccess"
+        case deploymentfailure = "DeploymentFailure"
+        case deploymentstop = "DeploymentStop"
+        case deploymentrollback = "DeploymentRollback"
+        case deploymentready = "DeploymentReady"
+        case instancestart = "InstanceStart"
+        case instancesuccess = "InstanceSuccess"
+        case instancefailure = "InstanceFailure"
+        case instanceready = "InstanceReady"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddTagsToOnPremisesInstancesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -135,13 +407,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable {
-        case registertime = "registerTime"
-        case firstusedtime = "firstUsedTime"
-        case lastusedtime = "lastUsedTime"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AutoRollbackConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "enabled", required: false, type: .boolean), 
@@ -162,13 +427,6 @@ extension CodeDeploy {
             case enabled = "enabled"
             case events = "events"
         }
-    }
-
-    public enum AutoRollbackEvent: String, CustomStringConvertible, Codable {
-        case deploymentFailure = "DEPLOYMENT_FAILURE"
-        case deploymentStopOnAlarm = "DEPLOYMENT_STOP_ON_ALARM"
-        case deploymentStopOnRequest = "DEPLOYMENT_STOP_ON_REQUEST"
-        public var description: String { return self.rawValue }
     }
 
     public struct AutoScalingGroup: AWSShape {
@@ -539,22 +797,6 @@ extension CodeDeploy {
             case action = "action"
             case terminationWaitTimeInMinutes = "terminationWaitTimeInMinutes"
         }
-    }
-
-    public enum BundleType: String, CustomStringConvertible, Codable {
-        case tar = "tar"
-        case tgz = "tgz"
-        case zip = "zip"
-        case yaml = "YAML"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ComputePlatform: String, CustomStringConvertible, Codable {
-        case server = "Server"
-        case lambda = "Lambda"
-        case ecs = "ECS"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContinueDeploymentInput: AWSShape {
@@ -1059,13 +1301,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum DeploymentCreator: String, CustomStringConvertible, Codable {
-        case user = "user"
-        case autoscaling = "autoscaling"
-        case codedeployrollback = "codeDeployRollback"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeploymentGroupInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
@@ -1330,12 +1565,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum DeploymentOption: String, CustomStringConvertible, Codable {
-        case withTrafficControl = "WITH_TRAFFIC_CONTROL"
-        case withoutTrafficControl = "WITHOUT_TRAFFIC_CONTROL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeploymentOverview: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Failed", required: false, type: .long), 
@@ -1378,12 +1607,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum DeploymentReadyAction: String, CustomStringConvertible, Codable {
-        case continueDeployment = "CONTINUE_DEPLOYMENT"
-        case stopDeployment = "STOP_DEPLOYMENT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeploymentReadyOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "actionOnTimeout", required: false, type: .enum), 
@@ -1404,17 +1627,6 @@ extension CodeDeploy {
             case actionOnTimeout = "actionOnTimeout"
             case waitTimeInMinutes = "waitTimeInMinutes"
         }
-    }
-
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
-        case created = "Created"
-        case queued = "Queued"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case stopped = "Stopped"
-        case ready = "Ready"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeploymentStyle: AWSShape {
@@ -1469,25 +1681,6 @@ extension CodeDeploy {
             case instanceTarget = "instanceTarget"
             case lambdaTarget = "lambdaTarget"
         }
-    }
-
-    public enum DeploymentTargetType: String, CustomStringConvertible, Codable {
-        case instancetarget = "InstanceTarget"
-        case lambdatarget = "LambdaTarget"
-        case ecstarget = "ECSTarget"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeploymentType: String, CustomStringConvertible, Codable {
-        case inPlace = "IN_PLACE"
-        case blueGreen = "BLUE_GREEN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeploymentWaitType: String, CustomStringConvertible, Codable {
-        case readyWait = "READY_WAIT"
-        case terminationWait = "TERMINATION_WAIT"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeregisterOnPremisesInstanceInput: AWSShape {
@@ -1564,13 +1757,6 @@ extension CodeDeploy {
             case `type` = "Type"
             case value = "Value"
         }
-    }
-
-    public enum EC2TagFilterType: String, CustomStringConvertible, Codable {
-        case keyOnly = "KEY_ONLY"
-        case valueOnly = "VALUE_ONLY"
-        case keyAndValue = "KEY_AND_VALUE"
-        public var description: String { return self.rawValue }
     }
 
     public struct EC2TagSet: AWSShape {
@@ -1728,43 +1914,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case agentIssue = "AGENT_ISSUE"
-        case alarmActive = "ALARM_ACTIVE"
-        case applicationMissing = "APPLICATION_MISSING"
-        case autoscalingValidationError = "AUTOSCALING_VALIDATION_ERROR"
-        case autoScalingConfiguration = "AUTO_SCALING_CONFIGURATION"
-        case autoScalingIamRolePermissions = "AUTO_SCALING_IAM_ROLE_PERMISSIONS"
-        case codedeployResourceCannotBeFound = "CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND"
-        case customerApplicationUnhealthy = "CUSTOMER_APPLICATION_UNHEALTHY"
-        case deploymentGroupMissing = "DEPLOYMENT_GROUP_MISSING"
-        case ecsUpdateError = "ECS_UPDATE_ERROR"
-        case elasticLoadBalancingInvalid = "ELASTIC_LOAD_BALANCING_INVALID"
-        case elbInvalidInstance = "ELB_INVALID_INSTANCE"
-        case healthConstraints = "HEALTH_CONSTRAINTS"
-        case healthConstraintsInvalid = "HEALTH_CONSTRAINTS_INVALID"
-        case hookExecutionFailure = "HOOK_EXECUTION_FAILURE"
-        case iamRoleMissing = "IAM_ROLE_MISSING"
-        case iamRolePermissions = "IAM_ROLE_PERMISSIONS"
-        case internalError = "INTERNAL_ERROR"
-        case invalidEcsService = "INVALID_ECS_SERVICE"
-        case invalidLambdaConfiguration = "INVALID_LAMBDA_CONFIGURATION"
-        case invalidLambdaFunction = "INVALID_LAMBDA_FUNCTION"
-        case invalidRevision = "INVALID_REVISION"
-        case manualStop = "MANUAL_STOP"
-        case missingBlueGreenDeploymentConfiguration = "MISSING_BLUE_GREEN_DEPLOYMENT_CONFIGURATION"
-        case missingElbInformation = "MISSING_ELB_INFORMATION"
-        case missingGithubToken = "MISSING_GITHUB_TOKEN"
-        case noEc2Subscription = "NO_EC2_SUBSCRIPTION"
-        case noInstances = "NO_INSTANCES"
-        case overMaxInstances = "OVER_MAX_INSTANCES"
-        case resourceLimitExceeded = "RESOURCE_LIMIT_EXCEEDED"
-        case revisionMissing = "REVISION_MISSING"
-        case throttled = "THROTTLED"
-        case timeout = "TIMEOUT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ErrorInformation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "code", required: false, type: .enum), 
@@ -1785,13 +1934,6 @@ extension CodeDeploy {
             case code = "code"
             case message = "message"
         }
-    }
-
-    public enum FileExistsBehavior: String, CustomStringConvertible, Codable {
-        case disallow = "DISALLOW"
-        case overwrite = "OVERWRITE"
-        case retain = "RETAIN"
-        public var description: String { return self.rawValue }
     }
 
     public struct GenericRevisionInfo: AWSShape {
@@ -2177,12 +2319,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum GreenFleetProvisioningAction: String, CustomStringConvertible, Codable {
-        case discoverExisting = "DISCOVER_EXISTING"
-        case copyAutoScalingGroup = "COPY_AUTO_SCALING_GROUP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GreenFleetProvisioningOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "action", required: false, type: .enum)
@@ -2198,12 +2334,6 @@ extension CodeDeploy {
         private enum CodingKeys: String, CodingKey {
             case action = "action"
         }
-    }
-
-    public enum InstanceAction: String, CustomStringConvertible, Codable {
-        case terminate = "TERMINATE"
-        case keepAlive = "KEEP_ALIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceInfo: AWSShape {
@@ -2251,17 +2381,6 @@ extension CodeDeploy {
             case registerTime = "registerTime"
             case tags = "tags"
         }
-    }
-
-    public enum InstanceStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case skipped = "Skipped"
-        case unknown = "Unknown"
-        case ready = "Ready"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceSummary: AWSShape {
@@ -2351,12 +2470,6 @@ extension CodeDeploy {
             case targetArn = "targetArn"
             case targetId = "targetId"
         }
-    }
-
-    public enum InstanceType: String, CustomStringConvertible, Codable {
-        case blue = "Blue"
-        case green = "Green"
-        public var description: String { return self.rawValue }
     }
 
     public struct LambdaFunctionInfo: AWSShape {
@@ -2475,16 +2588,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum LifecycleErrorCode: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case scriptmissing = "ScriptMissing"
-        case scriptnotexecutable = "ScriptNotExecutable"
-        case scripttimedout = "ScriptTimedOut"
-        case scriptfailed = "ScriptFailed"
-        case unknownerror = "UnknownError"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LifecycleEvent: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "diagnostics", required: false, type: .structure), 
@@ -2520,16 +2623,6 @@ extension CodeDeploy {
             case startTime = "startTime"
             case status = "status"
         }
-    }
-
-    public enum LifecycleEventStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case skipped = "Skipped"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListApplicationRevisionsInput: AWSShape {
@@ -2995,13 +3088,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum ListStateFilterAction: String, CustomStringConvertible, Codable {
-        case include = "include"
-        case exclude = "exclude"
-        case ignore = "ignore"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListTagsForResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -3098,12 +3184,6 @@ extension CodeDeploy {
             case `type` = "type"
             case value = "value"
         }
-    }
-
-    public enum MinimumHealthyHostsType: String, CustomStringConvertible, Codable {
-        case hostCount = "HOST_COUNT"
-        case fleetPercent = "FLEET_PERCENT"
-        public var description: String { return self.rawValue }
     }
 
     public struct OnPremisesTagSet: AWSShape {
@@ -3248,12 +3328,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
-        case registered = "Registered"
-        case deregistered = "Deregistered"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RemoveTagsFromOnPremisesInstancesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceNames", required: true, type: .list), 
@@ -3333,14 +3407,6 @@ extension CodeDeploy {
             case s3Location = "s3Location"
             case string = "string"
         }
-    }
-
-    public enum RevisionLocationType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        case github = "GitHub"
-        case string = "String"
-        case appspeccontent = "AppSpecContent"
-        public var description: String { return self.rawValue }
     }
 
     public struct RollbackInfo: AWSShape {
@@ -3424,12 +3490,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "ascending"
-        case descending = "descending"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StopDeploymentInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "autoRollbackEnabled", required: false, type: .boolean), 
@@ -3472,12 +3532,6 @@ extension CodeDeploy {
             case status = "status"
             case statusMessage = "statusMessage"
         }
-    }
-
-    public enum StopStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {
@@ -3529,13 +3583,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum TagFilterType: String, CustomStringConvertible, Codable {
-        case keyOnly = "KEY_ONLY"
-        case valueOnly = "VALUE_ONLY"
-        case keyAndValue = "KEY_AND_VALUE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TagResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
@@ -3569,12 +3616,6 @@ extension CodeDeploy {
         public init() {
         }
 
-    }
-
-    public enum TargetFilterName: String, CustomStringConvertible, Codable {
-        case targetstatus = "TargetStatus"
-        case serverinstancelabel = "ServerInstanceLabel"
-        public var description: String { return self.rawValue }
     }
 
     public struct TargetGroupInfo: AWSShape {
@@ -3646,23 +3687,6 @@ extension CodeDeploy {
             case ec2TagSet = "ec2TagSet"
             case tagFilters = "tagFilters"
         }
-    }
-
-    public enum TargetLabel: String, CustomStringConvertible, Codable {
-        case blue = "Blue"
-        case green = "Green"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TargetStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case skipped = "Skipped"
-        case unknown = "Unknown"
-        case ready = "Ready"
-        public var description: String { return self.rawValue }
     }
 
     public struct TimeBasedCanary: AWSShape {
@@ -3775,13 +3799,6 @@ extension CodeDeploy {
         }
     }
 
-    public enum TrafficRoutingType: String, CustomStringConvertible, Codable {
-        case timebasedcanary = "TimeBasedCanary"
-        case timebasedlinear = "TimeBasedLinear"
-        case allatonce = "AllAtOnce"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TriggerConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "triggerEvents", required: false, type: .list), 
@@ -3807,20 +3824,6 @@ extension CodeDeploy {
             case triggerName = "triggerName"
             case triggerTargetArn = "triggerTargetArn"
         }
-    }
-
-    public enum TriggerEventType: String, CustomStringConvertible, Codable {
-        case deploymentstart = "DeploymentStart"
-        case deploymentsuccess = "DeploymentSuccess"
-        case deploymentfailure = "DeploymentFailure"
-        case deploymentstop = "DeploymentStop"
-        case deploymentrollback = "DeploymentRollback"
-        case deploymentready = "DeploymentReady"
-        case instancestart = "InstanceStart"
-        case instancesuccess = "InstanceSuccess"
-        case instancefailure = "InstanceFailure"
-        case instanceready = "InstanceReady"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceInput: AWSShape {

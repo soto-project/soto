@@ -4,11 +4,42 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Kafka {
+    //MARK: Enums
 
     public enum BrokerAZDistribution: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
         public var description: String { return self.rawValue }
     }
+
+    public enum ClientBroker: String, CustomStringConvertible, Codable {
+        case tls = "TLS"
+        case tlsPlaintext = "TLS_PLAINTEXT"
+        case plaintext = "PLAINTEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnhancedMonitoring: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case perBroker = "PER_BROKER"
+        case perTopicPerBroker = "PER_TOPIC_PER_BROKER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeType: String, CustomStringConvertible, Codable {
+        case broker = "BROKER"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BrokerEBSVolumeInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -162,13 +193,6 @@ extension Kafka {
         }
     }
 
-    public enum ClientBroker: String, CustomStringConvertible, Codable {
-        case tls = "TLS"
-        case tlsPlaintext = "TLS_PLAINTEXT"
-        case plaintext = "PLAINTEXT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ClusterInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActiveOperationArn", location: .body(locationName: "activeOperationArn"), required: false, type: .string), 
@@ -319,15 +343,6 @@ extension Kafka {
         }
     }
 
-    public enum ClusterState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Configuration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
@@ -446,8 +461,7 @@ extension Kafka {
         public let enhancedMonitoring: EnhancedMonitoring?
         /// The version of Apache Kafka.
         public let kafkaVersion: String
-        ///             The number of broker nodes in the cluster.
-        ///          
+        /// The number of Kafka broker nodes in the Amazon MSK cluster.
         public let numberOfBrokerNodes: Int
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
@@ -884,13 +898,6 @@ extension Kafka {
             case encryptionAtRest = "encryptionAtRest"
             case encryptionInTransit = "encryptionInTransit"
         }
-    }
-
-    public enum EnhancedMonitoring: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case perBroker = "PER_BROKER"
-        case perTopicPerBroker = "PER_TOPIC_PER_BROKER"
-        public var description: String { return self.rawValue }
     }
 
     public struct ErrorInfo: AWSShape {
@@ -1385,11 +1392,6 @@ extension Kafka {
             case nodeType = "nodeType"
             case zookeeperNodeInfo = "zookeeperNodeInfo"
         }
-    }
-
-    public enum NodeType: String, CustomStringConvertible, Codable {
-        case broker = "BROKER"
-        public var description: String { return self.rawValue }
     }
 
     public struct OpenMonitoring: AWSShape {

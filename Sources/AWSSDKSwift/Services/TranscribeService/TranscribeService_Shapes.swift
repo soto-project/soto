@@ -4,6 +4,79 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension TranscribeService {
+    //MARK: Enums
+
+    public enum LanguageCode: String, CustomStringConvertible, Codable {
+        case enUs = "en-US"
+        case esUs = "es-US"
+        case enAu = "en-AU"
+        case frCa = "fr-CA"
+        case enGb = "en-GB"
+        case deDe = "de-DE"
+        case ptBr = "pt-BR"
+        case frFr = "fr-FR"
+        case itIt = "it-IT"
+        case koKr = "ko-KR"
+        case esEs = "es-ES"
+        case enIn = "en-IN"
+        case hiIn = "hi-IN"
+        case arSa = "ar-SA"
+        case ruRu = "ru-RU"
+        case zhCn = "zh-CN"
+        case nlNl = "nl-NL"
+        case idId = "id-ID"
+        case taIn = "ta-IN"
+        case faIr = "fa-IR"
+        case enIe = "en-IE"
+        case enAb = "en-AB"
+        case enWl = "en-WL"
+        case ptPt = "pt-PT"
+        case teIn = "te-IN"
+        case trTr = "tr-TR"
+        case deCh = "de-CH"
+        case heIl = "he-IL"
+        case msMy = "ms-MY"
+        case jaJp = "ja-JP"
+        case arAe = "ar-AE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MediaFormat: String, CustomStringConvertible, Codable {
+        case mp3 = "mp3"
+        case mp4 = "mp4"
+        case wav = "wav"
+        case flac = "flac"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputLocationType: String, CustomStringConvertible, Codable {
+        case customerBucket = "CUSTOMER_BUCKET"
+        case serviceBucket = "SERVICE_BUCKET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscriptionJobStatus: String, CustomStringConvertible, Codable {
+        case queued = "QUEUED"
+        case inProgress = "IN_PROGRESS"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable {
+        case remove = "remove"
+        case mask = "mask"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VocabularyState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case ready = "READY"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateVocabularyFilterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -416,41 +489,6 @@ extension TranscribeService {
         }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case enUs = "en-US"
-        case esUs = "es-US"
-        case enAu = "en-AU"
-        case frCa = "fr-CA"
-        case enGb = "en-GB"
-        case deDe = "de-DE"
-        case ptBr = "pt-BR"
-        case frFr = "fr-FR"
-        case itIt = "it-IT"
-        case koKr = "ko-KR"
-        case esEs = "es-ES"
-        case enIn = "en-IN"
-        case hiIn = "hi-IN"
-        case arSa = "ar-SA"
-        case ruRu = "ru-RU"
-        case zhCn = "zh-CN"
-        case nlNl = "nl-NL"
-        case idId = "id-ID"
-        case taIn = "ta-IN"
-        case faIr = "fa-IR"
-        case enIe = "en-IE"
-        case enAb = "en-AB"
-        case enWl = "en-WL"
-        case ptPt = "pt-PT"
-        case teIn = "te-IN"
-        case trTr = "tr-TR"
-        case deCh = "de-CH"
-        case heIl = "he-IL"
-        case msMy = "ms-MY"
-        case jaJp = "ja-JP"
-        case arAe = "ar-AE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListTranscriptionJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobNameContains", required: false, type: .string), 
@@ -669,20 +707,6 @@ extension TranscribeService {
         private enum CodingKeys: String, CodingKey {
             case mediaFileUri = "MediaFileUri"
         }
-    }
-
-    public enum MediaFormat: String, CustomStringConvertible, Codable {
-        case mp3 = "mp3"
-        case mp4 = "mp4"
-        case wav = "wav"
-        case flac = "flac"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OutputLocationType: String, CustomStringConvertible, Codable {
-        case customerBucket = "CUSTOMER_BUCKET"
-        case serviceBucket = "SERVICE_BUCKET"
-        public var description: String { return self.rawValue }
     }
 
     public struct Settings: AWSShape {
@@ -934,14 +958,6 @@ extension TranscribeService {
         }
     }
 
-    public enum TranscriptionJobStatus: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case inProgress = "IN_PROGRESS"
-        case failed = "FAILED"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TranscriptionJobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
@@ -1167,12 +1183,6 @@ extension TranscribeService {
         }
     }
 
-    public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable {
-        case remove = "remove"
-        case mask = "mask"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VocabularyInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
@@ -1203,12 +1213,5 @@ extension TranscribeService {
             case vocabularyName = "VocabularyName"
             case vocabularyState = "VocabularyState"
         }
-    }
-
-    public enum VocabularyState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case ready = "READY"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 }

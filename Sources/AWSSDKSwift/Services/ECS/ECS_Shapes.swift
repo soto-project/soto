@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ECS {
+    //MARK: Enums
 
     public enum AgentUpdateStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
@@ -20,6 +21,294 @@ extension ECS {
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
+
+    public enum CapacityProviderField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityProviderStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterField: String, CustomStringConvertible, Codable {
+        case attachments = "ATTACHMENTS"
+        case settings = "SETTINGS"
+        case statistics = "STATISTICS"
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterSettingName: String, CustomStringConvertible, Codable {
+        case containerinsights = "containerInsights"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Compatibility: String, CustomStringConvertible, Codable {
+        case ec2 = "EC2"
+        case fargate = "FARGATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Connectivity: String, CustomStringConvertible, Codable {
+        case connected = "CONNECTED"
+        case disconnected = "DISCONNECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerCondition: String, CustomStringConvertible, Codable {
+        case start = "START"
+        case complete = "COMPLETE"
+        case success = "SUCCESS"
+        case healthy = "HEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerInstanceField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerInstanceStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case draining = "DRAINING"
+        case registering = "REGISTERING"
+        case deregistering = "DEREGISTERING"
+        case registrationFailed = "REGISTRATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentControllerType: String, CustomStringConvertible, Codable {
+        case ecs = "ECS"
+        case codeDeploy = "CODE_DEPLOY"
+        case external = "EXTERNAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DesiredStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case pending = "PENDING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
+        case read = "read"
+        case write = "write"
+        case mknod = "mknod"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirelensConfigurationType: String, CustomStringConvertible, Codable {
+        case fluentd = "fluentd"
+        case fluentbit = "fluentbit"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpcMode: String, CustomStringConvertible, Codable {
+        case host = "host"
+        case task = "task"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchType: String, CustomStringConvertible, Codable {
+        case ec2 = "EC2"
+        case fargate = "FARGATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogDriver: String, CustomStringConvertible, Codable {
+        case jsonFile = "json-file"
+        case syslog = "syslog"
+        case journald = "journald"
+        case gelf = "gelf"
+        case fluentd = "fluentd"
+        case awslogs = "awslogs"
+        case splunk = "splunk"
+        case awsfirelens = "awsfirelens"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedScalingStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedTerminationProtection: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkMode: String, CustomStringConvertible, Codable {
+        case bridge = "bridge"
+        case host = "host"
+        case awsvpc = "awsvpc"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PidMode: String, CustomStringConvertible, Codable {
+        case host = "host"
+        case task = "task"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlacementConstraintType: String, CustomStringConvertible, Codable {
+        case distinctinstance = "distinctInstance"
+        case memberof = "memberOf"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlacementStrategyType: String, CustomStringConvertible, Codable {
+        case random = "random"
+        case spread = "spread"
+        case binpack = "binpack"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformDeviceType: String, CustomStringConvertible, Codable {
+        case gpu = "GPU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PropagateTags: String, CustomStringConvertible, Codable {
+        case taskDefinition = "TASK_DEFINITION"
+        case service = "SERVICE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProxyConfigurationType: String, CustomStringConvertible, Codable {
+        case appmesh = "APPMESH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case gpu = "GPU"
+        case inferenceaccelerator = "InferenceAccelerator"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScaleUnit: String, CustomStringConvertible, Codable {
+        case percent = "PERCENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchedulingStrategy: String, CustomStringConvertible, Codable {
+        case replica = "REPLICA"
+        case daemon = "DAEMON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Scope: String, CustomStringConvertible, Codable {
+        case task = "task"
+        case shared = "shared"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SettingName: String, CustomStringConvertible, Codable {
+        case servicelongarnformat = "serviceLongArnFormat"
+        case tasklongarnformat = "taskLongArnFormat"
+        case containerinstancelongarnformat = "containerInstanceLongArnFormat"
+        case awsvpctrunking = "awsvpcTrunking"
+        case containerinsights = "containerInsights"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StabilityStatus: String, CustomStringConvertible, Codable {
+        case steadyState = "STEADY_STATE"
+        case stabilizing = "STABILIZING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetType: String, CustomStringConvertible, Codable {
+        case containerInstance = "container-instance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskDefinitionFamilyStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskDefinitionField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible, Codable {
+        case memberof = "memberOf"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskDefinitionStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskStopCode: String, CustomStringConvertible, Codable {
+        case taskfailedtostart = "TaskFailedToStart"
+        case essentialcontainerexited = "EssentialContainerExited"
+        case userinitiated = "UserInitiated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransportProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "tcp"
+        case udp = "udp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UlimitName: String, CustomStringConvertible, Codable {
+        case core = "core"
+        case cpu = "cpu"
+        case data = "data"
+        case fsize = "fsize"
+        case locks = "locks"
+        case memlock = "memlock"
+        case msgqueue = "msgqueue"
+        case nice = "nice"
+        case nofile = "nofile"
+        case nproc = "nproc"
+        case rss = "rss"
+        case rtprio = "rtprio"
+        case rttime = "rttime"
+        case sigpending = "sigpending"
+        case stack = "stack"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Attachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -202,16 +491,6 @@ extension ECS {
         }
     }
 
-    public enum CapacityProviderField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CapacityProviderStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CapacityProviderStrategyItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "base", required: false, type: .integer), 
@@ -328,14 +607,6 @@ extension ECS {
         }
     }
 
-    public enum ClusterField: String, CustomStringConvertible, Codable {
-        case attachments = "ATTACHMENTS"
-        case settings = "SETTINGS"
-        case statistics = "STATISTICS"
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ClusterSetting: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .enum), 
@@ -356,23 +627,6 @@ extension ECS {
             case name = "name"
             case value = "value"
         }
-    }
-
-    public enum ClusterSettingName: String, CustomStringConvertible, Codable {
-        case containerinsights = "containerInsights"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Compatibility: String, CustomStringConvertible, Codable {
-        case ec2 = "EC2"
-        case fargate = "FARGATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Connectivity: String, CustomStringConvertible, Codable {
-        case connected = "CONNECTED"
-        case disconnected = "DISCONNECTED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Container: AWSShape {
@@ -465,14 +719,6 @@ extension ECS {
             case runtimeId = "runtimeId"
             case taskArn = "taskArn"
         }
-    }
-
-    public enum ContainerCondition: String, CustomStringConvertible, Codable {
-        case start = "START"
-        case complete = "COMPLETE"
-        case success = "SUCCESS"
-        case healthy = "HEALTHY"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContainerDefinition: AWSShape {
@@ -794,20 +1040,6 @@ extension ECS {
             case version = "version"
             case versionInfo = "versionInfo"
         }
-    }
-
-    public enum ContainerInstanceField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContainerInstanceStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case draining = "DRAINING"
-        case registering = "REGISTERING"
-        case deregistering = "DEREGISTERING"
-        case registrationFailed = "REGISTRATION_FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContainerOverride: AWSShape {
@@ -1574,13 +1806,6 @@ extension ECS {
         }
     }
 
-    public enum DeploymentControllerType: String, CustomStringConvertible, Codable {
-        case ecs = "ECS"
-        case codeDeploy = "CODE_DEPLOY"
-        case external = "EXTERNAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeregisterContainerInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: false, type: .string), 
@@ -2002,13 +2227,6 @@ extension ECS {
         }
     }
 
-    public enum DesiredStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case pending = "PENDING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Device: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerPath", required: false, type: .string), 
@@ -2034,13 +2252,6 @@ extension ECS {
             case hostPath = "hostPath"
             case permissions = "permissions"
         }
-    }
-
-    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
-        case read = "read"
-        case write = "write"
-        case mknod = "mknod"
-        public var description: String { return self.rawValue }
     }
 
     public struct DiscoverPollEndpointRequest: AWSShape {
@@ -2173,12 +2384,6 @@ extension ECS {
         }
     }
 
-    public enum FirelensConfigurationType: String, CustomStringConvertible, Codable {
-        case fluentd = "fluentd"
-        case fluentbit = "fluentbit"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HealthCheck: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "command", required: true, type: .list), 
@@ -2214,13 +2419,6 @@ extension ECS {
             case startPeriod = "startPeriod"
             case timeout = "timeout"
         }
-    }
-
-    public enum HealthStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
     }
 
     public struct HostEntry: AWSShape {
@@ -2306,13 +2504,6 @@ extension ECS {
         }
     }
 
-    public enum IpcMode: String, CustomStringConvertible, Codable {
-        case host = "host"
-        case task = "task"
-        case none = "none"
-        public var description: String { return self.rawValue }
-    }
-
     public struct KernelCapabilities: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "add", required: false, type: .list), 
@@ -2355,12 +2546,6 @@ extension ECS {
             case name = "name"
             case value = "value"
         }
-    }
-
-    public enum LaunchType: String, CustomStringConvertible, Codable {
-        case ec2 = "EC2"
-        case fargate = "FARGATE"
-        public var description: String { return self.rawValue }
     }
 
     public struct LinuxParameters: AWSShape {
@@ -2985,18 +3170,6 @@ extension ECS {
         }
     }
 
-    public enum LogDriver: String, CustomStringConvertible, Codable {
-        case jsonFile = "json-file"
-        case syslog = "syslog"
-        case journald = "journald"
-        case gelf = "gelf"
-        case fluentd = "fluentd"
-        case awslogs = "awslogs"
-        case splunk = "splunk"
-        case awsfirelens = "awsfirelens"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ManagedScaling: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maximumScalingStepSize", required: false, type: .integer), 
@@ -3036,18 +3209,6 @@ extension ECS {
             case status = "status"
             case targetCapacity = "targetCapacity"
         }
-    }
-
-    public enum ManagedScalingStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ManagedTerminationProtection: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct MountPoint: AWSShape {
@@ -3153,20 +3314,6 @@ extension ECS {
         }
     }
 
-    public enum NetworkMode: String, CustomStringConvertible, Codable {
-        case bridge = "bridge"
-        case host = "host"
-        case awsvpc = "awsvpc"
-        case none = "none"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PidMode: String, CustomStringConvertible, Codable {
-        case host = "host"
-        case task = "task"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PlacementConstraint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "expression", required: false, type: .string), 
@@ -3187,12 +3334,6 @@ extension ECS {
             case expression = "expression"
             case `type` = "type"
         }
-    }
-
-    public enum PlacementConstraintType: String, CustomStringConvertible, Codable {
-        case distinctinstance = "distinctInstance"
-        case memberof = "memberOf"
-        public var description: String { return self.rawValue }
     }
 
     public struct PlacementStrategy: AWSShape {
@@ -3217,13 +3358,6 @@ extension ECS {
         }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible, Codable {
-        case random = "random"
-        case spread = "spread"
-        case binpack = "binpack"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PlatformDevice: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: true, type: .string), 
@@ -3244,11 +3378,6 @@ extension ECS {
             case id = "id"
             case `type` = "type"
         }
-    }
-
-    public enum PlatformDeviceType: String, CustomStringConvertible, Codable {
-        case gpu = "GPU"
-        public var description: String { return self.rawValue }
     }
 
     public struct PortMapping: AWSShape {
@@ -3278,13 +3407,6 @@ extension ECS {
         }
     }
 
-    public enum PropagateTags: String, CustomStringConvertible, Codable {
-        case taskDefinition = "TASK_DEFINITION"
-        case service = "SERVICE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProxyConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerName", required: true, type: .string), 
@@ -3310,11 +3432,6 @@ extension ECS {
             case properties = "properties"
             case `type` = "type"
         }
-    }
-
-    public enum ProxyConfigurationType: String, CustomStringConvertible, Codable {
-        case appmesh = "APPMESH"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutAccountSettingDefaultRequest: AWSShape {
@@ -3766,12 +3883,6 @@ extension ECS {
         }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case gpu = "GPU"
-        case inferenceaccelerator = "InferenceAccelerator"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RunTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "capacityProviderStrategy", required: false, type: .list), 
@@ -3917,23 +4028,6 @@ extension ECS {
             case unit = "unit"
             case value = "value"
         }
-    }
-
-    public enum ScaleUnit: String, CustomStringConvertible, Codable {
-        case percent = "PERCENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SchedulingStrategy: String, CustomStringConvertible, Codable {
-        case replica = "REPLICA"
-        case daemon = "DAEMON"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Scope: String, CustomStringConvertible, Codable {
-        case task = "task"
-        case shared = "shared"
-        public var description: String { return self.rawValue }
     }
 
     public struct Secret: AWSShape {
@@ -4142,11 +4236,6 @@ extension ECS {
         }
     }
 
-    public enum ServiceField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ServiceRegistry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerName", required: false, type: .string), 
@@ -4204,27 +4293,6 @@ extension ECS {
             case principalArn = "principalArn"
             case value = "value"
         }
-    }
-
-    public enum SettingName: String, CustomStringConvertible, Codable {
-        case servicelongarnformat = "serviceLongArnFormat"
-        case tasklongarnformat = "taskLongArnFormat"
-        case containerinstancelongarnformat = "containerInstanceLongArnFormat"
-        case awsvpctrunking = "awsvpcTrunking"
-        case containerinsights = "containerInsights"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StabilityStatus: String, CustomStringConvertible, Codable {
-        case steadyState = "STEADY_STATE"
-        case stabilizing = "STABILIZING"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartTaskRequest: AWSShape {
@@ -4641,11 +4709,6 @@ extension ECS {
 
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable {
-        case containerInstance = "container-instance"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Task: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachments", required: false, type: .list), 
@@ -4930,18 +4993,6 @@ extension ECS {
         }
     }
 
-    public enum TaskDefinitionFamilyStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaskDefinitionField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TaskDefinitionPlacementConstraint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "expression", required: false, type: .string), 
@@ -4962,22 +5013,6 @@ extension ECS {
             case expression = "expression"
             case `type` = "type"
         }
-    }
-
-    public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible, Codable {
-        case memberof = "memberOf"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaskDefinitionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaskField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
     }
 
     public struct TaskOverride: AWSShape {
@@ -5144,13 +5179,6 @@ extension ECS {
         }
     }
 
-    public enum TaskStopCode: String, CustomStringConvertible, Codable {
-        case taskfailedtostart = "TaskFailedToStart"
-        case essentialcontainerexited = "EssentialContainerExited"
-        case userinitiated = "UserInitiated"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Tmpfs: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerPath", required: true, type: .string), 
@@ -5178,12 +5206,6 @@ extension ECS {
         }
     }
 
-    public enum TransportProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "tcp"
-        case udp = "udp"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Ulimit: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hardLimit", required: true, type: .integer), 
@@ -5209,25 +5231,6 @@ extension ECS {
             case name = "name"
             case softLimit = "softLimit"
         }
-    }
-
-    public enum UlimitName: String, CustomStringConvertible, Codable {
-        case core = "core"
-        case cpu = "cpu"
-        case data = "data"
-        case fsize = "fsize"
-        case locks = "locks"
-        case memlock = "memlock"
-        case msgqueue = "msgqueue"
-        case nice = "nice"
-        case nofile = "nofile"
-        case nproc = "nproc"
-        case rss = "rss"
-        case rtprio = "rtprio"
-        case rttime = "rttime"
-        case sigpending = "sigpending"
-        case stack = "stack"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

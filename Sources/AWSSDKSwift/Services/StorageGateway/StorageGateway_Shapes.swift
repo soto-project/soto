@@ -4,6 +4,59 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension StorageGateway {
+    //MARK: Enums
+
+    public enum ActiveDirectoryStatus: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case detached = "DETACHED"
+        case joined = "JOINED"
+        case joining = "JOINING"
+        case networkError = "NETWORK_ERROR"
+        case timeout = "TIMEOUT"
+        case unknownError = "UNKNOWN_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AvailabilityMonitorTestStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileShareType: String, CustomStringConvertible, Codable {
+        case nfs = "NFS"
+        case smb = "SMB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HostEnvironment: String, CustomStringConvertible, Codable {
+        case vmware = "VMWARE"
+        case hyperV = "HYPER-V"
+        case ec2 = "EC2"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectACL: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case authenticatedRead = "authenticated-read"
+        case bucketOwnerRead = "bucket-owner-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case awsExecRead = "aws-exec-read"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SMBSecurityStrategy: String, CustomStringConvertible, Codable {
+        case clientspecified = "ClientSpecified"
+        case mandatorysigning = "MandatorySigning"
+        case mandatoryencryption = "MandatoryEncryption"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ActivateGatewayInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -92,17 +145,6 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
         }
-    }
-
-    public enum ActiveDirectoryStatus: String, CustomStringConvertible, Codable {
-        case accessDenied = "ACCESS_DENIED"
-        case detached = "DETACHED"
-        case joined = "JOINED"
-        case joining = "JOINING"
-        case networkError = "NETWORK_ERROR"
-        case timeout = "TIMEOUT"
-        case unknownError = "UNKNOWN_ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct AddCacheInput: AWSShape {
@@ -407,13 +449,6 @@ extension StorageGateway {
             case targetARN = "TargetARN"
             case volumeARN = "VolumeARN"
         }
-    }
-
-    public enum AvailabilityMonitorTestStatus: String, CustomStringConvertible, Codable {
-        case complete = "COMPLETE"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct CachediSCSIVolume: AWSShape {
@@ -2950,12 +2985,6 @@ extension StorageGateway {
         }
     }
 
-    public enum FileShareType: String, CustomStringConvertible, Codable {
-        case nfs = "NFS"
-        case smb = "SMB"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GatewayInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
@@ -3001,14 +3030,6 @@ extension StorageGateway {
             case gatewayOperationalState = "GatewayOperationalState"
             case gatewayType = "GatewayType"
         }
-    }
-
-    public enum HostEnvironment: String, CustomStringConvertible, Codable {
-        case vmware = "VMWARE"
-        case hyperV = "HYPER-V"
-        case ec2 = "EC2"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
     }
 
     public struct JoinDomainInput: AWSShape {
@@ -3719,17 +3740,6 @@ extension StorageGateway {
         }
     }
 
-    public enum ObjectACL: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        case awsExecRead = "aws-exec-read"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RefreshCacheInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
@@ -4068,13 +4078,6 @@ extension StorageGateway {
             case tags = "Tags"
             case validUserList = "ValidUserList"
         }
-    }
-
-    public enum SMBSecurityStrategy: String, CustomStringConvertible, Codable {
-        case clientspecified = "ClientSpecified"
-        case mandatorysigning = "MandatorySigning"
-        case mandatoryencryption = "MandatoryEncryption"
-        public var description: String { return self.rawValue }
     }
 
     public struct SetLocalConsolePasswordInput: AWSShape {

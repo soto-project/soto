@@ -4,6 +4,97 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AppMesh {
+    //MARK: Enums
+
+    public enum DurationUnit: String, CustomStringConvertible, Codable {
+        case ms = "ms"
+        case s = "s"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EgressFilterType: String, CustomStringConvertible, Codable {
+        case allowAll = "ALLOW_ALL"
+        case dropAll = "DROP_ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GrpcRetryPolicyEvent: String, CustomStringConvertible, Codable {
+        case cancelled = "cancelled"
+        case deadlineExceeded = "deadline-exceeded"
+        case `internal` = "internal"
+        case resourceExhausted = "resource-exhausted"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HttpMethod: String, CustomStringConvertible, Codable {
+        case connect = "CONNECT"
+        case delete = "DELETE"
+        case get = "GET"
+        case head = "HEAD"
+        case options = "OPTIONS"
+        case patch = "PATCH"
+        case post = "POST"
+        case put = "PUT"
+        case trace = "TRACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HttpScheme: String, CustomStringConvertible, Codable {
+        case http = "http"
+        case https = "https"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MeshStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PortProtocol: String, CustomStringConvertible, Codable {
+        case grpc = "grpc"
+        case http = "http"
+        case http2 = "http2"
+        case tcp = "tcp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TcpRetryPolicyEvent: String, CustomStringConvertible, Codable {
+        case connectionError = "connection-error"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualNodeStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualRouterStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualServiceStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessLog: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -998,12 +1089,6 @@ extension AppMesh {
         }
     }
 
-    public enum DurationUnit: String, CustomStringConvertible, Codable {
-        case ms = "ms"
-        case s = "s"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EgressFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: true, type: .enum)
@@ -1023,12 +1108,6 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case `type` = "type"
         }
-    }
-
-    public enum EgressFilterType: String, CustomStringConvertible, Codable {
-        case allowAll = "ALLOW_ALL"
-        case dropAll = "DROP_ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct FileAccessLog: AWSShape {
@@ -1132,15 +1211,6 @@ extension AppMesh {
             case perRetryTimeout = "perRetryTimeout"
             case tcpRetryEvents = "tcpRetryEvents"
         }
-    }
-
-    public enum GrpcRetryPolicyEvent: String, CustomStringConvertible, Codable {
-        case cancelled = "cancelled"
-        case deadlineExceeded = "deadline-exceeded"
-        case `internal` = "internal"
-        case resourceExhausted = "resource-exhausted"
-        case unavailable = "unavailable"
-        public var description: String { return self.rawValue }
     }
 
     public struct GrpcRoute: AWSShape {
@@ -1432,19 +1502,6 @@ extension AppMesh {
         }
     }
 
-    public enum HttpMethod: String, CustomStringConvertible, Codable {
-        case connect = "CONNECT"
-        case delete = "DELETE"
-        case get = "GET"
-        case head = "HEAD"
-        case options = "OPTIONS"
-        case patch = "PATCH"
-        case post = "POST"
-        case put = "PUT"
-        case trace = "TRACE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HttpRetryPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "httpRetryEvents", required: false, type: .list), 
@@ -1645,12 +1702,6 @@ extension AppMesh {
             case prefix = "prefix"
             case scheme = "scheme"
         }
-    }
-
-    public enum HttpScheme: String, CustomStringConvertible, Codable {
-        case http = "http"
-        case https = "https"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListMeshesInput: AWSShape {
@@ -2227,13 +2278,6 @@ extension AppMesh {
         }
     }
 
-    public enum MeshStatusCode: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PortMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "port", required: true, type: .integer), 
@@ -2259,14 +2303,6 @@ extension AppMesh {
             case port = "port"
             case `protocol` = "protocol"
         }
-    }
-
-    public enum PortProtocol: String, CustomStringConvertible, Codable {
-        case grpc = "grpc"
-        case http = "http"
-        case http2 = "http2"
-        case tcp = "tcp"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceMetadata: AWSShape {
@@ -2445,13 +2481,6 @@ extension AppMesh {
         }
     }
 
-    public enum RouteStatusCode: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ServiceDiscovery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "awsCloudMap", required: false, type: .structure), 
@@ -2547,11 +2576,6 @@ extension AppMesh {
         public init() {
         }
 
-    }
-
-    public enum TcpRetryPolicyEvent: String, CustomStringConvertible, Codable {
-        case connectionError = "connection-error"
-        public var description: String { return self.rawValue }
     }
 
     public struct TcpRoute: AWSShape {
@@ -3085,13 +3109,6 @@ extension AppMesh {
         }
     }
 
-    public enum VirtualNodeStatusCode: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VirtualRouterData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", required: true, type: .string), 
@@ -3241,13 +3258,6 @@ extension AppMesh {
         }
     }
 
-    public enum VirtualRouterStatusCode: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VirtualServiceBackend: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualServiceName", required: true, type: .string)
@@ -3392,13 +3402,6 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case status = "status"
         }
-    }
-
-    public enum VirtualServiceStatusCode: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct WeightedTarget: AWSShape {

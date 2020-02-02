@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SSO {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct AccountInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [

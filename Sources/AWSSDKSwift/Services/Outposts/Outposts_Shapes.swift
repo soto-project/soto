@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Outposts {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct CreateOutpostInput: AWSShape {
         public static var _members: [AWSShapeMember] = [

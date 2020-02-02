@@ -5,6 +5,8 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS ServerlessApplicationRepository service.
+
 The AWS Serverless Application Repository makes it easy for developers and enterprises to quickly find
  and deploy serverless applications in the AWS Cloud. For more information about serverless applications,
  see Serverless Computing and Applications on the AWS website.The AWS Serverless Application Repository is deeply integrated with the AWS Lambda console, so that developers of 
@@ -28,8 +30,21 @@ The AWS Serverless Application Repository makes it easy for developers and enter
 */
 public struct ServerlessApplicationRepository {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the ServerlessApplicationRepository client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -45,6 +60,8 @@ public struct ServerlessApplicationRepository {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
     public func createApplication(_ input: CreateApplicationRequest) -> EventLoopFuture<CreateApplicationResponse> {

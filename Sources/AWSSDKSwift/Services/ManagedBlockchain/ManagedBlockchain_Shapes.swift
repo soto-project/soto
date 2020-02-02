@@ -4,6 +4,78 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ManagedBlockchain {
+    //MARK: Enums
+
+    public enum Edition: String, CustomStringConvertible, Codable {
+        case starter = "STARTER"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Framework: String, CustomStringConvertible, Codable {
+        case hyperledgerFabric = "HYPERLEDGER_FABRIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvitationStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case accepted = "ACCEPTED"
+        case accepting = "ACCEPTING"
+        case rejected = "REJECTED"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MemberStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case available = "AVAILABLE"
+        case createFailed = "CREATE_FAILED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case available = "AVAILABLE"
+        case createFailed = "CREATE_FAILED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case available = "AVAILABLE"
+        case createFailed = "CREATE_FAILED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProposalStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case approved = "APPROVED"
+        case rejected = "REJECTED"
+        case expired = "EXPIRED"
+        case actionFailed = "ACTION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThresholdComparator: String, CustomStringConvertible, Codable {
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VoteValue: String, CustomStringConvertible, Codable {
+        case yes = "YES"
+        case no = "NO"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ApprovalThresholdPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -389,17 +461,6 @@ extension ManagedBlockchain {
 
     }
 
-    public enum Edition: String, CustomStringConvertible, Codable {
-        case starter = "STARTER"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Framework: String, CustomStringConvertible, Codable {
-        case hyperledgerFabric = "HYPERLEDGER_FABRIC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetMemberInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
@@ -618,15 +679,6 @@ extension ManagedBlockchain {
             case networkSummary = "NetworkSummary"
             case status = "Status"
         }
-    }
-
-    public enum InvitationStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case accepted = "ACCEPTED"
-        case accepting = "ACCEPTING"
-        case rejected = "REJECTED"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
     }
 
     public struct InviteAction: AWSShape {
@@ -1196,15 +1248,6 @@ extension ManagedBlockchain {
         }
     }
 
-    public enum MemberStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case available = "AVAILABLE"
-        case createFailed = "CREATE_FAILED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MemberSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
@@ -1382,15 +1425,6 @@ extension ManagedBlockchain {
         }
     }
 
-    public enum NetworkStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case available = "AVAILABLE"
-        case createFailed = "CREATE_FAILED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NetworkSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
@@ -1551,16 +1585,6 @@ extension ManagedBlockchain {
         }
     }
 
-    public enum NodeStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case available = "AVAILABLE"
-        case createFailed = "CREATE_FAILED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NodeSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
@@ -1698,15 +1722,6 @@ extension ManagedBlockchain {
         }
     }
 
-    public enum ProposalStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case approved = "APPROVED"
-        case rejected = "REJECTED"
-        case expired = "EXPIRED"
-        case actionFailed = "ACTION_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProposalSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
@@ -1806,12 +1821,6 @@ extension ManagedBlockchain {
         }
     }
 
-    public enum ThresholdComparator: String, CustomStringConvertible, Codable {
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VoteOnProposalInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
@@ -1886,12 +1895,6 @@ extension ManagedBlockchain {
             case memberName = "MemberName"
             case vote = "Vote"
         }
-    }
-
-    public enum VoteValue: String, CustomStringConvertible, Codable {
-        case yes = "YES"
-        case no = "NO"
-        public var description: String { return self.rawValue }
     }
 
     public struct VotingPolicy: AWSShape {

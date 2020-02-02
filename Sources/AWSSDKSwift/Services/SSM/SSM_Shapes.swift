@@ -4,6 +4,593 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SSM {
+    //MARK: Enums
+
+    public enum AssociationComplianceSeverity: String, CustomStringConvertible, Codable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case medium = "MEDIUM"
+        case low = "LOW"
+        case unspecified = "UNSPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationExecutionFilterKey: String, CustomStringConvertible, Codable {
+        case executionid = "ExecutionId"
+        case status = "Status"
+        case createdtime = "CreatedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationExecutionTargetsFilterKey: String, CustomStringConvertible, Codable {
+        case status = "Status"
+        case resourceid = "ResourceId"
+        case resourcetype = "ResourceType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationFilterKey: String, CustomStringConvertible, Codable {
+        case instanceid = "InstanceId"
+        case name = "Name"
+        case associationid = "AssociationId"
+        case associationstatusname = "AssociationStatusName"
+        case lastexecutedbefore = "LastExecutedBefore"
+        case lastexecutedafter = "LastExecutedAfter"
+        case associationname = "AssociationName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationFilterOperatorType: String, CustomStringConvertible, Codable {
+        case equal = "EQUAL"
+        case lessThan = "LESS_THAN"
+        case greaterThan = "GREATER_THAN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationStatusName: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case success = "Success"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttachmentHashType: String, CustomStringConvertible, Codable {
+        case sha256 = "Sha256"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttachmentsSourceKey: String, CustomStringConvertible, Codable {
+        case sourceurl = "SourceUrl"
+        case s3fileurl = "S3FileUrl"
+        case attachmentreference = "AttachmentReference"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomationExecutionFilterKey: String, CustomStringConvertible, Codable {
+        case documentnameprefix = "DocumentNamePrefix"
+        case executionstatus = "ExecutionStatus"
+        case executionid = "ExecutionId"
+        case parentexecutionid = "ParentExecutionId"
+        case currentaction = "CurrentAction"
+        case starttimebefore = "StartTimeBefore"
+        case starttimeafter = "StartTimeAfter"
+        case automationtype = "AutomationType"
+        case tagkey = "TagKey"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomationExecutionStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case waiting = "Waiting"
+        case success = "Success"
+        case timedout = "TimedOut"
+        case cancelling = "Cancelling"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomationType: String, CustomStringConvertible, Codable {
+        case crossaccount = "CrossAccount"
+        case local = "Local"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CalendarState: String, CustomStringConvertible, Codable {
+        case open = "OPEN"
+        case closed = "CLOSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommandFilterKey: String, CustomStringConvertible, Codable {
+        case invokedafter = "InvokedAfter"
+        case invokedbefore = "InvokedBefore"
+        case status = "Status"
+        case executionstage = "ExecutionStage"
+        case documentname = "DocumentName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommandInvocationStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case delayed = "Delayed"
+        case success = "Success"
+        case cancelled = "Cancelled"
+        case timedout = "TimedOut"
+        case failed = "Failed"
+        case cancelling = "Cancelling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommandPluginStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case success = "Success"
+        case timedout = "TimedOut"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommandStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case success = "Success"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        case timedout = "TimedOut"
+        case cancelling = "Cancelling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComplianceQueryOperatorType: String, CustomStringConvertible, Codable {
+        case equal = "EQUAL"
+        case notEqual = "NOT_EQUAL"
+        case beginWith = "BEGIN_WITH"
+        case lessThan = "LESS_THAN"
+        case greaterThan = "GREATER_THAN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComplianceSeverity: String, CustomStringConvertible, Codable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case medium = "MEDIUM"
+        case low = "LOW"
+        case informational = "INFORMATIONAL"
+        case unspecified = "UNSPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComplianceStatus: String, CustomStringConvertible, Codable {
+        case compliant = "COMPLIANT"
+        case nonCompliant = "NON_COMPLIANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
+        case connected = "Connected"
+        case notconnected = "NotConnected"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DescribeActivationsFilterKeys: String, CustomStringConvertible, Codable {
+        case activationids = "ActivationIds"
+        case defaultinstancename = "DefaultInstanceName"
+        case iamrole = "IamRole"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentFilterKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case owner = "Owner"
+        case platformtypes = "PlatformTypes"
+        case documenttype = "DocumentType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentFormat: String, CustomStringConvertible, Codable {
+        case yaml = "YAML"
+        case json = "JSON"
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentHashType: String, CustomStringConvertible, Codable {
+        case sha256 = "Sha256"
+        case sha1 = "Sha1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentParameterType: String, CustomStringConvertible, Codable {
+        case string = "String"
+        case stringlist = "StringList"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentPermissionType: String, CustomStringConvertible, Codable {
+        case share = "Share"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentStatus: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case active = "Active"
+        case updating = "Updating"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentType: String, CustomStringConvertible, Codable {
+        case command = "Command"
+        case policy = "Policy"
+        case automation = "Automation"
+        case session = "Session"
+        case package = "Package"
+        case applicationconfiguration = "ApplicationConfiguration"
+        case applicationconfigurationschema = "ApplicationConfigurationSchema"
+        case deploymentstrategy = "DeploymentStrategy"
+        case changecalendar = "ChangeCalendar"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionMode: String, CustomStringConvertible, Codable {
+        case auto = "Auto"
+        case interactive = "Interactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Fault: String, CustomStringConvertible, Codable {
+        case client = "Client"
+        case server = "Server"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceInformationFilterKey: String, CustomStringConvertible, Codable {
+        case instanceids = "InstanceIds"
+        case agentversion = "AgentVersion"
+        case pingstatus = "PingStatus"
+        case platformtypes = "PlatformTypes"
+        case activationids = "ActivationIds"
+        case iamrole = "IamRole"
+        case resourcetype = "ResourceType"
+        case associationstatus = "AssociationStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstancePatchStateOperatorType: String, CustomStringConvertible, Codable {
+        case equal = "Equal"
+        case notequal = "NotEqual"
+        case lessthan = "LessThan"
+        case greaterthan = "GreaterThan"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryAttributeDataType: String, CustomStringConvertible, Codable {
+        case string = "string"
+        case number = "number"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryDeletionStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case complete = "Complete"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryQueryOperatorType: String, CustomStringConvertible, Codable {
+        case equal = "Equal"
+        case notequal = "NotEqual"
+        case beginwith = "BeginWith"
+        case lessthan = "LessThan"
+        case greaterthan = "GreaterThan"
+        case exists = "Exists"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventorySchemaDeleteOption: String, CustomStringConvertible, Codable {
+        case disableschema = "DisableSchema"
+        case deleteschema = "DeleteSchema"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastResourceDataSyncStatus: String, CustomStringConvertible, Codable {
+        case successful = "Successful"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaintenanceWindowExecutionStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case inProgress = "IN_PROGRESS"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case timedOut = "TIMED_OUT"
+        case cancelling = "CANCELLING"
+        case cancelled = "CANCELLED"
+        case skippedOverlapping = "SKIPPED_OVERLAPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaintenanceWindowResourceType: String, CustomStringConvertible, Codable {
+        case instance = "INSTANCE"
+        case resourceGroup = "RESOURCE_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaintenanceWindowTaskType: String, CustomStringConvertible, Codable {
+        case runCommand = "RUN_COMMAND"
+        case automation = "AUTOMATION"
+        case stepFunctions = "STEP_FUNCTIONS"
+        case lambda = "LAMBDA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationEvent: String, CustomStringConvertible, Codable {
+        case all = "All"
+        case inprogress = "InProgress"
+        case success = "Success"
+        case timedout = "TimedOut"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationType: String, CustomStringConvertible, Codable {
+        case command = "Command"
+        case invocation = "Invocation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperatingSystem: String, CustomStringConvertible, Codable {
+        case windows = "WINDOWS"
+        case amazonLinux = "AMAZON_LINUX"
+        case amazonLinux2 = "AMAZON_LINUX_2"
+        case ubuntu = "UBUNTU"
+        case redhatEnterpriseLinux = "REDHAT_ENTERPRISE_LINUX"
+        case suse = "SUSE"
+        case centos = "CENTOS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpsFilterOperatorType: String, CustomStringConvertible, Codable {
+        case equal = "Equal"
+        case notequal = "NotEqual"
+        case beginwith = "BeginWith"
+        case lessthan = "LessThan"
+        case greaterthan = "GreaterThan"
+        case exists = "Exists"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpsItemDataType: String, CustomStringConvertible, Codable {
+        case searchablestring = "SearchableString"
+        case string = "String"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpsItemFilterKey: String, CustomStringConvertible, Codable {
+        case status = "Status"
+        case createdby = "CreatedBy"
+        case source = "Source"
+        case priority = "Priority"
+        case title = "Title"
+        case opsitemid = "OpsItemId"
+        case createdtime = "CreatedTime"
+        case lastmodifiedtime = "LastModifiedTime"
+        case operationaldata = "OperationalData"
+        case operationaldatakey = "OperationalDataKey"
+        case operationaldatavalue = "OperationalDataValue"
+        case resourceid = "ResourceId"
+        case automationid = "AutomationId"
+        case category = "Category"
+        case severity = "Severity"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpsItemFilterOperator: String, CustomStringConvertible, Codable {
+        case equal = "Equal"
+        case contains = "Contains"
+        case greaterthan = "GreaterThan"
+        case lessthan = "LessThan"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpsItemStatus: String, CustomStringConvertible, Codable {
+        case open = "Open"
+        case inprogress = "InProgress"
+        case resolved = "Resolved"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterTier: String, CustomStringConvertible, Codable {
+        case standard = "Standard"
+        case advanced = "Advanced"
+        case intelligentTiering = "Intelligent-Tiering"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterType: String, CustomStringConvertible, Codable {
+        case string = "String"
+        case stringlist = "StringList"
+        case securestring = "SecureString"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParametersFilterKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case `type` = "Type"
+        case keyid = "KeyId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchAction: String, CustomStringConvertible, Codable {
+        case allowAsDependency = "ALLOW_AS_DEPENDENCY"
+        case block = "BLOCK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchComplianceDataState: String, CustomStringConvertible, Codable {
+        case installed = "INSTALLED"
+        case installedOther = "INSTALLED_OTHER"
+        case installedPendingReboot = "INSTALLED_PENDING_REBOOT"
+        case installedRejected = "INSTALLED_REJECTED"
+        case missing = "MISSING"
+        case notApplicable = "NOT_APPLICABLE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchComplianceLevel: String, CustomStringConvertible, Codable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case medium = "MEDIUM"
+        case low = "LOW"
+        case informational = "INFORMATIONAL"
+        case unspecified = "UNSPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchDeploymentStatus: String, CustomStringConvertible, Codable {
+        case approved = "APPROVED"
+        case pendingApproval = "PENDING_APPROVAL"
+        case explicitApproved = "EXPLICIT_APPROVED"
+        case explicitRejected = "EXPLICIT_REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchFilterKey: String, CustomStringConvertible, Codable {
+        case patchSet = "PATCH_SET"
+        case product = "PRODUCT"
+        case productFamily = "PRODUCT_FAMILY"
+        case classification = "CLASSIFICATION"
+        case msrcSeverity = "MSRC_SEVERITY"
+        case patchId = "PATCH_ID"
+        case section = "SECTION"
+        case priority = "PRIORITY"
+        case severity = "SEVERITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchOperationType: String, CustomStringConvertible, Codable {
+        case scan = "Scan"
+        case install = "Install"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchProperty: String, CustomStringConvertible, Codable {
+        case product = "PRODUCT"
+        case productFamily = "PRODUCT_FAMILY"
+        case classification = "CLASSIFICATION"
+        case msrcSeverity = "MSRC_SEVERITY"
+        case priority = "PRIORITY"
+        case severity = "SEVERITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchSet: String, CustomStringConvertible, Codable {
+        case os = "OS"
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PingStatus: String, CustomStringConvertible, Codable {
+        case online = "Online"
+        case connectionlost = "ConnectionLost"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformType: String, CustomStringConvertible, Codable {
+        case windows = "Windows"
+        case linux = "Linux"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RebootOption: String, CustomStringConvertible, Codable {
+        case rebootifneeded = "RebootIfNeeded"
+        case noreboot = "NoReboot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceDataSyncS3Format: String, CustomStringConvertible, Codable {
+        case jsonserde = "JsonSerDe"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case managedinstance = "ManagedInstance"
+        case document = "Document"
+        case ec2instance = "EC2Instance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceTypeForTagging: String, CustomStringConvertible, Codable {
+        case document = "Document"
+        case managedinstance = "ManagedInstance"
+        case maintenancewindow = "MaintenanceWindow"
+        case parameter = "Parameter"
+        case patchbaseline = "PatchBaseline"
+        case opsitem = "OpsItem"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionFilterKey: String, CustomStringConvertible, Codable {
+        case invokedafter = "InvokedAfter"
+        case invokedbefore = "InvokedBefore"
+        case target = "Target"
+        case owner = "Owner"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionState: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case history = "History"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionStatus: String, CustomStringConvertible, Codable {
+        case connected = "Connected"
+        case connecting = "Connecting"
+        case disconnected = "Disconnected"
+        case terminated = "Terminated"
+        case terminating = "Terminating"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SignalType: String, CustomStringConvertible, Codable {
+        case approve = "Approve"
+        case reject = "Reject"
+        case startstep = "StartStep"
+        case stopstep = "StopStep"
+        case resume = "Resume"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StepExecutionFilterKey: String, CustomStringConvertible, Codable {
+        case starttimebefore = "StartTimeBefore"
+        case starttimeafter = "StartTimeAfter"
+        case stepexecutionstatus = "StepExecutionStatus"
+        case stepexecutionid = "StepExecutionId"
+        case stepname = "StepName"
+        case action = "Action"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StopType: String, CustomStringConvertible, Codable {
+        case complete = "Complete"
+        case cancel = "Cancel"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountSharingInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -191,15 +778,6 @@ extension SSM {
             case scheduleExpression = "ScheduleExpression"
             case targets = "Targets"
         }
-    }
-
-    public enum AssociationComplianceSeverity: String, CustomStringConvertible, Codable {
-        case critical = "CRITICAL"
-        case high = "HIGH"
-        case medium = "MEDIUM"
-        case low = "LOW"
-        case unspecified = "UNSPECIFIED"
-        public var description: String { return self.rawValue }
     }
 
     public struct AssociationDescription: AWSShape {
@@ -397,13 +975,6 @@ extension SSM {
         }
     }
 
-    public enum AssociationExecutionFilterKey: String, CustomStringConvertible, Codable {
-        case executionid = "ExecutionId"
-        case status = "Status"
-        case createdtime = "CreatedTime"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AssociationExecutionTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociationId", required: false, type: .string), 
@@ -487,13 +1058,6 @@ extension SSM {
         }
     }
 
-    public enum AssociationExecutionTargetsFilterKey: String, CustomStringConvertible, Codable {
-        case status = "Status"
-        case resourceid = "ResourceId"
-        case resourcetype = "ResourceType"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AssociationFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .enum), 
@@ -518,24 +1082,6 @@ extension SSM {
             case key = "key"
             case value = "value"
         }
-    }
-
-    public enum AssociationFilterKey: String, CustomStringConvertible, Codable {
-        case instanceid = "InstanceId"
-        case name = "Name"
-        case associationid = "AssociationId"
-        case associationstatusname = "AssociationStatusName"
-        case lastexecutedbefore = "LastExecutedBefore"
-        case lastexecutedafter = "LastExecutedAfter"
-        case associationname = "AssociationName"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AssociationFilterOperatorType: String, CustomStringConvertible, Codable {
-        case equal = "EQUAL"
-        case lessThan = "LESS_THAN"
-        case greaterThan = "GREATER_THAN"
-        public var description: String { return self.rawValue }
     }
 
     public struct AssociationOverview: AWSShape {
@@ -601,13 +1147,6 @@ extension SSM {
             case message = "Message"
             case name = "Name"
         }
-    }
-
-    public enum AssociationStatusName: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case success = "Success"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct AssociationVersionInfo: AWSShape {
@@ -724,11 +1263,6 @@ extension SSM {
         }
     }
 
-    public enum AttachmentHashType: String, CustomStringConvertible, Codable {
-        case sha256 = "Sha256"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AttachmentInformation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
@@ -781,13 +1315,6 @@ extension SSM {
             case name = "Name"
             case values = "Values"
         }
-    }
-
-    public enum AttachmentsSourceKey: String, CustomStringConvertible, Codable {
-        case sourceurl = "SourceUrl"
-        case s3fileurl = "S3FileUrl"
-        case attachmentreference = "AttachmentReference"
-        public var description: String { return self.rawValue }
     }
 
     public struct AutomationExecution: AWSShape {
@@ -958,19 +1485,6 @@ extension SSM {
         }
     }
 
-    public enum AutomationExecutionFilterKey: String, CustomStringConvertible, Codable {
-        case documentnameprefix = "DocumentNamePrefix"
-        case executionstatus = "ExecutionStatus"
-        case executionid = "ExecutionId"
-        case parentexecutionid = "ParentExecutionId"
-        case currentaction = "CurrentAction"
-        case starttimebefore = "StartTimeBefore"
-        case starttimeafter = "StartTimeAfter"
-        case automationtype = "AutomationType"
-        case tagkey = "TagKey"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AutomationExecutionMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutomationExecutionId", required: false, type: .string), 
@@ -1091,30 +1605,6 @@ extension SSM {
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
         }
-    }
-
-    public enum AutomationExecutionStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case waiting = "Waiting"
-        case success = "Success"
-        case timedout = "TimedOut"
-        case cancelling = "Cancelling"
-        case cancelled = "Cancelled"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AutomationType: String, CustomStringConvertible, Codable {
-        case crossaccount = "CrossAccount"
-        case local = "Local"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CalendarState: String, CustomStringConvertible, Codable {
-        case open = "OPEN"
-        case closed = "CLOSED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CancelCommandRequest: AWSShape {
@@ -1378,15 +1868,6 @@ extension SSM {
         }
     }
 
-    public enum CommandFilterKey: String, CustomStringConvertible, Codable {
-        case invokedafter = "InvokedAfter"
-        case invokedbefore = "InvokedBefore"
-        case status = "Status"
-        case executionstage = "ExecutionStage"
-        case documentname = "DocumentName"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CommandInvocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudWatchOutputConfig", required: false, type: .structure), 
@@ -1478,18 +1959,6 @@ extension SSM {
         }
     }
 
-    public enum CommandInvocationStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case delayed = "Delayed"
-        case success = "Success"
-        case cancelled = "Cancelled"
-        case timedout = "TimedOut"
-        case failed = "Failed"
-        case cancelling = "Cancelling"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CommandPlugin: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1560,27 +2029,6 @@ extension SSM {
             case status = "Status"
             case statusDetails = "StatusDetails"
         }
-    }
-
-    public enum CommandPluginStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case success = "Success"
-        case timedout = "TimedOut"
-        case cancelled = "Cancelled"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CommandStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case success = "Success"
-        case cancelled = "Cancelled"
-        case failed = "Failed"
-        case timedout = "TimedOut"
-        case cancelling = "Cancelling"
-        public var description: String { return self.rawValue }
     }
 
     public struct ComplianceExecutionSummary: AWSShape {
@@ -1719,31 +2167,6 @@ extension SSM {
         }
     }
 
-    public enum ComplianceQueryOperatorType: String, CustomStringConvertible, Codable {
-        case equal = "EQUAL"
-        case notEqual = "NOT_EQUAL"
-        case beginWith = "BEGIN_WITH"
-        case lessThan = "LESS_THAN"
-        case greaterThan = "GREATER_THAN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ComplianceSeverity: String, CustomStringConvertible, Codable {
-        case critical = "CRITICAL"
-        case high = "HIGH"
-        case medium = "MEDIUM"
-        case low = "LOW"
-        case informational = "INFORMATIONAL"
-        case unspecified = "UNSPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ComplianceStatus: String, CustomStringConvertible, Codable {
-        case compliant = "COMPLIANT"
-        case nonCompliant = "NON_COMPLIANT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ComplianceStringFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -1825,12 +2248,6 @@ extension SSM {
             case compliantCount = "CompliantCount"
             case severitySummary = "SeveritySummary"
         }
-    }
-
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
-        case connected = "Connected"
-        case notconnected = "NotConnected"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateActivationRequest: AWSShape {
@@ -3233,13 +3650,6 @@ extension SSM {
             case filterKey = "FilterKey"
             case filterValues = "FilterValues"
         }
-    }
-
-    public enum DescribeActivationsFilterKeys: String, CustomStringConvertible, Codable {
-        case activationids = "ActivationIds"
-        case defaultinstancename = "DefaultInstanceName"
-        case iamrole = "IamRole"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeActivationsRequest: AWSShape {
@@ -5418,27 +5828,6 @@ extension SSM {
         }
     }
 
-    public enum DocumentFilterKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case owner = "Owner"
-        case platformtypes = "PlatformTypes"
-        case documenttype = "DocumentType"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DocumentFormat: String, CustomStringConvertible, Codable {
-        case yaml = "YAML"
-        case json = "JSON"
-        case text = "TEXT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DocumentHashType: String, CustomStringConvertible, Codable {
-        case sha256 = "Sha256"
-        case sha1 = "Sha1"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DocumentIdentifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DocumentFormat", required: false, type: .enum), 
@@ -5569,17 +5958,6 @@ extension SSM {
         }
     }
 
-    public enum DocumentParameterType: String, CustomStringConvertible, Codable {
-        case string = "String"
-        case stringlist = "StringList"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DocumentPermissionType: String, CustomStringConvertible, Codable {
-        case share = "Share"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DocumentRequires: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -5605,28 +5983,6 @@ extension SSM {
             case name = "Name"
             case version = "Version"
         }
-    }
-
-    public enum DocumentStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case active = "Active"
-        case updating = "Updating"
-        case deleting = "Deleting"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DocumentType: String, CustomStringConvertible, Codable {
-        case command = "Command"
-        case policy = "Policy"
-        case automation = "Automation"
-        case session = "Session"
-        case package = "Package"
-        case applicationconfiguration = "ApplicationConfiguration"
-        case applicationconfigurationschema = "ApplicationConfigurationSchema"
-        case deploymentstrategy = "DeploymentStrategy"
-        case changecalendar = "ChangeCalendar"
-        public var description: String { return self.rawValue }
     }
 
     public struct DocumentVersionInfo: AWSShape {
@@ -5703,12 +6059,6 @@ extension SSM {
         }
     }
 
-    public enum ExecutionMode: String, CustomStringConvertible, Codable {
-        case auto = "Auto"
-        case interactive = "Interactive"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FailedCreateAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Entry", required: false, type: .structure), 
@@ -5761,13 +6111,6 @@ extension SSM {
             case failureStage = "FailureStage"
             case failureType = "FailureType"
         }
-    }
-
-    public enum Fault: String, CustomStringConvertible, Codable {
-        case client = "Client"
-        case server = "Server"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetAutomationExecutionRequest: AWSShape {
@@ -7741,18 +8084,6 @@ extension SSM {
         }
     }
 
-    public enum InstanceInformationFilterKey: String, CustomStringConvertible, Codable {
-        case instanceids = "InstanceIds"
-        case agentversion = "AgentVersion"
-        case pingstatus = "PingStatus"
-        case platformtypes = "PlatformTypes"
-        case activationids = "ActivationIds"
-        case iamrole = "IamRole"
-        case resourcetype = "ResourceType"
-        case associationstatus = "AssociationStatus"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceInformationStringFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string), 
@@ -7925,14 +8256,6 @@ extension SSM {
         }
     }
 
-    public enum InstancePatchStateOperatorType: String, CustomStringConvertible, Codable {
-        case equal = "Equal"
-        case notequal = "NotEqual"
-        case lessthan = "LessThan"
-        case greaterthan = "GreaterThan"
-        public var description: String { return self.rawValue }
-    }
-
     public class InventoryAggregator: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Aggregators", required: false, type: .list), 
@@ -7973,18 +8296,6 @@ extension SSM {
             case expression = "Expression"
             case groups = "Groups"
         }
-    }
-
-    public enum InventoryAttributeDataType: String, CustomStringConvertible, Codable {
-        case string = "string"
-        case number = "number"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InventoryDeletionStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case complete = "Complete"
-        public var description: String { return self.rawValue }
     }
 
     public struct InventoryDeletionStatusItem: AWSShape {
@@ -8267,16 +8578,6 @@ extension SSM {
         }
     }
 
-    public enum InventoryQueryOperatorType: String, CustomStringConvertible, Codable {
-        case equal = "Equal"
-        case notequal = "NotEqual"
-        case beginwith = "BeginWith"
-        case lessthan = "LessThan"
-        case greaterthan = "GreaterThan"
-        case exists = "Exists"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InventoryResultEntity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Data", required: false, type: .map), 
@@ -8334,12 +8635,6 @@ extension SSM {
             case schemaVersion = "SchemaVersion"
             case typeName = "TypeName"
         }
-    }
-
-    public enum InventorySchemaDeleteOption: String, CustomStringConvertible, Codable {
-        case disableschema = "DisableSchema"
-        case deleteschema = "DeleteSchema"
-        public var description: String { return self.rawValue }
     }
 
     public struct LabelParameterVersionRequest: AWSShape {
@@ -8400,13 +8695,6 @@ extension SSM {
             case invalidLabels = "InvalidLabels"
             case parameterVersion = "ParameterVersion"
         }
-    }
-
-    public enum LastResourceDataSyncStatus: String, CustomStringConvertible, Codable {
-        case successful = "Successful"
-        case failed = "Failed"
-        case inprogress = "InProgress"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListAssociationVersionsRequest: AWSShape {
@@ -9282,18 +9570,6 @@ extension SSM {
         }
     }
 
-    public enum MaintenanceWindowExecutionStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case inProgress = "IN_PROGRESS"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        case timedOut = "TIMED_OUT"
-        case cancelling = "CANCELLING"
-        case cancelled = "CANCELLED"
-        case skippedOverlapping = "SKIPPED_OVERLAPPING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MaintenanceWindowExecutionTaskIdentity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
@@ -9571,12 +9847,6 @@ extension SSM {
             case payload = "Payload"
             case qualifier = "Qualifier"
         }
-    }
-
-    public enum MaintenanceWindowResourceType: String, CustomStringConvertible, Codable {
-        case instance = "INSTANCE"
-        case resourceGroup = "RESOURCE_GROUP"
-        public var description: String { return self.rawValue }
     }
 
     public struct MaintenanceWindowRunCommandParameters: AWSShape {
@@ -9872,14 +10142,6 @@ extension SSM {
         }
     }
 
-    public enum MaintenanceWindowTaskType: String, CustomStringConvertible, Codable {
-        case runCommand = "RUN_COMMAND"
-        case automation = "AUTOMATION"
-        case stepFunctions = "STEP_FUNCTIONS"
-        case lambda = "LAMBDA"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ModifyDocumentPermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIdsToAdd", required: false, type: .list), 
@@ -9986,33 +10248,6 @@ extension SSM {
             case notificationEvents = "NotificationEvents"
             case notificationType = "NotificationType"
         }
-    }
-
-    public enum NotificationEvent: String, CustomStringConvertible, Codable {
-        case all = "All"
-        case inprogress = "InProgress"
-        case success = "Success"
-        case timedout = "TimedOut"
-        case cancelled = "Cancelled"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotificationType: String, CustomStringConvertible, Codable {
-        case command = "Command"
-        case invocation = "Invocation"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OperatingSystem: String, CustomStringConvertible, Codable {
-        case windows = "WINDOWS"
-        case amazonLinux = "AMAZON_LINUX"
-        case amazonLinux2 = "AMAZON_LINUX_2"
-        case ubuntu = "UBUNTU"
-        case redhatEnterpriseLinux = "REDHAT_ENTERPRISE_LINUX"
-        case suse = "SUSE"
-        case centos = "CENTOS"
-        public var description: String { return self.rawValue }
     }
 
     public class OpsAggregator: AWSShape {
@@ -10160,16 +10395,6 @@ extension SSM {
         }
     }
 
-    public enum OpsFilterOperatorType: String, CustomStringConvertible, Codable {
-        case equal = "Equal"
-        case notequal = "NotEqual"
-        case beginwith = "BeginWith"
-        case lessthan = "LessThan"
-        case greaterthan = "GreaterThan"
-        case exists = "Exists"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OpsItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Category", required: false, type: .string), 
@@ -10262,12 +10487,6 @@ extension SSM {
         }
     }
 
-    public enum OpsItemDataType: String, CustomStringConvertible, Codable {
-        case searchablestring = "SearchableString"
-        case string = "String"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OpsItemDataValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .enum), 
@@ -10317,33 +10536,6 @@ extension SSM {
         }
     }
 
-    public enum OpsItemFilterKey: String, CustomStringConvertible, Codable {
-        case status = "Status"
-        case createdby = "CreatedBy"
-        case source = "Source"
-        case priority = "Priority"
-        case title = "Title"
-        case opsitemid = "OpsItemId"
-        case createdtime = "CreatedTime"
-        case lastmodifiedtime = "LastModifiedTime"
-        case operationaldata = "OperationalData"
-        case operationaldatakey = "OperationalDataKey"
-        case operationaldatavalue = "OperationalDataValue"
-        case resourceid = "ResourceId"
-        case automationid = "AutomationId"
-        case category = "Category"
-        case severity = "Severity"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OpsItemFilterOperator: String, CustomStringConvertible, Codable {
-        case equal = "Equal"
-        case contains = "Contains"
-        case greaterthan = "GreaterThan"
-        case lessthan = "LessThan"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OpsItemNotification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string)
@@ -10359,13 +10551,6 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
         }
-    }
-
-    public enum OpsItemStatus: String, CustomStringConvertible, Codable {
-        case open = "Open"
-        case inprogress = "InProgress"
-        case resolved = "Resolved"
-        public var description: String { return self.rawValue }
     }
 
     public struct OpsItemSummary: AWSShape {
@@ -10739,20 +10924,6 @@ extension SSM {
         }
     }
 
-    public enum ParameterTier: String, CustomStringConvertible, Codable {
-        case standard = "Standard"
-        case advanced = "Advanced"
-        case intelligentTiering = "Intelligent-Tiering"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ParameterType: String, CustomStringConvertible, Codable {
-        case string = "String"
-        case stringlist = "StringList"
-        case securestring = "SecureString"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ParametersFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .enum), 
@@ -10782,13 +10953,6 @@ extension SSM {
             case key = "Key"
             case values = "Values"
         }
-    }
-
-    public enum ParametersFilterKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case `type` = "Type"
-        case keyid = "KeyId"
-        public var description: String { return self.rawValue }
     }
 
     public struct Patch: AWSShape {
@@ -10866,12 +11030,6 @@ extension SSM {
             case title = "Title"
             case vendor = "Vendor"
         }
-    }
-
-    public enum PatchAction: String, CustomStringConvertible, Codable {
-        case allowAsDependency = "ALLOW_AS_DEPENDENCY"
-        case block = "BLOCK"
-        public var description: String { return self.rawValue }
     }
 
     public struct PatchBaselineIdentity: AWSShape {
@@ -10953,35 +11111,6 @@ extension SSM {
         }
     }
 
-    public enum PatchComplianceDataState: String, CustomStringConvertible, Codable {
-        case installed = "INSTALLED"
-        case installedOther = "INSTALLED_OTHER"
-        case installedPendingReboot = "INSTALLED_PENDING_REBOOT"
-        case installedRejected = "INSTALLED_REJECTED"
-        case missing = "MISSING"
-        case notApplicable = "NOT_APPLICABLE"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PatchComplianceLevel: String, CustomStringConvertible, Codable {
-        case critical = "CRITICAL"
-        case high = "HIGH"
-        case medium = "MEDIUM"
-        case low = "LOW"
-        case informational = "INFORMATIONAL"
-        case unspecified = "UNSPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PatchDeploymentStatus: String, CustomStringConvertible, Codable {
-        case approved = "APPROVED"
-        case pendingApproval = "PENDING_APPROVAL"
-        case explicitApproved = "EXPLICIT_APPROVED"
-        case explicitRejected = "EXPLICIT_REJECTED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PatchFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .enum), 
@@ -11038,19 +11167,6 @@ extension SSM {
         }
     }
 
-    public enum PatchFilterKey: String, CustomStringConvertible, Codable {
-        case patchSet = "PATCH_SET"
-        case product = "PRODUCT"
-        case productFamily = "PRODUCT_FAMILY"
-        case classification = "CLASSIFICATION"
-        case msrcSeverity = "MSRC_SEVERITY"
-        case patchId = "PATCH_ID"
-        case section = "SECTION"
-        case priority = "PRIORITY"
-        case severity = "SEVERITY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PatchGroupPatchBaselineMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BaselineIdentity", required: false, type: .structure), 
@@ -11071,12 +11187,6 @@ extension SSM {
             case baselineIdentity = "BaselineIdentity"
             case patchGroup = "PatchGroup"
         }
-    }
-
-    public enum PatchOperationType: String, CustomStringConvertible, Codable {
-        case scan = "Scan"
-        case install = "Install"
-        public var description: String { return self.rawValue }
     }
 
     public struct PatchOrchestratorFilter: AWSShape {
@@ -11108,16 +11218,6 @@ extension SSM {
             case key = "Key"
             case values = "Values"
         }
-    }
-
-    public enum PatchProperty: String, CustomStringConvertible, Codable {
-        case product = "PRODUCT"
-        case productFamily = "PRODUCT_FAMILY"
-        case classification = "CLASSIFICATION"
-        case msrcSeverity = "MSRC_SEVERITY"
-        case priority = "PRIORITY"
-        case severity = "SEVERITY"
-        public var description: String { return self.rawValue }
     }
 
     public struct PatchRule: AWSShape {
@@ -11181,12 +11281,6 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case patchRules = "PatchRules"
         }
-    }
-
-    public enum PatchSet: String, CustomStringConvertible, Codable {
-        case os = "OS"
-        case application = "APPLICATION"
-        public var description: String { return self.rawValue }
     }
 
     public struct PatchSource: AWSShape {
@@ -11253,19 +11347,6 @@ extension SSM {
             case complianceLevel = "ComplianceLevel"
             case deploymentStatus = "DeploymentStatus"
         }
-    }
-
-    public enum PingStatus: String, CustomStringConvertible, Codable {
-        case online = "Online"
-        case connectionlost = "ConnectionLost"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PlatformType: String, CustomStringConvertible, Codable {
-        case windows = "Windows"
-        case linux = "Linux"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProgressCounters: AWSShape {
@@ -11520,12 +11601,6 @@ extension SSM {
             case tier = "Tier"
             case version = "Version"
         }
-    }
-
-    public enum RebootOption: String, CustomStringConvertible, Codable {
-        case rebootifneeded = "RebootIfNeeded"
-        case noreboot = "NoReboot"
-        public var description: String { return self.rawValue }
     }
 
     public struct RegisterDefaultPatchBaselineRequest: AWSShape {
@@ -12177,11 +12252,6 @@ extension SSM {
         }
     }
 
-    public enum ResourceDataSyncS3Format: String, CustomStringConvertible, Codable {
-        case jsonserde = "JsonSerDe"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceDataSyncSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsOrganizationsSource", required: false, type: .structure), 
@@ -12259,23 +12329,6 @@ extension SSM {
             case sourceType = "SourceType"
             case state = "State"
         }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case managedinstance = "ManagedInstance"
-        case document = "Document"
-        case ec2instance = "EC2Instance"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceTypeForTagging: String, CustomStringConvertible, Codable {
-        case document = "Document"
-        case managedinstance = "ManagedInstance"
-        case maintenancewindow = "MaintenanceWindow"
-        case parameter = "Parameter"
-        case patchbaseline = "PatchBaseline"
-        case opsitem = "OpsItem"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResultAttribute: AWSShape {
@@ -12746,15 +12799,6 @@ extension SSM {
         }
     }
 
-    public enum SessionFilterKey: String, CustomStringConvertible, Codable {
-        case invokedafter = "InvokedAfter"
-        case invokedbefore = "InvokedBefore"
-        case target = "Target"
-        case owner = "Owner"
-        case status = "Status"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SessionManagerOutputUrl: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudWatchOutputUrl", required: false, type: .string), 
@@ -12775,22 +12819,6 @@ extension SSM {
             case cloudWatchOutputUrl = "CloudWatchOutputUrl"
             case s3OutputUrl = "S3OutputUrl"
         }
-    }
-
-    public enum SessionState: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case history = "History"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SessionStatus: String, CustomStringConvertible, Codable {
-        case connected = "Connected"
-        case connecting = "Connecting"
-        case disconnected = "Disconnected"
-        case terminated = "Terminated"
-        case terminating = "Terminating"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct SeveritySummary: AWSShape {
@@ -12833,15 +12861,6 @@ extension SSM {
             case mediumCount = "MediumCount"
             case unspecifiedCount = "UnspecifiedCount"
         }
-    }
-
-    public enum SignalType: String, CustomStringConvertible, Codable {
-        case approve = "Approve"
-        case reject = "Reject"
-        case startstep = "StartStep"
-        case stopstep = "StopStep"
-        case resume = "Resume"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartAssociationsOnceRequest: AWSShape {
@@ -13221,16 +13240,6 @@ extension SSM {
         }
     }
 
-    public enum StepExecutionFilterKey: String, CustomStringConvertible, Codable {
-        case starttimebefore = "StartTimeBefore"
-        case starttimeafter = "StartTimeAfter"
-        case stepexecutionstatus = "StepExecutionStatus"
-        case stepexecutionid = "StepExecutionId"
-        case stepname = "StepName"
-        case action = "Action"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StopAutomationExecutionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutomationExecutionId", required: true, type: .string), 
@@ -13264,12 +13273,6 @@ extension SSM {
         public init() {
         }
 
-    }
-
-    public enum StopType: String, CustomStringConvertible, Codable {
-        case complete = "Complete"
-        case cancel = "Cancel"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

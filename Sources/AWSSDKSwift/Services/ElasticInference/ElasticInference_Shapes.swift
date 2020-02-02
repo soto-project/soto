@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ElasticInference {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

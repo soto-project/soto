@@ -4,6 +4,140 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ACM {
+    //MARK: Enums
+
+    public enum CertificateStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case issued = "ISSUED"
+        case inactive = "INACTIVE"
+        case expired = "EXPIRED"
+        case validationTimedOut = "VALIDATION_TIMED_OUT"
+        case revoked = "REVOKED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateTransparencyLoggingPreference: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateType: String, CustomStringConvertible, Codable {
+        case imported = "IMPORTED"
+        case amazonIssued = "AMAZON_ISSUED"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExtendedKeyUsageName: String, CustomStringConvertible, Codable {
+        case tlsWebServerAuthentication = "TLS_WEB_SERVER_AUTHENTICATION"
+        case tlsWebClientAuthentication = "TLS_WEB_CLIENT_AUTHENTICATION"
+        case codeSigning = "CODE_SIGNING"
+        case emailProtection = "EMAIL_PROTECTION"
+        case timeStamping = "TIME_STAMPING"
+        case ocspSigning = "OCSP_SIGNING"
+        case ipsecEndSystem = "IPSEC_END_SYSTEM"
+        case ipsecTunnel = "IPSEC_TUNNEL"
+        case ipsecUser = "IPSEC_USER"
+        case any = "ANY"
+        case none = "NONE"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FailureReason: String, CustomStringConvertible, Codable {
+        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
+        case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
+        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
+        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
+        case domainValidationDenied = "DOMAIN_VALIDATION_DENIED"
+        case caaError = "CAA_ERROR"
+        case pcaLimitExceeded = "PCA_LIMIT_EXCEEDED"
+        case pcaInvalidArn = "PCA_INVALID_ARN"
+        case pcaInvalidState = "PCA_INVALID_STATE"
+        case pcaRequestFailed = "PCA_REQUEST_FAILED"
+        case pcaNameConstraintsValidation = "PCA_NAME_CONSTRAINTS_VALIDATION"
+        case pcaResourceNotFound = "PCA_RESOURCE_NOT_FOUND"
+        case pcaInvalidArgs = "PCA_INVALID_ARGS"
+        case pcaInvalidDuration = "PCA_INVALID_DURATION"
+        case pcaAccessDenied = "PCA_ACCESS_DENIED"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        case rsa1024 = "RSA_1024"
+        case rsa4096 = "RSA_4096"
+        case ecPrime256V1 = "EC_prime256v1"
+        case ecSecp384R1 = "EC_secp384r1"
+        case ecSecp521R1 = "EC_secp521r1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyUsageName: String, CustomStringConvertible, Codable {
+        case digitalSignature = "DIGITAL_SIGNATURE"
+        case nonRepudiation = "NON_REPUDIATION"
+        case keyEncipherment = "KEY_ENCIPHERMENT"
+        case dataEncipherment = "DATA_ENCIPHERMENT"
+        case keyAgreement = "KEY_AGREEMENT"
+        case certificateSigning = "CERTIFICATE_SIGNING"
+        case crlSigning = "CRL_SIGNING"
+        case encipherOnly = "ENCIPHER_ONLY"
+        case decipherOnly = "DECIPHER_ONLY"
+        case any = "ANY"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordType: String, CustomStringConvertible, Codable {
+        case cname = "CNAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RenewalEligibility: String, CustomStringConvertible, Codable {
+        case eligible = "ELIGIBLE"
+        case ineligible = "INELIGIBLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RenewalStatus: String, CustomStringConvertible, Codable {
+        case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
+        case pendingValidation = "PENDING_VALIDATION"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RevocationReason: String, CustomStringConvertible, Codable {
+        case unspecified = "UNSPECIFIED"
+        case keyCompromise = "KEY_COMPROMISE"
+        case caCompromise = "CA_COMPROMISE"
+        case affiliationChanged = "AFFILIATION_CHANGED"
+        case superceded = "SUPERCEDED"
+        case cessationOfOperation = "CESSATION_OF_OPERATION"
+        case certificateHold = "CERTIFICATE_HOLD"
+        case removeFromCrl = "REMOVE_FROM_CRL"
+        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
+        case aACompromise = "A_A_COMPROMISE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationMethod: String, CustomStringConvertible, Codable {
+        case email = "EMAIL"
+        case dns = "DNS"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddTagsToCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -197,17 +331,6 @@ extension ACM {
         }
     }
 
-    public enum CertificateStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case issued = "ISSUED"
-        case inactive = "INACTIVE"
-        case expired = "EXPIRED"
-        case validationTimedOut = "VALIDATION_TIMED_OUT"
-        case revoked = "REVOKED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CertificateSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
@@ -228,19 +351,6 @@ extension ACM {
             case certificateArn = "CertificateArn"
             case domainName = "DomainName"
         }
-    }
-
-    public enum CertificateTransparencyLoggingPreference: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CertificateType: String, CustomStringConvertible, Codable {
-        case imported = "IMPORTED"
-        case amazonIssued = "AMAZON_ISSUED"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteCertificateRequest: AWSShape {
@@ -304,13 +414,6 @@ extension ACM {
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
         }
-    }
-
-    public enum DomainStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DomainValidation: AWSShape {
@@ -465,42 +568,6 @@ extension ACM {
         }
     }
 
-    public enum ExtendedKeyUsageName: String, CustomStringConvertible, Codable {
-        case tlsWebServerAuthentication = "TLS_WEB_SERVER_AUTHENTICATION"
-        case tlsWebClientAuthentication = "TLS_WEB_CLIENT_AUTHENTICATION"
-        case codeSigning = "CODE_SIGNING"
-        case emailProtection = "EMAIL_PROTECTION"
-        case timeStamping = "TIME_STAMPING"
-        case ocspSigning = "OCSP_SIGNING"
-        case ipsecEndSystem = "IPSEC_END_SYSTEM"
-        case ipsecTunnel = "IPSEC_TUNNEL"
-        case ipsecUser = "IPSEC_USER"
-        case any = "ANY"
-        case none = "NONE"
-        case custom = "CUSTOM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FailureReason: String, CustomStringConvertible, Codable {
-        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
-        case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
-        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
-        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
-        case domainValidationDenied = "DOMAIN_VALIDATION_DENIED"
-        case caaError = "CAA_ERROR"
-        case pcaLimitExceeded = "PCA_LIMIT_EXCEEDED"
-        case pcaInvalidArn = "PCA_INVALID_ARN"
-        case pcaInvalidState = "PCA_INVALID_STATE"
-        case pcaRequestFailed = "PCA_REQUEST_FAILED"
-        case pcaNameConstraintsValidation = "PCA_NAME_CONSTRAINTS_VALIDATION"
-        case pcaResourceNotFound = "PCA_RESOURCE_NOT_FOUND"
-        case pcaInvalidArgs = "PCA_INVALID_ARGS"
-        case pcaInvalidDuration = "PCA_INVALID_DURATION"
-        case pcaAccessDenied = "PCA_ACCESS_DENIED"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Filters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "extendedKeyUsage", required: false, type: .list), 
@@ -644,16 +711,6 @@ extension ACM {
         }
     }
 
-    public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa1024 = "RSA_1024"
-        case rsa4096 = "RSA_4096"
-        case ecPrime256V1 = "EC_prime256v1"
-        case ecSecp384R1 = "EC_secp384r1"
-        case ecSecp521R1 = "EC_secp521r1"
-        public var description: String { return self.rawValue }
-    }
-
     public struct KeyUsage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .enum)
@@ -669,21 +726,6 @@ extension ACM {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
-    }
-
-    public enum KeyUsageName: String, CustomStringConvertible, Codable {
-        case digitalSignature = "DIGITAL_SIGNATURE"
-        case nonRepudiation = "NON_REPUDIATION"
-        case keyEncipherment = "KEY_ENCIPHERMENT"
-        case dataEncipherment = "DATA_ENCIPHERMENT"
-        case keyAgreement = "KEY_AGREEMENT"
-        case certificateSigning = "CERTIFICATE_SIGNING"
-        case crlSigning = "CRL_SIGNING"
-        case encipherOnly = "ENCIPHER_ONLY"
-        case decipherOnly = "DECIPHER_ONLY"
-        case any = "ANY"
-        case custom = "CUSTOM"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListCertificatesRequest: AWSShape {
@@ -788,11 +830,6 @@ extension ACM {
         }
     }
 
-    public enum RecordType: String, CustomStringConvertible, Codable {
-        case cname = "CNAME"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RemoveTagsFromCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
@@ -847,20 +884,6 @@ extension ACM {
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
         }
-    }
-
-    public enum RenewalEligibility: String, CustomStringConvertible, Codable {
-        case eligible = "ELIGIBLE"
-        case ineligible = "INELIGIBLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RenewalStatus: String, CustomStringConvertible, Codable {
-        case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
-        case pendingValidation = "PENDING_VALIDATION"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct RenewalSummary: AWSShape {
@@ -1059,20 +1082,6 @@ extension ACM {
         }
     }
 
-    public enum RevocationReason: String, CustomStringConvertible, Codable {
-        case unspecified = "UNSPECIFIED"
-        case keyCompromise = "KEY_COMPROMISE"
-        case caCompromise = "CA_COMPROMISE"
-        case affiliationChanged = "AFFILIATION_CHANGED"
-        case superceded = "SUPERCEDED"
-        case cessationOfOperation = "CESSATION_OF_OPERATION"
-        case certificateHold = "CERTIFICATE_HOLD"
-        case removeFromCrl = "REMOVE_FROM_CRL"
-        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
-        case aACompromise = "A_A_COMPROMISE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string), 
@@ -1130,11 +1139,5 @@ extension ACM {
             case certificateArn = "CertificateArn"
             case options = "Options"
         }
-    }
-
-    public enum ValidationMethod: String, CustomStringConvertible, Codable {
-        case email = "EMAIL"
-        case dns = "DNS"
-        public var description: String { return self.rawValue }
     }
 }

@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension EMR {
+    //MARK: Enums
 
     public enum ActionOnFailure: String, CustomStringConvertible, Codable {
         case terminateJobFlow = "TERMINATE_JOB_FLOW"
@@ -12,6 +13,265 @@ extension EMR {
         case `continue` = "CONTINUE"
         public var description: String { return self.rawValue }
     }
+
+    public enum AdjustmentType: String, CustomStringConvertible, Codable {
+        case changeInCapacity = "CHANGE_IN_CAPACITY"
+        case percentChangeInCapacity = "PERCENT_CHANGE_IN_CAPACITY"
+        case exactCapacity = "EXACT_CAPACITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoScalingPolicyState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case attaching = "ATTACHING"
+        case attached = "ATTACHED"
+        case detaching = "DETACHING"
+        case detached = "DETACHED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoScalingPolicyStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case userRequest = "USER_REQUEST"
+        case provisionFailure = "PROVISION_FAILURE"
+        case cleanupFailure = "CLEANUP_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CancelStepsRequestStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterState: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case waiting = "WAITING"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        case terminatedWithErrors = "TERMINATED_WITH_ERRORS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        case instanceFailure = "INSTANCE_FAILURE"
+        case instanceFleetTimeout = "INSTANCE_FLEET_TIMEOUT"
+        case bootstrapFailure = "BOOTSTRAP_FAILURE"
+        case userRequest = "USER_REQUEST"
+        case stepFailure = "STEP_FAILURE"
+        case allStepsCompleted = "ALL_STEPS_COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceCollectionType: String, CustomStringConvertible, Codable {
+        case instanceFleet = "INSTANCE_FLEET"
+        case instanceGroup = "INSTANCE_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceFleetState: String, CustomStringConvertible, Codable {
+        case provisioning = "PROVISIONING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case resizing = "RESIZING"
+        case suspended = "SUSPENDED"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceFleetStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        case instanceFailure = "INSTANCE_FAILURE"
+        case clusterTerminated = "CLUSTER_TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceFleetType: String, CustomStringConvertible, Codable {
+        case master = "MASTER"
+        case core = "CORE"
+        case task = "TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceGroupState: String, CustomStringConvertible, Codable {
+        case provisioning = "PROVISIONING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case reconfiguring = "RECONFIGURING"
+        case resizing = "RESIZING"
+        case suspended = "SUSPENDED"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        case arrested = "ARRESTED"
+        case shuttingDown = "SHUTTING_DOWN"
+        case ended = "ENDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceGroupStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        case instanceFailure = "INSTANCE_FAILURE"
+        case clusterTerminated = "CLUSTER_TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceGroupType: String, CustomStringConvertible, Codable {
+        case master = "MASTER"
+        case core = "CORE"
+        case task = "TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceRoleType: String, CustomStringConvertible, Codable {
+        case master = "MASTER"
+        case core = "CORE"
+        case task = "TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceState: String, CustomStringConvertible, Codable {
+        case awaitingFulfillment = "AWAITING_FULFILLMENT"
+        case provisioning = "PROVISIONING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        case instanceFailure = "INSTANCE_FAILURE"
+        case bootstrapFailure = "BOOTSTRAP_FAILURE"
+        case clusterTerminated = "CLUSTER_TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobFlowExecutionState: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case waiting = "WAITING"
+        case shuttingDown = "SHUTTING_DOWN"
+        case terminated = "TERMINATED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MarketType: String, CustomStringConvertible, Codable {
+        case onDemand = "ON_DEMAND"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable {
+        case security = "SECURITY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScaleDownBehavior: String, CustomStringConvertible, Codable {
+        case terminateAtInstanceHour = "TERMINATE_AT_INSTANCE_HOUR"
+        case terminateAtTaskCompletion = "TERMINATE_AT_TASK_COMPLETION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpotProvisioningTimeoutAction: String, CustomStringConvertible, Codable {
+        case switchToOnDemand = "SWITCH_TO_ON_DEMAND"
+        case terminateCluster = "TERMINATE_CLUSTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Statistic: String, CustomStringConvertible, Codable {
+        case sampleCount = "SAMPLE_COUNT"
+        case average = "AVERAGE"
+        case sum = "SUM"
+        case minimum = "MINIMUM"
+        case maximum = "MAXIMUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StepCancellationOption: String, CustomStringConvertible, Codable {
+        case sendInterrupt = "SEND_INTERRUPT"
+        case terminateProcess = "TERMINATE_PROCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StepExecutionState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case `continue` = "CONTINUE"
+        case completed = "COMPLETED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case interrupted = "INTERRUPTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StepState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case cancelPending = "CANCEL_PENDING"
+        case running = "RUNNING"
+        case completed = "COMPLETED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case interrupted = "INTERRUPTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StepStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Unit: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case seconds = "SECONDS"
+        case microSeconds = "MICRO_SECONDS"
+        case milliSeconds = "MILLI_SECONDS"
+        case bytes = "BYTES"
+        case kiloBytes = "KILO_BYTES"
+        case megaBytes = "MEGA_BYTES"
+        case gigaBytes = "GIGA_BYTES"
+        case teraBytes = "TERA_BYTES"
+        case bits = "BITS"
+        case kiloBits = "KILO_BITS"
+        case megaBits = "MEGA_BITS"
+        case gigaBits = "GIGA_BITS"
+        case teraBits = "TERA_BITS"
+        case percent = "PERCENT"
+        case count = "COUNT"
+        case bytesPerSecond = "BYTES_PER_SECOND"
+        case kiloBytesPerSecond = "KILO_BYTES_PER_SECOND"
+        case megaBytesPerSecond = "MEGA_BYTES_PER_SECOND"
+        case gigaBytesPerSecond = "GIGA_BYTES_PER_SECOND"
+        case teraBytesPerSecond = "TERA_BYTES_PER_SECOND"
+        case bitsPerSecond = "BITS_PER_SECOND"
+        case kiloBitsPerSecond = "KILO_BITS_PER_SECOND"
+        case megaBitsPerSecond = "MEGA_BITS_PER_SECOND"
+        case gigaBitsPerSecond = "GIGA_BITS_PER_SECOND"
+        case teraBitsPerSecond = "TERA_BITS_PER_SECOND"
+        case countPerSecond = "COUNT_PER_SECOND"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddInstanceFleetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -205,13 +465,6 @@ extension EMR {
 
     }
 
-    public enum AdjustmentType: String, CustomStringConvertible, Codable {
-        case changeInCapacity = "CHANGE_IN_CAPACITY"
-        case percentChangeInCapacity = "PERCENT_CHANGE_IN_CAPACITY"
-        case exactCapacity = "EXACT_CAPACITY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Application: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdditionalInfo", required: false, type: .map), 
@@ -299,16 +552,6 @@ extension EMR {
         }
     }
 
-    public enum AutoScalingPolicyState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case attaching = "ATTACHING"
-        case attached = "ATTACHED"
-        case detaching = "DETACHING"
-        case detached = "DETACHED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AutoScalingPolicyStateChangeReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -329,13 +572,6 @@ extension EMR {
             case code = "Code"
             case message = "Message"
         }
-    }
-
-    public enum AutoScalingPolicyStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case userRequest = "USER_REQUEST"
-        case provisionFailure = "PROVISION_FAILURE"
-        case cleanupFailure = "CLEANUP_FAILURE"
-        public var description: String { return self.rawValue }
     }
 
     public struct AutoScalingPolicyStatus: AWSShape {
@@ -536,12 +772,6 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case cancelStepsInfoList = "CancelStepsInfoList"
         }
-    }
-
-    public enum CancelStepsRequestStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CloudWatchAlarmDefinition: AWSShape {
@@ -757,17 +987,6 @@ extension EMR {
         }
     }
 
-    public enum ClusterState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case waiting = "WAITING"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        case terminatedWithErrors = "TERMINATED_WITH_ERRORS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ClusterStateChangeReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -788,18 +1007,6 @@ extension EMR {
             case code = "Code"
             case message = "Message"
         }
-    }
-
-    public enum ClusterStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case instanceFleetTimeout = "INSTANCE_FLEET_TIMEOUT"
-        case bootstrapFailure = "BOOTSTRAP_FAILURE"
-        case userRequest = "USER_REQUEST"
-        case stepFailure = "STEP_FAILURE"
-        case allStepsCompleted = "ALL_STEPS_COMPLETED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ClusterStatus: AWSShape {
@@ -923,14 +1130,6 @@ extension EMR {
             case name = "Name"
             case scriptPath = "ScriptPath"
         }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
-        case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
-        public var description: String { return self.rawValue }
     }
 
     public class Configuration: AWSShape {
@@ -1586,12 +1785,6 @@ extension EMR {
         }
     }
 
-    public enum InstanceCollectionType: String, CustomStringConvertible, Codable {
-        case instanceFleet = "INSTANCE_FLEET"
-        case instanceGroup = "INSTANCE_GROUP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceFleet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string), 
@@ -1761,17 +1954,6 @@ extension EMR {
         }
     }
 
-    public enum InstanceFleetState: String, CustomStringConvertible, Codable {
-        case provisioning = "PROVISIONING"
-        case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case resizing = "RESIZING"
-        case suspended = "SUSPENDED"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceFleetStateChangeReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -1792,14 +1974,6 @@ extension EMR {
             case code = "Code"
             case message = "Message"
         }
-    }
-
-    public enum InstanceFleetStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case clusterTerminated = "CLUSTER_TERMINATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceFleetStatus: AWSShape {
@@ -1854,13 +2028,6 @@ extension EMR {
             case endDateTime = "EndDateTime"
             case readyDateTime = "ReadyDateTime"
         }
-    }
-
-    public enum InstanceFleetType: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
-        case core = "CORE"
-        case task = "TASK"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceGroup: AWSShape {
@@ -2155,21 +2322,6 @@ extension EMR {
         }
     }
 
-    public enum InstanceGroupState: String, CustomStringConvertible, Codable {
-        case provisioning = "PROVISIONING"
-        case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case reconfiguring = "RECONFIGURING"
-        case resizing = "RESIZING"
-        case suspended = "SUSPENDED"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        case arrested = "ARRESTED"
-        case shuttingDown = "SHUTTING_DOWN"
-        case ended = "ENDED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceGroupStateChangeReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -2190,14 +2342,6 @@ extension EMR {
             case code = "Code"
             case message = "Message"
         }
-    }
-
-    public enum InstanceGroupStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case clusterTerminated = "CLUSTER_TERMINATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceGroupStatus: AWSShape {
@@ -2254,13 +2398,6 @@ extension EMR {
         }
     }
 
-    public enum InstanceGroupType: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
-        case core = "CORE"
-        case task = "TASK"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceResizePolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstancesToProtect", required: false, type: .list), 
@@ -2288,22 +2425,6 @@ extension EMR {
         }
     }
 
-    public enum InstanceRoleType: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
-        case core = "CORE"
-        case task = "TASK"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceState: String, CustomStringConvertible, Codable {
-        case awaitingFulfillment = "AWAITING_FULFILLMENT"
-        case provisioning = "PROVISIONING"
-        case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceStateChangeReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -2324,15 +2445,6 @@ extension EMR {
             case code = "Code"
             case message = "Message"
         }
-    }
-
-    public enum InstanceStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case bootstrapFailure = "BOOTSTRAP_FAILURE"
-        case clusterTerminated = "CLUSTER_TERMINATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceStatus: AWSShape {
@@ -2569,18 +2681,6 @@ extension EMR {
             case supportedProducts = "SupportedProducts"
             case visibleToAllUsers = "VisibleToAllUsers"
         }
-    }
-
-    public enum JobFlowExecutionState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case waiting = "WAITING"
-        case shuttingDown = "SHUTTING_DOWN"
-        case terminated = "TERMINATED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct JobFlowExecutionStatusDetail: AWSShape {
@@ -3290,12 +3390,6 @@ extension EMR {
         }
     }
 
-    public enum MarketType: String, CustomStringConvertible, Codable {
-        case onDemand = "ON_DEMAND"
-        case spot = "SPOT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MetricDimension: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -3625,12 +3719,6 @@ extension EMR {
 
     }
 
-    public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable {
-        case security = "SECURITY"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RunJobFlowInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
@@ -3832,12 +3920,6 @@ extension EMR {
             case clusterArn = "ClusterArn"
             case jobFlowId = "JobFlowId"
         }
-    }
-
-    public enum ScaleDownBehavior: String, CustomStringConvertible, Codable {
-        case terminateAtInstanceHour = "TERMINATE_AT_INSTANCE_HOUR"
-        case terminateAtTaskCompletion = "TERMINATE_AT_TASK_COMPLETION"
-        public var description: String { return self.rawValue }
     }
 
     public struct ScalingAction: AWSShape {
@@ -4137,21 +4219,6 @@ extension EMR {
         }
     }
 
-    public enum SpotProvisioningTimeoutAction: String, CustomStringConvertible, Codable {
-        case switchToOnDemand = "SWITCH_TO_ON_DEMAND"
-        case terminateCluster = "TERMINATE_CLUSTER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Statistic: String, CustomStringConvertible, Codable {
-        case sampleCount = "SAMPLE_COUNT"
-        case average = "AVERAGE"
-        case sum = "SUM"
-        case minimum = "MINIMUM"
-        case maximum = "MAXIMUM"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Step: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
@@ -4187,12 +4254,6 @@ extension EMR {
             case name = "Name"
             case status = "Status"
         }
-    }
-
-    public enum StepCancellationOption: String, CustomStringConvertible, Codable {
-        case sendInterrupt = "SEND_INTERRUPT"
-        case terminateProcess = "TERMINATE_PROCESS"
-        public var description: String { return self.rawValue }
     }
 
     public struct StepConfig: AWSShape {
@@ -4251,17 +4312,6 @@ extension EMR {
         }
     }
 
-    public enum StepExecutionState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case `continue` = "CONTINUE"
-        case completed = "COMPLETED"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        case interrupted = "INTERRUPTED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StepExecutionStatusDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
@@ -4299,17 +4349,6 @@ extension EMR {
         }
     }
 
-    public enum StepState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case cancelPending = "CANCEL_PENDING"
-        case running = "RUNNING"
-        case completed = "COMPLETED"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        case interrupted = "INTERRUPTED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StepStateChangeReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -4330,11 +4369,6 @@ extension EMR {
             case code = "Code"
             case message = "Message"
         }
-    }
-
-    public enum StepStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct StepStatus: AWSShape {
@@ -4511,37 +4545,6 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case jobFlowIds = "JobFlowIds"
         }
-    }
-
-    public enum Unit: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case seconds = "SECONDS"
-        case microSeconds = "MICRO_SECONDS"
-        case milliSeconds = "MILLI_SECONDS"
-        case bytes = "BYTES"
-        case kiloBytes = "KILO_BYTES"
-        case megaBytes = "MEGA_BYTES"
-        case gigaBytes = "GIGA_BYTES"
-        case teraBytes = "TERA_BYTES"
-        case bits = "BITS"
-        case kiloBits = "KILO_BITS"
-        case megaBits = "MEGA_BITS"
-        case gigaBits = "GIGA_BITS"
-        case teraBits = "TERA_BITS"
-        case percent = "PERCENT"
-        case count = "COUNT"
-        case bytesPerSecond = "BYTES_PER_SECOND"
-        case kiloBytesPerSecond = "KILO_BYTES_PER_SECOND"
-        case megaBytesPerSecond = "MEGA_BYTES_PER_SECOND"
-        case gigaBytesPerSecond = "GIGA_BYTES_PER_SECOND"
-        case teraBytesPerSecond = "TERA_BYTES_PER_SECOND"
-        case bitsPerSecond = "BITS_PER_SECOND"
-        case kiloBitsPerSecond = "KILO_BITS_PER_SECOND"
-        case megaBitsPerSecond = "MEGA_BITS_PER_SECOND"
-        case gigaBitsPerSecond = "GIGA_BITS_PER_SECOND"
-        case teraBitsPerSecond = "TERA_BITS_PER_SECOND"
-        case countPerSecond = "COUNT_PER_SECOND"
-        public var description: String { return self.rawValue }
     }
 
     public struct VolumeSpecification: AWSShape {

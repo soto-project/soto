@@ -4,6 +4,301 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ConfigService {
+    //MARK: Enums
+
+    public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        case outdated = "OUTDATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AggregatedSourceType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChronologicalOrder: String, CustomStringConvertible, Codable {
+        case reverse = "Reverse"
+        case forward = "Forward"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComplianceType: String, CustomStringConvertible, Codable {
+        case compliant = "COMPLIANT"
+        case nonCompliant = "NON_COMPLIANT"
+        case notApplicable = "NOT_APPLICABLE"
+        case insufficientData = "INSUFFICIENT_DATA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigRuleComplianceSummaryGroupKey: String, CustomStringConvertible, Codable {
+        case accountId = "ACCOUNT_ID"
+        case awsRegion = "AWS_REGION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigRuleState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case deletingResults = "DELETING_RESULTS"
+        case evaluating = "EVALUATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable {
+        case ok = "OK"
+        case resourcediscovered = "ResourceDiscovered"
+        case resourcenotrecorded = "ResourceNotRecorded"
+        case resourcedeleted = "ResourceDeleted"
+        case resourcedeletednotrecorded = "ResourceDeletedNotRecorded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConformancePackComplianceType: String, CustomStringConvertible, Codable {
+        case compliant = "COMPLIANT"
+        case nonCompliant = "NON_COMPLIANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConformancePackState: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case failure = "Failure"
+        case notApplicable = "Not_Applicable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventSource: String, CustomStringConvertible, Codable {
+        case awsConfig = "aws.config"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable {
+        case oneHour = "One_Hour"
+        case threeHours = "Three_Hours"
+        case sixHours = "Six_Hours"
+        case twelveHours = "Twelve_Hours"
+        case twentyfourHours = "TwentyFour_Hours"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MemberAccountRuleStatus: String, CustomStringConvertible, Codable {
+        case createSuccessful = "CREATE_SUCCESSFUL"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case deleteSuccessful = "DELETE_SUCCESSFUL"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageType: String, CustomStringConvertible, Codable {
+        case configurationitemchangenotification = "ConfigurationItemChangeNotification"
+        case configurationsnapshotdeliverycompleted = "ConfigurationSnapshotDeliveryCompleted"
+        case schedulednotification = "ScheduledNotification"
+        case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrganizationConfigRuleTriggerType: String, CustomStringConvertible, Codable {
+        case configurationitemchangenotification = "ConfigurationItemChangeNotification"
+        case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
+        case schedulednotification = "ScheduledNotification"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrganizationResourceDetailedStatus: String, CustomStringConvertible, Codable {
+        case createSuccessful = "CREATE_SUCCESSFUL"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case deleteSuccessful = "DELETE_SUCCESSFUL"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrganizationResourceStatus: String, CustomStringConvertible, Codable {
+        case createSuccessful = "CREATE_SUCCESSFUL"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case deleteSuccessful = "DELETE_SUCCESSFUL"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrganizationRuleStatus: String, CustomStringConvertible, Codable {
+        case createSuccessful = "CREATE_SUCCESSFUL"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case deleteSuccessful = "DELETE_SUCCESSFUL"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Owner: String, CustomStringConvertible, Codable {
+        case customLambda = "CUSTOM_LAMBDA"
+        case aws = "AWS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecorderStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case success = "Success"
+        case failure = "Failure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RemediationExecutionState: String, CustomStringConvertible, Codable {
+        case queued = "QUEUED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RemediationExecutionStepState: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case pending = "PENDING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RemediationTargetType: String, CustomStringConvertible, Codable {
+        case ssmDocument = "SSM_DOCUMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceCountGroupKey: String, CustomStringConvertible, Codable {
+        case resourceType = "RESOURCE_TYPE"
+        case accountId = "ACCOUNT_ID"
+        case awsRegion = "AWS_REGION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case awsEc2Customergateway = "AWS::EC2::CustomerGateway"
+        case awsEc2Eip = "AWS::EC2::EIP"
+        case awsEc2Host = "AWS::EC2::Host"
+        case awsEc2Instance = "AWS::EC2::Instance"
+        case awsEc2Internetgateway = "AWS::EC2::InternetGateway"
+        case awsEc2Networkacl = "AWS::EC2::NetworkAcl"
+        case awsEc2Networkinterface = "AWS::EC2::NetworkInterface"
+        case awsEc2Routetable = "AWS::EC2::RouteTable"
+        case awsEc2Securitygroup = "AWS::EC2::SecurityGroup"
+        case awsEc2Subnet = "AWS::EC2::Subnet"
+        case awsCloudtrailTrail = "AWS::CloudTrail::Trail"
+        case awsEc2Volume = "AWS::EC2::Volume"
+        case awsEc2Vpc = "AWS::EC2::VPC"
+        case awsEc2Vpnconnection = "AWS::EC2::VPNConnection"
+        case awsEc2Vpngateway = "AWS::EC2::VPNGateway"
+        case awsEc2Registeredhainstance = "AWS::EC2::RegisteredHAInstance"
+        case awsEc2Natgateway = "AWS::EC2::NatGateway"
+        case awsEc2Egressonlyinternetgateway = "AWS::EC2::EgressOnlyInternetGateway"
+        case awsEc2Vpcendpoint = "AWS::EC2::VPCEndpoint"
+        case awsEc2Vpcendpointservice = "AWS::EC2::VPCEndpointService"
+        case awsEc2Flowlog = "AWS::EC2::FlowLog"
+        case awsEc2Vpcpeeringconnection = "AWS::EC2::VPCPeeringConnection"
+        case awsIamGroup = "AWS::IAM::Group"
+        case awsIamPolicy = "AWS::IAM::Policy"
+        case awsIamRole = "AWS::IAM::Role"
+        case awsIamUser = "AWS::IAM::User"
+        case awsElasticloadbalancingv2Loadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
+        case awsAcmCertificate = "AWS::ACM::Certificate"
+        case awsRdsDbinstance = "AWS::RDS::DBInstance"
+        case awsRdsDbparametergroup = "AWS::RDS::DBParameterGroup"
+        case awsRdsDboptiongroup = "AWS::RDS::DBOptionGroup"
+        case awsRdsDbsubnetgroup = "AWS::RDS::DBSubnetGroup"
+        case awsRdsDbsecuritygroup = "AWS::RDS::DBSecurityGroup"
+        case awsRdsDbsnapshot = "AWS::RDS::DBSnapshot"
+        case awsRdsDbcluster = "AWS::RDS::DBCluster"
+        case awsRdsDbclusterparametergroup = "AWS::RDS::DBClusterParameterGroup"
+        case awsRdsDbclustersnapshot = "AWS::RDS::DBClusterSnapshot"
+        case awsRdsEventsubscription = "AWS::RDS::EventSubscription"
+        case awsS3Bucket = "AWS::S3::Bucket"
+        case awsS3Accountpublicaccessblock = "AWS::S3::AccountPublicAccessBlock"
+        case awsRedshiftCluster = "AWS::Redshift::Cluster"
+        case awsRedshiftClustersnapshot = "AWS::Redshift::ClusterSnapshot"
+        case awsRedshiftClusterparametergroup = "AWS::Redshift::ClusterParameterGroup"
+        case awsRedshiftClustersecuritygroup = "AWS::Redshift::ClusterSecurityGroup"
+        case awsRedshiftClustersubnetgroup = "AWS::Redshift::ClusterSubnetGroup"
+        case awsRedshiftEventsubscription = "AWS::Redshift::EventSubscription"
+        case awsSsmManagedinstanceinventory = "AWS::SSM::ManagedInstanceInventory"
+        case awsCloudwatchAlarm = "AWS::CloudWatch::Alarm"
+        case awsCloudformationStack = "AWS::CloudFormation::Stack"
+        case awsElasticloadbalancingLoadbalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
+        case awsAutoscalingAutoscalinggroup = "AWS::AutoScaling::AutoScalingGroup"
+        case awsAutoscalingLaunchconfiguration = "AWS::AutoScaling::LaunchConfiguration"
+        case awsAutoscalingScalingpolicy = "AWS::AutoScaling::ScalingPolicy"
+        case awsAutoscalingScheduledaction = "AWS::AutoScaling::ScheduledAction"
+        case awsDynamodbTable = "AWS::DynamoDB::Table"
+        case awsCodebuildProject = "AWS::CodeBuild::Project"
+        case awsWafRatebasedrule = "AWS::WAF::RateBasedRule"
+        case awsWafRule = "AWS::WAF::Rule"
+        case awsWafRulegroup = "AWS::WAF::RuleGroup"
+        case awsWafWebacl = "AWS::WAF::WebACL"
+        case awsWafregionalRatebasedrule = "AWS::WAFRegional::RateBasedRule"
+        case awsWafregionalRule = "AWS::WAFRegional::Rule"
+        case awsWafregionalRulegroup = "AWS::WAFRegional::RuleGroup"
+        case awsWafregionalWebacl = "AWS::WAFRegional::WebACL"
+        case awsCloudfrontDistribution = "AWS::CloudFront::Distribution"
+        case awsCloudfrontStreamingdistribution = "AWS::CloudFront::StreamingDistribution"
+        case awsLambdaAlias = "AWS::Lambda::Alias"
+        case awsLambdaFunction = "AWS::Lambda::Function"
+        case awsElasticbeanstalkApplication = "AWS::ElasticBeanstalk::Application"
+        case awsElasticbeanstalkApplicationversion = "AWS::ElasticBeanstalk::ApplicationVersion"
+        case awsElasticbeanstalkEnvironment = "AWS::ElasticBeanstalk::Environment"
+        case awsMobilehubProject = "AWS::MobileHub::Project"
+        case awsXrayEncryptionconfig = "AWS::XRay::EncryptionConfig"
+        case awsSsmAssociationcompliance = "AWS::SSM::AssociationCompliance"
+        case awsSsmPatchcompliance = "AWS::SSM::PatchCompliance"
+        case awsShieldProtection = "AWS::Shield::Protection"
+        case awsShieldregionalProtection = "AWS::ShieldRegional::Protection"
+        case awsConfigResourcecompliance = "AWS::Config::ResourceCompliance"
+        case awsLicensemanagerLicenseconfiguration = "AWS::LicenseManager::LicenseConfiguration"
+        case awsApigatewayDomainname = "AWS::ApiGateway::DomainName"
+        case awsApigatewayMethod = "AWS::ApiGateway::Method"
+        case awsApigatewayStage = "AWS::ApiGateway::Stage"
+        case awsApigatewayRestapi = "AWS::ApiGateway::RestApi"
+        case awsApigatewayv2Domainname = "AWS::ApiGatewayV2::DomainName"
+        case awsApigatewayv2Stage = "AWS::ApiGatewayV2::Stage"
+        case awsApigatewayv2Api = "AWS::ApiGatewayV2::Api"
+        case awsCodepipelinePipeline = "AWS::CodePipeline::Pipeline"
+        case awsServicecatalogCloudformationprovisionedproduct = "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
+        case awsServicecatalogCloudformationproduct = "AWS::ServiceCatalog::CloudFormationProduct"
+        case awsServicecatalogPortfolio = "AWS::ServiceCatalog::Portfolio"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceValueType: String, CustomStringConvertible, Codable {
+        case resourceId = "RESOURCE_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountAggregationSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -233,19 +528,6 @@ extension ConfigService {
         }
     }
 
-    public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable {
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        case outdated = "OUTDATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AggregatedSourceType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AggregationAuthorization: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AggregationAuthorizationArn", required: false, type: .string), 
@@ -462,12 +744,6 @@ extension ConfigService {
         }
     }
 
-    public enum ChronologicalOrder: String, CustomStringConvertible, Codable {
-        case reverse = "Reverse"
-        case forward = "Forward"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Compliance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceContributorCount", required: false, type: .structure), 
@@ -608,14 +884,6 @@ extension ConfigService {
             case complianceSummary = "ComplianceSummary"
             case resourceType = "ResourceType"
         }
-    }
-
-    public enum ComplianceType: String, CustomStringConvertible, Codable {
-        case compliant = "COMPLIANT"
-        case nonCompliant = "NON_COMPLIANT"
-        case notApplicable = "NOT_APPLICABLE"
-        case insufficientData = "INSUFFICIENT_DATA"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConfigExportDeliveryInfo: AWSShape {
@@ -804,12 +1072,6 @@ extension ConfigService {
         }
     }
 
-    public enum ConfigRuleComplianceSummaryGroupKey: String, CustomStringConvertible, Codable {
-        case accountId = "ACCOUNT_ID"
-        case awsRegion = "AWS_REGION"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ConfigRuleEvaluationStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleArn", required: false, type: .string), 
@@ -875,14 +1137,6 @@ extension ConfigService {
             case lastSuccessfulEvaluationTime = "LastSuccessfulEvaluationTime"
             case lastSuccessfulInvocationTime = "LastSuccessfulInvocationTime"
         }
-    }
-
-    public enum ConfigRuleState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case deletingResults = "DELETING_RESULTS"
-        case evaluating = "EVALUATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConfigSnapshotDeliveryProperties: AWSShape {
@@ -1078,15 +1332,6 @@ extension ConfigService {
         }
     }
 
-    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable {
-        case ok = "OK"
-        case resourcediscovered = "ResourceDiscovered"
-        case resourcenotrecorded = "ResourceNotRecorded"
-        case resourcedeleted = "ResourceDeleted"
-        case resourcedeletednotrecorded = "ResourceDeletedNotRecorded"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ConfigurationRecorder: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -1222,12 +1467,6 @@ extension ConfigService {
             case conformancePackComplianceStatus = "ConformancePackComplianceStatus"
             case conformancePackName = "ConformancePackName"
         }
-    }
-
-    public enum ConformancePackComplianceType: String, CustomStringConvertible, Codable {
-        case compliant = "COMPLIANT"
-        case nonCompliant = "NON_COMPLIANT"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConformancePackDetail: AWSShape {
@@ -1416,15 +1655,6 @@ extension ConfigService {
             case complianceType = "ComplianceType"
             case configRuleName = "ConfigRuleName"
         }
-    }
-
-    public enum ConformancePackState: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createComplete = "CREATE_COMPLETE"
-        case createFailed = "CREATE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleteFailed = "DELETE_FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConformancePackStatusDetail: AWSShape {
@@ -1972,13 +2202,6 @@ extension ConfigService {
             case configStreamDeliveryInfo = "configStreamDeliveryInfo"
             case name = "name"
         }
-    }
-
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case failure = "Failure"
-        case notApplicable = "Not_Applicable"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeAggregateComplianceByConfigRulesRequest: AWSShape {
@@ -3477,11 +3700,6 @@ extension ConfigService {
         }
     }
 
-    public enum EventSource: String, CustomStringConvertible, Codable {
-        case awsConfig = "aws.config"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ExecutionControls: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SsmControls", required: false, type: .structure)
@@ -4667,28 +4885,6 @@ extension ConfigService {
         }
     }
 
-    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable {
-        case oneHour = "One_Hour"
-        case threeHours = "Three_Hours"
-        case sixHours = "Six_Hours"
-        case twelveHours = "Twelve_Hours"
-        case twentyfourHours = "TwentyFour_Hours"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MemberAccountRuleStatus: String, CustomStringConvertible, Codable {
-        case createSuccessful = "CREATE_SUCCESSFUL"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createFailed = "CREATE_FAILED"
-        case deleteSuccessful = "DELETE_SUCCESSFUL"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateFailed = "UPDATE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MemberAccountStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
@@ -4729,14 +4925,6 @@ extension ConfigService {
             case lastUpdateTime = "LastUpdateTime"
             case memberAccountRuleStatus = "MemberAccountRuleStatus"
         }
-    }
-
-    public enum MessageType: String, CustomStringConvertible, Codable {
-        case configurationitemchangenotification = "ConfigurationItemChangeNotification"
-        case configurationsnapshotdeliverycompleted = "ConfigurationSnapshotDeliveryCompleted"
-        case schedulednotification = "ScheduledNotification"
-        case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
-        public var description: String { return self.rawValue }
     }
 
     public struct OrganizationAggregationSource: AWSShape {
@@ -4847,13 +5035,6 @@ extension ConfigService {
             case organizationConfigRuleName = "OrganizationConfigRuleName"
             case organizationRuleStatus = "OrganizationRuleStatus"
         }
-    }
-
-    public enum OrganizationConfigRuleTriggerType: String, CustomStringConvertible, Codable {
-        case configurationitemchangenotification = "ConfigurationItemChangeNotification"
-        case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
-        case schedulednotification = "ScheduledNotification"
-        public var description: String { return self.rawValue }
     }
 
     public struct OrganizationConformancePack: AWSShape {
@@ -5133,19 +5314,6 @@ extension ConfigService {
         }
     }
 
-    public enum OrganizationResourceDetailedStatus: String, CustomStringConvertible, Codable {
-        case createSuccessful = "CREATE_SUCCESSFUL"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createFailed = "CREATE_FAILED"
-        case deleteSuccessful = "DELETE_SUCCESSFUL"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateFailed = "UPDATE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OrganizationResourceDetailedStatusFilters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
@@ -5170,38 +5338,6 @@ extension ConfigService {
             case accountId = "AccountId"
             case status = "Status"
         }
-    }
-
-    public enum OrganizationResourceStatus: String, CustomStringConvertible, Codable {
-        case createSuccessful = "CREATE_SUCCESSFUL"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createFailed = "CREATE_FAILED"
-        case deleteSuccessful = "DELETE_SUCCESSFUL"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateFailed = "UPDATE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OrganizationRuleStatus: String, CustomStringConvertible, Codable {
-        case createSuccessful = "CREATE_SUCCESSFUL"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createFailed = "CREATE_FAILED"
-        case deleteSuccessful = "DELETE_SUCCESSFUL"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateFailed = "UPDATE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Owner: String, CustomStringConvertible, Codable {
-        case customLambda = "CUSTOM_LAMBDA"
-        case aws = "AWS"
-        public var description: String { return self.rawValue }
     }
 
     public struct PendingAggregationRequest: AWSShape {
@@ -5914,13 +6050,6 @@ extension ConfigService {
         }
     }
 
-    public enum RecorderStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case success = "Success"
-        case failure = "Failure"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RecordingGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "allSupported", required: false, type: .boolean), 
@@ -6140,14 +6269,6 @@ extension ConfigService {
         }
     }
 
-    public enum RemediationExecutionState: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RemediationExecutionStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InvocationTime", required: false, type: .timestamp), 
@@ -6221,13 +6342,6 @@ extension ConfigService {
         }
     }
 
-    public enum RemediationExecutionStepState: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
-        case pending = "PENDING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RemediationParameterValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceValue", required: false, type: .structure), 
@@ -6252,11 +6366,6 @@ extension ConfigService {
             case resourceValue = "ResourceValue"
             case staticValue = "StaticValue"
         }
-    }
-
-    public enum RemediationTargetType: String, CustomStringConvertible, Codable {
-        case ssmDocument = "SSM_DOCUMENT"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceCount: AWSShape {
@@ -6312,13 +6421,6 @@ extension ConfigService {
             case region = "Region"
             case resourceType = "ResourceType"
         }
-    }
-
-    public enum ResourceCountGroupKey: String, CustomStringConvertible, Codable {
-        case resourceType = "RESOURCE_TYPE"
-        case accountId = "ACCOUNT_ID"
-        case awsRegion = "AWS_REGION"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceFilters: AWSShape {
@@ -6420,100 +6522,6 @@ extension ConfigService {
         }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case awsEc2Customergateway = "AWS::EC2::CustomerGateway"
-        case awsEc2Eip = "AWS::EC2::EIP"
-        case awsEc2Host = "AWS::EC2::Host"
-        case awsEc2Instance = "AWS::EC2::Instance"
-        case awsEc2Internetgateway = "AWS::EC2::InternetGateway"
-        case awsEc2Networkacl = "AWS::EC2::NetworkAcl"
-        case awsEc2Networkinterface = "AWS::EC2::NetworkInterface"
-        case awsEc2Routetable = "AWS::EC2::RouteTable"
-        case awsEc2Securitygroup = "AWS::EC2::SecurityGroup"
-        case awsEc2Subnet = "AWS::EC2::Subnet"
-        case awsCloudtrailTrail = "AWS::CloudTrail::Trail"
-        case awsEc2Volume = "AWS::EC2::Volume"
-        case awsEc2Vpc = "AWS::EC2::VPC"
-        case awsEc2Vpnconnection = "AWS::EC2::VPNConnection"
-        case awsEc2Vpngateway = "AWS::EC2::VPNGateway"
-        case awsEc2Registeredhainstance = "AWS::EC2::RegisteredHAInstance"
-        case awsEc2Natgateway = "AWS::EC2::NatGateway"
-        case awsEc2Egressonlyinternetgateway = "AWS::EC2::EgressOnlyInternetGateway"
-        case awsEc2Vpcendpoint = "AWS::EC2::VPCEndpoint"
-        case awsEc2Vpcendpointservice = "AWS::EC2::VPCEndpointService"
-        case awsEc2Flowlog = "AWS::EC2::FlowLog"
-        case awsEc2Vpcpeeringconnection = "AWS::EC2::VPCPeeringConnection"
-        case awsIamGroup = "AWS::IAM::Group"
-        case awsIamPolicy = "AWS::IAM::Policy"
-        case awsIamRole = "AWS::IAM::Role"
-        case awsIamUser = "AWS::IAM::User"
-        case awsElasticloadbalancingv2Loadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
-        case awsAcmCertificate = "AWS::ACM::Certificate"
-        case awsRdsDbinstance = "AWS::RDS::DBInstance"
-        case awsRdsDbparametergroup = "AWS::RDS::DBParameterGroup"
-        case awsRdsDboptiongroup = "AWS::RDS::DBOptionGroup"
-        case awsRdsDbsubnetgroup = "AWS::RDS::DBSubnetGroup"
-        case awsRdsDbsecuritygroup = "AWS::RDS::DBSecurityGroup"
-        case awsRdsDbsnapshot = "AWS::RDS::DBSnapshot"
-        case awsRdsDbcluster = "AWS::RDS::DBCluster"
-        case awsRdsDbclusterparametergroup = "AWS::RDS::DBClusterParameterGroup"
-        case awsRdsDbclustersnapshot = "AWS::RDS::DBClusterSnapshot"
-        case awsRdsEventsubscription = "AWS::RDS::EventSubscription"
-        case awsS3Bucket = "AWS::S3::Bucket"
-        case awsS3Accountpublicaccessblock = "AWS::S3::AccountPublicAccessBlock"
-        case awsRedshiftCluster = "AWS::Redshift::Cluster"
-        case awsRedshiftClustersnapshot = "AWS::Redshift::ClusterSnapshot"
-        case awsRedshiftClusterparametergroup = "AWS::Redshift::ClusterParameterGroup"
-        case awsRedshiftClustersecuritygroup = "AWS::Redshift::ClusterSecurityGroup"
-        case awsRedshiftClustersubnetgroup = "AWS::Redshift::ClusterSubnetGroup"
-        case awsRedshiftEventsubscription = "AWS::Redshift::EventSubscription"
-        case awsSsmManagedinstanceinventory = "AWS::SSM::ManagedInstanceInventory"
-        case awsCloudwatchAlarm = "AWS::CloudWatch::Alarm"
-        case awsCloudformationStack = "AWS::CloudFormation::Stack"
-        case awsElasticloadbalancingLoadbalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
-        case awsAutoscalingAutoscalinggroup = "AWS::AutoScaling::AutoScalingGroup"
-        case awsAutoscalingLaunchconfiguration = "AWS::AutoScaling::LaunchConfiguration"
-        case awsAutoscalingScalingpolicy = "AWS::AutoScaling::ScalingPolicy"
-        case awsAutoscalingScheduledaction = "AWS::AutoScaling::ScheduledAction"
-        case awsDynamodbTable = "AWS::DynamoDB::Table"
-        case awsCodebuildProject = "AWS::CodeBuild::Project"
-        case awsWafRatebasedrule = "AWS::WAF::RateBasedRule"
-        case awsWafRule = "AWS::WAF::Rule"
-        case awsWafRulegroup = "AWS::WAF::RuleGroup"
-        case awsWafWebacl = "AWS::WAF::WebACL"
-        case awsWafregionalRatebasedrule = "AWS::WAFRegional::RateBasedRule"
-        case awsWafregionalRule = "AWS::WAFRegional::Rule"
-        case awsWafregionalRulegroup = "AWS::WAFRegional::RuleGroup"
-        case awsWafregionalWebacl = "AWS::WAFRegional::WebACL"
-        case awsCloudfrontDistribution = "AWS::CloudFront::Distribution"
-        case awsCloudfrontStreamingdistribution = "AWS::CloudFront::StreamingDistribution"
-        case awsLambdaAlias = "AWS::Lambda::Alias"
-        case awsLambdaFunction = "AWS::Lambda::Function"
-        case awsElasticbeanstalkApplication = "AWS::ElasticBeanstalk::Application"
-        case awsElasticbeanstalkApplicationversion = "AWS::ElasticBeanstalk::ApplicationVersion"
-        case awsElasticbeanstalkEnvironment = "AWS::ElasticBeanstalk::Environment"
-        case awsMobilehubProject = "AWS::MobileHub::Project"
-        case awsXrayEncryptionconfig = "AWS::XRay::EncryptionConfig"
-        case awsSsmAssociationcompliance = "AWS::SSM::AssociationCompliance"
-        case awsSsmPatchcompliance = "AWS::SSM::PatchCompliance"
-        case awsShieldProtection = "AWS::Shield::Protection"
-        case awsShieldregionalProtection = "AWS::ShieldRegional::Protection"
-        case awsConfigResourcecompliance = "AWS::Config::ResourceCompliance"
-        case awsLicensemanagerLicenseconfiguration = "AWS::LicenseManager::LicenseConfiguration"
-        case awsApigatewayDomainname = "AWS::ApiGateway::DomainName"
-        case awsApigatewayMethod = "AWS::ApiGateway::Method"
-        case awsApigatewayStage = "AWS::ApiGateway::Stage"
-        case awsApigatewayRestapi = "AWS::ApiGateway::RestApi"
-        case awsApigatewayv2Domainname = "AWS::ApiGatewayV2::DomainName"
-        case awsApigatewayv2Stage = "AWS::ApiGatewayV2::Stage"
-        case awsApigatewayv2Api = "AWS::ApiGatewayV2::Api"
-        case awsCodepipelinePipeline = "AWS::CodePipeline::Pipeline"
-        case awsServicecatalogCloudformationprovisionedproduct = "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
-        case awsServicecatalogCloudformationproduct = "AWS::ServiceCatalog::CloudFormationProduct"
-        case awsServicecatalogPortfolio = "AWS::ServiceCatalog::Portfolio"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .enum)
@@ -6529,11 +6537,6 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case value = "Value"
         }
-    }
-
-    public enum ResourceValueType: String, CustomStringConvertible, Codable {
-        case resourceId = "RESOURCE_ID"
-        public var description: String { return self.rawValue }
     }
 
     public struct RetentionConfiguration: AWSShape {

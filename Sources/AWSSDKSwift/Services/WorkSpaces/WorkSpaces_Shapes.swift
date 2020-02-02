@@ -4,12 +4,150 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension WorkSpaces {
+    //MARK: Enums
 
     public enum AccessPropertyValue: String, CustomStringConvertible, Codable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
+
+    public enum Compute: String, CustomStringConvertible, Codable {
+        case value = "VALUE"
+        case standard = "STANDARD"
+        case performance = "PERFORMANCE"
+        case power = "POWER"
+        case graphics = "GRAPHICS"
+        case powerpro = "POWERPRO"
+        case graphicspro = "GRAPHICSPRO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionState: String, CustomStringConvertible, Codable {
+        case connected = "CONNECTED"
+        case disconnected = "DISCONNECTED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DedicatedTenancyModificationStateEnum: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DedicatedTenancySupportEnum: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModificationResourceEnum: String, CustomStringConvertible, Codable {
+        case rootVolume = "ROOT_VOLUME"
+        case userVolume = "USER_VOLUME"
+        case computeType = "COMPUTE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModificationStateEnum: String, CustomStringConvertible, Codable {
+        case updateInitiated = "UPDATE_INITIATED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperatingSystemType: String, CustomStringConvertible, Codable {
+        case windows = "WINDOWS"
+        case linux = "LINUX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReconnectEnum: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RunningMode: String, CustomStringConvertible, Codable {
+        case autoStop = "AUTO_STOP"
+        case alwaysOn = "ALWAYS_ON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetWorkspaceState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case adminMaintenance = "ADMIN_MAINTENANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Tenancy: String, CustomStringConvertible, Codable {
+        case dedicated = "DEDICATED"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable {
+        case registering = "REGISTERING"
+        case registered = "REGISTERED"
+        case deregistering = "DEREGISTERING"
+        case deregistered = "DEREGISTERED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable {
+        case simpleAd = "SIMPLE_AD"
+        case adConnector = "AD_CONNECTOR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable {
+        case byolRegular = "BYOL_REGULAR"
+        case byolGraphics = "BYOL_GRAPHICS"
+        case byolGraphicspro = "BYOL_GRAPHICSPRO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceImageRequiredTenancy: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case dedicated = "DEDICATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceImageState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case pending = "PENDING"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case impaired = "IMPAIRED"
+        case unhealthy = "UNHEALTHY"
+        case rebooting = "REBOOTING"
+        case starting = "STARTING"
+        case rebuilding = "REBUILDING"
+        case restoring = "RESTORING"
+        case maintenance = "MAINTENANCE"
+        case adminMaintenance = "ADMIN_MAINTENANCE"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        case suspended = "SUSPENDED"
+        case updating = "UPDATING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountModification: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -165,17 +303,6 @@ extension WorkSpaces {
         }
     }
 
-    public enum Compute: String, CustomStringConvertible, Codable {
-        case value = "VALUE"
-        case standard = "STANDARD"
-        case performance = "PERFORMANCE"
-        case power = "POWER"
-        case graphics = "GRAPHICS"
-        case powerpro = "POWERPRO"
-        case graphicspro = "GRAPHICSPRO"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ComputeType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .enum)
@@ -191,13 +318,6 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
-    }
-
-    public enum ConnectionState: String, CustomStringConvertible, Codable {
-        case connected = "CONNECTED"
-        case disconnected = "DISCONNECTED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
     }
 
     public struct CopyWorkspaceImageRequest: AWSShape {
@@ -407,24 +527,6 @@ extension WorkSpaces {
             case failedRequests = "FailedRequests"
             case pendingRequests = "PendingRequests"
         }
-    }
-
-    public enum DedicatedTenancyModificationStateEnum: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DedicatedTenancySupportEnum: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DefaultWorkspaceCreationProperties: AWSShape {
@@ -1458,13 +1560,6 @@ extension WorkSpaces {
         }
     }
 
-    public enum ModificationResourceEnum: String, CustomStringConvertible, Codable {
-        case rootVolume = "ROOT_VOLUME"
-        case userVolume = "USER_VOLUME"
-        case computeType = "COMPUTE_TYPE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ModificationState: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", required: false, type: .enum), 
@@ -1485,12 +1580,6 @@ extension WorkSpaces {
             case resource = "Resource"
             case state = "State"
         }
-    }
-
-    public enum ModificationStateEnum: String, CustomStringConvertible, Codable {
-        case updateInitiated = "UPDATE_INITIATED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        public var description: String { return self.rawValue }
     }
 
     public struct ModifyAccountRequest: AWSShape {
@@ -1755,12 +1844,6 @@ extension WorkSpaces {
         }
     }
 
-    public enum OperatingSystemType: String, CustomStringConvertible, Codable {
-        case windows = "WINDOWS"
-        case linux = "LINUX"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RebootRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
@@ -1885,12 +1968,6 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case failedRequests = "FailedRequests"
         }
-    }
-
-    public enum ReconnectEnum: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct RegisterWorkspaceDirectoryRequest: AWSShape {
@@ -2036,12 +2113,6 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case capacity = "Capacity"
         }
-    }
-
-    public enum RunningMode: String, CustomStringConvertible, Codable {
-        case autoStop = "AUTO_STOP"
-        case alwaysOn = "ALWAYS_ON"
-        public var description: String { return self.rawValue }
     }
 
     public struct SelfservicePermissions: AWSShape {
@@ -2250,18 +2321,6 @@ extension WorkSpaces {
             case key = "Key"
             case value = "Value"
         }
-    }
-
-    public enum TargetWorkspaceState: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case adminMaintenance = "ADMIN_MAINTENANCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Tenancy: String, CustomStringConvertible, Codable {
-        case dedicated = "DEDICATED"
-        case shared = "SHARED"
-        public var description: String { return self.rawValue }
     }
 
     public struct TerminateRequest: AWSShape {
@@ -2736,21 +2795,6 @@ extension WorkSpaces {
         }
     }
 
-    public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable {
-        case registering = "REGISTERING"
-        case registered = "REGISTERED"
-        case deregistering = "DEREGISTERING"
-        case deregistered = "DEREGISTERED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable {
-        case simpleAd = "SIMPLE_AD"
-        case adConnector = "AD_CONNECTOR"
-        public var description: String { return self.rawValue }
-    }
-
     public struct WorkspaceImage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -2801,26 +2845,6 @@ extension WorkSpaces {
             case requiredTenancy = "RequiredTenancy"
             case state = "State"
         }
-    }
-
-    public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable {
-        case byolRegular = "BYOL_REGULAR"
-        case byolGraphics = "BYOL_GRAPHICS"
-        case byolGraphicspro = "BYOL_GRAPHICSPRO"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum WorkspaceImageRequiredTenancy: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case dedicated = "DEDICATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum WorkspaceImageState: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case pending = "PENDING"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct WorkspaceProperties: AWSShape {
@@ -2922,27 +2946,6 @@ extension WorkSpaces {
             case volumeEncryptionKey = "VolumeEncryptionKey"
             case workspaceProperties = "WorkspaceProperties"
         }
-    }
-
-    public enum WorkspaceState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case impaired = "IMPAIRED"
-        case unhealthy = "UNHEALTHY"
-        case rebooting = "REBOOTING"
-        case starting = "STARTING"
-        case rebuilding = "REBUILDING"
-        case restoring = "RESTORING"
-        case maintenance = "MAINTENANCE"
-        case adminMaintenance = "ADMIN_MAINTENANCE"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        case suspended = "SUSPENDED"
-        case updating = "UPDATING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct WorkspacesIpGroup: AWSShape {

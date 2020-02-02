@@ -4,12 +4,82 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension GroundStation {
+    //MARK: Enums
 
     public enum AngleUnits: String, CustomStringConvertible, Codable {
         case degreeAngle = "DEGREE_ANGLE"
         case radian = "RADIAN"
         public var description: String { return self.rawValue }
     }
+
+    public enum BandwidthUnits: String, CustomStringConvertible, Codable {
+        case ghz = "GHz"
+        case mhz = "MHz"
+        case khz = "kHz"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigCapabilityType: String, CustomStringConvertible, Codable {
+        case antennaDownlink = "antenna-downlink"
+        case antennaDownlinkDemodDecode = "antenna-downlink-demod-decode"
+        case antennaUplink = "antenna-uplink"
+        case dataflowEndpoint = "dataflow-endpoint"
+        case tracking = "tracking"
+        case uplinkEcho = "uplink-echo"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case awsCancelled = "AWS_CANCELLED"
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case failedToSchedule = "FAILED_TO_SCHEDULE"
+        case pass = "PASS"
+        case postpass = "POSTPASS"
+        case prepass = "PREPASS"
+        case scheduled = "SCHEDULED"
+        case scheduling = "SCHEDULING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Criticality: String, CustomStringConvertible, Codable {
+        case preferred = "PREFERRED"
+        case removed = "REMOVED"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EirpUnits: String, CustomStringConvertible, Codable {
+        case dbw = "dBW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointStatus: String, CustomStringConvertible, Codable {
+        case created = "created"
+        case creating = "creating"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FrequencyUnits: String, CustomStringConvertible, Codable {
+        case ghz = "GHz"
+        case mhz = "MHz"
+        case khz = "kHz"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Polarization: String, CustomStringConvertible, Codable {
+        case leftHand = "LEFT_HAND"
+        case none = "NONE"
+        case rightHand = "RIGHT_HAND"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AntennaDownlinkConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -82,13 +152,6 @@ extension GroundStation {
         }
     }
 
-    public enum BandwidthUnits: String, CustomStringConvertible, Codable {
-        case ghz = "GHz"
-        case mhz = "MHz"
-        case khz = "kHz"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CancelContactRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "contactId", location: .uri(locationName: "contactId"), required: true, type: .string)
@@ -104,16 +167,6 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case contactId = "contactId"
         }
-    }
-
-    public enum ConfigCapabilityType: String, CustomStringConvertible, Codable {
-        case antennaDownlink = "antenna-downlink"
-        case antennaDownlinkDemodDecode = "antenna-downlink-demod-decode"
-        case antennaUplink = "antenna-uplink"
-        case dataflowEndpoint = "dataflow-endpoint"
-        case tracking = "tracking"
-        case uplinkEcho = "uplink-echo"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConfigIdResponse: AWSShape {
@@ -311,21 +364,6 @@ extension GroundStation {
         }
     }
 
-    public enum ContactStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case awsCancelled = "AWS_CANCELLED"
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case failedToSchedule = "FAILED_TO_SCHEDULE"
-        case pass = "PASS"
-        case postpass = "POSTPASS"
-        case prepass = "PREPASS"
-        case scheduled = "SCHEDULED"
-        case scheduling = "SCHEDULING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CreateConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configData", required: true, type: .structure), 
@@ -450,13 +488,6 @@ extension GroundStation {
             case tags = "tags"
             case trackingConfigArn = "trackingConfigArn"
         }
-    }
-
-    public enum Criticality: String, CustomStringConvertible, Codable {
-        case preferred = "PREFERRED"
-        case removed = "REMOVED"
-        case required = "REQUIRED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DataflowEndpoint: AWSShape {
@@ -759,11 +790,6 @@ extension GroundStation {
         }
     }
 
-    public enum EirpUnits: String, CustomStringConvertible, Codable {
-        case dbw = "dBW"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Elevation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "unit", required: true, type: .enum), 
@@ -812,15 +838,6 @@ extension GroundStation {
         }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable {
-        case created = "created"
-        case creating = "creating"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Frequency: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "units", required: true, type: .enum), 
@@ -863,13 +880,6 @@ extension GroundStation {
             case units = "units"
             case value = "value"
         }
-    }
-
-    public enum FrequencyUnits: String, CustomStringConvertible, Codable {
-        case ghz = "GHz"
-        case mhz = "MHz"
-        case khz = "kHz"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetConfigRequest: AWSShape {
@@ -1586,13 +1596,6 @@ extension GroundStation {
             case name = "name"
             case region = "region"
         }
-    }
-
-    public enum Polarization: String, CustomStringConvertible, Codable {
-        case leftHand = "LEFT_HAND"
-        case none = "NONE"
-        case rightHand = "RIGHT_HAND"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReserveContactRequest: AWSShape {

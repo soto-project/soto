@@ -4,6 +4,36 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Health {
+    //MARK: Enums
+
+    public enum EntityStatusCode: String, CustomStringConvertible, Codable {
+        case impaired = "IMPAIRED"
+        case unimpaired = "UNIMPAIRED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventAggregateField: String, CustomStringConvertible, Codable {
+        case eventtypecategory = "eventTypeCategory"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventStatusCode: String, CustomStringConvertible, Codable {
+        case open = "open"
+        case closed = "closed"
+        case upcoming = "upcoming"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventTypeCategory: String, CustomStringConvertible, Codable {
+        case issue = "issue"
+        case accountnotification = "accountNotification"
+        case scheduledchange = "scheduledChange"
+        case investigation = "investigation"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AffectedEntity: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1452,32 +1482,5 @@ extension Health {
             case services = "services"
             case startTime = "startTime"
         }
-    }
-
-    public enum EntityStatusCode: String, CustomStringConvertible, Codable {
-        case impaired = "IMPAIRED"
-        case unimpaired = "UNIMPAIRED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EventAggregateField: String, CustomStringConvertible, Codable {
-        case eventtypecategory = "eventTypeCategory"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EventStatusCode: String, CustomStringConvertible, Codable {
-        case open = "open"
-        case closed = "closed"
-        case upcoming = "upcoming"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EventTypeCategory: String, CustomStringConvertible, Codable {
-        case issue = "issue"
-        case accountnotification = "accountNotification"
-        case scheduledchange = "scheduledChange"
-        case investigation = "investigation"
-        public var description: String { return self.rawValue }
     }
 }

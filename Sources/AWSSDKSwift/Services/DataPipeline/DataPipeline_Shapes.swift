@@ -4,6 +4,25 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DataPipeline {
+    //MARK: Enums
+
+    public enum OperatorType: String, CustomStringConvertible, Codable {
+        case eq = "EQ"
+        case refEq = "REF_EQ"
+        case le = "LE"
+        case ge = "GE"
+        case between = "BETWEEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskStatus: String, CustomStringConvertible, Codable {
+        case finished = "FINISHED"
+        case failed = "FAILED"
+        case `false` = "FALSE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ActivatePipelineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -592,15 +611,6 @@ extension DataPipeline {
             case `type` = "type"
             case values = "values"
         }
-    }
-
-    public enum OperatorType: String, CustomStringConvertible, Codable {
-        case eq = "EQ"
-        case refEq = "REF_EQ"
-        case le = "LE"
-        case ge = "GE"
-        case between = "BETWEEN"
-        public var description: String { return self.rawValue }
     }
 
     public struct ParameterAttribute: AWSShape {
@@ -1352,13 +1362,6 @@ extension DataPipeline {
             case pipelineId = "pipelineId"
             case taskId = "taskId"
         }
-    }
-
-    public enum TaskStatus: String, CustomStringConvertible, Codable {
-        case finished = "FINISHED"
-        case failed = "FAILED"
-        case `false` = "FALSE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ValidatePipelineDefinitionInput: AWSShape {

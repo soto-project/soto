@@ -4,6 +4,115 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DatabaseMigrationService {
+    //MARK: Enums
+
+    public enum AuthMechanismValue: String, CustomStringConvertible, Codable {
+        case `default` = "default"
+        case mongodbCr = "mongodb_cr"
+        case scramSha1 = "scram_sha_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthTypeValue: String, CustomStringConvertible, Codable {
+        case no = "no"
+        case password = "password"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CompressionTypeValue: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case gzip = "gzip"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataFormatValue: String, CustomStringConvertible, Codable {
+        case csv = "csv"
+        case parquet = "parquet"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DmsSslModeValue: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case require = "require"
+        case verifyCa = "verify-ca"
+        case verifyFull = "verify-full"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncodingTypeValue: String, CustomStringConvertible, Codable {
+        case plain = "plain"
+        case plainDictionary = "plain-dictionary"
+        case rleDictionary = "rle-dictionary"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionModeValue: String, CustomStringConvertible, Codable {
+        case sseS3 = "sse-s3"
+        case sseKms = "sse-kms"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageFormatValue: String, CustomStringConvertible, Codable {
+        case json = "json"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationTypeValue: String, CustomStringConvertible, Codable {
+        case fullLoad = "full-load"
+        case cdc = "cdc"
+        case fullLoadAndCdc = "full-load-and-cdc"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NestingLevelValue: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case one = "one"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParquetVersionValue: String, CustomStringConvertible, Codable {
+        case parquet10 = "parquet-1-0"
+        case parquet20 = "parquet-2-0"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable {
+        case successful = "successful"
+        case failed = "failed"
+        case refreshing = "refreshing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReleaseStatusValues: String, CustomStringConvertible, Codable {
+        case beta = "beta"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReloadOptionValue: String, CustomStringConvertible, Codable {
+        case dataReload = "data-reload"
+        case validateOnly = "validate-only"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationEndpointTypeValue: String, CustomStringConvertible, Codable {
+        case source = "source"
+        case target = "target"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case replicationInstance = "replication-instance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable {
+        case startReplication = "start-replication"
+        case resumeProcessing = "resume-processing"
+        case reloadTarget = "reload-target"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountQuota: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -106,19 +215,6 @@ extension DatabaseMigrationService {
         }
     }
 
-    public enum AuthMechanismValue: String, CustomStringConvertible, Codable {
-        case `default` = "default"
-        case mongodbCr = "mongodb_cr"
-        case scramSha1 = "scram_sha_1"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AuthTypeValue: String, CustomStringConvertible, Codable {
-        case no = "no"
-        case password = "password"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AvailabilityZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
@@ -196,12 +292,6 @@ extension DatabaseMigrationService {
             case validFromDate = "ValidFromDate"
             case validToDate = "ValidToDate"
         }
-    }
-
-    public enum CompressionTypeValue: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case gzip = "gzip"
-        public var description: String { return self.rawValue }
     }
 
     public struct Connection: AWSShape {
@@ -678,12 +768,6 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case replicationTask = "ReplicationTask"
         }
-    }
-
-    public enum DataFormatValue: String, CustomStringConvertible, Codable {
-        case csv = "csv"
-        case parquet = "parquet"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteCertificateMessage: AWSShape {
@@ -1817,14 +1901,6 @@ extension DatabaseMigrationService {
         }
     }
 
-    public enum DmsSslModeValue: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case require = "require"
-        case verifyCa = "verify-ca"
-        case verifyFull = "verify-full"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DmsTransferSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BucketName", required: false, type: .string), 
@@ -1894,19 +1970,6 @@ extension DatabaseMigrationService {
             case fullLoadErrorPercentage = "FullLoadErrorPercentage"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
         }
-    }
-
-    public enum EncodingTypeValue: String, CustomStringConvertible, Codable {
-        case plain = "plain"
-        case plainDictionary = "plain-dictionary"
-        case rleDictionary = "rle-dictionary"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EncryptionModeValue: String, CustomStringConvertible, Codable {
-        case sseS3 = "sse-s3"
-        case sseKms = "sse-kms"
-        public var description: String { return self.rawValue }
     }
 
     public struct Endpoint: AWSShape {
@@ -2287,18 +2350,6 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case tagList = "TagList"
         }
-    }
-
-    public enum MessageFormatValue: String, CustomStringConvertible, Codable {
-        case json = "json"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MigrationTypeValue: String, CustomStringConvertible, Codable {
-        case fullLoad = "full-load"
-        case cdc = "cdc"
-        case fullLoadAndCdc = "full-load-and-cdc"
-        public var description: String { return self.rawValue }
     }
 
     public struct ModifyEndpointMessage: AWSShape {
@@ -2757,12 +2808,6 @@ extension DatabaseMigrationService {
         }
     }
 
-    public enum NestingLevelValue: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case one = "one"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OrderableReplicationInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
@@ -2818,12 +2863,6 @@ extension DatabaseMigrationService {
             case replicationInstanceClass = "ReplicationInstanceClass"
             case storageType = "StorageType"
         }
-    }
-
-    public enum ParquetVersionValue: String, CustomStringConvertible, Codable {
-        case parquet10 = "parquet-1-0"
-        case parquet20 = "parquet-2-0"
-        public var description: String { return self.rawValue }
     }
 
     public struct PendingMaintenanceAction: AWSShape {
@@ -3120,24 +3159,6 @@ extension DatabaseMigrationService {
         }
     }
 
-    public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable {
-        case successful = "successful"
-        case failed = "failed"
-        case refreshing = "refreshing"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReleaseStatusValues: String, CustomStringConvertible, Codable {
-        case beta = "beta"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReloadOptionValue: String, CustomStringConvertible, Codable {
-        case dataReload = "data-reload"
-        case validateOnly = "validate-only"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReloadTablesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReloadOption", required: false, type: .enum), 
@@ -3210,12 +3231,6 @@ extension DatabaseMigrationService {
         public init() {
         }
 
-    }
-
-    public enum ReplicationEndpointTypeValue: String, CustomStringConvertible, Codable {
-        case source = "source"
-        case target = "target"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReplicationInstance: AWSShape {
@@ -3776,11 +3791,6 @@ extension DatabaseMigrationService {
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case replicationInstance = "replication-instance"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StartReplicationTaskAssessmentMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
@@ -3867,13 +3877,6 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case replicationTask = "ReplicationTask"
         }
-    }
-
-    public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable {
-        case startReplication = "start-replication"
-        case resumeProcessing = "resume-processing"
-        case reloadTarget = "reload-target"
-        public var description: String { return self.rawValue }
     }
 
     public struct StopReplicationTaskMessage: AWSShape {

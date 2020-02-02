@@ -4,12 +4,116 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension EKS {
+    //MARK: Enums
 
     public enum AMITypes: String, CustomStringConvertible, Codable {
         case al2X8664 = "AL2_x86_64"
         case al2X8664Gpu = "AL2_x86_64_GPU"
         public var description: String { return self.rawValue }
     }
+
+    public enum ClusterStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case subnetnotfound = "SubnetNotFound"
+        case securitygroupnotfound = "SecurityGroupNotFound"
+        case enilimitreached = "EniLimitReached"
+        case ipnotavailable = "IpNotAvailable"
+        case accessdenied = "AccessDenied"
+        case operationnotpermitted = "OperationNotPermitted"
+        case vpcidnotfound = "VpcIdNotFound"
+        case unknown = "Unknown"
+        case nodecreationfailure = "NodeCreationFailure"
+        case podevictionfailure = "PodEvictionFailure"
+        case insufficientfreeaddresses = "InsufficientFreeAddresses"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FargateProfileStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case createFailed = "CREATE_FAILED"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogType: String, CustomStringConvertible, Codable {
+        case api = "api"
+        case audit = "audit"
+        case authenticator = "authenticator"
+        case controllermanager = "controllerManager"
+        case scheduler = "scheduler"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodegroupIssueCode: String, CustomStringConvertible, Codable {
+        case autoscalinggroupnotfound = "AutoScalingGroupNotFound"
+        case ec2securitygroupnotfound = "Ec2SecurityGroupNotFound"
+        case ec2securitygroupdeletionfailure = "Ec2SecurityGroupDeletionFailure"
+        case ec2launchtemplatenotfound = "Ec2LaunchTemplateNotFound"
+        case ec2launchtemplateversionmismatch = "Ec2LaunchTemplateVersionMismatch"
+        case iaminstanceprofilenotfound = "IamInstanceProfileNotFound"
+        case iamnoderolenotfound = "IamNodeRoleNotFound"
+        case asginstancelaunchfailures = "AsgInstanceLaunchFailures"
+        case instancelimitexceeded = "InstanceLimitExceeded"
+        case insufficientfreeaddresses = "InsufficientFreeAddresses"
+        case accessdenied = "AccessDenied"
+        case internalfailure = "InternalFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodegroupStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case createFailed = "CREATE_FAILED"
+        case deleteFailed = "DELETE_FAILED"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateParamType: String, CustomStringConvertible, Codable {
+        case version = "Version"
+        case platformversion = "PlatformVersion"
+        case endpointprivateaccess = "EndpointPrivateAccess"
+        case endpointpublicaccess = "EndpointPublicAccess"
+        case clusterlogging = "ClusterLogging"
+        case desiredsize = "DesiredSize"
+        case labelstoadd = "LabelsToAdd"
+        case labelstoremove = "LabelsToRemove"
+        case maxsize = "MaxSize"
+        case minsize = "MinSize"
+        case releaseversion = "ReleaseVersion"
+        case publicaccesscidrs = "PublicAccessCidrs"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        case successful = "Successful"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateType: String, CustomStringConvertible, Codable {
+        case versionupdate = "VersionUpdate"
+        case endpointaccessupdate = "EndpointAccessUpdate"
+        case loggingupdate = "LoggingUpdate"
+        case configupdate = "ConfigUpdate"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AutoScalingGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -125,15 +229,6 @@ extension EKS {
             case tags = "tags"
             case version = "version"
         }
-    }
-
-    public enum ClusterStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateClusterRequest: AWSShape {
@@ -665,21 +760,6 @@ extension EKS {
         }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case subnetnotfound = "SubnetNotFound"
-        case securitygroupnotfound = "SecurityGroupNotFound"
-        case enilimitreached = "EniLimitReached"
-        case ipnotavailable = "IpNotAvailable"
-        case accessdenied = "AccessDenied"
-        case operationnotpermitted = "OperationNotPermitted"
-        case vpcidnotfound = "VpcIdNotFound"
-        case unknown = "Unknown"
-        case nodecreationfailure = "NodeCreationFailure"
-        case podevictionfailure = "PodEvictionFailure"
-        case insufficientfreeaddresses = "InsufficientFreeAddresses"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ErrorDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "errorCode", required: false, type: .enum), 
@@ -784,15 +864,6 @@ extension EKS {
             case labels = "labels"
             case namespace = "namespace"
         }
-    }
-
-    public enum FargateProfileStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case createFailed = "CREATE_FAILED"
-        case deleteFailed = "DELETE_FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Identity: AWSShape {
@@ -1111,15 +1182,6 @@ extension EKS {
         }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable {
-        case api = "api"
-        case audit = "audit"
-        case authenticator = "authenticator"
-        case controllermanager = "controllerManager"
-        case scheduler = "scheduler"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Logging: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clusterLogging", required: false, type: .list)
@@ -1261,22 +1323,6 @@ extension EKS {
         }
     }
 
-    public enum NodegroupIssueCode: String, CustomStringConvertible, Codable {
-        case autoscalinggroupnotfound = "AutoScalingGroupNotFound"
-        case ec2securitygroupnotfound = "Ec2SecurityGroupNotFound"
-        case ec2securitygroupdeletionfailure = "Ec2SecurityGroupDeletionFailure"
-        case ec2launchtemplatenotfound = "Ec2LaunchTemplateNotFound"
-        case ec2launchtemplateversionmismatch = "Ec2LaunchTemplateVersionMismatch"
-        case iaminstanceprofilenotfound = "IamInstanceProfileNotFound"
-        case iamnoderolenotfound = "IamNodeRoleNotFound"
-        case asginstancelaunchfailures = "AsgInstanceLaunchFailures"
-        case instancelimitexceeded = "InstanceLimitExceeded"
-        case insufficientfreeaddresses = "InsufficientFreeAddresses"
-        case accessdenied = "AccessDenied"
-        case internalfailure = "InternalFailure"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NodegroupResources: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
@@ -1330,17 +1376,6 @@ extension EKS {
             case maxSize = "maxSize"
             case minSize = "minSize"
         }
-    }
-
-    public enum NodegroupStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case createFailed = "CREATE_FAILED"
-        case deleteFailed = "DELETE_FAILED"
-        case degraded = "DEGRADED"
-        public var description: String { return self.rawValue }
     }
 
     public struct OIDC: AWSShape {
@@ -1759,38 +1794,6 @@ extension EKS {
             case `type` = "type"
             case value = "value"
         }
-    }
-
-    public enum UpdateParamType: String, CustomStringConvertible, Codable {
-        case version = "Version"
-        case platformversion = "PlatformVersion"
-        case endpointprivateaccess = "EndpointPrivateAccess"
-        case endpointpublicaccess = "EndpointPublicAccess"
-        case clusterlogging = "ClusterLogging"
-        case desiredsize = "DesiredSize"
-        case labelstoadd = "LabelsToAdd"
-        case labelstoremove = "LabelsToRemove"
-        case maxsize = "MaxSize"
-        case minsize = "MinSize"
-        case releaseversion = "ReleaseVersion"
-        case publicaccesscidrs = "PublicAccessCidrs"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UpdateStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
-        case successful = "Successful"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UpdateType: String, CustomStringConvertible, Codable {
-        case versionupdate = "VersionUpdate"
-        case endpointaccessupdate = "EndpointAccessUpdate"
-        case loggingupdate = "LoggingUpdate"
-        case configupdate = "ConfigUpdate"
-        public var description: String { return self.rawValue }
     }
 
     public struct VpcConfigRequest: AWSShape {

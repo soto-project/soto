@@ -4,6 +4,245 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension QuickSight {
+    //MARK: Enums
+
+    public enum AssignmentStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case draft = "DRAFT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ColumnDataType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case integer = "INTEGER"
+        case decimal = "DECIMAL"
+        case datetime = "DATETIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashboardBehavior: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashboardErrorType: String, CustomStringConvertible, Codable {
+        case dataSetNotFound = "DATA_SET_NOT_FOUND"
+        case internalFailure = "INTERNAL_FAILURE"
+        case parameterValueIncompatible = "PARAMETER_VALUE_INCOMPATIBLE"
+        case parameterTypeInvalid = "PARAMETER_TYPE_INVALID"
+        case parameterNotFound = "PARAMETER_NOT_FOUND"
+        case columnTypeMismatch = "COLUMN_TYPE_MISMATCH"
+        case columnGeographicRoleMismatch = "COLUMN_GEOGRAPHIC_ROLE_MISMATCH"
+        case columnReplacementMissing = "COLUMN_REPLACEMENT_MISSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashboardUIState: String, CustomStringConvertible, Codable {
+        case expanded = "EXPANDED"
+        case collapsed = "COLLAPSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSetImportMode: String, CustomStringConvertible, Codable {
+        case spice = "SPICE"
+        case directQuery = "DIRECT_QUERY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceErrorInfoType: String, CustomStringConvertible, Codable {
+        case timeout = "TIMEOUT"
+        case engineVersionNotSupported = "ENGINE_VERSION_NOT_SUPPORTED"
+        case unknownHost = "UNKNOWN_HOST"
+        case genericSqlFailure = "GENERIC_SQL_FAILURE"
+        case conflict = "CONFLICT"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceType: String, CustomStringConvertible, Codable {
+        case adobeAnalytics = "ADOBE_ANALYTICS"
+        case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
+        case athena = "ATHENA"
+        case aurora = "AURORA"
+        case auroraPostgresql = "AURORA_POSTGRESQL"
+        case awsIotAnalytics = "AWS_IOT_ANALYTICS"
+        case github = "GITHUB"
+        case jira = "JIRA"
+        case mariadb = "MARIADB"
+        case mysql = "MYSQL"
+        case postgresql = "POSTGRESQL"
+        case presto = "PRESTO"
+        case redshift = "REDSHIFT"
+        case s3 = "S3"
+        case salesforce = "SALESFORCE"
+        case servicenow = "SERVICENOW"
+        case snowflake = "SNOWFLAKE"
+        case spark = "SPARK"
+        case sqlserver = "SQLSERVER"
+        case teradata = "TERADATA"
+        case twitter = "TWITTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case tsv = "TSV"
+        case clf = "CLF"
+        case elf = "ELF"
+        case xlsx = "XLSX"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeoSpatialCountryCode: String, CustomStringConvertible, Codable {
+        case us = "US"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeoSpatialDataRole: String, CustomStringConvertible, Codable {
+        case country = "COUNTRY"
+        case state = "STATE"
+        case county = "COUNTY"
+        case city = "CITY"
+        case postcode = "POSTCODE"
+        case longitude = "LONGITUDE"
+        case latitude = "LATITUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityType: String, CustomStringConvertible, Codable {
+        case iam = "IAM"
+        case quicksight = "QUICKSIGHT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionErrorType: String, CustomStringConvertible, Codable {
+        case failureToAssumeRole = "FAILURE_TO_ASSUME_ROLE"
+        case ingestionSuperseded = "INGESTION_SUPERSEDED"
+        case ingestionCanceled = "INGESTION_CANCELED"
+        case dataSetDeleted = "DATA_SET_DELETED"
+        case dataSetNotSpice = "DATA_SET_NOT_SPICE"
+        case s3UploadedFileDeleted = "S3_UPLOADED_FILE_DELETED"
+        case s3ManifestError = "S3_MANIFEST_ERROR"
+        case dataToleranceException = "DATA_TOLERANCE_EXCEPTION"
+        case spiceTableNotFound = "SPICE_TABLE_NOT_FOUND"
+        case dataSetSizeLimitExceeded = "DATA_SET_SIZE_LIMIT_EXCEEDED"
+        case rowSizeLimitExceeded = "ROW_SIZE_LIMIT_EXCEEDED"
+        case accountCapacityLimitExceeded = "ACCOUNT_CAPACITY_LIMIT_EXCEEDED"
+        case customerError = "CUSTOMER_ERROR"
+        case dataSourceNotFound = "DATA_SOURCE_NOT_FOUND"
+        case iamRoleNotAvailable = "IAM_ROLE_NOT_AVAILABLE"
+        case connectionFailure = "CONNECTION_FAILURE"
+        case sqlTableNotFound = "SQL_TABLE_NOT_FOUND"
+        case permissionDenied = "PERMISSION_DENIED"
+        case sslCertificateValidationFailure = "SSL_CERTIFICATE_VALIDATION_FAILURE"
+        case oauthTokenFailure = "OAUTH_TOKEN_FAILURE"
+        case sourceApiLimitExceededFailure = "SOURCE_API_LIMIT_EXCEEDED_FAILURE"
+        case passwordAuthenticationFailure = "PASSWORD_AUTHENTICATION_FAILURE"
+        case sqlSchemaMismatchError = "SQL_SCHEMA_MISMATCH_ERROR"
+        case invalidDateFormat = "INVALID_DATE_FORMAT"
+        case invalidDataprepSyntax = "INVALID_DATAPREP_SYNTAX"
+        case sourceResourceLimitExceeded = "SOURCE_RESOURCE_LIMIT_EXCEEDED"
+        case sqlInvalidParameterValue = "SQL_INVALID_PARAMETER_VALUE"
+        case queryTimeout = "QUERY_TIMEOUT"
+        case sqlNumericOverflow = "SQL_NUMERIC_OVERFLOW"
+        case unresolvableHost = "UNRESOLVABLE_HOST"
+        case unroutableHost = "UNROUTABLE_HOST"
+        case sqlException = "SQL_EXCEPTION"
+        case s3FileInaccessible = "S3_FILE_INACCESSIBLE"
+        case iotFileNotFound = "IOT_FILE_NOT_FOUND"
+        case iotDataSetFileEmpty = "IOT_DATA_SET_FILE_EMPTY"
+        case invalidDataSourceConfig = "INVALID_DATA_SOURCE_CONFIG"
+        case dataSourceAuthFailed = "DATA_SOURCE_AUTH_FAILED"
+        case dataSourceConnectionFailed = "DATA_SOURCE_CONNECTION_FAILED"
+        case failureToProcessJsonFile = "FAILURE_TO_PROCESS_JSON_FILE"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionRequestSource: String, CustomStringConvertible, Codable {
+        case manual = "MANUAL"
+        case scheduled = "SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionRequestType: String, CustomStringConvertible, Codable {
+        case initialIngestion = "INITIAL_INGESTION"
+        case edit = "EDIT"
+        case incrementalRefresh = "INCREMENTAL_REFRESH"
+        case fullRefresh = "FULL_REFRESH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionStatus: String, CustomStringConvertible, Codable {
+        case initialized = "INITIALIZED"
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputColumnDataType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case integer = "INTEGER"
+        case decimal = "DECIMAL"
+        case datetime = "DATETIME"
+        case bit = "BIT"
+        case boolean = "BOOLEAN"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JoinType: String, CustomStringConvertible, Codable {
+        case inner = "INNER"
+        case outer = "OUTER"
+        case left = "LEFT"
+        case right = "RIGHT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceStatus: String, CustomStringConvertible, Codable {
+        case creationInProgress = "CREATION_IN_PROGRESS"
+        case creationSuccessful = "CREATION_SUCCESSFUL"
+        case creationFailed = "CREATION_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateFailed = "UPDATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RowLevelPermissionPolicy: String, CustomStringConvertible, Codable {
+        case grantAccess = "GRANT_ACCESS"
+        case denyAccess = "DENY_ACCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemplateErrorType: String, CustomStringConvertible, Codable {
+        case dataSetNotFound = "DATA_SET_NOT_FOUND"
+        case internalFailure = "INTERNAL_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TextQualifier: String, CustomStringConvertible, Codable {
+        case doubleQuote = "DOUBLE_QUOTE"
+        case singleQuote = "SINGLE_QUOTE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserRole: String, CustomStringConvertible, Codable {
+        case admin = "ADMIN"
+        case author = "AUTHOR"
+        case reader = "READER"
+        case restrictedAuthor = "RESTRICTED_AUTHOR"
+        case restrictedReader = "RESTRICTED_READER"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ActiveIAMPolicyAssignment: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -64,13 +303,6 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
         }
-    }
-
-    public enum AssignmentStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case draft = "DRAFT"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct AthenaParameters: AWSShape {
@@ -324,14 +556,6 @@ extension QuickSight {
             case format = "Format"
             case newColumnType = "NewColumnType"
         }
-    }
-
-    public enum ColumnDataType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case integer = "INTEGER"
-        case decimal = "DECIMAL"
-        case datetime = "DATETIME"
-        public var description: String { return self.rawValue }
     }
 
     public struct ColumnGroup: AWSShape {
@@ -1467,12 +1691,6 @@ extension QuickSight {
         }
     }
 
-    public enum DashboardBehavior: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DashboardError: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Message", required: false, type: .string), 
@@ -1493,18 +1711,6 @@ extension QuickSight {
             case message = "Message"
             case `type` = "Type"
         }
-    }
-
-    public enum DashboardErrorType: String, CustomStringConvertible, Codable {
-        case dataSetNotFound = "DATA_SET_NOT_FOUND"
-        case internalFailure = "INTERNAL_FAILURE"
-        case parameterValueIncompatible = "PARAMETER_VALUE_INCOMPATIBLE"
-        case parameterTypeInvalid = "PARAMETER_TYPE_INVALID"
-        case parameterNotFound = "PARAMETER_NOT_FOUND"
-        case columnTypeMismatch = "COLUMN_TYPE_MISMATCH"
-        case columnGeographicRoleMismatch = "COLUMN_GEOGRAPHIC_ROLE_MISMATCH"
-        case columnReplacementMissing = "COLUMN_REPLACEMENT_MISSING"
-        public var description: String { return self.rawValue }
     }
 
     public struct DashboardPublishOptions: AWSShape {
@@ -1629,12 +1835,6 @@ extension QuickSight {
             case name = "Name"
             case publishedVersionNumber = "PublishedVersionNumber"
         }
-    }
-
-    public enum DashboardUIState: String, CustomStringConvertible, Codable {
-        case expanded = "EXPANDED"
-        case collapsed = "COLLAPSED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DashboardVersion: AWSShape {
@@ -1823,12 +2023,6 @@ extension QuickSight {
             case dataSetSchema = "DataSetSchema"
             case placeholder = "Placeholder"
         }
-    }
-
-    public enum DataSetImportMode: String, CustomStringConvertible, Codable {
-        case spice = "SPICE"
-        case directQuery = "DIRECT_QUERY"
-        public var description: String { return self.rawValue }
     }
 
     public struct DataSetReference: AWSShape {
@@ -2031,16 +2225,6 @@ extension QuickSight {
         }
     }
 
-    public enum DataSourceErrorInfoType: String, CustomStringConvertible, Codable {
-        case timeout = "TIMEOUT"
-        case engineVersionNotSupported = "ENGINE_VERSION_NOT_SUPPORTED"
-        case unknownHost = "UNKNOWN_HOST"
-        case genericSqlFailure = "GENERIC_SQL_FAILURE"
-        case conflict = "CONFLICT"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DataSourceParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmazonElasticsearchParameters", required: false, type: .structure), 
@@ -2168,31 +2352,6 @@ extension QuickSight {
             case teradataParameters = "TeradataParameters"
             case twitterParameters = "TwitterParameters"
         }
-    }
-
-    public enum DataSourceType: String, CustomStringConvertible, Codable {
-        case adobeAnalytics = "ADOBE_ANALYTICS"
-        case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
-        case athena = "ATHENA"
-        case aurora = "AURORA"
-        case auroraPostgresql = "AURORA_POSTGRESQL"
-        case awsIotAnalytics = "AWS_IOT_ANALYTICS"
-        case github = "GITHUB"
-        case jira = "JIRA"
-        case mariadb = "MARIADB"
-        case mysql = "MYSQL"
-        case postgresql = "POSTGRESQL"
-        case presto = "PRESTO"
-        case redshift = "REDSHIFT"
-        case s3 = "S3"
-        case salesforce = "SALESFORCE"
-        case servicenow = "SERVICENOW"
-        case snowflake = "SNOWFLAKE"
-        case spark = "SPARK"
-        case sqlserver = "SQLSERVER"
-        case teradata = "TERADATA"
-        case twitter = "TWITTER"
-        public var description: String { return self.rawValue }
     }
 
     public struct DateTimeParameter: AWSShape {
@@ -3762,16 +3921,6 @@ extension QuickSight {
         }
     }
 
-    public enum FileFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case tsv = "TSV"
-        case clf = "CLF"
-        case elf = "ELF"
-        case xlsx = "XLSX"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FilterOperation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConditionExpression", required: true, type: .string)
@@ -3830,22 +3979,6 @@ extension QuickSight {
             case countryCode = "CountryCode"
             case name = "Name"
         }
-    }
-
-    public enum GeoSpatialCountryCode: String, CustomStringConvertible, Codable {
-        case us = "US"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum GeoSpatialDataRole: String, CustomStringConvertible, Codable {
-        case country = "COUNTRY"
-        case state = "STATE"
-        case county = "COUNTY"
-        case city = "CITY"
-        case postcode = "POSTCODE"
-        case longitude = "LONGITUDE"
-        case latitude = "LATITUDE"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetDashboardEmbedUrlRequest: AWSShape {
@@ -4051,12 +4184,6 @@ extension QuickSight {
         }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable {
-        case iam = "IAM"
-        case quicksight = "QUICKSIGHT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Ingestion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: true, type: .string), 
@@ -4122,74 +4249,6 @@ extension QuickSight {
         }
     }
 
-    public enum IngestionErrorType: String, CustomStringConvertible, Codable {
-        case failureToAssumeRole = "FAILURE_TO_ASSUME_ROLE"
-        case ingestionSuperseded = "INGESTION_SUPERSEDED"
-        case ingestionCanceled = "INGESTION_CANCELED"
-        case dataSetDeleted = "DATA_SET_DELETED"
-        case dataSetNotSpice = "DATA_SET_NOT_SPICE"
-        case s3UploadedFileDeleted = "S3_UPLOADED_FILE_DELETED"
-        case s3ManifestError = "S3_MANIFEST_ERROR"
-        case dataToleranceException = "DATA_TOLERANCE_EXCEPTION"
-        case spiceTableNotFound = "SPICE_TABLE_NOT_FOUND"
-        case dataSetSizeLimitExceeded = "DATA_SET_SIZE_LIMIT_EXCEEDED"
-        case rowSizeLimitExceeded = "ROW_SIZE_LIMIT_EXCEEDED"
-        case accountCapacityLimitExceeded = "ACCOUNT_CAPACITY_LIMIT_EXCEEDED"
-        case customerError = "CUSTOMER_ERROR"
-        case dataSourceNotFound = "DATA_SOURCE_NOT_FOUND"
-        case iamRoleNotAvailable = "IAM_ROLE_NOT_AVAILABLE"
-        case connectionFailure = "CONNECTION_FAILURE"
-        case sqlTableNotFound = "SQL_TABLE_NOT_FOUND"
-        case permissionDenied = "PERMISSION_DENIED"
-        case sslCertificateValidationFailure = "SSL_CERTIFICATE_VALIDATION_FAILURE"
-        case oauthTokenFailure = "OAUTH_TOKEN_FAILURE"
-        case sourceApiLimitExceededFailure = "SOURCE_API_LIMIT_EXCEEDED_FAILURE"
-        case passwordAuthenticationFailure = "PASSWORD_AUTHENTICATION_FAILURE"
-        case sqlSchemaMismatchError = "SQL_SCHEMA_MISMATCH_ERROR"
-        case invalidDateFormat = "INVALID_DATE_FORMAT"
-        case invalidDataprepSyntax = "INVALID_DATAPREP_SYNTAX"
-        case sourceResourceLimitExceeded = "SOURCE_RESOURCE_LIMIT_EXCEEDED"
-        case sqlInvalidParameterValue = "SQL_INVALID_PARAMETER_VALUE"
-        case queryTimeout = "QUERY_TIMEOUT"
-        case sqlNumericOverflow = "SQL_NUMERIC_OVERFLOW"
-        case unresolvableHost = "UNRESOLVABLE_HOST"
-        case unroutableHost = "UNROUTABLE_HOST"
-        case sqlException = "SQL_EXCEPTION"
-        case s3FileInaccessible = "S3_FILE_INACCESSIBLE"
-        case iotFileNotFound = "IOT_FILE_NOT_FOUND"
-        case iotDataSetFileEmpty = "IOT_DATA_SET_FILE_EMPTY"
-        case invalidDataSourceConfig = "INVALID_DATA_SOURCE_CONFIG"
-        case dataSourceAuthFailed = "DATA_SOURCE_AUTH_FAILED"
-        case dataSourceConnectionFailed = "DATA_SOURCE_CONNECTION_FAILED"
-        case failureToProcessJsonFile = "FAILURE_TO_PROCESS_JSON_FILE"
-        case internalServiceError = "INTERNAL_SERVICE_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IngestionRequestSource: String, CustomStringConvertible, Codable {
-        case manual = "MANUAL"
-        case scheduled = "SCHEDULED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IngestionRequestType: String, CustomStringConvertible, Codable {
-        case initialIngestion = "INITIAL_INGESTION"
-        case edit = "EDIT"
-        case incrementalRefresh = "INCREMENTAL_REFRESH"
-        case fullRefresh = "FULL_REFRESH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IngestionStatus: String, CustomStringConvertible, Codable {
-        case initialized = "INITIALIZED"
-        case queued = "QUEUED"
-        case running = "RUNNING"
-        case failed = "FAILED"
-        case completed = "COMPLETED"
-        case cancelled = "CANCELLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InputColumn: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -4215,17 +4274,6 @@ extension QuickSight {
             case name = "Name"
             case `type` = "Type"
         }
-    }
-
-    public enum InputColumnDataType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case integer = "INTEGER"
-        case decimal = "DECIMAL"
-        case datetime = "DATETIME"
-        case bit = "BIT"
-        case boolean = "BOOLEAN"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
     }
 
     public struct IntegerParameter: AWSShape {
@@ -4317,14 +4365,6 @@ extension QuickSight {
             case rightOperand = "RightOperand"
             case `type` = "Type"
         }
-    }
-
-    public enum JoinType: String, CustomStringConvertible, Codable {
-        case inner = "INNER"
-        case outer = "OUTER"
-        case left = "LEFT"
-        case right = "RIGHT"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListDashboardVersionsRequest: AWSShape {
@@ -6065,16 +6105,6 @@ extension QuickSight {
         }
     }
 
-    public enum ResourceStatus: String, CustomStringConvertible, Codable {
-        case creationInProgress = "CREATION_IN_PROGRESS"
-        case creationSuccessful = "CREATION_SUCCESSFUL"
-        case creationFailed = "CREATION_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        case updateFailed = "UPDATE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RowInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RowsDropped", required: false, type: .long), 
@@ -6117,12 +6147,6 @@ extension QuickSight {
             case arn = "Arn"
             case permissionPolicy = "PermissionPolicy"
         }
-    }
-
-    public enum RowLevelPermissionPolicy: String, CustomStringConvertible, Codable {
-        case grantAccess = "GRANT_ACCESS"
-        case denyAccess = "DENY_ACCESS"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3Parameters: AWSShape {
@@ -6565,12 +6589,6 @@ extension QuickSight {
         }
     }
 
-    public enum TemplateErrorType: String, CustomStringConvertible, Codable {
-        case dataSetNotFound = "DATA_SET_NOT_FOUND"
-        case internalFailure = "INTERNAL_FAILURE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TemplateSourceAnalysis: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: true, type: .string), 
@@ -6803,12 +6821,6 @@ extension QuickSight {
             case host = "Host"
             case port = "Port"
         }
-    }
-
-    public enum TextQualifier: String, CustomStringConvertible, Codable {
-        case doubleQuote = "DOUBLE_QUOTE"
-        case singleQuote = "SINGLE_QUOTE"
-        public var description: String { return self.rawValue }
     }
 
     public struct TransformOperation: AWSShape {
@@ -8164,15 +8176,6 @@ extension QuickSight {
             case role = "Role"
             case userName = "UserName"
         }
-    }
-
-    public enum UserRole: String, CustomStringConvertible, Codable {
-        case admin = "ADMIN"
-        case author = "AUTHOR"
-        case reader = "READER"
-        case restrictedAuthor = "RESTRICTED_AUTHOR"
-        case restrictedReader = "RESTRICTED_READER"
-        public var description: String { return self.rawValue }
     }
 
     public struct VpcConnectionProperties: AWSShape {

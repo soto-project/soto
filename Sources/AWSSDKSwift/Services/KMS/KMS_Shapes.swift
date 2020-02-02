@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension KMS {
+    //MARK: Enums
 
     public enum AlgorithmSpec: String, CustomStringConvertible, Codable {
         case rsaesPkcs1V15 = "RSAES_PKCS1_V1_5"
@@ -11,6 +12,139 @@ extension KMS {
         case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
         public var description: String { return self.rawValue }
     }
+
+    public enum ConnectionErrorCodeType: String, CustomStringConvertible, Codable {
+        case invalidCredentials = "INVALID_CREDENTIALS"
+        case clusterNotFound = "CLUSTER_NOT_FOUND"
+        case networkErrors = "NETWORK_ERRORS"
+        case internalError = "INTERNAL_ERROR"
+        case insufficientCloudhsmHsms = "INSUFFICIENT_CLOUDHSM_HSMS"
+        case userLockedOut = "USER_LOCKED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionStateType: String, CustomStringConvertible, Codable {
+        case connected = "CONNECTED"
+        case connecting = "CONNECTING"
+        case failed = "FAILED"
+        case disconnected = "DISCONNECTED"
+        case disconnecting = "DISCONNECTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomerMasterKeySpec: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        case rsa3072 = "RSA_3072"
+        case rsa4096 = "RSA_4096"
+        case eccNistP256 = "ECC_NIST_P256"
+        case eccNistP384 = "ECC_NIST_P384"
+        case eccNistP521 = "ECC_NIST_P521"
+        case eccSecgP256K1 = "ECC_SECG_P256K1"
+        case symmetricDefault = "SYMMETRIC_DEFAULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataKeyPairSpec: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        case rsa3072 = "RSA_3072"
+        case rsa4096 = "RSA_4096"
+        case eccNistP256 = "ECC_NIST_P256"
+        case eccNistP384 = "ECC_NIST_P384"
+        case eccNistP521 = "ECC_NIST_P521"
+        case eccSecgP256K1 = "ECC_SECG_P256K1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataKeySpec: String, CustomStringConvertible, Codable {
+        case aes256 = "AES_256"
+        case aes128 = "AES_128"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable {
+        case symmetricDefault = "SYMMETRIC_DEFAULT"
+        case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
+        case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpirationModelType: String, CustomStringConvertible, Codable {
+        case keyMaterialExpires = "KEY_MATERIAL_EXPIRES"
+        case keyMaterialDoesNotExpire = "KEY_MATERIAL_DOES_NOT_EXPIRE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GrantOperation: String, CustomStringConvertible, Codable {
+        case decrypt = "Decrypt"
+        case encrypt = "Encrypt"
+        case generatedatakey = "GenerateDataKey"
+        case generatedatakeywithoutplaintext = "GenerateDataKeyWithoutPlaintext"
+        case reencryptfrom = "ReEncryptFrom"
+        case reencryptto = "ReEncryptTo"
+        case sign = "Sign"
+        case verify = "Verify"
+        case getpublickey = "GetPublicKey"
+        case creategrant = "CreateGrant"
+        case retiregrant = "RetireGrant"
+        case describekey = "DescribeKey"
+        case generatedatakeypair = "GenerateDataKeyPair"
+        case generatedatakeypairwithoutplaintext = "GenerateDataKeyPairWithoutPlaintext"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyManagerType: String, CustomStringConvertible, Codable {
+        case aws = "AWS"
+        case customer = "CUSTOMER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyState: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        case pendingdeletion = "PendingDeletion"
+        case pendingimport = "PendingImport"
+        case unavailable = "Unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyUsageType: String, CustomStringConvertible, Codable {
+        case signVerify = "SIGN_VERIFY"
+        case encryptDecrypt = "ENCRYPT_DECRYPT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageType: String, CustomStringConvertible, Codable {
+        case raw = "RAW"
+        case digest = "DIGEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OriginType: String, CustomStringConvertible, Codable {
+        case awsKms = "AWS_KMS"
+        case external = "EXTERNAL"
+        case awsCloudhsm = "AWS_CLOUDHSM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable {
+        case rsassaPssSha256 = "RSASSA_PSS_SHA_256"
+        case rsassaPssSha384 = "RSASSA_PSS_SHA_384"
+        case rsassaPssSha512 = "RSASSA_PSS_SHA_512"
+        case rsassaPkcs1V15Sha256 = "RSASSA_PKCS1_V1_5_SHA_256"
+        case rsassaPkcs1V15Sha384 = "RSASSA_PKCS1_V1_5_SHA_384"
+        case rsassaPkcs1V15Sha512 = "RSASSA_PKCS1_V1_5_SHA_512"
+        case ecdsaSha256 = "ECDSA_SHA_256"
+        case ecdsaSha384 = "ECDSA_SHA_384"
+        case ecdsaSha512 = "ECDSA_SHA_512"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WrappingKeySpec: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AliasListEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -106,25 +240,6 @@ extension KMS {
         public init() {
         }
 
-    }
-
-    public enum ConnectionErrorCodeType: String, CustomStringConvertible, Codable {
-        case invalidCredentials = "INVALID_CREDENTIALS"
-        case clusterNotFound = "CLUSTER_NOT_FOUND"
-        case networkErrors = "NETWORK_ERRORS"
-        case internalError = "INTERNAL_ERROR"
-        case insufficientCloudhsmHsms = "INSUFFICIENT_CLOUDHSM_HSMS"
-        case userLockedOut = "USER_LOCKED_OUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConnectionStateType: String, CustomStringConvertible, Codable {
-        case connected = "CONNECTED"
-        case connecting = "CONNECTING"
-        case failed = "FAILED"
-        case disconnected = "DISCONNECTED"
-        case disconnecting = "DISCONNECTING"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateAliasRequest: AWSShape {
@@ -432,35 +547,6 @@ extension KMS {
             case customKeyStoreName = "CustomKeyStoreName"
             case trustAnchorCertificate = "TrustAnchorCertificate"
         }
-    }
-
-    public enum CustomerMasterKeySpec: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
-        case eccNistP256 = "ECC_NIST_P256"
-        case eccNistP384 = "ECC_NIST_P384"
-        case eccNistP521 = "ECC_NIST_P521"
-        case eccSecgP256K1 = "ECC_SECG_P256K1"
-        case symmetricDefault = "SYMMETRIC_DEFAULT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DataKeyPairSpec: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
-        case eccNistP256 = "ECC_NIST_P256"
-        case eccNistP384 = "ECC_NIST_P384"
-        case eccNistP521 = "ECC_NIST_P521"
-        case eccSecgP256K1 = "ECC_SECG_P256K1"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DataKeySpec: String, CustomStringConvertible, Codable {
-        case aes256 = "AES_256"
-        case aes128 = "AES_128"
-        public var description: String { return self.rawValue }
     }
 
     public struct DecryptRequest: AWSShape {
@@ -929,19 +1015,6 @@ extension KMS {
             case encryptionAlgorithm = "EncryptionAlgorithm"
             case keyId = "KeyId"
         }
-    }
-
-    public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable {
-        case symmetricDefault = "SYMMETRIC_DEFAULT"
-        case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
-        case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExpirationModelType: String, CustomStringConvertible, Codable {
-        case keyMaterialExpires = "KEY_MATERIAL_EXPIRES"
-        case keyMaterialDoesNotExpire = "KEY_MATERIAL_DOES_NOT_EXPIRE"
-        public var description: String { return self.rawValue }
     }
 
     public struct GenerateDataKeyPairRequest: AWSShape {
@@ -1598,24 +1671,6 @@ extension KMS {
         }
     }
 
-    public enum GrantOperation: String, CustomStringConvertible, Codable {
-        case decrypt = "Decrypt"
-        case encrypt = "Encrypt"
-        case generatedatakey = "GenerateDataKey"
-        case generatedatakeywithoutplaintext = "GenerateDataKeyWithoutPlaintext"
-        case reencryptfrom = "ReEncryptFrom"
-        case reencryptto = "ReEncryptTo"
-        case sign = "Sign"
-        case verify = "Verify"
-        case getpublickey = "GetPublicKey"
-        case creategrant = "CreateGrant"
-        case retiregrant = "RetireGrant"
-        case describekey = "DescribeKey"
-        case generatedatakeypair = "GenerateDataKeyPair"
-        case generatedatakeypairwithoutplaintext = "GenerateDataKeyPairWithoutPlaintext"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ImportKeyMaterialRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncryptedKeyMaterial", required: true, type: .blob), 
@@ -1690,12 +1745,6 @@ extension KMS {
             case keyArn = "KeyArn"
             case keyId = "KeyId"
         }
-    }
-
-    public enum KeyManagerType: String, CustomStringConvertible, Codable {
-        case aws = "AWS"
-        case customer = "CUSTOMER"
-        public var description: String { return self.rawValue }
     }
 
     public struct KeyMetadata: AWSShape {
@@ -1798,21 +1847,6 @@ extension KMS {
             case signingAlgorithms = "SigningAlgorithms"
             case validTo = "ValidTo"
         }
-    }
-
-    public enum KeyState: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        case pendingdeletion = "PendingDeletion"
-        case pendingimport = "PendingImport"
-        case unavailable = "Unavailable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum KeyUsageType: String, CustomStringConvertible, Codable {
-        case signVerify = "SIGN_VERIFY"
-        case encryptDecrypt = "ENCRYPT_DECRYPT"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListAliasesRequest: AWSShape {
@@ -2166,19 +2200,6 @@ extension KMS {
         }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable {
-        case raw = "RAW"
-        case digest = "DIGEST"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OriginType: String, CustomStringConvertible, Codable {
-        case awsKms = "AWS_KMS"
-        case external = "EXTERNAL"
-        case awsCloudhsm = "AWS_CLOUDHSM"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PutKeyPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
@@ -2519,19 +2540,6 @@ extension KMS {
         }
     }
 
-    public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable {
-        case rsassaPssSha256 = "RSASSA_PSS_SHA_256"
-        case rsassaPssSha384 = "RSASSA_PSS_SHA_384"
-        case rsassaPssSha512 = "RSASSA_PSS_SHA_512"
-        case rsassaPkcs1V15Sha256 = "RSASSA_PKCS1_V1_5_SHA_256"
-        case rsassaPkcs1V15Sha384 = "RSASSA_PKCS1_V1_5_SHA_384"
-        case rsassaPkcs1V15Sha512 = "RSASSA_PKCS1_V1_5_SHA_512"
-        case ecdsaSha256 = "ECDSA_SHA_256"
-        case ecdsaSha384 = "ECDSA_SHA_384"
-        case ecdsaSha512 = "ECDSA_SHA_512"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagKey", required: true, type: .string), 
@@ -2813,10 +2821,5 @@ extension KMS {
             case signatureValid = "SignatureValid"
             case signingAlgorithm = "SigningAlgorithm"
         }
-    }
-
-    public enum WrappingKeySpec: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        public var description: String { return self.rawValue }
     }
 }

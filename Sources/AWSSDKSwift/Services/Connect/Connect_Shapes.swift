@@ -4,12 +4,358 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Connect {
+    //MARK: Enums
 
     public enum Channel: String, CustomStringConvertible, Codable {
         case voice = "VOICE"
         case chat = "CHAT"
         public var description: String { return self.rawValue }
     }
+
+    public enum Comparison: String, CustomStringConvertible, Codable {
+        case lt = "LT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactFlowType: String, CustomStringConvertible, Codable {
+        case contactFlow = "CONTACT_FLOW"
+        case customerQueue = "CUSTOMER_QUEUE"
+        case customerHold = "CUSTOMER_HOLD"
+        case customerWhisper = "CUSTOMER_WHISPER"
+        case agentHold = "AGENT_HOLD"
+        case agentWhisper = "AGENT_WHISPER"
+        case outboundWhisper = "OUTBOUND_WHISPER"
+        case agentTransfer = "AGENT_TRANSFER"
+        case queueTransfer = "QUEUE_TRANSFER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CurrentMetricName: String, CustomStringConvertible, Codable {
+        case agentsOnline = "AGENTS_ONLINE"
+        case agentsAvailable = "AGENTS_AVAILABLE"
+        case agentsOnCall = "AGENTS_ON_CALL"
+        case agentsNonProductive = "AGENTS_NON_PRODUCTIVE"
+        case agentsAfterContactWork = "AGENTS_AFTER_CONTACT_WORK"
+        case agentsError = "AGENTS_ERROR"
+        case agentsStaffed = "AGENTS_STAFFED"
+        case contactsInQueue = "CONTACTS_IN_QUEUE"
+        case oldestContactAge = "OLDEST_CONTACT_AGE"
+        case contactsScheduled = "CONTACTS_SCHEDULED"
+        case agentsOnContact = "AGENTS_ON_CONTACT"
+        case slotsActive = "SLOTS_ACTIVE"
+        case slotsAvailable = "SLOTS_AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Grouping: String, CustomStringConvertible, Codable {
+        case queue = "QUEUE"
+        case channel = "CHANNEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HistoricalMetricName: String, CustomStringConvertible, Codable {
+        case contactsQueued = "CONTACTS_QUEUED"
+        case contactsHandled = "CONTACTS_HANDLED"
+        case contactsAbandoned = "CONTACTS_ABANDONED"
+        case contactsConsulted = "CONTACTS_CONSULTED"
+        case contactsAgentHungUpFirst = "CONTACTS_AGENT_HUNG_UP_FIRST"
+        case contactsHandledIncoming = "CONTACTS_HANDLED_INCOMING"
+        case contactsHandledOutbound = "CONTACTS_HANDLED_OUTBOUND"
+        case contactsHoldAbandons = "CONTACTS_HOLD_ABANDONS"
+        case contactsTransferredIn = "CONTACTS_TRANSFERRED_IN"
+        case contactsTransferredOut = "CONTACTS_TRANSFERRED_OUT"
+        case contactsTransferredInFromQueue = "CONTACTS_TRANSFERRED_IN_FROM_QUEUE"
+        case contactsTransferredOutFromQueue = "CONTACTS_TRANSFERRED_OUT_FROM_QUEUE"
+        case contactsMissed = "CONTACTS_MISSED"
+        case callbackContactsHandled = "CALLBACK_CONTACTS_HANDLED"
+        case apiContactsHandled = "API_CONTACTS_HANDLED"
+        case occupancy = "OCCUPANCY"
+        case handleTime = "HANDLE_TIME"
+        case afterContactWorkTime = "AFTER_CONTACT_WORK_TIME"
+        case queuedTime = "QUEUED_TIME"
+        case abandonTime = "ABANDON_TIME"
+        case queueAnswerTime = "QUEUE_ANSWER_TIME"
+        case holdTime = "HOLD_TIME"
+        case interactionTime = "INTERACTION_TIME"
+        case interactionAndHoldTime = "INTERACTION_AND_HOLD_TIME"
+        case serviceLevel = "SERVICE_LEVEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhoneNumberCountryCode: String, CustomStringConvertible, Codable {
+        case af = "AF"
+        case al = "AL"
+        case dz = "DZ"
+        case `as` = "AS"
+        case ad = "AD"
+        case ao = "AO"
+        case ai = "AI"
+        case aq = "AQ"
+        case ag = "AG"
+        case ar = "AR"
+        case am = "AM"
+        case aw = "AW"
+        case au = "AU"
+        case at = "AT"
+        case az = "AZ"
+        case bs = "BS"
+        case bh = "BH"
+        case bd = "BD"
+        case bb = "BB"
+        case by = "BY"
+        case be = "BE"
+        case bz = "BZ"
+        case bj = "BJ"
+        case bm = "BM"
+        case bt = "BT"
+        case bo = "BO"
+        case ba = "BA"
+        case bw = "BW"
+        case br = "BR"
+        case io = "IO"
+        case vg = "VG"
+        case bn = "BN"
+        case bg = "BG"
+        case bf = "BF"
+        case bi = "BI"
+        case kh = "KH"
+        case cm = "CM"
+        case ca = "CA"
+        case cv = "CV"
+        case ky = "KY"
+        case cf = "CF"
+        case td = "TD"
+        case cl = "CL"
+        case cn = "CN"
+        case cx = "CX"
+        case cc = "CC"
+        case co = "CO"
+        case km = "KM"
+        case ck = "CK"
+        case cr = "CR"
+        case hr = "HR"
+        case cu = "CU"
+        case cw = "CW"
+        case cy = "CY"
+        case cz = "CZ"
+        case cd = "CD"
+        case dk = "DK"
+        case dj = "DJ"
+        case dm = "DM"
+        case `do` = "DO"
+        case tl = "TL"
+        case ec = "EC"
+        case eg = "EG"
+        case sv = "SV"
+        case gq = "GQ"
+        case er = "ER"
+        case ee = "EE"
+        case et = "ET"
+        case fk = "FK"
+        case fo = "FO"
+        case fj = "FJ"
+        case fi = "FI"
+        case fr = "FR"
+        case pf = "PF"
+        case ga = "GA"
+        case gm = "GM"
+        case ge = "GE"
+        case de = "DE"
+        case gh = "GH"
+        case gi = "GI"
+        case gr = "GR"
+        case gl = "GL"
+        case gd = "GD"
+        case gu = "GU"
+        case gt = "GT"
+        case gg = "GG"
+        case gn = "GN"
+        case gw = "GW"
+        case gy = "GY"
+        case ht = "HT"
+        case hn = "HN"
+        case hk = "HK"
+        case hu = "HU"
+        case `is` = "IS"
+        case `in` = "IN"
+        case id = "ID"
+        case ir = "IR"
+        case iq = "IQ"
+        case ie = "IE"
+        case im = "IM"
+        case il = "IL"
+        case it = "IT"
+        case ci = "CI"
+        case jm = "JM"
+        case jp = "JP"
+        case je = "JE"
+        case jo = "JO"
+        case kz = "KZ"
+        case ke = "KE"
+        case ki = "KI"
+        case kw = "KW"
+        case kg = "KG"
+        case la = "LA"
+        case lv = "LV"
+        case lb = "LB"
+        case ls = "LS"
+        case lr = "LR"
+        case ly = "LY"
+        case li = "LI"
+        case lt = "LT"
+        case lu = "LU"
+        case mo = "MO"
+        case mk = "MK"
+        case mg = "MG"
+        case mw = "MW"
+        case my = "MY"
+        case mv = "MV"
+        case ml = "ML"
+        case mt = "MT"
+        case mh = "MH"
+        case mr = "MR"
+        case mu = "MU"
+        case yt = "YT"
+        case mx = "MX"
+        case fm = "FM"
+        case md = "MD"
+        case mc = "MC"
+        case mn = "MN"
+        case me = "ME"
+        case ms = "MS"
+        case ma = "MA"
+        case mz = "MZ"
+        case mm = "MM"
+        case na = "NA"
+        case nr = "NR"
+        case np = "NP"
+        case nl = "NL"
+        case an = "AN"
+        case nc = "NC"
+        case nz = "NZ"
+        case ni = "NI"
+        case ne = "NE"
+        case ng = "NG"
+        case nu = "NU"
+        case kp = "KP"
+        case mp = "MP"
+        case no = "NO"
+        case om = "OM"
+        case pk = "PK"
+        case pw = "PW"
+        case pa = "PA"
+        case pg = "PG"
+        case py = "PY"
+        case pe = "PE"
+        case ph = "PH"
+        case pn = "PN"
+        case pl = "PL"
+        case pt = "PT"
+        case pr = "PR"
+        case qa = "QA"
+        case cg = "CG"
+        case re = "RE"
+        case ro = "RO"
+        case ru = "RU"
+        case rw = "RW"
+        case bl = "BL"
+        case sh = "SH"
+        case kn = "KN"
+        case lc = "LC"
+        case mf = "MF"
+        case pm = "PM"
+        case vc = "VC"
+        case ws = "WS"
+        case sm = "SM"
+        case st = "ST"
+        case sa = "SA"
+        case sn = "SN"
+        case rs = "RS"
+        case sc = "SC"
+        case sl = "SL"
+        case sg = "SG"
+        case sx = "SX"
+        case sk = "SK"
+        case si = "SI"
+        case sb = "SB"
+        case so = "SO"
+        case za = "ZA"
+        case kr = "KR"
+        case es = "ES"
+        case lk = "LK"
+        case sd = "SD"
+        case sr = "SR"
+        case sj = "SJ"
+        case sz = "SZ"
+        case se = "SE"
+        case ch = "CH"
+        case sy = "SY"
+        case tw = "TW"
+        case tj = "TJ"
+        case tz = "TZ"
+        case th = "TH"
+        case tg = "TG"
+        case tk = "TK"
+        case to = "TO"
+        case tt = "TT"
+        case tn = "TN"
+        case tr = "TR"
+        case tm = "TM"
+        case tc = "TC"
+        case tv = "TV"
+        case vi = "VI"
+        case ug = "UG"
+        case ua = "UA"
+        case ae = "AE"
+        case gb = "GB"
+        case us = "US"
+        case uy = "UY"
+        case uz = "UZ"
+        case vu = "VU"
+        case va = "VA"
+        case ve = "VE"
+        case vn = "VN"
+        case wf = "WF"
+        case eh = "EH"
+        case ye = "YE"
+        case zm = "ZM"
+        case zw = "ZW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhoneNumberType: String, CustomStringConvertible, Codable {
+        case tollFree = "TOLL_FREE"
+        case did = "DID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhoneType: String, CustomStringConvertible, Codable {
+        case softPhone = "SOFT_PHONE"
+        case deskPhone = "DESK_PHONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueueType: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case agent = "AGENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Statistic: String, CustomStringConvertible, Codable {
+        case sum = "SUM"
+        case max = "MAX"
+        case avg = "AVG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Unit: String, CustomStringConvertible, Codable {
+        case seconds = "SECONDS"
+        case count = "COUNT"
+        case percent = "PERCENT"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ChatMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -38,11 +384,6 @@ extension Connect {
             case content = "Content"
             case contentType = "ContentType"
         }
-    }
-
-    public enum Comparison: String, CustomStringConvertible, Codable {
-        case lt = "LT"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContactFlowSummary: AWSShape {
@@ -75,19 +416,6 @@ extension Connect {
             case id = "Id"
             case name = "Name"
         }
-    }
-
-    public enum ContactFlowType: String, CustomStringConvertible, Codable {
-        case contactFlow = "CONTACT_FLOW"
-        case customerQueue = "CUSTOMER_QUEUE"
-        case customerHold = "CUSTOMER_HOLD"
-        case customerWhisper = "CUSTOMER_WHISPER"
-        case agentHold = "AGENT_HOLD"
-        case agentWhisper = "AGENT_WHISPER"
-        case outboundWhisper = "OUTBOUND_WHISPER"
-        case agentTransfer = "AGENT_TRANSFER"
-        case queueTransfer = "QUEUE_TRANSFER"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateUserRequest: AWSShape {
@@ -266,23 +594,6 @@ extension Connect {
             case metric = "Metric"
             case value = "Value"
         }
-    }
-
-    public enum CurrentMetricName: String, CustomStringConvertible, Codable {
-        case agentsOnline = "AGENTS_ONLINE"
-        case agentsAvailable = "AGENTS_AVAILABLE"
-        case agentsOnCall = "AGENTS_ON_CALL"
-        case agentsNonProductive = "AGENTS_NON_PRODUCTIVE"
-        case agentsAfterContactWork = "AGENTS_AFTER_CONTACT_WORK"
-        case agentsError = "AGENTS_ERROR"
-        case agentsStaffed = "AGENTS_STAFFED"
-        case contactsInQueue = "CONTACTS_IN_QUEUE"
-        case oldestContactAge = "OLDEST_CONTACT_AGE"
-        case contactsScheduled = "CONTACTS_SCHEDULED"
-        case agentsOnContact = "AGENTS_ON_CONTACT"
-        case slotsActive = "SLOTS_ACTIVE"
-        case slotsAvailable = "SLOTS_AVAILABLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct CurrentMetricResult: AWSShape {
@@ -757,12 +1068,6 @@ extension Connect {
         }
     }
 
-    public enum Grouping: String, CustomStringConvertible, Codable {
-        case queue = "QUEUE"
-        case channel = "CHANNEL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HierarchyGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -980,35 +1285,6 @@ extension Connect {
             case metric = "Metric"
             case value = "Value"
         }
-    }
-
-    public enum HistoricalMetricName: String, CustomStringConvertible, Codable {
-        case contactsQueued = "CONTACTS_QUEUED"
-        case contactsHandled = "CONTACTS_HANDLED"
-        case contactsAbandoned = "CONTACTS_ABANDONED"
-        case contactsConsulted = "CONTACTS_CONSULTED"
-        case contactsAgentHungUpFirst = "CONTACTS_AGENT_HUNG_UP_FIRST"
-        case contactsHandledIncoming = "CONTACTS_HANDLED_INCOMING"
-        case contactsHandledOutbound = "CONTACTS_HANDLED_OUTBOUND"
-        case contactsHoldAbandons = "CONTACTS_HOLD_ABANDONS"
-        case contactsTransferredIn = "CONTACTS_TRANSFERRED_IN"
-        case contactsTransferredOut = "CONTACTS_TRANSFERRED_OUT"
-        case contactsTransferredInFromQueue = "CONTACTS_TRANSFERRED_IN_FROM_QUEUE"
-        case contactsTransferredOutFromQueue = "CONTACTS_TRANSFERRED_OUT_FROM_QUEUE"
-        case contactsMissed = "CONTACTS_MISSED"
-        case callbackContactsHandled = "CALLBACK_CONTACTS_HANDLED"
-        case apiContactsHandled = "API_CONTACTS_HANDLED"
-        case occupancy = "OCCUPANCY"
-        case handleTime = "HANDLE_TIME"
-        case afterContactWorkTime = "AFTER_CONTACT_WORK_TIME"
-        case queuedTime = "QUEUED_TIME"
-        case abandonTime = "ABANDON_TIME"
-        case queueAnswerTime = "QUEUE_ANSWER_TIME"
-        case holdTime = "HOLD_TIME"
-        case interactionTime = "INTERACTION_TIME"
-        case interactionAndHoldTime = "INTERACTION_AND_HOLD_TIME"
-        case serviceLevel = "SERVICE_LEVEL"
-        public var description: String { return self.rawValue }
     }
 
     public struct HistoricalMetricResult: AWSShape {
@@ -1588,247 +1864,6 @@ extension Connect {
         }
     }
 
-    public enum PhoneNumberCountryCode: String, CustomStringConvertible, Codable {
-        case af = "AF"
-        case al = "AL"
-        case dz = "DZ"
-        case `as` = "AS"
-        case ad = "AD"
-        case ao = "AO"
-        case ai = "AI"
-        case aq = "AQ"
-        case ag = "AG"
-        case ar = "AR"
-        case am = "AM"
-        case aw = "AW"
-        case au = "AU"
-        case at = "AT"
-        case az = "AZ"
-        case bs = "BS"
-        case bh = "BH"
-        case bd = "BD"
-        case bb = "BB"
-        case by = "BY"
-        case be = "BE"
-        case bz = "BZ"
-        case bj = "BJ"
-        case bm = "BM"
-        case bt = "BT"
-        case bo = "BO"
-        case ba = "BA"
-        case bw = "BW"
-        case br = "BR"
-        case io = "IO"
-        case vg = "VG"
-        case bn = "BN"
-        case bg = "BG"
-        case bf = "BF"
-        case bi = "BI"
-        case kh = "KH"
-        case cm = "CM"
-        case ca = "CA"
-        case cv = "CV"
-        case ky = "KY"
-        case cf = "CF"
-        case td = "TD"
-        case cl = "CL"
-        case cn = "CN"
-        case cx = "CX"
-        case cc = "CC"
-        case co = "CO"
-        case km = "KM"
-        case ck = "CK"
-        case cr = "CR"
-        case hr = "HR"
-        case cu = "CU"
-        case cw = "CW"
-        case cy = "CY"
-        case cz = "CZ"
-        case cd = "CD"
-        case dk = "DK"
-        case dj = "DJ"
-        case dm = "DM"
-        case `do` = "DO"
-        case tl = "TL"
-        case ec = "EC"
-        case eg = "EG"
-        case sv = "SV"
-        case gq = "GQ"
-        case er = "ER"
-        case ee = "EE"
-        case et = "ET"
-        case fk = "FK"
-        case fo = "FO"
-        case fj = "FJ"
-        case fi = "FI"
-        case fr = "FR"
-        case pf = "PF"
-        case ga = "GA"
-        case gm = "GM"
-        case ge = "GE"
-        case de = "DE"
-        case gh = "GH"
-        case gi = "GI"
-        case gr = "GR"
-        case gl = "GL"
-        case gd = "GD"
-        case gu = "GU"
-        case gt = "GT"
-        case gg = "GG"
-        case gn = "GN"
-        case gw = "GW"
-        case gy = "GY"
-        case ht = "HT"
-        case hn = "HN"
-        case hk = "HK"
-        case hu = "HU"
-        case `is` = "IS"
-        case `in` = "IN"
-        case id = "ID"
-        case ir = "IR"
-        case iq = "IQ"
-        case ie = "IE"
-        case im = "IM"
-        case il = "IL"
-        case it = "IT"
-        case ci = "CI"
-        case jm = "JM"
-        case jp = "JP"
-        case je = "JE"
-        case jo = "JO"
-        case kz = "KZ"
-        case ke = "KE"
-        case ki = "KI"
-        case kw = "KW"
-        case kg = "KG"
-        case la = "LA"
-        case lv = "LV"
-        case lb = "LB"
-        case ls = "LS"
-        case lr = "LR"
-        case ly = "LY"
-        case li = "LI"
-        case lt = "LT"
-        case lu = "LU"
-        case mo = "MO"
-        case mk = "MK"
-        case mg = "MG"
-        case mw = "MW"
-        case my = "MY"
-        case mv = "MV"
-        case ml = "ML"
-        case mt = "MT"
-        case mh = "MH"
-        case mr = "MR"
-        case mu = "MU"
-        case yt = "YT"
-        case mx = "MX"
-        case fm = "FM"
-        case md = "MD"
-        case mc = "MC"
-        case mn = "MN"
-        case me = "ME"
-        case ms = "MS"
-        case ma = "MA"
-        case mz = "MZ"
-        case mm = "MM"
-        case na = "NA"
-        case nr = "NR"
-        case np = "NP"
-        case nl = "NL"
-        case an = "AN"
-        case nc = "NC"
-        case nz = "NZ"
-        case ni = "NI"
-        case ne = "NE"
-        case ng = "NG"
-        case nu = "NU"
-        case kp = "KP"
-        case mp = "MP"
-        case no = "NO"
-        case om = "OM"
-        case pk = "PK"
-        case pw = "PW"
-        case pa = "PA"
-        case pg = "PG"
-        case py = "PY"
-        case pe = "PE"
-        case ph = "PH"
-        case pn = "PN"
-        case pl = "PL"
-        case pt = "PT"
-        case pr = "PR"
-        case qa = "QA"
-        case cg = "CG"
-        case re = "RE"
-        case ro = "RO"
-        case ru = "RU"
-        case rw = "RW"
-        case bl = "BL"
-        case sh = "SH"
-        case kn = "KN"
-        case lc = "LC"
-        case mf = "MF"
-        case pm = "PM"
-        case vc = "VC"
-        case ws = "WS"
-        case sm = "SM"
-        case st = "ST"
-        case sa = "SA"
-        case sn = "SN"
-        case rs = "RS"
-        case sc = "SC"
-        case sl = "SL"
-        case sg = "SG"
-        case sx = "SX"
-        case sk = "SK"
-        case si = "SI"
-        case sb = "SB"
-        case so = "SO"
-        case za = "ZA"
-        case kr = "KR"
-        case es = "ES"
-        case lk = "LK"
-        case sd = "SD"
-        case sr = "SR"
-        case sj = "SJ"
-        case sz = "SZ"
-        case se = "SE"
-        case ch = "CH"
-        case sy = "SY"
-        case tw = "TW"
-        case tj = "TJ"
-        case tz = "TZ"
-        case th = "TH"
-        case tg = "TG"
-        case tk = "TK"
-        case to = "TO"
-        case tt = "TT"
-        case tn = "TN"
-        case tr = "TR"
-        case tm = "TM"
-        case tc = "TC"
-        case tv = "TV"
-        case vi = "VI"
-        case ug = "UG"
-        case ua = "UA"
-        case ae = "AE"
-        case gb = "GB"
-        case us = "US"
-        case uy = "UY"
-        case uz = "UZ"
-        case vu = "VU"
-        case va = "VA"
-        case ve = "VE"
-        case vn = "VN"
-        case wf = "WF"
-        case eh = "EH"
-        case ye = "YE"
-        case zm = "ZM"
-        case zw = "ZW"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PhoneNumberSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -1864,18 +1899,6 @@ extension Connect {
             case phoneNumberCountryCode = "PhoneNumberCountryCode"
             case phoneNumberType = "PhoneNumberType"
         }
-    }
-
-    public enum PhoneNumberType: String, CustomStringConvertible, Codable {
-        case tollFree = "TOLL_FREE"
-        case did = "DID"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PhoneType: String, CustomStringConvertible, Codable {
-        case softPhone = "SOFT_PHONE"
-        case deskPhone = "DESK_PHONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct QueueReference: AWSShape {
@@ -1930,12 +1953,6 @@ extension Connect {
             case name = "Name"
             case queueType = "QueueType"
         }
-    }
-
-    public enum QueueType: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case agent = "AGENT"
-        public var description: String { return self.rawValue }
     }
 
     public struct RoutingProfileSummary: AWSShape {
@@ -2153,13 +2170,6 @@ extension Connect {
         }
     }
 
-    public enum Statistic: String, CustomStringConvertible, Codable {
-        case sum = "SUM"
-        case max = "MAX"
-        case avg = "AVG"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StopContactRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContactId", required: true, type: .string), 
@@ -2248,13 +2258,6 @@ extension Connect {
             case comparison = "Comparison"
             case thresholdValue = "ThresholdValue"
         }
-    }
-
-    public enum Unit: String, CustomStringConvertible, Codable {
-        case seconds = "SECONDS"
-        case count = "COUNT"
-        case percent = "PERCENT"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

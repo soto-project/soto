@@ -4,6 +4,285 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension GameLift {
+    //MARK: Enums
+
+    public enum AcceptanceType: String, CustomStringConvertible, Codable {
+        case accept = "ACCEPT"
+        case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackfillMode: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BuildStatus: String, CustomStringConvertible, Codable {
+        case initialized = "INITIALIZED"
+        case ready = "READY"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateType: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case generated = "GENERATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperatorType: String, CustomStringConvertible, Codable {
+        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
+        case greaterthanthreshold = "GreaterThanThreshold"
+        case lessthanthreshold = "LessThanThreshold"
+        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EC2InstanceType: String, CustomStringConvertible, Codable {
+        case t2Micro = "t2.micro"
+        case t2Small = "t2.small"
+        case t2Medium = "t2.medium"
+        case t2Large = "t2.large"
+        case c3Large = "c3.large"
+        case c3Xlarge = "c3.xlarge"
+        case c32Xlarge = "c3.2xlarge"
+        case c34Xlarge = "c3.4xlarge"
+        case c38Xlarge = "c3.8xlarge"
+        case c4Large = "c4.large"
+        case c4Xlarge = "c4.xlarge"
+        case c42Xlarge = "c4.2xlarge"
+        case c44Xlarge = "c4.4xlarge"
+        case c48Xlarge = "c4.8xlarge"
+        case c5Large = "c5.large"
+        case c5Xlarge = "c5.xlarge"
+        case c52Xlarge = "c5.2xlarge"
+        case c54Xlarge = "c5.4xlarge"
+        case c59Xlarge = "c5.9xlarge"
+        case c512Xlarge = "c5.12xlarge"
+        case c518Xlarge = "c5.18xlarge"
+        case c524Xlarge = "c5.24xlarge"
+        case r3Large = "r3.large"
+        case r3Xlarge = "r3.xlarge"
+        case r32Xlarge = "r3.2xlarge"
+        case r34Xlarge = "r3.4xlarge"
+        case r38Xlarge = "r3.8xlarge"
+        case r4Large = "r4.large"
+        case r4Xlarge = "r4.xlarge"
+        case r42Xlarge = "r4.2xlarge"
+        case r44Xlarge = "r4.4xlarge"
+        case r48Xlarge = "r4.8xlarge"
+        case r416Xlarge = "r4.16xlarge"
+        case r5Large = "r5.large"
+        case r5Xlarge = "r5.xlarge"
+        case r52Xlarge = "r5.2xlarge"
+        case r54Xlarge = "r5.4xlarge"
+        case r58Xlarge = "r5.8xlarge"
+        case r512Xlarge = "r5.12xlarge"
+        case r516Xlarge = "r5.16xlarge"
+        case r524Xlarge = "r5.24xlarge"
+        case m3Medium = "m3.medium"
+        case m3Large = "m3.large"
+        case m3Xlarge = "m3.xlarge"
+        case m32Xlarge = "m3.2xlarge"
+        case m4Large = "m4.large"
+        case m4Xlarge = "m4.xlarge"
+        case m42Xlarge = "m4.2xlarge"
+        case m44Xlarge = "m4.4xlarge"
+        case m410Xlarge = "m4.10xlarge"
+        case m5Large = "m5.large"
+        case m5Xlarge = "m5.xlarge"
+        case m52Xlarge = "m5.2xlarge"
+        case m54Xlarge = "m5.4xlarge"
+        case m58Xlarge = "m5.8xlarge"
+        case m512Xlarge = "m5.12xlarge"
+        case m516Xlarge = "m5.16xlarge"
+        case m524Xlarge = "m5.24xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventCode: String, CustomStringConvertible, Codable {
+        case genericEvent = "GENERIC_EVENT"
+        case fleetCreated = "FLEET_CREATED"
+        case fleetDeleted = "FLEET_DELETED"
+        case fleetScalingEvent = "FLEET_SCALING_EVENT"
+        case fleetStateDownloading = "FLEET_STATE_DOWNLOADING"
+        case fleetStateValidating = "FLEET_STATE_VALIDATING"
+        case fleetStateBuilding = "FLEET_STATE_BUILDING"
+        case fleetStateActivating = "FLEET_STATE_ACTIVATING"
+        case fleetStateActive = "FLEET_STATE_ACTIVE"
+        case fleetStateError = "FLEET_STATE_ERROR"
+        case fleetInitializationFailed = "FLEET_INITIALIZATION_FAILED"
+        case fleetBinaryDownloadFailed = "FLEET_BINARY_DOWNLOAD_FAILED"
+        case fleetValidationLaunchPathNotFound = "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND"
+        case fleetValidationExecutableRuntimeFailure = "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE"
+        case fleetValidationTimedOut = "FLEET_VALIDATION_TIMED_OUT"
+        case fleetActivationFailed = "FLEET_ACTIVATION_FAILED"
+        case fleetActivationFailedNoInstances = "FLEET_ACTIVATION_FAILED_NO_INSTANCES"
+        case fleetNewGameSessionProtectionPolicyUpdated = "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED"
+        case serverProcessInvalidPath = "SERVER_PROCESS_INVALID_PATH"
+        case serverProcessSdkInitializationTimeout = "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT"
+        case serverProcessProcessReadyTimeout = "SERVER_PROCESS_PROCESS_READY_TIMEOUT"
+        case serverProcessCrashed = "SERVER_PROCESS_CRASHED"
+        case serverProcessTerminatedUnhealthy = "SERVER_PROCESS_TERMINATED_UNHEALTHY"
+        case serverProcessForceTerminated = "SERVER_PROCESS_FORCE_TERMINATED"
+        case serverProcessProcessExitTimeout = "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT"
+        case gameSessionActivationTimeout = "GAME_SESSION_ACTIVATION_TIMEOUT"
+        case fleetCreationExtractingBuild = "FLEET_CREATION_EXTRACTING_BUILD"
+        case fleetCreationRunningInstaller = "FLEET_CREATION_RUNNING_INSTALLER"
+        case fleetCreationValidatingRuntimeConfig = "FLEET_CREATION_VALIDATING_RUNTIME_CONFIG"
+        case fleetVpcPeeringSucceeded = "FLEET_VPC_PEERING_SUCCEEDED"
+        case fleetVpcPeeringFailed = "FLEET_VPC_PEERING_FAILED"
+        case fleetVpcPeeringDeleted = "FLEET_VPC_PEERING_DELETED"
+        case instanceInterrupted = "INSTANCE_INTERRUPTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetAction: String, CustomStringConvertible, Codable {
+        case autoScaling = "AUTO_SCALING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetStatus: String, CustomStringConvertible, Codable {
+        case new = "NEW"
+        case downloading = "DOWNLOADING"
+        case validating = "VALIDATING"
+        case building = "BUILDING"
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case error = "ERROR"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetType: String, CustomStringConvertible, Codable {
+        case onDemand = "ON_DEMAND"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GameSessionPlacementState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case fulfilled = "FULFILLED"
+        case cancelled = "CANCELLED"
+        case timedOut = "TIMED_OUT"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GameSessionStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case activating = "ACTIVATING"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GameSessionStatusReason: String, CustomStringConvertible, Codable {
+        case interrupted = "INTERRUPTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case terminating = "TERMINATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "TCP"
+        case udp = "UDP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MatchmakingConfigurationStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case placing = "PLACING"
+        case queued = "QUEUED"
+        case requiresAcceptance = "REQUIRES_ACCEPTANCE"
+        case searching = "SEARCHING"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricName: String, CustomStringConvertible, Codable {
+        case activatinggamesessions = "ActivatingGameSessions"
+        case activegamesessions = "ActiveGameSessions"
+        case activeinstances = "ActiveInstances"
+        case availablegamesessions = "AvailableGameSessions"
+        case availableplayersessions = "AvailablePlayerSessions"
+        case currentplayersessions = "CurrentPlayerSessions"
+        case idleinstances = "IdleInstances"
+        case percentavailablegamesessions = "PercentAvailableGameSessions"
+        case percentidleinstances = "PercentIdleInstances"
+        case queuedepth = "QueueDepth"
+        case waittime = "WaitTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperatingSystem: String, CustomStringConvertible, Codable {
+        case windows2012 = "WINDOWS_2012"
+        case amazonLinux = "AMAZON_LINUX"
+        case amazonLinux2 = "AMAZON_LINUX_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlayerSessionCreationPolicy: String, CustomStringConvertible, Codable {
+        case acceptAll = "ACCEPT_ALL"
+        case denyAll = "DENY_ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlayerSessionStatus: String, CustomStringConvertible, Codable {
+        case reserved = "RESERVED"
+        case active = "ACTIVE"
+        case completed = "COMPLETED"
+        case timedout = "TIMEDOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case rulebased = "RuleBased"
+        case targetbased = "TargetBased"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectionPolicy: String, CustomStringConvertible, Codable {
+        case noprotection = "NoProtection"
+        case fullprotection = "FullProtection"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RoutingStrategyType: String, CustomStringConvertible, Codable {
+        case simple = "SIMPLE"
+        case terminal = "TERMINAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingAdjustmentType: String, CustomStringConvertible, Codable {
+        case changeincapacity = "ChangeInCapacity"
+        case exactcapacity = "ExactCapacity"
+        case percentchangeincapacity = "PercentChangeInCapacity"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingStatusType: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case updateRequested = "UPDATE_REQUESTED"
+        case updating = "UPDATING"
+        case deleteRequested = "DELETE_REQUESTED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptMatchInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -47,12 +326,6 @@ extension GameLift {
         public init() {
         }
 
-    }
-
-    public enum AcceptanceType: String, CustomStringConvertible, Codable {
-        case accept = "ACCEPT"
-        case reject = "REJECT"
-        public var description: String { return self.rawValue }
     }
 
     public struct Alias: AWSShape {
@@ -174,12 +447,6 @@ extension GameLift {
         }
     }
 
-    public enum BackfillMode: String, CustomStringConvertible, Codable {
-        case automatic = "AUTOMATIC"
-        case manual = "MANUAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Build: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildArn", required: false, type: .string), 
@@ -232,13 +499,6 @@ extension GameLift {
         }
     }
 
-    public enum BuildStatus: String, CustomStringConvertible, Codable {
-        case initialized = "INITIALIZED"
-        case ready = "READY"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CertificateConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateType", required: true, type: .enum)
@@ -254,20 +514,6 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case certificateType = "CertificateType"
         }
-    }
-
-    public enum CertificateType: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case generated = "GENERATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ComparisonOperatorType: String, CustomStringConvertible, Codable {
-        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
-        case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanthreshold = "LessThanThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateAliasInput: AWSShape {
@@ -2742,68 +2988,6 @@ extension GameLift {
         }
     }
 
-    public enum EC2InstanceType: String, CustomStringConvertible, Codable {
-        case t2Micro = "t2.micro"
-        case t2Small = "t2.small"
-        case t2Medium = "t2.medium"
-        case t2Large = "t2.large"
-        case c3Large = "c3.large"
-        case c3Xlarge = "c3.xlarge"
-        case c32Xlarge = "c3.2xlarge"
-        case c34Xlarge = "c3.4xlarge"
-        case c38Xlarge = "c3.8xlarge"
-        case c4Large = "c4.large"
-        case c4Xlarge = "c4.xlarge"
-        case c42Xlarge = "c4.2xlarge"
-        case c44Xlarge = "c4.4xlarge"
-        case c48Xlarge = "c4.8xlarge"
-        case c5Large = "c5.large"
-        case c5Xlarge = "c5.xlarge"
-        case c52Xlarge = "c5.2xlarge"
-        case c54Xlarge = "c5.4xlarge"
-        case c59Xlarge = "c5.9xlarge"
-        case c512Xlarge = "c5.12xlarge"
-        case c518Xlarge = "c5.18xlarge"
-        case c524Xlarge = "c5.24xlarge"
-        case r3Large = "r3.large"
-        case r3Xlarge = "r3.xlarge"
-        case r32Xlarge = "r3.2xlarge"
-        case r34Xlarge = "r3.4xlarge"
-        case r38Xlarge = "r3.8xlarge"
-        case r4Large = "r4.large"
-        case r4Xlarge = "r4.xlarge"
-        case r42Xlarge = "r4.2xlarge"
-        case r44Xlarge = "r4.4xlarge"
-        case r48Xlarge = "r4.8xlarge"
-        case r416Xlarge = "r4.16xlarge"
-        case r5Large = "r5.large"
-        case r5Xlarge = "r5.xlarge"
-        case r52Xlarge = "r5.2xlarge"
-        case r54Xlarge = "r5.4xlarge"
-        case r58Xlarge = "r5.8xlarge"
-        case r512Xlarge = "r5.12xlarge"
-        case r516Xlarge = "r5.16xlarge"
-        case r524Xlarge = "r5.24xlarge"
-        case m3Medium = "m3.medium"
-        case m3Large = "m3.large"
-        case m3Xlarge = "m3.xlarge"
-        case m32Xlarge = "m3.2xlarge"
-        case m4Large = "m4.large"
-        case m4Xlarge = "m4.xlarge"
-        case m42Xlarge = "m4.2xlarge"
-        case m44Xlarge = "m4.4xlarge"
-        case m410Xlarge = "m4.10xlarge"
-        case m5Large = "m5.large"
-        case m5Xlarge = "m5.xlarge"
-        case m52Xlarge = "m5.2xlarge"
-        case m54Xlarge = "m5.4xlarge"
-        case m58Xlarge = "m5.8xlarge"
-        case m512Xlarge = "m5.12xlarge"
-        case m516Xlarge = "m5.16xlarge"
-        case m524Xlarge = "m5.24xlarge"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventCode", required: false, type: .enum), 
@@ -2844,48 +3028,6 @@ extension GameLift {
             case preSignedLogUrl = "PreSignedLogUrl"
             case resourceId = "ResourceId"
         }
-    }
-
-    public enum EventCode: String, CustomStringConvertible, Codable {
-        case genericEvent = "GENERIC_EVENT"
-        case fleetCreated = "FLEET_CREATED"
-        case fleetDeleted = "FLEET_DELETED"
-        case fleetScalingEvent = "FLEET_SCALING_EVENT"
-        case fleetStateDownloading = "FLEET_STATE_DOWNLOADING"
-        case fleetStateValidating = "FLEET_STATE_VALIDATING"
-        case fleetStateBuilding = "FLEET_STATE_BUILDING"
-        case fleetStateActivating = "FLEET_STATE_ACTIVATING"
-        case fleetStateActive = "FLEET_STATE_ACTIVE"
-        case fleetStateError = "FLEET_STATE_ERROR"
-        case fleetInitializationFailed = "FLEET_INITIALIZATION_FAILED"
-        case fleetBinaryDownloadFailed = "FLEET_BINARY_DOWNLOAD_FAILED"
-        case fleetValidationLaunchPathNotFound = "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND"
-        case fleetValidationExecutableRuntimeFailure = "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE"
-        case fleetValidationTimedOut = "FLEET_VALIDATION_TIMED_OUT"
-        case fleetActivationFailed = "FLEET_ACTIVATION_FAILED"
-        case fleetActivationFailedNoInstances = "FLEET_ACTIVATION_FAILED_NO_INSTANCES"
-        case fleetNewGameSessionProtectionPolicyUpdated = "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED"
-        case serverProcessInvalidPath = "SERVER_PROCESS_INVALID_PATH"
-        case serverProcessSdkInitializationTimeout = "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT"
-        case serverProcessProcessReadyTimeout = "SERVER_PROCESS_PROCESS_READY_TIMEOUT"
-        case serverProcessCrashed = "SERVER_PROCESS_CRASHED"
-        case serverProcessTerminatedUnhealthy = "SERVER_PROCESS_TERMINATED_UNHEALTHY"
-        case serverProcessForceTerminated = "SERVER_PROCESS_FORCE_TERMINATED"
-        case serverProcessProcessExitTimeout = "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT"
-        case gameSessionActivationTimeout = "GAME_SESSION_ACTIVATION_TIMEOUT"
-        case fleetCreationExtractingBuild = "FLEET_CREATION_EXTRACTING_BUILD"
-        case fleetCreationRunningInstaller = "FLEET_CREATION_RUNNING_INSTALLER"
-        case fleetCreationValidatingRuntimeConfig = "FLEET_CREATION_VALIDATING_RUNTIME_CONFIG"
-        case fleetVpcPeeringSucceeded = "FLEET_VPC_PEERING_SUCCEEDED"
-        case fleetVpcPeeringFailed = "FLEET_VPC_PEERING_FAILED"
-        case fleetVpcPeeringDeleted = "FLEET_VPC_PEERING_DELETED"
-        case instanceInterrupted = "INSTANCE_INTERRUPTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FleetAction: String, CustomStringConvertible, Codable {
-        case autoScaling = "AUTO_SCALING"
-        public var description: String { return self.rawValue }
     }
 
     public struct FleetAttributes: AWSShape {
@@ -3040,25 +3182,6 @@ extension GameLift {
             case instanceCounts = "InstanceCounts"
             case instanceType = "InstanceType"
         }
-    }
-
-    public enum FleetStatus: String, CustomStringConvertible, Codable {
-        case new = "NEW"
-        case downloading = "DOWNLOADING"
-        case validating = "VALIDATING"
-        case building = "BUILDING"
-        case activating = "ACTIVATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case error = "ERROR"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FleetType: String, CustomStringConvertible, Codable {
-        case onDemand = "ON_DEMAND"
-        case spot = "SPOT"
-        public var description: String { return self.rawValue }
     }
 
     public struct FleetUtilization: AWSShape {
@@ -3388,15 +3511,6 @@ extension GameLift {
         }
     }
 
-    public enum GameSessionPlacementState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case fulfilled = "FULFILLED"
-        case cancelled = "CANCELLED"
-        case timedOut = "TIMED_OUT"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GameSessionQueue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destinations", required: false, type: .list), 
@@ -3455,20 +3569,6 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case destinationArn = "DestinationArn"
         }
-    }
-
-    public enum GameSessionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case activating = "ACTIVATING"
-        case terminated = "TERMINATED"
-        case terminating = "TERMINATING"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum GameSessionStatusReason: String, CustomStringConvertible, Codable {
-        case interrupted = "INTERRUPTED"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetGameSessionLogUrlInput: AWSShape {
@@ -3666,13 +3766,6 @@ extension GameLift {
         }
     }
 
-    public enum InstanceStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case active = "ACTIVE"
-        case terminating = "TERMINATING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct IpPermission: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FromPort", required: true, type: .integer), 
@@ -3711,12 +3804,6 @@ extension GameLift {
             case `protocol` = "Protocol"
             case toPort = "ToPort"
         }
-    }
-
-    public enum IpProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "TCP"
-        case udp = "UDP"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListAliasesInput: AWSShape {
@@ -4097,18 +4184,6 @@ extension GameLift {
         }
     }
 
-    public enum MatchmakingConfigurationStatus: String, CustomStringConvertible, Codable {
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case placing = "PLACING"
-        case queued = "QUEUED"
-        case requiresAcceptance = "REQUIRES_ACCEPTANCE"
-        case searching = "SEARCHING"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MatchmakingRuleSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
@@ -4206,28 +4281,6 @@ extension GameLift {
             case statusReason = "StatusReason"
             case ticketId = "TicketId"
         }
-    }
-
-    public enum MetricName: String, CustomStringConvertible, Codable {
-        case activatinggamesessions = "ActivatingGameSessions"
-        case activegamesessions = "ActiveGameSessions"
-        case activeinstances = "ActiveInstances"
-        case availablegamesessions = "AvailableGameSessions"
-        case availableplayersessions = "AvailablePlayerSessions"
-        case currentplayersessions = "CurrentPlayerSessions"
-        case idleinstances = "IdleInstances"
-        case percentavailablegamesessions = "PercentAvailableGameSessions"
-        case percentidleinstances = "PercentIdleInstances"
-        case queuedepth = "QueueDepth"
-        case waittime = "WaitTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OperatingSystem: String, CustomStringConvertible, Codable {
-        case windows2012 = "WINDOWS_2012"
-        case amazonLinux = "AMAZON_LINUX"
-        case amazonLinux2 = "AMAZON_LINUX_2"
-        public var description: String { return self.rawValue }
     }
 
     public struct PlacedPlayerSession: AWSShape {
@@ -4431,32 +4484,6 @@ extension GameLift {
             case status = "Status"
             case terminationTime = "TerminationTime"
         }
-    }
-
-    public enum PlayerSessionCreationPolicy: String, CustomStringConvertible, Codable {
-        case acceptAll = "ACCEPT_ALL"
-        case denyAll = "DENY_ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PlayerSessionStatus: String, CustomStringConvertible, Codable {
-        case reserved = "RESERVED"
-        case active = "ACTIVE"
-        case completed = "COMPLETED"
-        case timedout = "TIMEDOUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyType: String, CustomStringConvertible, Codable {
-        case rulebased = "RuleBased"
-        case targetbased = "TargetBased"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProtectionPolicy: String, CustomStringConvertible, Codable {
-        case noprotection = "NoProtection"
-        case fullprotection = "FullProtection"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutScalingPolicyInput: AWSShape {
@@ -4689,12 +4716,6 @@ extension GameLift {
         }
     }
 
-    public enum RoutingStrategyType: String, CustomStringConvertible, Codable {
-        case simple = "SIMPLE"
-        case terminal = "TERMINAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RuntimeConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameSessionActivationTimeoutSeconds", required: false, type: .integer), 
@@ -4773,13 +4794,6 @@ extension GameLift {
         }
     }
 
-    public enum ScalingAdjustmentType: String, CustomStringConvertible, Codable {
-        case changeincapacity = "ChangeInCapacity"
-        case exactcapacity = "ExactCapacity"
-        case percentchangeincapacity = "PercentChangeInCapacity"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ScalingPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
@@ -4845,17 +4859,6 @@ extension GameLift {
             case targetConfiguration = "TargetConfiguration"
             case threshold = "Threshold"
         }
-    }
-
-    public enum ScalingStatusType: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case updateRequested = "UPDATE_REQUESTED"
-        case updating = "UPDATING"
-        case deleteRequested = "DELETE_REQUESTED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct Script: AWSShape {

@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SSOOIDC {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct CreateTokenRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

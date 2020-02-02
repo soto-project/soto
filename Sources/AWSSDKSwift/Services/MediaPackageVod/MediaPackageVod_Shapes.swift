@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MediaPackageVod {
+    //MARK: Enums
 
     public enum AdMarkers: String, CustomStringConvertible, Codable {
         case none = "NONE"
@@ -11,6 +12,27 @@ extension MediaPackageVod {
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
+
+    public enum EncryptionMethod: String, CustomStringConvertible, Codable {
+        case aes128 = "AES_128"
+        case sampleAes = "SAMPLE_AES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Profile: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case hbbtv15 = "HBBTV_1_5"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamOrder: String, CustomStringConvertible, Codable {
+        case original = "ORIGINAL"
+        case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
+        case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssetShallow: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -618,12 +640,6 @@ extension MediaPackageVod {
         }
     }
 
-    public enum EncryptionMethod: String, CustomStringConvertible, Codable {
-        case aes128 = "AES_128"
-        case sampleAes = "SAMPLE_AES"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HlsEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string), 
@@ -1013,12 +1029,6 @@ extension MediaPackageVod {
         }
     }
 
-    public enum Profile: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case hbbtv15 = "HBBTV_1_5"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SpekeKeyProvider: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: true, type: .string), 
@@ -1045,13 +1055,6 @@ extension MediaPackageVod {
             case systemIds = "systemIds"
             case url = "url"
         }
-    }
-
-    public enum StreamOrder: String, CustomStringConvertible, Codable {
-        case original = "ORIGINAL"
-        case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
-        case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct StreamSelection: AWSShape {

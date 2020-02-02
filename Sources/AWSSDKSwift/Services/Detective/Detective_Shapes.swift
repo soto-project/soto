@@ -4,6 +4,17 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Detective {
+    //MARK: Enums
+
+    public enum MemberStatus: String, CustomStringConvertible, Codable {
+        case invited = "INVITED"
+        case verificationInProgress = "VERIFICATION_IN_PROGRESS"
+        case verificationFailed = "VERIFICATION_FAILED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -512,14 +523,6 @@ extension Detective {
             case status = "Status"
             case updatedTime = "UpdatedTime"
         }
-    }
-
-    public enum MemberStatus: String, CustomStringConvertible, Codable {
-        case invited = "INVITED"
-        case verificationInProgress = "VERIFICATION_IN_PROGRESS"
-        case verificationFailed = "VERIFICATION_FAILED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct RejectInvitationRequest: AWSShape {

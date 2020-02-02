@@ -4,6 +4,47 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension WorkLink {
+    //MARK: Enums
+
+    public enum AuthorizationProviderType: String, CustomStringConvertible, Codable {
+        case saml = "SAML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case signedOut = "SIGNED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case associating = "ASSOCIATING"
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case disassociating = "DISASSOCIATING"
+        case disassociated = "DISASSOCIATED"
+        case failedToAssociate = "FAILED_TO_ASSOCIATE"
+        case failedToDisassociate = "FAILED_TO_DISASSOCIATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case failedToCreate = "FAILED_TO_CREATE"
+        case failedToDelete = "FAILED_TO_DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityProviderType: String, CustomStringConvertible, Codable {
+        case saml = "SAML"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -158,11 +199,6 @@ extension WorkLink {
         private enum CodingKeys: String, CodingKey {
             case websiteCaId = "WebsiteCaId"
         }
-    }
-
-    public enum AuthorizationProviderType: String, CustomStringConvertible, Codable {
-        case saml = "SAML"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateFleetRequest: AWSShape {
@@ -700,12 +736,6 @@ extension WorkLink {
         }
     }
 
-    public enum DeviceStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case signedOut = "SIGNED_OUT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeviceSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", required: false, type: .string), 
@@ -840,18 +870,6 @@ extension WorkLink {
 
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case associating = "ASSOCIATING"
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        case disassociating = "DISASSOCIATING"
-        case disassociated = "DISASSOCIATED"
-        case failedToAssociate = "FAILED_TO_ASSOCIATE"
-        case failedToDisassociate = "FAILED_TO_DISASSOCIATE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DomainSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
@@ -882,16 +900,6 @@ extension WorkLink {
             case domainName = "DomainName"
             case domainStatus = "DomainStatus"
         }
-    }
-
-    public enum FleetStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        case failedToCreate = "FAILED_TO_CREATE"
-        case failedToDelete = "FAILED_TO_DELETE"
-        public var description: String { return self.rawValue }
     }
 
     public struct FleetSummary: AWSShape {
@@ -939,11 +947,6 @@ extension WorkLink {
             case fleetStatus = "FleetStatus"
             case lastUpdatedTime = "LastUpdatedTime"
         }
-    }
-
-    public enum IdentityProviderType: String, CustomStringConvertible, Codable {
-        case saml = "SAML"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListDevicesRequest: AWSShape {

@@ -4,4 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension TranscribeStreamingService {
+    //MARK: Enums
+
+    //MARK: Shapes
 }

@@ -4,6 +4,41 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IoTEvents {
+    //MARK: Enums
+
+    public enum DetectorModelVersionStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case activating = "ACTIVATING"
+        case inactive = "INACTIVE"
+        case deprecated = "DEPRECATED"
+        case draft = "DRAFT"
+        case paused = "PAUSED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationMethod: String, CustomStringConvertible, Codable {
+        case batch = "BATCH"
+        case serial = "SERIAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoggingLevel: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case info = "INFO"
+        case debug = "DEBUG"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Action: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -611,17 +646,6 @@ extension IoTEvents {
         }
     }
 
-    public enum DetectorModelVersionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case activating = "ACTIVATING"
-        case inactive = "INACTIVE"
-        case deprecated = "DEPRECATED"
-        case draft = "DRAFT"
-        case paused = "PAUSED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DetectorModelVersionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
@@ -672,12 +696,6 @@ extension IoTEvents {
             case roleArn = "roleArn"
             case status = "status"
         }
-    }
-
-    public enum EvaluationMethod: String, CustomStringConvertible, Codable {
-        case batch = "BATCH"
-        case serial = "SERIAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct Event: AWSShape {
@@ -828,14 +846,6 @@ extension IoTEvents {
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
         }
-    }
-
-    public enum InputStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
     }
 
     public struct InputSummary: AWSShape {
@@ -1139,13 +1149,6 @@ extension IoTEvents {
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
-    }
-
-    public enum LoggingLevel: String, CustomStringConvertible, Codable {
-        case error = "ERROR"
-        case info = "INFO"
-        case debug = "DEBUG"
-        public var description: String { return self.rawValue }
     }
 
     public struct LoggingOptions: AWSShape {

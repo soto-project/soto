@@ -4,6 +4,1734 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension EC2 {
+    //MARK: Enums
+
+    public enum AccountAttributeName: String, CustomStringConvertible, Codable {
+        case supportedPlatforms = "supported-platforms"
+        case defaultVpc = "default-vpc"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActivityStatus: String, CustomStringConvertible, Codable {
+        case error = "error"
+        case pendingFulfillment = "pending_fulfillment"
+        case pendingTermination = "pending_termination"
+        case fulfilled = "fulfilled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Affinity: String, CustomStringConvertible, Codable {
+        case `default` = "default"
+        case host = "host"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AllocationState: String, CustomStringConvertible, Codable {
+        case available = "available"
+        case underAssessment = "under-assessment"
+        case permanentFailure = "permanent-failure"
+        case released = "released"
+        case releasedPermanentFailure = "released-permanent-failure"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AllocationStrategy: String, CustomStringConvertible, Codable {
+        case lowestprice = "lowestPrice"
+        case diversified = "diversified"
+        case capacityoptimized = "capacityOptimized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AllowsMultipleInstanceTypes: String, CustomStringConvertible, Codable {
+        case on = "on"
+        case off = "off"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArchitectureType: String, CustomStringConvertible, Codable {
+        case i386 = "i386"
+        case x8664 = "x86_64"
+        case arm64 = "arm64"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArchitectureValues: String, CustomStringConvertible, Codable {
+        case i386 = "i386"
+        case x8664 = "x86_64"
+        case arm64 = "arm64"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationStatusCode: String, CustomStringConvertible, Codable {
+        case associating = "associating"
+        case associated = "associated"
+        case associationFailed = "association-failed"
+        case disassociating = "disassociating"
+        case disassociated = "disassociated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttachmentStatus: String, CustomStringConvertible, Codable {
+        case attaching = "attaching"
+        case attached = "attached"
+        case detaching = "detaching"
+        case detached = "detached"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoAcceptSharedAttachmentsValue: String, CustomStringConvertible, Codable {
+        case enable = "enable"
+        case disable = "disable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoPlacement: String, CustomStringConvertible, Codable {
+        case on = "on"
+        case off = "off"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AvailabilityZoneOptInStatus: String, CustomStringConvertible, Codable {
+        case optInNotRequired = "opt-in-not-required"
+        case optedIn = "opted-in"
+        case notOptedIn = "not-opted-in"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AvailabilityZoneState: String, CustomStringConvertible, Codable {
+        case available = "available"
+        case information = "information"
+        case impaired = "impaired"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchState: String, CustomStringConvertible, Codable {
+        case submitted = "submitted"
+        case active = "active"
+        case cancelled = "cancelled"
+        case failed = "failed"
+        case cancelledRunning = "cancelled_running"
+        case cancelledTerminating = "cancelled_terminating"
+        case modifying = "modifying"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BundleTaskState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case waitingForShutdown = "waiting-for-shutdown"
+        case bundling = "bundling"
+        case storing = "storing"
+        case cancelling = "cancelling"
+        case complete = "complete"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ByoipCidrState: String, CustomStringConvertible, Codable {
+        case advertised = "advertised"
+        case deprovisioned = "deprovisioned"
+        case failedDeprovision = "failed-deprovision"
+        case failedProvision = "failed-provision"
+        case pendingDeprovision = "pending-deprovision"
+        case pendingProvision = "pending-provision"
+        case provisioned = "provisioned"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CancelBatchErrorCode: String, CustomStringConvertible, Codable {
+        case fleetrequestiddoesnotexist = "fleetRequestIdDoesNotExist"
+        case fleetrequestidmalformed = "fleetRequestIdMalformed"
+        case fleetrequestnotincancellablestate = "fleetRequestNotInCancellableState"
+        case unexpectederror = "unexpectedError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CancelSpotInstanceRequestState: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case open = "open"
+        case closed = "closed"
+        case cancelled = "cancelled"
+        case completed = "completed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityReservationInstancePlatform: String, CustomStringConvertible, Codable {
+        case linuxUnix = "Linux/UNIX"
+        case redHatEnterpriseLinux = "Red Hat Enterprise Linux"
+        case suseLinux = "SUSE Linux"
+        case windows = "Windows"
+        case windowsWithSqlServer = "Windows with SQL Server"
+        case windowsWithSqlServerEnterprise = "Windows with SQL Server Enterprise"
+        case windowsWithSqlServerStandard = "Windows with SQL Server Standard"
+        case windowsWithSqlServerWeb = "Windows with SQL Server Web"
+        case linuxWithSqlServerStandard = "Linux with SQL Server Standard"
+        case linuxWithSqlServerWeb = "Linux with SQL Server Web"
+        case linuxWithSqlServerEnterprise = "Linux with SQL Server Enterprise"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityReservationPreference: String, CustomStringConvertible, Codable {
+        case open = "open"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityReservationState: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case expired = "expired"
+        case cancelled = "cancelled"
+        case pending = "pending"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityReservationTenancy: String, CustomStringConvertible, Codable {
+        case `default` = "default"
+        case dedicated = "dedicated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientCertificateRevocationListStatusCode: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case active = "active"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientVpnAuthenticationType: String, CustomStringConvertible, Codable {
+        case certificateAuthentication = "certificate-authentication"
+        case directoryServiceAuthentication = "directory-service-authentication"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientVpnAuthorizationRuleStatusCode: String, CustomStringConvertible, Codable {
+        case authorizing = "authorizing"
+        case active = "active"
+        case failed = "failed"
+        case revoking = "revoking"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientVpnConnectionStatusCode: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case failedToTerminate = "failed-to-terminate"
+        case terminating = "terminating"
+        case terminated = "terminated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientVpnEndpointStatusCode: String, CustomStringConvertible, Codable {
+        case pendingAssociate = "pending-associate"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientVpnRouteStatusCode: String, CustomStringConvertible, Codable {
+        case creating = "creating"
+        case active = "active"
+        case failed = "failed"
+        case deleting = "deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionNotificationState: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionNotificationType: String, CustomStringConvertible, Codable {
+        case topic = "Topic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerFormat: String, CustomStringConvertible, Codable {
+        case ova = "ova"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConversionTaskState: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case cancelling = "cancelling"
+        case cancelled = "cancelled"
+        case completed = "completed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CopyTagsFromSource: String, CustomStringConvertible, Codable {
+        case volume = "volume"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CurrencyCodeValues: String, CustomStringConvertible, Codable {
+        case usd = "USD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatafeedSubscriptionState: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DefaultRouteTableAssociationValue: String, CustomStringConvertible, Codable {
+        case enable = "enable"
+        case disable = "disable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DefaultRouteTablePropagationValue: String, CustomStringConvertible, Codable {
+        case enable = "enable"
+        case disable = "disable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DefaultTargetCapacityType: String, CustomStringConvertible, Codable {
+        case spot = "spot"
+        case onDemand = "on-demand"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeleteFleetErrorCode: String, CustomStringConvertible, Codable {
+        case fleetiddoesnotexist = "fleetIdDoesNotExist"
+        case fleetidmalformed = "fleetIdMalformed"
+        case fleetnotindeletablestate = "fleetNotInDeletableState"
+        case unexpectederror = "unexpectedError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeleteQueuedReservedInstancesErrorCode: String, CustomStringConvertible, Codable {
+        case reservedInstancesIdInvalid = "reserved-instances-id-invalid"
+        case reservedInstancesNotInQueuedState = "reserved-instances-not-in-queued-state"
+        case unexpectedError = "unexpected-error"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceType: String, CustomStringConvertible, Codable {
+        case ebs = "ebs"
+        case instanceStore = "instance-store"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DiskImageFormat: String, CustomStringConvertible, Codable {
+        case vmdk = "VMDK"
+        case raw = "RAW"
+        case vhd = "VHD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DiskType: String, CustomStringConvertible, Codable {
+        case hdd = "hdd"
+        case ssd = "ssd"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DnsNameState: String, CustomStringConvertible, Codable {
+        case pendingverification = "pendingVerification"
+        case verified = "verified"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DnsSupportValue: String, CustomStringConvertible, Codable {
+        case enable = "enable"
+        case disable = "disable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainType: String, CustomStringConvertible, Codable {
+        case vpc = "vpc"
+        case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EbsEncryptionSupport: String, CustomStringConvertible, Codable {
+        case unsupported = "unsupported"
+        case supported = "supported"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EbsOptimizedSupport: String, CustomStringConvertible, Codable {
+        case unsupported = "unsupported"
+        case supported = "supported"
+        case `default` = "default"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ElasticGpuState: String, CustomStringConvertible, Codable {
+        case attached = "ATTACHED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ElasticGpuStatus: String, CustomStringConvertible, Codable {
+        case ok = "OK"
+        case impaired = "IMPAIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnaSupport: String, CustomStringConvertible, Codable {
+        case unsupported = "unsupported"
+        case supported = "supported"
+        case required = "required"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndDateType: String, CustomStringConvertible, Codable {
+        case unlimited = "unlimited"
+        case limited = "limited"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventCode: String, CustomStringConvertible, Codable {
+        case instanceReboot = "instance-reboot"
+        case systemReboot = "system-reboot"
+        case systemMaintenance = "system-maintenance"
+        case instanceRetirement = "instance-retirement"
+        case instanceStop = "instance-stop"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case instancechange = "instanceChange"
+        case fleetrequestchange = "fleetRequestChange"
+        case error = "error"
+        case information = "information"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable {
+        case notermination = "noTermination"
+        case `default` = "default"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportEnvironment: String, CustomStringConvertible, Codable {
+        case citrix = "citrix"
+        case vmware = "vmware"
+        case microsoft = "microsoft"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportTaskState: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case cancelling = "cancelling"
+        case cancelled = "cancelled"
+        case completed = "completed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FastSnapshotRestoreStateCode: String, CustomStringConvertible, Codable {
+        case enabling = "enabling"
+        case optimizing = "optimizing"
+        case enabled = "enabled"
+        case disabling = "disabling"
+        case disabled = "disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetActivityStatus: String, CustomStringConvertible, Codable {
+        case error = "error"
+        case pendingFulfillment = "pending_fulfillment"
+        case pendingTermination = "pending_termination"
+        case fulfilled = "fulfilled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable {
+        case useCapacityReservationsFirst = "use-capacity-reservations-first"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetEventType: String, CustomStringConvertible, Codable {
+        case instanceChange = "instance-change"
+        case fleetChange = "fleet-change"
+        case serviceError = "service-error"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable {
+        case noTermination = "no-termination"
+        case termination = "termination"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetOnDemandAllocationStrategy: String, CustomStringConvertible, Codable {
+        case lowestPrice = "lowest-price"
+        case prioritized = "prioritized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetStateCode: String, CustomStringConvertible, Codable {
+        case submitted = "submitted"
+        case active = "active"
+        case deleted = "deleted"
+        case failed = "failed"
+        case deletedRunning = "deleted_running"
+        case deletedTerminating = "deleted_terminating"
+        case modifying = "modifying"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetType: String, CustomStringConvertible, Codable {
+        case request = "request"
+        case maintain = "maintain"
+        case instant = "instant"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowLogsResourceType: String, CustomStringConvertible, Codable {
+        case vpc = "VPC"
+        case subnet = "Subnet"
+        case networkinterface = "NetworkInterface"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FpgaImageAttributeName: String, CustomStringConvertible, Codable {
+        case description = "description"
+        case name = "name"
+        case loadpermission = "loadPermission"
+        case productcodes = "productCodes"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FpgaImageStateCode: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case failed = "failed"
+        case available = "available"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayType: String, CustomStringConvertible, Codable {
+        case ipsec1 = "ipsec.1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HostRecovery: String, CustomStringConvertible, Codable {
+        case on = "on"
+        case off = "off"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HostTenancy: String, CustomStringConvertible, Codable {
+        case dedicated = "dedicated"
+        case host = "host"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HttpTokensState: String, CustomStringConvertible, Codable {
+        case optional = "optional"
+        case required = "required"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HypervisorType: String, CustomStringConvertible, Codable {
+        case ovm = "ovm"
+        case xen = "xen"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IamInstanceProfileAssociationState: String, CustomStringConvertible, Codable {
+        case associating = "associating"
+        case associated = "associated"
+        case disassociating = "disassociating"
+        case disassociated = "disassociated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageAttributeName: String, CustomStringConvertible, Codable {
+        case description = "description"
+        case kernel = "kernel"
+        case ramdisk = "ramdisk"
+        case launchpermission = "launchPermission"
+        case productcodes = "productCodes"
+        case blockdevicemapping = "blockDeviceMapping"
+        case sriovnetsupport = "sriovNetSupport"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        case invalid = "invalid"
+        case deregistered = "deregistered"
+        case transient = "transient"
+        case failed = "failed"
+        case error = "error"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageTypeValues: String, CustomStringConvertible, Codable {
+        case machine = "machine"
+        case kernel = "kernel"
+        case ramdisk = "ramdisk"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceAttributeName: String, CustomStringConvertible, Codable {
+        case instancetype = "instanceType"
+        case kernel = "kernel"
+        case ramdisk = "ramdisk"
+        case userdata = "userData"
+        case disableapitermination = "disableApiTermination"
+        case instanceinitiatedshutdownbehavior = "instanceInitiatedShutdownBehavior"
+        case rootdevicename = "rootDeviceName"
+        case blockdevicemapping = "blockDeviceMapping"
+        case productcodes = "productCodes"
+        case sourcedestcheck = "sourceDestCheck"
+        case groupset = "groupSet"
+        case ebsoptimized = "ebsOptimized"
+        case sriovnetsupport = "sriovNetSupport"
+        case enasupport = "enaSupport"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceHealthStatus: String, CustomStringConvertible, Codable {
+        case healthy = "healthy"
+        case unhealthy = "unhealthy"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceInterruptionBehavior: String, CustomStringConvertible, Codable {
+        case hibernate = "hibernate"
+        case stop = "stop"
+        case terminate = "terminate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceLifecycle: String, CustomStringConvertible, Codable {
+        case spot = "spot"
+        case onDemand = "on-demand"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceLifecycleType: String, CustomStringConvertible, Codable {
+        case spot = "spot"
+        case scheduled = "scheduled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceMatchCriteria: String, CustomStringConvertible, Codable {
+        case open = "open"
+        case targeted = "targeted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable {
+        case disabled = "disabled"
+        case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceMetadataOptionsState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case applied = "applied"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceStateName: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case running = "running"
+        case shuttingDown = "shutting-down"
+        case terminated = "terminated"
+        case stopping = "stopping"
+        case stopped = "stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceType: String, CustomStringConvertible, Codable {
+        case t1Micro = "t1.micro"
+        case t2Nano = "t2.nano"
+        case t2Micro = "t2.micro"
+        case t2Small = "t2.small"
+        case t2Medium = "t2.medium"
+        case t2Large = "t2.large"
+        case t2Xlarge = "t2.xlarge"
+        case t22Xlarge = "t2.2xlarge"
+        case t3Nano = "t3.nano"
+        case t3Micro = "t3.micro"
+        case t3Small = "t3.small"
+        case t3Medium = "t3.medium"
+        case t3Large = "t3.large"
+        case t3Xlarge = "t3.xlarge"
+        case t32Xlarge = "t3.2xlarge"
+        case t3aNano = "t3a.nano"
+        case t3aMicro = "t3a.micro"
+        case t3aSmall = "t3a.small"
+        case t3aMedium = "t3a.medium"
+        case t3aLarge = "t3a.large"
+        case t3aXlarge = "t3a.xlarge"
+        case t3a2Xlarge = "t3a.2xlarge"
+        case m1Small = "m1.small"
+        case m1Medium = "m1.medium"
+        case m1Large = "m1.large"
+        case m1Xlarge = "m1.xlarge"
+        case m3Medium = "m3.medium"
+        case m3Large = "m3.large"
+        case m3Xlarge = "m3.xlarge"
+        case m32Xlarge = "m3.2xlarge"
+        case m4Large = "m4.large"
+        case m4Xlarge = "m4.xlarge"
+        case m42Xlarge = "m4.2xlarge"
+        case m44Xlarge = "m4.4xlarge"
+        case m410Xlarge = "m4.10xlarge"
+        case m416Xlarge = "m4.16xlarge"
+        case m2Xlarge = "m2.xlarge"
+        case m22Xlarge = "m2.2xlarge"
+        case m24Xlarge = "m2.4xlarge"
+        case cr18Xlarge = "cr1.8xlarge"
+        case r3Large = "r3.large"
+        case r3Xlarge = "r3.xlarge"
+        case r32Xlarge = "r3.2xlarge"
+        case r34Xlarge = "r3.4xlarge"
+        case r38Xlarge = "r3.8xlarge"
+        case r4Large = "r4.large"
+        case r4Xlarge = "r4.xlarge"
+        case r42Xlarge = "r4.2xlarge"
+        case r44Xlarge = "r4.4xlarge"
+        case r48Xlarge = "r4.8xlarge"
+        case r416Xlarge = "r4.16xlarge"
+        case r5Large = "r5.large"
+        case r5Xlarge = "r5.xlarge"
+        case r52Xlarge = "r5.2xlarge"
+        case r54Xlarge = "r5.4xlarge"
+        case r58Xlarge = "r5.8xlarge"
+        case r512Xlarge = "r5.12xlarge"
+        case r516Xlarge = "r5.16xlarge"
+        case r524Xlarge = "r5.24xlarge"
+        case r5Metal = "r5.metal"
+        case r5aLarge = "r5a.large"
+        case r5aXlarge = "r5a.xlarge"
+        case r5a2Xlarge = "r5a.2xlarge"
+        case r5a4Xlarge = "r5a.4xlarge"
+        case r5a8Xlarge = "r5a.8xlarge"
+        case r5a12Xlarge = "r5a.12xlarge"
+        case r5a16Xlarge = "r5a.16xlarge"
+        case r5a24Xlarge = "r5a.24xlarge"
+        case r5dLarge = "r5d.large"
+        case r5dXlarge = "r5d.xlarge"
+        case r5d2Xlarge = "r5d.2xlarge"
+        case r5d4Xlarge = "r5d.4xlarge"
+        case r5d8Xlarge = "r5d.8xlarge"
+        case r5d12Xlarge = "r5d.12xlarge"
+        case r5d16Xlarge = "r5d.16xlarge"
+        case r5d24Xlarge = "r5d.24xlarge"
+        case r5dMetal = "r5d.metal"
+        case r5adLarge = "r5ad.large"
+        case r5adXlarge = "r5ad.xlarge"
+        case r5ad2Xlarge = "r5ad.2xlarge"
+        case r5ad4Xlarge = "r5ad.4xlarge"
+        case r5ad8Xlarge = "r5ad.8xlarge"
+        case r5ad12Xlarge = "r5ad.12xlarge"
+        case r5ad16Xlarge = "r5ad.16xlarge"
+        case r5ad24Xlarge = "r5ad.24xlarge"
+        case x116Xlarge = "x1.16xlarge"
+        case x132Xlarge = "x1.32xlarge"
+        case x1eXlarge = "x1e.xlarge"
+        case x1e2Xlarge = "x1e.2xlarge"
+        case x1e4Xlarge = "x1e.4xlarge"
+        case x1e8Xlarge = "x1e.8xlarge"
+        case x1e16Xlarge = "x1e.16xlarge"
+        case x1e32Xlarge = "x1e.32xlarge"
+        case i2Xlarge = "i2.xlarge"
+        case i22Xlarge = "i2.2xlarge"
+        case i24Xlarge = "i2.4xlarge"
+        case i28Xlarge = "i2.8xlarge"
+        case i3Large = "i3.large"
+        case i3Xlarge = "i3.xlarge"
+        case i32Xlarge = "i3.2xlarge"
+        case i34Xlarge = "i3.4xlarge"
+        case i38Xlarge = "i3.8xlarge"
+        case i316Xlarge = "i3.16xlarge"
+        case i3Metal = "i3.metal"
+        case i3enLarge = "i3en.large"
+        case i3enXlarge = "i3en.xlarge"
+        case i3en2Xlarge = "i3en.2xlarge"
+        case i3en3Xlarge = "i3en.3xlarge"
+        case i3en6Xlarge = "i3en.6xlarge"
+        case i3en12Xlarge = "i3en.12xlarge"
+        case i3en24Xlarge = "i3en.24xlarge"
+        case i3enMetal = "i3en.metal"
+        case hi14Xlarge = "hi1.4xlarge"
+        case hs18Xlarge = "hs1.8xlarge"
+        case c1Medium = "c1.medium"
+        case c1Xlarge = "c1.xlarge"
+        case c3Large = "c3.large"
+        case c3Xlarge = "c3.xlarge"
+        case c32Xlarge = "c3.2xlarge"
+        case c34Xlarge = "c3.4xlarge"
+        case c38Xlarge = "c3.8xlarge"
+        case c4Large = "c4.large"
+        case c4Xlarge = "c4.xlarge"
+        case c42Xlarge = "c4.2xlarge"
+        case c44Xlarge = "c4.4xlarge"
+        case c48Xlarge = "c4.8xlarge"
+        case c5Large = "c5.large"
+        case c5Xlarge = "c5.xlarge"
+        case c52Xlarge = "c5.2xlarge"
+        case c54Xlarge = "c5.4xlarge"
+        case c59Xlarge = "c5.9xlarge"
+        case c512Xlarge = "c5.12xlarge"
+        case c518Xlarge = "c5.18xlarge"
+        case c524Xlarge = "c5.24xlarge"
+        case c5Metal = "c5.metal"
+        case c5dLarge = "c5d.large"
+        case c5dXlarge = "c5d.xlarge"
+        case c5d2Xlarge = "c5d.2xlarge"
+        case c5d4Xlarge = "c5d.4xlarge"
+        case c5d9Xlarge = "c5d.9xlarge"
+        case c5d12Xlarge = "c5d.12xlarge"
+        case c5d18Xlarge = "c5d.18xlarge"
+        case c5d24Xlarge = "c5d.24xlarge"
+        case c5dMetal = "c5d.metal"
+        case c5nLarge = "c5n.large"
+        case c5nXlarge = "c5n.xlarge"
+        case c5n2Xlarge = "c5n.2xlarge"
+        case c5n4Xlarge = "c5n.4xlarge"
+        case c5n9Xlarge = "c5n.9xlarge"
+        case c5n18Xlarge = "c5n.18xlarge"
+        case cc14Xlarge = "cc1.4xlarge"
+        case cc28Xlarge = "cc2.8xlarge"
+        case g22Xlarge = "g2.2xlarge"
+        case g28Xlarge = "g2.8xlarge"
+        case g34Xlarge = "g3.4xlarge"
+        case g38Xlarge = "g3.8xlarge"
+        case g316Xlarge = "g3.16xlarge"
+        case g3sXlarge = "g3s.xlarge"
+        case g4dnXlarge = "g4dn.xlarge"
+        case g4dn2Xlarge = "g4dn.2xlarge"
+        case g4dn4Xlarge = "g4dn.4xlarge"
+        case g4dn8Xlarge = "g4dn.8xlarge"
+        case g4dn12Xlarge = "g4dn.12xlarge"
+        case g4dn16Xlarge = "g4dn.16xlarge"
+        case cg14Xlarge = "cg1.4xlarge"
+        case p2Xlarge = "p2.xlarge"
+        case p28Xlarge = "p2.8xlarge"
+        case p216Xlarge = "p2.16xlarge"
+        case p32Xlarge = "p3.2xlarge"
+        case p38Xlarge = "p3.8xlarge"
+        case p316Xlarge = "p3.16xlarge"
+        case p3dn24Xlarge = "p3dn.24xlarge"
+        case d2Xlarge = "d2.xlarge"
+        case d22Xlarge = "d2.2xlarge"
+        case d24Xlarge = "d2.4xlarge"
+        case d28Xlarge = "d2.8xlarge"
+        case f12Xlarge = "f1.2xlarge"
+        case f14Xlarge = "f1.4xlarge"
+        case f116Xlarge = "f1.16xlarge"
+        case m5Large = "m5.large"
+        case m5Xlarge = "m5.xlarge"
+        case m52Xlarge = "m5.2xlarge"
+        case m54Xlarge = "m5.4xlarge"
+        case m58Xlarge = "m5.8xlarge"
+        case m512Xlarge = "m5.12xlarge"
+        case m516Xlarge = "m5.16xlarge"
+        case m524Xlarge = "m5.24xlarge"
+        case m5Metal = "m5.metal"
+        case m5aLarge = "m5a.large"
+        case m5aXlarge = "m5a.xlarge"
+        case m5a2Xlarge = "m5a.2xlarge"
+        case m5a4Xlarge = "m5a.4xlarge"
+        case m5a8Xlarge = "m5a.8xlarge"
+        case m5a12Xlarge = "m5a.12xlarge"
+        case m5a16Xlarge = "m5a.16xlarge"
+        case m5a24Xlarge = "m5a.24xlarge"
+        case m5dLarge = "m5d.large"
+        case m5dXlarge = "m5d.xlarge"
+        case m5d2Xlarge = "m5d.2xlarge"
+        case m5d4Xlarge = "m5d.4xlarge"
+        case m5d8Xlarge = "m5d.8xlarge"
+        case m5d12Xlarge = "m5d.12xlarge"
+        case m5d16Xlarge = "m5d.16xlarge"
+        case m5d24Xlarge = "m5d.24xlarge"
+        case m5dMetal = "m5d.metal"
+        case m5adLarge = "m5ad.large"
+        case m5adXlarge = "m5ad.xlarge"
+        case m5ad2Xlarge = "m5ad.2xlarge"
+        case m5ad4Xlarge = "m5ad.4xlarge"
+        case m5ad8Xlarge = "m5ad.8xlarge"
+        case m5ad12Xlarge = "m5ad.12xlarge"
+        case m5ad16Xlarge = "m5ad.16xlarge"
+        case m5ad24Xlarge = "m5ad.24xlarge"
+        case h12Xlarge = "h1.2xlarge"
+        case h14Xlarge = "h1.4xlarge"
+        case h18Xlarge = "h1.8xlarge"
+        case h116Xlarge = "h1.16xlarge"
+        case z1dLarge = "z1d.large"
+        case z1dXlarge = "z1d.xlarge"
+        case z1d2Xlarge = "z1d.2xlarge"
+        case z1d3Xlarge = "z1d.3xlarge"
+        case z1d6Xlarge = "z1d.6xlarge"
+        case z1d12Xlarge = "z1d.12xlarge"
+        case z1dMetal = "z1d.metal"
+        case u6Tb1Metal = "u-6tb1.metal"
+        case u9Tb1Metal = "u-9tb1.metal"
+        case u12Tb1Metal = "u-12tb1.metal"
+        case u18Tb1Metal = "u-18tb1.metal"
+        case u24Tb1Metal = "u-24tb1.metal"
+        case a1Medium = "a1.medium"
+        case a1Large = "a1.large"
+        case a1Xlarge = "a1.xlarge"
+        case a12Xlarge = "a1.2xlarge"
+        case a14Xlarge = "a1.4xlarge"
+        case a1Metal = "a1.metal"
+        case m5dnLarge = "m5dn.large"
+        case m5dnXlarge = "m5dn.xlarge"
+        case m5dn2Xlarge = "m5dn.2xlarge"
+        case m5dn4Xlarge = "m5dn.4xlarge"
+        case m5dn8Xlarge = "m5dn.8xlarge"
+        case m5dn12Xlarge = "m5dn.12xlarge"
+        case m5dn16Xlarge = "m5dn.16xlarge"
+        case m5dn24Xlarge = "m5dn.24xlarge"
+        case m5nLarge = "m5n.large"
+        case m5nXlarge = "m5n.xlarge"
+        case m5n2Xlarge = "m5n.2xlarge"
+        case m5n4Xlarge = "m5n.4xlarge"
+        case m5n8Xlarge = "m5n.8xlarge"
+        case m5n12Xlarge = "m5n.12xlarge"
+        case m5n16Xlarge = "m5n.16xlarge"
+        case m5n24Xlarge = "m5n.24xlarge"
+        case r5dnLarge = "r5dn.large"
+        case r5dnXlarge = "r5dn.xlarge"
+        case r5dn2Xlarge = "r5dn.2xlarge"
+        case r5dn4Xlarge = "r5dn.4xlarge"
+        case r5dn8Xlarge = "r5dn.8xlarge"
+        case r5dn12Xlarge = "r5dn.12xlarge"
+        case r5dn16Xlarge = "r5dn.16xlarge"
+        case r5dn24Xlarge = "r5dn.24xlarge"
+        case r5nLarge = "r5n.large"
+        case r5nXlarge = "r5n.xlarge"
+        case r5n2Xlarge = "r5n.2xlarge"
+        case r5n4Xlarge = "r5n.4xlarge"
+        case r5n8Xlarge = "r5n.8xlarge"
+        case r5n12Xlarge = "r5n.12xlarge"
+        case r5n16Xlarge = "r5n.16xlarge"
+        case r5n24Xlarge = "r5n.24xlarge"
+        case inf1Xlarge = "inf1.xlarge"
+        case inf12Xlarge = "inf1.2xlarge"
+        case inf16Xlarge = "inf1.6xlarge"
+        case inf124Xlarge = "inf1.24xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceTypeHypervisor: String, CustomStringConvertible, Codable {
+        case nitro = "nitro"
+        case xen = "xen"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InterfacePermissionType: String, CustomStringConvertible, Codable {
+        case instanceAttach = "INSTANCE-ATTACH"
+        case eipAssociate = "EIP-ASSOCIATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ipv6SupportValue: String, CustomStringConvertible, Codable {
+        case enable = "enable"
+        case disable = "disable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchTemplateErrorCode: String, CustomStringConvertible, Codable {
+        case launchtemplateiddoesnotexist = "launchTemplateIdDoesNotExist"
+        case launchtemplateidmalformed = "launchTemplateIdMalformed"
+        case launchtemplatenamedoesnotexist = "launchTemplateNameDoesNotExist"
+        case launchtemplatenamemalformed = "launchTemplateNameMalformed"
+        case launchtemplateversiondoesnotexist = "launchTemplateVersionDoesNotExist"
+        case unexpectederror = "unexpectedError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchTemplateHttpTokensState: String, CustomStringConvertible, Codable {
+        case optional = "optional"
+        case required = "required"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchTemplateInstanceMetadataEndpointState: String, CustomStringConvertible, Codable {
+        case disabled = "disabled"
+        case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchTemplateInstanceMetadataOptionsState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case applied = "applied"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListingState: String, CustomStringConvertible, Codable {
+        case available = "available"
+        case sold = "sold"
+        case cancelled = "cancelled"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListingStatus: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case pending = "pending"
+        case cancelled = "cancelled"
+        case closed = "closed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocalGatewayRouteState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case active = "active"
+        case blackhole = "blackhole"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocalGatewayRouteType: String, CustomStringConvertible, Codable {
+        case `static` = "static"
+        case propagated = "propagated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocationType: String, CustomStringConvertible, Codable {
+        case region = "region"
+        case availabilityZone = "availability-zone"
+        case availabilityZoneId = "availability-zone-id"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogDestinationType: String, CustomStringConvertible, Codable {
+        case cloudWatchLogs = "cloud-watch-logs"
+        case s3 = "s3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MarketType: String, CustomStringConvertible, Codable {
+        case spot = "spot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MembershipType: String, CustomStringConvertible, Codable {
+        case `static` = "static"
+        case igmp = "igmp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitoringState: String, CustomStringConvertible, Codable {
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MoveStatus: String, CustomStringConvertible, Codable {
+        case movingtovpc = "movingToVpc"
+        case restoringtoclassic = "restoringToClassic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MulticastSupportValue: String, CustomStringConvertible, Codable {
+        case enable = "enable"
+        case disable = "disable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NatGatewayState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case failed = "failed"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkInterfaceAttribute: String, CustomStringConvertible, Codable {
+        case description = "description"
+        case groupset = "groupSet"
+        case sourcedestcheck = "sourceDestCheck"
+        case attachment = "attachment"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkInterfaceCreationType: String, CustomStringConvertible, Codable {
+        case efa = "efa"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkInterfacePermissionStateCode: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case granted = "granted"
+        case revoking = "revoking"
+        case revoked = "revoked"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkInterfaceStatus: String, CustomStringConvertible, Codable {
+        case available = "available"
+        case associated = "associated"
+        case attaching = "attaching"
+        case inUse = "in-use"
+        case detaching = "detaching"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable {
+        case interface = "interface"
+        case natgateway = "natGateway"
+        case efa = "efa"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OfferingClassType: String, CustomStringConvertible, Codable {
+        case standard = "standard"
+        case convertible = "convertible"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OfferingTypeValues: String, CustomStringConvertible, Codable {
+        case heavyUtilization = "Heavy Utilization"
+        case mediumUtilization = "Medium Utilization"
+        case lightUtilization = "Light Utilization"
+        case noUpfront = "No Upfront"
+        case partialUpfront = "Partial Upfront"
+        case allUpfront = "All Upfront"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OnDemandAllocationStrategy: String, CustomStringConvertible, Codable {
+        case lowestprice = "lowestPrice"
+        case prioritized = "prioritized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationType: String, CustomStringConvertible, Codable {
+        case add = "add"
+        case remove = "remove"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PaymentOption: String, CustomStringConvertible, Codable {
+        case allupfront = "AllUpfront"
+        case partialupfront = "PartialUpfront"
+        case noupfront = "NoUpfront"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PermissionGroup: String, CustomStringConvertible, Codable {
+        case all = "all"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlacementGroupState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlacementGroupStrategy: String, CustomStringConvertible, Codable {
+        case cluster = "cluster"
+        case partition = "partition"
+        case spread = "spread"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlacementStrategy: String, CustomStringConvertible, Codable {
+        case cluster = "cluster"
+        case spread = "spread"
+        case partition = "partition"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformValues: String, CustomStringConvertible, Codable {
+        case windows = "windows"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
+        case all = "All"
+        case service = "Service"
+        case organizationunit = "OrganizationUnit"
+        case account = "Account"
+        case user = "User"
+        case role = "Role"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProductCodeValues: String, CustomStringConvertible, Codable {
+        case devpay = "devpay"
+        case marketplace = "marketplace"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RIProductDescription: String, CustomStringConvertible, Codable {
+        case linuxUnix = "Linux/UNIX"
+        case linuxUnixAmazonVpc = "Linux/UNIX (Amazon VPC)"
+        case windows = "Windows"
+        case windowsAmazonVpc = "Windows (Amazon VPC)"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable {
+        case hourly = "Hourly"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportInstanceReasonCodes: String, CustomStringConvertible, Codable {
+        case instanceStuckInState = "instance-stuck-in-state"
+        case unresponsive = "unresponsive"
+        case notAcceptingCredentials = "not-accepting-credentials"
+        case passwordNotAvailable = "password-not-available"
+        case performanceNetwork = "performance-network"
+        case performanceInstanceStore = "performance-instance-store"
+        case performanceEbsVolume = "performance-ebs-volume"
+        case performanceOther = "performance-other"
+        case other = "other"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportStatusType: String, CustomStringConvertible, Codable {
+        case ok = "ok"
+        case impaired = "impaired"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservationState: String, CustomStringConvertible, Codable {
+        case paymentPending = "payment-pending"
+        case paymentFailed = "payment-failed"
+        case active = "active"
+        case retired = "retired"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservedInstanceState: String, CustomStringConvertible, Codable {
+        case paymentPending = "payment-pending"
+        case active = "active"
+        case paymentFailed = "payment-failed"
+        case retired = "retired"
+        case queued = "queued"
+        case queuedDeleted = "queued-deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResetFpgaImageAttributeName: String, CustomStringConvertible, Codable {
+        case loadpermission = "loadPermission"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResetImageAttributeName: String, CustomStringConvertible, Codable {
+        case launchpermission = "launchPermission"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case clientVpnEndpoint = "client-vpn-endpoint"
+        case customerGateway = "customer-gateway"
+        case dedicatedHost = "dedicated-host"
+        case dhcpOptions = "dhcp-options"
+        case elasticIp = "elastic-ip"
+        case fleet = "fleet"
+        case fpgaImage = "fpga-image"
+        case hostReservation = "host-reservation"
+        case image = "image"
+        case instance = "instance"
+        case internetGateway = "internet-gateway"
+        case keyPair = "key-pair"
+        case launchTemplate = "launch-template"
+        case natgateway = "natgateway"
+        case networkAcl = "network-acl"
+        case networkInterface = "network-interface"
+        case placementGroup = "placement-group"
+        case reservedInstances = "reserved-instances"
+        case routeTable = "route-table"
+        case securityGroup = "security-group"
+        case snapshot = "snapshot"
+        case spotFleetRequest = "spot-fleet-request"
+        case spotInstancesRequest = "spot-instances-request"
+        case subnet = "subnet"
+        case trafficMirrorFilter = "traffic-mirror-filter"
+        case trafficMirrorSession = "traffic-mirror-session"
+        case trafficMirrorTarget = "traffic-mirror-target"
+        case transitGateway = "transit-gateway"
+        case transitGatewayAttachment = "transit-gateway-attachment"
+        case transitGatewayMulticastDomain = "transit-gateway-multicast-domain"
+        case transitGatewayRouteTable = "transit-gateway-route-table"
+        case volume = "volume"
+        case vpc = "vpc"
+        case vpcPeeringConnection = "vpc-peering-connection"
+        case vpnConnection = "vpn-connection"
+        case vpnGateway = "vpn-gateway"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RootDeviceType: String, CustomStringConvertible, Codable {
+        case ebs = "ebs"
+        case instanceStore = "instance-store"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteOrigin: String, CustomStringConvertible, Codable {
+        case createroutetable = "CreateRouteTable"
+        case createroute = "CreateRoute"
+        case enablevgwroutepropagation = "EnableVgwRoutePropagation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteState: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case blackhole = "blackhole"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTableAssociationStateCode: String, CustomStringConvertible, Codable {
+        case associating = "associating"
+        case associated = "associated"
+        case disassociating = "disassociating"
+        case disassociated = "disassociated"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleAction: String, CustomStringConvertible, Codable {
+        case allow = "allow"
+        case deny = "deny"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceState: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case available = "Available"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceType: String, CustomStringConvertible, Codable {
+        case interface = "Interface"
+        case gateway = "Gateway"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShutdownBehavior: String, CustomStringConvertible, Codable {
+        case stop = "stop"
+        case terminate = "terminate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotAttributeName: String, CustomStringConvertible, Codable {
+        case productcodes = "productCodes"
+        case createvolumepermission = "createVolumePermission"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case completed = "completed"
+        case error = "error"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpotAllocationStrategy: String, CustomStringConvertible, Codable {
+        case lowestPrice = "lowest-price"
+        case diversified = "diversified"
+        case capacityOptimized = "capacity-optimized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpotInstanceInterruptionBehavior: String, CustomStringConvertible, Codable {
+        case hibernate = "hibernate"
+        case stop = "stop"
+        case terminate = "terminate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpotInstanceState: String, CustomStringConvertible, Codable {
+        case open = "open"
+        case active = "active"
+        case closed = "closed"
+        case cancelled = "cancelled"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpotInstanceType: String, CustomStringConvertible, Codable {
+        case oneTime = "one-time"
+        case persistent = "persistent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable {
+        case pendingacceptance = "PendingAcceptance"
+        case pending = "Pending"
+        case available = "Available"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        case rejected = "Rejected"
+        case failed = "Failed"
+        case expired = "Expired"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case moveinprogress = "MoveInProgress"
+        case invpc = "InVpc"
+        case inclassic = "InClassic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusName: String, CustomStringConvertible, Codable {
+        case reachability = "reachability"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case passed = "passed"
+        case failed = "failed"
+        case insufficientData = "insufficient-data"
+        case initializing = "initializing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubnetCidrBlockStateCode: String, CustomStringConvertible, Codable {
+        case associating = "associating"
+        case associated = "associated"
+        case disassociating = "disassociating"
+        case disassociated = "disassociated"
+        case failing = "failing"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubnetState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SummaryStatus: String, CustomStringConvertible, Codable {
+        case ok = "ok"
+        case impaired = "impaired"
+        case insufficientData = "insufficient-data"
+        case notApplicable = "not-applicable"
+        case initializing = "initializing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TelemetryStatus: String, CustomStringConvertible, Codable {
+        case up = "UP"
+        case down = "DOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Tenancy: String, CustomStringConvertible, Codable {
+        case `default` = "default"
+        case dedicated = "dedicated"
+        case host = "host"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficDirection: String, CustomStringConvertible, Codable {
+        case ingress = "ingress"
+        case egress = "egress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficMirrorFilterRuleField: String, CustomStringConvertible, Codable {
+        case destinationPortRange = "destination-port-range"
+        case sourcePortRange = "source-port-range"
+        case `protocol` = "protocol"
+        case description = "description"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficMirrorNetworkService: String, CustomStringConvertible, Codable {
+        case amazonDns = "amazon-dns"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficMirrorRuleAction: String, CustomStringConvertible, Codable {
+        case accept = "accept"
+        case reject = "reject"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficMirrorSessionField: String, CustomStringConvertible, Codable {
+        case packetLength = "packet-length"
+        case description = "description"
+        case virtualNetworkId = "virtual-network-id"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficMirrorTargetType: String, CustomStringConvertible, Codable {
+        case networkInterface = "network-interface"
+        case networkLoadBalancer = "network-load-balancer"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficType: String, CustomStringConvertible, Codable {
+        case accept = "ACCEPT"
+        case reject = "REJECT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayAssociationState: String, CustomStringConvertible, Codable {
+        case associating = "associating"
+        case associated = "associated"
+        case disassociating = "disassociating"
+        case disassociated = "disassociated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayAttachmentResourceType: String, CustomStringConvertible, Codable {
+        case vpc = "vpc"
+        case vpn = "vpn"
+        case directConnectGateway = "direct-connect-gateway"
+        case tgwPeering = "tgw-peering"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayAttachmentState: String, CustomStringConvertible, Codable {
+        case initiating = "initiating"
+        case pendingacceptance = "pendingAcceptance"
+        case rollingback = "rollingBack"
+        case pending = "pending"
+        case available = "available"
+        case modifying = "modifying"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        case failed = "failed"
+        case rejected = "rejected"
+        case rejecting = "rejecting"
+        case failing = "failing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayMulitcastDomainAssociationState: String, CustomStringConvertible, Codable {
+        case associating = "associating"
+        case associated = "associated"
+        case disassociating = "disassociating"
+        case disassociated = "disassociated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayMulticastDomainState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayPropagationState: String, CustomStringConvertible, Codable {
+        case enabling = "enabling"
+        case enabled = "enabled"
+        case disabling = "disabling"
+        case disabled = "disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayRouteState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case active = "active"
+        case blackhole = "blackhole"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayRouteTableState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayRouteType: String, CustomStringConvertible, Codable {
+        case `static` = "static"
+        case propagated = "propagated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        case modifying = "modifying"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransportProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "tcp"
+        case udp = "udp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnlimitedSupportedInstanceFamily: String, CustomStringConvertible, Codable {
+        case t2 = "t2"
+        case t3 = "t3"
+        case t3a = "t3a"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnsuccessfulInstanceCreditSpecificationErrorCode: String, CustomStringConvertible, Codable {
+        case invalidinstanceidMalformed = "InvalidInstanceID.Malformed"
+        case invalidinstanceidNotfound = "InvalidInstanceID.NotFound"
+        case incorrectinstancestate = "IncorrectInstanceState"
+        case instancecreditspecificationNotsupported = "InstanceCreditSpecification.NotSupported"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UsageClassType: String, CustomStringConvertible, Codable {
+        case spot = "spot"
+        case onDemand = "on-demand"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualizationType: String, CustomStringConvertible, Codable {
+        case hvm = "hvm"
+        case paravirtual = "paravirtual"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VolumeAttachmentState: String, CustomStringConvertible, Codable {
+        case attaching = "attaching"
+        case attached = "attached"
+        case detaching = "detaching"
+        case detached = "detached"
+        case busy = "busy"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VolumeAttributeName: String, CustomStringConvertible, Codable {
+        case autoenableio = "autoEnableIO"
+        case productcodes = "productCodes"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VolumeModificationState: String, CustomStringConvertible, Codable {
+        case modifying = "modifying"
+        case optimizing = "optimizing"
+        case completed = "completed"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VolumeState: String, CustomStringConvertible, Codable {
+        case creating = "creating"
+        case available = "available"
+        case inUse = "in-use"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        case error = "error"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VolumeStatusInfoStatus: String, CustomStringConvertible, Codable {
+        case ok = "ok"
+        case impaired = "impaired"
+        case insufficientData = "insufficient-data"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VolumeStatusName: String, CustomStringConvertible, Codable {
+        case ioEnabled = "io-enabled"
+        case ioPerformance = "io-performance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VolumeType: String, CustomStringConvertible, Codable {
+        case standard = "standard"
+        case io1 = "io1"
+        case gp2 = "gp2"
+        case sc1 = "sc1"
+        case st1 = "st1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcAttributeName: String, CustomStringConvertible, Codable {
+        case enablednssupport = "enableDnsSupport"
+        case enablednshostnames = "enableDnsHostnames"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcCidrBlockStateCode: String, CustomStringConvertible, Codable {
+        case associating = "associating"
+        case associated = "associated"
+        case disassociating = "disassociating"
+        case disassociated = "disassociated"
+        case failing = "failing"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEndpointType: String, CustomStringConvertible, Codable {
+        case interface = "Interface"
+        case gateway = "Gateway"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcPeeringConnectionStateReasonCode: String, CustomStringConvertible, Codable {
+        case initiatingRequest = "initiating-request"
+        case pendingAcceptance = "pending-acceptance"
+        case active = "active"
+        case deleted = "deleted"
+        case rejected = "rejected"
+        case failed = "failed"
+        case expired = "expired"
+        case provisioning = "provisioning"
+        case deleting = "deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcTenancy: String, CustomStringConvertible, Codable {
+        case `default` = "default"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpnEcmpSupportValue: String, CustomStringConvertible, Codable {
+        case enable = "enable"
+        case disable = "disable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpnProtocol: String, CustomStringConvertible, Codable {
+        case openvpn = "openvpn"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpnState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpnStaticRouteSource: String, CustomStringConvertible, Codable {
+        case `static` = "Static"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Scope: String, CustomStringConvertible, Codable {
+        case availabilityZone = "Availability Zone"
+        case region = "Region"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptReservedInstancesExchangeQuoteRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -232,12 +1960,6 @@ extension EC2 {
         }
     }
 
-    public enum AccountAttributeName: String, CustomStringConvertible, Codable {
-        case supportedPlatforms = "supported-platforms"
-        case defaultVpc = "default-vpc"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AccountAttributeValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeValue", location: .body(locationName: "attributeValue"), required: false, type: .string)
@@ -285,14 +2007,6 @@ extension EC2 {
             case instanceType = "instanceType"
             case spotInstanceRequestId = "spotInstanceRequestId"
         }
-    }
-
-    public enum ActivityStatus: String, CustomStringConvertible, Codable {
-        case error = "error"
-        case pendingFulfillment = "pending_fulfillment"
-        case pendingTermination = "pending_termination"
-        case fulfilled = "fulfilled"
-        public var description: String { return self.rawValue }
     }
 
     public struct Address: AWSShape {
@@ -409,12 +2123,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case byoipCidr = "byoipCidr"
         }
-    }
-
-    public enum Affinity: String, CustomStringConvertible, Codable {
-        case `default` = "default"
-        case host = "host"
-        public var description: String { return self.rawValue }
     }
 
     public struct AllocateAddressRequest: AWSShape {
@@ -575,23 +2283,6 @@ extension EC2 {
         }
     }
 
-    public enum AllocationState: String, CustomStringConvertible, Codable {
-        case available = "available"
-        case underAssessment = "under-assessment"
-        case permanentFailure = "permanent-failure"
-        case released = "released"
-        case releasedPermanentFailure = "released-permanent-failure"
-        case pending = "pending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AllocationStrategy: String, CustomStringConvertible, Codable {
-        case lowestprice = "lowestPrice"
-        case diversified = "diversified"
-        case capacityoptimized = "capacityOptimized"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AllowedPrincipal: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Principal", location: .body(locationName: "principal"), required: false, type: .string), 
@@ -612,12 +2303,6 @@ extension EC2 {
             case principal = "principal"
             case principalType = "principalType"
         }
-    }
-
-    public enum AllowsMultipleInstanceTypes: String, CustomStringConvertible, Codable {
-        case on = "on"
-        case off = "off"
-        public var description: String { return self.rawValue }
     }
 
     public struct ApplySecurityGroupsToClientVpnTargetNetworkRequest: AWSShape {
@@ -667,20 +2352,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "securityGroupIds"
         }
-    }
-
-    public enum ArchitectureType: String, CustomStringConvertible, Codable {
-        case i386 = "i386"
-        case x8664 = "x86_64"
-        case arm64 = "arm64"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ArchitectureValues: String, CustomStringConvertible, Codable {
-        case i386 = "i386"
-        case x8664 = "x86_64"
-        case arm64 = "arm64"
-        public var description: String { return self.rawValue }
     }
 
     public struct AssignIpv6AddressesRequest: AWSShape {
@@ -1259,15 +2930,6 @@ extension EC2 {
         }
     }
 
-    public enum AssociationStatusCode: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case associationFailed = "association-failed"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AttachClassicLinkVpcRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
@@ -1467,14 +3129,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case vpcAttachment = "attachment"
         }
-    }
-
-    public enum AttachmentStatus: String, CustomStringConvertible, Codable {
-        case attaching = "attaching"
-        case attached = "attached"
-        case detaching = "detaching"
-        case detached = "detached"
-        public var description: String { return self.rawValue }
     }
 
     public struct AttributeBooleanValue: AWSShape {
@@ -1736,18 +3390,6 @@ extension EC2 {
         }
     }
 
-    public enum AutoAcceptSharedAttachmentsValue: String, CustomStringConvertible, Codable {
-        case enable = "enable"
-        case disable = "disable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AutoPlacement: String, CustomStringConvertible, Codable {
-        case on = "on"
-        case off = "off"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AvailabilityZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string), 
@@ -1817,21 +3459,6 @@ extension EC2 {
         }
     }
 
-    public enum AvailabilityZoneOptInStatus: String, CustomStringConvertible, Codable {
-        case optInNotRequired = "opt-in-not-required"
-        case optedIn = "opted-in"
-        case notOptedIn = "not-opted-in"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AvailabilityZoneState: String, CustomStringConvertible, Codable {
-        case available = "available"
-        case information = "information"
-        case impaired = "impaired"
-        case unavailable = "unavailable"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AvailableCapacity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailableInstanceCapacity", location: .body(locationName: "availableInstanceCapacity"), required: false, type: .list, encoding: .list(member:"item")), 
@@ -1852,17 +3479,6 @@ extension EC2 {
             case availableInstanceCapacity = "availableInstanceCapacity"
             case availableVCpus = "availableVCpus"
         }
-    }
-
-    public enum BatchState: String, CustomStringConvertible, Codable {
-        case submitted = "submitted"
-        case active = "active"
-        case cancelled = "cancelled"
-        case failed = "failed"
-        case cancelledRunning = "cancelled_running"
-        case cancelledTerminating = "cancelled_terminating"
-        case modifying = "modifying"
-        public var description: String { return self.rawValue }
     }
 
     public struct BlobAttributeValue: AWSShape {
@@ -2031,17 +3647,6 @@ extension EC2 {
         }
     }
 
-    public enum BundleTaskState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case waitingForShutdown = "waiting-for-shutdown"
-        case bundling = "bundling"
-        case storing = "storing"
-        case cancelling = "cancelling"
-        case complete = "complete"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ByoipCidr: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr"), required: false, type: .string), 
@@ -2072,25 +3677,6 @@ extension EC2 {
             case state = "state"
             case statusMessage = "statusMessage"
         }
-    }
-
-    public enum ByoipCidrState: String, CustomStringConvertible, Codable {
-        case advertised = "advertised"
-        case deprovisioned = "deprovisioned"
-        case failedDeprovision = "failed-deprovision"
-        case failedProvision = "failed-provision"
-        case pendingDeprovision = "pending-deprovision"
-        case pendingProvision = "pending-provision"
-        case provisioned = "provisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CancelBatchErrorCode: String, CustomStringConvertible, Codable {
-        case fleetrequestiddoesnotexist = "fleetRequestIdDoesNotExist"
-        case fleetrequestidmalformed = "fleetRequestIdMalformed"
-        case fleetrequestnotincancellablestate = "fleetRequestNotInCancellableState"
-        case unexpectederror = "unexpectedError"
-        public var description: String { return self.rawValue }
     }
 
     public struct CancelBundleTaskRequest: AWSShape {
@@ -2423,15 +4009,6 @@ extension EC2 {
         }
     }
 
-    public enum CancelSpotInstanceRequestState: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case open = "open"
-        case closed = "closed"
-        case cancelled = "cancelled"
-        case completed = "completed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CancelSpotInstanceRequestsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
@@ -2595,21 +4172,6 @@ extension EC2 {
         }
     }
 
-    public enum CapacityReservationInstancePlatform: String, CustomStringConvertible, Codable {
-        case linuxUnix = "Linux/UNIX"
-        case redHatEnterpriseLinux = "Red Hat Enterprise Linux"
-        case suseLinux = "SUSE Linux"
-        case windows = "Windows"
-        case windowsWithSqlServer = "Windows with SQL Server"
-        case windowsWithSqlServerEnterprise = "Windows with SQL Server Enterprise"
-        case windowsWithSqlServerStandard = "Windows with SQL Server Standard"
-        case windowsWithSqlServerWeb = "Windows with SQL Server Web"
-        case linuxWithSqlServerStandard = "Linux with SQL Server Standard"
-        case linuxWithSqlServerWeb = "Linux with SQL Server Web"
-        case linuxWithSqlServerEnterprise = "Linux with SQL Server Enterprise"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CapacityReservationOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UsageStrategy", location: .body(locationName: "usageStrategy"), required: false, type: .enum)
@@ -2642,12 +4204,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case usageStrategy = "UsageStrategy"
         }
-    }
-
-    public enum CapacityReservationPreference: String, CustomStringConvertible, Codable {
-        case open = "open"
-        case none = "none"
-        public var description: String { return self.rawValue }
     }
 
     public struct CapacityReservationSpecification: AWSShape {
@@ -2694,15 +4250,6 @@ extension EC2 {
         }
     }
 
-    public enum CapacityReservationState: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case expired = "expired"
-        case cancelled = "cancelled"
-        case pending = "pending"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CapacityReservationTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CapacityReservationId", required: false, type: .string)
@@ -2735,12 +4282,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case capacityReservationId = "capacityReservationId"
         }
-    }
-
-    public enum CapacityReservationTenancy: String, CustomStringConvertible, Codable {
-        case `default` = "default"
-        case dedicated = "dedicated"
-        public var description: String { return self.rawValue }
     }
 
     public struct CertificateAuthentication: AWSShape {
@@ -2931,12 +4472,6 @@ extension EC2 {
         }
     }
 
-    public enum ClientCertificateRevocationListStatusCode: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case active = "active"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ClientData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .string), 
@@ -3023,12 +4558,6 @@ extension EC2 {
         }
     }
 
-    public enum ClientVpnAuthenticationType: String, CustomStringConvertible, Codable {
-        case certificateAuthentication = "certificate-authentication"
-        case directoryServiceAuthentication = "directory-service-authentication"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ClientVpnAuthorizationRuleStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", location: .body(locationName: "code"), required: false, type: .enum), 
@@ -3049,14 +4578,6 @@ extension EC2 {
             case code = "code"
             case message = "message"
         }
-    }
-
-    public enum ClientVpnAuthorizationRuleStatusCode: String, CustomStringConvertible, Codable {
-        case authorizing = "authorizing"
-        case active = "active"
-        case failed = "failed"
-        case revoking = "revoking"
-        public var description: String { return self.rawValue }
     }
 
     public struct ClientVpnConnection: AWSShape {
@@ -3156,14 +4677,6 @@ extension EC2 {
             case code = "code"
             case message = "message"
         }
-    }
-
-    public enum ClientVpnConnectionStatusCode: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case failedToTerminate = "failed-to-terminate"
-        case terminating = "terminating"
-        case terminated = "terminated"
-        public var description: String { return self.rawValue }
     }
 
     public struct ClientVpnEndpoint: AWSShape {
@@ -3275,14 +4788,6 @@ extension EC2 {
         }
     }
 
-    public enum ClientVpnEndpointStatusCode: String, CustomStringConvertible, Codable {
-        case pendingAssociate = "pending-associate"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ClientVpnRoute: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientVpnEndpointId", location: .body(locationName: "clientVpnEndpointId"), required: false, type: .string), 
@@ -3350,14 +4855,6 @@ extension EC2 {
             case code = "code"
             case message = "message"
         }
-    }
-
-    public enum ClientVpnRouteStatusCode: String, CustomStringConvertible, Codable {
-        case creating = "creating"
-        case active = "active"
-        case failed = "failed"
-        case deleting = "deleting"
-        public var description: String { return self.rawValue }
     }
 
     public struct CoipAddressUsage: AWSShape {
@@ -3574,22 +5071,6 @@ extension EC2 {
         }
     }
 
-    public enum ConnectionNotificationState: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConnectionNotificationType: String, CustomStringConvertible, Codable {
-        case topic = "Topic"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContainerFormat: String, CustomStringConvertible, Codable {
-        case ova = "ova"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ConversionTask: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConversionTaskId", location: .body(locationName: "conversionTaskId"), required: false, type: .string), 
@@ -3635,14 +5116,6 @@ extension EC2 {
             case statusMessage = "statusMessage"
             case tags = "tagSet"
         }
-    }
-
-    public enum ConversionTaskState: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case cancelling = "cancelling"
-        case cancelled = "cancelled"
-        case completed = "completed"
-        public var description: String { return self.rawValue }
     }
 
     public struct CopyFpgaImageRequest: AWSShape {
@@ -3850,11 +5323,6 @@ extension EC2 {
             case snapshotId = "snapshotId"
             case tags = "tagSet"
         }
-    }
-
-    public enum CopyTagsFromSource: String, CustomStringConvertible, Codable {
-        case volume = "volume"
-        public var description: String { return self.rawValue }
     }
 
     public struct CpuOptions: AWSShape {
@@ -7081,11 +8549,6 @@ extension EC2 {
         }
     }
 
-    public enum CurrencyCodeValues: String, CustomStringConvertible, Codable {
-        case usd = "USD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CustomerGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BgpAsn", location: .body(locationName: "bgpAsn"), required: false, type: .string), 
@@ -7136,30 +8599,6 @@ extension EC2 {
             case tags = "tagSet"
             case `type` = "type"
         }
-    }
-
-    public enum DatafeedSubscriptionState: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DefaultRouteTableAssociationValue: String, CustomStringConvertible, Codable {
-        case enable = "enable"
-        case disable = "disable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DefaultRouteTablePropagationValue: String, CustomStringConvertible, Codable {
-        case enable = "enable"
-        case disable = "disable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DefaultTargetCapacityType: String, CustomStringConvertible, Codable {
-        case spot = "spot"
-        case onDemand = "on-demand"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteClientVpnEndpointRequest: AWSShape {
@@ -7353,14 +8792,6 @@ extension EC2 {
             case code = "code"
             case message = "message"
         }
-    }
-
-    public enum DeleteFleetErrorCode: String, CustomStringConvertible, Codable {
-        case fleetiddoesnotexist = "fleetIdDoesNotExist"
-        case fleetidmalformed = "fleetIdMalformed"
-        case fleetnotindeletablestate = "fleetNotInDeletableState"
-        case unexpectederror = "unexpectedError"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteFleetErrorItem: AWSShape {
@@ -8031,13 +9462,6 @@ extension EC2 {
             case code = "code"
             case message = "message"
         }
-    }
-
-    public enum DeleteQueuedReservedInstancesErrorCode: String, CustomStringConvertible, Codable {
-        case reservedInstancesIdInvalid = "reserved-instances-id-invalid"
-        case reservedInstancesNotInQueuedState = "reserved-instances-not-in-queued-state"
-        case unexpectedError = "unexpected-error"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteQueuedReservedInstancesRequest: AWSShape {
@@ -15917,12 +17341,6 @@ extension EC2 {
         }
     }
 
-    public enum DeviceType: String, CustomStringConvertible, Codable {
-        case ebs = "ebs"
-        case instanceStore = "instance-store"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DhcpConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", location: .body(locationName: "key"), required: false, type: .string), 
@@ -16760,13 +18178,6 @@ extension EC2 {
         }
     }
 
-    public enum DiskImageFormat: String, CustomStringConvertible, Codable {
-        case vmdk = "VMDK"
-        case raw = "RAW"
-        case vhd = "VHD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DiskImageVolumeDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
@@ -16816,12 +18227,6 @@ extension EC2 {
         }
     }
 
-    public enum DiskType: String, CustomStringConvertible, Codable {
-        case hdd = "hdd"
-        case ssd = "ssd"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DnsEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DnsName", location: .body(locationName: "dnsName"), required: false, type: .string), 
@@ -16844,13 +18249,6 @@ extension EC2 {
         }
     }
 
-    public enum DnsNameState: String, CustomStringConvertible, Codable {
-        case pendingverification = "pendingVerification"
-        case verified = "verified"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DnsServersOptionsModifyStructure: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomDnsServers", required: false, type: .list, encoding: .list(member:"item")), 
@@ -16871,18 +18269,6 @@ extension EC2 {
             case customDnsServers = "CustomDnsServers"
             case enabled = "Enabled"
         }
-    }
-
-    public enum DnsSupportValue: String, CustomStringConvertible, Codable {
-        case enable = "enable"
-        case disable = "disable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DomainType: String, CustomStringConvertible, Codable {
-        case vpc = "vpc"
-        case standard = "standard"
-        public var description: String { return self.rawValue }
     }
 
     public struct EbsBlockDevice: AWSShape {
@@ -16930,12 +18316,6 @@ extension EC2 {
             case volumeSize = "volumeSize"
             case volumeType = "volumeType"
         }
-    }
-
-    public enum EbsEncryptionSupport: String, CustomStringConvertible, Codable {
-        case unsupported = "unsupported"
-        case supported = "supported"
-        public var description: String { return self.rawValue }
     }
 
     public struct EbsInfo: AWSShape {
@@ -17012,13 +18392,6 @@ extension EC2 {
             case deleteOnTermination = "deleteOnTermination"
             case volumeId = "volumeId"
         }
-    }
-
-    public enum EbsOptimizedSupport: String, CustomStringConvertible, Codable {
-        case unsupported = "unsupported"
-        case supported = "supported"
-        case `default` = "default"
-        public var description: String { return self.rawValue }
     }
 
     public struct EgressOnlyInternetGateway: AWSShape {
@@ -17131,17 +18504,6 @@ extension EC2 {
         }
     }
 
-    public enum ElasticGpuState: String, CustomStringConvertible, Codable {
-        case attached = "ATTACHED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ElasticGpuStatus: String, CustomStringConvertible, Codable {
-        case ok = "OK"
-        case impaired = "IMPAIRED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ElasticGpus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
@@ -17245,13 +18607,6 @@ extension EC2 {
             case elasticInferenceAcceleratorAssociationState = "elasticInferenceAcceleratorAssociationState"
             case elasticInferenceAcceleratorAssociationTime = "elasticInferenceAcceleratorAssociationTime"
         }
-    }
-
-    public enum EnaSupport: String, CustomStringConvertible, Codable {
-        case unsupported = "unsupported"
-        case supported = "supported"
-        case required = "required"
-        public var description: String { return self.rawValue }
     }
 
     public struct EnableEbsEncryptionByDefaultRequest: AWSShape {
@@ -17631,21 +18986,6 @@ extension EC2 {
         }
     }
 
-    public enum EndDateType: String, CustomStringConvertible, Codable {
-        case unlimited = "unlimited"
-        case limited = "limited"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EventCode: String, CustomStringConvertible, Codable {
-        case instanceReboot = "instance-reboot"
-        case systemReboot = "system-reboot"
-        case systemMaintenance = "system-maintenance"
-        case instanceRetirement = "instance-retirement"
-        case instanceStop = "instance-stop"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EventInformation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventDescription", location: .body(locationName: "eventDescription"), required: false, type: .string), 
@@ -17671,20 +19011,6 @@ extension EC2 {
             case eventSubType = "eventSubType"
             case instanceId = "instanceId"
         }
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case instancechange = "instanceChange"
-        case fleetrequestchange = "fleetRequestChange"
-        case error = "error"
-        case information = "information"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable {
-        case notermination = "noTermination"
-        case `default` = "default"
-        public var description: String { return self.rawValue }
     }
 
     public struct ExportClientVpnClientCertificateRevocationListRequest: AWSShape {
@@ -17768,13 +19094,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case clientConfiguration = "clientConfiguration"
         }
-    }
-
-    public enum ExportEnvironment: String, CustomStringConvertible, Codable {
-        case citrix = "citrix"
-        case vmware = "vmware"
-        case microsoft = "microsoft"
-        public var description: String { return self.rawValue }
     }
 
     public struct ExportImageRequest: AWSShape {
@@ -18019,14 +19338,6 @@ extension EC2 {
         }
     }
 
-    public enum ExportTaskState: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case cancelling = "cancelling"
-        case cancelled = "cancelled"
-        case completed = "completed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ExportToS3Task: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContainerFormat", location: .body(locationName: "containerFormat"), required: false, type: .enum), 
@@ -18162,15 +19473,6 @@ extension EC2 {
         }
     }
 
-    public enum FastSnapshotRestoreStateCode: String, CustomStringConvertible, Codable {
-        case enabling = "enabling"
-        case optimizing = "optimizing"
-        case enabled = "enabled"
-        case disabling = "disabling"
-        case disabled = "disabled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -18191,19 +19493,6 @@ extension EC2 {
             case name = "Name"
             case values = "Value"
         }
-    }
-
-    public enum FleetActivityStatus: String, CustomStringConvertible, Codable {
-        case error = "error"
-        case pendingFulfillment = "pending_fulfillment"
-        case pendingTermination = "pending_termination"
-        case fulfilled = "fulfilled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FleetCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable {
-        case useCapacityReservationsFirst = "use-capacity-reservations-first"
-        public var description: String { return self.rawValue }
     }
 
     public struct FleetData: AWSShape {
@@ -18316,19 +19605,6 @@ extension EC2 {
             case validFrom = "validFrom"
             case validUntil = "validUntil"
         }
-    }
-
-    public enum FleetEventType: String, CustomStringConvertible, Codable {
-        case instanceChange = "instance-change"
-        case fleetChange = "fleet-change"
-        case serviceError = "service-error"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FleetExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable {
-        case noTermination = "no-termination"
-        case termination = "termination"
-        public var description: String { return self.rawValue }
     }
 
     public struct FleetLaunchTemplateConfig: AWSShape {
@@ -18540,30 +19816,6 @@ extension EC2 {
         }
     }
 
-    public enum FleetOnDemandAllocationStrategy: String, CustomStringConvertible, Codable {
-        case lowestPrice = "lowest-price"
-        case prioritized = "prioritized"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FleetStateCode: String, CustomStringConvertible, Codable {
-        case submitted = "submitted"
-        case active = "active"
-        case deleted = "deleted"
-        case failed = "failed"
-        case deletedRunning = "deleted_running"
-        case deletedTerminating = "deleted_terminating"
-        case modifying = "modifying"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FleetType: String, CustomStringConvertible, Codable {
-        case request = "request"
-        case maintain = "maintain"
-        case instant = "instant"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FlowLog: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
@@ -18634,13 +19886,6 @@ extension EC2 {
             case resourceId = "resourceId"
             case trafficType = "trafficType"
         }
-    }
-
-    public enum FlowLogsResourceType: String, CustomStringConvertible, Codable {
-        case vpc = "VPC"
-        case subnet = "Subnet"
-        case networkinterface = "NetworkInterface"
-        public var description: String { return self.rawValue }
     }
 
     public struct FpgaDeviceInfo: AWSShape {
@@ -18816,14 +20061,6 @@ extension EC2 {
         }
     }
 
-    public enum FpgaImageAttributeName: String, CustomStringConvertible, Codable {
-        case description = "description"
-        case name = "name"
-        case loadpermission = "loadPermission"
-        case productcodes = "productCodes"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FpgaImageState: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", location: .body(locationName: "code"), required: false, type: .enum), 
@@ -18846,14 +20083,6 @@ extension EC2 {
         }
     }
 
-    public enum FpgaImageStateCode: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case failed = "failed"
-        case available = "available"
-        case unavailable = "unavailable"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FpgaInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Fpgas", location: .body(locationName: "fpgas"), required: false, type: .list, encoding: .list(member:"item")), 
@@ -18874,11 +20103,6 @@ extension EC2 {
             case fpgas = "fpgas"
             case totalFpgaMemoryInMiB = "totalFpgaMemoryInMiB"
         }
-    }
-
-    public enum GatewayType: String, CustomStringConvertible, Codable {
-        case ipsec1 = "ipsec.1"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetCapacityReservationUsageRequest: AWSShape {
@@ -20115,12 +21339,6 @@ extension EC2 {
         }
     }
 
-    public enum HostRecovery: String, CustomStringConvertible, Codable {
-        case on = "on"
-        case off = "off"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HostReservation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: false, type: .integer), 
@@ -20201,24 +21419,6 @@ extension EC2 {
             case tags = "tagSet"
             case upfrontPrice = "upfrontPrice"
         }
-    }
-
-    public enum HostTenancy: String, CustomStringConvertible, Codable {
-        case dedicated = "dedicated"
-        case host = "host"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HttpTokensState: String, CustomStringConvertible, Codable {
-        case optional = "optional"
-        case required = "required"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HypervisorType: String, CustomStringConvertible, Codable {
-        case ovm = "ovm"
-        case xen = "xen"
-        public var description: String { return self.rawValue }
     }
 
     public struct IKEVersionsListValue: AWSShape {
@@ -20312,14 +21512,6 @@ extension EC2 {
             case state = "state"
             case timestamp = "timestamp"
         }
-    }
-
-    public enum IamInstanceProfileAssociationState: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        public var description: String { return self.rawValue }
     }
 
     public struct IamInstanceProfileSpecification: AWSShape {
@@ -20577,17 +21769,6 @@ extension EC2 {
         }
     }
 
-    public enum ImageAttributeName: String, CustomStringConvertible, Codable {
-        case description = "description"
-        case kernel = "kernel"
-        case ramdisk = "ramdisk"
-        case launchpermission = "launchPermission"
-        case productcodes = "productCodes"
-        case blockdevicemapping = "blockDeviceMapping"
-        case sriovnetsupport = "sriovNetSupport"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ImageDiskContainer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -20628,24 +21809,6 @@ extension EC2 {
             case url = "Url"
             case userBucket = "UserBucket"
         }
-    }
-
-    public enum ImageState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        case invalid = "invalid"
-        case deregistered = "deregistered"
-        case transient = "transient"
-        case failed = "failed"
-        case error = "error"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ImageTypeValues: String, CustomStringConvertible, Codable {
-        case machine = "machine"
-        case kernel = "kernel"
-        case ramdisk = "ramdisk"
-        public var description: String { return self.rawValue }
     }
 
     public struct ImportClientVpnClientCertificateRevocationListRequest: AWSShape {
@@ -21801,24 +22964,6 @@ extension EC2 {
         }
     }
 
-    public enum InstanceAttributeName: String, CustomStringConvertible, Codable {
-        case instancetype = "instanceType"
-        case kernel = "kernel"
-        case ramdisk = "ramdisk"
-        case userdata = "userData"
-        case disableapitermination = "disableApiTermination"
-        case instanceinitiatedshutdownbehavior = "instanceInitiatedShutdownBehavior"
-        case rootdevicename = "rootDeviceName"
-        case blockdevicemapping = "blockDeviceMapping"
-        case productcodes = "productCodes"
-        case sourcedestcheck = "sourceDestCheck"
-        case groupset = "groupSet"
-        case ebsoptimized = "ebsOptimized"
-        case sriovnetsupport = "sriovNetSupport"
-        case enasupport = "enaSupport"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceBlockDeviceMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceName", location: .body(locationName: "deviceName"), required: false, type: .string), 
@@ -22010,19 +23155,6 @@ extension EC2 {
         }
     }
 
-    public enum InstanceHealthStatus: String, CustomStringConvertible, Codable {
-        case healthy = "healthy"
-        case unhealthy = "unhealthy"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceInterruptionBehavior: String, CustomStringConvertible, Codable {
-        case hibernate = "hibernate"
-        case stop = "stop"
-        case terminate = "terminate"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceIpv6Address: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ipv6Address", location: .body(locationName: "ipv6Address"), required: false, type: .string)
@@ -22057,18 +23189,6 @@ extension EC2 {
         }
     }
 
-    public enum InstanceLifecycle: String, CustomStringConvertible, Codable {
-        case spot = "spot"
-        case onDemand = "on-demand"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceLifecycleType: String, CustomStringConvertible, Codable {
-        case spot = "spot"
-        case scheduled = "scheduled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceMarketOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MarketType", required: false, type: .enum), 
@@ -22089,18 +23209,6 @@ extension EC2 {
             case marketType = "MarketType"
             case spotOptions = "SpotOptions"
         }
-    }
-
-    public enum InstanceMatchCriteria: String, CustomStringConvertible, Codable {
-        case open = "open"
-        case targeted = "targeted"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable {
-        case disabled = "disabled"
-        case enabled = "enabled"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceMetadataOptionsRequest: AWSShape {
@@ -22160,12 +23268,6 @@ extension EC2 {
             case httpTokens = "httpTokens"
             case state = "state"
         }
-    }
-
-    public enum InstanceMetadataOptionsState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case applied = "applied"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceMonitoring: AWSShape {
@@ -22526,16 +23628,6 @@ extension EC2 {
         }
     }
 
-    public enum InstanceStateName: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case running = "running"
-        case shuttingDown = "shutting-down"
-        case terminated = "terminated"
-        case stopping = "stopping"
-        case stopped = "stopped"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InstanceStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
@@ -22694,287 +23786,6 @@ extension EC2 {
             case disks = "disks"
             case totalSizeInGB = "totalSizeInGB"
         }
-    }
-
-    public enum InstanceType: String, CustomStringConvertible, Codable {
-        case t1Micro = "t1.micro"
-        case t2Nano = "t2.nano"
-        case t2Micro = "t2.micro"
-        case t2Small = "t2.small"
-        case t2Medium = "t2.medium"
-        case t2Large = "t2.large"
-        case t2Xlarge = "t2.xlarge"
-        case t22Xlarge = "t2.2xlarge"
-        case t3Nano = "t3.nano"
-        case t3Micro = "t3.micro"
-        case t3Small = "t3.small"
-        case t3Medium = "t3.medium"
-        case t3Large = "t3.large"
-        case t3Xlarge = "t3.xlarge"
-        case t32Xlarge = "t3.2xlarge"
-        case t3aNano = "t3a.nano"
-        case t3aMicro = "t3a.micro"
-        case t3aSmall = "t3a.small"
-        case t3aMedium = "t3a.medium"
-        case t3aLarge = "t3a.large"
-        case t3aXlarge = "t3a.xlarge"
-        case t3a2Xlarge = "t3a.2xlarge"
-        case m1Small = "m1.small"
-        case m1Medium = "m1.medium"
-        case m1Large = "m1.large"
-        case m1Xlarge = "m1.xlarge"
-        case m3Medium = "m3.medium"
-        case m3Large = "m3.large"
-        case m3Xlarge = "m3.xlarge"
-        case m32Xlarge = "m3.2xlarge"
-        case m4Large = "m4.large"
-        case m4Xlarge = "m4.xlarge"
-        case m42Xlarge = "m4.2xlarge"
-        case m44Xlarge = "m4.4xlarge"
-        case m410Xlarge = "m4.10xlarge"
-        case m416Xlarge = "m4.16xlarge"
-        case m2Xlarge = "m2.xlarge"
-        case m22Xlarge = "m2.2xlarge"
-        case m24Xlarge = "m2.4xlarge"
-        case cr18Xlarge = "cr1.8xlarge"
-        case r3Large = "r3.large"
-        case r3Xlarge = "r3.xlarge"
-        case r32Xlarge = "r3.2xlarge"
-        case r34Xlarge = "r3.4xlarge"
-        case r38Xlarge = "r3.8xlarge"
-        case r4Large = "r4.large"
-        case r4Xlarge = "r4.xlarge"
-        case r42Xlarge = "r4.2xlarge"
-        case r44Xlarge = "r4.4xlarge"
-        case r48Xlarge = "r4.8xlarge"
-        case r416Xlarge = "r4.16xlarge"
-        case r5Large = "r5.large"
-        case r5Xlarge = "r5.xlarge"
-        case r52Xlarge = "r5.2xlarge"
-        case r54Xlarge = "r5.4xlarge"
-        case r58Xlarge = "r5.8xlarge"
-        case r512Xlarge = "r5.12xlarge"
-        case r516Xlarge = "r5.16xlarge"
-        case r524Xlarge = "r5.24xlarge"
-        case r5Metal = "r5.metal"
-        case r5aLarge = "r5a.large"
-        case r5aXlarge = "r5a.xlarge"
-        case r5a2Xlarge = "r5a.2xlarge"
-        case r5a4Xlarge = "r5a.4xlarge"
-        case r5a8Xlarge = "r5a.8xlarge"
-        case r5a12Xlarge = "r5a.12xlarge"
-        case r5a16Xlarge = "r5a.16xlarge"
-        case r5a24Xlarge = "r5a.24xlarge"
-        case r5dLarge = "r5d.large"
-        case r5dXlarge = "r5d.xlarge"
-        case r5d2Xlarge = "r5d.2xlarge"
-        case r5d4Xlarge = "r5d.4xlarge"
-        case r5d8Xlarge = "r5d.8xlarge"
-        case r5d12Xlarge = "r5d.12xlarge"
-        case r5d16Xlarge = "r5d.16xlarge"
-        case r5d24Xlarge = "r5d.24xlarge"
-        case r5dMetal = "r5d.metal"
-        case r5adLarge = "r5ad.large"
-        case r5adXlarge = "r5ad.xlarge"
-        case r5ad2Xlarge = "r5ad.2xlarge"
-        case r5ad4Xlarge = "r5ad.4xlarge"
-        case r5ad8Xlarge = "r5ad.8xlarge"
-        case r5ad12Xlarge = "r5ad.12xlarge"
-        case r5ad16Xlarge = "r5ad.16xlarge"
-        case r5ad24Xlarge = "r5ad.24xlarge"
-        case x116Xlarge = "x1.16xlarge"
-        case x132Xlarge = "x1.32xlarge"
-        case x1eXlarge = "x1e.xlarge"
-        case x1e2Xlarge = "x1e.2xlarge"
-        case x1e4Xlarge = "x1e.4xlarge"
-        case x1e8Xlarge = "x1e.8xlarge"
-        case x1e16Xlarge = "x1e.16xlarge"
-        case x1e32Xlarge = "x1e.32xlarge"
-        case i2Xlarge = "i2.xlarge"
-        case i22Xlarge = "i2.2xlarge"
-        case i24Xlarge = "i2.4xlarge"
-        case i28Xlarge = "i2.8xlarge"
-        case i3Large = "i3.large"
-        case i3Xlarge = "i3.xlarge"
-        case i32Xlarge = "i3.2xlarge"
-        case i34Xlarge = "i3.4xlarge"
-        case i38Xlarge = "i3.8xlarge"
-        case i316Xlarge = "i3.16xlarge"
-        case i3Metal = "i3.metal"
-        case i3enLarge = "i3en.large"
-        case i3enXlarge = "i3en.xlarge"
-        case i3en2Xlarge = "i3en.2xlarge"
-        case i3en3Xlarge = "i3en.3xlarge"
-        case i3en6Xlarge = "i3en.6xlarge"
-        case i3en12Xlarge = "i3en.12xlarge"
-        case i3en24Xlarge = "i3en.24xlarge"
-        case i3enMetal = "i3en.metal"
-        case hi14Xlarge = "hi1.4xlarge"
-        case hs18Xlarge = "hs1.8xlarge"
-        case c1Medium = "c1.medium"
-        case c1Xlarge = "c1.xlarge"
-        case c3Large = "c3.large"
-        case c3Xlarge = "c3.xlarge"
-        case c32Xlarge = "c3.2xlarge"
-        case c34Xlarge = "c3.4xlarge"
-        case c38Xlarge = "c3.8xlarge"
-        case c4Large = "c4.large"
-        case c4Xlarge = "c4.xlarge"
-        case c42Xlarge = "c4.2xlarge"
-        case c44Xlarge = "c4.4xlarge"
-        case c48Xlarge = "c4.8xlarge"
-        case c5Large = "c5.large"
-        case c5Xlarge = "c5.xlarge"
-        case c52Xlarge = "c5.2xlarge"
-        case c54Xlarge = "c5.4xlarge"
-        case c59Xlarge = "c5.9xlarge"
-        case c512Xlarge = "c5.12xlarge"
-        case c518Xlarge = "c5.18xlarge"
-        case c524Xlarge = "c5.24xlarge"
-        case c5Metal = "c5.metal"
-        case c5dLarge = "c5d.large"
-        case c5dXlarge = "c5d.xlarge"
-        case c5d2Xlarge = "c5d.2xlarge"
-        case c5d4Xlarge = "c5d.4xlarge"
-        case c5d9Xlarge = "c5d.9xlarge"
-        case c5d12Xlarge = "c5d.12xlarge"
-        case c5d18Xlarge = "c5d.18xlarge"
-        case c5d24Xlarge = "c5d.24xlarge"
-        case c5dMetal = "c5d.metal"
-        case c5nLarge = "c5n.large"
-        case c5nXlarge = "c5n.xlarge"
-        case c5n2Xlarge = "c5n.2xlarge"
-        case c5n4Xlarge = "c5n.4xlarge"
-        case c5n9Xlarge = "c5n.9xlarge"
-        case c5n18Xlarge = "c5n.18xlarge"
-        case cc14Xlarge = "cc1.4xlarge"
-        case cc28Xlarge = "cc2.8xlarge"
-        case g22Xlarge = "g2.2xlarge"
-        case g28Xlarge = "g2.8xlarge"
-        case g34Xlarge = "g3.4xlarge"
-        case g38Xlarge = "g3.8xlarge"
-        case g316Xlarge = "g3.16xlarge"
-        case g3sXlarge = "g3s.xlarge"
-        case g4dnXlarge = "g4dn.xlarge"
-        case g4dn2Xlarge = "g4dn.2xlarge"
-        case g4dn4Xlarge = "g4dn.4xlarge"
-        case g4dn8Xlarge = "g4dn.8xlarge"
-        case g4dn12Xlarge = "g4dn.12xlarge"
-        case g4dn16Xlarge = "g4dn.16xlarge"
-        case cg14Xlarge = "cg1.4xlarge"
-        case p2Xlarge = "p2.xlarge"
-        case p28Xlarge = "p2.8xlarge"
-        case p216Xlarge = "p2.16xlarge"
-        case p32Xlarge = "p3.2xlarge"
-        case p38Xlarge = "p3.8xlarge"
-        case p316Xlarge = "p3.16xlarge"
-        case p3dn24Xlarge = "p3dn.24xlarge"
-        case d2Xlarge = "d2.xlarge"
-        case d22Xlarge = "d2.2xlarge"
-        case d24Xlarge = "d2.4xlarge"
-        case d28Xlarge = "d2.8xlarge"
-        case f12Xlarge = "f1.2xlarge"
-        case f14Xlarge = "f1.4xlarge"
-        case f116Xlarge = "f1.16xlarge"
-        case m5Large = "m5.large"
-        case m5Xlarge = "m5.xlarge"
-        case m52Xlarge = "m5.2xlarge"
-        case m54Xlarge = "m5.4xlarge"
-        case m58Xlarge = "m5.8xlarge"
-        case m512Xlarge = "m5.12xlarge"
-        case m516Xlarge = "m5.16xlarge"
-        case m524Xlarge = "m5.24xlarge"
-        case m5Metal = "m5.metal"
-        case m5aLarge = "m5a.large"
-        case m5aXlarge = "m5a.xlarge"
-        case m5a2Xlarge = "m5a.2xlarge"
-        case m5a4Xlarge = "m5a.4xlarge"
-        case m5a8Xlarge = "m5a.8xlarge"
-        case m5a12Xlarge = "m5a.12xlarge"
-        case m5a16Xlarge = "m5a.16xlarge"
-        case m5a24Xlarge = "m5a.24xlarge"
-        case m5dLarge = "m5d.large"
-        case m5dXlarge = "m5d.xlarge"
-        case m5d2Xlarge = "m5d.2xlarge"
-        case m5d4Xlarge = "m5d.4xlarge"
-        case m5d8Xlarge = "m5d.8xlarge"
-        case m5d12Xlarge = "m5d.12xlarge"
-        case m5d16Xlarge = "m5d.16xlarge"
-        case m5d24Xlarge = "m5d.24xlarge"
-        case m5dMetal = "m5d.metal"
-        case m5adLarge = "m5ad.large"
-        case m5adXlarge = "m5ad.xlarge"
-        case m5ad2Xlarge = "m5ad.2xlarge"
-        case m5ad4Xlarge = "m5ad.4xlarge"
-        case m5ad8Xlarge = "m5ad.8xlarge"
-        case m5ad12Xlarge = "m5ad.12xlarge"
-        case m5ad16Xlarge = "m5ad.16xlarge"
-        case m5ad24Xlarge = "m5ad.24xlarge"
-        case h12Xlarge = "h1.2xlarge"
-        case h14Xlarge = "h1.4xlarge"
-        case h18Xlarge = "h1.8xlarge"
-        case h116Xlarge = "h1.16xlarge"
-        case z1dLarge = "z1d.large"
-        case z1dXlarge = "z1d.xlarge"
-        case z1d2Xlarge = "z1d.2xlarge"
-        case z1d3Xlarge = "z1d.3xlarge"
-        case z1d6Xlarge = "z1d.6xlarge"
-        case z1d12Xlarge = "z1d.12xlarge"
-        case z1dMetal = "z1d.metal"
-        case u6Tb1Metal = "u-6tb1.metal"
-        case u9Tb1Metal = "u-9tb1.metal"
-        case u12Tb1Metal = "u-12tb1.metal"
-        case u18Tb1Metal = "u-18tb1.metal"
-        case u24Tb1Metal = "u-24tb1.metal"
-        case a1Medium = "a1.medium"
-        case a1Large = "a1.large"
-        case a1Xlarge = "a1.xlarge"
-        case a12Xlarge = "a1.2xlarge"
-        case a14Xlarge = "a1.4xlarge"
-        case a1Metal = "a1.metal"
-        case m5dnLarge = "m5dn.large"
-        case m5dnXlarge = "m5dn.xlarge"
-        case m5dn2Xlarge = "m5dn.2xlarge"
-        case m5dn4Xlarge = "m5dn.4xlarge"
-        case m5dn8Xlarge = "m5dn.8xlarge"
-        case m5dn12Xlarge = "m5dn.12xlarge"
-        case m5dn16Xlarge = "m5dn.16xlarge"
-        case m5dn24Xlarge = "m5dn.24xlarge"
-        case m5nLarge = "m5n.large"
-        case m5nXlarge = "m5n.xlarge"
-        case m5n2Xlarge = "m5n.2xlarge"
-        case m5n4Xlarge = "m5n.4xlarge"
-        case m5n8Xlarge = "m5n.8xlarge"
-        case m5n12Xlarge = "m5n.12xlarge"
-        case m5n16Xlarge = "m5n.16xlarge"
-        case m5n24Xlarge = "m5n.24xlarge"
-        case r5dnLarge = "r5dn.large"
-        case r5dnXlarge = "r5dn.xlarge"
-        case r5dn2Xlarge = "r5dn.2xlarge"
-        case r5dn4Xlarge = "r5dn.4xlarge"
-        case r5dn8Xlarge = "r5dn.8xlarge"
-        case r5dn12Xlarge = "r5dn.12xlarge"
-        case r5dn16Xlarge = "r5dn.16xlarge"
-        case r5dn24Xlarge = "r5dn.24xlarge"
-        case r5nLarge = "r5n.large"
-        case r5nXlarge = "r5n.xlarge"
-        case r5n2Xlarge = "r5n.2xlarge"
-        case r5n4Xlarge = "r5n.4xlarge"
-        case r5n8Xlarge = "r5n.8xlarge"
-        case r5n12Xlarge = "r5n.12xlarge"
-        case r5n16Xlarge = "r5n.16xlarge"
-        case r5n24Xlarge = "r5n.24xlarge"
-        case inf1Xlarge = "inf1.xlarge"
-        case inf12Xlarge = "inf1.2xlarge"
-        case inf16Xlarge = "inf1.6xlarge"
-        case inf124Xlarge = "inf1.24xlarge"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceTypeHypervisor: String, CustomStringConvertible, Codable {
-        case nitro = "nitro"
-        case xen = "xen"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceTypeInfo: AWSShape {
@@ -23148,12 +23959,6 @@ extension EC2 {
         }
     }
 
-    public enum InterfacePermissionType: String, CustomStringConvertible, Codable {
-        case instanceAttach = "INSTANCE-ATTACH"
-        case eipAssociate = "EIP-ASSOCIATE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InternetGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attachments", location: .body(locationName: "attachmentSet"), required: false, type: .list, encoding: .list(member:"item")), 
@@ -23314,12 +24119,6 @@ extension EC2 {
             case cidrIpv6 = "cidrIpv6"
             case description = "description"
         }
-    }
-
-    public enum Ipv6SupportValue: String, CustomStringConvertible, Codable {
-        case enable = "enable"
-        case disable = "disable"
-        public var description: String { return self.rawValue }
     }
 
     public struct KeyPair: AWSShape {
@@ -23927,16 +24726,6 @@ extension EC2 {
         }
     }
 
-    public enum LaunchTemplateErrorCode: String, CustomStringConvertible, Codable {
-        case launchtemplateiddoesnotexist = "launchTemplateIdDoesNotExist"
-        case launchtemplateidmalformed = "launchTemplateIdMalformed"
-        case launchtemplatenamedoesnotexist = "launchTemplateNameDoesNotExist"
-        case launchtemplatenamemalformed = "launchTemplateNameMalformed"
-        case launchtemplateversiondoesnotexist = "launchTemplateVersionDoesNotExist"
-        case unexpectederror = "unexpectedError"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LaunchTemplateHibernationOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Configured", location: .body(locationName: "configured"), required: false, type: .boolean)
@@ -23969,12 +24758,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case configured = "Configured"
         }
-    }
-
-    public enum LaunchTemplateHttpTokensState: String, CustomStringConvertible, Codable {
-        case optional = "optional"
-        case required = "required"
-        public var description: String { return self.rawValue }
     }
 
     public struct LaunchTemplateIamInstanceProfileSpecification: AWSShape {
@@ -24065,12 +24848,6 @@ extension EC2 {
         }
     }
 
-    public enum LaunchTemplateInstanceMetadataEndpointState: String, CustomStringConvertible, Codable {
-        case disabled = "disabled"
-        case enabled = "enabled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LaunchTemplateInstanceMetadataOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HttpEndpoint", location: .body(locationName: "httpEndpoint"), required: false, type: .enum), 
@@ -24128,12 +24905,6 @@ extension EC2 {
             case httpPutResponseHopLimit = "HttpPutResponseHopLimit"
             case httpTokens = "HttpTokens"
         }
-    }
-
-    public enum LaunchTemplateInstanceMetadataOptionsState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case applied = "applied"
-        public var description: String { return self.rawValue }
     }
 
     public struct LaunchTemplateInstanceNetworkInterfaceSpecification: AWSShape {
@@ -24735,22 +25506,6 @@ extension EC2 {
         }
     }
 
-    public enum ListingState: String, CustomStringConvertible, Codable {
-        case available = "available"
-        case sold = "sold"
-        case cancelled = "cancelled"
-        case pending = "pending"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ListingStatus: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case pending = "pending"
-        case cancelled = "cancelled"
-        case closed = "closed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoadBalancersConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClassicLoadBalancersConfig", location: .body(locationName: "classicLoadBalancersConfig"), required: false, type: .structure), 
@@ -24918,15 +25673,6 @@ extension EC2 {
         }
     }
 
-    public enum LocalGatewayRouteState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case active = "active"
-        case blackhole = "blackhole"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LocalGatewayRouteTable: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId"), required: false, type: .string), 
@@ -25048,12 +25794,6 @@ extension EC2 {
         }
     }
 
-    public enum LocalGatewayRouteType: String, CustomStringConvertible, Codable {
-        case `static` = "static"
-        case propagated = "propagated"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LocalGatewayVirtualInterface: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocalAddress", location: .body(locationName: "localAddress"), required: false, type: .string), 
@@ -25136,30 +25876,6 @@ extension EC2 {
             case localGatewayVirtualInterfaceIds = "localGatewayVirtualInterfaceIdSet"
             case tags = "tagSet"
         }
-    }
-
-    public enum LocationType: String, CustomStringConvertible, Codable {
-        case region = "region"
-        case availabilityZone = "availability-zone"
-        case availabilityZoneId = "availability-zone-id"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LogDestinationType: String, CustomStringConvertible, Codable {
-        case cloudWatchLogs = "cloud-watch-logs"
-        case s3 = "s3"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MarketType: String, CustomStringConvertible, Codable {
-        case spot = "spot"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MembershipType: String, CustomStringConvertible, Codable {
-        case `static` = "static"
-        case igmp = "igmp"
-        public var description: String { return self.rawValue }
     }
 
     public struct MemoryInfo: AWSShape {
@@ -27330,14 +28046,6 @@ extension EC2 {
         }
     }
 
-    public enum MonitoringState: String, CustomStringConvertible, Codable {
-        case disabled = "disabled"
-        case disabling = "disabling"
-        case enabled = "enabled"
-        case pending = "pending"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MoveAddressToVpcRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
@@ -27382,12 +28090,6 @@ extension EC2 {
         }
     }
 
-    public enum MoveStatus: String, CustomStringConvertible, Codable {
-        case movingtovpc = "movingToVpc"
-        case restoringtoclassic = "restoringToClassic"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MovingAddressStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MoveStatus", location: .body(locationName: "moveStatus"), required: false, type: .enum), 
@@ -27408,12 +28110,6 @@ extension EC2 {
             case moveStatus = "moveStatus"
             case publicIp = "publicIp"
         }
-    }
-
-    public enum MulticastSupportValue: String, CustomStringConvertible, Codable {
-        case enable = "enable"
-        case disable = "disable"
-        public var description: String { return self.rawValue }
     }
 
     public struct NatGateway: AWSShape {
@@ -27513,15 +28209,6 @@ extension EC2 {
             case privateIp = "privateIp"
             case publicIp = "publicIp"
         }
-    }
-
-    public enum NatGatewayState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case failed = "failed"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
     }
 
     public struct NetworkAcl: AWSShape {
@@ -27915,19 +28602,6 @@ extension EC2 {
         }
     }
 
-    public enum NetworkInterfaceAttribute: String, CustomStringConvertible, Codable {
-        case description = "description"
-        case groupset = "groupSet"
-        case sourcedestcheck = "sourceDestCheck"
-        case attachment = "attachment"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NetworkInterfaceCreationType: String, CustomStringConvertible, Codable {
-        case efa = "efa"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NetworkInterfaceIpv6Address: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ipv6Address", location: .body(locationName: "ipv6Address"), required: false, type: .string)
@@ -28009,14 +28683,6 @@ extension EC2 {
         }
     }
 
-    public enum NetworkInterfacePermissionStateCode: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case granted = "granted"
-        case revoking = "revoking"
-        case revoked = "revoked"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NetworkInterfacePrivateIpAddress: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Association", location: .body(locationName: "association"), required: false, type: .structure), 
@@ -28049,22 +28715,6 @@ extension EC2 {
         }
     }
 
-    public enum NetworkInterfaceStatus: String, CustomStringConvertible, Codable {
-        case available = "available"
-        case associated = "associated"
-        case attaching = "attaching"
-        case inUse = "in-use"
-        case detaching = "detaching"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable {
-        case interface = "interface"
-        case natgateway = "natGateway"
-        case efa = "efa"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NewDhcpConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", location: .body(locationName: "key"), required: false, type: .string), 
@@ -28083,28 +28733,6 @@ extension EC2 {
             case key = "key"
             case values = "Value"
         }
-    }
-
-    public enum OfferingClassType: String, CustomStringConvertible, Codable {
-        case standard = "standard"
-        case convertible = "convertible"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OfferingTypeValues: String, CustomStringConvertible, Codable {
-        case heavyUtilization = "Heavy Utilization"
-        case mediumUtilization = "Medium Utilization"
-        case lightUtilization = "Light Utilization"
-        case noUpfront = "No Upfront"
-        case partialUpfront = "Partial Upfront"
-        case allUpfront = "All Upfront"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OnDemandAllocationStrategy: String, CustomStringConvertible, Codable {
-        case lowestprice = "lowestPrice"
-        case prioritized = "prioritized"
-        public var description: String { return self.rawValue }
     }
 
     public struct OnDemandOptions: AWSShape {
@@ -28189,19 +28817,6 @@ extension EC2 {
             case singleAvailabilityZone = "SingleAvailabilityZone"
             case singleInstanceType = "SingleInstanceType"
         }
-    }
-
-    public enum OperationType: String, CustomStringConvertible, Codable {
-        case add = "add"
-        case remove = "remove"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PaymentOption: String, CustomStringConvertible, Codable {
-        case allupfront = "AllUpfront"
-        case partialupfront = "PartialUpfront"
-        case noupfront = "NoUpfront"
-        public var description: String { return self.rawValue }
     }
 
     public struct PciId: AWSShape {
@@ -28337,11 +28952,6 @@ extension EC2 {
             case region = "region"
             case transitGatewayId = "transitGatewayId"
         }
-    }
-
-    public enum PermissionGroup: String, CustomStringConvertible, Codable {
-        case all = "all"
-        public var description: String { return self.rawValue }
     }
 
     public struct Phase1DHGroupNumbersListValue: AWSShape {
@@ -28659,21 +29269,6 @@ extension EC2 {
         }
     }
 
-    public enum PlacementGroupState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PlacementGroupStrategy: String, CustomStringConvertible, Codable {
-        case cluster = "cluster"
-        case partition = "partition"
-        case spread = "spread"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PlacementResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string)
@@ -28689,18 +29284,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case groupName = "groupName"
         }
-    }
-
-    public enum PlacementStrategy: String, CustomStringConvertible, Codable {
-        case cluster = "cluster"
-        case spread = "spread"
-        case partition = "partition"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PlatformValues: String, CustomStringConvertible, Codable {
-        case windows = "windows"
-        public var description: String { return self.rawValue }
     }
 
     public struct PortRange: AWSShape {
@@ -28877,16 +29460,6 @@ extension EC2 {
         }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case all = "All"
-        case service = "Service"
-        case organizationunit = "OrganizationUnit"
-        case account = "Account"
-        case user = "User"
-        case role = "Role"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PrivateDnsNameConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
@@ -28983,12 +29556,6 @@ extension EC2 {
             case productCodeId = "productCode"
             case productCodeType = "type"
         }
-    }
-
-    public enum ProductCodeValues: String, CustomStringConvertible, Codable {
-        case devpay = "devpay"
-        case marketplace = "marketplace"
-        public var description: String { return self.rawValue }
     }
 
     public struct PropagatingVgw: AWSShape {
@@ -29413,14 +29980,6 @@ extension EC2 {
         }
     }
 
-    public enum RIProductDescription: String, CustomStringConvertible, Codable {
-        case linuxUnix = "Linux/UNIX"
-        case linuxUnixAmazonVpc = "Linux/UNIX (Amazon VPC)"
-        case windows = "Windows"
-        case windowsAmazonVpc = "Windows (Amazon VPC)"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RebootInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
@@ -29463,11 +30022,6 @@ extension EC2 {
             case amount = "amount"
             case frequency = "frequency"
         }
-    }
-
-    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable {
-        case hourly = "Hourly"
-        public var description: String { return self.rawValue }
     }
 
     public struct Region: AWSShape {
@@ -30246,19 +30800,6 @@ extension EC2 {
         }
     }
 
-    public enum ReportInstanceReasonCodes: String, CustomStringConvertible, Codable {
-        case instanceStuckInState = "instance-stuck-in-state"
-        case unresponsive = "unresponsive"
-        case notAcceptingCredentials = "not-accepting-credentials"
-        case passwordNotAvailable = "password-not-available"
-        case performanceNetwork = "performance-network"
-        case performanceInstanceStore = "performance-instance-store"
-        case performanceEbsVolume = "performance-ebs-volume"
-        case performanceOther = "performance-other"
-        case other = "other"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReportInstanceStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
@@ -30304,12 +30845,6 @@ extension EC2 {
             case startTime = "startTime"
             case status = "status"
         }
-    }
-
-    public enum ReportStatusType: String, CustomStringConvertible, Codable {
-        case ok = "ok"
-        case impaired = "impaired"
-        public var description: String { return self.rawValue }
     }
 
     public struct RequestLaunchTemplateData: AWSShape {
@@ -30721,14 +31256,6 @@ extension EC2 {
         }
     }
 
-    public enum ReservationState: String, CustomStringConvertible, Codable {
-        case paymentPending = "payment-pending"
-        case paymentFailed = "payment-failed"
-        case active = "active"
-        case retired = "retired"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReservationValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HourlyPrice", location: .body(locationName: "hourlyPrice"), required: false, type: .string), 
@@ -30798,16 +31325,6 @@ extension EC2 {
             case reservationValue = "reservationValue"
             case reservedInstanceId = "reservedInstanceId"
         }
-    }
-
-    public enum ReservedInstanceState: String, CustomStringConvertible, Codable {
-        case paymentPending = "payment-pending"
-        case active = "active"
-        case paymentFailed = "payment-failed"
-        case retired = "retired"
-        case queued = "queued"
-        case queuedDeleted = "queued-deleted"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReservedInstances: AWSShape {
@@ -31228,11 +31745,6 @@ extension EC2 {
         }
     }
 
-    public enum ResetFpgaImageAttributeName: String, CustomStringConvertible, Codable {
-        case loadpermission = "loadPermission"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResetFpgaImageAttributeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attribute", required: false, type: .enum), 
@@ -31275,11 +31787,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case `return` = "return"
         }
-    }
-
-    public enum ResetImageAttributeName: String, CustomStringConvertible, Codable {
-        case launchpermission = "launchPermission"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResetImageAttributeRequest: AWSShape {
@@ -31388,46 +31895,6 @@ extension EC2 {
             case dryRun = "dryRun"
             case snapshotId = "SnapshotId"
         }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case clientVpnEndpoint = "client-vpn-endpoint"
-        case customerGateway = "customer-gateway"
-        case dedicatedHost = "dedicated-host"
-        case dhcpOptions = "dhcp-options"
-        case elasticIp = "elastic-ip"
-        case fleet = "fleet"
-        case fpgaImage = "fpga-image"
-        case hostReservation = "host-reservation"
-        case image = "image"
-        case instance = "instance"
-        case internetGateway = "internet-gateway"
-        case keyPair = "key-pair"
-        case launchTemplate = "launch-template"
-        case natgateway = "natgateway"
-        case networkAcl = "network-acl"
-        case networkInterface = "network-interface"
-        case placementGroup = "placement-group"
-        case reservedInstances = "reserved-instances"
-        case routeTable = "route-table"
-        case securityGroup = "security-group"
-        case snapshot = "snapshot"
-        case spotFleetRequest = "spot-fleet-request"
-        case spotInstancesRequest = "spot-instances-request"
-        case subnet = "subnet"
-        case trafficMirrorFilter = "traffic-mirror-filter"
-        case trafficMirrorSession = "traffic-mirror-session"
-        case trafficMirrorTarget = "traffic-mirror-target"
-        case transitGateway = "transit-gateway"
-        case transitGatewayAttachment = "transit-gateway-attachment"
-        case transitGatewayMulticastDomain = "transit-gateway-multicast-domain"
-        case transitGatewayRouteTable = "transit-gateway-route-table"
-        case volume = "volume"
-        case vpc = "vpc"
-        case vpcPeeringConnection = "vpc-peering-connection"
-        case vpnConnection = "vpn-connection"
-        case vpnGateway = "vpn-gateway"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResponseError: AWSShape {
@@ -31811,12 +32278,6 @@ extension EC2 {
         }
     }
 
-    public enum RootDeviceType: String, CustomStringConvertible, Codable {
-        case ebs = "ebs"
-        case instanceStore = "instance-store"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Route: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string), 
@@ -31897,19 +32358,6 @@ extension EC2 {
             case transitGatewayId = "transitGatewayId"
             case vpcPeeringConnectionId = "vpcPeeringConnectionId"
         }
-    }
-
-    public enum RouteOrigin: String, CustomStringConvertible, Codable {
-        case createroutetable = "CreateRouteTable"
-        case createroute = "CreateRoute"
-        case enablevgwroutepropagation = "EnableVgwRoutePropagation"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteState: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case blackhole = "blackhole"
-        public var description: String { return self.rawValue }
     }
 
     public struct RouteTable: AWSShape {
@@ -32021,21 +32469,6 @@ extension EC2 {
             case state = "state"
             case statusMessage = "statusMessage"
         }
-    }
-
-    public enum RouteTableAssociationStateCode: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RuleAction: String, CustomStringConvertible, Codable {
-        case allow = "allow"
-        case deny = "deny"
-        public var description: String { return self.rawValue }
     }
 
     public struct RunInstancesMonitoringEnabled: AWSShape {
@@ -33359,21 +33792,6 @@ extension EC2 {
         }
     }
 
-    public enum ServiceState: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case available = "Available"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceType: String, CustomStringConvertible, Codable {
-        case interface = "Interface"
-        case gateway = "Gateway"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ServiceTypeDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceType", location: .body(locationName: "serviceType"), required: false, type: .enum)
@@ -33389,12 +33807,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case serviceType = "serviceType"
         }
-    }
-
-    public enum ShutdownBehavior: String, CustomStringConvertible, Codable {
-        case stop = "stop"
-        case terminate = "terminate"
-        public var description: String { return self.rawValue }
     }
 
     public struct SlotDateTimeRangeRequest: AWSShape {
@@ -33521,12 +33933,6 @@ extension EC2 {
             case volumeId = "volumeId"
             case volumeSize = "volumeSize"
         }
-    }
-
-    public enum SnapshotAttributeName: String, CustomStringConvertible, Codable {
-        case productcodes = "productCodes"
-        case createvolumepermission = "createVolumePermission"
-        public var description: String { return self.rawValue }
     }
 
     public struct SnapshotDetail: AWSShape {
@@ -33685,13 +34091,6 @@ extension EC2 {
         }
     }
 
-    public enum SnapshotState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case completed = "completed"
-        case error = "error"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SnapshotTaskDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
@@ -33757,13 +34156,6 @@ extension EC2 {
             case url = "url"
             case userBucket = "userBucket"
         }
-    }
-
-    public enum SpotAllocationStrategy: String, CustomStringConvertible, Codable {
-        case lowestPrice = "lowest-price"
-        case diversified = "diversified"
-        case capacityOptimized = "capacity-optimized"
-        public var description: String { return self.rawValue }
     }
 
     public struct SpotDatafeedSubscription: AWSShape {
@@ -34110,13 +34502,6 @@ extension EC2 {
         }
     }
 
-    public enum SpotInstanceInterruptionBehavior: String, CustomStringConvertible, Codable {
-        case hibernate = "hibernate"
-        case stop = "stop"
-        case terminate = "terminate"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SpotInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActualBlockHourlyPrice", location: .body(locationName: "actualBlockHourlyPrice"), required: false, type: .string), 
@@ -34224,15 +34609,6 @@ extension EC2 {
         }
     }
 
-    public enum SpotInstanceState: String, CustomStringConvertible, Codable {
-        case open = "open"
-        case active = "active"
-        case closed = "closed"
-        case cancelled = "cancelled"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SpotInstanceStateFault: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", location: .body(locationName: "code"), required: false, type: .string), 
@@ -34280,12 +34656,6 @@ extension EC2 {
             case message = "message"
             case updateTime = "updateTime"
         }
-    }
-
-    public enum SpotInstanceType: String, CustomStringConvertible, Codable {
-        case oneTime = "one-time"
-        case persistent = "persistent"
-        public var description: String { return self.rawValue }
     }
 
     public struct SpotMarketOptions: AWSShape {
@@ -34650,18 +35020,6 @@ extension EC2 {
         }
     }
 
-    public enum State: String, CustomStringConvertible, Codable {
-        case pendingacceptance = "PendingAcceptance"
-        case pending = "Pending"
-        case available = "Available"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        case rejected = "Rejected"
-        case failed = "Failed"
-        case expired = "Expired"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StateReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", location: .body(locationName: "code"), required: false, type: .string), 
@@ -34682,26 +35040,6 @@ extension EC2 {
             case code = "code"
             case message = "message"
         }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case moveinprogress = "MoveInProgress"
-        case invpc = "InVpc"
-        case inclassic = "InClassic"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StatusName: String, CustomStringConvertible, Codable {
-        case reachability = "reachability"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StatusType: String, CustomStringConvertible, Codable {
-        case passed = "passed"
-        case failed = "failed"
-        case insufficientData = "insufficient-data"
-        case initializing = "initializing"
-        public var description: String { return self.rawValue }
     }
 
     public struct StopInstancesRequest: AWSShape {
@@ -34923,16 +35261,6 @@ extension EC2 {
         }
     }
 
-    public enum SubnetCidrBlockStateCode: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        case failing = "failing"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SubnetIpv6CidrBlockAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string), 
@@ -34958,12 +35286,6 @@ extension EC2 {
             case ipv6CidrBlock = "ipv6CidrBlock"
             case ipv6CidrBlockState = "ipv6CidrBlockState"
         }
-    }
-
-    public enum SubnetState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        public var description: String { return self.rawValue }
     }
 
     public struct SuccessfulInstanceCreditSpecificationItem: AWSShape {
@@ -34998,15 +35320,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case reservedInstancesId = "reservedInstancesId"
         }
-    }
-
-    public enum SummaryStatus: String, CustomStringConvertible, Codable {
-        case ok = "ok"
-        case impaired = "impaired"
-        case insufficientData = "insufficient-data"
-        case notApplicable = "not-applicable"
-        case initializing = "initializing"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {
@@ -35296,19 +35609,6 @@ extension EC2 {
         }
     }
 
-    public enum TelemetryStatus: String, CustomStringConvertible, Codable {
-        case up = "UP"
-        case down = "DOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Tenancy: String, CustomStringConvertible, Codable {
-        case `default` = "default"
-        case dedicated = "dedicated"
-        case host = "host"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TerminateClientVpnConnectionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientVpnEndpointId", required: true, type: .string), 
@@ -35434,12 +35734,6 @@ extension EC2 {
         }
     }
 
-    public enum TrafficDirection: String, CustomStringConvertible, Codable {
-        case ingress = "ingress"
-        case egress = "egress"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TrafficMirrorFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
@@ -35549,19 +35843,6 @@ extension EC2 {
         }
     }
 
-    public enum TrafficMirrorFilterRuleField: String, CustomStringConvertible, Codable {
-        case destinationPortRange = "destination-port-range"
-        case sourcePortRange = "source-port-range"
-        case `protocol` = "protocol"
-        case description = "description"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrafficMirrorNetworkService: String, CustomStringConvertible, Codable {
-        case amazonDns = "amazon-dns"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TrafficMirrorPortRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FromPort", location: .body(locationName: "fromPort"), required: false, type: .integer), 
@@ -35604,12 +35885,6 @@ extension EC2 {
             case fromPort = "FromPort"
             case toPort = "ToPort"
         }
-    }
-
-    public enum TrafficMirrorRuleAction: String, CustomStringConvertible, Codable {
-        case accept = "accept"
-        case reject = "reject"
-        public var description: String { return self.rawValue }
     }
 
     public struct TrafficMirrorSession: AWSShape {
@@ -35674,13 +35949,6 @@ extension EC2 {
         }
     }
 
-    public enum TrafficMirrorSessionField: String, CustomStringConvertible, Codable {
-        case packetLength = "packet-length"
-        case description = "description"
-        case virtualNetworkId = "virtual-network-id"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TrafficMirrorTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
@@ -35726,19 +35994,6 @@ extension EC2 {
             case trafficMirrorTargetId = "trafficMirrorTargetId"
             case `type` = "type"
         }
-    }
-
-    public enum TrafficMirrorTargetType: String, CustomStringConvertible, Codable {
-        case networkInterface = "network-interface"
-        case networkLoadBalancer = "network-load-balancer"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrafficType: String, CustomStringConvertible, Codable {
-        case accept = "ACCEPT"
-        case reject = "REJECT"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct TransitGateway: AWSShape {
@@ -35828,14 +36083,6 @@ extension EC2 {
             case transitGatewayAttachmentId = "transitGatewayAttachmentId"
             case transitGatewayRouteTableId = "transitGatewayRouteTableId"
         }
-    }
-
-    public enum TransitGatewayAssociationState: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        public var description: String { return self.rawValue }
     }
 
     public struct TransitGatewayAttachment: AWSShape {
@@ -35942,38 +36189,6 @@ extension EC2 {
             case state = "state"
             case transitGatewayRouteTableId = "transitGatewayRouteTableId"
         }
-    }
-
-    public enum TransitGatewayAttachmentResourceType: String, CustomStringConvertible, Codable {
-        case vpc = "vpc"
-        case vpn = "vpn"
-        case directConnectGateway = "direct-connect-gateway"
-        case tgwPeering = "tgw-peering"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TransitGatewayAttachmentState: String, CustomStringConvertible, Codable {
-        case initiating = "initiating"
-        case pendingacceptance = "pendingAcceptance"
-        case rollingback = "rollingBack"
-        case pending = "pending"
-        case available = "available"
-        case modifying = "modifying"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case failed = "failed"
-        case rejected = "rejected"
-        case rejecting = "rejecting"
-        case failing = "failing"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TransitGatewayMulitcastDomainAssociationState: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        public var description: String { return self.rawValue }
     }
 
     public struct TransitGatewayMulticastDeregisteredGroupMembers: AWSShape {
@@ -36134,14 +36349,6 @@ extension EC2 {
             case transitGatewayAttachmentId = "transitGatewayAttachmentId"
             case transitGatewayMulticastDomainId = "transitGatewayMulticastDomainId"
         }
-    }
-
-    public enum TransitGatewayMulticastDomainState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
     }
 
     public struct TransitGatewayMulticastGroup: AWSShape {
@@ -36401,14 +36608,6 @@ extension EC2 {
         }
     }
 
-    public enum TransitGatewayPropagationState: String, CustomStringConvertible, Codable {
-        case enabling = "enabling"
-        case enabled = "enabled"
-        case disabling = "disabling"
-        case disabled = "disabled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TransitGatewayRequestOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmazonSideAsn", required: false, type: .long), 
@@ -36513,15 +36712,6 @@ extension EC2 {
             case resourceType = "resourceType"
             case transitGatewayAttachmentId = "transitGatewayAttachmentId"
         }
-    }
-
-    public enum TransitGatewayRouteState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case active = "active"
-        case blackhole = "blackhole"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
     }
 
     public struct TransitGatewayRouteTable: AWSShape {
@@ -36635,29 +36825,6 @@ extension EC2 {
         }
     }
 
-    public enum TransitGatewayRouteTableState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TransitGatewayRouteType: String, CustomStringConvertible, Codable {
-        case `static` = "static"
-        case propagated = "propagated"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TransitGatewayState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        case modifying = "modifying"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TransitGatewayVpcAttachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
@@ -36735,12 +36902,6 @@ extension EC2 {
             case dnsSupport = "dnsSupport"
             case ipv6Support = "ipv6Support"
         }
-    }
-
-    public enum TransportProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "tcp"
-        case udp = "udp"
-        public var description: String { return self.rawValue }
     }
 
     public struct TunnelOption: AWSShape {
@@ -36901,13 +37062,6 @@ extension EC2 {
         }
     }
 
-    public enum UnlimitedSupportedInstanceFamily: String, CustomStringConvertible, Codable {
-        case t2 = "t2"
-        case t3 = "t3"
-        case t3a = "t3a"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UnmonitorInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
@@ -36945,14 +37099,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case instanceMonitorings = "instancesSet"
         }
-    }
-
-    public enum UnsuccessfulInstanceCreditSpecificationErrorCode: String, CustomStringConvertible, Codable {
-        case invalidinstanceidMalformed = "InvalidInstanceID.Malformed"
-        case invalidinstanceidNotfound = "InvalidInstanceID.NotFound"
-        case incorrectinstancestate = "IncorrectInstanceState"
-        case instancecreditspecificationNotsupported = "InstanceCreditSpecification.NotSupported"
-        public var description: String { return self.rawValue }
     }
 
     public struct UnsuccessfulInstanceCreditSpecificationItem: AWSShape {
@@ -37139,12 +37285,6 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case `return` = "return"
         }
-    }
-
-    public enum UsageClassType: String, CustomStringConvertible, Codable {
-        case spot = "spot"
-        case onDemand = "on-demand"
-        public var description: String { return self.rawValue }
     }
 
     public struct UserBucket: AWSShape {
@@ -37334,12 +37474,6 @@ extension EC2 {
         }
     }
 
-    public enum VirtualizationType: String, CustomStringConvertible, Codable {
-        case hvm = "hvm"
-        case paravirtual = "paravirtual"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Volume: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attachments", location: .body(locationName: "attachmentSet"), required: false, type: .list, encoding: .list(member:"item")), 
@@ -37464,21 +37598,6 @@ extension EC2 {
         }
     }
 
-    public enum VolumeAttachmentState: String, CustomStringConvertible, Codable {
-        case attaching = "attaching"
-        case attached = "attached"
-        case detaching = "detaching"
-        case detached = "detached"
-        case busy = "busy"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VolumeAttributeName: String, CustomStringConvertible, Codable {
-        case autoenableio = "autoEnableIO"
-        case productcodes = "productCodes"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VolumeDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Size", location: .body(locationName: "size"), required: true, type: .long)
@@ -37566,24 +37685,6 @@ extension EC2 {
             case targetVolumeType = "targetVolumeType"
             case volumeId = "volumeId"
         }
-    }
-
-    public enum VolumeModificationState: String, CustomStringConvertible, Codable {
-        case modifying = "modifying"
-        case optimizing = "optimizing"
-        case completed = "completed"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VolumeState: String, CustomStringConvertible, Codable {
-        case creating = "creating"
-        case available = "available"
-        case inUse = "in-use"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case error = "error"
-        public var description: String { return self.rawValue }
     }
 
     public struct VolumeStatusAction: AWSShape {
@@ -37699,13 +37800,6 @@ extension EC2 {
         }
     }
 
-    public enum VolumeStatusInfoStatus: String, CustomStringConvertible, Codable {
-        case ok = "ok"
-        case impaired = "impaired"
-        case insufficientData = "insufficient-data"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VolumeStatusItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Actions", location: .body(locationName: "actionsSet"), required: false, type: .list, encoding: .list(member:"item")), 
@@ -37746,21 +37840,6 @@ extension EC2 {
             case volumeId = "volumeId"
             case volumeStatus = "volumeStatus"
         }
-    }
-
-    public enum VolumeStatusName: String, CustomStringConvertible, Codable {
-        case ioEnabled = "io-enabled"
-        case ioPerformance = "io-performance"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VolumeType: String, CustomStringConvertible, Codable {
-        case standard = "standard"
-        case io1 = "io1"
-        case gp2 = "gp2"
-        case sc1 = "sc1"
-        case st1 = "st1"
-        public var description: String { return self.rawValue }
     }
 
     public struct Vpc: AWSShape {
@@ -37847,12 +37926,6 @@ extension EC2 {
         }
     }
 
-    public enum VpcAttributeName: String, CustomStringConvertible, Codable {
-        case enablednssupport = "enableDnsSupport"
-        case enablednshostnames = "enableDnsHostnames"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VpcCidrBlockAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string), 
@@ -37900,16 +37973,6 @@ extension EC2 {
             case state = "state"
             case statusMessage = "statusMessage"
         }
-    }
-
-    public enum VpcCidrBlockStateCode: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        case failing = "failing"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct VpcClassicLink: AWSShape {
@@ -38083,12 +38146,6 @@ extension EC2 {
         }
     }
 
-    public enum VpcEndpointType: String, CustomStringConvertible, Codable {
-        case interface = "Interface"
-        case gateway = "Gateway"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VpcIpv6CidrBlockAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string), 
@@ -38212,19 +38269,6 @@ extension EC2 {
         }
     }
 
-    public enum VpcPeeringConnectionStateReasonCode: String, CustomStringConvertible, Codable {
-        case initiatingRequest = "initiating-request"
-        case pendingAcceptance = "pending-acceptance"
-        case active = "active"
-        case deleted = "deleted"
-        case rejected = "rejected"
-        case failed = "failed"
-        case expired = "expired"
-        case provisioning = "provisioning"
-        case deleting = "deleting"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VpcPeeringConnectionVpcInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CidrBlock", location: .body(locationName: "cidrBlock"), required: false, type: .string), 
@@ -38270,17 +38314,6 @@ extension EC2 {
             case region = "region"
             case vpcId = "vpcId"
         }
-    }
-
-    public enum VpcState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VpcTenancy: String, CustomStringConvertible, Codable {
-        case `default` = "default"
-        public var description: String { return self.rawValue }
     }
 
     public struct VpnConnection: AWSShape {
@@ -38409,12 +38442,6 @@ extension EC2 {
         }
     }
 
-    public enum VpnEcmpSupportValue: String, CustomStringConvertible, Codable {
-        case enable = "enable"
-        case disable = "disable"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VpnGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmazonSideAsn", location: .body(locationName: "amazonSideAsn"), required: false, type: .long), 
@@ -38462,19 +38489,6 @@ extension EC2 {
         }
     }
 
-    public enum VpnProtocol: String, CustomStringConvertible, Codable {
-        case openvpn = "openvpn"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VpnState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VpnStaticRoute: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string), 
@@ -38500,11 +38514,6 @@ extension EC2 {
             case source = "source"
             case state = "state"
         }
-    }
-
-    public enum VpnStaticRouteSource: String, CustomStringConvertible, Codable {
-        case `static` = "Static"
-        public var description: String { return self.rawValue }
     }
 
     public struct VpnTunnelOptionsSpecification: AWSShape {
@@ -38631,11 +38640,5 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case byoipCidr = "byoipCidr"
         }
-    }
-
-    public enum Scope: String, CustomStringConvertible, Codable {
-        case availabilityZone = "Availability Zone"
-        case region = "Region"
-        public var description: String { return self.rawValue }
     }
 }

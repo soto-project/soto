@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ForecastService {
+    //MARK: Enums
 
     public enum AttributeType: String, CustomStringConvertible, Codable {
         case string = "string"
@@ -12,6 +13,51 @@ extension ForecastService {
         case timestamp = "timestamp"
         public var description: String { return self.rawValue }
     }
+
+    public enum DatasetType: String, CustomStringConvertible, Codable {
+        case targetTimeSeries = "TARGET_TIME_SERIES"
+        case relatedTimeSeries = "RELATED_TIME_SERIES"
+        case itemMetadata = "ITEM_METADATA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Domain: String, CustomStringConvertible, Codable {
+        case retail = "RETAIL"
+        case custom = "CUSTOM"
+        case inventoryPlanning = "INVENTORY_PLANNING"
+        case ec2Capacity = "EC2_CAPACITY"
+        case workForce = "WORK_FORCE"
+        case webTraffic = "WEB_TRAFFIC"
+        case metrics = "METRICS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationType: String, CustomStringConvertible, Codable {
+        case summary = "SUMMARY"
+        case computed = "COMPUTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeaturizationMethodName: String, CustomStringConvertible, Codable {
+        case filling = "filling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterConditionString: String, CustomStringConvertible, Codable {
+        case `is` = "IS"
+        case isNot = "IS_NOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingType: String, CustomStringConvertible, Codable {
+        case auto = "Auto"
+        case linear = "Linear"
+        case logarithmic = "Logarithmic"
+        case reverselogarithmic = "ReverseLogarithmic"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CategoricalParameterRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -640,13 +686,6 @@ extension ForecastService {
             case domain = "Domain"
             case lastModificationTime = "LastModificationTime"
         }
-    }
-
-    public enum DatasetType: String, CustomStringConvertible, Codable {
-        case targetTimeSeries = "TARGET_TIME_SERIES"
-        case relatedTimeSeries = "RELATED_TIME_SERIES"
-        case itemMetadata = "ITEM_METADATA"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteDatasetGroupRequest: AWSShape {
@@ -1305,17 +1344,6 @@ extension ForecastService {
         }
     }
 
-    public enum Domain: String, CustomStringConvertible, Codable {
-        case retail = "RETAIL"
-        case custom = "CUSTOM"
-        case inventoryPlanning = "INVENTORY_PLANNING"
-        case ec2Capacity = "EC2_CAPACITY"
-        case workForce = "WORK_FORCE"
-        case webTraffic = "WEB_TRAFFIC"
-        case metrics = "METRICS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EncryptionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KMSKeyArn", required: true, type: .string), 
@@ -1387,12 +1415,6 @@ extension ForecastService {
             case algorithmArn = "AlgorithmArn"
             case testWindows = "TestWindows"
         }
-    }
-
-    public enum EvaluationType: String, CustomStringConvertible, Codable {
-        case summary = "SUMMARY"
-        case computed = "COMPUTED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Featurization: AWSShape {
@@ -1502,11 +1524,6 @@ extension ForecastService {
         }
     }
 
-    public enum FeaturizationMethodName: String, CustomStringConvertible, Codable {
-        case filling = "filling"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Condition", required: true, type: .enum), 
@@ -1539,12 +1556,6 @@ extension ForecastService {
             case key = "Key"
             case value = "Value"
         }
-    }
-
-    public enum FilterConditionString: String, CustomStringConvertible, Codable {
-        case `is` = "IS"
-        case isNot = "IS_NOT"
-        public var description: String { return self.rawValue }
     }
 
     public struct ForecastExportJobSummary: AWSShape {
@@ -2300,14 +2311,6 @@ extension ForecastService {
             case path = "Path"
             case roleArn = "RoleArn"
         }
-    }
-
-    public enum ScalingType: String, CustomStringConvertible, Codable {
-        case auto = "Auto"
-        case linear = "Linear"
-        case logarithmic = "Logarithmic"
-        case reverselogarithmic = "ReverseLogarithmic"
-        public var description: String { return self.rawValue }
     }
 
     public struct Schema: AWSShape {

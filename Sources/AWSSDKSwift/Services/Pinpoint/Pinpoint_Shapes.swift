@@ -4,6 +4,175 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Pinpoint {
+    //MARK: Enums
+
+    public enum Action: String, CustomStringConvertible, Codable {
+        case openApp = "OPEN_APP"
+        case deepLink = "DEEP_LINK"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttributeType: String, CustomStringConvertible, Codable {
+        case inclusive = "INCLUSIVE"
+        case exclusive = "EXCLUSIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CampaignStatus: String, CustomStringConvertible, Codable {
+        case scheduled = "SCHEDULED"
+        case executing = "EXECUTING"
+        case pendingNextRun = "PENDING_NEXT_RUN"
+        case completed = "COMPLETED"
+        case paused = "PAUSED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelType: String, CustomStringConvertible, Codable {
+        case gcm = "GCM"
+        case apns = "APNS"
+        case apnsSandbox = "APNS_SANDBOX"
+        case apnsVoip = "APNS_VOIP"
+        case apnsVoipSandbox = "APNS_VOIP_SANDBOX"
+        case adm = "ADM"
+        case sms = "SMS"
+        case voice = "VOICE"
+        case email = "EMAIL"
+        case baidu = "BAIDU"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable {
+        case successful = "SUCCESSFUL"
+        case throttled = "THROTTLED"
+        case temporaryFailure = "TEMPORARY_FAILURE"
+        case permanentFailure = "PERMANENT_FAILURE"
+        case unknownFailure = "UNKNOWN_FAILURE"
+        case optOut = "OPT_OUT"
+        case duplicate = "DUPLICATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DimensionType: String, CustomStringConvertible, Codable {
+        case inclusive = "INCLUSIVE"
+        case exclusive = "EXCLUSIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Duration: String, CustomStringConvertible, Codable {
+        case hr24 = "HR_24"
+        case day7 = "DAY_7"
+        case day14 = "DAY_14"
+        case day30 = "DAY_30"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterType: String, CustomStringConvertible, Codable {
+        case system = "SYSTEM"
+        case endpoint = "ENDPOINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Format: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Frequency: String, CustomStringConvertible, Codable {
+        case once = "ONCE"
+        case hourly = "HOURLY"
+        case daily = "DAILY"
+        case weekly = "WEEKLY"
+        case monthly = "MONTHLY"
+        case event = "EVENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Include: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case any = "ANY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case preparingForInitialization = "PREPARING_FOR_INITIALIZATION"
+        case initializing = "INITIALIZING"
+        case processing = "PROCESSING"
+        case pendingJob = "PENDING_JOB"
+        case completing = "COMPLETING"
+        case completed = "COMPLETED"
+        case failing = "FAILING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageType: String, CustomStringConvertible, Codable {
+        case transactional = "TRANSACTIONAL"
+        case promotional = "PROMOTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mode: String, CustomStringConvertible, Codable {
+        case delivery = "DELIVERY"
+        case filter = "FILTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Operator`: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case any = "ANY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecencyType: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SegmentType: String, CustomStringConvertible, Codable {
+        case dimensional = "DIMENSIONAL"
+        case `import` = "IMPORT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case any = "ANY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable {
+        case draft = "DRAFT"
+        case active = "ACTIVE"
+        case completed = "COMPLETED"
+        case cancelled = "CANCELLED"
+        case closed = "CLOSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemplateType: String, CustomStringConvertible, Codable {
+        case email = "EMAIL"
+        case sms = "SMS"
+        case voice = "VOICE"
+        case push = "PUSH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case any = "ANY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ADMChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -831,13 +1000,6 @@ extension Pinpoint {
         }
     }
 
-    public enum Action: String, CustomStringConvertible, Codable {
-        case openApp = "OPEN_APP"
-        case deepLink = "DEEP_LINK"
-        case url = "URL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ActivitiesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Item", required: true, type: .list), 
@@ -1236,12 +1398,6 @@ extension Pinpoint {
             case attributeType = "AttributeType"
             case values = "Values"
         }
-    }
-
-    public enum AttributeType: String, CustomStringConvertible, Codable {
-        case inclusive = "INCLUSIVE"
-        case exclusive = "EXCLUSIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct AttributesResource: AWSShape {
@@ -1795,16 +1951,6 @@ extension Pinpoint {
         }
     }
 
-    public enum CampaignStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "SCHEDULED"
-        case executing = "EXECUTING"
-        case pendingNextRun = "PENDING_NEXT_RUN"
-        case completed = "COMPLETED"
-        case paused = "PAUSED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CampaignsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Item", required: true, type: .list), 
@@ -1882,21 +2028,6 @@ extension Pinpoint {
             case lastModifiedDate = "LastModifiedDate"
             case version = "Version"
         }
-    }
-
-    public enum ChannelType: String, CustomStringConvertible, Codable {
-        case gcm = "GCM"
-        case apns = "APNS"
-        case apnsSandbox = "APNS_SANDBOX"
-        case apnsVoip = "APNS_VOIP"
-        case apnsVoipSandbox = "APNS_VOIP_SANDBOX"
-        case adm = "ADM"
-        case sms = "SMS"
-        case voice = "VOICE"
-        case email = "EMAIL"
-        case baidu = "BAIDU"
-        case custom = "CUSTOM"
-        public var description: String { return self.rawValue }
     }
 
     public struct ChannelsResponse: AWSShape {
@@ -3271,23 +3402,6 @@ extension Pinpoint {
         }
     }
 
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable {
-        case successful = "SUCCESSFUL"
-        case throttled = "THROTTLED"
-        case temporaryFailure = "TEMPORARY_FAILURE"
-        case permanentFailure = "PERMANENT_FAILURE"
-        case unknownFailure = "UNKNOWN_FAILURE"
-        case optOut = "OPT_OUT"
-        case duplicate = "DUPLICATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DimensionType: String, CustomStringConvertible, Codable {
-        case inclusive = "INCLUSIVE"
-        case exclusive = "EXCLUSIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DirectMessageConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ADMMessage", required: false, type: .structure), 
@@ -3343,14 +3457,6 @@ extension Pinpoint {
             case sMSMessage = "SMSMessage"
             case voiceMessage = "VoiceMessage"
         }
-    }
-
-    public enum Duration: String, CustomStringConvertible, Codable {
-        case hr24 = "HR_24"
-        case day7 = "DAY_7"
-        case day14 = "DAY_14"
-        case day30 = "DAY_30"
-        public var description: String { return self.rawValue }
     }
 
     public struct EmailChannelRequest: AWSShape {
@@ -4541,28 +4647,6 @@ extension Pinpoint {
             case item = "Item"
             case nextToken = "NextToken"
         }
-    }
-
-    public enum FilterType: String, CustomStringConvertible, Codable {
-        case system = "SYSTEM"
-        case endpoint = "ENDPOINT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Format: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Frequency: String, CustomStringConvertible, Codable {
-        case once = "ONCE"
-        case hourly = "HOURLY"
-        case daily = "DAILY"
-        case weekly = "WEEKLY"
-        case monthly = "MONTHLY"
-        case event = "EVENT"
-        public var description: String { return self.rawValue }
     }
 
     public struct GCMChannelRequest: AWSShape {
@@ -6700,13 +6784,6 @@ extension Pinpoint {
         }
     }
 
-    public enum Include: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case any = "ANY"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ItemResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointItemResponse", required: false, type: .structure), 
@@ -6727,19 +6804,6 @@ extension Pinpoint {
             case endpointItemResponse = "EndpointItemResponse"
             case eventsItemResponse = "EventsItemResponse"
         }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case preparingForInitialization = "PREPARING_FOR_INITIALIZATION"
-        case initializing = "INITIALIZING"
-        case processing = "PROCESSING"
-        case pendingJob = "PENDING_JOB"
-        case completing = "COMPLETING"
-        case completed = "COMPLETED"
-        case failing = "FAILING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct JourneyDateRangeKpiResponse: AWSShape {
@@ -7485,12 +7549,6 @@ extension Pinpoint {
         }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable {
-        case transactional = "TRANSACTIONAL"
-        case promotional = "PROMOTIONAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MetricDimension: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComparisonOperator", required: true, type: .string), 
@@ -7511,12 +7569,6 @@ extension Pinpoint {
             case comparisonOperator = "ComparisonOperator"
             case value = "Value"
         }
-    }
-
-    public enum Mode: String, CustomStringConvertible, Codable {
-        case delivery = "DELIVERY"
-        case filter = "FILTER"
-        public var description: String { return self.rawValue }
     }
 
     public struct MultiConditionalBranch: AWSShape {
@@ -7671,12 +7723,6 @@ extension Pinpoint {
             case timezone = "Timezone"
             case zipCode = "ZipCode"
         }
-    }
-
-    public enum `Operator`: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case any = "ANY"
-        public var description: String { return self.rawValue }
     }
 
     public struct PhoneNumberValidateRequest: AWSShape {
@@ -8094,12 +8140,6 @@ extension Pinpoint {
             case duration = "Duration"
             case recencyType = "RecencyType"
         }
-    }
-
-    public enum RecencyType: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct RemoveAttributesRequest: AWSShape {
@@ -8820,12 +8860,6 @@ extension Pinpoint {
         }
     }
 
-    public enum SegmentType: String, CustomStringConvertible, Codable {
-        case dimensional = "DIMENSIONAL"
-        case `import` = "IMPORT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SegmentsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Item", required: true, type: .list), 
@@ -9122,13 +9156,6 @@ extension Pinpoint {
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case any = "ANY"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StartCondition: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -9149,15 +9176,6 @@ extension Pinpoint {
             case description = "Description"
             case segmentStartCondition = "SegmentStartCondition"
         }
-    }
-
-    public enum State: String, CustomStringConvertible, Codable {
-        case draft = "DRAFT"
-        case active = "ACTIVE"
-        case completed = "COMPLETED"
-        case cancelled = "CANCELLED"
-        case closed = "CLOSED"
-        public var description: String { return self.rawValue }
     }
 
     public struct TagResourceRequest: AWSShape {
@@ -9327,14 +9345,6 @@ extension Pinpoint {
         }
     }
 
-    public enum TemplateType: String, CustomStringConvertible, Codable {
-        case email = "EMAIL"
-        case sms = "SMS"
-        case voice = "VOICE"
-        case push = "PUSH"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TemplateVersionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDate", required: true, type: .string), 
@@ -9486,13 +9496,6 @@ extension Pinpoint {
             case treatmentDescription = "TreatmentDescription"
             case treatmentName = "TreatmentName"
         }
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case any = "ANY"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

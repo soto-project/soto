@@ -4,6 +4,48 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SQS {
+    //MARK: Enums
+
+    public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable {
+        case senderid = "SenderId"
+        case senttimestamp = "SentTimestamp"
+        case approximatereceivecount = "ApproximateReceiveCount"
+        case approximatefirstreceivetimestamp = "ApproximateFirstReceiveTimestamp"
+        case sequencenumber = "SequenceNumber"
+        case messagededuplicationid = "MessageDeduplicationId"
+        case messagegroupid = "MessageGroupId"
+        case awstraceheader = "AWSTraceHeader"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageSystemAttributeNameForSends: String, CustomStringConvertible, Codable {
+        case awstraceheader = "AWSTraceHeader"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueueAttributeName: String, CustomStringConvertible, Codable {
+        case all = "All"
+        case policy = "Policy"
+        case visibilitytimeout = "VisibilityTimeout"
+        case maximummessagesize = "MaximumMessageSize"
+        case messageretentionperiod = "MessageRetentionPeriod"
+        case approximatenumberofmessages = "ApproximateNumberOfMessages"
+        case approximatenumberofmessagesnotvisible = "ApproximateNumberOfMessagesNotVisible"
+        case createdtimestamp = "CreatedTimestamp"
+        case lastmodifiedtimestamp = "LastModifiedTimestamp"
+        case queuearn = "QueueArn"
+        case approximatenumberofmessagesdelayed = "ApproximateNumberOfMessagesDelayed"
+        case delayseconds = "DelaySeconds"
+        case receivemessagewaittimeseconds = "ReceiveMessageWaitTimeSeconds"
+        case redrivepolicy = "RedrivePolicy"
+        case fifoqueue = "FifoQueue"
+        case contentbaseddeduplication = "ContentBasedDeduplication"
+        case kmsmasterkeyid = "KmsMasterKeyId"
+        case kmsdatakeyreuseperiodseconds = "KmsDataKeyReusePeriodSeconds"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddPermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -614,23 +656,6 @@ extension SQS {
         }
     }
 
-    public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable {
-        case senderid = "SenderId"
-        case senttimestamp = "SentTimestamp"
-        case approximatereceivecount = "ApproximateReceiveCount"
-        case approximatefirstreceivetimestamp = "ApproximateFirstReceiveTimestamp"
-        case sequencenumber = "SequenceNumber"
-        case messagededuplicationid = "MessageDeduplicationId"
-        case messagegroupid = "MessageGroupId"
-        case awstraceheader = "AWSTraceHeader"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MessageSystemAttributeNameForSends: String, CustomStringConvertible, Codable {
-        case awstraceheader = "AWSTraceHeader"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MessageSystemAttributeValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BinaryListValues", location: .body(locationName: "BinaryListValue"), required: false, type: .list, encoding: .flatList), 
@@ -683,28 +708,6 @@ extension SQS {
         private enum CodingKeys: String, CodingKey {
             case queueUrl = "QueueUrl"
         }
-    }
-
-    public enum QueueAttributeName: String, CustomStringConvertible, Codable {
-        case all = "All"
-        case policy = "Policy"
-        case visibilitytimeout = "VisibilityTimeout"
-        case maximummessagesize = "MaximumMessageSize"
-        case messageretentionperiod = "MessageRetentionPeriod"
-        case approximatenumberofmessages = "ApproximateNumberOfMessages"
-        case approximatenumberofmessagesnotvisible = "ApproximateNumberOfMessagesNotVisible"
-        case createdtimestamp = "CreatedTimestamp"
-        case lastmodifiedtimestamp = "LastModifiedTimestamp"
-        case queuearn = "QueueArn"
-        case approximatenumberofmessagesdelayed = "ApproximateNumberOfMessagesDelayed"
-        case delayseconds = "DelaySeconds"
-        case receivemessagewaittimeseconds = "ReceiveMessageWaitTimeSeconds"
-        case redrivepolicy = "RedrivePolicy"
-        case fifoqueue = "FifoQueue"
-        case contentbaseddeduplication = "ContentBasedDeduplication"
-        case kmsmasterkeyid = "KmsMasterKeyId"
-        case kmsdatakeyreuseperiodseconds = "KmsDataKeyReusePeriodSeconds"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReceiveMessageRequest: AWSShape {

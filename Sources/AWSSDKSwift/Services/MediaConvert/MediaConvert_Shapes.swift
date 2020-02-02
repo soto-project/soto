@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MediaConvert {
+    //MARK: Enums
 
     public enum AacAudioDescriptionBroadcasterMix: String, CustomStringConvertible, Codable {
         case broadcasterMixedAd = "BROADCASTER_MIXED_AD"
@@ -38,6 +39,1978 @@ extension MediaConvert {
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
+
+    public enum AacSpecification: String, CustomStringConvertible, Codable {
+        case mpeg2 = "MPEG2"
+        case mpeg4 = "MPEG4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AacVbrQuality: String, CustomStringConvertible, Codable {
+        case low = "LOW"
+        case mediumLow = "MEDIUM_LOW"
+        case mediumHigh = "MEDIUM_HIGH"
+        case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac3BitstreamMode: String, CustomStringConvertible, Codable {
+        case completeMain = "COMPLETE_MAIN"
+        case commentary = "COMMENTARY"
+        case dialogue = "DIALOGUE"
+        case emergency = "EMERGENCY"
+        case hearingImpaired = "HEARING_IMPAIRED"
+        case musicAndEffects = "MUSIC_AND_EFFECTS"
+        case visuallyImpaired = "VISUALLY_IMPAIRED"
+        case voiceOver = "VOICE_OVER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac3CodingMode: String, CustomStringConvertible, Codable {
+        case codingMode10 = "CODING_MODE_1_0"
+        case codingMode11 = "CODING_MODE_1_1"
+        case codingMode20 = "CODING_MODE_2_0"
+        case codingMode32Lfe = "CODING_MODE_3_2_LFE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac3DynamicRangeCompressionProfile: String, CustomStringConvertible, Codable {
+        case filmStandard = "FILM_STANDARD"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac3LfeFilter: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac3MetadataControl: String, CustomStringConvertible, Codable {
+        case followInput = "FOLLOW_INPUT"
+        case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccelerationMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case preferred = "PREFERRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccelerationStatus: String, CustomStringConvertible, Codable {
+        case notApplicable = "NOT_APPLICABLE"
+        case inProgress = "IN_PROGRESS"
+        case accelerated = "ACCELERATED"
+        case notAccelerated = "NOT_ACCELERATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AfdSignaling: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case auto = "AUTO"
+        case fixed = "FIXED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AlphaBehavior: String, CustomStringConvertible, Codable {
+        case discard = "DISCARD"
+        case remapToLuma = "REMAP_TO_LUMA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AncillaryConvert608To708: String, CustomStringConvertible, Codable {
+        case upconvert = "UPCONVERT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AncillaryTerminateCaptions: String, CustomStringConvertible, Codable {
+        case endOfInput = "END_OF_INPUT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AntiAlias: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioCodec: String, CustomStringConvertible, Codable {
+        case aac = "AAC"
+        case mp2 = "MP2"
+        case wav = "WAV"
+        case aiff = "AIFF"
+        case ac3 = "AC3"
+        case eac3 = "EAC3"
+        case eac3Atmos = "EAC3_ATMOS"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioDefaultSelection: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case notDefault = "NOT_DEFAULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioLanguageCodeControl: String, CustomStringConvertible, Codable {
+        case followInput = "FOLLOW_INPUT"
+        case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable {
+        case ituBs17701 = "ITU_BS_1770_1"
+        case ituBs17702 = "ITU_BS_1770_2"
+        case ituBs17703 = "ITU_BS_1770_3"
+        case ituBs17704 = "ITU_BS_1770_4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable {
+        case correctAudio = "CORRECT_AUDIO"
+        case measureOnly = "MEASURE_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioNormalizationLoudnessLogging: String, CustomStringConvertible, Codable {
+        case log = "LOG"
+        case dontLog = "DONT_LOG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioNormalizationPeakCalculation: String, CustomStringConvertible, Codable {
+        case truePeak = "TRUE_PEAK"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioSelectorType: String, CustomStringConvertible, Codable {
+        case pid = "PID"
+        case track = "TRACK"
+        case languageCode = "LANGUAGE_CODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioTypeControl: String, CustomStringConvertible, Codable {
+        case followInput = "FOLLOW_INPUT"
+        case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingTagsSource: String, CustomStringConvertible, Codable {
+        case queue = "QUEUE"
+        case preset = "PRESET"
+        case jobTemplate = "JOB_TEMPLATE"
+        case job = "JOB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BurninSubtitleAlignment: String, CustomStringConvertible, Codable {
+        case centered = "CENTERED"
+        case left = "LEFT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BurninSubtitleBackgroundColor: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case black = "BLACK"
+        case white = "WHITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BurninSubtitleFontColor: String, CustomStringConvertible, Codable {
+        case white = "WHITE"
+        case black = "BLACK"
+        case yellow = "YELLOW"
+        case red = "RED"
+        case green = "GREEN"
+        case blue = "BLUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BurninSubtitleOutlineColor: String, CustomStringConvertible, Codable {
+        case black = "BLACK"
+        case white = "WHITE"
+        case yellow = "YELLOW"
+        case red = "RED"
+        case green = "GREEN"
+        case blue = "BLUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BurninSubtitleShadowColor: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case black = "BLACK"
+        case white = "WHITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BurninSubtitleTeletextSpacing: String, CustomStringConvertible, Codable {
+        case fixedGrid = "FIXED_GRID"
+        case proportional = "PROPORTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CaptionDestinationType: String, CustomStringConvertible, Codable {
+        case burnIn = "BURN_IN"
+        case dvbSub = "DVB_SUB"
+        case embedded = "EMBEDDED"
+        case embeddedPlusScte20 = "EMBEDDED_PLUS_SCTE20"
+        case imsc = "IMSC"
+        case scte20PlusEmbedded = "SCTE20_PLUS_EMBEDDED"
+        case scc = "SCC"
+        case srt = "SRT"
+        case smi = "SMI"
+        case teletext = "TELETEXT"
+        case ttml = "TTML"
+        case webvtt = "WEBVTT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CaptionSourceType: String, CustomStringConvertible, Codable {
+        case ancillary = "ANCILLARY"
+        case dvbSub = "DVB_SUB"
+        case embedded = "EMBEDDED"
+        case scte20 = "SCTE20"
+        case scc = "SCC"
+        case ttml = "TTML"
+        case stl = "STL"
+        case srt = "SRT"
+        case smi = "SMI"
+        case teletext = "TELETEXT"
+        case nullSource = "NULL_SOURCE"
+        case imsc = "IMSC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafClientCache: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafCodecSpecification: String, CustomStringConvertible, Codable {
+        case rfc6381 = "RFC_6381"
+        case rfc4281 = "RFC_4281"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafEncryptionType: String, CustomStringConvertible, Codable {
+        case sampleAes = "SAMPLE_AES"
+        case aesCtr = "AES_CTR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafInitializationVectorInManifest: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafKeyProviderType: String, CustomStringConvertible, Codable {
+        case speke = "SPEKE"
+        case staticKey = "STATIC_KEY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafManifestCompression: String, CustomStringConvertible, Codable {
+        case gzip = "GZIP"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafManifestDurationFormat: String, CustomStringConvertible, Codable {
+        case floatingPoint = "FLOATING_POINT"
+        case integer = "INTEGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafMpdProfile: String, CustomStringConvertible, Codable {
+        case mainProfile = "MAIN_PROFILE"
+        case onDemandProfile = "ON_DEMAND_PROFILE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafSegmentControl: String, CustomStringConvertible, Codable {
+        case singleFile = "SINGLE_FILE"
+        case segmentedFiles = "SEGMENTED_FILES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafStreamInfResolution: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafWriteDASHManifest: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafWriteHLSManifest: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ColorMetadata: String, CustomStringConvertible, Codable {
+        case ignore = "IGNORE"
+        case insert = "INSERT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ColorSpace: String, CustomStringConvertible, Codable {
+        case follow = "FOLLOW"
+        case rec601 = "REC_601"
+        case rec709 = "REC_709"
+        case hdr10 = "HDR10"
+        case hlg2020 = "HLG_2020"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ColorSpaceConversion: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case force601 = "FORCE_601"
+        case force709 = "FORCE_709"
+        case forceHdr10 = "FORCE_HDR10"
+        case forceHlg2020 = "FORCE_HLG_2020"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ColorSpaceUsage: String, CustomStringConvertible, Codable {
+        case force = "FORCE"
+        case fallback = "FALLBACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Commitment: String, CustomStringConvertible, Codable {
+        case oneYear = "ONE_YEAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerType: String, CustomStringConvertible, Codable {
+        case f4v = "F4V"
+        case ismv = "ISMV"
+        case m2ts = "M2TS"
+        case m3u8 = "M3U8"
+        case cmfc = "CMFC"
+        case mov = "MOV"
+        case mp4 = "MP4"
+        case mpd = "MPD"
+        case mxf = "MXF"
+        case raw = "RAW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashIsoHbbtvCompliance: String, CustomStringConvertible, Codable {
+        case hbbtv15 = "HBBTV_1_5"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashIsoMpdProfile: String, CustomStringConvertible, Codable {
+        case mainProfile = "MAIN_PROFILE"
+        case onDemandProfile = "ON_DEMAND_PROFILE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashIsoPlaybackDeviceCompatibility: String, CustomStringConvertible, Codable {
+        case cencV1 = "CENC_V1"
+        case unencryptedSei = "UNENCRYPTED_SEI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashIsoSegmentControl: String, CustomStringConvertible, Codable {
+        case singleFile = "SINGLE_FILE"
+        case segmentedFiles = "SEGMENTED_FILES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashIsoWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DecryptionMode: String, CustomStringConvertible, Codable {
+        case aesCtr = "AES_CTR"
+        case aesCbc = "AES_CBC"
+        case aesGcm = "AES_GCM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeinterlaceAlgorithm: String, CustomStringConvertible, Codable {
+        case interpolate = "INTERPOLATE"
+        case interpolateTicker = "INTERPOLATE_TICKER"
+        case blend = "BLEND"
+        case blendTicker = "BLEND_TICKER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeinterlacerControl: String, CustomStringConvertible, Codable {
+        case forceAllFrames = "FORCE_ALL_FRAMES"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeinterlacerMode: String, CustomStringConvertible, Codable {
+        case deinterlace = "DEINTERLACE"
+        case inverseTelecine = "INVERSE_TELECINE"
+        case adaptive = "ADAPTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DescribeEndpointsMode: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case getOnly = "GET_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DolbyVisionLevel6Mode: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case recalculate = "RECALCULATE"
+        case specify = "SPECIFY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DolbyVisionProfile: String, CustomStringConvertible, Codable {
+        case profile5 = "PROFILE_5"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DropFrameTimecode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubtitleAlignment: String, CustomStringConvertible, Codable {
+        case centered = "CENTERED"
+        case left = "LEFT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubtitleBackgroundColor: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case black = "BLACK"
+        case white = "WHITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubtitleFontColor: String, CustomStringConvertible, Codable {
+        case white = "WHITE"
+        case black = "BLACK"
+        case yellow = "YELLOW"
+        case red = "RED"
+        case green = "GREEN"
+        case blue = "BLUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubtitleOutlineColor: String, CustomStringConvertible, Codable {
+        case black = "BLACK"
+        case white = "WHITE"
+        case yellow = "YELLOW"
+        case red = "RED"
+        case green = "GREEN"
+        case blue = "BLUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubtitleShadowColor: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case black = "BLACK"
+        case white = "WHITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubtitleTeletextSpacing: String, CustomStringConvertible, Codable {
+        case fixedGrid = "FIXED_GRID"
+        case proportional = "PROPORTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubtitlingType: String, CustomStringConvertible, Codable {
+        case hearingImpaired = "HEARING_IMPAIRED"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosBitstreamMode: String, CustomStringConvertible, Codable {
+        case completeMain = "COMPLETE_MAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosCodingMode: String, CustomStringConvertible, Codable {
+        case codingMode916 = "CODING_MODE_9_1_6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosDialogueIntelligence: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosDynamicRangeCompressionLine: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case filmStandard = "FILM_STANDARD"
+        case filmLight = "FILM_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosDynamicRangeCompressionRf: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case filmStandard = "FILM_STANDARD"
+        case filmLight = "FILM_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosMeteringMode: String, CustomStringConvertible, Codable {
+        case leqA = "LEQ_A"
+        case ituBs17701 = "ITU_BS_1770_1"
+        case ituBs17702 = "ITU_BS_1770_2"
+        case ituBs17703 = "ITU_BS_1770_3"
+        case ituBs17704 = "ITU_BS_1770_4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosStereoDownmix: String, CustomStringConvertible, Codable {
+        case notIndicated = "NOT_INDICATED"
+        case stereo = "STEREO"
+        case surround = "SURROUND"
+        case dpl2 = "DPL2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosSurroundExMode: String, CustomStringConvertible, Codable {
+        case notIndicated = "NOT_INDICATED"
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable {
+        case attenuate3Db = "ATTENUATE_3_DB"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3BitstreamMode: String, CustomStringConvertible, Codable {
+        case completeMain = "COMPLETE_MAIN"
+        case commentary = "COMMENTARY"
+        case emergency = "EMERGENCY"
+        case hearingImpaired = "HEARING_IMPAIRED"
+        case visuallyImpaired = "VISUALLY_IMPAIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3CodingMode: String, CustomStringConvertible, Codable {
+        case codingMode10 = "CODING_MODE_1_0"
+        case codingMode20 = "CODING_MODE_2_0"
+        case codingMode32 = "CODING_MODE_3_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3DcFilter: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3DynamicRangeCompressionLine: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case filmStandard = "FILM_STANDARD"
+        case filmLight = "FILM_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3DynamicRangeCompressionRf: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case filmStandard = "FILM_STANDARD"
+        case filmLight = "FILM_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3LfeControl: String, CustomStringConvertible, Codable {
+        case lfe = "LFE"
+        case noLfe = "NO_LFE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3LfeFilter: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3MetadataControl: String, CustomStringConvertible, Codable {
+        case followInput = "FOLLOW_INPUT"
+        case useConfigured = "USE_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3PassthroughControl: String, CustomStringConvertible, Codable {
+        case whenPossible = "WHEN_POSSIBLE"
+        case noPassthrough = "NO_PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3PhaseControl: String, CustomStringConvertible, Codable {
+        case shift90Degrees = "SHIFT_90_DEGREES"
+        case noShift = "NO_SHIFT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3StereoDownmix: String, CustomStringConvertible, Codable {
+        case notIndicated = "NOT_INDICATED"
+        case loRo = "LO_RO"
+        case ltRt = "LT_RT"
+        case dpl2 = "DPL2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3SurroundExMode: String, CustomStringConvertible, Codable {
+        case notIndicated = "NOT_INDICATED"
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3SurroundMode: String, CustomStringConvertible, Codable {
+        case notIndicated = "NOT_INDICATED"
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EmbeddedConvert608To708: String, CustomStringConvertible, Codable {
+        case upconvert = "UPCONVERT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EmbeddedTerminateCaptions: String, CustomStringConvertible, Codable {
+        case endOfInput = "END_OF_INPUT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum F4vMoovPlacement: String, CustomStringConvertible, Codable {
+        case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileSourceConvert608To708: String, CustomStringConvertible, Codable {
+        case upconvert = "UPCONVERT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FontScript: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case hans = "HANS"
+        case hant = "HANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        case higher = "HIGHER"
+        case max = "MAX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264CodecLevel: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case level1 = "LEVEL_1"
+        case level11 = "LEVEL_1_1"
+        case level12 = "LEVEL_1_2"
+        case level13 = "LEVEL_1_3"
+        case level2 = "LEVEL_2"
+        case level21 = "LEVEL_2_1"
+        case level22 = "LEVEL_2_2"
+        case level3 = "LEVEL_3"
+        case level31 = "LEVEL_3_1"
+        case level32 = "LEVEL_3_2"
+        case level4 = "LEVEL_4"
+        case level41 = "LEVEL_4_1"
+        case level42 = "LEVEL_4_2"
+        case level5 = "LEVEL_5"
+        case level51 = "LEVEL_5_1"
+        case level52 = "LEVEL_5_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264CodecProfile: String, CustomStringConvertible, Codable {
+        case baseline = "BASELINE"
+        case high = "HIGH"
+        case high10Bit = "HIGH_10BIT"
+        case high422 = "HIGH_422"
+        case high42210Bit = "HIGH_422_10BIT"
+        case main = "MAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264DynamicSubGop: String, CustomStringConvertible, Codable {
+        case adaptive = "ADAPTIVE"
+        case `static` = "STATIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264EntropyEncoding: String, CustomStringConvertible, Codable {
+        case cabac = "CABAC"
+        case cavlc = "CAVLC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264FieldEncoding: String, CustomStringConvertible, Codable {
+        case paff = "PAFF"
+        case forceField = "FORCE_FIELD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264FramerateControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264FramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
+        case duplicateDrop = "DUPLICATE_DROP"
+        case interpolate = "INTERPOLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264GopBReference: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264GopSizeUnits: String, CustomStringConvertible, Codable {
+        case frames = "FRAMES"
+        case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264InterlaceMode: String, CustomStringConvertible, Codable {
+        case progressive = "PROGRESSIVE"
+        case topField = "TOP_FIELD"
+        case bottomField = "BOTTOM_FIELD"
+        case followTopField = "FOLLOW_TOP_FIELD"
+        case followBottomField = "FOLLOW_BOTTOM_FIELD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264ParControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264QualityTuningLevel: String, CustomStringConvertible, Codable {
+        case singlePass = "SINGLE_PASS"
+        case singlePassHq = "SINGLE_PASS_HQ"
+        case multiPassHq = "MULTI_PASS_HQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264RateControlMode: String, CustomStringConvertible, Codable {
+        case vbr = "VBR"
+        case cbr = "CBR"
+        case qvbr = "QVBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264RepeatPps: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264SceneChangeDetect: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case transitionDetection = "TRANSITION_DETECTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264SlowPal: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264Syntax: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case rp2027 = "RP2027"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264Telecine: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case soft = "SOFT"
+        case hard = "HARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264UnregisteredSeiTimecode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        case higher = "HIGHER"
+        case max = "MAX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265AlternateTransferFunctionSei: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265CodecLevel: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case level1 = "LEVEL_1"
+        case level2 = "LEVEL_2"
+        case level21 = "LEVEL_2_1"
+        case level3 = "LEVEL_3"
+        case level31 = "LEVEL_3_1"
+        case level4 = "LEVEL_4"
+        case level41 = "LEVEL_4_1"
+        case level5 = "LEVEL_5"
+        case level51 = "LEVEL_5_1"
+        case level52 = "LEVEL_5_2"
+        case level6 = "LEVEL_6"
+        case level61 = "LEVEL_6_1"
+        case level62 = "LEVEL_6_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265CodecProfile: String, CustomStringConvertible, Codable {
+        case mainMain = "MAIN_MAIN"
+        case mainHigh = "MAIN_HIGH"
+        case main10Main = "MAIN10_MAIN"
+        case main10High = "MAIN10_HIGH"
+        case main4228BitMain = "MAIN_422_8BIT_MAIN"
+        case main4228BitHigh = "MAIN_422_8BIT_HIGH"
+        case main42210BitMain = "MAIN_422_10BIT_MAIN"
+        case main42210BitHigh = "MAIN_422_10BIT_HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265DynamicSubGop: String, CustomStringConvertible, Codable {
+        case adaptive = "ADAPTIVE"
+        case `static` = "STATIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265FramerateControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265FramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
+        case duplicateDrop = "DUPLICATE_DROP"
+        case interpolate = "INTERPOLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265GopBReference: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265GopSizeUnits: String, CustomStringConvertible, Codable {
+        case frames = "FRAMES"
+        case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265InterlaceMode: String, CustomStringConvertible, Codable {
+        case progressive = "PROGRESSIVE"
+        case topField = "TOP_FIELD"
+        case bottomField = "BOTTOM_FIELD"
+        case followTopField = "FOLLOW_TOP_FIELD"
+        case followBottomField = "FOLLOW_BOTTOM_FIELD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265ParControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265QualityTuningLevel: String, CustomStringConvertible, Codable {
+        case singlePass = "SINGLE_PASS"
+        case singlePassHq = "SINGLE_PASS_HQ"
+        case multiPassHq = "MULTI_PASS_HQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265RateControlMode: String, CustomStringConvertible, Codable {
+        case vbr = "VBR"
+        case cbr = "CBR"
+        case qvbr = "QVBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265SampleAdaptiveOffsetFilterMode: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case adaptive = "ADAPTIVE"
+        case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265SceneChangeDetect: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case transitionDetection = "TRANSITION_DETECTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265SlowPal: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265Telecine: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case soft = "SOFT"
+        case hard = "HARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265TemporalIds: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265Tiles: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265UnregisteredSeiTimecode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265WriteMp4PackagingType: String, CustomStringConvertible, Codable {
+        case hvc1 = "HVC1"
+        case hev1 = "HEV1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsAdMarkers: String, CustomStringConvertible, Codable {
+        case elemental = "ELEMENTAL"
+        case elementalScte35 = "ELEMENTAL_SCTE35"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsAudioOnlyContainer: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case m2ts = "M2TS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsAudioTrackType: String, CustomStringConvertible, Codable {
+        case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
+        case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
+        case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
+        case audioOnlyVariantStream = "AUDIO_ONLY_VARIANT_STREAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsCaptionLanguageSetting: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case omit = "OMIT"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsClientCache: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsCodecSpecification: String, CustomStringConvertible, Codable {
+        case rfc6381 = "RFC_6381"
+        case rfc4281 = "RFC_4281"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsDirectoryStructure: String, CustomStringConvertible, Codable {
+        case singleDirectory = "SINGLE_DIRECTORY"
+        case subdirectoryPerStream = "SUBDIRECTORY_PER_STREAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsEncryptionType: String, CustomStringConvertible, Codable {
+        case aes128 = "AES128"
+        case sampleAes = "SAMPLE_AES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsIFrameOnlyManifest: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsInitializationVectorInManifest: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsKeyProviderType: String, CustomStringConvertible, Codable {
+        case speke = "SPEKE"
+        case staticKey = "STATIC_KEY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsManifestCompression: String, CustomStringConvertible, Codable {
+        case gzip = "GZIP"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsManifestDurationFormat: String, CustomStringConvertible, Codable {
+        case floatingPoint = "FLOATING_POINT"
+        case integer = "INTEGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsOfflineEncrypted: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsOutputSelection: String, CustomStringConvertible, Codable {
+        case manifestsAndSegments = "MANIFESTS_AND_SEGMENTS"
+        case segmentsOnly = "SEGMENTS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsProgramDateTime: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsSegmentControl: String, CustomStringConvertible, Codable {
+        case singleFile = "SINGLE_FILE"
+        case segmentedFiles = "SEGMENTED_FILES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsTimedMetadataId3Frame: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case priv = "PRIV"
+        case tdrl = "TDRL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImscStylePassthrough: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDeblockFilter: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputDenoiseFilter: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputFilterEnable: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case disable = "DISABLE"
+        case force = "FORCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputPsiControl: String, CustomStringConvertible, Codable {
+        case ignorePsi = "IGNORE_PSI"
+        case usePsi = "USE_PSI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputRotate: String, CustomStringConvertible, Codable {
+        case degree0 = "DEGREE_0"
+        case degrees90 = "DEGREES_90"
+        case degrees180 = "DEGREES_180"
+        case degrees270 = "DEGREES_270"
+        case auto = "AUTO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputTimecodeSource: String, CustomStringConvertible, Codable {
+        case embedded = "EMBEDDED"
+        case zerobased = "ZEROBASED"
+        case specifiedstart = "SPECIFIEDSTART"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobPhase: String, CustomStringConvertible, Codable {
+        case probing = "PROBING"
+        case transcoding = "TRANSCODING"
+        case uploading = "UPLOADING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case progressing = "PROGRESSING"
+        case complete = "COMPLETE"
+        case canceled = "CANCELED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobTemplateListBy: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case creationDate = "CREATION_DATE"
+        case system = "SYSTEM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LanguageCode: String, CustomStringConvertible, Codable {
+        case eng = "ENG"
+        case spa = "SPA"
+        case fra = "FRA"
+        case deu = "DEU"
+        case ger = "GER"
+        case zho = "ZHO"
+        case ara = "ARA"
+        case hin = "HIN"
+        case jpn = "JPN"
+        case rus = "RUS"
+        case por = "POR"
+        case ita = "ITA"
+        case urd = "URD"
+        case vie = "VIE"
+        case kor = "KOR"
+        case pan = "PAN"
+        case abk = "ABK"
+        case aar = "AAR"
+        case afr = "AFR"
+        case aka = "AKA"
+        case sqi = "SQI"
+        case amh = "AMH"
+        case arg = "ARG"
+        case hye = "HYE"
+        case asm = "ASM"
+        case ava = "AVA"
+        case ave = "AVE"
+        case aym = "AYM"
+        case aze = "AZE"
+        case bam = "BAM"
+        case bak = "BAK"
+        case eus = "EUS"
+        case bel = "BEL"
+        case ben = "BEN"
+        case bih = "BIH"
+        case bis = "BIS"
+        case bos = "BOS"
+        case bre = "BRE"
+        case bul = "BUL"
+        case mya = "MYA"
+        case cat = "CAT"
+        case khm = "KHM"
+        case cha = "CHA"
+        case che = "CHE"
+        case nya = "NYA"
+        case chu = "CHU"
+        case chv = "CHV"
+        case cor = "COR"
+        case cos = "COS"
+        case cre = "CRE"
+        case hrv = "HRV"
+        case ces = "CES"
+        case dan = "DAN"
+        case div = "DIV"
+        case nld = "NLD"
+        case dzo = "DZO"
+        case enm = "ENM"
+        case epo = "EPO"
+        case est = "EST"
+        case ewe = "EWE"
+        case fao = "FAO"
+        case fij = "FIJ"
+        case fin = "FIN"
+        case frm = "FRM"
+        case ful = "FUL"
+        case gla = "GLA"
+        case glg = "GLG"
+        case lug = "LUG"
+        case kat = "KAT"
+        case ell = "ELL"
+        case grn = "GRN"
+        case guj = "GUJ"
+        case hat = "HAT"
+        case hau = "HAU"
+        case heb = "HEB"
+        case her = "HER"
+        case hmo = "HMO"
+        case hun = "HUN"
+        case isl = "ISL"
+        case ido = "IDO"
+        case ibo = "IBO"
+        case ind = "IND"
+        case ina = "INA"
+        case ile = "ILE"
+        case iku = "IKU"
+        case ipk = "IPK"
+        case gle = "GLE"
+        case jav = "JAV"
+        case kal = "KAL"
+        case kan = "KAN"
+        case kau = "KAU"
+        case kas = "KAS"
+        case kaz = "KAZ"
+        case kik = "KIK"
+        case kin = "KIN"
+        case kir = "KIR"
+        case kom = "KOM"
+        case kon = "KON"
+        case kua = "KUA"
+        case kur = "KUR"
+        case lao = "LAO"
+        case lat = "LAT"
+        case lav = "LAV"
+        case lim = "LIM"
+        case lin = "LIN"
+        case lit = "LIT"
+        case lub = "LUB"
+        case ltz = "LTZ"
+        case mkd = "MKD"
+        case mlg = "MLG"
+        case msa = "MSA"
+        case mal = "MAL"
+        case mlt = "MLT"
+        case glv = "GLV"
+        case mri = "MRI"
+        case mar = "MAR"
+        case mah = "MAH"
+        case mon = "MON"
+        case nau = "NAU"
+        case nav = "NAV"
+        case nde = "NDE"
+        case nbl = "NBL"
+        case ndo = "NDO"
+        case nep = "NEP"
+        case sme = "SME"
+        case nor = "NOR"
+        case nob = "NOB"
+        case nno = "NNO"
+        case oci = "OCI"
+        case oji = "OJI"
+        case ori = "ORI"
+        case orm = "ORM"
+        case oss = "OSS"
+        case pli = "PLI"
+        case fas = "FAS"
+        case pol = "POL"
+        case pus = "PUS"
+        case que = "QUE"
+        case qaa = "QAA"
+        case ron = "RON"
+        case roh = "ROH"
+        case run = "RUN"
+        case smo = "SMO"
+        case sag = "SAG"
+        case san = "SAN"
+        case srd = "SRD"
+        case srb = "SRB"
+        case sna = "SNA"
+        case iii = "III"
+        case snd = "SND"
+        case sin = "SIN"
+        case slk = "SLK"
+        case slv = "SLV"
+        case som = "SOM"
+        case sot = "SOT"
+        case sun = "SUN"
+        case swa = "SWA"
+        case ssw = "SSW"
+        case swe = "SWE"
+        case tgl = "TGL"
+        case tah = "TAH"
+        case tgk = "TGK"
+        case tam = "TAM"
+        case tat = "TAT"
+        case tel = "TEL"
+        case tha = "THA"
+        case bod = "BOD"
+        case tir = "TIR"
+        case ton = "TON"
+        case tso = "TSO"
+        case tsn = "TSN"
+        case tur = "TUR"
+        case tuk = "TUK"
+        case twi = "TWI"
+        case uig = "UIG"
+        case ukr = "UKR"
+        case uzb = "UZB"
+        case ven = "VEN"
+        case vol = "VOL"
+        case wln = "WLN"
+        case cym = "CYM"
+        case fry = "FRY"
+        case wol = "WOL"
+        case xho = "XHO"
+        case yid = "YID"
+        case yor = "YOR"
+        case zha = "ZHA"
+        case zul = "ZUL"
+        case orj = "ORJ"
+        case qpc = "QPC"
+        case tng = "TNG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsAudioBufferModel: String, CustomStringConvertible, Codable {
+        case dvb = "DVB"
+        case atsc = "ATSC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsBufferModel: String, CustomStringConvertible, Codable {
+        case multiplex = "MULTIPLEX"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsEbpAudioInterval: String, CustomStringConvertible, Codable {
+        case videoAndFixedIntervals = "VIDEO_AND_FIXED_INTERVALS"
+        case videoInterval = "VIDEO_INTERVAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsEbpPlacement: String, CustomStringConvertible, Codable {
+        case videoAndAudioPids = "VIDEO_AND_AUDIO_PIDS"
+        case videoPid = "VIDEO_PID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsEsRateInPes: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsForceTsVideoEbpOrder: String, CustomStringConvertible, Codable {
+        case force = "FORCE"
+        case `default` = "DEFAULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsNielsenId3: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsPcrControl: String, CustomStringConvertible, Codable {
+        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
+        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsRateMode: String, CustomStringConvertible, Codable {
+        case vbr = "VBR"
+        case cbr = "CBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsScte35Source: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsSegmentationMarkers: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case raiSegstart = "RAI_SEGSTART"
+        case raiAdapt = "RAI_ADAPT"
+        case psiSegstart = "PSI_SEGSTART"
+        case ebp = "EBP"
+        case ebpLegacy = "EBP_LEGACY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable {
+        case maintainCadence = "MAINTAIN_CADENCE"
+        case resetCadence = "RESET_CADENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M3u8NielsenId3: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M3u8PcrControl: String, CustomStringConvertible, Codable {
+        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
+        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M3u8Scte35Source: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MotionImageInsertionMode: String, CustomStringConvertible, Codable {
+        case mov = "MOV"
+        case png = "PNG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MotionImagePlayback: String, CustomStringConvertible, Codable {
+        case once = "ONCE"
+        case `repeat` = "REPEAT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MovClapAtom: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MovCslgAtom: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MovMpeg2FourCCControl: String, CustomStringConvertible, Codable {
+        case xdcam = "XDCAM"
+        case mpeg = "MPEG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MovPaddingControl: String, CustomStringConvertible, Codable {
+        case omneon = "OMNEON"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MovReference: String, CustomStringConvertible, Codable {
+        case selfContained = "SELF_CONTAINED"
+        case external = "EXTERNAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mp4CslgAtom: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mp4FreeSpaceBox: String, CustomStringConvertible, Codable {
+        case include = "INCLUDE"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mp4MoovPlacement: String, CustomStringConvertible, Codable {
+        case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpdCaptionContainerType: String, CustomStringConvertible, Codable {
+        case raw = "RAW"
+        case fragmentedMp4 = "FRAGMENTED_MP4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpdScte35Esam: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpdScte35Source: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2AdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2CodecLevel: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case low = "LOW"
+        case main = "MAIN"
+        case high1440 = "HIGH1440"
+        case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2CodecProfile: String, CustomStringConvertible, Codable {
+        case main = "MAIN"
+        case profile422 = "PROFILE_422"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2DynamicSubGop: String, CustomStringConvertible, Codable {
+        case adaptive = "ADAPTIVE"
+        case `static` = "STATIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2FramerateControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2FramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
+        case duplicateDrop = "DUPLICATE_DROP"
+        case interpolate = "INTERPOLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2GopSizeUnits: String, CustomStringConvertible, Codable {
+        case frames = "FRAMES"
+        case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2InterlaceMode: String, CustomStringConvertible, Codable {
+        case progressive = "PROGRESSIVE"
+        case topField = "TOP_FIELD"
+        case bottomField = "BOTTOM_FIELD"
+        case followTopField = "FOLLOW_TOP_FIELD"
+        case followBottomField = "FOLLOW_BOTTOM_FIELD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2IntraDcPrecision: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case intraDcPrecision8 = "INTRA_DC_PRECISION_8"
+        case intraDcPrecision9 = "INTRA_DC_PRECISION_9"
+        case intraDcPrecision10 = "INTRA_DC_PRECISION_10"
+        case intraDcPrecision11 = "INTRA_DC_PRECISION_11"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2ParControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2QualityTuningLevel: String, CustomStringConvertible, Codable {
+        case singlePass = "SINGLE_PASS"
+        case multiPass = "MULTI_PASS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2RateControlMode: String, CustomStringConvertible, Codable {
+        case vbr = "VBR"
+        case cbr = "CBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2SceneChangeDetect: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2SlowPal: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2Syntax: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case d10 = "D_10"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2Telecine: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case soft = "SOFT"
+        case hard = "HARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mpeg2TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MsSmoothAudioDeduplication: String, CustomStringConvertible, Codable {
+        case combineDuplicateStreams = "COMBINE_DUPLICATE_STREAMS"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MsSmoothManifestEncoding: String, CustomStringConvertible, Codable {
+        case utf8 = "UTF8"
+        case utf16 = "UTF16"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NoiseReducerFilter: String, CustomStringConvertible, Codable {
+        case bilateral = "BILATERAL"
+        case mean = "MEAN"
+        case gaussian = "GAUSSIAN"
+        case lanczos = "LANCZOS"
+        case sharpen = "SHARPEN"
+        case conserve = "CONSERVE"
+        case spatial = "SPATIAL"
+        case temporal = "TEMPORAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Order: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputGroupType: String, CustomStringConvertible, Codable {
+        case hlsGroupSettings = "HLS_GROUP_SETTINGS"
+        case dashIsoGroupSettings = "DASH_ISO_GROUP_SETTINGS"
+        case fileGroupSettings = "FILE_GROUP_SETTINGS"
+        case msSmoothGroupSettings = "MS_SMOOTH_GROUP_SETTINGS"
+        case cmafGroupSettings = "CMAF_GROUP_SETTINGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputSdt: String, CustomStringConvertible, Codable {
+        case sdtFollow = "SDT_FOLLOW"
+        case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
+        case sdtManual = "SDT_MANUAL"
+        case sdtNone = "SDT_NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PresetListBy: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case creationDate = "CREATION_DATE"
+        case system = "SYSTEM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PricingPlan: String, CustomStringConvertible, Codable {
+        case onDemand = "ON_DEMAND"
+        case reserved = "RESERVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProresCodecProfile: String, CustomStringConvertible, Codable {
+        case appleProres422 = "APPLE_PRORES_422"
+        case appleProres422Hq = "APPLE_PRORES_422_HQ"
+        case appleProres422Lt = "APPLE_PRORES_422_LT"
+        case appleProres422Proxy = "APPLE_PRORES_422_PROXY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProresFramerateControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProresFramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
+        case duplicateDrop = "DUPLICATE_DROP"
+        case interpolate = "INTERPOLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProresInterlaceMode: String, CustomStringConvertible, Codable {
+        case progressive = "PROGRESSIVE"
+        case topField = "TOP_FIELD"
+        case bottomField = "BOTTOM_FIELD"
+        case followTopField = "FOLLOW_TOP_FIELD"
+        case followBottomField = "FOLLOW_BOTTOM_FIELD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProresParControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProresSlowPal: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProresTelecine: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case hard = "HARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueueListBy: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case creationDate = "CREATION_DATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueueStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case paused = "PAUSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RenewalType: String, CustomStringConvertible, Codable {
+        case autoRenew = "AUTO_RENEW"
+        case expire = "EXPIRE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservationPlanStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RespondToAfd: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case respond = "RESPOND"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ObjectCannedAcl: String, CustomStringConvertible, Codable {
+        case publicRead = "PUBLIC_READ"
+        case authenticatedRead = "AUTHENTICATED_READ"
+        case bucketOwnerRead = "BUCKET_OWNER_READ"
+        case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ServerSideEncryptionType: String, CustomStringConvertible, Codable {
+        case serverSideEncryptionS3 = "SERVER_SIDE_ENCRYPTION_S3"
+        case serverSideEncryptionKms = "SERVER_SIDE_ENCRYPTION_KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingBehavior: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case stretchToOutput = "STRETCH_TO_OUTPUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SccDestinationFramerate: String, CustomStringConvertible, Codable {
+        case framerate2397 = "FRAMERATE_23_97"
+        case framerate24 = "FRAMERATE_24"
+        case framerate25 = "FRAMERATE_25"
+        case framerate2997Dropframe = "FRAMERATE_29_97_DROPFRAME"
+        case framerate2997NonDropframe = "FRAMERATE_29_97_NON_DROPFRAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SimulateReservedQueue: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusUpdateInterval: String, CustomStringConvertible, Codable {
+        case seconds10 = "SECONDS_10"
+        case seconds12 = "SECONDS_12"
+        case seconds15 = "SECONDS_15"
+        case seconds20 = "SECONDS_20"
+        case seconds30 = "SECONDS_30"
+        case seconds60 = "SECONDS_60"
+        case seconds120 = "SECONDS_120"
+        case seconds180 = "SECONDS_180"
+        case seconds240 = "SECONDS_240"
+        case seconds300 = "SECONDS_300"
+        case seconds360 = "SECONDS_360"
+        case seconds420 = "SECONDS_420"
+        case seconds480 = "SECONDS_480"
+        case seconds540 = "SECONDS_540"
+        case seconds600 = "SECONDS_600"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TeletextPageType: String, CustomStringConvertible, Codable {
+        case pageTypeInitial = "PAGE_TYPE_INITIAL"
+        case pageTypeSubtitle = "PAGE_TYPE_SUBTITLE"
+        case pageTypeAddlInfo = "PAGE_TYPE_ADDL_INFO"
+        case pageTypeProgramSchedule = "PAGE_TYPE_PROGRAM_SCHEDULE"
+        case pageTypeHearingImpairedSubtitle = "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimecodeBurninPosition: String, CustomStringConvertible, Codable {
+        case topCenter = "TOP_CENTER"
+        case topLeft = "TOP_LEFT"
+        case topRight = "TOP_RIGHT"
+        case middleLeft = "MIDDLE_LEFT"
+        case middleCenter = "MIDDLE_CENTER"
+        case middleRight = "MIDDLE_RIGHT"
+        case bottomLeft = "BOTTOM_LEFT"
+        case bottomCenter = "BOTTOM_CENTER"
+        case bottomRight = "BOTTOM_RIGHT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimecodeSource: String, CustomStringConvertible, Codable {
+        case embedded = "EMBEDDED"
+        case zerobased = "ZEROBASED"
+        case specifiedstart = "SPECIFIEDSTART"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimedMetadata: String, CustomStringConvertible, Codable {
+        case passthrough = "PASSTHROUGH"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TtmlStylePassthrough: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case system = "SYSTEM"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoCodec: String, CustomStringConvertible, Codable {
+        case frameCapture = "FRAME_CAPTURE"
+        case h264 = "H_264"
+        case h265 = "H_265"
+        case mpeg2 = "MPEG2"
+        case prores = "PRORES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoTimecodeInsertion: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case picTimingSei = "PIC_TIMING_SEI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WavFormat: String, CustomStringConvertible, Codable {
+        case riff = "RIFF"
+        case rf64 = "RF64"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AacSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -103,58 +2076,6 @@ extension MediaConvert {
         }
     }
 
-    public enum AacSpecification: String, CustomStringConvertible, Codable {
-        case mpeg2 = "MPEG2"
-        case mpeg4 = "MPEG4"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AacVbrQuality: String, CustomStringConvertible, Codable {
-        case low = "LOW"
-        case mediumLow = "MEDIUM_LOW"
-        case mediumHigh = "MEDIUM_HIGH"
-        case high = "HIGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Ac3BitstreamMode: String, CustomStringConvertible, Codable {
-        case completeMain = "COMPLETE_MAIN"
-        case commentary = "COMMENTARY"
-        case dialogue = "DIALOGUE"
-        case emergency = "EMERGENCY"
-        case hearingImpaired = "HEARING_IMPAIRED"
-        case musicAndEffects = "MUSIC_AND_EFFECTS"
-        case visuallyImpaired = "VISUALLY_IMPAIRED"
-        case voiceOver = "VOICE_OVER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Ac3CodingMode: String, CustomStringConvertible, Codable {
-        case codingMode10 = "CODING_MODE_1_0"
-        case codingMode11 = "CODING_MODE_1_1"
-        case codingMode20 = "CODING_MODE_2_0"
-        case codingMode32Lfe = "CODING_MODE_3_2_LFE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Ac3DynamicRangeCompressionProfile: String, CustomStringConvertible, Codable {
-        case filmStandard = "FILM_STANDARD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Ac3LfeFilter: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Ac3MetadataControl: String, CustomStringConvertible, Codable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Ac3Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
@@ -216,13 +2137,6 @@ extension MediaConvert {
         }
     }
 
-    public enum AccelerationMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case preferred = "PREFERRED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AccelerationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Mode", location: .body(locationName: "mode"), required: true, type: .enum)
@@ -238,21 +2152,6 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case mode = "mode"
         }
-    }
-
-    public enum AccelerationStatus: String, CustomStringConvertible, Codable {
-        case notApplicable = "NOT_APPLICABLE"
-        case inProgress = "IN_PROGRESS"
-        case accelerated = "ACCELERATED"
-        case notAccelerated = "NOT_ACCELERATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AfdSignaling: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case auto = "AUTO"
-        case fixed = "FIXED"
-        public var description: String { return self.rawValue }
     }
 
     public struct AiffSettings: AWSShape {
@@ -291,18 +2190,6 @@ extension MediaConvert {
         }
     }
 
-    public enum AlphaBehavior: String, CustomStringConvertible, Codable {
-        case discard = "DISCARD"
-        case remapToLuma = "REMAP_TO_LUMA"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AncillaryConvert608To708: String, CustomStringConvertible, Codable {
-        case upconvert = "UPCONVERT"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AncillarySourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum), 
@@ -335,18 +2222,6 @@ extension MediaConvert {
         }
     }
 
-    public enum AncillaryTerminateCaptions: String, CustomStringConvertible, Codable {
-        case endOfInput = "END_OF_INPUT"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AntiAlias: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AssociateCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string)
@@ -370,18 +2245,6 @@ extension MediaConvert {
         public init() {
         }
 
-    }
-
-    public enum AudioCodec: String, CustomStringConvertible, Codable {
-        case aac = "AAC"
-        case mp2 = "MP2"
-        case wav = "WAV"
-        case aiff = "AIFF"
-        case ac3 = "AC3"
-        case eac3 = "EAC3"
-        case eac3Atmos = "EAC3_ATMOS"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
     }
 
     public struct AudioCodecSettings: AWSShape {
@@ -444,12 +2307,6 @@ extension MediaConvert {
             case mp2Settings = "mp2Settings"
             case wavSettings = "wavSettings"
         }
-    }
-
-    public enum AudioDefaultSelection: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case notDefault = "NOT_DEFAULT"
-        public var description: String { return self.rawValue }
     }
 
     public struct AudioDescription: AWSShape {
@@ -522,38 +2379,6 @@ extension MediaConvert {
             case remixSettings = "remixSettings"
             case streamName = "streamName"
         }
-    }
-
-    public enum AudioLanguageCodeControl: String, CustomStringConvertible, Codable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable {
-        case ituBs17701 = "ITU_BS_1770_1"
-        case ituBs17702 = "ITU_BS_1770_2"
-        case ituBs17703 = "ITU_BS_1770_3"
-        case ituBs17704 = "ITU_BS_1770_4"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable {
-        case correctAudio = "CORRECT_AUDIO"
-        case measureOnly = "MEASURE_ONLY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AudioNormalizationLoudnessLogging: String, CustomStringConvertible, Codable {
-        case log = "LOG"
-        case dontLog = "DONT_LOG"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AudioNormalizationPeakCalculation: String, CustomStringConvertible, Codable {
-        case truePeak = "TRUE_PEAK"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct AudioNormalizationSettings: AWSShape {
@@ -708,19 +2533,6 @@ extension MediaConvert {
         }
     }
 
-    public enum AudioSelectorType: String, CustomStringConvertible, Codable {
-        case pid = "PID"
-        case track = "TRACK"
-        case languageCode = "LANGUAGE_CODE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AudioTypeControl: String, CustomStringConvertible, Codable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AvailBlanking: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailBlankingImage", location: .body(locationName: "availBlankingImage"), required: false, type: .string)
@@ -741,14 +2553,6 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case availBlankingImage = "availBlankingImage"
         }
-    }
-
-    public enum BillingTagsSource: String, CustomStringConvertible, Codable {
-        case queue = "QUEUE"
-        case preset = "PRESET"
-        case jobTemplate = "JOB_TEMPLATE"
-        case job = "JOB"
-        public var description: String { return self.rawValue }
     }
 
     public struct BurninDestinationSettings: AWSShape {
@@ -873,52 +2677,6 @@ extension MediaConvert {
             case xPosition = "xPosition"
             case yPosition = "yPosition"
         }
-    }
-
-    public enum BurninSubtitleAlignment: String, CustomStringConvertible, Codable {
-        case centered = "CENTERED"
-        case left = "LEFT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BurninSubtitleBackgroundColor: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case black = "BLACK"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BurninSubtitleFontColor: String, CustomStringConvertible, Codable {
-        case white = "WHITE"
-        case black = "BLACK"
-        case yellow = "YELLOW"
-        case red = "RED"
-        case green = "GREEN"
-        case blue = "BLUE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BurninSubtitleOutlineColor: String, CustomStringConvertible, Codable {
-        case black = "BLACK"
-        case white = "WHITE"
-        case yellow = "YELLOW"
-        case red = "RED"
-        case green = "GREEN"
-        case blue = "BLUE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BurninSubtitleShadowColor: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case black = "BLACK"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BurninSubtitleTeletextSpacing: String, CustomStringConvertible, Codable {
-        case fixedGrid = "FIXED_GRID"
-        case proportional = "PROPORTIONAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct CancelJobRequest: AWSShape {
@@ -1085,22 +2843,6 @@ extension MediaConvert {
         }
     }
 
-    public enum CaptionDestinationType: String, CustomStringConvertible, Codable {
-        case burnIn = "BURN_IN"
-        case dvbSub = "DVB_SUB"
-        case embedded = "EMBEDDED"
-        case embeddedPlusScte20 = "EMBEDDED_PLUS_SCTE20"
-        case imsc = "IMSC"
-        case scte20PlusEmbedded = "SCTE20_PLUS_EMBEDDED"
-        case scc = "SCC"
-        case srt = "SRT"
-        case smi = "SMI"
-        case teletext = "TELETEXT"
-        case ttml = "TTML"
-        case webvtt = "WEBVTT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CaptionSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode"), required: false, type: .string), 
@@ -1191,22 +2933,6 @@ extension MediaConvert {
         }
     }
 
-    public enum CaptionSourceType: String, CustomStringConvertible, Codable {
-        case ancillary = "ANCILLARY"
-        case dvbSub = "DVB_SUB"
-        case embedded = "EMBEDDED"
-        case scte20 = "SCTE20"
-        case scc = "SCC"
-        case ttml = "TTML"
-        case stl = "STL"
-        case srt = "SRT"
-        case smi = "SMI"
-        case teletext = "TELETEXT"
-        case nullSource = "NULL_SOURCE"
-        case imsc = "IMSC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ChannelMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OutputChannels", location: .body(locationName: "outputChannels"), required: false, type: .list)
@@ -1259,18 +2985,6 @@ extension MediaConvert {
         }
     }
 
-    public enum CmafClientCache: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmafCodecSpecification: String, CustomStringConvertible, Codable {
-        case rfc6381 = "RFC_6381"
-        case rfc4281 = "RFC_4281"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CmafEncryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string), 
@@ -1319,12 +3033,6 @@ extension MediaConvert {
             case staticKeyProvider = "staticKeyProvider"
             case `type` = "type"
         }
-    }
-
-    public enum CmafEncryptionType: String, CustomStringConvertible, Codable {
-        case sampleAes = "SAMPLE_AES"
-        case aesCtr = "AES_CTR"
-        public var description: String { return self.rawValue }
     }
 
     public struct CmafGroupSettings: AWSShape {
@@ -1444,60 +3152,6 @@ extension MediaConvert {
         }
     }
 
-    public enum CmafInitializationVectorInManifest: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmafKeyProviderType: String, CustomStringConvertible, Codable {
-        case speke = "SPEKE"
-        case staticKey = "STATIC_KEY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmafManifestCompression: String, CustomStringConvertible, Codable {
-        case gzip = "GZIP"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmafManifestDurationFormat: String, CustomStringConvertible, Codable {
-        case floatingPoint = "FLOATING_POINT"
-        case integer = "INTEGER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmafMpdProfile: String, CustomStringConvertible, Codable {
-        case mainProfile = "MAIN_PROFILE"
-        case onDemandProfile = "ON_DEMAND_PROFILE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmafSegmentControl: String, CustomStringConvertible, Codable {
-        case singleFile = "SINGLE_FILE"
-        case segmentedFiles = "SEGMENTED_FILES"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmafStreamInfResolution: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmafWriteDASHManifest: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmafWriteHLSManifest: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ColorCorrector: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Brightness", location: .body(locationName: "brightness"), required: false, type: .integer), 
@@ -1552,41 +3206,6 @@ extension MediaConvert {
         }
     }
 
-    public enum ColorMetadata: String, CustomStringConvertible, Codable {
-        case ignore = "IGNORE"
-        case insert = "INSERT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ColorSpace: String, CustomStringConvertible, Codable {
-        case follow = "FOLLOW"
-        case rec601 = "REC_601"
-        case rec709 = "REC_709"
-        case hdr10 = "HDR10"
-        case hlg2020 = "HLG_2020"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ColorSpaceConversion: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case force601 = "FORCE_601"
-        case force709 = "FORCE_709"
-        case forceHdr10 = "FORCE_HDR10"
-        case forceHlg2020 = "FORCE_HLG_2020"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ColorSpaceUsage: String, CustomStringConvertible, Codable {
-        case force = "FORCE"
-        case fallback = "FALLBACK"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Commitment: String, CustomStringConvertible, Codable {
-        case oneYear = "ONE_YEAR"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ContainerSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Container", location: .body(locationName: "container"), required: false, type: .enum), 
@@ -1637,20 +3256,6 @@ extension MediaConvert {
             case mp4Settings = "mp4Settings"
             case mpdSettings = "mpdSettings"
         }
-    }
-
-    public enum ContainerType: String, CustomStringConvertible, Codable {
-        case f4v = "F4V"
-        case ismv = "ISMV"
-        case m2ts = "M2TS"
-        case m3u8 = "M3U8"
-        case cmfc = "CMFC"
-        case mov = "MOV"
-        case mp4 = "MP4"
-        case mpd = "MPD"
-        case mxf = "MXF"
-        case raw = "RAW"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateJobRequest: AWSShape {
@@ -2087,51 +3692,6 @@ extension MediaConvert {
         }
     }
 
-    public enum DashIsoHbbtvCompliance: String, CustomStringConvertible, Codable {
-        case hbbtv15 = "HBBTV_1_5"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DashIsoMpdProfile: String, CustomStringConvertible, Codable {
-        case mainProfile = "MAIN_PROFILE"
-        case onDemandProfile = "ON_DEMAND_PROFILE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DashIsoPlaybackDeviceCompatibility: String, CustomStringConvertible, Codable {
-        case cencV1 = "CENC_V1"
-        case unencryptedSei = "UNENCRYPTED_SEI"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DashIsoSegmentControl: String, CustomStringConvertible, Codable {
-        case singleFile = "SINGLE_FILE"
-        case segmentedFiles = "SEGMENTED_FILES"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DashIsoWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DecryptionMode: String, CustomStringConvertible, Codable {
-        case aesCtr = "AES_CTR"
-        case aesCbc = "AES_CBC"
-        case aesGcm = "AES_GCM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeinterlaceAlgorithm: String, CustomStringConvertible, Codable {
-        case interpolate = "INTERPOLATE"
-        case interpolateTicker = "INTERPOLATE_TICKER"
-        case blend = "BLEND"
-        case blendTicker = "BLEND_TICKER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Deinterlacer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm"), required: false, type: .enum), 
@@ -2157,19 +3717,6 @@ extension MediaConvert {
             case control = "control"
             case mode = "mode"
         }
-    }
-
-    public enum DeinterlacerControl: String, CustomStringConvertible, Codable {
-        case forceAllFrames = "FORCE_ALL_FRAMES"
-        case normal = "NORMAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeinterlacerMode: String, CustomStringConvertible, Codable {
-        case deinterlace = "DEINTERLACE"
-        case inverseTelecine = "INVERSE_TELECINE"
-        case adaptive = "ADAPTIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteJobTemplateRequest: AWSShape {
@@ -2245,12 +3792,6 @@ extension MediaConvert {
         public init() {
         }
 
-    }
-
-    public enum DescribeEndpointsMode: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case getOnly = "GET_ONLY"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeEndpointsRequest: AWSShape {
@@ -2406,24 +3947,6 @@ extension MediaConvert {
             case maxCll = "maxCll"
             case maxFall = "maxFall"
         }
-    }
-
-    public enum DolbyVisionLevel6Mode: String, CustomStringConvertible, Codable {
-        case passthrough = "PASSTHROUGH"
-        case recalculate = "RECALCULATE"
-        case specify = "SPECIFY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DolbyVisionProfile: String, CustomStringConvertible, Codable {
-        case profile5 = "PROFILE_5"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DropFrameTimecode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DvbNitSettings: AWSShape {
@@ -2654,58 +4177,6 @@ extension MediaConvert {
         }
     }
 
-    public enum DvbSubtitleAlignment: String, CustomStringConvertible, Codable {
-        case centered = "CENTERED"
-        case left = "LEFT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DvbSubtitleBackgroundColor: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case black = "BLACK"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DvbSubtitleFontColor: String, CustomStringConvertible, Codable {
-        case white = "WHITE"
-        case black = "BLACK"
-        case yellow = "YELLOW"
-        case red = "RED"
-        case green = "GREEN"
-        case blue = "BLUE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DvbSubtitleOutlineColor: String, CustomStringConvertible, Codable {
-        case black = "BLACK"
-        case white = "WHITE"
-        case yellow = "YELLOW"
-        case red = "RED"
-        case green = "GREEN"
-        case blue = "BLUE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DvbSubtitleShadowColor: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case black = "BLACK"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DvbSubtitleTeletextSpacing: String, CustomStringConvertible, Codable {
-        case fixedGrid = "FIXED_GRID"
-        case proportional = "PROPORTIONAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DvbSubtitlingType: String, CustomStringConvertible, Codable {
-        case hearingImpaired = "HEARING_IMPAIRED"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DvbTdtSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TdtInterval", location: .body(locationName: "tdtInterval"), required: false, type: .integer)
@@ -2726,51 +4197,6 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case tdtInterval = "tdtInterval"
         }
-    }
-
-    public enum Eac3AtmosBitstreamMode: String, CustomStringConvertible, Codable {
-        case completeMain = "COMPLETE_MAIN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3AtmosCodingMode: String, CustomStringConvertible, Codable {
-        case codingMode916 = "CODING_MODE_9_1_6"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3AtmosDialogueIntelligence: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3AtmosDynamicRangeCompressionLine: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case filmStandard = "FILM_STANDARD"
-        case filmLight = "FILM_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3AtmosDynamicRangeCompressionRf: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case filmStandard = "FILM_STANDARD"
-        case filmLight = "FILM_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3AtmosMeteringMode: String, CustomStringConvertible, Codable {
-        case leqA = "LEQ_A"
-        case ituBs17701 = "ITU_BS_1770_1"
-        case ituBs17702 = "ITU_BS_1770_2"
-        case ituBs17703 = "ITU_BS_1770_3"
-        case ituBs17704 = "ITU_BS_1770_4"
-        public var description: String { return self.rawValue }
     }
 
     public struct Eac3AtmosSettings: AWSShape {
@@ -2871,99 +4297,6 @@ extension MediaConvert {
             case stereoDownmix = "stereoDownmix"
             case surroundExMode = "surroundExMode"
         }
-    }
-
-    public enum Eac3AtmosStereoDownmix: String, CustomStringConvertible, Codable {
-        case notIndicated = "NOT_INDICATED"
-        case stereo = "STEREO"
-        case surround = "SURROUND"
-        case dpl2 = "DPL2"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3AtmosSurroundExMode: String, CustomStringConvertible, Codable {
-        case notIndicated = "NOT_INDICATED"
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable {
-        case attenuate3Db = "ATTENUATE_3_DB"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3BitstreamMode: String, CustomStringConvertible, Codable {
-        case completeMain = "COMPLETE_MAIN"
-        case commentary = "COMMENTARY"
-        case emergency = "EMERGENCY"
-        case hearingImpaired = "HEARING_IMPAIRED"
-        case visuallyImpaired = "VISUALLY_IMPAIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3CodingMode: String, CustomStringConvertible, Codable {
-        case codingMode10 = "CODING_MODE_1_0"
-        case codingMode20 = "CODING_MODE_2_0"
-        case codingMode32 = "CODING_MODE_3_2"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3DcFilter: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3DynamicRangeCompressionLine: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case filmStandard = "FILM_STANDARD"
-        case filmLight = "FILM_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3DynamicRangeCompressionRf: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case filmStandard = "FILM_STANDARD"
-        case filmLight = "FILM_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3LfeControl: String, CustomStringConvertible, Codable {
-        case lfe = "LFE"
-        case noLfe = "NO_LFE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3LfeFilter: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3MetadataControl: String, CustomStringConvertible, Codable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3PassthroughControl: String, CustomStringConvertible, Codable {
-        case whenPossible = "WHEN_POSSIBLE"
-        case noPassthrough = "NO_PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3PhaseControl: String, CustomStringConvertible, Codable {
-        case shift90Degrees = "SHIFT_90_DEGREES"
-        case noShift = "NO_SHIFT"
-        public var description: String { return self.rawValue }
     }
 
     public struct Eac3Settings: AWSShape {
@@ -3092,34 +4425,6 @@ extension MediaConvert {
         }
     }
 
-    public enum Eac3StereoDownmix: String, CustomStringConvertible, Codable {
-        case notIndicated = "NOT_INDICATED"
-        case loRo = "LO_RO"
-        case ltRt = "LT_RT"
-        case dpl2 = "DPL2"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3SurroundExMode: String, CustomStringConvertible, Codable {
-        case notIndicated = "NOT_INDICATED"
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Eac3SurroundMode: String, CustomStringConvertible, Codable {
-        case notIndicated = "NOT_INDICATED"
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EmbeddedConvert608To708: String, CustomStringConvertible, Codable {
-        case upconvert = "UPCONVERT"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EmbeddedDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destination608ChannelNumber", location: .body(locationName: "destination608ChannelNumber"), required: false, type: .integer), 
@@ -3186,12 +4491,6 @@ extension MediaConvert {
             case source608TrackNumber = "source608TrackNumber"
             case terminateCaptions = "terminateCaptions"
         }
-    }
-
-    public enum EmbeddedTerminateCaptions: String, CustomStringConvertible, Codable {
-        case endOfInput = "END_OF_INPUT"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Endpoint: AWSShape {
@@ -3287,12 +4586,6 @@ extension MediaConvert {
         }
     }
 
-    public enum F4vMoovPlacement: String, CustomStringConvertible, Codable {
-        case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
-        case normal = "NORMAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct F4vSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MoovPlacement", location: .body(locationName: "moovPlacement"), required: false, type: .enum)
@@ -3337,12 +4630,6 @@ extension MediaConvert {
         }
     }
 
-    public enum FileSourceConvert608To708: String, CustomStringConvertible, Codable {
-        case upconvert = "UPCONVERT"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FileSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum), 
@@ -3375,13 +4662,6 @@ extension MediaConvert {
             case sourceFile = "sourceFile"
             case timeDelta = "timeDelta"
         }
-    }
-
-    public enum FontScript: String, CustomStringConvertible, Codable {
-        case automatic = "AUTOMATIC"
-        case hans = "HANS"
-        case hant = "HANT"
-        public var description: String { return self.rawValue }
     }
 
     public struct FrameCaptureSettings: AWSShape {
@@ -3563,117 +4843,6 @@ extension MediaConvert {
         }
     }
 
-    public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case high = "HIGH"
-        case higher = "HIGHER"
-        case max = "MAX"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264CodecLevel: String, CustomStringConvertible, Codable {
-        case auto = "AUTO"
-        case level1 = "LEVEL_1"
-        case level11 = "LEVEL_1_1"
-        case level12 = "LEVEL_1_2"
-        case level13 = "LEVEL_1_3"
-        case level2 = "LEVEL_2"
-        case level21 = "LEVEL_2_1"
-        case level22 = "LEVEL_2_2"
-        case level3 = "LEVEL_3"
-        case level31 = "LEVEL_3_1"
-        case level32 = "LEVEL_3_2"
-        case level4 = "LEVEL_4"
-        case level41 = "LEVEL_4_1"
-        case level42 = "LEVEL_4_2"
-        case level5 = "LEVEL_5"
-        case level51 = "LEVEL_5_1"
-        case level52 = "LEVEL_5_2"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264CodecProfile: String, CustomStringConvertible, Codable {
-        case baseline = "BASELINE"
-        case high = "HIGH"
-        case high10Bit = "HIGH_10BIT"
-        case high422 = "HIGH_422"
-        case high42210Bit = "HIGH_422_10BIT"
-        case main = "MAIN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264DynamicSubGop: String, CustomStringConvertible, Codable {
-        case adaptive = "ADAPTIVE"
-        case `static` = "STATIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264EntropyEncoding: String, CustomStringConvertible, Codable {
-        case cabac = "CABAC"
-        case cavlc = "CAVLC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264FieldEncoding: String, CustomStringConvertible, Codable {
-        case paff = "PAFF"
-        case forceField = "FORCE_FIELD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264FramerateControl: String, CustomStringConvertible, Codable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264FramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case interpolate = "INTERPOLATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264GopBReference: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264GopSizeUnits: String, CustomStringConvertible, Codable {
-        case frames = "FRAMES"
-        case seconds = "SECONDS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264InterlaceMode: String, CustomStringConvertible, Codable {
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        case bottomField = "BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264ParControl: String, CustomStringConvertible, Codable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264QualityTuningLevel: String, CustomStringConvertible, Codable {
-        case singlePass = "SINGLE_PASS"
-        case singlePassHq = "SINGLE_PASS_HQ"
-        case multiPassHq = "MULTI_PASS_HQ"
-        public var description: String { return self.rawValue }
-    }
-
     public struct H264QvbrSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxAverageBitrate", location: .body(locationName: "maxAverageBitrate"), required: false, type: .integer), 
@@ -3701,26 +4870,6 @@ extension MediaConvert {
             case maxAverageBitrate = "maxAverageBitrate"
             case qvbrQualityLevel = "qvbrQualityLevel"
         }
-    }
-
-    public enum H264RateControlMode: String, CustomStringConvertible, Codable {
-        case vbr = "VBR"
-        case cbr = "CBR"
-        case qvbr = "QVBR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264RepeatPps: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264SceneChangeDetect: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case transitionDetection = "TRANSITION_DETECTION"
-        public var description: String { return self.rawValue }
     }
 
     public struct H264Settings: AWSShape {
@@ -3964,147 +5113,6 @@ extension MediaConvert {
         }
     }
 
-    public enum H264SlowPal: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264Syntax: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case rp2027 = "RP2027"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264Telecine: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case soft = "SOFT"
-        case hard = "HARD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H264UnregisteredSeiTimecode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case high = "HIGH"
-        case higher = "HIGHER"
-        case max = "MAX"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265AlternateTransferFunctionSei: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265CodecLevel: String, CustomStringConvertible, Codable {
-        case auto = "AUTO"
-        case level1 = "LEVEL_1"
-        case level2 = "LEVEL_2"
-        case level21 = "LEVEL_2_1"
-        case level3 = "LEVEL_3"
-        case level31 = "LEVEL_3_1"
-        case level4 = "LEVEL_4"
-        case level41 = "LEVEL_4_1"
-        case level5 = "LEVEL_5"
-        case level51 = "LEVEL_5_1"
-        case level52 = "LEVEL_5_2"
-        case level6 = "LEVEL_6"
-        case level61 = "LEVEL_6_1"
-        case level62 = "LEVEL_6_2"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265CodecProfile: String, CustomStringConvertible, Codable {
-        case mainMain = "MAIN_MAIN"
-        case mainHigh = "MAIN_HIGH"
-        case main10Main = "MAIN10_MAIN"
-        case main10High = "MAIN10_HIGH"
-        case main4228BitMain = "MAIN_422_8BIT_MAIN"
-        case main4228BitHigh = "MAIN_422_8BIT_HIGH"
-        case main42210BitMain = "MAIN_422_10BIT_MAIN"
-        case main42210BitHigh = "MAIN_422_10BIT_HIGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265DynamicSubGop: String, CustomStringConvertible, Codable {
-        case adaptive = "ADAPTIVE"
-        case `static` = "STATIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265FramerateControl: String, CustomStringConvertible, Codable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265FramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case interpolate = "INTERPOLATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265GopBReference: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265GopSizeUnits: String, CustomStringConvertible, Codable {
-        case frames = "FRAMES"
-        case seconds = "SECONDS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265InterlaceMode: String, CustomStringConvertible, Codable {
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        case bottomField = "BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265ParControl: String, CustomStringConvertible, Codable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265QualityTuningLevel: String, CustomStringConvertible, Codable {
-        case singlePass = "SINGLE_PASS"
-        case singlePassHq = "SINGLE_PASS_HQ"
-        case multiPassHq = "MULTI_PASS_HQ"
-        public var description: String { return self.rawValue }
-    }
-
     public struct H265QvbrSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxAverageBitrate", location: .body(locationName: "maxAverageBitrate"), required: false, type: .integer), 
@@ -4132,27 +5140,6 @@ extension MediaConvert {
             case maxAverageBitrate = "maxAverageBitrate"
             case qvbrQualityLevel = "qvbrQualityLevel"
         }
-    }
-
-    public enum H265RateControlMode: String, CustomStringConvertible, Codable {
-        case vbr = "VBR"
-        case cbr = "CBR"
-        case qvbr = "QVBR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265SampleAdaptiveOffsetFilterMode: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case adaptive = "ADAPTIVE"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265SceneChangeDetect: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case transitionDetection = "TRANSITION_DETECTION"
-        public var description: String { return self.rawValue }
     }
 
     public struct H265Settings: AWSShape {
@@ -4392,55 +5379,6 @@ extension MediaConvert {
         }
     }
 
-    public enum H265SlowPal: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265Telecine: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case soft = "SOFT"
-        case hard = "HARD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265TemporalIds: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265Tiles: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265UnregisteredSeiTimecode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum H265WriteMp4PackagingType: String, CustomStringConvertible, Codable {
-        case hvc1 = "HVC1"
-        case hev1 = "HEV1"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Hdr10Metadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BluePrimaryX", location: .body(locationName: "bluePrimaryX"), required: false, type: .integer), 
@@ -4540,12 +5478,6 @@ extension MediaConvert {
         }
     }
 
-    public enum HlsAdMarkers: String, CustomStringConvertible, Codable {
-        case elemental = "ELEMENTAL"
-        case elementalScte35 = "ELEMENTAL_SCTE35"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HlsAdditionalManifest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
@@ -4573,20 +5505,6 @@ extension MediaConvert {
             case manifestNameModifier = "manifestNameModifier"
             case selectedOutputs = "selectedOutputs"
         }
-    }
-
-    public enum HlsAudioOnlyContainer: String, CustomStringConvertible, Codable {
-        case automatic = "AUTOMATIC"
-        case m2ts = "M2TS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsAudioTrackType: String, CustomStringConvertible, Codable {
-        case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
-        case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
-        case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
-        case audioOnlyVariantStream = "AUDIO_ONLY_VARIANT_STREAM"
-        public var description: String { return self.rawValue }
     }
 
     public struct HlsCaptionLanguageMapping: AWSShape {
@@ -4627,31 +5545,6 @@ extension MediaConvert {
             case languageCode = "languageCode"
             case languageDescription = "languageDescription"
         }
-    }
-
-    public enum HlsCaptionLanguageSetting: String, CustomStringConvertible, Codable {
-        case insert = "INSERT"
-        case omit = "OMIT"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsClientCache: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsCodecSpecification: String, CustomStringConvertible, Codable {
-        case rfc6381 = "RFC_6381"
-        case rfc4281 = "RFC_4281"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsDirectoryStructure: String, CustomStringConvertible, Codable {
-        case singleDirectory = "SINGLE_DIRECTORY"
-        case subdirectoryPerStream = "SUBDIRECTORY_PER_STREAM"
-        public var description: String { return self.rawValue }
     }
 
     public struct HlsEncryptionSettings: AWSShape {
@@ -4707,12 +5600,6 @@ extension MediaConvert {
             case staticKeyProvider = "staticKeyProvider"
             case `type` = "type"
         }
-    }
-
-    public enum HlsEncryptionType: String, CustomStringConvertible, Codable {
-        case aes128 = "AES128"
-        case sampleAes = "SAMPLE_AES"
-        public var description: String { return self.rawValue }
     }
 
     public struct HlsGroupSettings: AWSShape {
@@ -4876,60 +5763,6 @@ extension MediaConvert {
         }
     }
 
-    public enum HlsIFrameOnlyManifest: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsInitializationVectorInManifest: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsKeyProviderType: String, CustomStringConvertible, Codable {
-        case speke = "SPEKE"
-        case staticKey = "STATIC_KEY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsManifestCompression: String, CustomStringConvertible, Codable {
-        case gzip = "GZIP"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsManifestDurationFormat: String, CustomStringConvertible, Codable {
-        case floatingPoint = "FLOATING_POINT"
-        case integer = "INTEGER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsOfflineEncrypted: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsOutputSelection: String, CustomStringConvertible, Codable {
-        case manifestsAndSegments = "MANIFESTS_AND_SEGMENTS"
-        case segmentsOnly = "SEGMENTS_ONLY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsProgramDateTime: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsSegmentControl: String, CustomStringConvertible, Codable {
-        case singleFile = "SINGLE_FILE"
-        case segmentedFiles = "SEGMENTED_FILES"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HlsSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioGroupId", location: .body(locationName: "audioGroupId"), required: false, type: .string), 
@@ -4970,19 +5803,6 @@ extension MediaConvert {
             case iFrameOnlyManifest = "iFrameOnlyManifest"
             case segmentModifier = "segmentModifier"
         }
-    }
-
-    public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HlsTimedMetadataId3Frame: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case priv = "PRIV"
-        case tdrl = "TDRL"
-        public var description: String { return self.rawValue }
     }
 
     public struct Id3Insertion: AWSShape {
@@ -5050,12 +5870,6 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case stylePassthrough = "stylePassthrough"
         }
-    }
-
-    public enum ImscStylePassthrough: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Input: AWSShape {
@@ -5223,12 +6037,6 @@ extension MediaConvert {
         }
     }
 
-    public enum InputDeblockFilter: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InputDecryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DecryptionMode", location: .body(locationName: "decryptionMode"), required: false, type: .enum), 
@@ -5271,34 +6079,6 @@ extension MediaConvert {
             case initializationVector = "initializationVector"
             case kmsKeyRegion = "kmsKeyRegion"
         }
-    }
-
-    public enum InputDenoiseFilter: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InputFilterEnable: String, CustomStringConvertible, Codable {
-        case auto = "AUTO"
-        case disable = "DISABLE"
-        case force = "FORCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InputPsiControl: String, CustomStringConvertible, Codable {
-        case ignorePsi = "IGNORE_PSI"
-        case usePsi = "USE_PSI"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InputRotate: String, CustomStringConvertible, Codable {
-        case degree0 = "DEGREE_0"
-        case degrees90 = "DEGREES_90"
-        case degrees180 = "DEGREES_180"
-        case degrees270 = "DEGREES_270"
-        case auto = "AUTO"
-        public var description: String { return self.rawValue }
     }
 
     public struct InputTemplate: AWSShape {
@@ -5417,13 +6197,6 @@ extension MediaConvert {
             case timecodeStart = "timecodeStart"
             case videoSelector = "videoSelector"
         }
-    }
-
-    public enum InputTimecodeSource: String, CustomStringConvertible, Codable {
-        case embedded = "EMBEDDED"
-        case zerobased = "ZEROBASED"
-        case specifiedstart = "SPECIFIEDSTART"
-        public var description: String { return self.rawValue }
     }
 
     public struct InsertableImage: AWSShape {
@@ -5666,13 +6439,6 @@ extension MediaConvert {
         }
     }
 
-    public enum JobPhase: String, CustomStringConvertible, Codable {
-        case probing = "PROBING"
-        case transcoding = "TRANSCODING"
-        case uploading = "UPLOADING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct JobSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset"), required: false, type: .integer), 
@@ -5747,15 +6513,6 @@ extension MediaConvert {
         }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case progressing = "PROGRESSING"
-        case complete = "COMPLETE"
-        case canceled = "CANCELED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
     public struct JobTemplate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings"), required: false, type: .structure), 
@@ -5826,13 +6583,6 @@ extension MediaConvert {
             case statusUpdateInterval = "statusUpdateInterval"
             case `type` = "type"
         }
-    }
-
-    public enum JobTemplateListBy: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case creationDate = "CREATION_DATE"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
     }
 
     public struct JobTemplateSettings: AWSShape {
@@ -5907,201 +6657,6 @@ extension MediaConvert {
             case timecodeConfig = "timecodeConfig"
             case timedMetadataInsertion = "timedMetadataInsertion"
         }
-    }
-
-    public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case eng = "ENG"
-        case spa = "SPA"
-        case fra = "FRA"
-        case deu = "DEU"
-        case ger = "GER"
-        case zho = "ZHO"
-        case ara = "ARA"
-        case hin = "HIN"
-        case jpn = "JPN"
-        case rus = "RUS"
-        case por = "POR"
-        case ita = "ITA"
-        case urd = "URD"
-        case vie = "VIE"
-        case kor = "KOR"
-        case pan = "PAN"
-        case abk = "ABK"
-        case aar = "AAR"
-        case afr = "AFR"
-        case aka = "AKA"
-        case sqi = "SQI"
-        case amh = "AMH"
-        case arg = "ARG"
-        case hye = "HYE"
-        case asm = "ASM"
-        case ava = "AVA"
-        case ave = "AVE"
-        case aym = "AYM"
-        case aze = "AZE"
-        case bam = "BAM"
-        case bak = "BAK"
-        case eus = "EUS"
-        case bel = "BEL"
-        case ben = "BEN"
-        case bih = "BIH"
-        case bis = "BIS"
-        case bos = "BOS"
-        case bre = "BRE"
-        case bul = "BUL"
-        case mya = "MYA"
-        case cat = "CAT"
-        case khm = "KHM"
-        case cha = "CHA"
-        case che = "CHE"
-        case nya = "NYA"
-        case chu = "CHU"
-        case chv = "CHV"
-        case cor = "COR"
-        case cos = "COS"
-        case cre = "CRE"
-        case hrv = "HRV"
-        case ces = "CES"
-        case dan = "DAN"
-        case div = "DIV"
-        case nld = "NLD"
-        case dzo = "DZO"
-        case enm = "ENM"
-        case epo = "EPO"
-        case est = "EST"
-        case ewe = "EWE"
-        case fao = "FAO"
-        case fij = "FIJ"
-        case fin = "FIN"
-        case frm = "FRM"
-        case ful = "FUL"
-        case gla = "GLA"
-        case glg = "GLG"
-        case lug = "LUG"
-        case kat = "KAT"
-        case ell = "ELL"
-        case grn = "GRN"
-        case guj = "GUJ"
-        case hat = "HAT"
-        case hau = "HAU"
-        case heb = "HEB"
-        case her = "HER"
-        case hmo = "HMO"
-        case hun = "HUN"
-        case isl = "ISL"
-        case ido = "IDO"
-        case ibo = "IBO"
-        case ind = "IND"
-        case ina = "INA"
-        case ile = "ILE"
-        case iku = "IKU"
-        case ipk = "IPK"
-        case gle = "GLE"
-        case jav = "JAV"
-        case kal = "KAL"
-        case kan = "KAN"
-        case kau = "KAU"
-        case kas = "KAS"
-        case kaz = "KAZ"
-        case kik = "KIK"
-        case kin = "KIN"
-        case kir = "KIR"
-        case kom = "KOM"
-        case kon = "KON"
-        case kua = "KUA"
-        case kur = "KUR"
-        case lao = "LAO"
-        case lat = "LAT"
-        case lav = "LAV"
-        case lim = "LIM"
-        case lin = "LIN"
-        case lit = "LIT"
-        case lub = "LUB"
-        case ltz = "LTZ"
-        case mkd = "MKD"
-        case mlg = "MLG"
-        case msa = "MSA"
-        case mal = "MAL"
-        case mlt = "MLT"
-        case glv = "GLV"
-        case mri = "MRI"
-        case mar = "MAR"
-        case mah = "MAH"
-        case mon = "MON"
-        case nau = "NAU"
-        case nav = "NAV"
-        case nde = "NDE"
-        case nbl = "NBL"
-        case ndo = "NDO"
-        case nep = "NEP"
-        case sme = "SME"
-        case nor = "NOR"
-        case nob = "NOB"
-        case nno = "NNO"
-        case oci = "OCI"
-        case oji = "OJI"
-        case ori = "ORI"
-        case orm = "ORM"
-        case oss = "OSS"
-        case pli = "PLI"
-        case fas = "FAS"
-        case pol = "POL"
-        case pus = "PUS"
-        case que = "QUE"
-        case qaa = "QAA"
-        case ron = "RON"
-        case roh = "ROH"
-        case run = "RUN"
-        case smo = "SMO"
-        case sag = "SAG"
-        case san = "SAN"
-        case srd = "SRD"
-        case srb = "SRB"
-        case sna = "SNA"
-        case iii = "III"
-        case snd = "SND"
-        case sin = "SIN"
-        case slk = "SLK"
-        case slv = "SLV"
-        case som = "SOM"
-        case sot = "SOT"
-        case sun = "SUN"
-        case swa = "SWA"
-        case ssw = "SSW"
-        case swe = "SWE"
-        case tgl = "TGL"
-        case tah = "TAH"
-        case tgk = "TGK"
-        case tam = "TAM"
-        case tat = "TAT"
-        case tel = "TEL"
-        case tha = "THA"
-        case bod = "BOD"
-        case tir = "TIR"
-        case ton = "TON"
-        case tso = "TSO"
-        case tsn = "TSN"
-        case tur = "TUR"
-        case tuk = "TUK"
-        case twi = "TWI"
-        case uig = "UIG"
-        case ukr = "UKR"
-        case uzb = "UZB"
-        case ven = "VEN"
-        case vol = "VOL"
-        case wln = "WLN"
-        case cym = "CYM"
-        case fry = "FRY"
-        case wol = "WOL"
-        case xho = "XHO"
-        case yid = "YID"
-        case yor = "YOR"
-        case zha = "ZHA"
-        case zul = "ZUL"
-        case orj = "ORJ"
-        case qpc = "QPC"
-        case tng = "TNG"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListJobTemplatesRequest: AWSShape {
@@ -6389,60 +6944,6 @@ extension MediaConvert {
         }
     }
 
-    public enum M2tsAudioBufferModel: String, CustomStringConvertible, Codable {
-        case dvb = "DVB"
-        case atsc = "ATSC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsBufferModel: String, CustomStringConvertible, Codable {
-        case multiplex = "MULTIPLEX"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsEbpAudioInterval: String, CustomStringConvertible, Codable {
-        case videoAndFixedIntervals = "VIDEO_AND_FIXED_INTERVALS"
-        case videoInterval = "VIDEO_INTERVAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsEbpPlacement: String, CustomStringConvertible, Codable {
-        case videoAndAudioPids = "VIDEO_AND_AUDIO_PIDS"
-        case videoPid = "VIDEO_PID"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsEsRateInPes: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsForceTsVideoEbpOrder: String, CustomStringConvertible, Codable {
-        case force = "FORCE"
-        case `default` = "DEFAULT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsNielsenId3: String, CustomStringConvertible, Codable {
-        case insert = "INSERT"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsPcrControl: String, CustomStringConvertible, Codable {
-        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
-        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsRateMode: String, CustomStringConvertible, Codable {
-        case vbr = "VBR"
-        case cbr = "CBR"
-        public var description: String { return self.rawValue }
-    }
-
     public struct M2tsScte35Esam: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Scte35EsamPid", location: .body(locationName: "scte35EsamPid"), required: false, type: .integer)
@@ -6463,28 +6964,6 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case scte35EsamPid = "scte35EsamPid"
         }
-    }
-
-    public enum M2tsScte35Source: String, CustomStringConvertible, Codable {
-        case passthrough = "PASSTHROUGH"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsSegmentationMarkers: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case raiSegstart = "RAI_SEGSTART"
-        case raiAdapt = "RAI_ADAPT"
-        case psiSegstart = "PSI_SEGSTART"
-        case ebp = "EBP"
-        case ebpLegacy = "EBP_LEGACY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable {
-        case maintainCadence = "MAINTAIN_CADENCE"
-        case resetCadence = "RESET_CADENCE"
-        public var description: String { return self.rawValue }
     }
 
     public struct M2tsSettings: AWSShape {
@@ -6724,24 +7203,6 @@ extension MediaConvert {
         }
     }
 
-    public enum M3u8NielsenId3: String, CustomStringConvertible, Codable {
-        case insert = "INSERT"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M3u8PcrControl: String, CustomStringConvertible, Codable {
-        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
-        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum M3u8Scte35Source: String, CustomStringConvertible, Codable {
-        case passthrough = "PASSTHROUGH"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct M3u8Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes"), required: false, type: .integer), 
@@ -6945,12 +7406,6 @@ extension MediaConvert {
         }
     }
 
-    public enum MotionImageInsertionMode: String, CustomStringConvertible, Codable {
-        case mov = "MOV"
-        case png = "PNG"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MotionImageInsertionOffset: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ImageX", location: .body(locationName: "imageX"), required: false, type: .integer), 
@@ -6978,42 +7433,6 @@ extension MediaConvert {
             case imageX = "imageX"
             case imageY = "imageY"
         }
-    }
-
-    public enum MotionImagePlayback: String, CustomStringConvertible, Codable {
-        case once = "ONCE"
-        case `repeat` = "REPEAT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MovClapAtom: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MovCslgAtom: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MovMpeg2FourCCControl: String, CustomStringConvertible, Codable {
-        case xdcam = "XDCAM"
-        case mpeg = "MPEG"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MovPaddingControl: String, CustomStringConvertible, Codable {
-        case omneon = "OMNEON"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MovReference: String, CustomStringConvertible, Codable {
-        case selfContained = "SELF_CONTAINED"
-        case external = "EXTERNAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct MovSettings: AWSShape {
@@ -7089,24 +7508,6 @@ extension MediaConvert {
         }
     }
 
-    public enum Mp4CslgAtom: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mp4FreeSpaceBox: String, CustomStringConvertible, Codable {
-        case include = "INCLUDE"
-        case exclude = "EXCLUDE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mp4MoovPlacement: String, CustomStringConvertible, Codable {
-        case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
-        case normal = "NORMAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Mp4Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CslgAtom", location: .body(locationName: "cslgAtom"), required: false, type: .enum), 
@@ -7139,24 +7540,6 @@ extension MediaConvert {
         }
     }
 
-    public enum MpdCaptionContainerType: String, CustomStringConvertible, Codable {
-        case raw = "RAW"
-        case fragmentedMp4 = "FRAGMENTED_MP4"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MpdScte35Esam: String, CustomStringConvertible, Codable {
-        case insert = "INSERT"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MpdScte35Source: String, CustomStringConvertible, Codable {
-        case passthrough = "PASSTHROUGH"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MpdSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CaptionContainerType", location: .body(locationName: "captionContainerType"), required: false, type: .enum), 
@@ -7182,95 +7565,6 @@ extension MediaConvert {
             case scte35Esam = "scte35Esam"
             case scte35Source = "scte35Source"
         }
-    }
-
-    public enum Mpeg2AdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case high = "HIGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2CodecLevel: String, CustomStringConvertible, Codable {
-        case auto = "AUTO"
-        case low = "LOW"
-        case main = "MAIN"
-        case high1440 = "HIGH1440"
-        case high = "HIGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2CodecProfile: String, CustomStringConvertible, Codable {
-        case main = "MAIN"
-        case profile422 = "PROFILE_422"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2DynamicSubGop: String, CustomStringConvertible, Codable {
-        case adaptive = "ADAPTIVE"
-        case `static` = "STATIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2FramerateControl: String, CustomStringConvertible, Codable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2FramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case interpolate = "INTERPOLATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2GopSizeUnits: String, CustomStringConvertible, Codable {
-        case frames = "FRAMES"
-        case seconds = "SECONDS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2InterlaceMode: String, CustomStringConvertible, Codable {
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        case bottomField = "BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2IntraDcPrecision: String, CustomStringConvertible, Codable {
-        case auto = "AUTO"
-        case intraDcPrecision8 = "INTRA_DC_PRECISION_8"
-        case intraDcPrecision9 = "INTRA_DC_PRECISION_9"
-        case intraDcPrecision10 = "INTRA_DC_PRECISION_10"
-        case intraDcPrecision11 = "INTRA_DC_PRECISION_11"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2ParControl: String, CustomStringConvertible, Codable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2QualityTuningLevel: String, CustomStringConvertible, Codable {
-        case singlePass = "SINGLE_PASS"
-        case multiPass = "MULTI_PASS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2RateControlMode: String, CustomStringConvertible, Codable {
-        case vbr = "VBR"
-        case cbr = "CBR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2SceneChangeDetect: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Mpeg2Settings: AWSShape {
@@ -7469,37 +7763,6 @@ extension MediaConvert {
         }
     }
 
-    public enum Mpeg2SlowPal: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2Syntax: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case d10 = "D_10"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2Telecine: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case soft = "SOFT"
-        case hard = "HARD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Mpeg2TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MsSmoothAdditionalManifest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
@@ -7527,12 +7790,6 @@ extension MediaConvert {
             case manifestNameModifier = "manifestNameModifier"
             case selectedOutputs = "selectedOutputs"
         }
-    }
-
-    public enum MsSmoothAudioDeduplication: String, CustomStringConvertible, Codable {
-        case combineDuplicateStreams = "COMBINE_DUPLICATE_STREAMS"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct MsSmoothEncryptionSettings: AWSShape {
@@ -7614,12 +7871,6 @@ extension MediaConvert {
         }
     }
 
-    public enum MsSmoothManifestEncoding: String, CustomStringConvertible, Codable {
-        case utf8 = "UTF8"
-        case utf16 = "UTF16"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NielsenConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BreakoutCode", location: .body(locationName: "breakoutCode"), required: false, type: .integer), 
@@ -7683,18 +7934,6 @@ extension MediaConvert {
             case spatialFilterSettings = "spatialFilterSettings"
             case temporalFilterSettings = "temporalFilterSettings"
         }
-    }
-
-    public enum NoiseReducerFilter: String, CustomStringConvertible, Codable {
-        case bilateral = "BILATERAL"
-        case mean = "MEAN"
-        case gaussian = "GAUSSIAN"
-        case lanczos = "LANCZOS"
-        case sharpen = "SHARPEN"
-        case conserve = "CONSERVE"
-        case spatial = "SPATIAL"
-        case temporal = "TEMPORAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct NoiseReducerFilterSettings: AWSShape {
@@ -7789,12 +8028,6 @@ extension MediaConvert {
             case speed = "speed"
             case strength = "strength"
         }
-    }
-
-    public enum Order: String, CustomStringConvertible, Codable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct Output: AWSShape {
@@ -8014,23 +8247,6 @@ extension MediaConvert {
         }
     }
 
-    public enum OutputGroupType: String, CustomStringConvertible, Codable {
-        case hlsGroupSettings = "HLS_GROUP_SETTINGS"
-        case dashIsoGroupSettings = "DASH_ISO_GROUP_SETTINGS"
-        case fileGroupSettings = "FILE_GROUP_SETTINGS"
-        case msSmoothGroupSettings = "MS_SMOOTH_GROUP_SETTINGS"
-        case cmafGroupSettings = "CMAF_GROUP_SETTINGS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OutputSdt: String, CustomStringConvertible, Codable {
-        case sdtFollow = "SDT_FOLLOW"
-        case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
-        case sdtManual = "SDT_MANUAL"
-        case sdtNone = "SDT_NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OutputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HlsSettings", location: .body(locationName: "hlsSettings"), required: false, type: .structure)
@@ -8100,13 +8316,6 @@ extension MediaConvert {
         }
     }
 
-    public enum PresetListBy: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case creationDate = "CREATION_DATE"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PresetSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioDescriptions", location: .body(locationName: "audioDescriptions"), required: false, type: .list), 
@@ -8148,47 +8357,6 @@ extension MediaConvert {
             case containerSettings = "containerSettings"
             case videoDescription = "videoDescription"
         }
-    }
-
-    public enum PricingPlan: String, CustomStringConvertible, Codable {
-        case onDemand = "ON_DEMAND"
-        case reserved = "RESERVED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProresCodecProfile: String, CustomStringConvertible, Codable {
-        case appleProres422 = "APPLE_PRORES_422"
-        case appleProres422Hq = "APPLE_PRORES_422_HQ"
-        case appleProres422Lt = "APPLE_PRORES_422_LT"
-        case appleProres422Proxy = "APPLE_PRORES_422_PROXY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProresFramerateControl: String, CustomStringConvertible, Codable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProresFramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case interpolate = "INTERPOLATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProresInterlaceMode: String, CustomStringConvertible, Codable {
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        case bottomField = "BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProresParControl: String, CustomStringConvertible, Codable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProresSettings: AWSShape {
@@ -8271,18 +8439,6 @@ extension MediaConvert {
         }
     }
 
-    public enum ProresSlowPal: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProresTelecine: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case hard = "HARD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Queue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
@@ -8348,18 +8504,6 @@ extension MediaConvert {
             case submittedJobsCount = "submittedJobsCount"
             case `type` = "type"
         }
-    }
-
-    public enum QueueListBy: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case creationDate = "CREATION_DATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum QueueStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case paused = "PAUSED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Rectangle: AWSShape {
@@ -8440,12 +8584,6 @@ extension MediaConvert {
         }
     }
 
-    public enum RenewalType: String, CustomStringConvertible, Codable {
-        case autoRenew = "AUTO_RENEW"
-        case expire = "EXPIRE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReservationPlan: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Commitment", location: .body(locationName: "commitment"), required: false, type: .enum), 
@@ -8515,12 +8653,6 @@ extension MediaConvert {
         }
     }
 
-    public enum ReservationPlanStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceTags: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
@@ -8541,13 +8673,6 @@ extension MediaConvert {
             case arn = "arn"
             case tags = "tags"
         }
-    }
-
-    public enum RespondToAfd: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case respond = "RESPOND"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3DestinationAccessControl: AWSShape {
@@ -8619,35 +8744,6 @@ extension MediaConvert {
         }
     }
 
-    public enum S3ObjectCannedAcl: String, CustomStringConvertible, Codable {
-        case publicRead = "PUBLIC_READ"
-        case authenticatedRead = "AUTHENTICATED_READ"
-        case bucketOwnerRead = "BUCKET_OWNER_READ"
-        case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum S3ServerSideEncryptionType: String, CustomStringConvertible, Codable {
-        case serverSideEncryptionS3 = "SERVER_SIDE_ENCRYPTION_S3"
-        case serverSideEncryptionKms = "SERVER_SIDE_ENCRYPTION_KMS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScalingBehavior: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case stretchToOutput = "STRETCH_TO_OUTPUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SccDestinationFramerate: String, CustomStringConvertible, Codable {
-        case framerate2397 = "FRAMERATE_23_97"
-        case framerate24 = "FRAMERATE_24"
-        case framerate25 = "FRAMERATE_25"
-        case framerate2997Dropframe = "FRAMERATE_29_97_DROPFRAME"
-        case framerate2997NonDropframe = "FRAMERATE_29_97_NON_DROPFRAME"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SccDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Framerate", location: .body(locationName: "framerate"), required: false, type: .enum)
@@ -8663,12 +8759,6 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case framerate = "framerate"
         }
-    }
-
-    public enum SimulateReservedQueue: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct SpekeKeyProvider: AWSShape {
@@ -8803,25 +8893,6 @@ extension MediaConvert {
         }
     }
 
-    public enum StatusUpdateInterval: String, CustomStringConvertible, Codable {
-        case seconds10 = "SECONDS_10"
-        case seconds12 = "SECONDS_12"
-        case seconds15 = "SECONDS_15"
-        case seconds20 = "SECONDS_20"
-        case seconds30 = "SECONDS_30"
-        case seconds60 = "SECONDS_60"
-        case seconds120 = "SECONDS_120"
-        case seconds180 = "SECONDS_180"
-        case seconds240 = "SECONDS_240"
-        case seconds300 = "SECONDS_300"
-        case seconds360 = "SECONDS_360"
-        case seconds420 = "SECONDS_420"
-        case seconds480 = "SECONDS_480"
-        case seconds540 = "SECONDS_540"
-        case seconds600 = "SECONDS_600"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
@@ -8880,15 +8951,6 @@ extension MediaConvert {
         }
     }
 
-    public enum TeletextPageType: String, CustomStringConvertible, Codable {
-        case pageTypeInitial = "PAGE_TYPE_INITIAL"
-        case pageTypeSubtitle = "PAGE_TYPE_SUBTITLE"
-        case pageTypeAddlInfo = "PAGE_TYPE_ADDL_INFO"
-        case pageTypeProgramSchedule = "PAGE_TYPE_PROGRAM_SCHEDULE"
-        case pageTypeHearingImpairedSubtitle = "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TeletextSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageNumber", location: .body(locationName: "pageNumber"), required: false, type: .string)
@@ -8945,19 +9007,6 @@ extension MediaConvert {
         }
     }
 
-    public enum TimecodeBurninPosition: String, CustomStringConvertible, Codable {
-        case topCenter = "TOP_CENTER"
-        case topLeft = "TOP_LEFT"
-        case topRight = "TOP_RIGHT"
-        case middleLeft = "MIDDLE_LEFT"
-        case middleCenter = "MIDDLE_CENTER"
-        case middleRight = "MIDDLE_RIGHT"
-        case bottomLeft = "BOTTOM_LEFT"
-        case bottomCenter = "BOTTOM_CENTER"
-        case bottomRight = "BOTTOM_RIGHT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TimecodeConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Anchor", location: .body(locationName: "anchor"), required: false, type: .string), 
@@ -8994,19 +9043,6 @@ extension MediaConvert {
             case start = "start"
             case timestampOffset = "timestampOffset"
         }
-    }
-
-    public enum TimecodeSource: String, CustomStringConvertible, Codable {
-        case embedded = "EMBEDDED"
-        case zerobased = "ZEROBASED"
-        case specifiedstart = "SPECIFIEDSTART"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TimedMetadata: String, CustomStringConvertible, Codable {
-        case passthrough = "PASSTHROUGH"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct TimedMetadataInsertion: AWSShape {
@@ -9096,18 +9132,6 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case stylePassthrough = "stylePassthrough"
         }
-    }
-
-    public enum TtmlStylePassthrough: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable {
-        case system = "SYSTEM"
-        case custom = "CUSTOM"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -9315,15 +9339,6 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case queue = "queue"
         }
-    }
-
-    public enum VideoCodec: String, CustomStringConvertible, Codable {
-        case frameCapture = "FRAME_CAPTURE"
-        case h264 = "H_264"
-        case h265 = "H_265"
-        case mpeg2 = "MPEG2"
-        case prores = "PRORES"
-        public var description: String { return self.rawValue }
     }
 
     public struct VideoCodecSettings: AWSShape {
@@ -9603,18 +9618,6 @@ extension MediaConvert {
             case programNumber = "programNumber"
             case rotate = "rotate"
         }
-    }
-
-    public enum VideoTimecodeInsertion: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case picTimingSei = "PIC_TIMING_SEI"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum WavFormat: String, CustomStringConvertible, Codable {
-        case riff = "RIFF"
-        case rf64 = "RF64"
-        public var description: String { return self.rawValue }
     }
 
     public struct WavSettings: AWSShape {

@@ -4,12 +4,95 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Batch {
+    //MARK: Enums
 
     public enum ArrayJobDependency: String, CustomStringConvertible, Codable {
         case nToN = "N_TO_N"
         case sequential = "SEQUENTIAL"
         public var description: String { return self.rawValue }
     }
+
+    public enum CEState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CEStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case valid = "VALID"
+        case invalid = "INVALID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CEType: String, CustomStringConvertible, Codable {
+        case managed = "MANAGED"
+        case unmanaged = "UNMANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CRAllocationStrategy: String, CustomStringConvertible, Codable {
+        case bestFit = "BEST_FIT"
+        case bestFitProgressive = "BEST_FIT_PROGRESSIVE"
+        case spotCapacityOptimized = "SPOT_CAPACITY_OPTIMIZED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CRType: String, CustomStringConvertible, Codable {
+        case ec2 = "EC2"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
+        case read = "READ"
+        case write = "WRITE"
+        case mknod = "MKNOD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JQState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JQStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case valid = "VALID"
+        case invalid = "INVALID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobDefinitionType: String, CustomStringConvertible, Codable {
+        case container = "container"
+        case multinode = "multinode"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case pending = "PENDING"
+        case runnable = "RUNNABLE"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case gpu = "GPU"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ArrayProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -149,41 +232,6 @@ extension Batch {
             case statusReason = "statusReason"
             case stoppedAt = "stoppedAt"
         }
-    }
-
-    public enum CEState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CEStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        case valid = "VALID"
-        case invalid = "INVALID"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CEType: String, CustomStringConvertible, Codable {
-        case managed = "MANAGED"
-        case unmanaged = "UNMANAGED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CRAllocationStrategy: String, CustomStringConvertible, Codable {
-        case bestFit = "BEST_FIT"
-        case bestFitProgressive = "BEST_FIT_PROGRESSIVE"
-        case spotCapacityOptimized = "SPOT_CAPACITY_OPTIMIZED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CRType: String, CustomStringConvertible, Codable {
-        case ec2 = "EC2"
-        case spot = "SPOT"
-        public var description: String { return self.rawValue }
     }
 
     public struct CancelJobRequest: AWSShape {
@@ -1088,13 +1136,6 @@ extension Batch {
         }
     }
 
-    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
-        case read = "READ"
-        case write = "WRITE"
-        case mknod = "MKNOD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Host: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sourcePath", required: false, type: .string)
@@ -1110,22 +1151,6 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case sourcePath = "sourcePath"
         }
-    }
-
-    public enum JQState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JQStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        case valid = "VALID"
-        case invalid = "INVALID"
-        public var description: String { return self.rawValue }
     }
 
     public struct JobDefinition: AWSShape {
@@ -1188,12 +1213,6 @@ extension Batch {
             case timeout = "timeout"
             case `type` = "type"
         }
-    }
-
-    public enum JobDefinitionType: String, CustomStringConvertible, Codable {
-        case container = "container"
-        case multinode = "multinode"
-        public var description: String { return self.rawValue }
     }
 
     public struct JobDependency: AWSShape {
@@ -1365,17 +1384,6 @@ extension Batch {
             case status = "status"
             case statusReason = "statusReason"
         }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case pending = "PENDING"
-        case runnable = "RUNNABLE"
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct JobSummary: AWSShape {
@@ -1877,11 +1885,6 @@ extension Batch {
             case `type` = "type"
             case value = "value"
         }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case gpu = "GPU"
-        public var description: String { return self.rawValue }
     }
 
     public struct RetryStrategy: AWSShape {

@@ -4,6 +4,15 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ImportExport {
+    //MARK: Enums
+
+    public enum JobType: String, CustomStringConvertible, Codable {
+        case `import` = "Import"
+        case export = "Export"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Artifact: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -331,12 +340,6 @@ extension ImportExport {
             case jobId = "JobId"
             case jobType = "JobType"
         }
-    }
-
-    public enum JobType: String, CustomStringConvertible, Codable {
-        case `import` = "Import"
-        case export = "Export"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListJobsInput: AWSShape {

@@ -4,6 +4,53 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension OpsWorksCM {
+    //MARK: Enums
+
+    public enum BackupStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case ok = "OK"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupType: String, CustomStringConvertible, Codable {
+        case automated = "AUTOMATED"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaintenanceStatus: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeAssociationStatus: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerStatus: String, CustomStringConvertible, Codable {
+        case backingUp = "BACKING_UP"
+        case connectionLost = "CONNECTION_LOST"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case modifying = "MODIFYING"
+        case failed = "FAILED"
+        case healthy = "HEALTHY"
+        case running = "RUNNING"
+        case restoring = "RESTORING"
+        case setup = "SETUP"
+        case underMaintenance = "UNDER_MAINTENANCE"
+        case unhealthy = "UNHEALTHY"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -207,20 +254,6 @@ extension OpsWorksCM {
             case toolsVersion = "ToolsVersion"
             case userArn = "UserArn"
         }
-    }
-
-    public enum BackupStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case ok = "OK"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BackupType: String, CustomStringConvertible, Codable {
-        case automated = "AUTOMATED"
-        case manual = "MANUAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateBackupRequest: AWSShape {
@@ -982,19 +1015,6 @@ extension OpsWorksCM {
         }
     }
 
-    public enum MaintenanceStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NodeAssociationStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RestoreServerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
@@ -1209,23 +1229,6 @@ extension OpsWorksCM {
             case message = "Message"
             case serverName = "ServerName"
         }
-    }
-
-    public enum ServerStatus: String, CustomStringConvertible, Codable {
-        case backingUp = "BACKING_UP"
-        case connectionLost = "CONNECTION_LOST"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case modifying = "MODIFYING"
-        case failed = "FAILED"
-        case healthy = "HEALTHY"
-        case running = "RUNNING"
-        case restoring = "RESTORING"
-        case setup = "SETUP"
-        case underMaintenance = "UNDER_MAINTENANCE"
-        case unhealthy = "UNHEALTHY"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartMaintenanceRequest: AWSShape {

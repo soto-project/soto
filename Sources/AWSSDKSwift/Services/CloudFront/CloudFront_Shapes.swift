@@ -4,6 +4,104 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudFront {
+    //MARK: Enums
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case viewerRequest = "viewer-request"
+        case viewerResponse = "viewer-response"
+        case originRequest = "origin-request"
+        case originResponse = "origin-response"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Format: String, CustomStringConvertible, Codable {
+        case urlencoded = "URLEncoded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeoRestrictionType: String, CustomStringConvertible, Codable {
+        case blacklist = "blacklist"
+        case whitelist = "whitelist"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HttpVersion: String, CustomStringConvertible, Codable {
+        case http11 = "HTTP1_1"
+        case http2 = "HTTP2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ICPRecordalStatus: String, CustomStringConvertible, Codable {
+        case approved = "APPROVED"
+        case suspended = "SUSPENDED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ItemSelection: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case whitelist = "whitelist"
+        case all = "all"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Method: String, CustomStringConvertible, Codable {
+        case get = "GET"
+        case head = "HEAD"
+        case post = "POST"
+        case put = "PUT"
+        case patch = "PATCH"
+        case options = "OPTIONS"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
+        case sslv3 = "SSLv3"
+        case tlsv1 = "TLSv1"
+        case tlsv12016 = "TLSv1_2016"
+        case tlsv112016 = "TLSv1.1_2016"
+        case tlsv122018 = "TLSv1.2_2018"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable {
+        case httpOnly = "http-only"
+        case matchViewer = "match-viewer"
+        case httpsOnly = "https-only"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PriceClass: String, CustomStringConvertible, Codable {
+        case priceclass100 = "PriceClass_100"
+        case priceclass200 = "PriceClass_200"
+        case priceclassAll = "PriceClass_All"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SSLSupportMethod: String, CustomStringConvertible, Codable {
+        case sniOnly = "sni-only"
+        case vip = "vip"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SslProtocol: String, CustomStringConvertible, Codable {
+        case sslv3 = "SSLv3"
+        case tlsv1 = "TLSv1"
+        case tlsv11 = "TLSv1.1"
+        case tlsv12 = "TLSv1.2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable {
+        case allowAll = "allow-all"
+        case httpsOnly = "https-only"
+        case redirectToHttps = "redirect-to-https"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ActiveTrustedSigners: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1618,14 +1716,6 @@ extension CloudFront {
         }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case viewerRequest = "viewer-request"
-        case viewerResponse = "viewer-response"
-        case originRequest = "origin-request"
-        case originResponse = "origin-response"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FieldLevelEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldLevelEncryptionConfig", required: true, type: .structure), 
@@ -1904,11 +1994,6 @@ extension CloudFront {
         }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable {
-        case urlencoded = "URLEncoded"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ForwardedValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cookies", required: true, type: .structure), 
@@ -1966,13 +2051,6 @@ extension CloudFront {
             case quantity = "Quantity"
             case restrictionType = "RestrictionType"
         }
-    }
-
-    public enum GeoRestrictionType: String, CustomStringConvertible, Codable {
-        case blacklist = "blacklist"
-        case whitelist = "whitelist"
-        case none = "none"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSShape {
@@ -2530,19 +2608,6 @@ extension CloudFront {
         }
     }
 
-    public enum HttpVersion: String, CustomStringConvertible, Codable {
-        case http11 = "HTTP1_1"
-        case http2 = "HTTP2"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ICPRecordalStatus: String, CustomStringConvertible, Codable {
-        case approved = "APPROVED"
-        case suspended = "SUSPENDED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Invalidation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateTime", required: true, type: .timestamp), 
@@ -2664,13 +2729,6 @@ extension CloudFront {
             case id = "Id"
             case status = "Status"
         }
-    }
-
-    public enum ItemSelection: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case whitelist = "whitelist"
-        case all = "all"
-        public var description: String { return self.rawValue }
     }
 
     public struct KeyPairIds: AWSShape {
@@ -3154,26 +3212,6 @@ extension CloudFront {
         }
     }
 
-    public enum Method: String, CustomStringConvertible, Codable {
-        case get = "GET"
-        case head = "HEAD"
-        case post = "POST"
-        case put = "PUT"
-        case patch = "PATCH"
-        case options = "OPTIONS"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
-        case sslv3 = "SSLv3"
-        case tlsv1 = "TLSv1"
-        case tlsv12016 = "TLSv1_2016"
-        case tlsv112016 = "TLSv1.1_2016"
-        case tlsv122018 = "TLSv1.2_2018"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Origin: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomHeaders", required: false, type: .structure), 
@@ -3363,13 +3401,6 @@ extension CloudFront {
         }
     }
 
-    public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable {
-        case httpOnly = "http-only"
-        case matchViewer = "match-viewer"
-        case httpsOnly = "https-only"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OriginSslProtocols: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"SslProtocol")), 
@@ -3438,13 +3469,6 @@ extension CloudFront {
             case items = "Items"
             case quantity = "Quantity"
         }
-    }
-
-    public enum PriceClass: String, CustomStringConvertible, Codable {
-        case priceclass100 = "PriceClass_100"
-        case priceclass200 = "PriceClass_200"
-        case priceclassAll = "PriceClass_All"
-        public var description: String { return self.rawValue }
     }
 
     public struct PublicKey: AWSShape {
@@ -3719,12 +3743,6 @@ extension CloudFront {
         }
     }
 
-    public enum SSLSupportMethod: String, CustomStringConvertible, Codable {
-        case sniOnly = "sni-only"
-        case vip = "vip"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Signer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsAccountNumber", required: false, type: .string), 
@@ -3745,14 +3763,6 @@ extension CloudFront {
             case awsAccountNumber = "AwsAccountNumber"
             case keyPairIds = "KeyPairIds"
         }
-    }
-
-    public enum SslProtocol: String, CustomStringConvertible, Codable {
-        case sslv3 = "SSLv3"
-        case tlsv1 = "TLSv1"
-        case tlsv11 = "TLSv1.1"
-        case tlsv12 = "TLSv1.2"
-        public var description: String { return self.rawValue }
     }
 
     public struct StatusCodes: AWSShape {
@@ -4571,12 +4581,5 @@ extension CloudFront {
             case minimumProtocolVersion = "MinimumProtocolVersion"
             case sSLSupportMethod = "SSLSupportMethod"
         }
-    }
-
-    public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable {
-        case allowAll = "allow-all"
-        case httpsOnly = "https-only"
-        case redirectToHttps = "redirect-to-https"
-        public var description: String { return self.rawValue }
     }
 }

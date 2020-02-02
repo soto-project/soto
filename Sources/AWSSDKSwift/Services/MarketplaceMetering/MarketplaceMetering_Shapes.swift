@@ -4,6 +4,16 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MarketplaceMetering {
+    //MARK: Enums
+
+    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case customernotsubscribed = "CustomerNotSubscribed"
+        case duplicaterecord = "DuplicateRecord"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BatchMeterUsageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -287,12 +297,5 @@ extension MarketplaceMetering {
             case status = "Status"
             case usageRecord = "UsageRecord"
         }
-    }
-
-    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case customernotsubscribed = "CustomerNotSubscribed"
-        case duplicaterecord = "DuplicateRecord"
-        public var description: String { return self.rawValue }
     }
 }

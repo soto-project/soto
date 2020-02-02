@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MarketplaceCommerceAnalytics {
+    //MARK: Enums
 
     public enum DataSetType: String, CustomStringConvertible, Codable {
         case customerSubscriberHourlyMonthlySubscriptions = "customer_subscriber_hourly_monthly_subscriptions"
@@ -33,6 +34,14 @@ extension MarketplaceCommerceAnalytics {
         case usSalesAndUseTaxRecords = "us_sales_and_use_tax_records"
         public var description: String { return self.rawValue }
     }
+
+    public enum SupportDataSetType: String, CustomStringConvertible, Codable {
+        case customerSupportContactsData = "customer_support_contacts_data"
+        case testCustomerSupportContactsData = "test_customer_support_contacts_data"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct GenerateDataSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -184,11 +193,5 @@ extension MarketplaceCommerceAnalytics {
         private enum CodingKeys: String, CodingKey {
             case dataSetRequestId = "dataSetRequestId"
         }
-    }
-
-    public enum SupportDataSetType: String, CustomStringConvertible, Codable {
-        case customerSupportContactsData = "customer_support_contacts_data"
-        case testCustomerSupportContactsData = "test_customer_support_contacts_data"
-        public var description: String { return self.rawValue }
     }
 }

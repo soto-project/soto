@@ -4,6 +4,144 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DataSync {
+    //MARK: Enums
+
+    public enum AgentStatus: String, CustomStringConvertible, Codable {
+        case online = "ONLINE"
+        case offline = "OFFLINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Atime: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case bestEffort = "BEST_EFFORT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointType: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case privateLink = "PRIVATE_LINK"
+        case fips = "FIPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterType: String, CustomStringConvertible, Codable {
+        case simplePattern = "SIMPLE_PATTERN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Gid: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case intValue = "INT_VALUE"
+        case name = "NAME"
+        case both = "BOTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mtime: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case preserve = "PRESERVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NfsVersion: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case nfs3 = "NFS3"
+        case nfs40 = "NFS4_0"
+        case nfs41 = "NFS4_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OverwriteMode: String, CustomStringConvertible, Codable {
+        case always = "ALWAYS"
+        case never = "NEVER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhaseStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PosixPermissions: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case preserve = "PRESERVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreserveDeletedFiles: String, CustomStringConvertible, Codable {
+        case preserve = "PRESERVE"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreserveDevices: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case preserve = "PRESERVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3StorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case glacier = "GLACIER"
+        case deepArchive = "DEEP_ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SmbVersion: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case smb2 = "SMB2"
+        case smb3 = "SMB3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskExecutionStatus: String, CustomStringConvertible, Codable {
+        case queued = "QUEUED"
+        case launching = "LAUNCHING"
+        case preparing = "PREPARING"
+        case transferring = "TRANSFERRING"
+        case verifying = "VERIFYING"
+        case success = "SUCCESS"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskQueueing: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Uid: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case intValue = "INT_VALUE"
+        case name = "NAME"
+        case both = "BOTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerifyMode: String, CustomStringConvertible, Codable {
+        case pointInTimeConsistent = "POINT_IN_TIME_CONSISTENT"
+        case onlyFilesTransferred = "ONLY_FILES_TRANSFERRED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AgentListEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -30,18 +168,6 @@ extension DataSync {
             case name = "Name"
             case status = "Status"
         }
-    }
-
-    public enum AgentStatus: String, CustomStringConvertible, Codable {
-        case online = "ONLINE"
-        case offline = "OFFLINE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Atime: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case bestEffort = "BEST_EFFORT"
-        public var description: String { return self.rawValue }
     }
 
     public struct CancelTaskExecutionRequest: AWSShape {
@@ -1172,13 +1298,6 @@ extension DataSync {
         }
     }
 
-    public enum EndpointType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case privateLink = "PRIVATE_LINK"
-        case fips = "FIPS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FilterRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FilterType", required: false, type: .enum), 
@@ -1204,19 +1323,6 @@ extension DataSync {
             case filterType = "FilterType"
             case value = "Value"
         }
-    }
-
-    public enum FilterType: String, CustomStringConvertible, Codable {
-        case simplePattern = "SIMPLE_PATTERN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Gid: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case intValue = "INT_VALUE"
-        case name = "NAME"
-        case both = "BOTH"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListAgentsRequest: AWSShape {
@@ -1510,12 +1616,6 @@ extension DataSync {
         }
     }
 
-    public enum Mtime: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case preserve = "PRESERVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NfsMountOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Version", required: false, type: .enum)
@@ -1531,14 +1631,6 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case version = "Version"
         }
-    }
-
-    public enum NfsVersion: String, CustomStringConvertible, Codable {
-        case automatic = "AUTOMATIC"
-        case nfs3 = "NFS3"
-        case nfs40 = "NFS4_0"
-        case nfs41 = "NFS4_1"
-        public var description: String { return self.rawValue }
     }
 
     public struct OnPremConfig: AWSShape {
@@ -1638,37 +1730,6 @@ extension DataSync {
         }
     }
 
-    public enum OverwriteMode: String, CustomStringConvertible, Codable {
-        case always = "ALWAYS"
-        case never = "NEVER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PhaseStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case success = "SUCCESS"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PosixPermissions: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case preserve = "PRESERVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PreserveDeletedFiles: String, CustomStringConvertible, Codable {
-        case preserve = "PRESERVE"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PreserveDevices: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case preserve = "PRESERVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PrivateLinkConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PrivateLinkEndpoint", required: false, type: .string), 
@@ -1723,16 +1784,6 @@ extension DataSync {
         }
     }
 
-    public enum S3StorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case glacier = "GLACIER"
-        case deepArchive = "DEEP_ARCHIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SmbMountOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Version", required: false, type: .enum)
@@ -1748,13 +1799,6 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case version = "Version"
         }
-    }
-
-    public enum SmbVersion: String, CustomStringConvertible, Codable {
-        case automatic = "AUTOMATIC"
-        case smb2 = "SMB2"
-        case smb3 = "SMB3"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartTaskExecutionRequest: AWSShape {
@@ -1961,17 +2005,6 @@ extension DataSync {
         }
     }
 
-    public enum TaskExecutionStatus: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case launching = "LAUNCHING"
-        case preparing = "PREPARING"
-        case transferring = "TRANSFERRING"
-        case verifying = "VERIFYING"
-        case success = "SUCCESS"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TaskListEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1999,12 +2032,6 @@ extension DataSync {
         }
     }
 
-    public enum TaskQueueing: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TaskSchedule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScheduleExpression", required: true, type: .string)
@@ -2025,23 +2052,6 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case scheduleExpression = "ScheduleExpression"
         }
-    }
-
-    public enum TaskStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case creating = "CREATING"
-        case queued = "QUEUED"
-        case running = "RUNNING"
-        case unavailable = "UNAVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Uid: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case intValue = "INT_VALUE"
-        case name = "NAME"
-        case both = "BOTH"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -2188,12 +2198,5 @@ extension DataSync {
         public init() {
         }
 
-    }
-
-    public enum VerifyMode: String, CustomStringConvertible, Codable {
-        case pointInTimeConsistent = "POINT_IN_TIME_CONSISTENT"
-        case onlyFilesTransferred = "ONLY_FILES_TRANSFERRED"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 }

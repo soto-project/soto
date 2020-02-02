@@ -4,6 +4,14 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension KinesisVideoSignalingChannels {
+    //MARK: Enums
+
+    public enum Service: String, CustomStringConvertible, Codable {
+        case turn = "TURN"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct GetIceServerConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -152,10 +160,5 @@ extension KinesisVideoSignalingChannels {
         private enum CodingKeys: String, CodingKey {
             case answer = "Answer"
         }
-    }
-
-    public enum Service: String, CustomStringConvertible, Codable {
-        case turn = "TURN"
-        public var description: String { return self.rawValue }
     }
 }

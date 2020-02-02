@@ -4,6 +4,51 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ApplicationInsights {
+    //MARK: Enums
+
+    public enum FeedbackKey: String, CustomStringConvertible, Codable {
+        case insightsFeedback = "INSIGHTS_FEEDBACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeedbackValue: String, CustomStringConvertible, Codable {
+        case notSpecified = "NOT_SPECIFIED"
+        case useful = "USEFUL"
+        case notUseful = "NOT_USEFUL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogFilter: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case warn = "WARN"
+        case info = "INFO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SeverityLevel: String, CustomStringConvertible, Codable {
+        case low = "Low"
+        case medium = "Medium"
+        case high = "High"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case ignore = "IGNORE"
+        case resolved = "RESOLVED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Tier: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case dotNetCore = "DOT_NET_CORE"
+        case dotNetWorker = "DOT_NET_WORKER"
+        case dotNetWeb = "DOT_NET_WEB"
+        case sqlServer = "SQL_SERVER"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ApplicationComponent: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -743,18 +788,6 @@ extension ApplicationInsights {
         }
     }
 
-    public enum FeedbackKey: String, CustomStringConvertible, Codable {
-        case insightsFeedback = "INSIGHTS_FEEDBACK"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FeedbackValue: String, CustomStringConvertible, Codable {
-        case notSpecified = "NOT_SPECIFIED"
-        case useful = "USEFUL"
-        case notUseful = "NOT_USEFUL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListApplicationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
@@ -1099,13 +1132,6 @@ extension ApplicationInsights {
         }
     }
 
-    public enum LogFilter: String, CustomStringConvertible, Codable {
-        case error = "ERROR"
-        case warn = "WARN"
-        case info = "INFO"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LogPattern: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pattern", required: false, type: .string), 
@@ -1294,20 +1320,6 @@ extension ApplicationInsights {
         }
     }
 
-    public enum SeverityLevel: String, CustomStringConvertible, Codable {
-        case low = "Low"
-        case medium = "Medium"
-        case high = "High"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case ignore = "IGNORE"
-        case resolved = "RESOLVED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string), 
@@ -1375,15 +1387,6 @@ extension ApplicationInsights {
         public init() {
         }
 
-    }
-
-    public enum Tier: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case dotNetCore = "DOT_NET_CORE"
-        case dotNetWorker = "DOT_NET_WORKER"
-        case dotNetWeb = "DOT_NET_WEB"
-        case sqlServer = "SQL_SERVER"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {
