@@ -169,7 +169,6 @@ struct AWSService {
                 let dict = structure.filter({ $0.key == shapeName }).first!
                 let shape = Shape(name: dict.key, type: dict.value)
                 var location = Location(json: memberJSON)
-                var locationName = memberJSON["locationName"].string
                 let shapeJSON = apiJSON["shapes"][shapeName]
                 let memberLocationName = shapeJSON["member"]["locationName"].string
                 // if member shape was flattened and has a location name then use that as the location name
@@ -198,7 +197,6 @@ struct AWSService {
                 // If the list is flattened, then we need to pull out the right location name
                 if memberLocationName != nil, shapeJSON["flattened"].bool == true {
                     location = Location(json: shapeJSON["member"])
-                    locationName = memberLocationName
                 }
                 var options : Member.Options = []
                 if memberJSON["streaming"].bool == true {
@@ -213,7 +211,6 @@ struct AWSService {
                     required: requireds.contains(name),
                     shape: shape,
                     location: location,
-                    locationName: locationName,
                     shapeEncoding: encoding,
                     xmlNamespace: XMLNamespace(dictionary: memberDict),
                     options: options
