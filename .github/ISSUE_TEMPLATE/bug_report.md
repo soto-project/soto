@@ -24,4 +24,4 @@ A clear and concise description of what you expected to happen.
  - Authentication mechanism [hard-coded credentials, IAM Instance Profile on EC2, etc]
 
 **Additional context**
-Add any other context about the problem here.
+Add any other context about the problem here. If this a bug related to a command not working can you run the same command on a client initialised with the logging middleware. eg `S3(region: .useast1, middlewares:[AWSLoggingMiddleware()])`
