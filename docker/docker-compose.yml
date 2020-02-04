@@ -10,15 +10,24 @@ services:
 
   test:
     <<: *common
-    network_mode: host
+    build: .
+    volumes:
+      - ..:/working
+    working_dir: /working
     depends_on:
       - localstack
+    environment:
+      - APIGATEWAY_ENDPOINT=http://localstack:4567
+      - DYNAMODB_ENDPOINT=http://localstack:4569
+      - IAM_ENDPOINT=http://localstack:4593
+      - S3_ENDPOINT=http://localstack:4572
+      - SNS_ENDPOINT=http://localstack:4575
+      - SQS_ENDPOINT=http://localstack:4576
+      - SSM_ENDPOINT=http://localstack:4583
     command: /bin/bash -xcl "swift test"
 
   localstack:
     image: localstack/localstack
-    ports:
-      - "4567-4597:4567-4597"
     environment:
       - SERVICES=apigateway,dynamodb,iam,s3,sns,sqs,ssm
     volumes:
