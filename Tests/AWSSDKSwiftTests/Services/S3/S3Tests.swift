@@ -126,6 +126,26 @@ class S3Tests: XCTestCase {
         }
     }
 
+    func testMultiPartDownloadFailure() {
+        attempt {
+            do {
+                let testData = try TestData(#function, client: client)
+
+                let filename = testData.key
+                _ = try client.multipartDownload(
+                    S3.GetObjectRequest(bucket: testData.bucket, key: testData.key),
+                    partSize: 5,
+                    filename: filename
+                ).wait()
+                XCTFail("testMultiPartDownloadFailure: should have failed")
+            } catch is AWSError {
+                // expected case
+            } catch {
+                XCTFail("testMultiPartDownloadFailure: Unexpected error")
+            }
+        }
+    }
+
     func testMultiPartUpload() {
         attempt {
             let testData = try TestData(#function, client: client)
@@ -151,6 +171,52 @@ class S3Tests: XCTestCase {
 
             XCTAssertEqual(object.body, data)
             try FileManager.default.removeItem(atPath: filename)
+        }
+    }
+
+    func testMultiPartUploadFailure() {
+        attempt {
+            let testData = try TestData(#function, client: client)
+
+
+            // create buffer
+            let dataSize = 16
+            var data = Data(count: dataSize)
+            for i in 0..<dataSize {
+                data[i] = UInt8.random(in:0...255)
+            }
+
+            let filename = testData.key
+            try data.write(to: URL(fileURLWithPath: filename))
+
+            // file doesn't exist
+            do {
+                let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
+                    acl: .publicRead,
+                    bucket: testData.bucket,
+                    key: testData.key
+                )
+                _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5*1024*1024, filename: "doesntexist").wait()
+                XCTFail("testMultiPartUploadFailure: should have failed")
+            } catch {
+                // expected case
+                print(error)
+            }
+
+            // bucket doesn't exist
+            do {
+                let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
+                    acl: .publicRead,
+                    bucket: testData.bucket+"doesntexist",
+                    key: testData.key
+                )
+                _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5*1024*1024, filename: filename).wait()
+                XCTFail("testMultiPartUploadFailure: should have failed")
+            } catch S3ErrorType.noSuchBucket(_){
+                // expected case
+            } catch {
+                XCTFail("testMultiPartUploadFailure: Unexpected error")
+            }
         }
     }
 
