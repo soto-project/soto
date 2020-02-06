@@ -297,7 +297,7 @@ class S3Tests: XCTestCase {
             let testData = try TestData(#function, client: client)
 
             // uploads 100 files at the same time and then downloads them to check they uploaded correctly
-            var responses : [Future<Void>] = []
+            var responses : [EventLoopFuture<Void>] = []
             for i in 0..<16 {
                 let objectName = "testMultiple\(i).txt"
                 let text = "Testing, testing,1,2,1,\(i)"
@@ -305,7 +305,7 @@ class S3Tests: XCTestCase {
 
                 let request = S3.PutObjectRequest(body: data, bucket: testData.bucket, key: objectName)
                 let response = client.putObject(request)
-                    .flatMap { (response)->Future<S3.GetObjectOutput> in
+                    .flatMap { (response)->EventLoopFuture<S3.GetObjectOutput> in
                         let request = S3.GetObjectRequest(bucket: testData.bucket, key: objectName)
                         print("Put \(objectName)")
                         return self.client.getObject(request)
@@ -349,7 +349,7 @@ class S3Tests: XCTestCase {
             let testData = try TestData(#function, client: client)
 
             // uploads 16 files
-            var responses : [Future<Void>] = []
+            var responses : [EventLoopFuture<Void>] = []
             for i in 0..<16 {
                 let objectName = "testMultiple\(i).txt"
                 let text = "Testing, testing,1,2,1,\(i)"
