@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ConnectParticipant {
+    //MARK: Enums
 
     public enum ChatItemType: String, CustomStringConvertible, Codable {
         case message = "MESSAGE"
@@ -11,6 +12,33 @@ extension ConnectParticipant {
         case connectionAck = "CONNECTION_ACK"
         public var description: String { return self.rawValue }
     }
+
+    public enum ConnectionType: String, CustomStringConvertible, Codable {
+        case websocket = "WEBSOCKET"
+        case connectionCredentials = "CONNECTION_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParticipantRole: String, CustomStringConvertible, Codable {
+        case agent = "AGENT"
+        case customer = "CUSTOMER"
+        case system = "SYSTEM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanDirection: String, CustomStringConvertible, Codable {
+        case forward = "FORWARD"
+        case backward = "BACKWARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortKey: String, CustomStringConvertible, Codable {
+        case descending = "DESCENDING"
+        case ascending = "ASCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ConnectionCredentials: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -32,12 +60,6 @@ extension ConnectParticipant {
             case connectionToken = "ConnectionToken"
             case expiry = "Expiry"
         }
-    }
-
-    public enum ConnectionType: String, CustomStringConvertible, Codable {
-        case websocket = "WEBSOCKET"
-        case connectionCredentials = "CONNECTION_CREDENTIALS"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateParticipantConnectionRequest: AWSShape {
@@ -264,19 +286,6 @@ extension ConnectParticipant {
         }
     }
 
-    public enum ParticipantRole: String, CustomStringConvertible, Codable {
-        case agent = "AGENT"
-        case customer = "CUSTOMER"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScanDirection: String, CustomStringConvertible, Codable {
-        case forward = "FORWARD"
-        case backward = "BACKWARD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SendEventRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientToken", required: false, type: .string), 
@@ -403,12 +412,6 @@ extension ConnectParticipant {
             case absoluteTime = "AbsoluteTime"
             case id = "Id"
         }
-    }
-
-    public enum SortKey: String, CustomStringConvertible, Codable {
-        case descending = "DESCENDING"
-        case ascending = "ASCENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartPosition: AWSShape {

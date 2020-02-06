@@ -4,6 +4,37 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CognitoSync {
+    //MARK: Enums
+
+    public enum BulkPublishStatus: String, CustomStringConvertible, Codable {
+        case notStarted = "NOT_STARTED"
+        case inProgress = "IN_PROGRESS"
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Operation: String, CustomStringConvertible, Codable {
+        case replace = "replace"
+        case remove = "remove"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Platform: String, CustomStringConvertible, Codable {
+        case apns = "APNS"
+        case apnsSandbox = "APNS_SANDBOX"
+        case gcm = "GCM"
+        case adm = "ADM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamingStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BulkPublishRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -43,14 +74,6 @@ extension CognitoSync {
         private enum CodingKeys: String, CodingKey {
             case identityPoolId = "IdentityPoolId"
         }
-    }
-
-    public enum BulkPublishStatus: String, CustomStringConvertible, Codable {
-        case notStarted = "NOT_STARTED"
-        case inProgress = "IN_PROGRESS"
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CognitoStreams: AWSShape {
@@ -792,20 +815,6 @@ extension CognitoSync {
         }
     }
 
-    public enum Operation: String, CustomStringConvertible, Codable {
-        case replace = "replace"
-        case remove = "remove"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Platform: String, CustomStringConvertible, Codable {
-        case apns = "APNS"
-        case apnsSandbox = "APNS_SANDBOX"
-        case gcm = "GCM"
-        case adm = "ADM"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PushSync: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationArns", required: false, type: .list), 
@@ -1068,12 +1077,6 @@ extension CognitoSync {
             case identityPoolId = "IdentityPoolId"
             case pushSync = "PushSync"
         }
-    }
-
-    public enum StreamingStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct SubscribeToDatasetRequest: AWSShape {

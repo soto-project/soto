@@ -4,6 +4,241 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension OpsWorks {
+    //MARK: Enums
+
+    public enum AppAttributesKeys: String, CustomStringConvertible, Codable {
+        case documentroot = "DocumentRoot"
+        case railsenv = "RailsEnv"
+        case autobundleondeploy = "AutoBundleOnDeploy"
+        case awsflowrubysettings = "AwsFlowRubySettings"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppType: String, CustomStringConvertible, Codable {
+        case awsFlowRuby = "aws-flow-ruby"
+        case java = "java"
+        case rails = "rails"
+        case php = "php"
+        case nodejs = "nodejs"
+        case `static` = "static"
+        case other = "other"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Architecture: String, CustomStringConvertible, Codable {
+        case x8664 = "x86_64"
+        case i386 = "i386"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoScalingType: String, CustomStringConvertible, Codable {
+        case load = "load"
+        case timer = "timer"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudWatchLogsEncoding: String, CustomStringConvertible, Codable {
+        case ascii = "ascii"
+        case big5 = "big5"
+        case big5hkscs = "big5hkscs"
+        case cp037 = "cp037"
+        case cp424 = "cp424"
+        case cp437 = "cp437"
+        case cp500 = "cp500"
+        case cp720 = "cp720"
+        case cp737 = "cp737"
+        case cp775 = "cp775"
+        case cp850 = "cp850"
+        case cp852 = "cp852"
+        case cp855 = "cp855"
+        case cp856 = "cp856"
+        case cp857 = "cp857"
+        case cp858 = "cp858"
+        case cp860 = "cp860"
+        case cp861 = "cp861"
+        case cp862 = "cp862"
+        case cp863 = "cp863"
+        case cp864 = "cp864"
+        case cp865 = "cp865"
+        case cp866 = "cp866"
+        case cp869 = "cp869"
+        case cp874 = "cp874"
+        case cp875 = "cp875"
+        case cp932 = "cp932"
+        case cp949 = "cp949"
+        case cp950 = "cp950"
+        case cp1006 = "cp1006"
+        case cp1026 = "cp1026"
+        case cp1140 = "cp1140"
+        case cp1250 = "cp1250"
+        case cp1251 = "cp1251"
+        case cp1252 = "cp1252"
+        case cp1253 = "cp1253"
+        case cp1254 = "cp1254"
+        case cp1255 = "cp1255"
+        case cp1256 = "cp1256"
+        case cp1257 = "cp1257"
+        case cp1258 = "cp1258"
+        case eucJp = "euc_jp"
+        case eucJis2004 = "euc_jis_2004"
+        case eucJisx0213 = "euc_jisx0213"
+        case eucKr = "euc_kr"
+        case gb2312 = "gb2312"
+        case gbk = "gbk"
+        case gb18030 = "gb18030"
+        case hz = "hz"
+        case iso2022Jp = "iso2022_jp"
+        case iso2022Jp1 = "iso2022_jp_1"
+        case iso2022Jp2 = "iso2022_jp_2"
+        case iso2022Jp2004 = "iso2022_jp_2004"
+        case iso2022Jp3 = "iso2022_jp_3"
+        case iso2022JpExt = "iso2022_jp_ext"
+        case iso2022Kr = "iso2022_kr"
+        case latin1 = "latin_1"
+        case iso88592 = "iso8859_2"
+        case iso88593 = "iso8859_3"
+        case iso88594 = "iso8859_4"
+        case iso88595 = "iso8859_5"
+        case iso88596 = "iso8859_6"
+        case iso88597 = "iso8859_7"
+        case iso88598 = "iso8859_8"
+        case iso88599 = "iso8859_9"
+        case iso885910 = "iso8859_10"
+        case iso885913 = "iso8859_13"
+        case iso885914 = "iso8859_14"
+        case iso885915 = "iso8859_15"
+        case iso885916 = "iso8859_16"
+        case johab = "johab"
+        case koi8R = "koi8_r"
+        case koi8U = "koi8_u"
+        case macCyrillic = "mac_cyrillic"
+        case macGreek = "mac_greek"
+        case macIceland = "mac_iceland"
+        case macLatin2 = "mac_latin2"
+        case macRoman = "mac_roman"
+        case macTurkish = "mac_turkish"
+        case ptcp154 = "ptcp154"
+        case shiftJis = "shift_jis"
+        case shiftJis2004 = "shift_jis_2004"
+        case shiftJisx0213 = "shift_jisx0213"
+        case utf32 = "utf_32"
+        case utf32Be = "utf_32_be"
+        case utf32Le = "utf_32_le"
+        case utf16 = "utf_16"
+        case utf16Be = "utf_16_be"
+        case utf16Le = "utf_16_le"
+        case utf7 = "utf_7"
+        case utf8 = "utf_8"
+        case utf8Sig = "utf_8_sig"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudWatchLogsInitialPosition: String, CustomStringConvertible, Codable {
+        case startOfFile = "start_of_file"
+        case endOfFile = "end_of_file"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudWatchLogsTimeZone: String, CustomStringConvertible, Codable {
+        case local = "LOCAL"
+        case utc = "UTC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentCommandName: String, CustomStringConvertible, Codable {
+        case installDependencies = "install_dependencies"
+        case updateDependencies = "update_dependencies"
+        case updateCustomCookbooks = "update_custom_cookbooks"
+        case executeRecipes = "execute_recipes"
+        case configure = "configure"
+        case setup = "setup"
+        case deploy = "deploy"
+        case rollback = "rollback"
+        case start = "start"
+        case stop = "stop"
+        case restart = "restart"
+        case undeploy = "undeploy"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LayerAttributesKeys: String, CustomStringConvertible, Codable {
+        case ecsclusterarn = "EcsClusterArn"
+        case enablehaproxystats = "EnableHaproxyStats"
+        case haproxystatsurl = "HaproxyStatsUrl"
+        case haproxystatsuser = "HaproxyStatsUser"
+        case haproxystatspassword = "HaproxyStatsPassword"
+        case haproxyhealthcheckurl = "HaproxyHealthCheckUrl"
+        case haproxyhealthcheckmethod = "HaproxyHealthCheckMethod"
+        case mysqlrootpassword = "MysqlRootPassword"
+        case mysqlrootpasswordubiquitous = "MysqlRootPasswordUbiquitous"
+        case gangliaurl = "GangliaUrl"
+        case gangliauser = "GangliaUser"
+        case gangliapassword = "GangliaPassword"
+        case memcachedmemory = "MemcachedMemory"
+        case nodejsversion = "NodejsVersion"
+        case rubyversion = "RubyVersion"
+        case rubygemsversion = "RubygemsVersion"
+        case managebundler = "ManageBundler"
+        case bundlerversion = "BundlerVersion"
+        case railsstack = "RailsStack"
+        case passengerversion = "PassengerVersion"
+        case jvm = "Jvm"
+        case jvmversion = "JvmVersion"
+        case jvmoptions = "JvmOptions"
+        case javaappserver = "JavaAppServer"
+        case javaappserverversion = "JavaAppServerVersion"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LayerType: String, CustomStringConvertible, Codable {
+        case awsFlowRuby = "aws-flow-ruby"
+        case ecsCluster = "ecs-cluster"
+        case javaApp = "java-app"
+        case lb = "lb"
+        case web = "web"
+        case phpApp = "php-app"
+        case railsApp = "rails-app"
+        case nodejsApp = "nodejs-app"
+        case memcached = "memcached"
+        case dbMaster = "db-master"
+        case monitoringMaster = "monitoring-master"
+        case custom = "custom"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RootDeviceType: String, CustomStringConvertible, Codable {
+        case ebs = "ebs"
+        case instanceStore = "instance-store"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case git = "git"
+        case svn = "svn"
+        case archive = "archive"
+        case s3 = "s3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackAttributesKeys: String, CustomStringConvertible, Codable {
+        case color = "Color"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VirtualizationType: String, CustomStringConvertible, Codable {
+        case paravirtual = "paravirtual"
+        case hvm = "hvm"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VolumeType: String, CustomStringConvertible, Codable {
+        case gp2 = "gp2"
+        case io1 = "io1"
+        case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AgentVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -107,31 +342,6 @@ extension OpsWorks {
             case stackId = "StackId"
             case `type` = "Type"
         }
-    }
-
-    public enum AppAttributesKeys: String, CustomStringConvertible, Codable {
-        case documentroot = "DocumentRoot"
-        case railsenv = "RailsEnv"
-        case autobundleondeploy = "AutoBundleOnDeploy"
-        case awsflowrubysettings = "AwsFlowRubySettings"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AppType: String, CustomStringConvertible, Codable {
-        case awsFlowRuby = "aws-flow-ruby"
-        case java = "java"
-        case rails = "rails"
-        case php = "php"
-        case nodejs = "nodejs"
-        case `static` = "static"
-        case other = "other"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Architecture: String, CustomStringConvertible, Codable {
-        case x8664 = "x86_64"
-        case i386 = "i386"
-        public var description: String { return self.rawValue }
     }
 
     public struct AssignInstanceRequest: AWSShape {
@@ -274,12 +484,6 @@ extension OpsWorks {
             case memoryThreshold = "MemoryThreshold"
             case thresholdsWaitTime = "ThresholdsWaitTime"
         }
-    }
-
-    public enum AutoScalingType: String, CustomStringConvertible, Codable {
-        case load = "load"
-        case timer = "timer"
-        public var description: String { return self.rawValue }
     }
 
     public struct BlockDeviceMapping: AWSShape {
@@ -497,108 +701,6 @@ extension OpsWorks {
         }
     }
 
-    public enum CloudWatchLogsEncoding: String, CustomStringConvertible, Codable {
-        case ascii = "ascii"
-        case big5 = "big5"
-        case big5hkscs = "big5hkscs"
-        case cp037 = "cp037"
-        case cp424 = "cp424"
-        case cp437 = "cp437"
-        case cp500 = "cp500"
-        case cp720 = "cp720"
-        case cp737 = "cp737"
-        case cp775 = "cp775"
-        case cp850 = "cp850"
-        case cp852 = "cp852"
-        case cp855 = "cp855"
-        case cp856 = "cp856"
-        case cp857 = "cp857"
-        case cp858 = "cp858"
-        case cp860 = "cp860"
-        case cp861 = "cp861"
-        case cp862 = "cp862"
-        case cp863 = "cp863"
-        case cp864 = "cp864"
-        case cp865 = "cp865"
-        case cp866 = "cp866"
-        case cp869 = "cp869"
-        case cp874 = "cp874"
-        case cp875 = "cp875"
-        case cp932 = "cp932"
-        case cp949 = "cp949"
-        case cp950 = "cp950"
-        case cp1006 = "cp1006"
-        case cp1026 = "cp1026"
-        case cp1140 = "cp1140"
-        case cp1250 = "cp1250"
-        case cp1251 = "cp1251"
-        case cp1252 = "cp1252"
-        case cp1253 = "cp1253"
-        case cp1254 = "cp1254"
-        case cp1255 = "cp1255"
-        case cp1256 = "cp1256"
-        case cp1257 = "cp1257"
-        case cp1258 = "cp1258"
-        case eucJp = "euc_jp"
-        case eucJis2004 = "euc_jis_2004"
-        case eucJisx0213 = "euc_jisx0213"
-        case eucKr = "euc_kr"
-        case gb2312 = "gb2312"
-        case gbk = "gbk"
-        case gb18030 = "gb18030"
-        case hz = "hz"
-        case iso2022Jp = "iso2022_jp"
-        case iso2022Jp1 = "iso2022_jp_1"
-        case iso2022Jp2 = "iso2022_jp_2"
-        case iso2022Jp2004 = "iso2022_jp_2004"
-        case iso2022Jp3 = "iso2022_jp_3"
-        case iso2022JpExt = "iso2022_jp_ext"
-        case iso2022Kr = "iso2022_kr"
-        case latin1 = "latin_1"
-        case iso88592 = "iso8859_2"
-        case iso88593 = "iso8859_3"
-        case iso88594 = "iso8859_4"
-        case iso88595 = "iso8859_5"
-        case iso88596 = "iso8859_6"
-        case iso88597 = "iso8859_7"
-        case iso88598 = "iso8859_8"
-        case iso88599 = "iso8859_9"
-        case iso885910 = "iso8859_10"
-        case iso885913 = "iso8859_13"
-        case iso885914 = "iso8859_14"
-        case iso885915 = "iso8859_15"
-        case iso885916 = "iso8859_16"
-        case johab = "johab"
-        case koi8R = "koi8_r"
-        case koi8U = "koi8_u"
-        case macCyrillic = "mac_cyrillic"
-        case macGreek = "mac_greek"
-        case macIceland = "mac_iceland"
-        case macLatin2 = "mac_latin2"
-        case macRoman = "mac_roman"
-        case macTurkish = "mac_turkish"
-        case ptcp154 = "ptcp154"
-        case shiftJis = "shift_jis"
-        case shiftJis2004 = "shift_jis_2004"
-        case shiftJisx0213 = "shift_jisx0213"
-        case utf32 = "utf_32"
-        case utf32Be = "utf_32_be"
-        case utf32Le = "utf_32_le"
-        case utf16 = "utf_16"
-        case utf16Be = "utf_16_be"
-        case utf16Le = "utf_16_le"
-        case utf7 = "utf_7"
-        case utf8 = "utf_8"
-        case utf8Sig = "utf_8_sig"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CloudWatchLogsInitialPosition: String, CustomStringConvertible, Codable {
-        case startOfFile = "start_of_file"
-        case endOfFile = "end_of_file"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CloudWatchLogsLogStream: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchCount", required: false, type: .integer), 
@@ -664,12 +766,6 @@ extension OpsWorks {
             case multiLineStartPattern = "MultiLineStartPattern"
             case timeZone = "TimeZone"
         }
-    }
-
-    public enum CloudWatchLogsTimeZone: String, CustomStringConvertible, Codable {
-        case local = "LOCAL"
-        case utc = "UTC"
-        public var description: String { return self.rawValue }
     }
 
     public struct Command: AWSShape {
@@ -1512,22 +1608,6 @@ extension OpsWorks {
             case args = "Args"
             case name = "Name"
         }
-    }
-
-    public enum DeploymentCommandName: String, CustomStringConvertible, Codable {
-        case installDependencies = "install_dependencies"
-        case updateDependencies = "update_dependencies"
-        case updateCustomCookbooks = "update_custom_cookbooks"
-        case executeRecipes = "execute_recipes"
-        case configure = "configure"
-        case setup = "setup"
-        case deploy = "deploy"
-        case rollback = "rollback"
-        case start = "start"
-        case stop = "stop"
-        case restart = "restart"
-        case undeploy = "undeploy"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeregisterEcsClusterRequest: AWSShape {
@@ -3249,51 +3329,6 @@ extension OpsWorks {
         }
     }
 
-    public enum LayerAttributesKeys: String, CustomStringConvertible, Codable {
-        case ecsclusterarn = "EcsClusterArn"
-        case enablehaproxystats = "EnableHaproxyStats"
-        case haproxystatsurl = "HaproxyStatsUrl"
-        case haproxystatsuser = "HaproxyStatsUser"
-        case haproxystatspassword = "HaproxyStatsPassword"
-        case haproxyhealthcheckurl = "HaproxyHealthCheckUrl"
-        case haproxyhealthcheckmethod = "HaproxyHealthCheckMethod"
-        case mysqlrootpassword = "MysqlRootPassword"
-        case mysqlrootpasswordubiquitous = "MysqlRootPasswordUbiquitous"
-        case gangliaurl = "GangliaUrl"
-        case gangliauser = "GangliaUser"
-        case gangliapassword = "GangliaPassword"
-        case memcachedmemory = "MemcachedMemory"
-        case nodejsversion = "NodejsVersion"
-        case rubyversion = "RubyVersion"
-        case rubygemsversion = "RubygemsVersion"
-        case managebundler = "ManageBundler"
-        case bundlerversion = "BundlerVersion"
-        case railsstack = "RailsStack"
-        case passengerversion = "PassengerVersion"
-        case jvm = "Jvm"
-        case jvmversion = "JvmVersion"
-        case jvmoptions = "JvmOptions"
-        case javaappserver = "JavaAppServer"
-        case javaappserverversion = "JavaAppServerVersion"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LayerType: String, CustomStringConvertible, Codable {
-        case awsFlowRuby = "aws-flow-ruby"
-        case ecsCluster = "ecs-cluster"
-        case javaApp = "java-app"
-        case lb = "lb"
-        case web = "web"
-        case phpApp = "php-app"
-        case railsApp = "rails-app"
-        case nodejsApp = "nodejs-app"
-        case memcached = "memcached"
-        case dbMaster = "db-master"
-        case monitoringMaster = "monitoring-master"
-        case custom = "custom"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LifecycleEventConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Shutdown", required: false, type: .structure)
@@ -3926,12 +3961,6 @@ extension OpsWorks {
         }
     }
 
-    public enum RootDeviceType: String, CustomStringConvertible, Codable {
-        case ebs = "ebs"
-        case instanceStore = "instance-store"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SelfUserProfile: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
@@ -4166,14 +4195,6 @@ extension OpsWorks {
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case git = "git"
-        case svn = "svn"
-        case archive = "archive"
-        case s3 = "s3"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SslConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: true, type: .string), 
@@ -4321,11 +4342,6 @@ extension OpsWorks {
             case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
             case vpcId = "VpcId"
         }
-    }
-
-    public enum StackAttributesKeys: String, CustomStringConvertible, Codable {
-        case color = "Color"
-        public var description: String { return self.rawValue }
     }
 
     public struct StackConfigurationManager: AWSShape {
@@ -5096,12 +5112,6 @@ extension OpsWorks {
         }
     }
 
-    public enum VirtualizationType: String, CustomStringConvertible, Codable {
-        case paravirtual = "paravirtual"
-        case hvm = "hvm"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Volume: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
@@ -5229,13 +5239,6 @@ extension OpsWorks {
             case size = "Size"
             case volumeType = "VolumeType"
         }
-    }
-
-    public enum VolumeType: String, CustomStringConvertible, Codable {
-        case gp2 = "gp2"
-        case io1 = "io1"
-        case standard = "standard"
-        public var description: String { return self.rawValue }
     }
 
     public struct WeeklyAutoScalingSchedule: AWSShape {

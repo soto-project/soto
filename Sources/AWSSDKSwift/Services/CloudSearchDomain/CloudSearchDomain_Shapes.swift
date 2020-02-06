@@ -4,6 +4,23 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudSearchDomain {
+    //MARK: Enums
+
+    public enum ContentType: String, CustomStringConvertible, Codable {
+        case applicationJson = "application/json"
+        case applicationXml = "application/xml"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryParser: String, CustomStringConvertible, Codable {
+        case simple = "simple"
+        case structured = "structured"
+        case lucene = "lucene"
+        case dismax = "dismax"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Bucket: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -42,12 +59,6 @@ extension CloudSearchDomain {
         private enum CodingKeys: String, CodingKey {
             case buckets = "buckets"
         }
-    }
-
-    public enum ContentType: String, CustomStringConvertible, Codable {
-        case applicationJson = "application/json"
-        case applicationXml = "application/xml"
-        public var description: String { return self.rawValue }
     }
 
     public struct DocumentServiceWarning: AWSShape {
@@ -181,14 +192,6 @@ extension CloudSearchDomain {
             case hit = "hit"
             case start = "start"
         }
-    }
-
-    public enum QueryParser: String, CustomStringConvertible, Codable {
-        case simple = "simple"
-        case structured = "structured"
-        case lucene = "lucene"
-        case dismax = "dismax"
-        public var description: String { return self.rawValue }
     }
 
     public struct SearchRequest: AWSShape {

@@ -4,6 +4,60 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MQ {
+    //MARK: Enums
+
+    public enum BrokerState: String, CustomStringConvertible, Codable {
+        case creationInProgress = "CREATION_IN_PROGRESS"
+        case creationFailed = "CREATION_FAILED"
+        case deletionInProgress = "DELETION_IN_PROGRESS"
+        case running = "RUNNING"
+        case rebootInProgress = "REBOOT_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BrokerStorageType: String, CustomStringConvertible, Codable {
+        case ebs = "EBS"
+        case efs = "EFS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeType: String, CustomStringConvertible, Codable {
+        case create = "CREATE"
+        case update = "UPDATE"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DayOfWeek: String, CustomStringConvertible, Codable {
+        case monday = "MONDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
+        case thursday = "THURSDAY"
+        case friday = "FRIDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentMode: String, CustomStringConvertible, Codable {
+        case singleInstance = "SINGLE_INSTANCE"
+        case activeStandbyMultiAz = "ACTIVE_STANDBY_MULTI_AZ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EngineType: String, CustomStringConvertible, Codable {
+        case activemq = "ACTIVEMQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SanitizationWarningReason: String, CustomStringConvertible, Codable {
+        case disallowedElementRemoved = "DISALLOWED_ELEMENT_REMOVED"
+        case disallowedAttributeRemoved = "DISALLOWED_ATTRIBUTE_REMOVED"
+        case invalidAttributeValueRemoved = "INVALID_ATTRIBUTE_VALUE_REMOVED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AvailabilityZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -113,21 +167,6 @@ extension MQ {
         }
     }
 
-    public enum BrokerState: String, CustomStringConvertible, Codable {
-        case creationInProgress = "CREATION_IN_PROGRESS"
-        case creationFailed = "CREATION_FAILED"
-        case deletionInProgress = "DELETION_IN_PROGRESS"
-        case running = "RUNNING"
-        case rebootInProgress = "REBOOT_IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BrokerStorageType: String, CustomStringConvertible, Codable {
-        case ebs = "EBS"
-        case efs = "EFS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BrokerSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
@@ -173,13 +212,6 @@ extension MQ {
             case deploymentMode = "deploymentMode"
             case hostInstanceType = "hostInstanceType"
         }
-    }
-
-    public enum ChangeType: String, CustomStringConvertible, Codable {
-        case create = "CREATE"
-        case update = "UPDATE"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
     }
 
     public struct Configuration: AWSShape {
@@ -535,17 +567,6 @@ extension MQ {
 
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable {
-        case monday = "MONDAY"
-        case tuesday = "TUESDAY"
-        case wednesday = "WEDNESDAY"
-        case thursday = "THURSDAY"
-        case friday = "FRIDAY"
-        case saturday = "SATURDAY"
-        case sunday = "SUNDAY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeleteBrokerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
@@ -624,12 +645,6 @@ extension MQ {
         public init() {
         }
 
-    }
-
-    public enum DeploymentMode: String, CustomStringConvertible, Codable {
-        case singleInstance = "SINGLE_INSTANCE"
-        case activeStandbyMultiAz = "ACTIVE_STANDBY_MULTI_AZ"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeBrokerEngineTypesRequest: AWSShape {
@@ -1056,11 +1071,6 @@ extension MQ {
         }
     }
 
-    public enum EngineType: String, CustomStringConvertible, Codable {
-        case activemq = "ACTIVEMQ"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EngineVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
@@ -1448,13 +1458,6 @@ extension MQ {
             case elementName = "elementName"
             case reason = "reason"
         }
-    }
-
-    public enum SanitizationWarningReason: String, CustomStringConvertible, Codable {
-        case disallowedElementRemoved = "DISALLOWED_ELEMENT_REMOVED"
-        case disallowedAttributeRemoved = "DISALLOWED_ATTRIBUTE_REMOVED"
-        case invalidAttributeValueRemoved = "INVALID_ATTRIBUTE_VALUE_REMOVED"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateBrokerRequest: AWSShape {

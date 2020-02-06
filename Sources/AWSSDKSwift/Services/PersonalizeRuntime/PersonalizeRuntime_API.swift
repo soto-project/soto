@@ -4,10 +4,27 @@
 import Foundation
 import NIO
 
+/**
+Client object for interacting with AWS PersonalizeRuntime service.
+
+*/
 public struct PersonalizeRuntime {
+
+    //MARK: Member variables
 
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the PersonalizeRuntime client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -24,14 +41,16 @@ public struct PersonalizeRuntime {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user.  The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING. 
-    public func getPersonalizedRanking(_ input: GetPersonalizedRankingRequest) -> Future<GetPersonalizedRankingResponse> {
+    public func getPersonalizedRanking(_ input: GetPersonalizedRankingRequest) -> EventLoopFuture<GetPersonalizedRankingResponse> {
         return client.send(operation: "GetPersonalizedRanking", path: "/personalize-ranking", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of recommended items. The required input depends on the recipe type used to create the solution backing the campaign, as follows:   RELATED_ITEMS - itemId required, userId not used   USER_PERSONALIZATION - itemId optional, userId required    Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. 
-    public func getRecommendations(_ input: GetRecommendationsRequest) -> Future<GetRecommendationsResponse> {
+    public func getRecommendations(_ input: GetRecommendationsRequest) -> EventLoopFuture<GetRecommendationsResponse> {
         return client.send(operation: "GetRecommendations", path: "/recommendations", httpMethod: "POST", input: input)
     }
 }

@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS MediaTailor service.
+
 Use the AWS Elemental MediaTailor SDK to configure scalable ad insertion for your live and VOD content. With AWS Elemental MediaTailor, you can serve targeted ads to viewers while maintaining broadcast quality in over-the-top (OTT) video applications. For information about using the service, including detailed information about the settings covered in this guide, see the AWS Elemental MediaTailor User Guide.Through the SDK, you manage AWS Elemental MediaTailor configurations the same as you do through the console. For example, you specify ad insertion behavior and mapping information for the origin server and the ad decision server (ADS).
 */
 public struct MediaTailor {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the MediaTailor client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -27,39 +42,41 @@ public struct MediaTailor {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Deletes the playback configuration for the specified name. 
-    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) -> Future<DeletePlaybackConfigurationResponse> {
+    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) -> EventLoopFuture<DeletePlaybackConfigurationResponse> {
         return client.send(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns the playback configuration for the specified name. 
-    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest) -> Future<GetPlaybackConfigurationResponse> {
+    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest) -> EventLoopFuture<GetPlaybackConfigurationResponse> {
         return client.send(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can specify a maximum number of configurations to return at a time. The default maximum is 50. Results are returned in pagefuls. If MediaTailor has more configurations than the specified maximum, it provides parameters in the response that you can use to retrieve the next pageful. 
-    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) -> Future<ListPlaybackConfigurationsResponse> {
+    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) -> EventLoopFuture<ListPlaybackConfigurationsResponse> {
         return client.send(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of the tags assigned to the specified playback configuration resource. 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: "GET", input: input)
     }
 
     ///  Adds a new playback configuration to AWS Elemental MediaTailor. 
-    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest) -> Future<PutPlaybackConfigurationResponse> {
+    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest) -> EventLoopFuture<PutPlaybackConfigurationResponse> {
         return client.send(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: "PUT", input: input)
     }
 
     ///  Adds tags to the specified playback configuration resource. You can specify one or more tags to add. 
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: "POST", input: input)
     }
 
     ///  Removes tags from the specified playback configuration resource. You can specify one or more tags to remove. 
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: "DELETE", input: input)
     }
 }

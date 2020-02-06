@@ -4,6 +4,15 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MarketplaceEntitlementService {
+    //MARK: Enums
+
+    public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable {
+        case customerIdentifier = "CUSTOMER_IDENTIFIER"
+        case dimension = "DIMENSION"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Entitlement: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -72,12 +81,6 @@ extension MarketplaceEntitlementService {
             case integerValue = "IntegerValue"
             case stringValue = "StringValue"
         }
-    }
-
-    public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable {
-        case customerIdentifier = "CUSTOMER_IDENTIFIER"
-        case dimension = "DIMENSION"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetEntitlementsRequest: AWSShape {

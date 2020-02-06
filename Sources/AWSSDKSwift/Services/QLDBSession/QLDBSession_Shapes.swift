@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension QLDBSession {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct AbortTransactionRequest: AWSShape {
 

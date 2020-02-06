@@ -4,6 +4,129 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ComprehendMedical {
+    //MARK: Enums
+
+    public enum AttributeName: String, CustomStringConvertible, Codable {
+        case sign = "SIGN"
+        case symptom = "SYMPTOM"
+        case diagnosis = "DIAGNOSIS"
+        case negation = "NEGATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntitySubType: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case dosage = "DOSAGE"
+        case routeOrMode = "ROUTE_OR_MODE"
+        case form = "FORM"
+        case frequency = "FREQUENCY"
+        case duration = "DURATION"
+        case genericName = "GENERIC_NAME"
+        case brandName = "BRAND_NAME"
+        case strength = "STRENGTH"
+        case rate = "RATE"
+        case acuity = "ACUITY"
+        case testName = "TEST_NAME"
+        case testValue = "TEST_VALUE"
+        case testUnits = "TEST_UNITS"
+        case procedureName = "PROCEDURE_NAME"
+        case treatmentName = "TREATMENT_NAME"
+        case date = "DATE"
+        case age = "AGE"
+        case contactPoint = "CONTACT_POINT"
+        case email = "EMAIL"
+        case identifier = "IDENTIFIER"
+        case url = "URL"
+        case address = "ADDRESS"
+        case profession = "PROFESSION"
+        case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case direction = "DIRECTION"
+        case quality = "QUALITY"
+        case quantity = "QUANTITY"
+        case dxName = "DX_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityType: String, CustomStringConvertible, Codable {
+        case medication = "MEDICATION"
+        case medicalCondition = "MEDICAL_CONDITION"
+        case protectedHealthInformation = "PROTECTED_HEALTH_INFORMATION"
+        case testTreatmentProcedure = "TEST_TREATMENT_PROCEDURE"
+        case anatomy = "ANATOMY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ICD10CMAttributeType: String, CustomStringConvertible, Codable {
+        case acuity = "ACUITY"
+        case direction = "DIRECTION"
+        case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case quality = "QUALITY"
+        case quantity = "QUANTITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ICD10CMEntityCategory: String, CustomStringConvertible, Codable {
+        case medicalCondition = "MEDICAL_CONDITION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ICD10CMEntityType: String, CustomStringConvertible, Codable {
+        case dxName = "DX_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ICD10CMTraitName: String, CustomStringConvertible, Codable {
+        case negation = "NEGATION"
+        case diagnosis = "DIAGNOSIS"
+        case sign = "SIGN"
+        case symptom = "SYMPTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case partialSuccess = "PARTIAL_SUCCESS"
+        case failed = "FAILED"
+        case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LanguageCode: String, CustomStringConvertible, Codable {
+        case en = "en"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RxNormAttributeType: String, CustomStringConvertible, Codable {
+        case dosage = "DOSAGE"
+        case duration = "DURATION"
+        case form = "FORM"
+        case frequency = "FREQUENCY"
+        case rate = "RATE"
+        case routeOrMode = "ROUTE_OR_MODE"
+        case strength = "STRENGTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RxNormEntityCategory: String, CustomStringConvertible, Codable {
+        case medication = "MEDICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RxNormEntityType: String, CustomStringConvertible, Codable {
+        case brandName = "BRAND_NAME"
+        case genericName = "GENERIC_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RxNormTraitName: String, CustomStringConvertible, Codable {
+        case negation = "NEGATION"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Attribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -55,14 +178,6 @@ extension ComprehendMedical {
             case traits = "Traits"
             case `type` = "Type"
         }
-    }
-
-    public enum AttributeName: String, CustomStringConvertible, Codable {
-        case sign = "SIGN"
-        case symptom = "SYMPTOM"
-        case diagnosis = "DIAGNOSIS"
-        case negation = "NEGATION"
-        public var description: String { return self.rawValue }
     }
 
     public struct ComprehendMedicalAsyncJobFilter: AWSShape {
@@ -479,48 +594,6 @@ extension ComprehendMedical {
         }
     }
 
-    public enum EntitySubType: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case dosage = "DOSAGE"
-        case routeOrMode = "ROUTE_OR_MODE"
-        case form = "FORM"
-        case frequency = "FREQUENCY"
-        case duration = "DURATION"
-        case genericName = "GENERIC_NAME"
-        case brandName = "BRAND_NAME"
-        case strength = "STRENGTH"
-        case rate = "RATE"
-        case acuity = "ACUITY"
-        case testName = "TEST_NAME"
-        case testValue = "TEST_VALUE"
-        case testUnits = "TEST_UNITS"
-        case procedureName = "PROCEDURE_NAME"
-        case treatmentName = "TREATMENT_NAME"
-        case date = "DATE"
-        case age = "AGE"
-        case contactPoint = "CONTACT_POINT"
-        case email = "EMAIL"
-        case identifier = "IDENTIFIER"
-        case url = "URL"
-        case address = "ADDRESS"
-        case profession = "PROFESSION"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
-        case direction = "DIRECTION"
-        case quality = "QUALITY"
-        case quantity = "QUANTITY"
-        case dxName = "DX_NAME"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EntityType: String, CustomStringConvertible, Codable {
-        case medication = "MEDICATION"
-        case medicalCondition = "MEDICAL_CONDITION"
-        case protectedHealthInformation = "PROTECTED_HEALTH_INFORMATION"
-        case testTreatmentProcedure = "TEST_TREATMENT_PROCEDURE"
-        case anatomy = "ANATOMY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ICD10CMAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
@@ -571,15 +644,6 @@ extension ComprehendMedical {
             case traits = "Traits"
             case `type` = "Type"
         }
-    }
-
-    public enum ICD10CMAttributeType: String, CustomStringConvertible, Codable {
-        case acuity = "ACUITY"
-        case direction = "DIRECTION"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
-        case quality = "QUALITY"
-        case quantity = "QUANTITY"
-        public var description: String { return self.rawValue }
     }
 
     public struct ICD10CMConcept: AWSShape {
@@ -671,16 +735,6 @@ extension ComprehendMedical {
         }
     }
 
-    public enum ICD10CMEntityCategory: String, CustomStringConvertible, Codable {
-        case medicalCondition = "MEDICAL_CONDITION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ICD10CMEntityType: String, CustomStringConvertible, Codable {
-        case dxName = "DX_NAME"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ICD10CMTrait: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .enum), 
@@ -701,14 +755,6 @@ extension ComprehendMedical {
             case name = "Name"
             case score = "Score"
         }
-    }
-
-    public enum ICD10CMTraitName: String, CustomStringConvertible, Codable {
-        case negation = "NEGATION"
-        case diagnosis = "DIAGNOSIS"
-        case sign = "SIGN"
-        case symptom = "SYMPTOM"
-        public var description: String { return self.rawValue }
     }
 
     public struct InferICD10CMRequest: AWSShape {
@@ -837,22 +883,6 @@ extension ComprehendMedical {
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
         }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case partialSuccess = "PARTIAL_SUCCESS"
-        case failed = "FAILED"
-        case stopRequested = "STOP_REQUESTED"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case en = "en"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListEntitiesDetectionV2JobsRequest: AWSShape {
@@ -1049,17 +1079,6 @@ extension ComprehendMedical {
         }
     }
 
-    public enum RxNormAttributeType: String, CustomStringConvertible, Codable {
-        case dosage = "DOSAGE"
-        case duration = "DURATION"
-        case form = "FORM"
-        case frequency = "FREQUENCY"
-        case rate = "RATE"
-        case routeOrMode = "ROUTE_OR_MODE"
-        case strength = "STRENGTH"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RxNormConcept: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .string), 
@@ -1149,17 +1168,6 @@ extension ComprehendMedical {
         }
     }
 
-    public enum RxNormEntityCategory: String, CustomStringConvertible, Codable {
-        case medication = "MEDICATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RxNormEntityType: String, CustomStringConvertible, Codable {
-        case brandName = "BRAND_NAME"
-        case genericName = "GENERIC_NAME"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RxNormTrait: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .enum), 
@@ -1180,11 +1188,6 @@ extension ComprehendMedical {
             case name = "Name"
             case score = "Score"
         }
-    }
-
-    public enum RxNormTraitName: String, CustomStringConvertible, Codable {
-        case negation = "NEGATION"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartEntitiesDetectionV2JobRequest: AWSShape {

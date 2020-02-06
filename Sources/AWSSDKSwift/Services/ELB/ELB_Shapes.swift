@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ELB {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct AccessLog: AWSShape {
         public static var _members: [AWSShapeMember] = [

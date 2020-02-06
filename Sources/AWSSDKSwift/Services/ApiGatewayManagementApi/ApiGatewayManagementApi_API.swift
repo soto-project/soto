@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS ApiGatewayManagementApi service.
+
 The Amazon API Gateway Management API allows you to directly manage runtime aspects of your deployed APIs. To use it, you must explicitly set the SDK's endpoint to point to the endpoint of your deployed API. The endpoint will be of the form https://{api-id}.execute-api.{region}.amazonaws.com/{stage}, or will be the endpoint corresponding to your API's custom domain and base path, if applicable.
 */
 public struct ApiGatewayManagementApi {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the ApiGatewayManagementApi client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -26,19 +41,21 @@ public struct ApiGatewayManagementApi {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Delete the connection with the provided id.
-    @discardableResult public func deleteConnection(_ input: DeleteConnectionRequest) -> Future<Void> {
+    @discardableResult public func deleteConnection(_ input: DeleteConnectionRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteConnection", path: "/@connections/{connectionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Get information about the connection with the provided id.
-    public func getConnection(_ input: GetConnectionRequest) -> Future<GetConnectionResponse> {
+    public func getConnection(_ input: GetConnectionRequest) -> EventLoopFuture<GetConnectionResponse> {
         return client.send(operation: "GetConnection", path: "/@connections/{connectionId}", httpMethod: "GET", input: input)
     }
 
     ///  Sends the provided data to the specified connection.
-    @discardableResult public func postToConnection(_ input: PostToConnectionRequest) -> Future<Void> {
+    @discardableResult public func postToConnection(_ input: PostToConnectionRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: "POST", input: input)
     }
 }

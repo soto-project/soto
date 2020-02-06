@@ -4,6 +4,148 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Polly {
+    //MARK: Enums
+
+    public enum Engine: String, CustomStringConvertible, Codable {
+        case standard = "standard"
+        case neural = "neural"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Gender: String, CustomStringConvertible, Codable {
+        case female = "Female"
+        case male = "Male"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LanguageCode: String, CustomStringConvertible, Codable {
+        case arb = "arb"
+        case cmnCn = "cmn-CN"
+        case cyGb = "cy-GB"
+        case daDk = "da-DK"
+        case deDe = "de-DE"
+        case enAu = "en-AU"
+        case enGb = "en-GB"
+        case enGbWls = "en-GB-WLS"
+        case enIn = "en-IN"
+        case enUs = "en-US"
+        case esEs = "es-ES"
+        case esMx = "es-MX"
+        case esUs = "es-US"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case isIs = "is-IS"
+        case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case hiIn = "hi-IN"
+        case koKr = "ko-KR"
+        case nbNo = "nb-NO"
+        case nlNl = "nl-NL"
+        case plPl = "pl-PL"
+        case ptBr = "pt-BR"
+        case ptPt = "pt-PT"
+        case roRo = "ro-RO"
+        case ruRu = "ru-RU"
+        case svSe = "sv-SE"
+        case trTr = "tr-TR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputFormat: String, CustomStringConvertible, Codable {
+        case json = "json"
+        case mp3 = "mp3"
+        case oggVorbis = "ogg_vorbis"
+        case pcm = "pcm"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpeechMarkType: String, CustomStringConvertible, Codable {
+        case sentence = "sentence"
+        case ssml = "ssml"
+        case viseme = "viseme"
+        case word = "word"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskStatus: String, CustomStringConvertible, Codable {
+        case scheduled = "scheduled"
+        case inprogress = "inProgress"
+        case completed = "completed"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TextType: String, CustomStringConvertible, Codable {
+        case ssml = "ssml"
+        case text = "text"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VoiceId: String, CustomStringConvertible, Codable {
+        case aditi = "Aditi"
+        case amy = "Amy"
+        case astrid = "Astrid"
+        case bianca = "Bianca"
+        case brian = "Brian"
+        case camila = "Camila"
+        case carla = "Carla"
+        case carmen = "Carmen"
+        case celine = "Celine"
+        case chantal = "Chantal"
+        case conchita = "Conchita"
+        case cristiano = "Cristiano"
+        case dora = "Dora"
+        case emma = "Emma"
+        case enrique = "Enrique"
+        case ewa = "Ewa"
+        case filiz = "Filiz"
+        case geraint = "Geraint"
+        case giorgio = "Giorgio"
+        case gwyneth = "Gwyneth"
+        case hans = "Hans"
+        case ines = "Ines"
+        case ivy = "Ivy"
+        case jacek = "Jacek"
+        case jan = "Jan"
+        case joanna = "Joanna"
+        case joey = "Joey"
+        case justin = "Justin"
+        case karl = "Karl"
+        case kendra = "Kendra"
+        case kimberly = "Kimberly"
+        case lea = "Lea"
+        case liv = "Liv"
+        case lotte = "Lotte"
+        case lucia = "Lucia"
+        case lupe = "Lupe"
+        case mads = "Mads"
+        case maja = "Maja"
+        case marlene = "Marlene"
+        case mathieu = "Mathieu"
+        case matthew = "Matthew"
+        case maxim = "Maxim"
+        case mia = "Mia"
+        case miguel = "Miguel"
+        case mizuki = "Mizuki"
+        case naja = "Naja"
+        case nicole = "Nicole"
+        case penelope = "Penelope"
+        case raveena = "Raveena"
+        case ricardo = "Ricardo"
+        case ruben = "Ruben"
+        case russell = "Russell"
+        case salli = "Salli"
+        case seoyeon = "Seoyeon"
+        case takumi = "Takumi"
+        case tatyana = "Tatyana"
+        case vicki = "Vicki"
+        case vitoria = "Vitoria"
+        case zeina = "Zeina"
+        case zhiyu = "Zhiyu"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct DeleteLexiconInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -93,18 +235,6 @@ extension Polly {
         }
     }
 
-    public enum Engine: String, CustomStringConvertible, Codable {
-        case standard = "standard"
-        case neural = "neural"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Gender: String, CustomStringConvertible, Codable {
-        case female = "Female"
-        case male = "Male"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetLexiconInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
@@ -184,39 +314,6 @@ extension Polly {
         private enum CodingKeys: String, CodingKey {
             case synthesisTask = "SynthesisTask"
         }
-    }
-
-    public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case arb = "arb"
-        case cmnCn = "cmn-CN"
-        case cyGb = "cy-GB"
-        case daDk = "da-DK"
-        case deDe = "de-DE"
-        case enAu = "en-AU"
-        case enGb = "en-GB"
-        case enGbWls = "en-GB-WLS"
-        case enIn = "en-IN"
-        case enUs = "en-US"
-        case esEs = "es-ES"
-        case esMx = "es-MX"
-        case esUs = "es-US"
-        case frCa = "fr-CA"
-        case frFr = "fr-FR"
-        case isIs = "is-IS"
-        case itIt = "it-IT"
-        case jaJp = "ja-JP"
-        case hiIn = "hi-IN"
-        case koKr = "ko-KR"
-        case nbNo = "nb-NO"
-        case nlNl = "nl-NL"
-        case plPl = "pl-PL"
-        case ptBr = "pt-BR"
-        case ptPt = "pt-PT"
-        case roRo = "ro-RO"
-        case ruRu = "ru-RU"
-        case svSe = "sv-SE"
-        case trTr = "tr-TR"
-        public var description: String { return self.rawValue }
     }
 
     public struct Lexicon: AWSShape {
@@ -405,14 +502,6 @@ extension Polly {
         }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable {
-        case json = "json"
-        case mp3 = "mp3"
-        case oggVorbis = "ogg_vorbis"
-        case pcm = "pcm"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PutLexiconInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Content", required: true, type: .string), 
@@ -445,14 +534,6 @@ extension Polly {
         public init() {
         }
 
-    }
-
-    public enum SpeechMarkType: String, CustomStringConvertible, Codable {
-        case sentence = "sentence"
-        case ssml = "ssml"
-        case viseme = "viseme"
-        case word = "word"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartSpeechSynthesisTaskInput: AWSShape {
@@ -736,20 +817,6 @@ extension Polly {
         }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "scheduled"
-        case inprogress = "inProgress"
-        case completed = "completed"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TextType: String, CustomStringConvertible, Codable {
-        case ssml = "ssml"
-        case text = "text"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Voice: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdditionalLanguageCodes", required: false, type: .list), 
@@ -795,69 +862,5 @@ extension Polly {
             case name = "Name"
             case supportedEngines = "SupportedEngines"
         }
-    }
-
-    public enum VoiceId: String, CustomStringConvertible, Codable {
-        case aditi = "Aditi"
-        case amy = "Amy"
-        case astrid = "Astrid"
-        case bianca = "Bianca"
-        case brian = "Brian"
-        case camila = "Camila"
-        case carla = "Carla"
-        case carmen = "Carmen"
-        case celine = "Celine"
-        case chantal = "Chantal"
-        case conchita = "Conchita"
-        case cristiano = "Cristiano"
-        case dora = "Dora"
-        case emma = "Emma"
-        case enrique = "Enrique"
-        case ewa = "Ewa"
-        case filiz = "Filiz"
-        case geraint = "Geraint"
-        case giorgio = "Giorgio"
-        case gwyneth = "Gwyneth"
-        case hans = "Hans"
-        case ines = "Ines"
-        case ivy = "Ivy"
-        case jacek = "Jacek"
-        case jan = "Jan"
-        case joanna = "Joanna"
-        case joey = "Joey"
-        case justin = "Justin"
-        case karl = "Karl"
-        case kendra = "Kendra"
-        case kimberly = "Kimberly"
-        case lea = "Lea"
-        case liv = "Liv"
-        case lotte = "Lotte"
-        case lucia = "Lucia"
-        case lupe = "Lupe"
-        case mads = "Mads"
-        case maja = "Maja"
-        case marlene = "Marlene"
-        case mathieu = "Mathieu"
-        case matthew = "Matthew"
-        case maxim = "Maxim"
-        case mia = "Mia"
-        case miguel = "Miguel"
-        case mizuki = "Mizuki"
-        case naja = "Naja"
-        case nicole = "Nicole"
-        case penelope = "Penelope"
-        case raveena = "Raveena"
-        case ricardo = "Ricardo"
-        case ruben = "Ruben"
-        case russell = "Russell"
-        case salli = "Salli"
-        case seoyeon = "Seoyeon"
-        case takumi = "Takumi"
-        case tatyana = "Tatyana"
-        case vicki = "Vicki"
-        case vitoria = "Vitoria"
-        case zeina = "Zeina"
-        case zhiyu = "Zhiyu"
-        public var description: String { return self.rawValue }
     }
 }

@@ -4,6 +4,61 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension DataExchange {
+    //MARK: Enums
+
+    public enum AssetType: String, CustomStringConvertible, Codable {
+        case s3Snapshot = "S3_SNAPSHOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Code: String, CustomStringConvertible, Codable {
+        case accessDeniedException = "ACCESS_DENIED_EXCEPTION"
+        case internalServerException = "INTERNAL_SERVER_EXCEPTION"
+        case malwareDetected = "MALWARE_DETECTED"
+        case resourceNotFoundException = "RESOURCE_NOT_FOUND_EXCEPTION"
+        case serviceQuotaExceededException = "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
+        case validationException = "VALIDATION_EXCEPTION"
+        case malwareScanEncryptedFile = "MALWARE_SCAN_ENCRYPTED_FILE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobErrorLimitName: String, CustomStringConvertible, Codable {
+        case assetsPerRevision = "Assets per revision"
+        case assetSizeInGb = "Asset size in GB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobErrorResourceTypes: String, CustomStringConvertible, Codable {
+        case revision = "REVISION"
+        case asset = "ASSET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Origin: String, CustomStringConvertible, Codable {
+        case owned = "OWNED"
+        case entitled = "ENTITLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable {
+        case waiting = "WAITING"
+        case inProgress = "IN_PROGRESS"
+        case error = "ERROR"
+        case completed = "COMPLETED"
+        case cancelled = "CANCELLED"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case importAssetsFromS3 = "IMPORT_ASSETS_FROM_S3"
+        case importAssetFromSignedUrl = "IMPORT_ASSET_FROM_SIGNED_URL"
+        case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
+        case exportAssetToSignedUrl = "EXPORT_ASSET_TO_SIGNED_URL"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssetDestinationEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -132,11 +187,6 @@ extension DataExchange {
         }
     }
 
-    public enum AssetType: String, CustomStringConvertible, Codable {
-        case s3Snapshot = "S3_SNAPSHOT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CancelJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", location: .uri(locationName: "JobId"), required: true, type: .string)
@@ -151,17 +201,6 @@ extension DataExchange {
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
         }
-    }
-
-    public enum Code: String, CustomStringConvertible, Codable {
-        case accessDeniedException = "ACCESS_DENIED_EXCEPTION"
-        case internalServerException = "INTERNAL_SERVER_EXCEPTION"
-        case malwareDetected = "MALWARE_DETECTED"
-        case resourceNotFoundException = "RESOURCE_NOT_FOUND_EXCEPTION"
-        case serviceQuotaExceededException = "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
-        case validationException = "VALIDATION_EXCEPTION"
-        case malwareScanEncryptedFile = "MALWARE_SCAN_ENCRYPTED_FILE"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateDataSetRequest: AWSShape {
@@ -1185,18 +1224,6 @@ extension DataExchange {
         }
     }
 
-    public enum JobErrorLimitName: String, CustomStringConvertible, Codable {
-        case assetsPerRevision = "Assets per revision"
-        case assetSizeInGb = "Asset size in GB"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobErrorResourceTypes: String, CustomStringConvertible, Codable {
-        case revision = "REVISION"
-        case asset = "ASSET"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListDataSetRevisionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
@@ -1433,12 +1460,6 @@ extension DataExchange {
         }
     }
 
-    public enum Origin: String, CustomStringConvertible, Codable {
-        case owned = "OWNED"
-        case entitled = "ENTITLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OriginDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductId", required: true, type: .string)
@@ -1616,16 +1637,6 @@ extension DataExchange {
 
     }
 
-    public enum State: String, CustomStringConvertible, Codable {
-        case waiting = "WAITING"
-        case inProgress = "IN_PROGRESS"
-        case error = "ERROR"
-        case completed = "COMPLETED"
-        case cancelled = "CANCELLED"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
@@ -1644,14 +1655,6 @@ extension DataExchange {
             case resourceArn = "resource-arn"
             case tags = "tags"
         }
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable {
-        case importAssetsFromS3 = "IMPORT_ASSETS_FROM_S3"
-        case importAssetFromSignedUrl = "IMPORT_ASSET_FROM_SIGNED_URL"
-        case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
-        case exportAssetToSignedUrl = "EXPORT_ASSET_TO_SIGNED_URL"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

@@ -4,6 +4,155 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SecurityHub {
+    //MARK: Enums
+
+    public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComplianceStatus: String, CustomStringConvertible, Codable {
+        case passed = "PASSED"
+        case warning = "WARNING"
+        case failed = "FAILED"
+        case notAvailable = "NOT_AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ControlStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DateRangeUnit: String, CustomStringConvertible, Codable {
+        case days = "DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MalwareState: String, CustomStringConvertible, Codable {
+        case observed = "OBSERVED"
+        case removalFailed = "REMOVAL_FAILED"
+        case removed = "REMOVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MalwareType: String, CustomStringConvertible, Codable {
+        case adware = "ADWARE"
+        case blendedThreat = "BLENDED_THREAT"
+        case botnetAgent = "BOTNET_AGENT"
+        case coinMiner = "COIN_MINER"
+        case exploitKit = "EXPLOIT_KIT"
+        case keylogger = "KEYLOGGER"
+        case macro = "MACRO"
+        case potentiallyUnwanted = "POTENTIALLY_UNWANTED"
+        case spyware = "SPYWARE"
+        case ransomware = "RANSOMWARE"
+        case remoteAccess = "REMOTE_ACCESS"
+        case rootkit = "ROOTKIT"
+        case trojan = "TROJAN"
+        case virus = "VIRUS"
+        case worm = "WORM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MapFilterComparison: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkDirection: String, CustomStringConvertible, Codable {
+        case `in` = "IN"
+        case out = "OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Partition: String, CustomStringConvertible, Codable {
+        case aws = "aws"
+        case awsCn = "aws-cn"
+        case awsUsGov = "aws-us-gov"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SeverityRating: String, CustomStringConvertible, Codable {
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        case critical = "CRITICAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case asc = "asc"
+        case desc = "desc"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StandardsStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case ready = "READY"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        case incomplete = "INCOMPLETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StringFilterComparison: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        case prefix = "PREFIX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThreatIntelIndicatorCategory: String, CustomStringConvertible, Codable {
+        case backdoor = "BACKDOOR"
+        case cardStealer = "CARD_STEALER"
+        case commandAndControl = "COMMAND_AND_CONTROL"
+        case dropSite = "DROP_SITE"
+        case exploitSite = "EXPLOIT_SITE"
+        case keylogger = "KEYLOGGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThreatIntelIndicatorType: String, CustomStringConvertible, Codable {
+        case domain = "DOMAIN"
+        case emailAddress = "EMAIL_ADDRESS"
+        case hashMd5 = "HASH_MD5"
+        case hashSha1 = "HASH_SHA1"
+        case hashSha256 = "HASH_SHA256"
+        case hashSha512 = "HASH_SHA512"
+        case ipv4Address = "IPV4_ADDRESS"
+        case ipv6Address = "IPV6_ADDRESS"
+        case mutex = "MUTEX"
+        case process = "PROCESS"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerificationState: String, CustomStringConvertible, Codable {
+        case unknown = "UNKNOWN"
+        case truePositive = "TRUE_POSITIVE"
+        case falsePositive = "FALSE_POSITIVE"
+        case benignPositive = "BENIGN_POSITIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkflowState: String, CustomStringConvertible, Codable {
+        case new = "NEW"
+        case assigned = "ASSIGNED"
+        case inProgress = "IN_PROGRESS"
+        case deferred = "DEFERRED"
+        case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -464,12 +613,6 @@ extension SecurityHub {
             case principalType = "PrincipalType"
             case status = "Status"
         }
-    }
-
-    public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
     }
 
     public struct AwsIamRoleDetails: AWSShape {
@@ -2041,14 +2184,6 @@ extension SecurityHub {
         }
     }
 
-    public enum ComplianceStatus: String, CustomStringConvertible, Codable {
-        case passed = "PASSED"
-        case warning = "WARNING"
-        case failed = "FAILED"
-        case notAvailable = "NOT_AVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ContainerDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ImageId", required: false, type: .string), 
@@ -2086,12 +2221,6 @@ extension SecurityHub {
             case launchedAt = "LaunchedAt"
             case name = "Name"
         }
-    }
-
-    public enum ControlStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateActionTargetRequest: AWSShape {
@@ -2286,11 +2415,6 @@ extension SecurityHub {
             case unit = "Unit"
             case value = "Value"
         }
-    }
-
-    public enum DateRangeUnit: String, CustomStringConvertible, Codable {
-        case days = "DAYS"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeclineInvitationsRequest: AWSShape {
@@ -3645,32 +3769,6 @@ extension SecurityHub {
         }
     }
 
-    public enum MalwareState: String, CustomStringConvertible, Codable {
-        case observed = "OBSERVED"
-        case removalFailed = "REMOVAL_FAILED"
-        case removed = "REMOVED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MalwareType: String, CustomStringConvertible, Codable {
-        case adware = "ADWARE"
-        case blendedThreat = "BLENDED_THREAT"
-        case botnetAgent = "BOTNET_AGENT"
-        case coinMiner = "COIN_MINER"
-        case exploitKit = "EXPLOIT_KIT"
-        case keylogger = "KEYLOGGER"
-        case macro = "MACRO"
-        case potentiallyUnwanted = "POTENTIALLY_UNWANTED"
-        case spyware = "SPYWARE"
-        case ransomware = "RANSOMWARE"
-        case remoteAccess = "REMOTE_ACCESS"
-        case rootkit = "ROOTKIT"
-        case trojan = "TROJAN"
-        case virus = "VIRUS"
-        case worm = "WORM"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MapFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comparison", required: false, type: .enum), 
@@ -3701,11 +3799,6 @@ extension SecurityHub {
             case key = "Key"
             case value = "Value"
         }
-    }
-
-    public enum MapFilterComparison: String, CustomStringConvertible, Codable {
-        case equals = "EQUALS"
-        public var description: String { return self.rawValue }
     }
 
     public struct Member: AWSShape {
@@ -3828,12 +3921,6 @@ extension SecurityHub {
         }
     }
 
-    public enum NetworkDirection: String, CustomStringConvertible, Codable {
-        case `in` = "IN"
-        case out = "OUT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Note: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Text", required: true, type: .string), 
@@ -3919,13 +4006,6 @@ extension SecurityHub {
             case gte = "Gte"
             case lte = "Lte"
         }
-    }
-
-    public enum Partition: String, CustomStringConvertible, Codable {
-        case aws = "aws"
-        case awsCn = "aws-cn"
-        case awsUsGov = "aws-us-gov"
-        public var description: String { return self.rawValue }
     }
 
     public struct ProcessDetails: AWSShape {
@@ -4054,12 +4134,6 @@ extension SecurityHub {
             case text = "Text"
             case url = "Url"
         }
-    }
-
-    public enum RecordState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case archived = "ARCHIVED"
-        public var description: String { return self.rawValue }
     }
 
     public struct RelatedFinding: AWSShape {
@@ -4297,14 +4371,6 @@ extension SecurityHub {
         }
     }
 
-    public enum SeverityRating: String, CustomStringConvertible, Codable {
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case high = "HIGH"
-        case critical = "CRITICAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SortCriterion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Field", required: false, type: .string), 
@@ -4329,12 +4395,6 @@ extension SecurityHub {
             case field = "Field"
             case sortOrder = "SortOrder"
         }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case asc = "asc"
-        case desc = "desc"
-        public var description: String { return self.rawValue }
     }
 
     public struct StandardsControl: AWSShape {
@@ -4392,15 +4452,6 @@ extension SecurityHub {
             case standardsControlArn = "StandardsControlArn"
             case title = "Title"
         }
-    }
-
-    public enum StandardsStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case ready = "READY"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        case incomplete = "INCOMPLETE"
-        public var description: String { return self.rawValue }
     }
 
     public struct StandardsSubscription: AWSShape {
@@ -4491,12 +4542,6 @@ extension SecurityHub {
         }
     }
 
-    public enum StringFilterComparison: String, CustomStringConvertible, Codable {
-        case equals = "EQUALS"
-        case prefix = "PREFIX"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
@@ -4584,31 +4629,6 @@ extension SecurityHub {
             case `type` = "Type"
             case value = "Value"
         }
-    }
-
-    public enum ThreatIntelIndicatorCategory: String, CustomStringConvertible, Codable {
-        case backdoor = "BACKDOOR"
-        case cardStealer = "CARD_STEALER"
-        case commandAndControl = "COMMAND_AND_CONTROL"
-        case dropSite = "DROP_SITE"
-        case exploitSite = "EXPLOIT_SITE"
-        case keylogger = "KEYLOGGER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ThreatIntelIndicatorType: String, CustomStringConvertible, Codable {
-        case domain = "DOMAIN"
-        case emailAddress = "EMAIL_ADDRESS"
-        case hashMd5 = "HASH_MD5"
-        case hashSha1 = "HASH_SHA1"
-        case hashSha256 = "HASH_SHA256"
-        case hashSha512 = "HASH_SHA512"
-        case ipv4Address = "IPV4_ADDRESS"
-        case ipv6Address = "IPV6_ADDRESS"
-        case mutex = "MUTEX"
-        case process = "PROCESS"
-        case url = "URL"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -4818,22 +4838,5 @@ extension SecurityHub {
         public init() {
         }
 
-    }
-
-    public enum VerificationState: String, CustomStringConvertible, Codable {
-        case unknown = "UNKNOWN"
-        case truePositive = "TRUE_POSITIVE"
-        case falsePositive = "FALSE_POSITIVE"
-        case benignPositive = "BENIGN_POSITIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum WorkflowState: String, CustomStringConvertible, Codable {
-        case new = "NEW"
-        case assigned = "ASSIGNED"
-        case inProgress = "IN_PROGRESS"
-        case deferred = "DEFERRED"
-        case resolved = "RESOLVED"
-        public var description: String { return self.rawValue }
     }
 }

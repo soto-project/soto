@@ -4,6 +4,20 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Macie {
+    //MARK: Enums
+
+    public enum S3ContinuousClassificationType: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3OneTimeClassificationType: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateMemberAccountRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -329,17 +343,6 @@ extension Macie {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
         }
-    }
-
-    public enum S3ContinuousClassificationType: String, CustomStringConvertible, Codable {
-        case full = "FULL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum S3OneTimeClassificationType: String, CustomStringConvertible, Codable {
-        case full = "FULL"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3Resource: AWSShape {

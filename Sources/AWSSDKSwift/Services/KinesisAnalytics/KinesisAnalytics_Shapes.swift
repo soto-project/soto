@@ -4,6 +4,32 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension KinesisAnalytics {
+    //MARK: Enums
+
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable {
+        case deleting = "DELETING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
+        case ready = "READY"
+        case running = "RUNNING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputStartingPosition: String, CustomStringConvertible, Codable {
+        case now = "NOW"
+        case trimHorizon = "TRIM_HORIZON"
+        case lastStoppedPoint = "LAST_STOPPED_POINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordFormatType: String, CustomStringConvertible, Codable {
+        case json = "JSON"
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddApplicationCloudWatchLoggingOptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -303,16 +329,6 @@ extension KinesisAnalytics {
             case outputDescriptions = "OutputDescriptions"
             case referenceDataSourceDescriptions = "ReferenceDataSourceDescriptions"
         }
-    }
-
-    public enum ApplicationStatus: String, CustomStringConvertible, Codable {
-        case deleting = "DELETING"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
-        case ready = "READY"
-        case running = "RUNNING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct ApplicationSummary: AWSShape {
@@ -1326,13 +1342,6 @@ extension KinesisAnalytics {
         }
     }
 
-    public enum InputStartingPosition: String, CustomStringConvertible, Codable {
-        case now = "NOW"
-        case trimHorizon = "TRIM_HORIZON"
-        case lastStoppedPoint = "LAST_STOPPED_POINT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InputStartingPositionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputStartingPosition", required: false, type: .enum)
@@ -2165,12 +2174,6 @@ extension KinesisAnalytics {
             case mappingParameters = "MappingParameters"
             case recordFormatType = "RecordFormatType"
         }
-    }
-
-    public enum RecordFormatType: String, CustomStringConvertible, Codable {
-        case json = "JSON"
-        case csv = "CSV"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReferenceDataSource: AWSShape {

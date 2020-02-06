@@ -4,12 +4,95 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SESV2 {
+    //MARK: Enums
 
     public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable {
         case useDefaultValue = "USE_DEFAULT_VALUE"
         case rejectMessage = "REJECT_MESSAGE"
         public var description: String { return self.rawValue }
     }
+
+    public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case pendingExpiration = "PENDING_EXPIRATION"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DimensionValueSource: String, CustomStringConvertible, Codable {
+        case messageTag = "MESSAGE_TAG"
+        case emailHeader = "EMAIL_HEADER"
+        case linkTag = "LINK_TAG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DkimSigningAttributesOrigin: String, CustomStringConvertible, Codable {
+        case awsSes = "AWS_SES"
+        case external = "EXTERNAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DkimStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case temporaryFailure = "TEMPORARY_FAILURE"
+        case notStarted = "NOT_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case send = "SEND"
+        case reject = "REJECT"
+        case bounce = "BOUNCE"
+        case complaint = "COMPLAINT"
+        case delivery = "DELIVERY"
+        case open = "OPEN"
+        case click = "CLICK"
+        case renderingFailure = "RENDERING_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityType: String, CustomStringConvertible, Codable {
+        case emailAddress = "EMAIL_ADDRESS"
+        case domain = "DOMAIN"
+        case managedDomain = "MANAGED_DOMAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case temporaryFailure = "TEMPORARY_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SuppressionListReason: String, CustomStringConvertible, Codable {
+        case bounce = "BOUNCE"
+        case complaint = "COMPLAINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TlsPolicy: String, CustomStringConvertible, Codable {
+        case require = "REQUIRE"
+        case optional = "OPTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WarmupStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case done = "DONE"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BlacklistEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -550,13 +633,6 @@ extension SESV2 {
 
     }
 
-    public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case pendingExpiration = "PENDING_EXPIRATION"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeliverabilityTestReport: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
@@ -597,12 +673,6 @@ extension SESV2 {
             case reportName = "ReportName"
             case subject = "Subject"
         }
-    }
-
-    public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeliveryOptions: AWSShape {
@@ -652,13 +722,6 @@ extension SESV2 {
             case ccAddresses = "CcAddresses"
             case toAddresses = "ToAddresses"
         }
-    }
-
-    public enum DimensionValueSource: String, CustomStringConvertible, Codable {
-        case messageTag = "MESSAGE_TAG"
-        case emailHeader = "EMAIL_HEADER"
-        case linkTag = "LINK_TAG"
-        public var description: String { return self.rawValue }
     }
 
     public struct DkimAttributes: AWSShape {
@@ -722,21 +785,6 @@ extension SESV2 {
             case domainSigningPrivateKey = "DomainSigningPrivateKey"
             case domainSigningSelector = "DomainSigningSelector"
         }
-    }
-
-    public enum DkimSigningAttributesOrigin: String, CustomStringConvertible, Codable {
-        case awsSes = "AWS_SES"
-        case external = "EXTERNAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DkimStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        case temporaryFailure = "TEMPORARY_FAILURE"
-        case notStarted = "NOT_STARTED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DomainDeliverabilityCampaign: AWSShape {
@@ -1003,18 +1051,6 @@ extension SESV2 {
             case pinpointDestination = "PinpointDestination"
             case snsDestination = "SnsDestination"
         }
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case send = "SEND"
-        case reject = "REJECT"
-        case bounce = "BOUNCE"
-        case complaint = "COMPLAINT"
-        case delivery = "DELIVERY"
-        case open = "OPEN"
-        case click = "CLICK"
-        case renderingFailure = "RENDERING_FAILURE"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetAccountRequest: AWSShape {
@@ -1584,13 +1620,6 @@ extension SESV2 {
         }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable {
-        case emailAddress = "EMAIL_ADDRESS"
-        case domain = "DOMAIN"
-        case managedDomain = "MANAGED_DOMAIN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InboxPlacementTrackingOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Global", required: false, type: .boolean), 
@@ -2010,14 +2039,6 @@ extension SESV2 {
             case mailFromDomain = "MailFromDomain"
             case mailFromDomainStatus = "MailFromDomainStatus"
         }
-    }
-
-    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        case temporaryFailure = "TEMPORARY_FAILURE"
-        public var description: String { return self.rawValue }
     }
 
     public struct Message: AWSShape {
@@ -2909,12 +2930,6 @@ extension SESV2 {
         }
     }
 
-    public enum SuppressionListReason: String, CustomStringConvertible, Codable {
-        case bounce = "BOUNCE"
-        case complaint = "COMPLAINT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SuppressionOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SuppressedReasons", required: false, type: .list)
@@ -3008,12 +3023,6 @@ extension SESV2 {
             case templateArn = "TemplateArn"
             case templateData = "TemplateData"
         }
-    }
-
-    public enum TlsPolicy: String, CustomStringConvertible, Codable {
-        case require = "REQUIRE"
-        case optional = "OPTIONAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct TrackingOptions: AWSShape {
@@ -3128,11 +3137,5 @@ extension SESV2 {
             case projectedSpam = "ProjectedSpam"
             case spamRawCount = "SpamRawCount"
         }
-    }
-
-    public enum WarmupStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case done = "DONE"
-        public var description: String { return self.rawValue }
     }
 }

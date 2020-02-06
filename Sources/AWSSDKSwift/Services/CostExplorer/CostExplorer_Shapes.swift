@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CostExplorer {
+    //MARK: Enums
 
     public enum AccountScope: String, CustomStringConvertible, Codable {
         case payer = "PAYER"
@@ -17,6 +18,110 @@ extension CostExplorer {
         case savingsPlans = "SAVINGS_PLANS"
         public var description: String { return self.rawValue }
     }
+
+    public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable {
+        case costcategoryexpressionV1 = "CostCategoryExpression.v1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Dimension: String, CustomStringConvertible, Codable {
+        case az = "AZ"
+        case instanceType = "INSTANCE_TYPE"
+        case linkedAccount = "LINKED_ACCOUNT"
+        case operation = "OPERATION"
+        case purchaseType = "PURCHASE_TYPE"
+        case region = "REGION"
+        case service = "SERVICE"
+        case usageType = "USAGE_TYPE"
+        case usageTypeGroup = "USAGE_TYPE_GROUP"
+        case recordType = "RECORD_TYPE"
+        case operatingSystem = "OPERATING_SYSTEM"
+        case tenancy = "TENANCY"
+        case scope = "SCOPE"
+        case platform = "PLATFORM"
+        case subscriptionId = "SUBSCRIPTION_ID"
+        case legalEntityName = "LEGAL_ENTITY_NAME"
+        case deploymentOption = "DEPLOYMENT_OPTION"
+        case databaseEngine = "DATABASE_ENGINE"
+        case cacheEngine = "CACHE_ENGINE"
+        case instanceTypeFamily = "INSTANCE_TYPE_FAMILY"
+        case billingEntity = "BILLING_ENTITY"
+        case reservationId = "RESERVATION_ID"
+        case resourceId = "RESOURCE_ID"
+        case rightsizingType = "RIGHTSIZING_TYPE"
+        case savingsPlansType = "SAVINGS_PLANS_TYPE"
+        case savingsPlanArn = "SAVINGS_PLAN_ARN"
+        case paymentOption = "PAYMENT_OPTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Granularity: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        case monthly = "MONTHLY"
+        case hourly = "HOURLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GroupDefinitionType: String, CustomStringConvertible, Codable {
+        case dimension = "DIMENSION"
+        case tag = "TAG"
+        case costCategory = "COST_CATEGORY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LookbackPeriodInDays: String, CustomStringConvertible, Codable {
+        case sevenDays = "SEVEN_DAYS"
+        case thirtyDays = "THIRTY_DAYS"
+        case sixtyDays = "SIXTY_DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Metric: String, CustomStringConvertible, Codable {
+        case blendedCost = "BLENDED_COST"
+        case unblendedCost = "UNBLENDED_COST"
+        case amortizedCost = "AMORTIZED_COST"
+        case netUnblendedCost = "NET_UNBLENDED_COST"
+        case netAmortizedCost = "NET_AMORTIZED_COST"
+        case usageQuantity = "USAGE_QUANTITY"
+        case normalizedUsageAmount = "NORMALIZED_USAGE_AMOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OfferingClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case convertible = "CONVERTIBLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PaymentOption: String, CustomStringConvertible, Codable {
+        case noUpfront = "NO_UPFRONT"
+        case partialUpfront = "PARTIAL_UPFRONT"
+        case allUpfront = "ALL_UPFRONT"
+        case lightUtilization = "LIGHT_UTILIZATION"
+        case mediumUtilization = "MEDIUM_UTILIZATION"
+        case heavyUtilization = "HEAVY_UTILIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RightsizingType: String, CustomStringConvertible, Codable {
+        case terminate = "TERMINATE"
+        case modify = "MODIFY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SupportedSavingsPlansType: String, CustomStringConvertible, Codable {
+        case computeSp = "COMPUTE_SP"
+        case ec2InstanceSp = "EC2_INSTANCE_SP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TermInYears: String, CustomStringConvertible, Codable {
+        case oneYear = "ONE_YEAR"
+        case threeYears = "THREE_YEARS"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CostCategory: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -115,11 +220,6 @@ extension CostExplorer {
             case rule = "Rule"
             case value = "Value"
         }
-    }
-
-    public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable {
-        case costcategoryexpressionV1 = "CostCategoryExpression.v1"
-        public var description: String { return self.rawValue }
     }
 
     public struct CostCategoryValues: AWSShape {
@@ -521,37 +621,6 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case costCategory = "CostCategory"
         }
-    }
-
-    public enum Dimension: String, CustomStringConvertible, Codable {
-        case az = "AZ"
-        case instanceType = "INSTANCE_TYPE"
-        case linkedAccount = "LINKED_ACCOUNT"
-        case operation = "OPERATION"
-        case purchaseType = "PURCHASE_TYPE"
-        case region = "REGION"
-        case service = "SERVICE"
-        case usageType = "USAGE_TYPE"
-        case usageTypeGroup = "USAGE_TYPE_GROUP"
-        case recordType = "RECORD_TYPE"
-        case operatingSystem = "OPERATING_SYSTEM"
-        case tenancy = "TENANCY"
-        case scope = "SCOPE"
-        case platform = "PLATFORM"
-        case subscriptionId = "SUBSCRIPTION_ID"
-        case legalEntityName = "LEGAL_ENTITY_NAME"
-        case deploymentOption = "DEPLOYMENT_OPTION"
-        case databaseEngine = "DATABASE_ENGINE"
-        case cacheEngine = "CACHE_ENGINE"
-        case instanceTypeFamily = "INSTANCE_TYPE_FAMILY"
-        case billingEntity = "BILLING_ENTITY"
-        case reservationId = "RESERVATION_ID"
-        case resourceId = "RESOURCE_ID"
-        case rightsizingType = "RIGHTSIZING_TYPE"
-        case savingsPlansType = "SAVINGS_PLANS_TYPE"
-        case savingsPlanArn = "SAVINGS_PLAN_ARN"
-        case paymentOption = "PAYMENT_OPTION"
-        public var description: String { return self.rawValue }
     }
 
     public struct DimensionValues: AWSShape {
@@ -1906,13 +1975,6 @@ extension CostExplorer {
         }
     }
 
-    public enum Granularity: String, CustomStringConvertible, Codable {
-        case daily = "DAILY"
-        case monthly = "MONTHLY"
-        case hourly = "HOURLY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Group: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Keys", required: false, type: .list), 
@@ -1955,13 +2017,6 @@ extension CostExplorer {
             case key = "Key"
             case `type` = "Type"
         }
-    }
-
-    public enum GroupDefinitionType: String, CustomStringConvertible, Codable {
-        case dimension = "DIMENSION"
-        case tag = "TAG"
-        case costCategory = "COST_CATEGORY"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceDetails: AWSShape {
@@ -2051,24 +2106,6 @@ extension CostExplorer {
         }
     }
 
-    public enum LookbackPeriodInDays: String, CustomStringConvertible, Codable {
-        case sevenDays = "SEVEN_DAYS"
-        case thirtyDays = "THIRTY_DAYS"
-        case sixtyDays = "SIXTY_DAYS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Metric: String, CustomStringConvertible, Codable {
-        case blendedCost = "BLENDED_COST"
-        case unblendedCost = "UNBLENDED_COST"
-        case amortizedCost = "AMORTIZED_COST"
-        case netUnblendedCost = "NET_UNBLENDED_COST"
-        case netAmortizedCost = "NET_AMORTIZED_COST"
-        case usageQuantity = "USAGE_QUANTITY"
-        case normalizedUsageAmount = "NORMALIZED_USAGE_AMOUNT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MetricValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Amount", required: false, type: .string), 
@@ -2106,22 +2143,6 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case targetInstances = "TargetInstances"
         }
-    }
-
-    public enum OfferingClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case convertible = "CONVERTIBLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PaymentOption: String, CustomStringConvertible, Codable {
-        case noUpfront = "NO_UPFRONT"
-        case partialUpfront = "PARTIAL_UPFRONT"
-        case allUpfront = "ALL_UPFRONT"
-        case lightUtilization = "LIGHT_UTILIZATION"
-        case mediumUtilization = "MEDIUM_UTILIZATION"
-        case heavyUtilization = "HEAVY_UTILIZATION"
-        public var description: String { return self.rawValue }
     }
 
     public struct RDSInstanceDetails: AWSShape {
@@ -2719,12 +2740,6 @@ extension CostExplorer {
         }
     }
 
-    public enum RightsizingType: String, CustomStringConvertible, Codable {
-        case terminate = "TERMINATE"
-        case modify = "MODIFY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SavingsPlansAmortizedCommitment: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmortizedRecurringCommitment", required: false, type: .string), 
@@ -3226,12 +3241,6 @@ extension CostExplorer {
         }
     }
 
-    public enum SupportedSavingsPlansType: String, CustomStringConvertible, Codable {
-        case computeSp = "COMPUTE_SP"
-        case ec2InstanceSp = "EC2_INSTANCE_SP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TagValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -3294,12 +3303,6 @@ extension CostExplorer {
             case expectedResourceUtilization = "ExpectedResourceUtilization"
             case resourceDetails = "ResourceDetails"
         }
-    }
-
-    public enum TermInYears: String, CustomStringConvertible, Codable {
-        case oneYear = "ONE_YEAR"
-        case threeYears = "THREE_YEARS"
-        public var description: String { return self.rawValue }
     }
 
     public struct TerminateRecommendationDetail: AWSShape {

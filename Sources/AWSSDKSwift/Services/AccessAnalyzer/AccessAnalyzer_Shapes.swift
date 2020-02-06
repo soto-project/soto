@@ -4,6 +4,43 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AccessAnalyzer {
+    //MARK: Enums
+
+    public enum FindingStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FindingStatusUpdate: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderBy: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case awsIamRole = "AWS::IAM::Role"
+        case awsKmsKey = "AWS::KMS::Key"
+        case awsLambdaFunction = "AWS::Lambda::Function"
+        case awsLambdaLayerversion = "AWS::Lambda::LayerVersion"
+        case awsS3Bucket = "AWS::S3::Bucket"
+        case awsSqsQueue = "AWS::SQS::Queue"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AnalyzedResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -450,19 +487,6 @@ extension AccessAnalyzer {
             case status = "status"
             case updatedAt = "updatedAt"
         }
-    }
-
-    public enum FindingStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case archived = "ARCHIVED"
-        case resolved = "RESOLVED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FindingStatusUpdate: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case archived = "ARCHIVED"
-        public var description: String { return self.rawValue }
     }
 
     public struct FindingSummary: AWSShape {
@@ -1004,22 +1028,6 @@ extension AccessAnalyzer {
         }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case awsIamRole = "AWS::IAM::Role"
-        case awsKmsKey = "AWS::KMS::Key"
-        case awsLambdaFunction = "AWS::Lambda::Function"
-        case awsLambdaLayerversion = "AWS::Lambda::LayerVersion"
-        case awsS3Bucket = "AWS::S3::Bucket"
-        case awsSqsQueue = "AWS::SQS::Queue"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SortCriteria: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributeName", required: false, type: .string), 
@@ -1097,11 +1105,6 @@ extension AccessAnalyzer {
         public init() {
         }
 
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

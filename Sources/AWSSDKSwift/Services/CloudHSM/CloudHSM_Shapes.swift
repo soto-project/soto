@@ -4,6 +4,38 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudHSM {
+    //MARK: Enums
+
+    public enum ClientVersion: String, CustomStringConvertible, Codable {
+        case clientVersion51 = "5.1"
+        case clientVersion53 = "5.3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable {
+        case ready = "READY"
+        case updating = "UPDATING"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HsmStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case updating = "UPDATING"
+        case suspended = "SUSPENDED"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionType: String, CustomStringConvertible, Codable {
+        case production = "PRODUCTION"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddTagsToResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -49,19 +81,6 @@ extension CloudHSM {
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
         }
-    }
-
-    public enum ClientVersion: String, CustomStringConvertible, Codable {
-        case clientVersion51 = "5.1"
-        case clientVersion53 = "5.3"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable {
-        case ready = "READY"
-        case updating = "UPDATING"
-        case degraded = "DEGRADED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateHapgRequest: AWSShape {
@@ -683,17 +702,6 @@ extension CloudHSM {
         }
     }
 
-    public enum HsmStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case updating = "UPDATING"
-        case suspended = "SUSPENDED"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        case degraded = "DEGRADED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListAvailableZonesRequest: AWSShape {
 
 
@@ -1097,11 +1105,6 @@ extension CloudHSM {
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
         }
-    }
-
-    public enum SubscriptionType: String, CustomStringConvertible, Codable {
-        case production = "PRODUCTION"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

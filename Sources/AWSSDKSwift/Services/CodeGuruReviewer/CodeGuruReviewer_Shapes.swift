@@ -4,6 +4,23 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CodeGuruReviewer {
+    //MARK: Enums
+
+    public enum ProviderType: String, CustomStringConvertible, Codable {
+        case codecommit = "CodeCommit"
+        case github = "GitHub"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RepositoryAssociationState: String, CustomStringConvertible, Codable {
+        case associated = "Associated"
+        case associating = "Associating"
+        case failed = "Failed"
+        case disassociating = "Disassociating"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateRepositoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -240,12 +257,6 @@ extension CodeGuruReviewer {
         }
     }
 
-    public enum ProviderType: String, CustomStringConvertible, Codable {
-        case codecommit = "CodeCommit"
-        case github = "GitHub"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Repository: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeCommit", required: false, type: .structure)
@@ -322,14 +333,6 @@ extension CodeGuruReviewer {
             case state = "State"
             case stateReason = "StateReason"
         }
-    }
-
-    public enum RepositoryAssociationState: String, CustomStringConvertible, Codable {
-        case associated = "Associated"
-        case associating = "Associating"
-        case failed = "Failed"
-        case disassociating = "Disassociating"
-        public var description: String { return self.rawValue }
     }
 
     public struct RepositoryAssociationSummary: AWSShape {

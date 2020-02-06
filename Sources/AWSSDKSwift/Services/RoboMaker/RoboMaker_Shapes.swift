@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension RoboMaker {
+    //MARK: Enums
 
     public enum Architecture: String, CustomStringConvertible, Codable {
         case x8664 = "X86_64"
@@ -11,6 +12,133 @@ extension RoboMaker {
         case armhf = "ARMHF"
         public var description: String { return self.rawValue }
     }
+
+    public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable {
+        case resourcenotfound = "ResourceNotFound"
+        case environmentsetuperror = "EnvironmentSetupError"
+        case etagmismatch = "EtagMismatch"
+        case failurethresholdbreached = "FailureThresholdBreached"
+        case robotdeploymentaborted = "RobotDeploymentAborted"
+        case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
+        case robotagentconnectiontimeout = "RobotAgentConnectionTimeout"
+        case greengrassdeploymentfailed = "GreengrassDeploymentFailed"
+        case missingrobotarchitecture = "MissingRobotArchitecture"
+        case missingrobotapplicationarchitecture = "MissingRobotApplicationArchitecture"
+        case missingrobotdeploymentresource = "MissingRobotDeploymentResource"
+        case greengrassgroupversiondoesnotexist = "GreengrassGroupVersionDoesNotExist"
+        case extractingbundlefailure = "ExtractingBundleFailure"
+        case prelaunchfilefailure = "PreLaunchFileFailure"
+        case postlaunchfilefailure = "PostLaunchFileFailure"
+        case badpermissionerror = "BadPermissionError"
+        case downloadconditionfailed = "DownloadConditionFailed"
+        case internalservererror = "InternalServerError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case preparing = "Preparing"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case succeeded = "Succeeded"
+        case canceled = "Canceled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FailureBehavior: String, CustomStringConvertible, Codable {
+        case fail = "Fail"
+        case `continue` = "Continue"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RenderingEngineType: String, CustomStringConvertible, Codable {
+        case ogre = "OGRE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RobotDeploymentStep: String, CustomStringConvertible, Codable {
+        case validating = "Validating"
+        case downloadingextracting = "DownloadingExtracting"
+        case executingdownloadcondition = "ExecutingDownloadCondition"
+        case executingprelaunch = "ExecutingPreLaunch"
+        case launching = "Launching"
+        case executingpostlaunch = "ExecutingPostLaunch"
+        case finished = "Finished"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RobotSoftwareSuiteType: String, CustomStringConvertible, Codable {
+        case ros = "ROS"
+        case ros2 = "ROS2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RobotSoftwareSuiteVersionType: String, CustomStringConvertible, Codable {
+        case kinetic = "Kinetic"
+        case melodic = "Melodic"
+        case dashing = "Dashing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RobotStatus: String, CustomStringConvertible, Codable {
+        case available = "Available"
+        case registered = "Registered"
+        case pendingnewdeployment = "PendingNewDeployment"
+        case deploying = "Deploying"
+        case failed = "Failed"
+        case insync = "InSync"
+        case noresponse = "NoResponse"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SimulationJobErrorCode: String, CustomStringConvertible, Codable {
+        case internalserviceerror = "InternalServiceError"
+        case robotapplicationcrash = "RobotApplicationCrash"
+        case simulationapplicationcrash = "SimulationApplicationCrash"
+        case badpermissionsrobotapplication = "BadPermissionsRobotApplication"
+        case badpermissionssimulationapplication = "BadPermissionsSimulationApplication"
+        case badpermissionss3object = "BadPermissionsS3Object"
+        case badpermissionss3output = "BadPermissionsS3Output"
+        case badpermissionscloudwatchlogs = "BadPermissionsCloudwatchLogs"
+        case subnetiplimitexceeded = "SubnetIpLimitExceeded"
+        case enilimitexceeded = "ENILimitExceeded"
+        case badpermissionsusercredentials = "BadPermissionsUserCredentials"
+        case invalidbundlerobotapplication = "InvalidBundleRobotApplication"
+        case invalidbundlesimulationapplication = "InvalidBundleSimulationApplication"
+        case invalids3resource = "InvalidS3Resource"
+        case mismatchedetag = "MismatchedEtag"
+        case robotapplicationversionmismatchedetag = "RobotApplicationVersionMismatchedEtag"
+        case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
+        case resourcenotfound = "ResourceNotFound"
+        case invalidinput = "InvalidInput"
+        case wrongregions3bucket = "WrongRegionS3Bucket"
+        case wrongregions3output = "WrongRegionS3Output"
+        case wrongregionrobotapplication = "WrongRegionRobotApplication"
+        case wrongregionsimulationapplication = "WrongRegionSimulationApplication"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SimulationJobStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case preparing = "Preparing"
+        case running = "Running"
+        case restarting = "Restarting"
+        case completed = "Completed"
+        case failed = "Failed"
+        case runningfailed = "RunningFailed"
+        case terminating = "Terminating"
+        case terminated = "Terminated"
+        case canceled = "Canceled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SimulationSoftwareSuiteType: String, CustomStringConvertible, Codable {
+        case gazebo = "Gazebo"
+        case rosbagplay = "RosbagPlay"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BatchDescribeSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1326,28 +1454,6 @@ extension RoboMaker {
         }
     }
 
-    public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable {
-        case resourcenotfound = "ResourceNotFound"
-        case environmentsetuperror = "EnvironmentSetupError"
-        case etagmismatch = "EtagMismatch"
-        case failurethresholdbreached = "FailureThresholdBreached"
-        case robotdeploymentaborted = "RobotDeploymentAborted"
-        case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
-        case robotagentconnectiontimeout = "RobotAgentConnectionTimeout"
-        case greengrassdeploymentfailed = "GreengrassDeploymentFailed"
-        case missingrobotarchitecture = "MissingRobotArchitecture"
-        case missingrobotapplicationarchitecture = "MissingRobotApplicationArchitecture"
-        case missingrobotdeploymentresource = "MissingRobotDeploymentResource"
-        case greengrassgroupversiondoesnotexist = "GreengrassGroupVersionDoesNotExist"
-        case extractingbundlefailure = "ExtractingBundleFailure"
-        case prelaunchfilefailure = "PreLaunchFileFailure"
-        case postlaunchfilefailure = "PostLaunchFileFailure"
-        case badpermissionerror = "BadPermissionError"
-        case downloadconditionfailed = "DownloadConditionFailed"
-        case internalservererror = "InternalServerError"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeploymentLaunchConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
@@ -1406,16 +1512,6 @@ extension RoboMaker {
             case postLaunchFile = "postLaunchFile"
             case preLaunchFile = "preLaunchFile"
         }
-    }
-
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case preparing = "Preparing"
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case succeeded = "Succeeded"
-        case canceled = "Canceled"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeregisterRobotRequest: AWSShape {
@@ -2025,12 +2121,6 @@ extension RoboMaker {
             case tags = "tags"
             case vpcConfig = "vpcConfig"
         }
-    }
-
-    public enum FailureBehavior: String, CustomStringConvertible, Codable {
-        case fail = "Fail"
-        case `continue` = "Continue"
-        public var description: String { return self.rawValue }
     }
 
     public struct Filter: AWSShape {
@@ -2817,11 +2907,6 @@ extension RoboMaker {
         }
     }
 
-    public enum RenderingEngineType: String, CustomStringConvertible, Codable {
-        case ogre = "OGRE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RestartSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: true, type: .string)
@@ -3031,17 +3116,6 @@ extension RoboMaker {
         }
     }
 
-    public enum RobotDeploymentStep: String, CustomStringConvertible, Codable {
-        case validating = "Validating"
-        case downloadingextracting = "DownloadingExtracting"
-        case executingdownloadcondition = "ExecutingDownloadCondition"
-        case executingprelaunch = "ExecutingPreLaunch"
-        case launching = "Launching"
-        case executingpostlaunch = "ExecutingPostLaunch"
-        case finished = "Finished"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RobotSoftwareSuite: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .enum), 
@@ -3062,30 +3136,6 @@ extension RoboMaker {
             case name = "name"
             case version = "version"
         }
-    }
-
-    public enum RobotSoftwareSuiteType: String, CustomStringConvertible, Codable {
-        case ros = "ROS"
-        case ros2 = "ROS2"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RobotSoftwareSuiteVersionType: String, CustomStringConvertible, Codable {
-        case kinetic = "Kinetic"
-        case melodic = "Melodic"
-        case dashing = "Dashing"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RobotStatus: String, CustomStringConvertible, Codable {
-        case available = "Available"
-        case registered = "Registered"
-        case pendingnewdeployment = "PendingNewDeployment"
-        case deploying = "Deploying"
-        case failed = "Failed"
-        case insync = "InSync"
-        case noresponse = "NoResponse"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3KeyOutput: AWSShape {
@@ -3337,47 +3387,6 @@ extension RoboMaker {
         }
     }
 
-    public enum SimulationJobErrorCode: String, CustomStringConvertible, Codable {
-        case internalserviceerror = "InternalServiceError"
-        case robotapplicationcrash = "RobotApplicationCrash"
-        case simulationapplicationcrash = "SimulationApplicationCrash"
-        case badpermissionsrobotapplication = "BadPermissionsRobotApplication"
-        case badpermissionssimulationapplication = "BadPermissionsSimulationApplication"
-        case badpermissionss3object = "BadPermissionsS3Object"
-        case badpermissionss3output = "BadPermissionsS3Output"
-        case badpermissionscloudwatchlogs = "BadPermissionsCloudwatchLogs"
-        case subnetiplimitexceeded = "SubnetIpLimitExceeded"
-        case enilimitexceeded = "ENILimitExceeded"
-        case badpermissionsusercredentials = "BadPermissionsUserCredentials"
-        case invalidbundlerobotapplication = "InvalidBundleRobotApplication"
-        case invalidbundlesimulationapplication = "InvalidBundleSimulationApplication"
-        case invalids3resource = "InvalidS3Resource"
-        case mismatchedetag = "MismatchedEtag"
-        case robotapplicationversionmismatchedetag = "RobotApplicationVersionMismatchedEtag"
-        case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
-        case resourcenotfound = "ResourceNotFound"
-        case invalidinput = "InvalidInput"
-        case wrongregions3bucket = "WrongRegionS3Bucket"
-        case wrongregions3output = "WrongRegionS3Output"
-        case wrongregionrobotapplication = "WrongRegionRobotApplication"
-        case wrongregionsimulationapplication = "WrongRegionSimulationApplication"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SimulationJobStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case preparing = "Preparing"
-        case running = "Running"
-        case restarting = "Restarting"
-        case completed = "Completed"
-        case failed = "Failed"
-        case runningfailed = "RunningFailed"
-        case terminating = "Terminating"
-        case terminated = "Terminated"
-        case canceled = "Canceled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SimulationJobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
@@ -3449,12 +3458,6 @@ extension RoboMaker {
             case name = "name"
             case version = "version"
         }
-    }
-
-    public enum SimulationSoftwareSuiteType: String, CustomStringConvertible, Codable {
-        case gazebo = "Gazebo"
-        case rosbagplay = "RosbagPlay"
-        public var description: String { return self.rawValue }
     }
 
     public struct Source: AWSShape {

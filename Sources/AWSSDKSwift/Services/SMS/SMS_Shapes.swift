@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SMS {
+    //MARK: Enums
 
     public enum AppLaunchStatus: String, CustomStringConvertible, Codable {
         case readyForConfiguration = "READY_FOR_CONFIGURATION"
@@ -51,6 +52,84 @@ extension SMS {
         case deleteFailed = "DELETE_FAILED"
         public var description: String { return self.rawValue }
     }
+
+    public enum ConnectorCapability: String, CustomStringConvertible, Codable {
+        case vsphere = "VSPHERE"
+        case scvmm = "SCVMM"
+        case hypervManager = "HYPERV-MANAGER"
+        case snapshotBatching = "SNAPSHOT_BATCHING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseType: String, CustomStringConvertible, Codable {
+        case aws = "AWS"
+        case byol = "BYOL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputFormat: String, CustomStringConvertible, Codable {
+        case json = "JSON"
+        case yaml = "YAML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationJobState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case completed = "COMPLETED"
+        case pausedOnFailure = "PAUSED_ON_FAILURE"
+        case failing = "FAILING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationRunState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case missed = "MISSED"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationRunType: String, CustomStringConvertible, Codable {
+        case onDemand = "ON_DEMAND"
+        case automatic = "AUTOMATIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerCatalogStatus: String, CustomStringConvertible, Codable {
+        case notImported = "NOT_IMPORTED"
+        case importing = "IMPORTING"
+        case available = "AVAILABLE"
+        case deleted = "DELETED"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerType: String, CustomStringConvertible, Codable {
+        case virtualMachine = "VIRTUAL_MACHINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VmManagerType: String, CustomStringConvertible, Codable {
+        case vsphere = "VSPHERE"
+        case scvmm = "SCVMM"
+        case hypervManager = "HYPERV-MANAGER"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AppSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -204,20 +283,6 @@ extension SMS {
             case vmManagerName = "vmManagerName"
             case vmManagerType = "vmManagerType"
         }
-    }
-
-    public enum ConnectorCapability: String, CustomStringConvertible, Codable {
-        case vsphere = "VSPHERE"
-        case scvmm = "SCVMM"
-        case hypervManager = "HYPERV-MANAGER"
-        case snapshotBatching = "SNAPSHOT_BATCHING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConnectorStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateAppRequest: AWSShape {
@@ -992,12 +1057,6 @@ extension SMS {
         }
     }
 
-    public enum LicenseType: String, CustomStringConvertible, Codable {
-        case aws = "AWS"
-        case byol = "BYOL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListAppsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appIds", required: false, type: .list), 
@@ -1044,12 +1103,6 @@ extension SMS {
             case apps = "apps"
             case nextToken = "nextToken"
         }
-    }
-
-    public enum OutputFormat: String, CustomStringConvertible, Codable {
-        case json = "JSON"
-        case yaml = "YAML"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutAppLaunchConfigurationRequest: AWSShape {
@@ -1218,18 +1271,6 @@ extension SMS {
         }
     }
 
-    public enum ReplicationJobState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        case completed = "COMPLETED"
-        case pausedOnFailure = "PAUSED_ON_FAILURE"
-        case failing = "FAILING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReplicationRun: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "amiId", required: false, type: .string), 
@@ -1319,23 +1360,6 @@ extension SMS {
         }
     }
 
-    public enum ReplicationRunState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case missed = "MISSED"
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        case completed = "COMPLETED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReplicationRunType: String, CustomStringConvertible, Codable {
-        case onDemand = "ON_DEMAND"
-        case automatic = "AUTOMATIC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct S3Location: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "bucket", required: false, type: .string), 
@@ -1393,15 +1417,6 @@ extension SMS {
             case serverType = "serverType"
             case vmServer = "vmServer"
         }
-    }
-
-    public enum ServerCatalogStatus: String, CustomStringConvertible, Codable {
-        case notImported = "NOT_IMPORTED"
-        case importing = "IMPORTING"
-        case available = "AVAILABLE"
-        case deleted = "DELETED"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ServerGroup: AWSShape {
@@ -1603,11 +1618,6 @@ extension SMS {
             case runOnce = "runOnce"
             case seedTime = "seedTime"
         }
-    }
-
-    public enum ServerType: String, CustomStringConvertible, Codable {
-        case virtualMachine = "VIRTUAL_MACHINE"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartAppReplicationRequest: AWSShape {
@@ -1895,13 +1905,6 @@ extension SMS {
         private enum CodingKeys: String, CodingKey {
             case s3Location = "s3Location"
         }
-    }
-
-    public enum VmManagerType: String, CustomStringConvertible, Codable {
-        case vsphere = "VSPHERE"
-        case scvmm = "SCVMM"
-        case hypervManager = "HYPERV-MANAGER"
-        public var description: String { return self.rawValue }
     }
 
     public struct VmServer: AWSShape {

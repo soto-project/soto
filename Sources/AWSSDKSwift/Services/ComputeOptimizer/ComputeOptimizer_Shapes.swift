@@ -4,6 +4,49 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ComputeOptimizer {
+    //MARK: Enums
+
+    public enum FilterName: String, CustomStringConvertible, Codable {
+        case finding = "Finding"
+        case recommendationsourcetype = "RecommendationSourceType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Finding: String, CustomStringConvertible, Codable {
+        case underprovisioned = "Underprovisioned"
+        case overprovisioned = "Overprovisioned"
+        case optimized = "Optimized"
+        case notoptimized = "NotOptimized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricName: String, CustomStringConvertible, Codable {
+        case cpu = "Cpu"
+        case memory = "Memory"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
+        case maximum = "Maximum"
+        case average = "Average"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationSourceType: String, CustomStringConvertible, Codable {
+        case ec2instance = "Ec2Instance"
+        case autoscalinggroup = "AutoScalingGroup"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        case pending = "Pending"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AutoScalingGroupConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -146,20 +189,6 @@ extension ComputeOptimizer {
             case name = "name"
             case values = "values"
         }
-    }
-
-    public enum FilterName: String, CustomStringConvertible, Codable {
-        case finding = "Finding"
-        case recommendationsourcetype = "RecommendationSourceType"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Finding: String, CustomStringConvertible, Codable {
-        case underprovisioned = "Underprovisioned"
-        case overprovisioned = "Overprovisioned"
-        case optimized = "Optimized"
-        case notoptimized = "NotOptimized"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetAutoScalingGroupRecommendationsRequest: AWSShape {
@@ -549,18 +578,6 @@ extension ComputeOptimizer {
         }
     }
 
-    public enum MetricName: String, CustomStringConvertible, Codable {
-        case cpu = "Cpu"
-        case memory = "Memory"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case maximum = "Maximum"
-        case average = "Average"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProjectedMetric: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .enum), 
@@ -608,12 +625,6 @@ extension ComputeOptimizer {
             case recommendationSourceArn = "recommendationSourceArn"
             case recommendationSourceType = "recommendationSourceType"
         }
-    }
-
-    public enum RecommendationSourceType: String, CustomStringConvertible, Codable {
-        case ec2instance = "Ec2Instance"
-        case autoscalinggroup = "AutoScalingGroup"
-        public var description: String { return self.rawValue }
     }
 
     public struct RecommendationSummary: AWSShape {
@@ -668,14 +679,6 @@ extension ComputeOptimizer {
             case rank = "rank"
             case recommendedInstanceType = "recommendedInstanceType"
         }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case inactive = "Inactive"
-        case pending = "Pending"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct Summary: AWSShape {

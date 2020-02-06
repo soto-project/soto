@@ -4,6 +4,26 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MediaStoreData {
+    //MARK: Enums
+
+    public enum ItemType: String, CustomStringConvertible, Codable {
+        case object = "OBJECT"
+        case folder = "FOLDER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageClass: String, CustomStringConvertible, Codable {
+        case temporal = "TEMPORAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UploadAvailability: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case streaming = "STREAMING"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct DeleteObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -221,12 +241,6 @@ extension MediaStoreData {
         }
     }
 
-    public enum ItemType: String, CustomStringConvertible, Codable {
-        case object = "OBJECT"
-        case folder = "FOLDER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListItemsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
@@ -360,16 +374,5 @@ extension MediaStoreData {
             case eTag = "ETag"
             case storageClass = "StorageClass"
         }
-    }
-
-    public enum StorageClass: String, CustomStringConvertible, Codable {
-        case temporal = "TEMPORAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UploadAvailability: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case streaming = "STREAMING"
-        public var description: String { return self.rawValue }
     }
 }

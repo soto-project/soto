@@ -4,6 +4,43 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ServiceQuotas {
+    //MARK: Enums
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case dependencyAccessDeniedError = "DEPENDENCY_ACCESS_DENIED_ERROR"
+        case dependencyThrottlingError = "DEPENDENCY_THROTTLING_ERROR"
+        case dependencyServiceError = "DEPENDENCY_SERVICE_ERROR"
+        case serviceQuotaNotAvailableError = "SERVICE_QUOTA_NOT_AVAILABLE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PeriodUnit: String, CustomStringConvertible, Codable {
+        case microsecond = "MICROSECOND"
+        case millisecond = "MILLISECOND"
+        case second = "SECOND"
+        case minute = "MINUTE"
+        case hour = "HOUR"
+        case day = "DAY"
+        case week = "WEEK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case caseOpened = "CASE_OPENED"
+        case approved = "APPROVED"
+        case denied = "DENIED"
+        case caseClosed = "CASE_CLOSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceQuotaTemplateAssociationStatus: String, CustomStringConvertible, Codable {
+        case associated = "ASSOCIATED"
+        case disassociated = "DISASSOCIATED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateServiceQuotaTemplateRequest: AWSShape {
 
@@ -82,14 +119,6 @@ extension ServiceQuotas {
         public init() {
         }
 
-    }
-
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case dependencyAccessDeniedError = "DEPENDENCY_ACCESS_DENIED_ERROR"
-        case dependencyThrottlingError = "DEPENDENCY_THROTTLING_ERROR"
-        case dependencyServiceError = "DEPENDENCY_SERVICE_ERROR"
-        case serviceQuotaNotAvailableError = "SERVICE_QUOTA_NOT_AVAILABLE_ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct ErrorReason: AWSShape {
@@ -735,17 +764,6 @@ extension ServiceQuotas {
         }
     }
 
-    public enum PeriodUnit: String, CustomStringConvertible, Codable {
-        case microsecond = "MICROSECOND"
-        case millisecond = "MILLISECOND"
-        case second = "SECOND"
-        case minute = "MINUTE"
-        case hour = "HOUR"
-        case day = "DAY"
-        case week = "WEEK"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PutServiceQuotaIncreaseRequestIntoTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsRegion", required: true, type: .string), 
@@ -884,15 +902,6 @@ extension ServiceQuotas {
         private enum CodingKeys: String, CodingKey {
             case requestedQuota = "RequestedQuota"
         }
-    }
-
-    public enum RequestStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case caseOpened = "CASE_OPENED"
-        case approved = "APPROVED"
-        case denied = "DENIED"
-        case caseClosed = "CASE_CLOSED"
-        public var description: String { return self.rawValue }
     }
 
     public struct RequestedServiceQuotaChange: AWSShape {
@@ -1121,11 +1130,5 @@ extension ServiceQuotas {
             case serviceName = "ServiceName"
             case unit = "Unit"
         }
-    }
-
-    public enum ServiceQuotaTemplateAssociationStatus: String, CustomStringConvertible, Codable {
-        case associated = "ASSOCIATED"
-        case disassociated = "DISASSOCIATED"
-        public var description: String { return self.rawValue }
     }
 }

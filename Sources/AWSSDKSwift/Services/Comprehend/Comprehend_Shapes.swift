@@ -4,6 +4,120 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Comprehend {
+    //MARK: Enums
+
+    public enum DocumentClassifierMode: String, CustomStringConvertible, Codable {
+        case multiClass = "MULTI_CLASS"
+        case multiLabel = "MULTI_LABEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case inService = "IN_SERVICE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityType: String, CustomStringConvertible, Codable {
+        case person = "PERSON"
+        case location = "LOCATION"
+        case organization = "ORGANIZATION"
+        case commercialItem = "COMMERCIAL_ITEM"
+        case event = "EVENT"
+        case date = "DATE"
+        case quantity = "QUANTITY"
+        case title = "TITLE"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputFormat: String, CustomStringConvertible, Codable {
+        case oneDocPerFile = "ONE_DOC_PER_FILE"
+        case oneDocPerLine = "ONE_DOC_PER_LINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LanguageCode: String, CustomStringConvertible, Codable {
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case de = "de"
+        case it = "it"
+        case pt = "pt"
+        case ar = "ar"
+        case hi = "hi"
+        case ja = "ja"
+        case ko = "ko"
+        case zh = "zh"
+        case zhTw = "zh-TW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case training = "TRAINING"
+        case deleting = "DELETING"
+        case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
+        case inError = "IN_ERROR"
+        case trained = "TRAINED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PartOfSpeechTagType: String, CustomStringConvertible, Codable {
+        case adj = "ADJ"
+        case adp = "ADP"
+        case adv = "ADV"
+        case aux = "AUX"
+        case conj = "CONJ"
+        case cconj = "CCONJ"
+        case det = "DET"
+        case intj = "INTJ"
+        case noun = "NOUN"
+        case num = "NUM"
+        case o = "O"
+        case part = "PART"
+        case pron = "PRON"
+        case propn = "PROPN"
+        case punct = "PUNCT"
+        case sconj = "SCONJ"
+        case sym = "SYM"
+        case verb = "VERB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SentimentType: String, CustomStringConvertible, Codable {
+        case positive = "POSITIVE"
+        case negative = "NEGATIVE"
+        case neutral = "NEUTRAL"
+        case mixed = "MIXED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable {
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case de = "de"
+        case it = "it"
+        case pt = "pt"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BatchDetectDominantLanguageItemResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1628,12 +1742,6 @@ extension Comprehend {
         }
     }
 
-    public enum DocumentClassifierMode: String, CustomStringConvertible, Codable {
-        case multiClass = "MULTI_CLASS"
-        case multiLabel = "MULTI_LABEL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DocumentClassifierOutputDataConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
@@ -1985,15 +2093,6 @@ extension Comprehend {
             case modelArn = "ModelArn"
             case status = "Status"
         }
-    }
-
-    public enum EndpointStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case inService = "IN_SERVICE"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct EntitiesDetectionJobFilter: AWSShape {
@@ -2445,19 +2544,6 @@ extension Comprehend {
         }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable {
-        case person = "PERSON"
-        case location = "LOCATION"
-        case organization = "ORGANIZATION"
-        case commercialItem = "COMMERCIAL_ITEM"
-        case event = "EVENT"
-        case date = "DATE"
-        case quantity = "QUANTITY"
-        case title = "TITLE"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EntityTypesEvaluationMetrics: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "F1Score", required: false, type: .double), 
@@ -2532,22 +2618,6 @@ extension Comprehend {
             case inputFormat = "InputFormat"
             case s3Uri = "S3Uri"
         }
-    }
-
-    public enum InputFormat: String, CustomStringConvertible, Codable {
-        case oneDocPerFile = "ONE_DOC_PER_FILE"
-        case oneDocPerLine = "ONE_DOC_PER_LINE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case stopRequested = "STOP_REQUESTED"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
     }
 
     public struct KeyPhrase: AWSShape {
@@ -2690,22 +2760,6 @@ extension Comprehend {
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
         }
-    }
-
-    public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case en = "en"
-        case es = "es"
-        case fr = "fr"
-        case de = "de"
-        case it = "it"
-        case pt = "pt"
-        case ar = "ar"
-        case hi = "hi"
-        case ja = "ja"
-        case ko = "ko"
-        case zh = "zh"
-        case zhTw = "zh-TW"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListDocumentClassificationJobsRequest: AWSShape {
@@ -3254,17 +3308,6 @@ extension Comprehend {
         }
     }
 
-    public enum ModelStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case training = "TRAINING"
-        case deleting = "DELETING"
-        case stopRequested = "STOP_REQUESTED"
-        case stopped = "STOPPED"
-        case inError = "IN_ERROR"
-        case trained = "TRAINED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OutputDataConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
@@ -3313,28 +3356,6 @@ extension Comprehend {
             case score = "Score"
             case tag = "Tag"
         }
-    }
-
-    public enum PartOfSpeechTagType: String, CustomStringConvertible, Codable {
-        case adj = "ADJ"
-        case adp = "ADP"
-        case adv = "ADV"
-        case aux = "AUX"
-        case conj = "CONJ"
-        case cconj = "CCONJ"
-        case det = "DET"
-        case intj = "INTJ"
-        case noun = "NOUN"
-        case num = "NUM"
-        case o = "O"
-        case part = "PART"
-        case pron = "PRON"
-        case propn = "PROPN"
-        case punct = "PUNCT"
-        case sconj = "SCONJ"
-        case sym = "SYM"
-        case verb = "VERB"
-        public var description: String { return self.rawValue }
     }
 
     public struct SentimentDetectionJobFilter: AWSShape {
@@ -3477,14 +3498,6 @@ extension Comprehend {
             case neutral = "Neutral"
             case positive = "Positive"
         }
-    }
-
-    public enum SentimentType: String, CustomStringConvertible, Codable {
-        case positive = "POSITIVE"
-        case negative = "NEGATIVE"
-        case neutral = "NEUTRAL"
-        case mixed = "MIXED"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartDocumentClassificationJobRequest: AWSShape {
@@ -4271,16 +4284,6 @@ extension Comprehend {
         public init() {
         }
 
-    }
-
-    public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable {
-        case en = "en"
-        case es = "es"
-        case fr = "fr"
-        case de = "de"
-        case it = "it"
-        case pt = "pt"
-        public var description: String { return self.rawValue }
     }
 
     public struct SyntaxToken: AWSShape {

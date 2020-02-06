@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS MediaStoreData service.
+
 An AWS Elemental MediaStore asset is an object, similar to an object in the Amazon S3 service. Objects are the fundamental entities that are stored in AWS Elemental MediaStore.
 */
 public struct MediaStoreData {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the MediaStoreData client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -27,29 +42,31 @@ public struct MediaStoreData {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Deletes an object at the specified path.
-    public func deleteObject(_ input: DeleteObjectRequest) -> Future<DeleteObjectResponse> {
+    public func deleteObject(_ input: DeleteObjectRequest) -> EventLoopFuture<DeleteObjectResponse> {
         return client.send(operation: "DeleteObject", path: "/{Path+}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets the headers for an object at the specified path.
-    public func describeObject(_ input: DescribeObjectRequest) -> Future<DescribeObjectResponse> {
+    public func describeObject(_ input: DescribeObjectRequest) -> EventLoopFuture<DescribeObjectResponse> {
         return client.send(operation: "DescribeObject", path: "/{Path+}", httpMethod: "HEAD", input: input)
     }
 
     ///  Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
-    public func getObject(_ input: GetObjectRequest) -> Future<GetObjectResponse> {
+    public func getObject(_ input: GetObjectRequest) -> EventLoopFuture<GetObjectResponse> {
         return client.send(operation: "GetObject", path: "/{Path+}", httpMethod: "GET", input: input)
     }
 
     ///  Provides a list of metadata entries about folders and objects in the specified folder.
-    public func listItems(_ input: ListItemsRequest) -> Future<ListItemsResponse> {
+    public func listItems(_ input: ListItemsRequest) -> EventLoopFuture<ListItemsResponse> {
         return client.send(operation: "ListItems", path: "/", httpMethod: "GET", input: input)
     }
 
     ///  Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
-    public func putObject(_ input: PutObjectRequest) -> Future<PutObjectResponse> {
+    public func putObject(_ input: PutObjectRequest) -> EventLoopFuture<PutObjectResponse> {
         return client.send(operation: "PutObject", path: "/{Path+}", httpMethod: "PUT", input: input)
     }
 }

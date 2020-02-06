@@ -4,6 +4,125 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Organizations {
+    //MARK: Enums
+
+    public enum AccountJoinedMethod: String, CustomStringConvertible, Codable {
+        case invited = "INVITED"
+        case created = "CREATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccountStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case suspended = "SUSPENDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case invite = "INVITE"
+        case enableAllFeatures = "ENABLE_ALL_FEATURES"
+        case approveAllFeatures = "APPROVE_ALL_FEATURES"
+        case addOrganizationsServiceLinkedRole = "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChildType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CreateAccountFailureReason: String, CustomStringConvertible, Codable {
+        case accountLimitExceeded = "ACCOUNT_LIMIT_EXCEEDED"
+        case emailAlreadyExists = "EMAIL_ALREADY_EXISTS"
+        case invalidAddress = "INVALID_ADDRESS"
+        case invalidEmail = "INVALID_EMAIL"
+        case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
+        case internalFailure = "INTERNAL_FAILURE"
+        case govcloudAccountAlreadyExists = "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CreateAccountState: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EffectivePolicyType: String, CustomStringConvertible, Codable {
+        case tagPolicy = "TAG_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HandshakePartyType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        case email = "EMAIL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HandshakeResourceType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        case organizationFeatureSet = "ORGANIZATION_FEATURE_SET"
+        case email = "EMAIL"
+        case masterEmail = "MASTER_EMAIL"
+        case masterName = "MASTER_NAME"
+        case notes = "NOTES"
+        case parentHandshake = "PARENT_HANDSHAKE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HandshakeState: String, CustomStringConvertible, Codable {
+        case requested = "REQUESTED"
+        case open = "OPEN"
+        case canceled = "CANCELED"
+        case accepted = "ACCEPTED"
+        case declined = "DECLINED"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IAMUserAccessToBilling: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrganizationFeatureSet: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case consolidatedBilling = "CONSOLIDATED_BILLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParentType: String, CustomStringConvertible, Codable {
+        case root = "ROOT"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
+        case tagPolicy = "TAG_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyTypeStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case pendingEnable = "PENDING_ENABLE"
+        case pendingDisable = "PENDING_DISABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        case root = "ROOT"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptHandshakeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -88,26 +207,6 @@ extension Organizations {
             case name = "Name"
             case status = "Status"
         }
-    }
-
-    public enum AccountJoinedMethod: String, CustomStringConvertible, Codable {
-        case invited = "INVITED"
-        case created = "CREATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AccountStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case suspended = "SUSPENDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ActionType: String, CustomStringConvertible, Codable {
-        case invite = "INVITE"
-        case enableAllFeatures = "ENABLE_ALL_FEATURES"
-        case approveAllFeatures = "APPROVE_ALL_FEATURES"
-        case addOrganizationsServiceLinkedRole = "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct AttachPolicyRequest: AWSShape {
@@ -197,23 +296,6 @@ extension Organizations {
         }
     }
 
-    public enum ChildType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CreateAccountFailureReason: String, CustomStringConvertible, Codable {
-        case accountLimitExceeded = "ACCOUNT_LIMIT_EXCEEDED"
-        case emailAlreadyExists = "EMAIL_ALREADY_EXISTS"
-        case invalidAddress = "INVALID_ADDRESS"
-        case invalidEmail = "INVALID_EMAIL"
-        case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
-        case internalFailure = "INTERNAL_FAILURE"
-        case govcloudAccountAlreadyExists = "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CreateAccountRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountName", required: true, type: .string), 
@@ -271,13 +353,6 @@ extension Organizations {
         private enum CodingKeys: String, CodingKey {
             case createAccountStatus = "CreateAccountStatus"
         }
-    }
-
-    public enum CreateAccountState: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateAccountStatus: AWSShape {
@@ -981,11 +1056,6 @@ extension Organizations {
         }
     }
 
-    public enum EffectivePolicyType: String, CustomStringConvertible, Codable {
-        case tagPolicy = "TAG_POLICY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EnableAWSServiceAccessRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServicePrincipal", required: true, type: .string)
@@ -1204,13 +1274,6 @@ extension Organizations {
         }
     }
 
-    public enum HandshakePartyType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
-        case email = "EMAIL"
-        public var description: String { return self.rawValue }
-    }
-
     public class HandshakeResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resources", required: false, type: .list), 
@@ -1236,34 +1299,6 @@ extension Organizations {
             case `type` = "Type"
             case value = "Value"
         }
-    }
-
-    public enum HandshakeResourceType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
-        case organizationFeatureSet = "ORGANIZATION_FEATURE_SET"
-        case email = "EMAIL"
-        case masterEmail = "MASTER_EMAIL"
-        case masterName = "MASTER_NAME"
-        case notes = "NOTES"
-        case parentHandshake = "PARENT_HANDSHAKE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HandshakeState: String, CustomStringConvertible, Codable {
-        case requested = "REQUESTED"
-        case open = "OPEN"
-        case canceled = "CANCELED"
-        case accepted = "ACCEPTED"
-        case declined = "DECLINED"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IAMUserAccessToBilling: String, CustomStringConvertible, Codable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
     }
 
     public struct InviteAccountToOrganizationRequest: AWSShape {
@@ -2143,12 +2178,6 @@ extension Organizations {
         }
     }
 
-    public enum OrganizationFeatureSet: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case consolidatedBilling = "CONSOLIDATED_BILLING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OrganizationalUnit: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -2196,12 +2225,6 @@ extension Organizations {
             case id = "Id"
             case `type` = "Type"
         }
-    }
-
-    public enum ParentType: String, CustomStringConvertible, Codable {
-        case root = "ROOT"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        public var description: String { return self.rawValue }
     }
 
     public struct Policy: AWSShape {
@@ -2298,19 +2321,6 @@ extension Organizations {
             case targetId = "TargetId"
             case `type` = "Type"
         }
-    }
-
-    public enum PolicyType: String, CustomStringConvertible, Codable {
-        case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
-        case tagPolicy = "TAG_POLICY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyTypeStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case pendingEnable = "PENDING_ENABLE"
-        case pendingDisable = "PENDING_DISABLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct PolicyTypeSummary: AWSShape {
@@ -2446,13 +2456,6 @@ extension Organizations {
             case resourceId = "ResourceId"
             case tags = "Tags"
         }
-    }
-
-    public enum TargetType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        case root = "ROOT"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {

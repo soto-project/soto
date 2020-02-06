@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS Chime service.
+
 The Amazon Chime API (application programming interface) is designed for developers to perform key tasks, such as creating and managing Amazon Chime accounts, users, and Voice Connectors. This guide provides detailed information about the Amazon Chime API, including operations, types, inputs and outputs, and error codes. It also includes some server-side API actions to use with the Amazon Chime SDK. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide. You can use an AWS SDK, the AWS Command Line Interface (AWS CLI), or the REST API to make API calls. We recommend using an AWS SDK or the AWS CLI. Each API operation includes links to information about using it with a language-specific AWS SDK or the AWS CLI.  Using an AWS SDK  You don't need to write code to calculate a signature for request authentication. The SDK clients authenticate your requests by using access keys that you provide. For more information about AWS SDKs, see the AWS Developer Center.  Using the AWS CLI  Use your access keys with the AWS CLI to make API calls. For information about setting up the AWS CLI, see Installing the AWS Command Line Interface in the AWS Command Line Interface User Guide. For a list of available Amazon Chime commands, see the Amazon Chime commands in the AWS CLI Command Reference.  Using REST API  If you use REST to make API calls, you must authenticate your request by providing a signature. Amazon Chime supports signature version 4. For more information, see Signature Version 4 Signing Process in the Amazon Web Services General Reference. When making REST API calls, use the service name chime and REST endpoint https://service.chime.aws.amazon.com.   Administrative permissions are controlled using AWS Identity and Access Management (IAM). For more information, see Identity and Access Management for Amazon Chime in the Amazon Chime Administration Guide.
 */
 public struct Chime {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the Chime client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -28,474 +43,476 @@ public struct Chime {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Associates a phone number with the specified Amazon Chime user.
-    public func associatePhoneNumberWithUser(_ input: AssociatePhoneNumberWithUserRequest) -> Future<AssociatePhoneNumberWithUserResponse> {
+    public func associatePhoneNumberWithUser(_ input: AssociatePhoneNumberWithUserRequest) -> EventLoopFuture<AssociatePhoneNumberWithUserResponse> {
         return client.send(operation: "AssociatePhoneNumberWithUser", path: "/accounts/{accountId}/users/{userId}?operation=associate-phone-number", httpMethod: "POST", input: input)
     }
 
     ///  Associates phone numbers with the specified Amazon Chime Voice Connector.
-    public func associatePhoneNumbersWithVoiceConnector(_ input: AssociatePhoneNumbersWithVoiceConnectorRequest) -> Future<AssociatePhoneNumbersWithVoiceConnectorResponse> {
+    public func associatePhoneNumbersWithVoiceConnector(_ input: AssociatePhoneNumbersWithVoiceConnectorRequest) -> EventLoopFuture<AssociatePhoneNumbersWithVoiceConnectorResponse> {
         return client.send(operation: "AssociatePhoneNumbersWithVoiceConnector", path: "/voice-connectors/{voiceConnectorId}?operation=associate-phone-numbers", httpMethod: "POST", input: input)
     }
 
     ///  Associates phone numbers with the specified Amazon Chime Voice Connector group.
-    public func associatePhoneNumbersWithVoiceConnectorGroup(_ input: AssociatePhoneNumbersWithVoiceConnectorGroupRequest) -> Future<AssociatePhoneNumbersWithVoiceConnectorGroupResponse> {
+    public func associatePhoneNumbersWithVoiceConnectorGroup(_ input: AssociatePhoneNumbersWithVoiceConnectorGroupRequest) -> EventLoopFuture<AssociatePhoneNumbersWithVoiceConnectorGroupResponse> {
         return client.send(operation: "AssociatePhoneNumbersWithVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}?operation=associate-phone-numbers", httpMethod: "POST", input: input)
     }
 
     ///  Associates the specified sign-in delegate groups with the specified Amazon Chime account.
-    public func associateSigninDelegateGroupsWithAccount(_ input: AssociateSigninDelegateGroupsWithAccountRequest) -> Future<AssociateSigninDelegateGroupsWithAccountResponse> {
+    public func associateSigninDelegateGroupsWithAccount(_ input: AssociateSigninDelegateGroupsWithAccountRequest) -> EventLoopFuture<AssociateSigninDelegateGroupsWithAccountResponse> {
         return client.send(operation: "AssociateSigninDelegateGroupsWithAccount", path: "/accounts/{accountId}?operation=associate-signin-delegate-groups", httpMethod: "POST", input: input)
     }
 
     ///  Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide. 
-    public func batchCreateAttendee(_ input: BatchCreateAttendeeRequest) -> Future<BatchCreateAttendeeResponse> {
+    public func batchCreateAttendee(_ input: BatchCreateAttendeeRequest) -> EventLoopFuture<BatchCreateAttendeeResponse> {
         return client.send(operation: "BatchCreateAttendee", path: "/meetings/{meetingId}/attendees?operation=batch-create", httpMethod: "POST", input: input)
     }
 
     ///  Adds up to 50 members to a chat room. Members can be either users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
-    public func batchCreateRoomMembership(_ input: BatchCreateRoomMembershipRequest) -> Future<BatchCreateRoomMembershipResponse> {
+    public func batchCreateRoomMembership(_ input: BatchCreateRoomMembershipRequest) -> EventLoopFuture<BatchCreateRoomMembershipResponse> {
         return client.send(operation: "BatchCreateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships?operation=batch-create", httpMethod: "POST", input: input)
     }
 
     ///  Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
-    public func batchDeletePhoneNumber(_ input: BatchDeletePhoneNumberRequest) -> Future<BatchDeletePhoneNumberResponse> {
+    public func batchDeletePhoneNumber(_ input: BatchDeletePhoneNumberRequest) -> EventLoopFuture<BatchDeletePhoneNumberResponse> {
         return client.send(operation: "BatchDeletePhoneNumber", path: "/phone-numbers?operation=batch-delete", httpMethod: "POST", input: input)
     }
 
     ///  Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account, but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the BatchUnsuspendUser action.  To sign out users without suspending them, use the LogoutUser action.
-    public func batchSuspendUser(_ input: BatchSuspendUserRequest) -> Future<BatchSuspendUserResponse> {
+    public func batchSuspendUser(_ input: BatchSuspendUserRequest) -> EventLoopFuture<BatchSuspendUserResponse> {
         return client.send(operation: "BatchSuspendUser", path: "/accounts/{accountId}/users?operation=suspend", httpMethod: "POST", input: input)
     }
 
     ///  Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide. Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
-    public func batchUnsuspendUser(_ input: BatchUnsuspendUserRequest) -> Future<BatchUnsuspendUserResponse> {
+    public func batchUnsuspendUser(_ input: BatchUnsuspendUserRequest) -> EventLoopFuture<BatchUnsuspendUserResponse> {
         return client.send(operation: "BatchUnsuspendUser", path: "/accounts/{accountId}/users?operation=unsuspend", httpMethod: "POST", input: input)
     }
 
     ///  Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update either the product type or the calling name. For product types, choose from Amazon Chime Business Calling and Amazon Chime Voice Connector. For toll-free numbers, you must use the Amazon Chime Voice Connector product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
-    public func batchUpdatePhoneNumber(_ input: BatchUpdatePhoneNumberRequest) -> Future<BatchUpdatePhoneNumberResponse> {
+    public func batchUpdatePhoneNumber(_ input: BatchUpdatePhoneNumberRequest) -> EventLoopFuture<BatchUpdatePhoneNumberResponse> {
         return client.send(operation: "BatchUpdatePhoneNumber", path: "/phone-numbers?operation=batch-update", httpMethod: "POST", input: input)
     }
 
     ///  Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
-    public func batchUpdateUser(_ input: BatchUpdateUserRequest) -> Future<BatchUpdateUserResponse> {
+    public func batchUpdateUser(_ input: BatchUpdateUserRequest) -> EventLoopFuture<BatchUpdateUserResponse> {
         return client.send(operation: "BatchUpdateUser", path: "/accounts/{accountId}/users", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
-    public func createAccount(_ input: CreateAccountRequest) -> Future<CreateAccountResponse> {
+    public func createAccount(_ input: CreateAccountRequest) -> EventLoopFuture<CreateAccountResponse> {
         return client.send(operation: "CreateAccount", path: "/accounts", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func createAttendee(_ input: CreateAttendeeRequest) -> Future<CreateAttendeeResponse> {
+    public func createAttendee(_ input: CreateAttendeeRequest) -> EventLoopFuture<CreateAttendeeResponse> {
         return client.send(operation: "CreateAttendee", path: "/meetings/{meetingId}/attendees", httpMethod: "POST", input: input)
     }
 
     ///  Creates a bot for an Amazon Chime Enterprise account.
-    public func createBot(_ input: CreateBotRequest) -> Future<CreateBotResponse> {
+    public func createBot(_ input: CreateBotRequest) -> EventLoopFuture<CreateBotResponse> {
         return client.send(operation: "CreateBot", path: "/accounts/{accountId}/bots", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func createMeeting(_ input: CreateMeetingRequest) -> Future<CreateMeetingResponse> {
+    public func createMeeting(_ input: CreateMeetingRequest) -> EventLoopFuture<CreateMeetingResponse> {
         return client.send(operation: "CreateMeeting", path: "/meetings", httpMethod: "POST", input: input)
     }
 
     ///  Creates an order for phone numbers to be provisioned. Choose from Amazon Chime Business Calling and Amazon Chime Voice Connector product types. For toll-free numbers, you must use the Amazon Chime Voice Connector product type.
-    public func createPhoneNumberOrder(_ input: CreatePhoneNumberOrderRequest) -> Future<CreatePhoneNumberOrderResponse> {
+    public func createPhoneNumberOrder(_ input: CreatePhoneNumberOrderRequest) -> EventLoopFuture<CreatePhoneNumberOrderResponse> {
         return client.send(operation: "CreatePhoneNumberOrder", path: "/phone-number-orders", httpMethod: "POST", input: input)
     }
 
     ///  Creates a chat room for the specified Amazon Chime account.
-    public func createRoom(_ input: CreateRoomRequest) -> Future<CreateRoomResponse> {
+    public func createRoom(_ input: CreateRoomRequest) -> EventLoopFuture<CreateRoomResponse> {
         return client.send(operation: "CreateRoom", path: "/accounts/{accountId}/rooms", httpMethod: "POST", input: input)
     }
 
     ///  Adds a member to a chat room. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
-    public func createRoomMembership(_ input: CreateRoomMembershipRequest) -> Future<CreateRoomMembershipResponse> {
+    public func createRoomMembership(_ input: CreateRoomMembershipRequest) -> EventLoopFuture<CreateRoomMembershipResponse> {
         return client.send(operation: "CreateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships", httpMethod: "POST", input: input)
     }
 
     ///  Creates a user under the specified Amazon Chime account.
-    public func createUser(_ input: CreateUserRequest) -> Future<CreateUserResponse> {
+    public func createUser(_ input: CreateUserRequest) -> EventLoopFuture<CreateUserResponse> {
         return client.send(operation: "CreateUser", path: "/accounts/{accountId}/users?operation=create", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling CreateVoiceConnectorRequest$RequireEncryption configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked.
-    public func createVoiceConnector(_ input: CreateVoiceConnectorRequest) -> Future<CreateVoiceConnectorResponse> {
+    public func createVoiceConnector(_ input: CreateVoiceConnectorRequest) -> EventLoopFuture<CreateVoiceConnectorResponse> {
         return client.send(operation: "CreateVoiceConnector", path: "/voice-connectors", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate up to three existing Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
-    public func createVoiceConnectorGroup(_ input: CreateVoiceConnectorGroupRequest) -> Future<CreateVoiceConnectorGroupResponse> {
+    public func createVoiceConnectorGroup(_ input: CreateVoiceConnectorGroupRequest) -> EventLoopFuture<CreateVoiceConnectorGroupResponse> {
         return client.send(operation: "CreateVoiceConnectorGroup", path: "/voice-connector-groups", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified Amazon Chime account. You must suspend all users before deleting a Team account. You can use the BatchSuspendUser action to do so. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore a deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
-    public func deleteAccount(_ input: DeleteAccountRequest) -> Future<DeleteAccountResponse> {
+    public func deleteAccount(_ input: DeleteAccountRequest) -> EventLoopFuture<DeleteAccountResponse> {
         return client.send(operation: "DeleteAccount", path: "/accounts/{accountId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    @discardableResult public func deleteAttendee(_ input: DeleteAttendeeRequest) -> Future<Void> {
+    @discardableResult public func deleteAttendee(_ input: DeleteAttendeeRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the events configuration that allows a bot to receive outgoing events.
-    @discardableResult public func deleteEventsConfiguration(_ input: DeleteEventsConfigurationRequest) -> Future<Void> {
+    @discardableResult public func deleteEventsConfiguration(_ input: DeleteEventsConfigurationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified Amazon Chime SDK meeting. When a meeting is deleted, its attendees are also deleted and clients can no longer join it. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    @discardableResult public func deleteMeeting(_ input: DeleteMeetingRequest) -> Future<Void> {
+    @discardableResult public func deleteMeeting(_ input: DeleteMeetingRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteMeeting", path: "/meetings/{meetingId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
-    @discardableResult public func deletePhoneNumber(_ input: DeletePhoneNumberRequest) -> Future<Void> {
+    @discardableResult public func deletePhoneNumber(_ input: DeletePhoneNumberRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeletePhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a chat room.
-    @discardableResult public func deleteRoom(_ input: DeleteRoomRequest) -> Future<Void> {
+    @discardableResult public func deleteRoom(_ input: DeleteRoomRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes a member from a chat room.
-    @discardableResult public func deleteRoomMembership(_ input: DeleteRoomMembershipRequest) -> Future<Void> {
+    @discardableResult public func deleteRoomMembership(_ input: DeleteRoomMembershipRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships/{memberId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted.
-    @discardableResult public func deleteVoiceConnector(_ input: DeleteVoiceConnectorRequest) -> Future<Void> {
+    @discardableResult public func deleteVoiceConnector(_ input: DeleteVoiceConnectorRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
-    @discardableResult public func deleteVoiceConnectorGroup(_ input: DeleteVoiceConnectorGroupRequest) -> Future<Void> {
+    @discardableResult public func deleteVoiceConnectorGroup(_ input: DeleteVoiceConnectorGroupRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the origination settings for the specified Amazon Chime Voice Connector.
-    @discardableResult public func deleteVoiceConnectorOrigination(_ input: DeleteVoiceConnectorOriginationRequest) -> Future<Void> {
+    @discardableResult public func deleteVoiceConnectorOrigination(_ input: DeleteVoiceConnectorOriginationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the streaming configuration for the specified Amazon Chime Voice Connector.
-    @discardableResult public func deleteVoiceConnectorStreamingConfiguration(_ input: DeleteVoiceConnectorStreamingConfigurationRequest) -> Future<Void> {
+    @discardableResult public func deleteVoiceConnectorStreamingConfiguration(_ input: DeleteVoiceConnectorStreamingConfigurationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the termination settings for the specified Amazon Chime Voice Connector.
-    @discardableResult public func deleteVoiceConnectorTermination(_ input: DeleteVoiceConnectorTerminationRequest) -> Future<Void> {
+    @discardableResult public func deleteVoiceConnectorTermination(_ input: DeleteVoiceConnectorTerminationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
-    @discardableResult public func deleteVoiceConnectorTerminationCredentials(_ input: DeleteVoiceConnectorTerminationCredentialsRequest) -> Future<Void> {
+    @discardableResult public func deleteVoiceConnectorTerminationCredentials(_ input: DeleteVoiceConnectorTerminationCredentialsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials?operation=delete", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the primary provisioned phone number from the specified Amazon Chime user.
-    public func disassociatePhoneNumberFromUser(_ input: DisassociatePhoneNumberFromUserRequest) -> Future<DisassociatePhoneNumberFromUserResponse> {
+    public func disassociatePhoneNumberFromUser(_ input: DisassociatePhoneNumberFromUserRequest) -> EventLoopFuture<DisassociatePhoneNumberFromUserResponse> {
         return client.send(operation: "DisassociatePhoneNumberFromUser", path: "/accounts/{accountId}/users/{userId}?operation=disassociate-phone-number", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector.
-    public func disassociatePhoneNumbersFromVoiceConnector(_ input: DisassociatePhoneNumbersFromVoiceConnectorRequest) -> Future<DisassociatePhoneNumbersFromVoiceConnectorResponse> {
+    public func disassociatePhoneNumbersFromVoiceConnector(_ input: DisassociatePhoneNumbersFromVoiceConnectorRequest) -> EventLoopFuture<DisassociatePhoneNumbersFromVoiceConnectorResponse> {
         return client.send(operation: "DisassociatePhoneNumbersFromVoiceConnector", path: "/voice-connectors/{voiceConnectorId}?operation=disassociate-phone-numbers", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group.
-    public func disassociatePhoneNumbersFromVoiceConnectorGroup(_ input: DisassociatePhoneNumbersFromVoiceConnectorGroupRequest) -> Future<DisassociatePhoneNumbersFromVoiceConnectorGroupResponse> {
+    public func disassociatePhoneNumbersFromVoiceConnectorGroup(_ input: DisassociatePhoneNumbersFromVoiceConnectorGroupRequest) -> EventLoopFuture<DisassociatePhoneNumbersFromVoiceConnectorGroupResponse> {
         return client.send(operation: "DisassociatePhoneNumbersFromVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}?operation=disassociate-phone-numbers", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
-    public func disassociateSigninDelegateGroupsFromAccount(_ input: DisassociateSigninDelegateGroupsFromAccountRequest) -> Future<DisassociateSigninDelegateGroupsFromAccountResponse> {
+    public func disassociateSigninDelegateGroupsFromAccount(_ input: DisassociateSigninDelegateGroupsFromAccountRequest) -> EventLoopFuture<DisassociateSigninDelegateGroupsFromAccountResponse> {
         return client.send(operation: "DisassociateSigninDelegateGroupsFromAccount", path: "/accounts/{accountId}?operation=disassociate-signin-delegate-groups", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
-    public func getAccount(_ input: GetAccountRequest) -> Future<GetAccountResponse> {
+    public func getAccount(_ input: GetAccountRequest) -> EventLoopFuture<GetAccountResponse> {
         return client.send(operation: "GetAccount", path: "/accounts/{accountId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dial out settings. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
-    public func getAccountSettings(_ input: GetAccountSettingsRequest) -> Future<GetAccountSettingsResponse> {
+    public func getAccountSettings(_ input: GetAccountSettingsRequest) -> EventLoopFuture<GetAccountSettingsResponse> {
         return client.send(operation: "GetAccountSettings", path: "/accounts/{accountId}/settings", httpMethod: "GET", input: input)
     }
 
     ///  Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func getAttendee(_ input: GetAttendeeRequest) -> Future<GetAttendeeResponse> {
+    public func getAttendee(_ input: GetAttendeeRequest) -> EventLoopFuture<GetAttendeeResponse> {
         return client.send(operation: "GetAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
-    public func getBot(_ input: GetBotRequest) -> Future<GetBotResponse> {
+    public func getBot(_ input: GetBotRequest) -> EventLoopFuture<GetBotResponse> {
         return client.send(operation: "GetBot", path: "/accounts/{accountId}/bots/{botId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN. 
-    public func getEventsConfiguration(_ input: GetEventsConfigurationRequest) -> Future<GetEventsConfigurationResponse> {
+    public func getEventsConfiguration(_ input: GetEventsConfigurationRequest) -> EventLoopFuture<GetEventsConfigurationResponse> {
         return client.send(operation: "GetEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
-    public func getGlobalSettings() -> Future<GetGlobalSettingsResponse> {
+    public func getGlobalSettings() -> EventLoopFuture<GetGlobalSettingsResponse> {
         return client.send(operation: "GetGlobalSettings", path: "/settings", httpMethod: "GET")
     }
 
     ///  Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func getMeeting(_ input: GetMeetingRequest) -> Future<GetMeetingResponse> {
+    public func getMeeting(_ input: GetMeetingRequest) -> EventLoopFuture<GetMeetingResponse> {
         return client.send(operation: "GetMeeting", path: "/meetings/{meetingId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
-    public func getPhoneNumber(_ input: GetPhoneNumberRequest) -> Future<GetPhoneNumberResponse> {
+    public func getPhoneNumber(_ input: GetPhoneNumberRequest) -> EventLoopFuture<GetPhoneNumberResponse> {
         return client.send(operation: "GetPhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves details for the specified phone number order, such as order creation timestamp, phone numbers in E.164 format, product type, and order status.
-    public func getPhoneNumberOrder(_ input: GetPhoneNumberOrderRequest) -> Future<GetPhoneNumberOrderResponse> {
+    public func getPhoneNumberOrder(_ input: GetPhoneNumberOrderRequest) -> EventLoopFuture<GetPhoneNumberOrderResponse> {
         return client.send(operation: "GetPhoneNumberOrder", path: "/phone-number-orders/{phoneNumberOrderId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
-    public func getPhoneNumberSettings() -> Future<GetPhoneNumberSettingsResponse> {
+    public func getPhoneNumberSettings() -> EventLoopFuture<GetPhoneNumberSettingsResponse> {
         return client.send(operation: "GetPhoneNumberSettings", path: "/settings/phone-number", httpMethod: "GET")
     }
 
     ///  Retrieves room details, such as the room name.
-    public func getRoom(_ input: GetRoomRequest) -> Future<GetRoomResponse> {
+    public func getRoom(_ input: GetRoomRequest) -> EventLoopFuture<GetRoomResponse> {
         return client.send(operation: "GetRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves details for the specified user ID, such as primary email address, license type, and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the ListUsers action, and then filter by email address.
-    public func getUser(_ input: GetUserRequest) -> Future<GetUserResponse> {
+    public func getUser(_ input: GetUserRequest) -> EventLoopFuture<GetUserResponse> {
         return client.send(operation: "GetUser", path: "/accounts/{accountId}/users/{userId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves settings for the specified user ID, such as any associated phone number settings.
-    public func getUserSettings(_ input: GetUserSettingsRequest) -> Future<GetUserSettingsResponse> {
+    public func getUserSettings(_ input: GetUserSettingsRequest) -> EventLoopFuture<GetUserSettingsResponse> {
         return client.send(operation: "GetUserSettings", path: "/accounts/{accountId}/users/{userId}/settings", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps, name, outbound host, and encryption requirements.
-    public func getVoiceConnector(_ input: GetVoiceConnectorRequest) -> Future<GetVoiceConnectorResponse> {
+    public func getVoiceConnector(_ input: GetVoiceConnectorRequest) -> EventLoopFuture<GetVoiceConnectorResponse> {
         return client.send(operation: "GetVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps, name, and associated VoiceConnectorItems.
-    public func getVoiceConnectorGroup(_ input: GetVoiceConnectorGroupRequest) -> Future<GetVoiceConnectorGroupResponse> {
+    public func getVoiceConnectorGroup(_ input: GetVoiceConnectorGroupRequest) -> EventLoopFuture<GetVoiceConnectorGroupResponse> {
         return client.send(operation: "GetVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
-    public func getVoiceConnectorLoggingConfiguration(_ input: GetVoiceConnectorLoggingConfigurationRequest) -> Future<GetVoiceConnectorLoggingConfigurationResponse> {
+    public func getVoiceConnectorLoggingConfiguration(_ input: GetVoiceConnectorLoggingConfigurationRequest) -> EventLoopFuture<GetVoiceConnectorLoggingConfigurationResponse> {
         return client.send(operation: "GetVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{voiceConnectorId}/logging-configuration", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves origination setting details for the specified Amazon Chime Voice Connector.
-    public func getVoiceConnectorOrigination(_ input: GetVoiceConnectorOriginationRequest) -> Future<GetVoiceConnectorOriginationResponse> {
+    public func getVoiceConnectorOrigination(_ input: GetVoiceConnectorOriginationRequest) -> EventLoopFuture<GetVoiceConnectorOriginationResponse> {
         return client.send(operation: "GetVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
-    public func getVoiceConnectorStreamingConfiguration(_ input: GetVoiceConnectorStreamingConfigurationRequest) -> Future<GetVoiceConnectorStreamingConfigurationResponse> {
+    public func getVoiceConnectorStreamingConfiguration(_ input: GetVoiceConnectorStreamingConfigurationRequest) -> EventLoopFuture<GetVoiceConnectorStreamingConfigurationResponse> {
         return client.send(operation: "GetVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves termination setting details for the specified Amazon Chime Voice Connector.
-    public func getVoiceConnectorTermination(_ input: GetVoiceConnectorTerminationRequest) -> Future<GetVoiceConnectorTerminationResponse> {
+    public func getVoiceConnectorTermination(_ input: GetVoiceConnectorTerminationRequest) -> EventLoopFuture<GetVoiceConnectorTerminationResponse> {
         return client.send(operation: "GetVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
-    public func getVoiceConnectorTerminationHealth(_ input: GetVoiceConnectorTerminationHealthRequest) -> Future<GetVoiceConnectorTerminationHealthResponse> {
+    public func getVoiceConnectorTerminationHealth(_ input: GetVoiceConnectorTerminationHealthRequest) -> EventLoopFuture<GetVoiceConnectorTerminationHealthResponse> {
         return client.send(operation: "GetVoiceConnectorTerminationHealth", path: "/voice-connectors/{voiceConnectorId}/termination/health", httpMethod: "GET", input: input)
     }
 
     ///  Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action. 
-    public func inviteUsers(_ input: InviteUsersRequest) -> Future<InviteUsersResponse> {
+    public func inviteUsers(_ input: InviteUsersRequest) -> EventLoopFuture<InviteUsersResponse> {
         return client.send(operation: "InviteUsers", path: "/accounts/{accountId}/users?operation=add", httpMethod: "POST", input: input)
     }
 
     ///  Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
-    public func listAccounts(_ input: ListAccountsRequest) -> Future<ListAccountsResponse> {
+    public func listAccounts(_ input: ListAccountsRequest) -> EventLoopFuture<ListAccountsResponse> {
         return client.send(operation: "ListAccounts", path: "/accounts", httpMethod: "GET", input: input)
     }
 
     ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func listAttendees(_ input: ListAttendeesRequest) -> Future<ListAttendeesResponse> {
+    public func listAttendees(_ input: ListAttendeesRequest) -> EventLoopFuture<ListAttendeesResponse> {
         return client.send(operation: "ListAttendees", path: "/meetings/{meetingId}/attendees", httpMethod: "GET", input: input)
     }
 
     ///  Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
-    public func listBots(_ input: ListBotsRequest) -> Future<ListBotsResponse> {
+    public func listBots(_ input: ListBotsRequest) -> EventLoopFuture<ListBotsResponse> {
         return client.send(operation: "ListBots", path: "/accounts/{accountId}/bots", httpMethod: "GET", input: input)
     }
 
     ///  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func listMeetings(_ input: ListMeetingsRequest) -> Future<ListMeetingsResponse> {
+    public func listMeetings(_ input: ListMeetingsRequest) -> EventLoopFuture<ListMeetingsResponse> {
         return client.send(operation: "ListMeetings", path: "/meetings", httpMethod: "GET", input: input)
     }
 
     ///  Lists the phone number orders for the administrator's Amazon Chime account.
-    public func listPhoneNumberOrders(_ input: ListPhoneNumberOrdersRequest) -> Future<ListPhoneNumberOrdersResponse> {
+    public func listPhoneNumberOrders(_ input: ListPhoneNumberOrdersRequest) -> EventLoopFuture<ListPhoneNumberOrdersResponse> {
         return client.send(operation: "ListPhoneNumberOrders", path: "/phone-number-orders", httpMethod: "GET", input: input)
     }
 
     ///  Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
-    public func listPhoneNumbers(_ input: ListPhoneNumbersRequest) -> Future<ListPhoneNumbersResponse> {
+    public func listPhoneNumbers(_ input: ListPhoneNumbersRequest) -> EventLoopFuture<ListPhoneNumbersResponse> {
         return client.send(operation: "ListPhoneNumbers", path: "/phone-numbers", httpMethod: "GET", input: input)
     }
 
     ///  Lists the membership details for the specified room, such as the members' IDs, email addresses, and names.
-    public func listRoomMemberships(_ input: ListRoomMembershipsRequest) -> Future<ListRoomMembershipsResponse> {
+    public func listRoomMemberships(_ input: ListRoomMembershipsRequest) -> EventLoopFuture<ListRoomMembershipsResponse> {
         return client.send(operation: "ListRoomMemberships", path: "/accounts/{accountId}/rooms/{roomId}/memberships", httpMethod: "GET", input: input)
     }
 
     ///  Lists the room details for the specified Amazon Chime account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
-    public func listRooms(_ input: ListRoomsRequest) -> Future<ListRoomsResponse> {
+    public func listRooms(_ input: ListRoomsRequest) -> EventLoopFuture<ListRoomsResponse> {
         return client.send(operation: "ListRooms", path: "/accounts/{accountId}/rooms", httpMethod: "GET", input: input)
     }
 
     ///  Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
-    public func listUsers(_ input: ListUsersRequest) -> Future<ListUsersResponse> {
+    public func listUsers(_ input: ListUsersRequest) -> EventLoopFuture<ListUsersResponse> {
         return client.send(operation: "ListUsers", path: "/accounts/{accountId}/users", httpMethod: "GET", input: input)
     }
 
     ///  Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
-    public func listVoiceConnectorGroups(_ input: ListVoiceConnectorGroupsRequest) -> Future<ListVoiceConnectorGroupsResponse> {
+    public func listVoiceConnectorGroups(_ input: ListVoiceConnectorGroupsRequest) -> EventLoopFuture<ListVoiceConnectorGroupsResponse> {
         return client.send(operation: "ListVoiceConnectorGroups", path: "/voice-connector-groups", httpMethod: "GET", input: input)
     }
 
     ///  Lists the SIP credentials for the specified Amazon Chime Voice Connector.
-    public func listVoiceConnectorTerminationCredentials(_ input: ListVoiceConnectorTerminationCredentialsRequest) -> Future<ListVoiceConnectorTerminationCredentialsResponse> {
+    public func listVoiceConnectorTerminationCredentials(_ input: ListVoiceConnectorTerminationCredentialsRequest) -> EventLoopFuture<ListVoiceConnectorTerminationCredentialsResponse> {
         return client.send(operation: "ListVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials", httpMethod: "GET", input: input)
     }
 
     ///  Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
-    public func listVoiceConnectors(_ input: ListVoiceConnectorsRequest) -> Future<ListVoiceConnectorsResponse> {
+    public func listVoiceConnectors(_ input: ListVoiceConnectorsRequest) -> EventLoopFuture<ListVoiceConnectorsResponse> {
         return client.send(operation: "ListVoiceConnectors", path: "/voice-connectors", httpMethod: "GET", input: input)
     }
 
     ///  Logs out the specified user from all of the devices they are currently logged into.
-    public func logoutUser(_ input: LogoutUserRequest) -> Future<LogoutUserResponse> {
+    public func logoutUser(_ input: LogoutUserRequest) -> EventLoopFuture<LogoutUserResponse> {
         return client.send(operation: "LogoutUser", path: "/accounts/{accountId}/users/{userId}?operation=logout", httpMethod: "POST", input: input)
     }
 
     ///  Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see Bot.
-    public func putEventsConfiguration(_ input: PutEventsConfigurationRequest) -> Future<PutEventsConfigurationResponse> {
+    public func putEventsConfiguration(_ input: PutEventsConfigurationRequest) -> EventLoopFuture<PutEventsConfigurationResponse> {
         return client.send(operation: "PutEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: "PUT", input: input)
     }
 
     ///  Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
-    public func putVoiceConnectorLoggingConfiguration(_ input: PutVoiceConnectorLoggingConfigurationRequest) -> Future<PutVoiceConnectorLoggingConfigurationResponse> {
+    public func putVoiceConnectorLoggingConfiguration(_ input: PutVoiceConnectorLoggingConfigurationRequest) -> EventLoopFuture<PutVoiceConnectorLoggingConfigurationResponse> {
         return client.send(operation: "PutVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{voiceConnectorId}/logging-configuration", httpMethod: "PUT", input: input)
     }
 
     ///  Adds origination settings for the specified Amazon Chime Voice Connector.
-    public func putVoiceConnectorOrigination(_ input: PutVoiceConnectorOriginationRequest) -> Future<PutVoiceConnectorOriginationResponse> {
+    public func putVoiceConnectorOrigination(_ input: PutVoiceConnectorOriginationRequest) -> EventLoopFuture<PutVoiceConnectorOriginationResponse> {
         return client.send(operation: "PutVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: "PUT", input: input)
     }
 
     ///  Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Amazon Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.
-    public func putVoiceConnectorStreamingConfiguration(_ input: PutVoiceConnectorStreamingConfigurationRequest) -> Future<PutVoiceConnectorStreamingConfigurationResponse> {
+    public func putVoiceConnectorStreamingConfiguration(_ input: PutVoiceConnectorStreamingConfigurationRequest) -> EventLoopFuture<PutVoiceConnectorStreamingConfigurationResponse> {
         return client.send(operation: "PutVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: "PUT", input: input)
     }
 
     ///  Adds termination settings for the specified Amazon Chime Voice Connector.
-    public func putVoiceConnectorTermination(_ input: PutVoiceConnectorTerminationRequest) -> Future<PutVoiceConnectorTerminationResponse> {
+    public func putVoiceConnectorTermination(_ input: PutVoiceConnectorTerminationRequest) -> EventLoopFuture<PutVoiceConnectorTerminationResponse> {
         return client.send(operation: "PutVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: "PUT", input: input)
     }
 
     ///  Adds termination SIP credentials for the specified Amazon Chime Voice Connector.
-    @discardableResult public func putVoiceConnectorTerminationCredentials(_ input: PutVoiceConnectorTerminationCredentialsRequest) -> Future<Void> {
+    @discardableResult public func putVoiceConnectorTerminationCredentials(_ input: PutVoiceConnectorTerminationCredentialsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "PutVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials?operation=put", httpMethod: "POST", input: input)
     }
 
     ///  Regenerates the security token for a bot.
-    public func regenerateSecurityToken(_ input: RegenerateSecurityTokenRequest) -> Future<RegenerateSecurityTokenResponse> {
+    public func regenerateSecurityToken(_ input: RegenerateSecurityTokenRequest) -> EventLoopFuture<RegenerateSecurityTokenResponse> {
         return client.send(operation: "RegenerateSecurityToken", path: "/accounts/{accountId}/bots/{botId}?operation=regenerate-security-token", httpMethod: "POST", input: input)
     }
 
     ///  Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meeting PIN.
-    public func resetPersonalPIN(_ input: ResetPersonalPINRequest) -> Future<ResetPersonalPINResponse> {
+    public func resetPersonalPIN(_ input: ResetPersonalPINRequest) -> EventLoopFuture<ResetPersonalPINResponse> {
         return client.send(operation: "ResetPersonalPIN", path: "/accounts/{accountId}/users/{userId}?operation=reset-personal-pin", httpMethod: "POST", input: input)
     }
 
     ///  Moves a phone number from the Deletion queue back into the phone number Inventory.
-    public func restorePhoneNumber(_ input: RestorePhoneNumberRequest) -> Future<RestorePhoneNumberResponse> {
+    public func restorePhoneNumber(_ input: RestorePhoneNumberRequest) -> EventLoopFuture<RestorePhoneNumberResponse> {
         return client.send(operation: "RestorePhoneNumber", path: "/phone-numbers/{phoneNumberId}?operation=restore", httpMethod: "POST", input: input)
     }
 
     ///  Searches phone numbers that can be ordered.
-    public func searchAvailablePhoneNumbers(_ input: SearchAvailablePhoneNumbersRequest) -> Future<SearchAvailablePhoneNumbersResponse> {
+    public func searchAvailablePhoneNumbers(_ input: SearchAvailablePhoneNumbersRequest) -> EventLoopFuture<SearchAvailablePhoneNumbersResponse> {
         return client.send(operation: "SearchAvailablePhoneNumbers", path: "/search?type=phone-numbers", httpMethod: "GET", input: input)
     }
 
     ///  Updates account details for the specified Amazon Chime account. Currently, only account name updates are supported for this action.
-    public func updateAccount(_ input: UpdateAccountRequest) -> Future<UpdateAccountResponse> {
+    public func updateAccount(_ input: UpdateAccountRequest) -> EventLoopFuture<UpdateAccountResponse> {
         return client.send(operation: "UpdateAccount", path: "/accounts/{accountId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
-    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest) -> Future<UpdateAccountSettingsResponse> {
+    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest) -> EventLoopFuture<UpdateAccountSettingsResponse> {
         return client.send(operation: "UpdateAccountSettings", path: "/accounts/{accountId}/settings", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
-    public func updateBot(_ input: UpdateBotRequest) -> Future<UpdateBotResponse> {
+    public func updateBot(_ input: UpdateBotRequest) -> EventLoopFuture<UpdateBotResponse> {
         return client.send(operation: "UpdateBot", path: "/accounts/{accountId}/bots/{botId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
-    @discardableResult public func updateGlobalSettings(_ input: UpdateGlobalSettingsRequest) -> Future<Void> {
+    @discardableResult public func updateGlobalSettings(_ input: UpdateGlobalSettingsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateGlobalSettings", path: "/settings", httpMethod: "PUT", input: input)
     }
 
     ///  Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you must use the Amazon Chime Voice Connector product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
-    public func updatePhoneNumber(_ input: UpdatePhoneNumberRequest) -> Future<UpdatePhoneNumberResponse> {
+    public func updatePhoneNumber(_ input: UpdatePhoneNumberRequest) -> EventLoopFuture<UpdatePhoneNumberResponse> {
         return client.send(operation: "UpdatePhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
-    @discardableResult public func updatePhoneNumberSettings(_ input: UpdatePhoneNumberSettingsRequest) -> Future<Void> {
+    @discardableResult public func updatePhoneNumberSettings(_ input: UpdatePhoneNumberSettingsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdatePhoneNumberSettings", path: "/settings/phone-number", httpMethod: "PUT", input: input)
     }
 
     ///  Updates room details, such as the room name.
-    public func updateRoom(_ input: UpdateRoomRequest) -> Future<UpdateRoomResponse> {
+    public func updateRoom(_ input: UpdateRoomRequest) -> EventLoopFuture<UpdateRoomResponse> {
         return client.send(operation: "UpdateRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates room membership details, such as the member role. The member role designates whether the member is a chat room administrator or a general chat room member. The member role can be updated only for user IDs.
-    public func updateRoomMembership(_ input: UpdateRoomMembershipRequest) -> Future<UpdateRoomMembershipResponse> {
+    public func updateRoomMembership(_ input: UpdateRoomMembershipRequest) -> EventLoopFuture<UpdateRoomMembershipResponse> {
         return client.send(operation: "UpdateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships/{memberId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
-    public func updateUser(_ input: UpdateUserRequest) -> Future<UpdateUserResponse> {
+    public func updateUser(_ input: UpdateUserRequest) -> EventLoopFuture<UpdateUserResponse> {
         return client.send(operation: "UpdateUser", path: "/accounts/{accountId}/users/{userId}", httpMethod: "POST", input: input)
     }
 
     ///  Updates the settings for the specified user, such as phone number settings.
-    @discardableResult public func updateUserSettings(_ input: UpdateUserSettingsRequest) -> Future<Void> {
+    @discardableResult public func updateUserSettings(_ input: UpdateUserSettingsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateUserSettings", path: "/accounts/{accountId}/users/{userId}/settings", httpMethod: "PUT", input: input)
     }
 
     ///  Updates details for the specified Amazon Chime Voice Connector.
-    public func updateVoiceConnector(_ input: UpdateVoiceConnectorRequest) -> Future<UpdateVoiceConnectorResponse> {
+    public func updateVoiceConnector(_ input: UpdateVoiceConnectorRequest) -> EventLoopFuture<UpdateVoiceConnectorResponse> {
         return client.send(operation: "UpdateVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates details for the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking.
-    public func updateVoiceConnectorGroup(_ input: UpdateVoiceConnectorGroupRequest) -> Future<UpdateVoiceConnectorGroupResponse> {
+    public func updateVoiceConnectorGroup(_ input: UpdateVoiceConnectorGroupRequest) -> EventLoopFuture<UpdateVoiceConnectorGroupResponse> {
         return client.send(operation: "UpdateVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: "PUT", input: input)
     }
 }

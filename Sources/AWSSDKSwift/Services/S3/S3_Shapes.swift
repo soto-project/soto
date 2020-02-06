@@ -4,6 +4,373 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension S3 {
+    //MARK: Enums
+
+    public enum AnalyticsS3ExportFileFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BucketAccelerateStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BucketCannedACL: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case authenticatedRead = "authenticated-read"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
+        case eu = "EU"
+        case euWest1 = "eu-west-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        case saEast1 = "sa-east-1"
+        case cnNorth1 = "cn-north-1"
+        case euCentral1 = "eu-central-1"
+        case usEast2 = "us-east-2"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case euNorth1 = "eu-north-1"
+        case apEast1 = "ap-east-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
+        case caCentral1 = "ca-central-1"
+        case cnNorthwest1 = "cn-northwest-1"
+        case meSouth1 = "me-south-1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BucketLogsPermission: String, CustomStringConvertible, Codable {
+        case fullControl = "FULL_CONTROL"
+        case read = "READ"
+        case write = "WRITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CompressionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case gzip = "GZIP"
+        case bzip2 = "BZIP2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncodingType: String, CustomStringConvertible, Codable {
+        case url = "url"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Event: String, CustomStringConvertible, Codable {
+        case s3Reducedredundancylostobject = "s3:ReducedRedundancyLostObject"
+        case s3ObjectcreatedAll = "s3:ObjectCreated:*"
+        case s3ObjectcreatedPut = "s3:ObjectCreated:Put"
+        case s3ObjectcreatedPost = "s3:ObjectCreated:Post"
+        case s3ObjectcreatedCopy = "s3:ObjectCreated:Copy"
+        case s3ObjectcreatedCompletemultipartupload = "s3:ObjectCreated:CompleteMultipartUpload"
+        case s3ObjectremovedAll = "s3:ObjectRemoved:*"
+        case s3ObjectremovedDelete = "s3:ObjectRemoved:Delete"
+        case s3ObjectremovedDeletemarkercreated = "s3:ObjectRemoved:DeleteMarkerCreated"
+        case s3ObjectrestoreAll = "s3:ObjectRestore:*"
+        case s3ObjectrestorePost = "s3:ObjectRestore:Post"
+        case s3ObjectrestoreCompleted = "s3:ObjectRestore:Completed"
+        case s3ReplicationAll = "s3:Replication:*"
+        case s3ReplicationOperationfailedreplication = "s3:Replication:OperationFailedReplication"
+        case s3ReplicationOperationnottracked = "s3:Replication:OperationNotTracked"
+        case s3ReplicationOperationmissedthreshold = "s3:Replication:OperationMissedThreshold"
+        case s3ReplicationOperationreplicatedafterthreshold = "s3:Replication:OperationReplicatedAfterThreshold"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExistingObjectReplicationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpirationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpressionType: String, CustomStringConvertible, Codable {
+        case sql = "SQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
+        case use = "USE"
+        case ignore = "IGNORE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterRuleName: String, CustomStringConvertible, Codable {
+        case prefix = "prefix"
+        case suffix = "suffix"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case orc = "ORC"
+        case parquet = "Parquet"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryFrequency: String, CustomStringConvertible, Codable {
+        case daily = "Daily"
+        case weekly = "Weekly"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryIncludedObjectVersions: String, CustomStringConvertible, Codable {
+        case all = "All"
+        case current = "Current"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryOptionalField: String, CustomStringConvertible, Codable {
+        case size = "Size"
+        case lastmodifieddate = "LastModifiedDate"
+        case storageclass = "StorageClass"
+        case etag = "ETag"
+        case ismultipartuploaded = "IsMultipartUploaded"
+        case replicationstatus = "ReplicationStatus"
+        case encryptionstatus = "EncryptionStatus"
+        case objectlockretainuntildate = "ObjectLockRetainUntilDate"
+        case objectlockmode = "ObjectLockMode"
+        case objectlocklegalholdstatus = "ObjectLockLegalHoldStatus"
+        case intelligenttieringaccesstier = "IntelligentTieringAccessTier"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JSONType: String, CustomStringConvertible, Codable {
+        case document = "DOCUMENT"
+        case lines = "LINES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MFADelete: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MFADeleteStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetadataDirective: String, CustomStringConvertible, Codable {
+        case copy = "COPY"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricsStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectCannedACL: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case authenticatedRead = "authenticated-read"
+        case awsExecRead = "aws-exec-read"
+        case bucketOwnerRead = "bucket-owner-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectLockEnabled: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable {
+        case on = "ON"
+        case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectLockMode: String, CustomStringConvertible, Codable {
+        case governance = "GOVERNANCE"
+        case compliance = "COMPLIANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectLockRetentionMode: String, CustomStringConvertible, Codable {
+        case governance = "GOVERNANCE"
+        case compliance = "COMPLIANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectStorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case glacier = "GLACIER"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case deepArchive = "DEEP_ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectVersionStorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OwnerOverride: String, CustomStringConvertible, Codable {
+        case destination = "Destination"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Payer: String, CustomStringConvertible, Codable {
+        case requester = "Requester"
+        case bucketowner = "BucketOwner"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case fullControl = "FULL_CONTROL"
+        case write = "WRITE"
+        case writeAcp = "WRITE_ACP"
+        case read = "READ"
+        case readAcp = "READ_ACP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case http = "http"
+        case https = "https"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuoteFields: String, CustomStringConvertible, Codable {
+        case always = "ALWAYS"
+        case asneeded = "ASNEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case pending = "PENDING"
+        case failed = "FAILED"
+        case replica = "REPLICA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationTimeStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestCharged: String, CustomStringConvertible, Codable {
+        case requester = "requester"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestPayer: String, CustomStringConvertible, Codable {
+        case requester = "requester"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RestoreRequestType: String, CustomStringConvertible, Codable {
+        case select = "SELECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerSideEncryption: String, CustomStringConvertible, Codable {
+        case aes256 = "AES256"
+        case awsKms = "aws:kms"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case glacier = "GLACIER"
+        case deepArchive = "DEEP_ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageClassAnalysisSchemaVersion: String, CustomStringConvertible, Codable {
+        case v1 = "V_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaggingDirective: String, CustomStringConvertible, Codable {
+        case copy = "COPY"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Tier: String, CustomStringConvertible, Codable {
+        case standard = "Standard"
+        case bulk = "Bulk"
+        case expedited = "Expedited"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitionStorageClass: String, CustomStringConvertible, Codable {
+        case glacier = "GLACIER"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case deepArchive = "DEEP_ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case canonicaluser = "CanonicalUser"
+        case amazoncustomerbyemail = "AmazonCustomerByEmail"
+        case group = "Group"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AbortIncompleteMultipartUpload: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -269,11 +636,6 @@ extension S3 {
         }
     }
 
-    public enum AnalyticsS3ExportFileFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Bucket: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
@@ -294,20 +656,6 @@ extension S3 {
             case creationDate = "CreationDate"
             case name = "Name"
         }
-    }
-
-    public enum BucketAccelerateStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case suspended = "Suspended"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BucketCannedACL: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
-        public var description: String { return self.rawValue }
     }
 
     public struct BucketLifecycleConfiguration: AWSShape {
@@ -333,31 +681,6 @@ extension S3 {
         }
     }
 
-    public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
-        case eu = "EU"
-        case euWest1 = "eu-west-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case saEast1 = "sa-east-1"
-        case cnNorth1 = "cn-north-1"
-        case euCentral1 = "eu-central-1"
-        case usEast2 = "us-east-2"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euNorth1 = "eu-north-1"
-        case apEast1 = "ap-east-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case caCentral1 = "ca-central-1"
-        case cnNorthwest1 = "cn-northwest-1"
-        case meSouth1 = "me-south-1"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BucketLoggingStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggingEnabled", required: false, type: .structure)
@@ -372,19 +695,6 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case loggingEnabled = "LoggingEnabled"
         }
-    }
-
-    public enum BucketLogsPermission: String, CustomStringConvertible, Codable {
-        case fullControl = "FULL_CONTROL"
-        case read = "READ"
-        case write = "WRITE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case suspended = "Suspended"
-        public var description: String { return self.rawValue }
     }
 
     public struct CORSConfiguration: AWSShape {
@@ -709,13 +1019,6 @@ extension S3 {
             case eTag = "ETag"
             case partNumber = "PartNumber"
         }
-    }
-
-    public enum CompressionType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case gzip = "GZIP"
-        case bzip2 = "BZIP2"
-        public var description: String { return self.rawValue }
     }
 
     public struct Condition: AWSShape {
@@ -1669,12 +1972,6 @@ extension S3 {
         }
     }
 
-    public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeleteObjectOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
@@ -1959,11 +2256,6 @@ extension S3 {
         }
     }
 
-    public enum EncodingType: String, CustomStringConvertible, Codable {
-        case url = "url"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Encryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncryptionType", required: true, type: .enum), 
@@ -2061,27 +2353,6 @@ extension S3 {
         }
     }
 
-    public enum Event: String, CustomStringConvertible, Codable {
-        case s3Reducedredundancylostobject = "s3:ReducedRedundancyLostObject"
-        case s3ObjectcreatedAll = "s3:ObjectCreated:*"
-        case s3ObjectcreatedPut = "s3:ObjectCreated:Put"
-        case s3ObjectcreatedPost = "s3:ObjectCreated:Post"
-        case s3ObjectcreatedCopy = "s3:ObjectCreated:Copy"
-        case s3ObjectcreatedCompletemultipartupload = "s3:ObjectCreated:CompleteMultipartUpload"
-        case s3ObjectremovedAll = "s3:ObjectRemoved:*"
-        case s3ObjectremovedDelete = "s3:ObjectRemoved:Delete"
-        case s3ObjectremovedDeletemarkercreated = "s3:ObjectRemoved:DeleteMarkerCreated"
-        case s3ObjectrestoreAll = "s3:ObjectRestore:*"
-        case s3ObjectrestorePost = "s3:ObjectRestore:Post"
-        case s3ObjectrestoreCompleted = "s3:ObjectRestore:Completed"
-        case s3ReplicationAll = "s3:Replication:*"
-        case s3ReplicationOperationfailedreplication = "s3:Replication:OperationFailedReplication"
-        case s3ReplicationOperationnottracked = "s3:Replication:OperationNotTracked"
-        case s3ReplicationOperationmissedthreshold = "s3:Replication:OperationMissedThreshold"
-        case s3ReplicationOperationreplicatedafterthreshold = "s3:Replication:OperationReplicatedAfterThreshold"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ExistingObjectReplication: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .enum)
@@ -2096,30 +2367,6 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
         }
-    }
-
-    public enum ExistingObjectReplicationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExpirationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExpressionType: String, CustomStringConvertible, Codable {
-        case sql = "SQL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
-        case use = "USE"
-        case ignore = "IGNORE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
     }
 
     public struct FilterRule: AWSShape {
@@ -2142,12 +2389,6 @@ extension S3 {
             case name = "Name"
             case value = "Value"
         }
-    }
-
-    public enum FilterRuleName: String, CustomStringConvertible, Codable {
-        case prefix = "prefix"
-        case suffix = "suffix"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetBucketAccelerateConfigurationOutput: AWSShape {
@@ -3953,40 +4194,6 @@ extension S3 {
         }
     }
 
-    public enum InventoryFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case orc = "ORC"
-        case parquet = "Parquet"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InventoryFrequency: String, CustomStringConvertible, Codable {
-        case daily = "Daily"
-        case weekly = "Weekly"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InventoryIncludedObjectVersions: String, CustomStringConvertible, Codable {
-        case all = "All"
-        case current = "Current"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InventoryOptionalField: String, CustomStringConvertible, Codable {
-        case size = "Size"
-        case lastmodifieddate = "LastModifiedDate"
-        case storageclass = "StorageClass"
-        case etag = "ETag"
-        case ismultipartuploaded = "IsMultipartUploaded"
-        case replicationstatus = "ReplicationStatus"
-        case encryptionstatus = "EncryptionStatus"
-        case objectlockretainuntildate = "ObjectLockRetainUntilDate"
-        case objectlockmode = "ObjectLockMode"
-        case objectlocklegalholdstatus = "ObjectLockLegalHoldStatus"
-        case intelligenttieringaccesstier = "IntelligentTieringAccessTier"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InventoryS3BucketDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
@@ -4073,12 +4280,6 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case recordDelimiter = "RecordDelimiter"
         }
-    }
-
-    public enum JSONType: String, CustomStringConvertible, Codable {
-        case document = "DOCUMENT"
-        case lines = "LINES"
-        public var description: String { return self.rawValue }
     }
 
     public struct LambdaFunctionConfiguration: AWSShape {
@@ -5082,24 +5283,6 @@ extension S3 {
         }
     }
 
-    public enum MFADelete: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MFADeleteStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetadataDirective: String, CustomStringConvertible, Codable {
-        case copy = "COPY"
-        case replace = "REPLACE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MetadataEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -5228,12 +5411,6 @@ extension S3 {
             case prefix = "Prefix"
             case tag = "Tag"
         }
-    }
-
-    public enum MetricsStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
     }
 
     public struct MultipartUpload: AWSShape {
@@ -5429,17 +5606,6 @@ extension S3 {
         }
     }
 
-    public enum ObjectCannedACL: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
-        case awsExecRead = "aws-exec-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ObjectIdentifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string), 
@@ -5488,11 +5654,6 @@ extension S3 {
         }
     }
 
-    public enum ObjectLockEnabled: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ObjectLockLegalHold: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum)
@@ -5508,18 +5669,6 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
         }
-    }
-
-    public enum ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable {
-        case on = "ON"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ObjectLockMode: String, CustomStringConvertible, Codable {
-        case governance = "GOVERNANCE"
-        case compliance = "COMPLIANCE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ObjectLockRetention: AWSShape {
@@ -5544,12 +5693,6 @@ extension S3 {
         }
     }
 
-    public enum ObjectLockRetentionMode: String, CustomStringConvertible, Codable {
-        case governance = "GOVERNANCE"
-        case compliance = "COMPLIANCE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ObjectLockRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultRetention", required: false, type: .structure)
@@ -5565,17 +5708,6 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case defaultRetention = "DefaultRetention"
         }
-    }
-
-    public enum ObjectStorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case reducedRedundancy = "REDUCED_REDUNDANCY"
-        case glacier = "GLACIER"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case deepArchive = "DEEP_ARCHIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ObjectVersion: AWSShape {
@@ -5628,11 +5760,6 @@ extension S3 {
             case storageClass = "StorageClass"
             case versionId = "VersionId"
         }
-    }
-
-    public enum ObjectVersionStorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
     }
 
     public struct OutputLocation: AWSShape {
@@ -5700,11 +5827,6 @@ extension S3 {
         }
     }
 
-    public enum OwnerOverride: String, CustomStringConvertible, Codable {
-        case destination = "Destination"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ParquetInput: AWSShape {
 
 
@@ -5745,21 +5867,6 @@ extension S3 {
         }
     }
 
-    public enum Payer: String, CustomStringConvertible, Codable {
-        case requester = "Requester"
-        case bucketowner = "BucketOwner"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Permission: String, CustomStringConvertible, Codable {
-        case fullControl = "FULL_CONTROL"
-        case write = "WRITE"
-        case writeAcp = "WRITE_ACP"
-        case read = "READ"
-        case readAcp = "READ_ACP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PolicyStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsPublic", location: .body(locationName: "IsPublic"), required: false, type: .boolean)
@@ -5775,12 +5882,6 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case isPublic = "IsPublic"
         }
-    }
-
-    public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case http = "http"
-        case https = "https"
-        public var description: String { return self.rawValue }
     }
 
     public struct PublicAccessBlockConfiguration: AWSShape {
@@ -7054,12 +7155,6 @@ extension S3 {
         }
     }
 
-    public enum QuoteFields: String, CustomStringConvertible, Codable {
-        case always = "ALWAYS"
-        case asneeded = "ASNEEDED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Redirect: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostName", required: false, type: .string), 
@@ -7260,20 +7355,6 @@ extension S3 {
         }
     }
 
-    public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable {
-        case completed = "COMPLETED"
-        case pending = "PENDING"
-        case failed = "FAILED"
-        case replica = "REPLICA"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReplicationTime: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .enum), 
@@ -7296,12 +7377,6 @@ extension S3 {
         }
     }
 
-    public enum ReplicationTimeStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReplicationTimeValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Minutes", required: false, type: .integer)
@@ -7317,16 +7392,6 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case minutes = "Minutes"
         }
-    }
-
-    public enum RequestCharged: String, CustomStringConvertible, Codable {
-        case requester = "requester"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RequestPayer: String, CustomStringConvertible, Codable {
-        case requester = "requester"
-        public var description: String { return self.rawValue }
     }
 
     public struct RequestPaymentConfiguration: AWSShape {
@@ -7476,11 +7541,6 @@ extension S3 {
             case tier = "Tier"
             case `type` = "Type"
         }
-    }
-
-    public enum RestoreRequestType: String, CustomStringConvertible, Codable {
-        case select = "SELECT"
-        public var description: String { return self.rawValue }
     }
 
     public struct RoutingRule: AWSShape {
@@ -7775,12 +7835,6 @@ extension S3 {
         }
     }
 
-    public enum ServerSideEncryption: String, CustomStringConvertible, Codable {
-        case aes256 = "AES256"
-        case awsKms = "aws:kms"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ServerSideEncryptionByDefault: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KMSMasterKeyID", required: false, type: .string), 
@@ -7871,23 +7925,6 @@ extension S3 {
         }
     }
 
-    public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case reducedRedundancy = "REDUCED_REDUNDANCY"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case glacier = "GLACIER"
-        case deepArchive = "DEEP_ARCHIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StorageClassAnalysis: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataExport", required: false, type: .structure)
@@ -7925,11 +7962,6 @@ extension S3 {
             case destination = "Destination"
             case outputSchemaVersion = "OutputSchemaVersion"
         }
-    }
-
-    public enum StorageClassAnalysisSchemaVersion: String, CustomStringConvertible, Codable {
-        case v1 = "V_1"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {
@@ -7981,12 +8013,6 @@ extension S3 {
         }
     }
 
-    public enum TaggingDirective: String, CustomStringConvertible, Codable {
-        case copy = "COPY"
-        case replace = "REPLACE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TargetGrant: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Grantee", required: false, type: .structure), 
@@ -8007,13 +8033,6 @@ extension S3 {
             case grantee = "Grantee"
             case permission = "Permission"
         }
-    }
-
-    public enum Tier: String, CustomStringConvertible, Codable {
-        case standard = "Standard"
-        case bulk = "Bulk"
-        case expedited = "Expedited"
-        public var description: String { return self.rawValue }
     }
 
     public struct TopicConfiguration: AWSShape {
@@ -8097,22 +8116,6 @@ extension S3 {
             case days = "Days"
             case storageClass = "StorageClass"
         }
-    }
-
-    public enum TransitionStorageClass: String, CustomStringConvertible, Codable {
-        case glacier = "GLACIER"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case deepArchive = "DEEP_ARCHIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable {
-        case canonicaluser = "CanonicalUser"
-        case amazoncustomerbyemail = "AmazonCustomerByEmail"
-        case group = "Group"
-        public var description: String { return self.rawValue }
     }
 
     public struct UploadPartCopyOutput: AWSShape {

@@ -4,6 +4,128 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension LexModelBuildingService {
+    //MARK: Enums
+
+    public enum ChannelStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case created = "CREATED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelType: String, CustomStringConvertible, Codable {
+        case facebook = "Facebook"
+        case slack = "Slack"
+        case twilioSms = "Twilio-Sms"
+        case kik = "Kik"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentType: String, CustomStringConvertible, Codable {
+        case plaintext = "PlainText"
+        case ssml = "SSML"
+        case custompayload = "CustomPayload"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Destination: String, CustomStringConvertible, Codable {
+        case cloudwatchLogs = "CLOUDWATCH_LOGS"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case ready = "READY"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportType: String, CustomStringConvertible, Codable {
+        case alexaSkillsKit = "ALEXA_SKILLS_KIT"
+        case lex = "LEX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FulfillmentActivityType: String, CustomStringConvertible, Codable {
+        case returnintent = "ReturnIntent"
+        case codehook = "CodeHook"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Locale: String, CustomStringConvertible, Codable {
+        case enUs = "en-US"
+        case enGb = "en-GB"
+        case deDe = "de-DE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogType: String, CustomStringConvertible, Codable {
+        case audio = "AUDIO"
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MergeStrategy: String, CustomStringConvertible, Codable {
+        case overwriteLatest = "OVERWRITE_LATEST"
+        case failOnConflict = "FAIL_ON_CONFLICT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObfuscationSetting: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case defaultObfuscation = "DEFAULT_OBFUSCATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessBehavior: String, CustomStringConvertible, Codable {
+        case save = "SAVE"
+        case build = "BUILD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case bot = "BOT"
+        case intent = "INTENT"
+        case slotType = "SLOT_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlotConstraint: String, CustomStringConvertible, Codable {
+        case required = "Required"
+        case optional = "Optional"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlotValueSelectionStrategy: String, CustomStringConvertible, Codable {
+        case originalValue = "ORIGINAL_VALUE"
+        case topResolution = "TOP_RESOLUTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case building = "BUILDING"
+        case ready = "READY"
+        case readyBasicTesting = "READY_BASIC_TESTING"
+        case failed = "FAILED"
+        case notBuilt = "NOT_BUILT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case detected = "Detected"
+        case missed = "Missed"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BotAliasMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -217,21 +339,6 @@ extension LexModelBuildingService {
         }
     }
 
-    public enum ChannelStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case created = "CREATED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChannelType: String, CustomStringConvertible, Codable {
-        case facebook = "Facebook"
-        case slack = "Slack"
-        case twilioSms = "Twilio-Sms"
-        case kik = "Kik"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CodeHook: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "messageVersion", required: true, type: .string), 
@@ -260,13 +367,6 @@ extension LexModelBuildingService {
             case messageVersion = "messageVersion"
             case uri = "uri"
         }
-    }
-
-    public enum ContentType: String, CustomStringConvertible, Codable {
-        case plaintext = "PlainText"
-        case ssml = "SSML"
-        case custompayload = "CustomPayload"
-        public var description: String { return self.rawValue }
     }
 
     public struct ConversationLogsRequest: AWSShape {
@@ -899,12 +999,6 @@ extension LexModelBuildingService {
         }
     }
 
-    public enum Destination: String, CustomStringConvertible, Codable {
-        case cloudwatchLogs = "CLOUDWATCH_LOGS"
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EnumerationValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "synonyms", required: false, type: .list), 
@@ -934,19 +1028,6 @@ extension LexModelBuildingService {
             case synonyms = "synonyms"
             case value = "value"
         }
-    }
-
-    public enum ExportStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case ready = "READY"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportType: String, CustomStringConvertible, Codable {
-        case alexaSkillsKit = "ALEXA_SKILLS_KIT"
-        case lex = "LEX"
-        public var description: String { return self.rawValue }
     }
 
     public struct FollowUpPrompt: AWSShape {
@@ -1000,12 +1081,6 @@ extension LexModelBuildingService {
             case codeHook = "codeHook"
             case `type` = "type"
         }
-    }
-
-    public enum FulfillmentActivityType: String, CustomStringConvertible, Codable {
-        case returnintent = "ReturnIntent"
-        case codehook = "CodeHook"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetBotAliasRequest: AWSShape {
@@ -2364,13 +2439,6 @@ extension LexModelBuildingService {
         }
     }
 
-    public enum ImportStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case complete = "COMPLETE"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Intent: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "intentName", required: true, type: .string), 
@@ -2437,13 +2505,6 @@ extension LexModelBuildingService {
             case name = "name"
             case version = "version"
         }
-    }
-
-    public enum Locale: String, CustomStringConvertible, Codable {
-        case enUs = "en-US"
-        case enGb = "en-GB"
-        case deDe = "de-DE"
-        public var description: String { return self.rawValue }
     }
 
     public struct LogSettingsRequest: AWSShape {
@@ -2524,18 +2585,6 @@ extension LexModelBuildingService {
         }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable {
-        case audio = "AUDIO"
-        case text = "TEXT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MergeStrategy: String, CustomStringConvertible, Codable {
-        case overwriteLatest = "OVERWRITE_LATEST"
-        case failOnConflict = "FAIL_ON_CONFLICT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Message: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "content", required: true, type: .string), 
@@ -2568,18 +2617,6 @@ extension LexModelBuildingService {
             case contentType = "contentType"
             case groupNumber = "groupNumber"
         }
-    }
-
-    public enum ObfuscationSetting: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case defaultObfuscation = "DEFAULT_OBFUSCATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProcessBehavior: String, CustomStringConvertible, Codable {
-        case save = "SAVE"
-        case build = "BUILD"
-        public var description: String { return self.rawValue }
     }
 
     public struct Prompt: AWSShape {
@@ -3225,13 +3262,6 @@ extension LexModelBuildingService {
         }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case bot = "BOT"
-        case intent = "INTENT"
-        case slotType = "SLOT_TYPE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Slot: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
@@ -3319,12 +3349,6 @@ extension LexModelBuildingService {
         }
     }
 
-    public enum SlotConstraint: String, CustomStringConvertible, Codable {
-        case required = "Required"
-        case optional = "Optional"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SlotTypeMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
@@ -3360,12 +3384,6 @@ extension LexModelBuildingService {
             case name = "name"
             case version = "version"
         }
-    }
-
-    public enum SlotValueSelectionStrategy: String, CustomStringConvertible, Codable {
-        case originalValue = "ORIGINAL_VALUE"
-        case topResolution = "TOP_RESOLUTION"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartImportRequest: AWSShape {
@@ -3467,21 +3485,6 @@ extension LexModelBuildingService {
             case messages = "messages"
             case responseCard = "responseCard"
         }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case building = "BUILDING"
-        case ready = "READY"
-        case readyBasicTesting = "READY_BASIC_TESTING"
-        case failed = "FAILED"
-        case notBuilt = "NOT_BUILT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StatusType: String, CustomStringConvertible, Codable {
-        case detected = "Detected"
-        case missed = "Missed"
-        public var description: String { return self.rawValue }
     }
 
     public struct UtteranceData: AWSShape {

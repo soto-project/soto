@@ -3,7 +3,7 @@ name: Generate Documentation
 on:
   release:
     types: [published]
-    branches: "master"
+    branches: "4.x.x"
 
 jobs:
   # Split the generation of the sourcekitten json across 8 jobs to speed up the process.

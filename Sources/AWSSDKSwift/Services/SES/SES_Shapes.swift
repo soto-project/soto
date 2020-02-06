@@ -4,6 +4,138 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension SES {
+    //MARK: Enums
+
+    public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable {
+        case usedefaultvalue = "UseDefaultValue"
+        case rejectmessage = "RejectMessage"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BounceType: String, CustomStringConvertible, Codable {
+        case doesnotexist = "DoesNotExist"
+        case messagetoolarge = "MessageTooLarge"
+        case exceededquota = "ExceededQuota"
+        case contentrejected = "ContentRejected"
+        case undefined = "Undefined"
+        case temporaryfailure = "TemporaryFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BulkEmailStatus: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case messagerejected = "MessageRejected"
+        case mailfromdomainnotverified = "MailFromDomainNotVerified"
+        case configurationsetdoesnotexist = "ConfigurationSetDoesNotExist"
+        case templatedoesnotexist = "TemplateDoesNotExist"
+        case accountsuspended = "AccountSuspended"
+        case accountthrottled = "AccountThrottled"
+        case accountdailyquotaexceeded = "AccountDailyQuotaExceeded"
+        case invalidsendingpoolname = "InvalidSendingPoolName"
+        case accountsendingpaused = "AccountSendingPaused"
+        case configurationsetsendingpaused = "ConfigurationSetSendingPaused"
+        case invalidparametervalue = "InvalidParameterValue"
+        case transientfailure = "TransientFailure"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable {
+        case eventdestinations = "eventDestinations"
+        case trackingoptions = "trackingOptions"
+        case deliveryoptions = "deliveryOptions"
+        case reputationoptions = "reputationOptions"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomMailFromStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case success = "Success"
+        case failed = "Failed"
+        case temporaryfailure = "TemporaryFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DimensionValueSource: String, CustomStringConvertible, Codable {
+        case messagetag = "messageTag"
+        case emailheader = "emailHeader"
+        case linktag = "linkTag"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DsnAction: String, CustomStringConvertible, Codable {
+        case failed = "failed"
+        case delayed = "delayed"
+        case delivered = "delivered"
+        case relayed = "relayed"
+        case expanded = "expanded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case send = "send"
+        case reject = "reject"
+        case bounce = "bounce"
+        case complaint = "complaint"
+        case delivery = "delivery"
+        case open = "open"
+        case click = "click"
+        case renderingfailure = "renderingFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityType: String, CustomStringConvertible, Codable {
+        case emailaddress = "EmailAddress"
+        case domain = "Domain"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvocationType: String, CustomStringConvertible, Codable {
+        case event = "Event"
+        case requestresponse = "RequestResponse"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationType: String, CustomStringConvertible, Codable {
+        case bounce = "Bounce"
+        case complaint = "Complaint"
+        case delivery = "Delivery"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReceiptFilterPolicy: String, CustomStringConvertible, Codable {
+        case block = "Block"
+        case allow = "Allow"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SNSActionEncoding: String, CustomStringConvertible, Codable {
+        case utf8 = "UTF-8"
+        case base64 = "Base64"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StopScope: String, CustomStringConvertible, Codable {
+        case ruleset = "RuleSet"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TlsPolicy: String, CustomStringConvertible, Codable {
+        case require = "Require"
+        case optional = "Optional"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerificationStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case success = "Success"
+        case failed = "Failed"
+        case temporaryfailure = "TemporaryFailure"
+        case notstarted = "NotStarted"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddHeaderAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -25,12 +157,6 @@ extension SES {
             case headerName = "HeaderName"
             case headerValue = "HeaderValue"
         }
-    }
-
-    public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable {
-        case usedefaultvalue = "UseDefaultValue"
-        case rejectmessage = "RejectMessage"
-        public var description: String { return self.rawValue }
     }
 
     public struct Body: AWSShape {
@@ -90,16 +216,6 @@ extension SES {
             case statusCode = "StatusCode"
             case topicArn = "TopicArn"
         }
-    }
-
-    public enum BounceType: String, CustomStringConvertible, Codable {
-        case doesnotexist = "DoesNotExist"
-        case messagetoolarge = "MessageTooLarge"
-        case exceededquota = "ExceededQuota"
-        case contentrejected = "ContentRejected"
-        case undefined = "Undefined"
-        case temporaryfailure = "TemporaryFailure"
-        public var description: String { return self.rawValue }
     }
 
     public struct BouncedRecipientInfo: AWSShape {
@@ -191,24 +307,6 @@ extension SES {
         }
     }
 
-    public enum BulkEmailStatus: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case messagerejected = "MessageRejected"
-        case mailfromdomainnotverified = "MailFromDomainNotVerified"
-        case configurationsetdoesnotexist = "ConfigurationSetDoesNotExist"
-        case templatedoesnotexist = "TemplateDoesNotExist"
-        case accountsuspended = "AccountSuspended"
-        case accountthrottled = "AccountThrottled"
-        case accountdailyquotaexceeded = "AccountDailyQuotaExceeded"
-        case invalidsendingpoolname = "InvalidSendingPoolName"
-        case accountsendingpaused = "AccountSendingPaused"
-        case configurationsetsendingpaused = "ConfigurationSetSendingPaused"
-        case invalidparametervalue = "InvalidParameterValue"
-        case transientfailure = "TransientFailure"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CloneReceiptRuleSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OriginalRuleSetName", required: true, type: .string), 
@@ -298,14 +396,6 @@ extension SES {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
-    }
-
-    public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable {
-        case eventdestinations = "eventDestinations"
-        case trackingoptions = "trackingOptions"
-        case deliveryoptions = "deliveryOptions"
-        case reputationoptions = "reputationOptions"
-        public var description: String { return self.rawValue }
     }
 
     public struct Content: AWSShape {
@@ -564,14 +654,6 @@ extension SES {
         public init() {
         }
 
-    }
-
-    public enum CustomMailFromStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case success = "Success"
-        case failed = "Failed"
-        case temporaryfailure = "TemporaryFailure"
-        public var description: String { return self.rawValue }
     }
 
     public struct CustomVerificationEmailTemplate: AWSShape {
@@ -1100,22 +1182,6 @@ extension SES {
         }
     }
 
-    public enum DimensionValueSource: String, CustomStringConvertible, Codable {
-        case messagetag = "messageTag"
-        case emailheader = "emailHeader"
-        case linktag = "linkTag"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DsnAction: String, CustomStringConvertible, Codable {
-        case failed = "failed"
-        case delayed = "delayed"
-        case delivered = "delivered"
-        case relayed = "relayed"
-        case expanded = "expanded"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EventDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
@@ -1156,18 +1222,6 @@ extension SES {
             case name = "Name"
             case sNSDestination = "SNSDestination"
         }
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case send = "send"
-        case reject = "reject"
-        case bounce = "bounce"
-        case complaint = "complaint"
-        case delivery = "delivery"
-        case open = "open"
-        case click = "click"
-        case renderingfailure = "renderingFailure"
-        public var description: String { return self.rawValue }
     }
 
     public struct ExtensionField: AWSShape {
@@ -1628,12 +1682,6 @@ extension SES {
         }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable {
-        case emailaddress = "EmailAddress"
-        case domain = "Domain"
-        public var description: String { return self.rawValue }
-    }
-
     public struct IdentityVerificationAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VerificationStatus", required: true, type: .enum), 
@@ -1654,12 +1702,6 @@ extension SES {
             case verificationStatus = "VerificationStatus"
             case verificationToken = "VerificationToken"
         }
-    }
-
-    public enum InvocationType: String, CustomStringConvertible, Codable {
-        case event = "Event"
-        case requestresponse = "RequestResponse"
-        public var description: String { return self.rawValue }
     }
 
     public struct KinesisFirehoseDestination: AWSShape {
@@ -2083,13 +2125,6 @@ extension SES {
         }
     }
 
-    public enum NotificationType: String, CustomStringConvertible, Codable {
-        case bounce = "Bounce"
-        case complaint = "Complaint"
-        case delivery = "Delivery"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
@@ -2245,12 +2280,6 @@ extension SES {
             case ipFilter = "IpFilter"
             case name = "Name"
         }
-    }
-
-    public enum ReceiptFilterPolicy: String, CustomStringConvertible, Codable {
-        case block = "Block"
-        case allow = "Allow"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReceiptIpFilter: AWSShape {
@@ -2495,12 +2524,6 @@ extension SES {
             case encoding = "Encoding"
             case topicArn = "TopicArn"
         }
-    }
-
-    public enum SNSActionEncoding: String, CustomStringConvertible, Codable {
-        case utf8 = "UTF-8"
-        case base64 = "Base64"
-        public var description: String { return self.rawValue }
     }
 
     public struct SNSDestination: AWSShape {
@@ -3229,11 +3252,6 @@ extension SES {
         }
     }
 
-    public enum StopScope: String, CustomStringConvertible, Codable {
-        case ruleset = "RuleSet"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Template: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HtmlPart", required: false, type: .string), 
@@ -3329,12 +3347,6 @@ extension SES {
         private enum CodingKeys: String, CodingKey {
             case renderedTemplate = "RenderedTemplate"
         }
-    }
-
-    public enum TlsPolicy: String, CustomStringConvertible, Codable {
-        case require = "Require"
-        case optional = "Optional"
-        public var description: String { return self.rawValue }
     }
 
     public struct TrackingOptions: AWSShape {
@@ -3568,15 +3580,6 @@ extension SES {
         public init() {
         }
 
-    }
-
-    public enum VerificationStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case success = "Success"
-        case failed = "Failed"
-        case temporaryfailure = "TemporaryFailure"
-        case notstarted = "NotStarted"
-        public var description: String { return self.rawValue }
     }
 
     public struct VerifyDomainDkimRequest: AWSShape {

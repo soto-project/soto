@@ -8,15 +8,30 @@ import NIO
 import {{ middlewareFramework }}
 
 {% endif %}
-{%if description %}
 /**
+Client object for interacting with AWS {{name}} service.
+
+{%if description %}
 {{description}}
-*/
 {% endif %}
+*/
 public struct {{ name }} {
+
+    //MARK: Member variables
 
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the {{name}} client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
 {% if middlewareClass %}
         let middlewares = [{{middlewareClass}}] + middlewares
@@ -49,6 +64,8 @@ public struct {{ name }} {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 {%for op in operations %}
 
 {%for comment in op.comment %}
@@ -57,7 +74,7 @@ public struct {{ name }} {
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
-    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}{% endif %}) -> Future<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
         return client.send(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %})
     }
 {%endfor %}

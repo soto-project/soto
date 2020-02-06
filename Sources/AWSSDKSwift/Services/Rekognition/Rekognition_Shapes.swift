@@ -4,6 +4,180 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Rekognition {
+    //MARK: Enums
+
+    public enum Attribute: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CelebrityRecognitionSortBy: String, CustomStringConvertible, Codable {
+        case id = "ID"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentClassifier: String, CustomStringConvertible, Codable {
+        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        case freeofadultcontent = "FreeOfAdultContent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentModerationSortBy: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EmotionName: String, CustomStringConvertible, Codable {
+        case happy = "HAPPY"
+        case sad = "SAD"
+        case angry = "ANGRY"
+        case confused = "CONFUSED"
+        case disgusted = "DISGUSTED"
+        case surprised = "SURPRISED"
+        case calm = "CALM"
+        case unknown = "UNKNOWN"
+        case fear = "FEAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FaceAttributes: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FaceSearchSortBy: String, CustomStringConvertible, Codable {
+        case index = "INDEX"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GenderType: String, CustomStringConvertible, Codable {
+        case male = "Male"
+        case female = "Female"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LabelDetectionSortBy: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LandmarkType: String, CustomStringConvertible, Codable {
+        case eyeleft = "eyeLeft"
+        case eyeright = "eyeRight"
+        case nose = "nose"
+        case mouthleft = "mouthLeft"
+        case mouthright = "mouthRight"
+        case lefteyebrowleft = "leftEyeBrowLeft"
+        case lefteyebrowright = "leftEyeBrowRight"
+        case lefteyebrowup = "leftEyeBrowUp"
+        case righteyebrowleft = "rightEyeBrowLeft"
+        case righteyebrowright = "rightEyeBrowRight"
+        case righteyebrowup = "rightEyeBrowUp"
+        case lefteyeleft = "leftEyeLeft"
+        case lefteyeright = "leftEyeRight"
+        case lefteyeup = "leftEyeUp"
+        case lefteyedown = "leftEyeDown"
+        case righteyeleft = "rightEyeLeft"
+        case righteyeright = "rightEyeRight"
+        case righteyeup = "rightEyeUp"
+        case righteyedown = "rightEyeDown"
+        case noseleft = "noseLeft"
+        case noseright = "noseRight"
+        case mouthup = "mouthUp"
+        case mouthdown = "mouthDown"
+        case leftpupil = "leftPupil"
+        case rightpupil = "rightPupil"
+        case upperjawlineleft = "upperJawlineLeft"
+        case midjawlineleft = "midJawlineLeft"
+        case chinbottom = "chinBottom"
+        case midjawlineright = "midJawlineRight"
+        case upperjawlineright = "upperJawlineRight"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrientationCorrection: String, CustomStringConvertible, Codable {
+        case rotate0 = "ROTATE_0"
+        case rotate90 = "ROTATE_90"
+        case rotate180 = "ROTATE_180"
+        case rotate270 = "ROTATE_270"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PersonTrackingSortBy: String, CustomStringConvertible, Codable {
+        case index = "INDEX"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectVersionStatus: String, CustomStringConvertible, Codable {
+        case trainingInProgress = "TRAINING_IN_PROGRESS"
+        case trainingCompleted = "TRAINING_COMPLETED"
+        case trainingFailed = "TRAINING_FAILED"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case failed = "FAILED"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QualityFilter: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case auto = "AUTO"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Reason: String, CustomStringConvertible, Codable {
+        case exceedsMaxFaces = "EXCEEDS_MAX_FACES"
+        case extremePose = "EXTREME_POSE"
+        case lowBrightness = "LOW_BRIGHTNESS"
+        case lowSharpness = "LOW_SHARPNESS"
+        case lowConfidence = "LOW_CONFIDENCE"
+        case smallBoundingBox = "SMALL_BOUNDING_BOX"
+        case lowFaceQuality = "LOW_FACE_QUALITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamProcessorStatus: String, CustomStringConvertible, Codable {
+        case stopped = "STOPPED"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case failed = "FAILED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TextTypes: String, CustomStringConvertible, Codable {
+        case line = "LINE"
+        case word = "WORD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoJobStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AgeRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -45,12 +219,6 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case groundTruthManifest = "GroundTruthManifest"
         }
-    }
-
-    public enum Attribute: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct Beard: AWSShape {
@@ -206,12 +374,6 @@ extension Rekognition {
             case celebrity = "Celebrity"
             case timestamp = "Timestamp"
         }
-    }
-
-    public enum CelebrityRecognitionSortBy: String, CustomStringConvertible, Codable {
-        case id = "ID"
-        case timestamp = "TIMESTAMP"
-        public var description: String { return self.rawValue }
     }
 
     public struct CompareFacesMatch: AWSShape {
@@ -371,12 +533,6 @@ extension Rekognition {
         }
     }
 
-    public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
-        case freeofadultcontent = "FreeOfAdultContent"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ContentModerationDetection: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModerationLabel", required: false, type: .structure), 
@@ -397,12 +553,6 @@ extension Rekognition {
             case moderationLabel = "ModerationLabel"
             case timestamp = "Timestamp"
         }
-    }
-
-    public enum ContentModerationSortBy: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case timestamp = "TIMESTAMP"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateCollectionRequest: AWSShape {
@@ -1321,19 +1471,6 @@ extension Rekognition {
         }
     }
 
-    public enum EmotionName: String, CustomStringConvertible, Codable {
-        case happy = "HAPPY"
-        case sad = "SAD"
-        case angry = "ANGRY"
-        case confused = "CONFUSED"
-        case disgusted = "DISGUSTED"
-        case surprised = "SURPRISED"
-        case calm = "CALM"
-        case unknown = "UNKNOWN"
-        case fear = "FEAR"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EvaluationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "F1Score", required: false, type: .float), 
@@ -1435,12 +1572,6 @@ extension Rekognition {
             case faceId = "FaceId"
             case imageId = "ImageId"
         }
-    }
-
-    public enum FaceAttributes: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct FaceDetail: AWSShape {
@@ -1626,12 +1757,6 @@ extension Rekognition {
         }
     }
 
-    public enum FaceSearchSortBy: String, CustomStringConvertible, Codable {
-        case index = "INDEX"
-        case timestamp = "TIMESTAMP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Gender: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
@@ -1652,12 +1777,6 @@ extension Rekognition {
             case confidence = "Confidence"
             case value = "Value"
         }
-    }
-
-    public enum GenderType: String, CustomStringConvertible, Codable {
-        case male = "Male"
-        case female = "Female"
-        public var description: String { return self.rawValue }
     }
 
     public struct Geometry: AWSShape {
@@ -2548,12 +2667,6 @@ extension Rekognition {
         }
     }
 
-    public enum LabelDetectionSortBy: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case timestamp = "TIMESTAMP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Landmark: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .enum), 
@@ -2579,40 +2692,6 @@ extension Rekognition {
             case x = "X"
             case y = "Y"
         }
-    }
-
-    public enum LandmarkType: String, CustomStringConvertible, Codable {
-        case eyeleft = "eyeLeft"
-        case eyeright = "eyeRight"
-        case nose = "nose"
-        case mouthleft = "mouthLeft"
-        case mouthright = "mouthRight"
-        case lefteyebrowleft = "leftEyeBrowLeft"
-        case lefteyebrowright = "leftEyeBrowRight"
-        case lefteyebrowup = "leftEyeBrowUp"
-        case righteyebrowleft = "rightEyeBrowLeft"
-        case righteyebrowright = "rightEyeBrowRight"
-        case righteyebrowup = "rightEyeBrowUp"
-        case lefteyeleft = "leftEyeLeft"
-        case lefteyeright = "leftEyeRight"
-        case lefteyeup = "leftEyeUp"
-        case lefteyedown = "leftEyeDown"
-        case righteyeleft = "rightEyeLeft"
-        case righteyeright = "rightEyeRight"
-        case righteyeup = "rightEyeUp"
-        case righteyedown = "rightEyeDown"
-        case noseleft = "noseLeft"
-        case noseright = "noseRight"
-        case mouthup = "mouthUp"
-        case mouthdown = "mouthDown"
-        case leftpupil = "leftPupil"
-        case rightpupil = "rightPupil"
-        case upperjawlineleft = "upperJawlineLeft"
-        case midjawlineleft = "midJawlineLeft"
-        case chinbottom = "chinBottom"
-        case midjawlineright = "midJawlineRight"
-        case upperjawlineright = "upperJawlineRight"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListCollectionsRequest: AWSShape {
@@ -2880,14 +2959,6 @@ extension Rekognition {
         }
     }
 
-    public enum OrientationCorrection: String, CustomStringConvertible, Codable {
-        case rotate0 = "ROTATE_0"
-        case rotate90 = "ROTATE_90"
-        case rotate180 = "ROTATE_180"
-        case rotate270 = "ROTATE_270"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OutputConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
@@ -3010,12 +3081,6 @@ extension Rekognition {
         }
     }
 
-    public enum PersonTrackingSortBy: String, CustomStringConvertible, Codable {
-        case index = "INDEX"
-        case timestamp = "TIMESTAMP"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Point: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "X", required: false, type: .float), 
@@ -3092,13 +3157,6 @@ extension Rekognition {
         }
     }
 
-    public enum ProjectStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case created = "CREATED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProjectVersionDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BillableTrainingTimeInSeconds", required: false, type: .long), 
@@ -3164,39 +3222,6 @@ extension Rekognition {
             case trainingDataResult = "TrainingDataResult"
             case trainingEndTimestamp = "TrainingEndTimestamp"
         }
-    }
-
-    public enum ProjectVersionStatus: String, CustomStringConvertible, Codable {
-        case trainingInProgress = "TRAINING_IN_PROGRESS"
-        case trainingCompleted = "TRAINING_COMPLETED"
-        case trainingFailed = "TRAINING_FAILED"
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case failed = "FAILED"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum QualityFilter: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case auto = "AUTO"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case high = "HIGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Reason: String, CustomStringConvertible, Codable {
-        case exceedsMaxFaces = "EXCEEDS_MAX_FACES"
-        case extremePose = "EXTREME_POSE"
-        case lowBrightness = "LOW_BRIGHTNESS"
-        case lowSharpness = "LOW_SHARPNESS"
-        case lowConfidence = "LOW_CONFIDENCE"
-        case smallBoundingBox = "SMALL_BOUNDING_BOX"
-        case lowFaceQuality = "LOW_FACE_QUALITY"
-        public var description: String { return self.rawValue }
     }
 
     public struct RecognizeCelebritiesRequest: AWSShape {
@@ -4083,15 +4108,6 @@ extension Rekognition {
         }
     }
 
-    public enum StreamProcessorStatus: String, CustomStringConvertible, Codable {
-        case stopped = "STOPPED"
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case failed = "FAILED"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Summary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3Object", required: false, type: .structure)
@@ -4222,12 +4238,6 @@ extension Rekognition {
         }
     }
 
-    public enum TextTypes: String, CustomStringConvertible, Codable {
-        case line = "LINE"
-        case word = "WORD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TrainingData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Assets", required: false, type: .list)
@@ -4314,13 +4324,6 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case s3Object = "S3Object"
         }
-    }
-
-    public enum VideoJobStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct VideoMetadata: AWSShape {

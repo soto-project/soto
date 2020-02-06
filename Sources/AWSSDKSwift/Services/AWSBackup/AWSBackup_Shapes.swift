@@ -4,6 +4,77 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AWSBackup {
+    //MARK: Enums
+
+    public enum BackupJobState: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case aborting = "ABORTING"
+        case aborted = "ABORTED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupVaultEvent: String, CustomStringConvertible, Codable {
+        case backupJobStarted = "BACKUP_JOB_STARTED"
+        case backupJobCompleted = "BACKUP_JOB_COMPLETED"
+        case backupJobSuccessful = "BACKUP_JOB_SUCCESSFUL"
+        case backupJobFailed = "BACKUP_JOB_FAILED"
+        case backupJobExpired = "BACKUP_JOB_EXPIRED"
+        case restoreJobStarted = "RESTORE_JOB_STARTED"
+        case restoreJobCompleted = "RESTORE_JOB_COMPLETED"
+        case restoreJobSuccessful = "RESTORE_JOB_SUCCESSFUL"
+        case restoreJobFailed = "RESTORE_JOB_FAILED"
+        case copyJobStarted = "COPY_JOB_STARTED"
+        case copyJobSuccessful = "COPY_JOB_SUCCESSFUL"
+        case copyJobFailed = "COPY_JOB_FAILED"
+        case recoveryPointModified = "RECOVERY_POINT_MODIFIED"
+        case backupPlanCreated = "BACKUP_PLAN_CREATED"
+        case backupPlanModified = "BACKUP_PLAN_MODIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConditionType: String, CustomStringConvertible, Codable {
+        case stringequals = "STRINGEQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CopyJobState: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case running = "RUNNING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecoveryPointStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case partial = "PARTIAL"
+        case deleting = "DELETING"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RestoreJobStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case completed = "COMPLETED"
+        case aborted = "ABORTED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageClass: String, CustomStringConvertible, Codable {
+        case warm = "WARM"
+        case cold = "COLD"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BackupJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -100,18 +171,6 @@ extension AWSBackup {
             case state = "State"
             case statusMessage = "StatusMessage"
         }
-    }
-
-    public enum BackupJobState: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case aborting = "ABORTING"
-        case aborted = "ABORTED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
     }
 
     public struct BackupPlan: AWSShape {
@@ -430,25 +489,6 @@ extension AWSBackup {
         }
     }
 
-    public enum BackupVaultEvent: String, CustomStringConvertible, Codable {
-        case backupJobStarted = "BACKUP_JOB_STARTED"
-        case backupJobCompleted = "BACKUP_JOB_COMPLETED"
-        case backupJobSuccessful = "BACKUP_JOB_SUCCESSFUL"
-        case backupJobFailed = "BACKUP_JOB_FAILED"
-        case backupJobExpired = "BACKUP_JOB_EXPIRED"
-        case restoreJobStarted = "RESTORE_JOB_STARTED"
-        case restoreJobCompleted = "RESTORE_JOB_COMPLETED"
-        case restoreJobSuccessful = "RESTORE_JOB_SUCCESSFUL"
-        case restoreJobFailed = "RESTORE_JOB_FAILED"
-        case copyJobStarted = "COPY_JOB_STARTED"
-        case copyJobSuccessful = "COPY_JOB_SUCCESSFUL"
-        case copyJobFailed = "COPY_JOB_FAILED"
-        case recoveryPointModified = "RECOVERY_POINT_MODIFIED"
-        case backupPlanCreated = "BACKUP_PLAN_CREATED"
-        case backupPlanModified = "BACKUP_PLAN_MODIFIED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BackupVaultListMember: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
@@ -538,11 +578,6 @@ extension AWSBackup {
             case conditionType = "ConditionType"
             case conditionValue = "ConditionValue"
         }
-    }
-
-    public enum ConditionType: String, CustomStringConvertible, Codable {
-        case stringequals = "STRINGEQUALS"
-        public var description: String { return self.rawValue }
     }
 
     public struct CopyAction: AWSShape {
@@ -645,14 +680,6 @@ extension AWSBackup {
             case state = "State"
             case statusMessage = "StatusMessage"
         }
-    }
-
-    public enum CopyJobState: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case running = "RUNNING"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateBackupPlanInput: AWSShape {
@@ -2839,23 +2866,6 @@ extension AWSBackup {
         }
     }
 
-    public enum RecoveryPointStatus: String, CustomStringConvertible, Codable {
-        case completed = "COMPLETED"
-        case partial = "PARTIAL"
-        case deleting = "DELETING"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RestoreJobStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case completed = "COMPLETED"
-        case aborted = "ABORTED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RestoreJobsListMember: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
@@ -3146,13 +3156,6 @@ extension AWSBackup {
         private enum CodingKeys: String, CodingKey {
             case backupJobId = "backupJobId"
         }
-    }
-
-    public enum StorageClass: String, CustomStringConvertible, Codable {
-        case warm = "WARM"
-        case cold = "COLD"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
     }
 
     public struct TagResourceInput: AWSShape {

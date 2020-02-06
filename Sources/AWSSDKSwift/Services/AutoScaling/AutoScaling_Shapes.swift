@@ -4,6 +4,59 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AutoScaling {
+    //MARK: Enums
+
+    public enum LifecycleState: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case pendingWait = "Pending:Wait"
+        case pendingProceed = "Pending:Proceed"
+        case quarantined = "Quarantined"
+        case inservice = "InService"
+        case terminating = "Terminating"
+        case terminatingWait = "Terminating:Wait"
+        case terminatingProceed = "Terminating:Proceed"
+        case terminated = "Terminated"
+        case detaching = "Detaching"
+        case detached = "Detached"
+        case enteringstandby = "EnteringStandby"
+        case standby = "Standby"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
+        case average = "Average"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case samplecount = "SampleCount"
+        case sum = "Sum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricType: String, CustomStringConvertible, Codable {
+        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
+        case asgaveragenetworkin = "ASGAverageNetworkIn"
+        case asgaveragenetworkout = "ASGAverageNetworkOut"
+        case albrequestcountpertarget = "ALBRequestCountPerTarget"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
+        case pendingspotbidplacement = "PendingSpotBidPlacement"
+        case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
+        case waitingforspotinstanceid = "WaitingForSpotInstanceId"
+        case waitingforinstanceid = "WaitingForInstanceId"
+        case preinservice = "PreInService"
+        case inprogress = "InProgress"
+        case waitingforelbconnectiondraining = "WaitingForELBConnectionDraining"
+        case midlifecycleaction = "MidLifecycleAction"
+        case waitingforinstancewarmup = "WaitingForInstanceWarmup"
+        case successful = "Successful"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ActivitiesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2897,23 +2950,6 @@ extension AutoScaling {
         }
     }
 
-    public enum LifecycleState: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case pendingWait = "Pending:Wait"
-        case pendingProceed = "Pending:Proceed"
-        case quarantined = "Quarantined"
-        case inservice = "InService"
-        case terminating = "Terminating"
-        case terminatingWait = "Terminating:Wait"
-        case terminatingProceed = "Terminating:Proceed"
-        case terminated = "Terminated"
-        case detaching = "Detaching"
-        case detached = "Detached"
-        case enteringstandby = "EnteringStandby"
-        case standby = "Standby"
-        public var description: String { return self.rawValue }
-    }
-
     public struct LoadBalancerState: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
@@ -3012,23 +3048,6 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case granularity = "Granularity"
         }
-    }
-
-    public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case average = "Average"
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        case samplecount = "SampleCount"
-        case sum = "Sum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetricType: String, CustomStringConvertible, Codable {
-        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
-        case asgaveragenetworkin = "ASGAverageNetworkIn"
-        case asgaveragenetworkout = "ASGAverageNetworkOut"
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        public var description: String { return self.rawValue }
     }
 
     public struct MixedInstancesPolicy: AWSShape {
@@ -3522,22 +3541,6 @@ extension AutoScaling {
             case lifecycleActionToken = "LifecycleActionToken"
             case lifecycleHookName = "LifecycleHookName"
         }
-    }
-
-    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
-        case pendingspotbidplacement = "PendingSpotBidPlacement"
-        case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
-        case waitingforspotinstanceid = "WaitingForSpotInstanceId"
-        case waitingforinstanceid = "WaitingForInstanceId"
-        case preinservice = "PreInService"
-        case inprogress = "InProgress"
-        case waitingforelbconnectiondraining = "WaitingForELBConnectionDraining"
-        case midlifecycleaction = "MidLifecycleAction"
-        case waitingforinstancewarmup = "WaitingForInstanceWarmup"
-        case successful = "Successful"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
-        public var description: String { return self.rawValue }
     }
 
     public struct ScalingPolicy: AWSShape {

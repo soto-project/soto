@@ -4,6 +4,23 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension RDSDataService {
+    //MARK: Enums
+
+    public enum DecimalReturnType: String, CustomStringConvertible, Codable {
+        case doubleOrLong = "DOUBLE_OR_LONG"
+        case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TypeHint: String, CustomStringConvertible, Codable {
+        case date = "DATE"
+        case decimal = "DECIMAL"
+        case time = "TIME"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public class ArrayValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -314,12 +331,6 @@ extension RDSDataService {
         private enum CodingKeys: String, CodingKey {
             case transactionStatus = "transactionStatus"
         }
-    }
-
-    public enum DecimalReturnType: String, CustomStringConvertible, Codable {
-        case doubleOrLong = "DOUBLE_OR_LONG"
-        case string = "STRING"
-        public var description: String { return self.rawValue }
     }
 
     public struct ExecuteSqlRequest: AWSShape {
@@ -740,14 +751,6 @@ extension RDSDataService {
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
         }
-    }
-
-    public enum TypeHint: String, CustomStringConvertible, Codable {
-        case date = "DATE"
-        case decimal = "DECIMAL"
-        case time = "TIME"
-        case timestamp = "TIMESTAMP"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateResult: AWSShape {

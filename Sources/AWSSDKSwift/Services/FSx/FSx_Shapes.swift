@@ -4,6 +4,88 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension FSx {
+    //MARK: Enums
+
+    public enum BackupLifecycle: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupType: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case userInitiated = "USER_INITIATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataRepositoryTaskFilterName: String, CustomStringConvertible, Codable {
+        case fileSystemId = "file-system-id"
+        case taskLifecycle = "task-lifecycle"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataRepositoryTaskLifecycle: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case executing = "EXECUTING"
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        case canceled = "CANCELED"
+        case canceling = "CANCELING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataRepositoryTaskType: String, CustomStringConvertible, Codable {
+        case exportToRepository = "EXPORT_TO_REPOSITORY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileSystemLifecycle: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        case misconfigured = "MISCONFIGURED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileSystemMaintenanceOperation: String, CustomStringConvertible, Codable {
+        case patching = "PATCHING"
+        case backingUp = "BACKING_UP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileSystemType: String, CustomStringConvertible, Codable {
+        case windows = "WINDOWS"
+        case lustre = "LUSTRE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterName: String, CustomStringConvertible, Codable {
+        case fileSystemId = "file-system-id"
+        case backupType = "backup-type"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportFormat: String, CustomStringConvertible, Codable {
+        case reportCsv20191124 = "REPORT_CSV_20191124"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportScope: String, CustomStringConvertible, Codable {
+        case failedFilesOnly = "FAILED_FILES_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WindowsDeploymentType: String, CustomStringConvertible, Codable {
+        case multiAz1 = "MULTI_AZ_1"
+        case singleAz1 = "SINGLE_AZ_1"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ActiveDirectoryBackupAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -108,20 +190,6 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
         }
-    }
-
-    public enum BackupLifecycle: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case creating = "CREATING"
-        case deleted = "DELETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BackupType: String, CustomStringConvertible, Codable {
-        case automatic = "AUTOMATIC"
-        case userInitiated = "USER_INITIATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CancelDataRepositoryTaskRequest: AWSShape {
@@ -796,22 +864,6 @@ extension FSx {
         }
     }
 
-    public enum DataRepositoryTaskFilterName: String, CustomStringConvertible, Codable {
-        case fileSystemId = "file-system-id"
-        case taskLifecycle = "task-lifecycle"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DataRepositoryTaskLifecycle: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case executing = "EXECUTING"
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        case canceled = "CANCELED"
-        case canceling = "CANCELING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DataRepositoryTaskStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedCount", required: false, type: .long), 
@@ -842,11 +894,6 @@ extension FSx {
             case succeededCount = "SucceededCount"
             case totalCount = "TotalCount"
         }
-    }
-
-    public enum DataRepositoryTaskType: String, CustomStringConvertible, Codable {
-        case exportToRepository = "EXPORT_TO_REPOSITORY"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteBackupRequest: AWSShape {
@@ -1324,28 +1371,6 @@ extension FSx {
         }
     }
 
-    public enum FileSystemLifecycle: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case creating = "CREATING"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        case misconfigured = "MISCONFIGURED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FileSystemMaintenanceOperation: String, CustomStringConvertible, Codable {
-        case patching = "PATCHING"
-        case backingUp = "BACKING_UP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FileSystemType: String, CustomStringConvertible, Codable {
-        case windows = "WINDOWS"
-        case lustre = "LUSTRE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .enum), 
@@ -1375,12 +1400,6 @@ extension FSx {
             case name = "Name"
             case values = "Values"
         }
-    }
-
-    public enum FilterName: String, CustomStringConvertible, Codable {
-        case fileSystemId = "file-system-id"
-        case backupType = "backup-type"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -1461,16 +1480,6 @@ extension FSx {
             case dataRepositoryConfiguration = "DataRepositoryConfiguration"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
-    }
-
-    public enum ReportFormat: String, CustomStringConvertible, Codable {
-        case reportCsv20191124 = "REPORT_CSV_20191124"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReportScope: String, CustomStringConvertible, Codable {
-        case failedFilesOnly = "FAILED_FILES_ONLY"
-        public var description: String { return self.rawValue }
     }
 
     public struct SelfManagedActiveDirectoryAttributes: AWSShape {
@@ -1858,12 +1867,6 @@ extension FSx {
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
-    }
-
-    public enum WindowsDeploymentType: String, CustomStringConvertible, Codable {
-        case multiAz1 = "MULTI_AZ_1"
-        case singleAz1 = "SINGLE_AZ_1"
-        public var description: String { return self.rawValue }
     }
 
     public struct WindowsFileSystemConfiguration: AWSShape {

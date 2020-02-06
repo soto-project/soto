@@ -34,9 +34,9 @@ public extension S3 {
     ///     - outputStream: Function to be called for each downloaded part. Called with data block and file size
     /// - returns: An EventLoopFuture that will receive the complete file size once the multipart download has finished.
     func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, on eventLoop: EventLoop, outputStream: @escaping (Data, Int64) -> EventLoopFuture<Void>) -> EventLoopFuture<Int64> {
-        
+
         let promise = eventLoop.makePromise(of: Int64.self)
-        
+
         // function downloading part of a file
         func multipartDownloadPart(fileSize: Int64, offset: Int64, prevPartSave: EventLoopFuture<Void>) {
             // have we downloaded everything
@@ -114,10 +114,10 @@ public extension S3 {
     ///     - filename: Filename to save download to
     ///     - on: EventLoop to process downloaded parts, if nil an eventLoop is taken from the clients eventLoopGroup
     ///     - progress: Callback that returns the progress of the download. It is called after each part is downloaded with a value between 0.0 and 1.0 indicating how far the download is complete (1.0 meaning finished).
-    /// - returns: A future that will receive the complete file size once the multipart download has finished.
+    /// - returns: An EventLoopFuture that will receive the complete file size once the multipart download has finished.
     func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop? = nil, progress: @escaping (Double) throws -> () = { _ in }) -> EventLoopFuture<Int64> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
-        
+
         return eventLoop.submit {  () -> Foundation.FileHandle in
             FileManager.default.createFile(atPath: filename, contents: nil)
             return try FileHandle(forWritingTo: URL(fileURLWithPath: filename))
@@ -134,7 +134,7 @@ public extension S3 {
                         try progress(Double(progressValue) / Double(fileSize))
                     }
             }
-            
+
             download.whenComplete { _ in
                 fileHandle.closeFile()
             }

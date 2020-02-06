@@ -4,6 +4,119 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension IoTThingsGraph {
+    //MARK: Enums
+
+    public enum DefinitionLanguage: String, CustomStringConvertible, Codable {
+        case graphql = "GRAPHQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentTarget: String, CustomStringConvertible, Codable {
+        case greengrass = "GREENGRASS"
+        case cloud = "CLOUD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityFilterName: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case namespace = "NAMESPACE"
+        case semanticTypePath = "SEMANTIC_TYPE_PATH"
+        case referencedEntityId = "REFERENCED_ENTITY_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityType: String, CustomStringConvertible, Codable {
+        case device = "DEVICE"
+        case service = "SERVICE"
+        case deviceModel = "DEVICE_MODEL"
+        case capability = "CAPABILITY"
+        case state = "STATE"
+        case action = "ACTION"
+        case event = "EVENT"
+        case property = "PROPERTY"
+        case mapping = "MAPPING"
+        case `enum` = "ENUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowExecutionEventType: String, CustomStringConvertible, Codable {
+        case executionStarted = "EXECUTION_STARTED"
+        case executionFailed = "EXECUTION_FAILED"
+        case executionAborted = "EXECUTION_ABORTED"
+        case executionSucceeded = "EXECUTION_SUCCEEDED"
+        case stepStarted = "STEP_STARTED"
+        case stepFailed = "STEP_FAILED"
+        case stepSucceeded = "STEP_SUCCEEDED"
+        case activityScheduled = "ACTIVITY_SCHEDULED"
+        case activityStarted = "ACTIVITY_STARTED"
+        case activityFailed = "ACTIVITY_FAILED"
+        case activitySucceeded = "ACTIVITY_SUCCEEDED"
+        case startFlowExecutionTask = "START_FLOW_EXECUTION_TASK"
+        case scheduleNextReadyStepsTask = "SCHEDULE_NEXT_READY_STEPS_TASK"
+        case thingActionTask = "THING_ACTION_TASK"
+        case thingActionTaskFailed = "THING_ACTION_TASK_FAILED"
+        case thingActionTaskSucceeded = "THING_ACTION_TASK_SUCCEEDED"
+        case acknowledgeTaskMessage = "ACKNOWLEDGE_TASK_MESSAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowExecutionStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case aborted = "ABORTED"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowTemplateFilterName: String, CustomStringConvertible, Codable {
+        case deviceModelId = "DEVICE_MODEL_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NamespaceDeletionStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NamespaceDeletionStatusErrorCodes: String, CustomStringConvertible, Codable {
+        case validationFailed = "VALIDATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SystemInstanceDeploymentStatus: String, CustomStringConvertible, Codable {
+        case notDeployed = "NOT_DEPLOYED"
+        case bootstrap = "BOOTSTRAP"
+        case deployInProgress = "DEPLOY_IN_PROGRESS"
+        case deployedInTarget = "DEPLOYED_IN_TARGET"
+        case undeployInProgress = "UNDEPLOY_IN_PROGRESS"
+        case failed = "FAILED"
+        case pendingDelete = "PENDING_DELETE"
+        case deletedInTarget = "DELETED_IN_TARGET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SystemInstanceFilterName: String, CustomStringConvertible, Codable {
+        case systemTemplateId = "SYSTEM_TEMPLATE_ID"
+        case status = "STATUS"
+        case greengrassGroupName = "GREENGRASS_GROUP_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SystemTemplateFilterName: String, CustomStringConvertible, Codable {
+        case flowTemplateId = "FLOW_TEMPLATE_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UploadStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateEntityToThingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -234,11 +347,6 @@ extension IoTThingsGraph {
         }
     }
 
-    public enum DefinitionLanguage: String, CustomStringConvertible, Codable {
-        case graphql = "GRAPHQL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeleteFlowTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: true, type: .string)
@@ -423,12 +531,6 @@ extension IoTThingsGraph {
             case greengrassDeploymentId = "greengrassDeploymentId"
             case summary = "summary"
         }
-    }
-
-    public enum DeploymentTarget: String, CustomStringConvertible, Codable {
-        case greengrass = "GREENGRASS"
-        case cloud = "CLOUD"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeprecateFlowTemplateRequest: AWSShape {
@@ -644,49 +746,6 @@ extension IoTThingsGraph {
         }
     }
 
-    public enum EntityFilterName: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case namespace = "NAMESPACE"
-        case semanticTypePath = "SEMANTIC_TYPE_PATH"
-        case referencedEntityId = "REFERENCED_ENTITY_ID"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EntityType: String, CustomStringConvertible, Codable {
-        case device = "DEVICE"
-        case service = "SERVICE"
-        case deviceModel = "DEVICE_MODEL"
-        case capability = "CAPABILITY"
-        case state = "STATE"
-        case action = "ACTION"
-        case event = "EVENT"
-        case property = "PROPERTY"
-        case mapping = "MAPPING"
-        case `enum` = "ENUM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FlowExecutionEventType: String, CustomStringConvertible, Codable {
-        case executionStarted = "EXECUTION_STARTED"
-        case executionFailed = "EXECUTION_FAILED"
-        case executionAborted = "EXECUTION_ABORTED"
-        case executionSucceeded = "EXECUTION_SUCCEEDED"
-        case stepStarted = "STEP_STARTED"
-        case stepFailed = "STEP_FAILED"
-        case stepSucceeded = "STEP_SUCCEEDED"
-        case activityScheduled = "ACTIVITY_SCHEDULED"
-        case activityStarted = "ACTIVITY_STARTED"
-        case activityFailed = "ACTIVITY_FAILED"
-        case activitySucceeded = "ACTIVITY_SUCCEEDED"
-        case startFlowExecutionTask = "START_FLOW_EXECUTION_TASK"
-        case scheduleNextReadyStepsTask = "SCHEDULE_NEXT_READY_STEPS_TASK"
-        case thingActionTask = "THING_ACTION_TASK"
-        case thingActionTaskFailed = "THING_ACTION_TASK_FAILED"
-        case thingActionTaskSucceeded = "THING_ACTION_TASK_SUCCEEDED"
-        case acknowledgeTaskMessage = "ACKNOWLEDGE_TASK_MESSAGE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FlowExecutionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventType", required: false, type: .enum), 
@@ -717,14 +776,6 @@ extension IoTThingsGraph {
             case payload = "payload"
             case timestamp = "timestamp"
         }
-    }
-
-    public enum FlowExecutionStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case aborted = "ABORTED"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct FlowExecutionSummary: AWSShape {
@@ -822,11 +873,6 @@ extension IoTThingsGraph {
             case name = "name"
             case value = "value"
         }
-    }
-
-    public enum FlowTemplateFilterName: String, CustomStringConvertible, Codable {
-        case deviceModelId = "DEVICE_MODEL_ID"
-        public var description: String { return self.rawValue }
     }
 
     public struct FlowTemplateSummary: AWSShape {
@@ -1399,18 +1445,6 @@ extension IoTThingsGraph {
         }
     }
 
-    public enum NamespaceDeletionStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NamespaceDeletionStatusErrorCodes: String, CustomStringConvertible, Codable {
-        case validationFailed = "VALIDATION_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SearchEntitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "entityTypes", required: true, type: .list), 
@@ -1775,18 +1809,6 @@ extension IoTThingsGraph {
         }
     }
 
-    public enum SystemInstanceDeploymentStatus: String, CustomStringConvertible, Codable {
-        case notDeployed = "NOT_DEPLOYED"
-        case bootstrap = "BOOTSTRAP"
-        case deployInProgress = "DEPLOY_IN_PROGRESS"
-        case deployedInTarget = "DEPLOYED_IN_TARGET"
-        case undeployInProgress = "UNDEPLOY_IN_PROGRESS"
-        case failed = "FAILED"
-        case pendingDelete = "PENDING_DELETE"
-        case deletedInTarget = "DELETED_IN_TARGET"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SystemInstanceDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "definition", required: false, type: .structure), 
@@ -1852,13 +1874,6 @@ extension IoTThingsGraph {
             case name = "name"
             case value = "value"
         }
-    }
-
-    public enum SystemInstanceFilterName: String, CustomStringConvertible, Codable {
-        case systemTemplateId = "SYSTEM_TEMPLATE_ID"
-        case status = "STATUS"
-        case greengrassGroupName = "GREENGRASS_GROUP_NAME"
-        public var description: String { return self.rawValue }
     }
 
     public struct SystemInstanceSummary: AWSShape {
@@ -1971,11 +1986,6 @@ extension IoTThingsGraph {
             case name = "name"
             case value = "value"
         }
-    }
-
-    public enum SystemTemplateFilterName: String, CustomStringConvertible, Codable {
-        case flowTemplateId = "FLOW_TEMPLATE_ID"
-        public var description: String { return self.rawValue }
     }
 
     public struct SystemTemplateSummary: AWSShape {
@@ -2329,12 +2339,5 @@ extension IoTThingsGraph {
         private enum CodingKeys: String, CodingKey {
             case uploadId = "uploadId"
         }
-    }
-
-    public enum UploadStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 }

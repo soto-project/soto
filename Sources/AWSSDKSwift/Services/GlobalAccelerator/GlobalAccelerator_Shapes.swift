@@ -4,6 +4,46 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension GlobalAccelerator {
+    //MARK: Enums
+
+    public enum AcceleratorStatus: String, CustomStringConvertible, Codable {
+        case deployed = "DEPLOYED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientAffinity: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case sourceIp = "SOURCE_IP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthCheckProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "TCP"
+        case http = "HTTP"
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthState: String, CustomStringConvertible, Codable {
+        case initial = "INITIAL"
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpAddressType: String, CustomStringConvertible, Codable {
+        case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case tcp = "TCP"
+        case udp = "UDP"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Accelerator: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -87,18 +127,6 @@ extension GlobalAccelerator {
             case flowLogsS3Bucket = "FlowLogsS3Bucket"
             case flowLogsS3Prefix = "FlowLogsS3Prefix"
         }
-    }
-
-    public enum AcceleratorStatus: String, CustomStringConvertible, Codable {
-        case deployed = "DEPLOYED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ClientAffinity: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case sourceIp = "SOURCE_IP"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateAcceleratorRequest: AWSShape {
@@ -660,25 +688,6 @@ extension GlobalAccelerator {
         }
     }
 
-    public enum HealthCheckProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "TCP"
-        case http = "HTTP"
-        case https = "HTTPS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HealthState: String, CustomStringConvertible, Codable {
-        case initial = "INITIAL"
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IpAddressType: String, CustomStringConvertible, Codable {
-        case ipv4 = "IPV4"
-        public var description: String { return self.rawValue }
-    }
-
     public struct IpSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IpAddresses", required: false, type: .list), 
@@ -922,12 +931,6 @@ extension GlobalAccelerator {
             case fromPort = "FromPort"
             case toPort = "ToPort"
         }
-    }
-
-    public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case tcp = "TCP"
-        case udp = "UDP"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateAcceleratorAttributesRequest: AWSShape {

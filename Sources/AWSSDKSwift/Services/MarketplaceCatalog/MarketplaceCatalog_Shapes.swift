@@ -4,6 +4,24 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MarketplaceCatalog {
+    //MARK: Enums
+
+    public enum ChangeStatus: String, CustomStringConvertible, Codable {
+        case preparing = "PREPARING"
+        case applying = "APPLYING"
+        case succeeded = "SUCCEEDED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CancelChangeSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -140,15 +158,6 @@ extension MarketplaceCatalog {
             case startTime = "StartTime"
             case status = "Status"
         }
-    }
-
-    public enum ChangeStatus: String, CustomStringConvertible, Codable {
-        case preparing = "PREPARING"
-        case applying = "APPLYING"
-        case succeeded = "SUCCEEDED"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ChangeSummary: AWSShape {
@@ -640,12 +649,6 @@ extension MarketplaceCatalog {
             case sortBy = "SortBy"
             case sortOrder = "SortOrder"
         }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartChangeSetRequest: AWSShape {

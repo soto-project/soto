@@ -5,6 +5,8 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS ServerlessApplicationRepository service.
+
 The AWS Serverless Application Repository makes it easy for developers and enterprises to quickly find
  and deploy serverless applications in the AWS Cloud. For more information about serverless applications,
  see Serverless Computing and Applications on the AWS website.The AWS Serverless Application Repository is deeply integrated with the AWS Lambda console, so that developers of 
@@ -28,8 +30,21 @@ The AWS Serverless Application Repository makes it easy for developers and enter
 */
 public struct ServerlessApplicationRepository {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the ServerlessApplicationRepository client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -45,59 +60,61 @@ public struct ServerlessApplicationRepository {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
-    public func createApplication(_ input: CreateApplicationRequest) -> Future<CreateApplicationResponse> {
+    public func createApplication(_ input: CreateApplicationRequest) -> EventLoopFuture<CreateApplicationResponse> {
         return client.send(operation: "CreateApplication", path: "/applications", httpMethod: "POST", input: input)
     }
 
     ///  Creates an application version.
-    public func createApplicationVersion(_ input: CreateApplicationVersionRequest) -> Future<CreateApplicationVersionResponse> {
+    public func createApplicationVersion(_ input: CreateApplicationVersionRequest) -> EventLoopFuture<CreateApplicationVersionResponse> {
         return client.send(operation: "CreateApplicationVersion", path: "/applications/{applicationId}/versions/{semanticVersion}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates an AWS CloudFormation change set for the given application.
-    public func createCloudFormationChangeSet(_ input: CreateCloudFormationChangeSetRequest) -> Future<CreateCloudFormationChangeSetResponse> {
+    public func createCloudFormationChangeSet(_ input: CreateCloudFormationChangeSetRequest) -> EventLoopFuture<CreateCloudFormationChangeSetResponse> {
         return client.send(operation: "CreateCloudFormationChangeSet", path: "/applications/{applicationId}/changesets", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS CloudFormation template.
-    public func createCloudFormationTemplate(_ input: CreateCloudFormationTemplateRequest) -> Future<CreateCloudFormationTemplateResponse> {
+    public func createCloudFormationTemplate(_ input: CreateCloudFormationTemplateRequest) -> EventLoopFuture<CreateCloudFormationTemplateResponse> {
         return client.send(operation: "CreateCloudFormationTemplate", path: "/applications/{applicationId}/templates", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified application.
-    @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest) -> Future<Void> {
+    @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets the specified application.
-    public func getApplication(_ input: GetApplicationRequest) -> Future<GetApplicationResponse> {
+    public func getApplication(_ input: GetApplicationRequest) -> EventLoopFuture<GetApplicationResponse> {
         return client.send(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the policy for the application.
-    public func getApplicationPolicy(_ input: GetApplicationPolicyRequest) -> Future<GetApplicationPolicyResponse> {
+    public func getApplicationPolicy(_ input: GetApplicationPolicyRequest) -> EventLoopFuture<GetApplicationPolicyResponse> {
         return client.send(operation: "GetApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "GET", input: input)
     }
 
     ///  Gets the specified AWS CloudFormation template.
-    public func getCloudFormationTemplate(_ input: GetCloudFormationTemplateRequest) -> Future<GetCloudFormationTemplateResponse> {
+    public func getCloudFormationTemplate(_ input: GetCloudFormationTemplateRequest) -> EventLoopFuture<GetCloudFormationTemplateResponse> {
         return client.send(operation: "GetCloudFormationTemplate", path: "/applications/{applicationId}/templates/{templateId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the list of applications nested in the containing application.
-    public func listApplicationDependencies(_ input: ListApplicationDependenciesRequest) -> Future<ListApplicationDependenciesResponse> {
+    public func listApplicationDependencies(_ input: ListApplicationDependenciesRequest) -> EventLoopFuture<ListApplicationDependenciesResponse> {
         return client.send(operation: "ListApplicationDependencies", path: "/applications/{applicationId}/dependencies", httpMethod: "GET", input: input)
     }
 
     ///  Lists versions for the specified application.
-    public func listApplicationVersions(_ input: ListApplicationVersionsRequest) -> Future<ListApplicationVersionsResponse> {
+    public func listApplicationVersions(_ input: ListApplicationVersionsRequest) -> EventLoopFuture<ListApplicationVersionsResponse> {
         return client.send(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Lists applications owned by the requester.
-    public func listApplications(_ input: ListApplicationsRequest) -> Future<ListApplicationsResponse> {
+    public func listApplications(_ input: ListApplicationsRequest) -> EventLoopFuture<ListApplicationsResponse> {
         return client.send(operation: "ListApplications", path: "/applications", httpMethod: "GET", input: input)
     }
 
@@ -105,12 +122,12 @@ public struct ServerlessApplicationRepository {
     ///   Application 
     ///   Permissions
     ///   .
-    public func putApplicationPolicy(_ input: PutApplicationPolicyRequest) -> Future<PutApplicationPolicyResponse> {
+    public func putApplicationPolicy(_ input: PutApplicationPolicyRequest) -> EventLoopFuture<PutApplicationPolicyResponse> {
         return client.send(operation: "PutApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the specified application.
-    public func updateApplication(_ input: UpdateApplicationRequest) -> Future<UpdateApplicationResponse> {
+    public func updateApplication(_ input: UpdateApplicationRequest) -> EventLoopFuture<UpdateApplicationResponse> {
         return client.send(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: "PATCH", input: input)
     }
 }

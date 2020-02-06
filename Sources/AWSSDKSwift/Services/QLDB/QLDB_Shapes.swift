@@ -4,6 +4,36 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension QLDB {
+    //MARK: Enums
+
+    public enum ExportStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LedgerState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PermissionsMode: String, CustomStringConvertible, Codable {
+        case allowAll = "ALLOW_ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ObjectEncryptionType: String, CustomStringConvertible, Codable {
+        case sseKms = "SSE_KMS"
+        case sseS3 = "SSE_S3"
+        case noEncryption = "NO_ENCRYPTION"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateLedgerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -280,13 +310,6 @@ extension QLDB {
         }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case cancelled = "CANCELLED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetBlockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BlockAddress", required: true, type: .structure), 
@@ -503,14 +526,6 @@ extension QLDB {
             case s3ExportConfiguration = "S3ExportConfiguration"
             case status = "Status"
         }
-    }
-
-    public enum LedgerState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
     }
 
     public struct LedgerSummary: AWSShape {
@@ -743,11 +758,6 @@ extension QLDB {
         }
     }
 
-    public enum PermissionsMode: String, CustomStringConvertible, Codable {
-        case allowAll = "ALLOW_ALL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct S3EncryptionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyArn", required: false, type: .string), 
@@ -809,13 +819,6 @@ extension QLDB {
             case encryptionConfiguration = "EncryptionConfiguration"
             case prefix = "Prefix"
         }
-    }
-
-    public enum S3ObjectEncryptionType: String, CustomStringConvertible, Codable {
-        case sseKms = "SSE_KMS"
-        case sseS3 = "SSE_S3"
-        case noEncryption = "NO_ENCRYPTION"
-        public var description: String { return self.rawValue }
     }
 
     public struct TagResourceRequest: AWSShape {

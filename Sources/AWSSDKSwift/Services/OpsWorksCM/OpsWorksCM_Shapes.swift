@@ -4,6 +4,53 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension OpsWorksCM {
+    //MARK: Enums
+
+    public enum BackupStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case ok = "OK"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupType: String, CustomStringConvertible, Codable {
+        case automated = "AUTOMATED"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaintenanceStatus: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeAssociationStatus: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerStatus: String, CustomStringConvertible, Codable {
+        case backingUp = "BACKING_UP"
+        case connectionLost = "CONNECTION_LOST"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case modifying = "MODIFYING"
+        case failed = "FAILED"
+        case healthy = "HEALTHY"
+        case running = "RUNNING"
+        case restoring = "RESTORING"
+        case setup = "SETUP"
+        case underMaintenance = "UNDER_MAINTENANCE"
+        case unhealthy = "UNHEALTHY"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccountAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -207,20 +254,6 @@ extension OpsWorksCM {
             case toolsVersion = "ToolsVersion"
             case userArn = "UserArn"
         }
-    }
-
-    public enum BackupStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case ok = "OK"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BackupType: String, CustomStringConvertible, Codable {
-        case automated = "AUTOMATED"
-        case manual = "MANUAL"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateBackupRequest: AWSShape {
@@ -768,7 +801,7 @@ extension OpsWorksCM {
 
         /// This is not currently implemented for DescribeServers requests. 
         public let nextToken: String?
-        /// Contains the response to a DescribeServers request.  For Puppet Server: DescribeServersResponse$Servers$EngineAttributes contains PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140. The CA certificate is also used to sign node certificates.
+        /// Contains the response to a DescribeServers request.  For Chef Automate servers: If DescribeServersResponse$Servers$EngineAttributes includes CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to Chef Automate 2. To be eligible for upgrade, a server running Chef Automate 1 must have had at least one successful maintenance run after November 1, 2019.  For Puppet Server: DescribeServersResponse$Servers$EngineAttributes contains PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140. The CA certificate is also used to sign node certificates.
         public let servers: [Server]?
 
         public init(nextToken: String? = nil, servers: [Server]? = nil) {
@@ -982,19 +1015,6 @@ extension OpsWorksCM {
         }
     }
 
-    public enum MaintenanceStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NodeAssociationStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RestoreServerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
@@ -1005,7 +1025,7 @@ extension OpsWorksCM {
 
         ///  The ID of the backup that you want to use to restore a server. 
         public let backupId: String
-        ///  The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m5.large. Valid values are m5.large, r5.xlarge, and r5.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
+        ///  The type of instance to restore. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m5.large. Valid values are m5.large, r5.xlarge, and r5.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
         public let instanceType: String?
         ///  The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key. 
         public let keyPair: String?
@@ -1211,30 +1231,13 @@ extension OpsWorksCM {
         }
     }
 
-    public enum ServerStatus: String, CustomStringConvertible, Codable {
-        case backingUp = "BACKING_UP"
-        case connectionLost = "CONNECTION_LOST"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case modifying = "MODIFYING"
-        case failed = "FAILED"
-        case healthy = "HEALTHY"
-        case running = "RUNNING"
-        case restoring = "RESTORING"
-        case setup = "SETUP"
-        case underMaintenance = "UNDER_MAINTENANCE"
-        case unhealthy = "UNHEALTHY"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StartMaintenanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
             AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
 
-        /// Engine attributes that are specific to the server on which you want to run maintenance.
+        /// Engine attributes that are specific to the server on which you want to run maintenance.  Attributes accepted in a StartMaintenance request for Chef     CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2, add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see Upgrade an AWS OpsWorks for Chef Automate Server to Chef Automate 2.   
         public let engineAttributes: [EngineAttribute]?
         /// The name of the server on which to run maintenance. 
         public let serverName: String

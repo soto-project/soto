@@ -4,6 +4,106 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MachineLearning {
+    //MARK: Enums
+
+    public enum Algorithm: String, CustomStringConvertible, Codable {
+        case sgd = "sgd"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case iamuser = "IAMUser"
+        case mlmodelid = "MLModelId"
+        case datasourceid = "DataSourceId"
+        case datauri = "DataURI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case datalocations3 = "DataLocationS3"
+        case iamuser = "IAMUser"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetailsAttributes: String, CustomStringConvertible, Codable {
+        case predictivemodeltype = "PredictiveModelType"
+        case algorithm = "Algorithm"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case inprogress = "INPROGRESS"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case iamuser = "IAMUser"
+        case mlmodelid = "MLModelId"
+        case datasourceid = "DataSourceId"
+        case datauri = "DataURI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case iamuser = "IAMUser"
+        case trainingdatasourceid = "TrainingDataSourceId"
+        case realtimeendpointstatus = "RealtimeEndpointStatus"
+        case mlmodeltype = "MLModelType"
+        case algorithm = "Algorithm"
+        case trainingdatauri = "TrainingDataURI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MLModelType: String, CustomStringConvertible, Codable {
+        case regression = "REGRESSION"
+        case binary = "BINARY"
+        case multiclass = "MULTICLASS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case ready = "READY"
+        case updating = "UPDATING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case asc = "asc"
+        case dsc = "dsc"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaggableResourceType: String, CustomStringConvertible, Codable {
+        case batchprediction = "BatchPrediction"
+        case datasource = "DataSource"
+        case evaluation = "Evaluation"
+        case mlmodel = "MLModel"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -62,11 +162,6 @@ extension MachineLearning {
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
-    }
-
-    public enum Algorithm: String, CustomStringConvertible, Codable {
-        case sgd = "sgd"
-        public var description: String { return self.rawValue }
     }
 
     public struct BatchPrediction: AWSShape {
@@ -154,18 +249,6 @@ extension MachineLearning {
             case status = "Status"
             case totalRecordCount = "TotalRecordCount"
         }
-    }
-
-    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case iamuser = "IAMUser"
-        case mlmodelid = "MLModelId"
-        case datasourceid = "DataSourceId"
-        case datauri = "DataURI"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateBatchPredictionInput: AWSShape {
@@ -706,16 +789,6 @@ extension MachineLearning {
             case startedAt = "StartedAt"
             case status = "Status"
         }
-    }
-
-    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case datalocations3 = "DataLocationS3"
-        case iamuser = "IAMUser"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteBatchPredictionInput: AWSShape {
@@ -1471,21 +1544,6 @@ extension MachineLearning {
         }
     }
 
-    public enum DetailsAttributes: String, CustomStringConvertible, Codable {
-        case predictivemodeltype = "PredictiveModelType"
-        case algorithm = "Algorithm"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EntityStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case inprogress = "INPROGRESS"
-        case failed = "FAILED"
-        case completed = "COMPLETED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Evaluation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
@@ -1563,18 +1621,6 @@ extension MachineLearning {
             case startedAt = "StartedAt"
             case status = "Status"
         }
-    }
-
-    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case iamuser = "IAMUser"
-        case mlmodelid = "MLModelId"
-        case datasourceid = "DataSourceId"
-        case datauri = "DataURI"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetBatchPredictionInput: AWSShape {
@@ -2190,27 +2236,6 @@ extension MachineLearning {
         }
     }
 
-    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case iamuser = "IAMUser"
-        case trainingdatasourceid = "TrainingDataSourceId"
-        case realtimeendpointstatus = "RealtimeEndpointStatus"
-        case mlmodeltype = "MLModelType"
-        case algorithm = "Algorithm"
-        case trainingdatauri = "TrainingDataURI"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MLModelType: String, CustomStringConvertible, Codable {
-        case regression = "REGRESSION"
-        case binary = "BINARY"
-        case multiclass = "MULTICLASS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PerformanceMetrics: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Properties", required: false, type: .map)
@@ -2524,14 +2549,6 @@ extension MachineLearning {
         }
     }
 
-    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case ready = "READY"
-        case updating = "UPDATING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RedshiftDataSpec: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatabaseCredentials", required: true, type: .structure), 
@@ -2712,12 +2729,6 @@ extension MachineLearning {
         }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case asc = "asc"
-        case dsc = "dsc"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -2747,14 +2758,6 @@ extension MachineLearning {
             case key = "Key"
             case value = "Value"
         }
-    }
-
-    public enum TaggableResourceType: String, CustomStringConvertible, Codable {
-        case batchprediction = "BatchPrediction"
-        case datasource = "DataSource"
-        case evaluation = "Evaluation"
-        case mlmodel = "MLModel"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateBatchPredictionInput: AWSShape {

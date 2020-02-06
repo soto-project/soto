@@ -4,6 +4,31 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ResourceGroups {
+    //MARK: Enums
+
+    public enum GroupFilterName: String, CustomStringConvertible, Codable {
+        case resourceType = "resource-type"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryErrorCode: String, CustomStringConvertible, Codable {
+        case cloudformationStackInactive = "CLOUDFORMATION_STACK_INACTIVE"
+        case cloudformationStackNotExisting = "CLOUDFORMATION_STACK_NOT_EXISTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryType: String, CustomStringConvertible, Codable {
+        case tagFilters10 = "TAG_FILTERS_1_0"
+        case cloudformationStack10 = "CLOUDFORMATION_STACK_1_0"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceFilterName: String, CustomStringConvertible, Codable {
+        case resourceType = "resource-type"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateGroupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -305,11 +330,6 @@ extension ResourceGroups {
         }
     }
 
-    public enum GroupFilterName: String, CustomStringConvertible, Codable {
-        case resourceType = "resource-type"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GroupIdentifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupArn", required: false, type: .string), 
@@ -509,18 +529,6 @@ extension ResourceGroups {
         }
     }
 
-    public enum QueryErrorCode: String, CustomStringConvertible, Codable {
-        case cloudformationStackInactive = "CLOUDFORMATION_STACK_INACTIVE"
-        case cloudformationStackNotExisting = "CLOUDFORMATION_STACK_NOT_EXISTING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum QueryType: String, CustomStringConvertible, Codable {
-        case tagFilters10 = "TAG_FILTERS_1_0"
-        case cloudformationStack10 = "CLOUDFORMATION_STACK_1_0"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResourceFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .enum), 
@@ -551,11 +559,6 @@ extension ResourceGroups {
             case name = "Name"
             case values = "Values"
         }
-    }
-
-    public enum ResourceFilterName: String, CustomStringConvertible, Codable {
-        case resourceType = "resource-type"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceIdentifier: AWSShape {

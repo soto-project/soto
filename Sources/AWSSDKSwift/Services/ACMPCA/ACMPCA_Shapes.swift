@@ -4,6 +4,92 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ACMPCA {
+    //MARK: Enums
+
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case issuecertificate = "IssueCertificate"
+        case getcertificate = "GetCertificate"
+        case listpermissions = "ListPermissions"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditReportResponseFormat: String, CustomStringConvertible, Codable {
+        case json = "JSON"
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditReportStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateAuthorityStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case pendingCertificate = "PENDING_CERTIFICATE"
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case disabled = "DISABLED"
+        case expired = "EXPIRED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateAuthorityType: String, CustomStringConvertible, Codable {
+        case root = "ROOT"
+        case subordinate = "SUBORDINATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FailureReason: String, CustomStringConvertible, Codable {
+        case requestTimedOut = "REQUEST_TIMED_OUT"
+        case unsupportedAlgorithm = "UNSUPPORTED_ALGORITHM"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        case rsa4096 = "RSA_4096"
+        case ecPrime256V1 = "EC_prime256v1"
+        case ecSecp384R1 = "EC_secp384r1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RevocationReason: String, CustomStringConvertible, Codable {
+        case unspecified = "UNSPECIFIED"
+        case keyCompromise = "KEY_COMPROMISE"
+        case certificateAuthorityCompromise = "CERTIFICATE_AUTHORITY_COMPROMISE"
+        case affiliationChanged = "AFFILIATION_CHANGED"
+        case superseded = "SUPERSEDED"
+        case cessationOfOperation = "CESSATION_OF_OPERATION"
+        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
+        case aACompromise = "A_A_COMPROMISE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SigningAlgorithm: String, CustomStringConvertible, Codable {
+        case sha256withecdsa = "SHA256WITHECDSA"
+        case sha384withecdsa = "SHA384WITHECDSA"
+        case sha512withecdsa = "SHA512WITHECDSA"
+        case sha256withrsa = "SHA256WITHRSA"
+        case sha384withrsa = "SHA384WITHRSA"
+        case sha512withrsa = "SHA512WITHRSA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidityPeriodType: String, CustomStringConvertible, Codable {
+        case endDate = "END_DATE"
+        case absolute = "ABSOLUTE"
+        case days = "DAYS"
+        case months = "MONTHS"
+        case years = "YEARS"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ASN1Subject: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -118,26 +204,6 @@ extension ACMPCA {
         }
     }
 
-    public enum ActionType: String, CustomStringConvertible, Codable {
-        case issuecertificate = "IssueCertificate"
-        case getcertificate = "GetCertificate"
-        case listpermissions = "ListPermissions"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AuditReportResponseFormat: String, CustomStringConvertible, Codable {
-        case json = "JSON"
-        case csv = "CSV"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AuditReportStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CertificateAuthority: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -239,23 +305,6 @@ extension ACMPCA {
             case signingAlgorithm = "SigningAlgorithm"
             case subject = "Subject"
         }
-    }
-
-    public enum CertificateAuthorityStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case pendingCertificate = "PENDING_CERTIFICATE"
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case disabled = "DISABLED"
-        case expired = "EXPIRED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CertificateAuthorityType: String, CustomStringConvertible, Codable {
-        case root = "ROOT"
-        case subordinate = "SUBORDINATE"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateCertificateAuthorityAuditReportRequest: AWSShape {
@@ -639,13 +688,6 @@ extension ACMPCA {
         }
     }
 
-    public enum FailureReason: String, CustomStringConvertible, Codable {
-        case requestTimedOut = "REQUEST_TIMED_OUT"
-        case unsupportedAlgorithm = "UNSUPPORTED_ALGORITHM"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetCertificateAuthorityCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
@@ -893,14 +935,6 @@ extension ACMPCA {
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
         }
-    }
-
-    public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa4096 = "RSA_4096"
-        case ecPrime256V1 = "EC_prime256v1"
-        case ecSecp384R1 = "EC_secp384r1"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListCertificateAuthoritiesRequest: AWSShape {
@@ -1158,18 +1192,6 @@ extension ACMPCA {
         }
     }
 
-    public enum RevocationReason: String, CustomStringConvertible, Codable {
-        case unspecified = "UNSPECIFIED"
-        case keyCompromise = "KEY_COMPROMISE"
-        case certificateAuthorityCompromise = "CERTIFICATE_AUTHORITY_COMPROMISE"
-        case affiliationChanged = "AFFILIATION_CHANGED"
-        case superseded = "SUPERSEDED"
-        case cessationOfOperation = "CESSATION_OF_OPERATION"
-        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
-        case aACompromise = "A_A_COMPROMISE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RevokeCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
@@ -1203,16 +1225,6 @@ extension ACMPCA {
             case certificateSerial = "CertificateSerial"
             case revocationReason = "RevocationReason"
         }
-    }
-
-    public enum SigningAlgorithm: String, CustomStringConvertible, Codable {
-        case sha256withecdsa = "SHA256WITHECDSA"
-        case sha384withecdsa = "SHA384WITHECDSA"
-        case sha512withecdsa = "SHA512WITHECDSA"
-        case sha256withrsa = "SHA256WITHRSA"
-        case sha384withrsa = "SHA384WITHRSA"
-        case sha512withrsa = "SHA512WITHRSA"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {
@@ -1370,14 +1382,5 @@ extension ACMPCA {
             case `type` = "Type"
             case value = "Value"
         }
-    }
-
-    public enum ValidityPeriodType: String, CustomStringConvertible, Codable {
-        case endDate = "END_DATE"
-        case absolute = "ABSOLUTE"
-        case days = "DAYS"
-        case months = "MONTHS"
-        case years = "YEARS"
-        public var description: String { return self.rawValue }
     }
 }

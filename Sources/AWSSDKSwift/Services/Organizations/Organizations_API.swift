@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS Organizations service.
+
 AWS Organizations
 */
 public struct Organizations {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the Organizations client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -29,239 +44,241 @@ public struct Organizations {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Sends a response to the originator of a handshake agreeing to the action proposed by the handshake request.  This operation can be called only by the following principals when they also have the relevant IAM permissions:    Invitation to join or Approve all features request handshakes: only a principal from the member account.  The user who calls the API for an invitation to join must have the organizations:AcceptHandshake permission. If you enabled all features in the organization, the user must also have the iam:CreateServiceLinkedRole permission so that AWS Organizations can create the required service-linked role named AWSServiceRoleForOrganizations. For more information, see AWS Organizations and Service-Linked Roles in the AWS Organizations User Guide.    Enable all features final confirmation handshake: only a principal from the master account. For more information about invitations, see Inviting an AWS Account to Join Your Organization in the AWS Organizations User Guide. For more information about requests to enable all features in the organization, see Enabling All Features in Your Organization in the AWS Organizations User Guide.    After you accept a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that, it's deleted.
-    public func acceptHandshake(_ input: AcceptHandshakeRequest) -> Future<AcceptHandshakeResponse> {
+    public func acceptHandshake(_ input: AcceptHandshakeRequest) -> EventLoopFuture<AcceptHandshakeResponse> {
         return client.send(operation: "AcceptHandshake", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy:   For more information about attaching SCPs, see How SCPs Work in the AWS Organizations User Guide.    For information about attaching tag policies, see How Policy Inheritance Works in the AWS Organizations User Guide.    This operation can be called only from the organization's master account.
-    @discardableResult public func attachPolicy(_ input: AttachPolicyRequest) -> Future<Void> {
+    @discardableResult public func attachPolicy(_ input: AttachPolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "AttachPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels a handshake. Canceling a handshake sets the handshake state to CANCELED.  This operation can be called only from the account that originated the handshake. The recipient of the handshake can't cancel it, but can use DeclineHandshake instead. After a handshake is canceled, the recipient can no longer respond to that handshake. After you cancel a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that, it's deleted.
-    public func cancelHandshake(_ input: CancelHandshakeRequest) -> Future<CancelHandshakeResponse> {
+    public func cancelHandshake(_ input: CancelHandshakeRequest) -> EventLoopFuture<CancelHandshakeResponse> {
         return client.send(operation: "CancelHandshake", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that AWS performs in the background. Because CreateAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:   Use the OperationId response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation.   Check the AWS CloudTrail log for the CreateAccountResult event. For information on using AWS CloudTrail with AWS Organizations, see Monitoring the Activity in Your Organization in the AWS Organizations User Guide.     The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, AWS Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see AWS Organizations and Service-Linked Roles in the AWS Organizations User Guide. AWS Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the master account administrator permissions in the new member account. Principals in the master account can assume the role. AWS Organizations clones the company name and address information for the new account from the organization's master account. This operation can be called only from the organization's master account. For more information about creating accounts, see Creating an AWS Account in Your Organization in the AWS Organizations User Guide.     When you create an account in an organization, the information required for the account to operate as a standalone account is not automatically collected. For example, information about the payment method and signing the end user license agreement (EULA) is not collected. If you must remove an account from your organization later, you can do so only after you provide the missing information. Follow the steps at  To leave an organization as a member account in the AWS Organizations User Guide.   If you get an exception that indicates that you exceeded your account limits for the organization, contact AWS Support.   If you get an exception that indicates that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists, contact AWS Support.   Using CreateAccount to create multiple temporary accounts isn't recommended. You can only close an account from the Billing and Cost Management Console, and you must be signed in as the root user. For information on the requirements and process for closing an account, see Closing an AWS Account in the AWS Organizations User Guide.     When you create a member account with this operation, you can choose whether to create the account with the IAM User and Role Access to Billing Information switch enabled. If you enable it, IAM users and roles that have appropriate permissions can view billing information for the account. If you disable it, only the account root user can access billing information. For information about how to disable this switch for an account, see Granting Access to Your Billing Information and Tools. 
-    public func createAccount(_ input: CreateAccountRequest) -> Future<CreateAccountResponse> {
+    public func createAccount(_ input: CreateAccountRequest) -> EventLoopFuture<CreateAccountResponse> {
         return client.send(operation: "CreateAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  This action is available if all of the following are true:   You're authorized to create accounts in the AWS GovCloud (US) Region. For more information on the AWS GovCloud (US) Region, see the  AWS GovCloud User Guide.    You already have an account in the AWS GovCloud (US) Region that is associated with your master account in the commercial Region.    You call this action from the master account of your organization in the commercial Region.   You have the organizations:CreateGovCloudAccount permission. AWS Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see AWS Organizations and Service-Linked Roles in the AWS Organizations User Guide.    AWS automatically enables AWS CloudTrail for AWS GovCloud (US) accounts, but you should also do the following:   Verify that AWS CloudTrail is enabled to store logs.   Create an S3 bucket for AWS CloudTrail log storage. For more information, see Verifying AWS CloudTrail Is Enabled in the AWS GovCloud User Guide.    You call this action from the master account of your organization in the commercial Region to create a standalone AWS account in the AWS GovCloud (US) Region. After the account is created, the master account of an organization in the AWS GovCloud (US) Region can invite it to that organization. For more information on inviting standalone accounts in the AWS GovCloud (US) to join an organization, see AWS Organizations in the AWS GovCloud User Guide.  Calling CreateGovCloudAccount is an asynchronous request that AWS performs in the background. Because CreateGovCloudAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:   Use the OperationId response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation.   Check the AWS CloudTrail log for the CreateAccountResult event. For information on using AWS CloudTrail with Organizations, see Monitoring the Activity in Your Organization in the AWS Organizations User Guide.     When you call the CreateGovCloudAccount action, you create two accounts: a standalone account in the AWS GovCloud (US) Region and an associated account in the commercial Region for billing and support purposes. The account in the commercial Region is automatically a member of the organization whose credentials made the request. Both accounts are associated with the same email address. A role is created in the new account in the commercial Region that allows the master account in the organization in the commercial Region to assume it. An AWS GovCloud (US) account is then created and associated with the commercial account that you just created. A role is created in the new AWS GovCloud (US) account. This role can be assumed by the AWS GovCloud (US) account that is associated with the master account of the commercial organization. For more information and to view a diagram that explains how account access works, see AWS Organizations in the AWS GovCloud User Guide.  For more information about creating accounts, see Creating an AWS Account in Your Organization in the AWS Organizations User Guide.     You can create an account in an organization using the AWS Organizations console, API, or CLI commands. When you do, the information required for the account to operate as a standalone account, such as a payment method, is not automatically collected. If you must remove an account from your organization later, you can do so only after you provide the missing information. Follow the steps at  To leave an organization as a member account in the AWS Organizations User Guide.    If you get an exception that indicates that you exceeded your account limits for the organization, contact AWS Support.   If you get an exception that indicates that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists, contact AWS Support.   Using CreateGovCloudAccount to create multiple temporary accounts isn't recommended. You can only close an account from the AWS Billing and Cost Management console, and you must be signed in as the root user. For information on the requirements and process for closing an account, see Closing an AWS Account in the AWS Organizations User Guide.     When you create a member account with this operation, you can choose whether to create the account with the IAM User and Role Access to Billing Information switch enabled. If you enable it, IAM users and roles that have appropriate permissions can view billing information for the account. If you disable it, only the account root user can access billing information. For information about how to disable this switch for an account, see Granting Access to Your Billing Information and Tools. 
-    public func createGovCloudAccount(_ input: CreateGovCloudAccountRequest) -> Future<CreateGovCloudAccountResponse> {
+    public func createGovCloudAccount(_ input: CreateGovCloudAccountRequest) -> EventLoopFuture<CreateGovCloudAccountResponse> {
         return client.send(operation: "CreateGovCloudAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS organization. The account whose user is calling the CreateOrganization operation automatically becomes the master account of the new organization. This operation must be called using credentials from the account that is to become the new organization's master account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL), the new organization is created with all features enabled. In addition, service control policies are automatically enabled in the root. If you instead create the organization supporting only the consolidated billing features, no policy types are enabled by default, and you can't use organization policies.
-    public func createOrganization(_ input: CreateOrganizationRequest) -> Future<CreateOrganizationResponse> {
+    public func createOrganization(_ input: CreateOrganizationRequest) -> EventLoopFuture<CreateOrganizationResponse> {
         return client.send(operation: "CreateOrganization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five.  For more information about OUs, see Managing Organizational Units in the AWS Organizations User Guide.  This operation can be called only from the organization's master account.
-    public func createOrganizationalUnit(_ input: CreateOrganizationalUnitRequest) -> Future<CreateOrganizationalUnitResponse> {
+    public func createOrganizationalUnit(_ input: CreateOrganizationalUnitRequest) -> EventLoopFuture<CreateOrganizationalUnitResponse> {
         return client.send(operation: "CreateOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual AWS account. For more information about policies and their use, see Managing Organization Policies. This operation can be called only from the organization's master account.
-    public func createPolicy(_ input: CreatePolicyRequest) -> Future<CreatePolicyResponse> {
+    public func createPolicy(_ input: CreatePolicyRequest) -> EventLoopFuture<CreatePolicyResponse> {
         return client.send(operation: "CreatePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Declines a handshake request. This sets the handshake state to DECLINED and effectively deactivates the request. This operation can be called only from the account that received the handshake. The originator of the handshake can use CancelHandshake instead. The originator can't reactivate a declined request, but can reinitiate the process with a new handshake request. After you decline a handshake, it continues to appear in the results of relevant API operations for only 30 days. After that, it's deleted.
-    public func declineHandshake(_ input: DeclineHandshakeRequest) -> Future<DeclineHandshakeResponse> {
+    public func declineHandshake(_ input: DeclineHandshakeRequest) -> EventLoopFuture<DeclineHandshakeResponse> {
         return client.send(operation: "DeclineHandshake", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the organization. You can delete an organization only by using credentials from the master account. The organization must be empty of member accounts.
-    @discardableResult public func deleteOrganization() -> Future<Void> {
+    @discardableResult public func deleteOrganization() -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteOrganization", path: "/", httpMethod: "POST")
     }
 
     ///  Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. This operation can be called only from the organization's master account.
-    @discardableResult public func deleteOrganizationalUnit(_ input: DeleteOrganizationalUnitRequest) -> Future<Void> {
+    @discardableResult public func deleteOrganizationalUnit(_ input: DeleteOrganizationalUnitRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified policy from your organization. Before you perform this operation, you must first detach the policy from all organizational units (OUs), roots, and accounts. This operation can be called only from the organization's master account.
-    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest) -> Future<Void> {
+    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves AWS Organizations related information about the specified account. This operation can be called only from the organization's master account.
-    public func describeAccount(_ input: DescribeAccountRequest) -> Future<DescribeAccountResponse> {
+    public func describeAccount(_ input: DescribeAccountRequest) -> EventLoopFuture<DescribeAccountResponse> {
         return client.send(operation: "DescribeAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the current status of an asynchronous request to create an account. This operation can be called only from the organization's master account.
-    public func describeCreateAccountStatus(_ input: DescribeCreateAccountStatusRequest) -> Future<DescribeCreateAccountStatusResponse> {
+    public func describeCreateAccountStatus(_ input: DescribeCreateAccountStatusRequest) -> EventLoopFuture<DescribeCreateAccountStatusResponse> {
         return client.send(operation: "DescribeCreateAccountStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the contents of the effective tag policy for the account. The effective tag policy is the aggregation of any tag policies the account inherits, plus any policy directly that is attached to the account.  This action returns information on tag policies only. For more information on policy inheritance, see How Policy Inheritance Works in the AWS Organizations User Guide. This operation can be called from any account in the organization.
-    public func describeEffectivePolicy(_ input: DescribeEffectivePolicyRequest) -> Future<DescribeEffectivePolicyResponse> {
+    public func describeEffectivePolicy(_ input: DescribeEffectivePolicyRequest) -> EventLoopFuture<DescribeEffectivePolicyResponse> {
         return client.send(operation: "DescribeEffectivePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a previously requested handshake. The handshake ID comes from the response to the original InviteAccountToOrganization operation that generated the handshake. You can access handshakes that are ACCEPTED, DECLINED, or CANCELED for only 30 days after they change to that state. They're then deleted and no longer accessible. This operation can be called from any account in the organization.
-    public func describeHandshake(_ input: DescribeHandshakeRequest) -> Future<DescribeHandshakeResponse> {
+    public func describeHandshake(_ input: DescribeHandshakeRequest) -> EventLoopFuture<DescribeHandshakeResponse> {
         return client.send(operation: "DescribeHandshake", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about the organization that the user's account belongs to. This operation can be called from any account in the organization.  Even if a policy type is shown as available in the organization, you can disable it separately at the root level with DisablePolicyType. Use ListRoots to see the status of policy types for a specified root. 
-    public func describeOrganization() -> Future<DescribeOrganizationResponse> {
+    public func describeOrganization() -> EventLoopFuture<DescribeOrganizationResponse> {
         return client.send(operation: "DescribeOrganization", path: "/", httpMethod: "POST")
     }
 
     ///  Retrieves information about an organizational unit (OU). This operation can be called only from the organization's master account.
-    public func describeOrganizationalUnit(_ input: DescribeOrganizationalUnitRequest) -> Future<DescribeOrganizationalUnitResponse> {
+    public func describeOrganizationalUnit(_ input: DescribeOrganizationalUnitRequest) -> EventLoopFuture<DescribeOrganizationalUnitResponse> {
         return client.send(operation: "DescribeOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a policy. This operation can be called only from the organization's master account.
-    public func describePolicy(_ input: DescribePolicyRequest) -> Future<DescribePolicyResponse> {
+    public func describePolicy(_ input: DescribePolicyRequest) -> EventLoopFuture<DescribePolicyResponse> {
         return client.send(operation: "DescribePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches a policy from a target root, organizational unit (OU), or account. If the policy being detached is a service control policy (SCP), the changes to permissions for IAM users and roles in affected accounts are immediate.  Note: Every root, OU, and account must have at least one SCP attached. You can replace the default FullAWSAccess policy with one that limits the permissions that can be delegated. To do that, you must attach the replacement policy before you can remove the default one. This is the authorization strategy of using an allow list. You could instead attach a second SCP and leave the FullAWSAccess SCP still attached. You could then specify "Effect": "Deny" in the second SCP to override the "Effect": "Allow" in the FullAWSAccess policy (or any other attached SCP). If you take these steps, you're using the authorization strategy of a deny list.  This operation can be called only from the organization's master account.
-    @discardableResult public func detachPolicy(_ input: DetachPolicyRequest) -> Future<Void> {
+    @discardableResult public func detachPolicy(_ input: DetachPolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DetachPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables the integration of an AWS service (the service that is specified by ServicePrincipal) with AWS Organizations. When you disable integration, the specified service no longer can create a service-linked role in new accounts in your organization. This means the service can't perform operations on your behalf on any new accounts in your organization. The service can still perform operations in older accounts until the service completes its clean-up from AWS Organizations.   We recommend that you disable integration between AWS Organizations and the specified AWS service by using the console or commands that are provided by the specified service. Doing so ensures that the other service is aware that it can clean up any resources that are required only for the integration. How the service cleans up its resources in the organization's accounts depends on that service. For more information, see the documentation for the other AWS service.  After you perform the DisableAWSServiceAccess operation, the specified service can no longer perform operations in your organization's accounts. The only exception is when the operations are explicitly permitted by IAM policies that are attached to your roles.  For more information about integrating other services with AWS Organizations, including the list of services that work with Organizations, see Integrating AWS Organizations with Other AWS Services in the AWS Organizations User Guide.  This operation can be called only from the organization's master account.
-    @discardableResult public func disableAWSServiceAccess(_ input: DisableAWSServiceAccessRequest) -> Future<Void> {
+    @discardableResult public func disableAWSServiceAccess(_ input: DisableAWSServiceAccessRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DisableAWSServiceAccess", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables an organizational control policy type in a root and detaches all policies of that type from the organization root, OUs, and accounts. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the EnablePolicyType operation. This is an asynchronous request that AWS performs in the background. If you disable a policy for a root, it still appears enabled for the organization if all features are enabled for the organization. AWS recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation.  This operation can be called only from the organization's master account.  To view the status of available policy types in the organization, use DescribeOrganization.
-    public func disablePolicyType(_ input: DisablePolicyTypeRequest) -> Future<DisablePolicyTypeResponse> {
+    public func disablePolicyType(_ input: DisablePolicyTypeRequest) -> EventLoopFuture<DisablePolicyTypeResponse> {
         return client.send(operation: "DisablePolicyType", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables the integration of an AWS service (the service that is specified by ServicePrincipal) with AWS Organizations. When you enable integration, you allow the specified service to create a service-linked role in all the accounts in your organization. This allows the service to perform operations on your behalf in your organization and its accounts.  We recommend that you enable integration between AWS Organizations and the specified AWS service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other AWS service.  For more information about enabling services to integrate with AWS Organizations, see Integrating AWS Organizations with Other AWS Services in the AWS Organizations User Guide.  This operation can be called only from the organization's master account and only if the organization has enabled all features.
-    @discardableResult public func enableAWSServiceAccess(_ input: EnableAWSServiceAccessRequest) -> Future<Void> {
+    @discardableResult public func enableAWSServiceAccess(_ input: EnableAWSServiceAccessRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "EnableAWSServiceAccess", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables all features in an organization. This enables the use of organization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have access only to consolidated billing. You can't use any of the advanced account administration features that AWS Organizations supports. For more information, see Enabling All Features in Your Organization in the AWS Organizations User Guide.   This operation is required only for organizations that were created explicitly with only the consolidated billing features enabled. Calling this operation sends a handshake to every invited account in the organization. The feature set change can be finalized and the additional features enabled only after all administrators in the invited accounts approve the change. Accepting the handshake approves the change.  After you enable all features, you can separately enable or disable individual policy types in a root using EnablePolicyType and DisablePolicyType. To see the status of policy types in a root, use ListRoots. After all invited member accounts accept the handshake, you finalize the feature set change by accepting the handshake that contains "Action": "ENABLE_ALL_FEATURES". This completes the change. After you enable all features in your organization, the master account in the organization can apply policies on all member accounts. These policies can restrict what users and even administrators in those accounts can do. The master account can apply policies that prevent accounts from leaving the organization. Ensure that your account administrators are aware of this. This operation can be called only from the organization's master account. 
-    public func enableAllFeatures(_ input: EnableAllFeaturesRequest) -> Future<EnableAllFeaturesResponse> {
+    public func enableAllFeatures(_ input: EnableAllFeaturesRequest) -> EventLoopFuture<EnableAllFeaturesResponse> {
         return client.send(operation: "EnableAllFeatures", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the DisablePolicyType operation. This is an asynchronous request that AWS performs in the background. AWS recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation.  This operation can be called only from the organization's master account. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use DescribeOrganization.
-    public func enablePolicyType(_ input: EnablePolicyTypeRequest) -> Future<EnablePolicyTypeResponse> {
+    public func enablePolicyType(_ input: EnablePolicyTypeRequest) -> EventLoopFuture<EnablePolicyTypeResponse> {
         return client.send(operation: "EnablePolicyType", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sends an invitation to another account to join your organization as a member account. AWS Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response.    You can invite AWS accounts only from the same seller as the master account. For example, assume that your organization's master account was created by Amazon Internet Services Pvt. Ltd (AISPL), an AWS seller in India. You can invite only other AISPL accounts to your organization. You can't combine accounts from AISPL and AWS or from any other AWS seller. For more information, see Consolidated Billing in India.   You might receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed because your organization is still initializing. If so, wait one hour and then try again. If the error persists after an hour, contact AWS Support.    This operation can be called only from the organization's master account.
-    public func inviteAccountToOrganization(_ input: InviteAccountToOrganizationRequest) -> Future<InviteAccountToOrganizationResponse> {
+    public func inviteAccountToOrganization(_ input: InviteAccountToOrganizationRequest) -> EventLoopFuture<InviteAccountToOrganizationResponse> {
         return client.send(operation: "InviteAccountToOrganization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the master account, use RemoveAccountFromOrganization instead. This operation can be called only from a member account in the organization.    The master account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do. These restrictions can include preventing member accounts from successfully calling LeaveOrganization.    You can leave an organization as a member account only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the AWS Organizations console, API, or CLI, the information required of standalone accounts is not automatically collected. For each account that you want to make standalone, you must accept the end user license agreement (EULA). You must also choose a support plan, provide and verify the required contact information, and provide a current payment method. AWS uses the payment method to charge for any billable (not free tier) AWS activity that occurs while the account isn't attached to an organization. Follow the steps at  To leave an organization when all required account information has not yet been provided in the AWS Organizations User Guide.    You can leave an organization only after you enable IAM user access to billing in your account. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.    
-    @discardableResult public func leaveOrganization() -> Future<Void> {
+    @discardableResult public func leaveOrganization() -> EventLoopFuture<Void> {
         return client.send(operation: "LeaveOrganization", path: "/", httpMethod: "POST")
     }
 
     ///  Returns a list of the AWS services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with AWS Organizations, including the list of services that currently work with Organizations, see Integrating AWS Organizations with Other AWS Services in the AWS Organizations User Guide.  This operation can be called only from the organization's master account.
-    public func listAWSServiceAccessForOrganization(_ input: ListAWSServiceAccessForOrganizationRequest) -> Future<ListAWSServiceAccessForOrganizationResponse> {
+    public func listAWSServiceAccessForOrganization(_ input: ListAWSServiceAccessForOrganizationRequest) -> EventLoopFuture<ListAWSServiceAccessForOrganizationResponse> {
         return client.send(operation: "ListAWSServiceAccessForOrganization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all the accounts in the organization. To request only the accounts in a specified root or organizational unit (OU), use the ListAccountsForParent operation instead.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.
-    public func listAccounts(_ input: ListAccountsRequest) -> Future<ListAccountsResponse> {
+    public func listAccounts(_ input: ListAccountsRequest) -> EventLoopFuture<ListAccountsResponse> {
         return client.send(operation: "ListAccounts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the accounts in an organization that are contained by the specified target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you specify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the ListAccounts operation.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.
-    public func listAccountsForParent(_ input: ListAccountsForParentRequest) -> Future<ListAccountsForParentResponse> {
+    public func listAccountsForParent(_ input: ListAccountsForParentRequest) -> EventLoopFuture<ListAccountsForParentResponse> {
         return client.send(operation: "ListAccountsForParent", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with ListParents enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.
-    public func listChildren(_ input: ListChildrenRequest) -> Future<ListChildrenResponse> {
+    public func listChildren(_ input: ListChildrenRequest) -> EventLoopFuture<ListChildrenResponse> {
         return client.send(operation: "ListChildren", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the account creation requests that match the specified status that is currently being tracked for the organization.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.
-    public func listCreateAccountStatus(_ input: ListCreateAccountStatusRequest) -> Future<ListCreateAccountStatusResponse> {
+    public func listCreateAccountStatus(_ input: ListCreateAccountStatusRequest) -> EventLoopFuture<ListCreateAccountStatusResponse> {
         return client.send(operation: "ListCreateAccountStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called from any account in the organization.
-    public func listHandshakesForAccount(_ input: ListHandshakesForAccountRequest) -> Future<ListHandshakesForAccountResponse> {
+    public func listHandshakesForAccount(_ input: ListHandshakesForAccountRequest) -> EventLoopFuture<ListHandshakesForAccountResponse> {
         return client.send(operation: "ListHandshakesForAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.
-    public func listHandshakesForOrganization(_ input: ListHandshakesForOrganizationRequest) -> Future<ListHandshakesForOrganizationResponse> {
+    public func listHandshakesForOrganization(_ input: ListHandshakesForOrganizationRequest) -> EventLoopFuture<ListHandshakesForOrganizationResponse> {
         return client.send(operation: "ListHandshakesForOrganization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the organizational units (OUs) in a parent organizational unit or root.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.
-    public func listOrganizationalUnitsForParent(_ input: ListOrganizationalUnitsForParentRequest) -> Future<ListOrganizationalUnitsForParentResponse> {
+    public func listOrganizationalUnitsForParent(_ input: ListOrganizationalUnitsForParentRequest) -> EventLoopFuture<ListOrganizationalUnitsForParentResponse> {
         return client.send(operation: "ListOrganizationalUnitsForParent", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.  In the current release, a child can have only a single parent.  
-    public func listParents(_ input: ListParentsRequest) -> Future<ListParentsResponse> {
+    public func listParents(_ input: ListParentsRequest) -> EventLoopFuture<ListParentsResponse> {
         return client.send(operation: "ListParents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the list of all policies in an organization of a specified type.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.
-    public func listPolicies(_ input: ListPoliciesRequest) -> Future<ListPoliciesResponse> {
+    public func listPolicies(_ input: ListPoliciesRequest) -> EventLoopFuture<ListPoliciesResponse> {
         return client.send(operation: "ListPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.
-    public func listPoliciesForTarget(_ input: ListPoliciesForTargetRequest) -> Future<ListPoliciesForTargetResponse> {
+    public func listPoliciesForTarget(_ input: ListPoliciesForTargetRequest) -> EventLoopFuture<ListPoliciesForTargetResponse> {
         return client.send(operation: "ListPoliciesForTarget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the roots that are defined in the current organization.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.  Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use DescribeOrganization. 
-    public func listRoots(_ input: ListRootsRequest) -> Future<ListRootsResponse> {
+    public func listRoots(_ input: ListRootsRequest) -> EventLoopFuture<ListRootsResponse> {
         return client.send(operation: "ListRoots", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists tags for the specified resource.  Currently, you can list tags on an account in AWS Organizations. This operation can be called only from the organization's master account.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's master account.
-    public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest) -> Future<ListTargetsForPolicyResponse> {
+    public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest) -> EventLoopFuture<ListTargetsForPolicyResponse> {
         return client.send(operation: "ListTargetsForPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Moves an account from its current source parent root or organizational unit (OU) to the specified destination parent root or OU. This operation can be called only from the organization's master account.
-    @discardableResult public func moveAccount(_ input: MoveAccountRequest) -> Future<Void> {
+    @discardableResult public func moveAccount(_ input: MoveAccountRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "MoveAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's master account is no longer charged for any expenses accrued by the member account after it's removed from the organization. This operation can be called only from the organization's master account. Member accounts can remove themselves with LeaveOrganization instead.  You can remove an account from your organization only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the AWS Organizations console, API, or CLI, the information required of standalone accounts is not automatically collected. For an account that you want to make standalone, you must accept the end user license agreement (EULA). You must also choose a support plan, provide and verify the required contact information, and provide a current payment method. AWS uses the payment method to charge for any billable (not free tier) AWS activity that occurs while the account isn't attached to an organization. To remove an account that doesn't yet have this information, you must sign in as the member account. Then follow the steps at  To leave an organization when all required account information has not yet been provided in the AWS Organizations User Guide.  
-    @discardableResult public func removeAccountFromOrganization(_ input: RemoveAccountFromOrganizationRequest) -> Future<Void> {
+    @discardableResult public func removeAccountFromOrganization(_ input: RemoveAccountFromOrganizationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "RemoveAccountFromOrganization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more tags to the specified resource. Currently, you can tag and untag accounts in AWS Organizations. This operation can be called only from the organization's master account.
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a tag from the specified resource.  Currently, you can tag and untag accounts in AWS Organizations. This operation can be called only from the organization's master account.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached.  This operation can be called only from the organization's master account.
-    public func updateOrganizationalUnit(_ input: UpdateOrganizationalUnitRequest) -> Future<UpdateOrganizationalUnitResponse> {
+    public func updateOrganizationalUnit(_ input: UpdateOrganizationalUnitRequest) -> EventLoopFuture<UpdateOrganizationalUnitResponse> {
         return client.send(operation: "UpdateOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. This operation can be called only from the organization's master account.
-    public func updatePolicy(_ input: UpdatePolicyRequest) -> Future<UpdatePolicyResponse> {
+    public func updatePolicy(_ input: UpdatePolicyRequest) -> EventLoopFuture<UpdatePolicyResponse> {
         return client.send(operation: "UpdatePolicy", path: "/", httpMethod: "POST", input: input)
     }
 }

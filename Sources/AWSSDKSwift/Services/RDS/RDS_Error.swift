@@ -57,9 +57,13 @@ public enum RDSErrorType: AWSErrorType {
     case dBUpgradeDependencyFailureFault(message: String?)
     case domainNotFoundFault(message: String?)
     case eventSubscriptionQuotaExceededFault(message: String?)
+    case exportTaskAlreadyExistsFault(message: String?)
+    case exportTaskNotFoundFault(message: String?)
     case globalClusterAlreadyExistsFault(message: String?)
     case globalClusterNotFoundFault(message: String?)
     case globalClusterQuotaExceededFault(message: String?)
+    case iamRoleMissingPermissionsFault(message: String?)
+    case iamRoleNotFoundFault(message: String?)
     case installationMediaAlreadyExistsFault(message: String?)
     case installationMediaNotFoundFault(message: String?)
     case instanceQuotaExceededFault(message: String?)
@@ -80,6 +84,9 @@ public enum RDSErrorType: AWSErrorType {
     case invalidDBSubnetGroupStateFault(message: String?)
     case invalidDBSubnetStateFault(message: String?)
     case invalidEventSubscriptionStateFault(message: String?)
+    case invalidExportOnlyFault(message: String?)
+    case invalidExportSourceStateFault(message: String?)
+    case invalidExportTaskStateFault(message: String?)
     case invalidGlobalClusterStateFault(message: String?)
     case invalidOptionGroupStateFault(message: String?)
     case invalidRestoreFault(message: String?)
@@ -224,12 +231,20 @@ extension RDSErrorType {
             self = .domainNotFoundFault(message: message)
         case "EventSubscriptionQuotaExceeded":
             self = .eventSubscriptionQuotaExceededFault(message: message)
+        case "ExportTaskAlreadyExists":
+            self = .exportTaskAlreadyExistsFault(message: message)
+        case "ExportTaskNotFound":
+            self = .exportTaskNotFoundFault(message: message)
         case "GlobalClusterAlreadyExistsFault":
             self = .globalClusterAlreadyExistsFault(message: message)
         case "GlobalClusterNotFoundFault":
             self = .globalClusterNotFoundFault(message: message)
         case "GlobalClusterQuotaExceededFault":
             self = .globalClusterQuotaExceededFault(message: message)
+        case "IamRoleMissingPermissions":
+            self = .iamRoleMissingPermissionsFault(message: message)
+        case "IamRoleNotFound":
+            self = .iamRoleNotFoundFault(message: message)
         case "InstallationMediaAlreadyExists":
             self = .installationMediaAlreadyExistsFault(message: message)
         case "InstallationMediaNotFound":
@@ -270,6 +285,12 @@ extension RDSErrorType {
             self = .invalidDBSubnetStateFault(message: message)
         case "InvalidEventSubscriptionState":
             self = .invalidEventSubscriptionStateFault(message: message)
+        case "InvalidExportOnly":
+            self = .invalidExportOnlyFault(message: message)
+        case "InvalidExportSourceState":
+            self = .invalidExportSourceStateFault(message: message)
+        case "InvalidExportTaskStateFault":
+            self = .invalidExportTaskStateFault(message: message)
         case "InvalidGlobalClusterStateFault":
             self = .invalidGlobalClusterStateFault(message: message)
         case "InvalidOptionGroupStateFault":
@@ -443,12 +464,20 @@ extension RDSErrorType : CustomStringConvertible {
             return "DomainNotFoundFault: \(message ?? "")"
         case .eventSubscriptionQuotaExceededFault(let message):
             return "EventSubscriptionQuotaExceeded: \(message ?? "")"
+        case .exportTaskAlreadyExistsFault(let message):
+            return "ExportTaskAlreadyExists: \(message ?? "")"
+        case .exportTaskNotFoundFault(let message):
+            return "ExportTaskNotFound: \(message ?? "")"
         case .globalClusterAlreadyExistsFault(let message):
             return "GlobalClusterAlreadyExistsFault: \(message ?? "")"
         case .globalClusterNotFoundFault(let message):
             return "GlobalClusterNotFoundFault: \(message ?? "")"
         case .globalClusterQuotaExceededFault(let message):
             return "GlobalClusterQuotaExceededFault: \(message ?? "")"
+        case .iamRoleMissingPermissionsFault(let message):
+            return "IamRoleMissingPermissions: \(message ?? "")"
+        case .iamRoleNotFoundFault(let message):
+            return "IamRoleNotFound: \(message ?? "")"
         case .installationMediaAlreadyExistsFault(let message):
             return "InstallationMediaAlreadyExists: \(message ?? "")"
         case .installationMediaNotFoundFault(let message):
@@ -489,6 +518,12 @@ extension RDSErrorType : CustomStringConvertible {
             return "InvalidDBSubnetStateFault: \(message ?? "")"
         case .invalidEventSubscriptionStateFault(let message):
             return "InvalidEventSubscriptionState: \(message ?? "")"
+        case .invalidExportOnlyFault(let message):
+            return "InvalidExportOnly: \(message ?? "")"
+        case .invalidExportSourceStateFault(let message):
+            return "InvalidExportSourceState: \(message ?? "")"
+        case .invalidExportTaskStateFault(let message):
+            return "InvalidExportTaskStateFault: \(message ?? "")"
         case .invalidGlobalClusterStateFault(let message):
             return "InvalidGlobalClusterStateFault: \(message ?? "")"
         case .invalidOptionGroupStateFault(let message):

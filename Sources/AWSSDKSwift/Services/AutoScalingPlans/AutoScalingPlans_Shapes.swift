@@ -4,6 +4,115 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AutoScalingPlans {
+    //MARK: Enums
+
+    public enum ForecastDataType: String, CustomStringConvertible, Codable {
+        case capacityforecast = "CapacityForecast"
+        case loadforecast = "LoadForecast"
+        case scheduledactionmincapacity = "ScheduledActionMinCapacity"
+        case scheduledactionmaxcapacity = "ScheduledActionMaxCapacity"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadMetricType: String, CustomStringConvertible, Codable {
+        case asgtotalcpuutilization = "ASGTotalCPUUtilization"
+        case asgtotalnetworkin = "ASGTotalNetworkIn"
+        case asgtotalnetworkout = "ASGTotalNetworkOut"
+        case albtargetgrouprequestcount = "ALBTargetGroupRequestCount"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
+        case average = "Average"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case samplecount = "SampleCount"
+        case sum = "Sum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case targettrackingscaling = "TargetTrackingScaling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PredictiveScalingMaxCapacityBehavior: String, CustomStringConvertible, Codable {
+        case setforecastcapacitytomaxcapacity = "SetForecastCapacityToMaxCapacity"
+        case setmaxcapacitytoforecastcapacity = "SetMaxCapacityToForecastCapacity"
+        case setmaxcapacityaboveforecastcapacity = "SetMaxCapacityAboveForecastCapacity"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable {
+        case forecastandscale = "ForecastAndScale"
+        case forecastonly = "ForecastOnly"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalableDimension: String, CustomStringConvertible, Codable {
+        case autoscalingAutoscalinggroupDesiredcapacity = "autoscaling:autoScalingGroup:DesiredCapacity"
+        case ecsServiceDesiredcount = "ecs:service:DesiredCount"
+        case ec2SpotFleetRequestTargetcapacity = "ec2:spot-fleet-request:TargetCapacity"
+        case rdsClusterReadreplicacount = "rds:cluster:ReadReplicaCount"
+        case dynamodbTableReadcapacityunits = "dynamodb:table:ReadCapacityUnits"
+        case dynamodbTableWritecapacityunits = "dynamodb:table:WriteCapacityUnits"
+        case dynamodbIndexReadcapacityunits = "dynamodb:index:ReadCapacityUnits"
+        case dynamodbIndexWritecapacityunits = "dynamodb:index:WriteCapacityUnits"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingMetricType: String, CustomStringConvertible, Codable {
+        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
+        case asgaveragenetworkin = "ASGAverageNetworkIn"
+        case asgaveragenetworkout = "ASGAverageNetworkOut"
+        case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
+        case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
+        case ecsserviceaveragecpuutilization = "ECSServiceAverageCPUUtilization"
+        case ecsserviceaveragememoryutilization = "ECSServiceAverageMemoryUtilization"
+        case albrequestcountpertarget = "ALBRequestCountPerTarget"
+        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
+        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
+        case ec2spotfleetrequestaveragecpuutilization = "EC2SpotFleetRequestAverageCPUUtilization"
+        case ec2spotfleetrequestaveragenetworkin = "EC2SpotFleetRequestAverageNetworkIn"
+        case ec2spotfleetrequestaveragenetworkout = "EC2SpotFleetRequestAverageNetworkOut"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingPlanStatusCode: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case activewithproblems = "ActiveWithProblems"
+        case creationinprogress = "CreationInProgress"
+        case creationfailed = "CreationFailed"
+        case deletioninprogress = "DeletionInProgress"
+        case deletionfailed = "DeletionFailed"
+        case updateinprogress = "UpdateInProgress"
+        case updatefailed = "UpdateFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingPolicyUpdateBehavior: String, CustomStringConvertible, Codable {
+        case keepexternalpolicies = "KeepExternalPolicies"
+        case replaceexternalpolicies = "ReplaceExternalPolicies"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScalingStatusCode: String, CustomStringConvertible, Codable {
+        case inactive = "Inactive"
+        case partiallyactive = "PartiallyActive"
+        case active = "Active"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceNamespace: String, CustomStringConvertible, Codable {
+        case autoscaling = "autoscaling"
+        case ecs = "ecs"
+        case ec2 = "ec2"
+        case rds = "rds"
+        case dynamodb = "dynamodb"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ApplicationSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -350,14 +459,6 @@ extension AutoScalingPlans {
         }
     }
 
-    public enum ForecastDataType: String, CustomStringConvertible, Codable {
-        case capacityforecast = "CapacityForecast"
-        case loadforecast = "LoadForecast"
-        case scheduledactionmincapacity = "ScheduledActionMinCapacity"
-        case scheduledactionmaxcapacity = "ScheduledActionMaxCapacity"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetScalingPlanResourceForecastDataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
@@ -434,14 +535,6 @@ extension AutoScalingPlans {
         }
     }
 
-    public enum LoadMetricType: String, CustomStringConvertible, Codable {
-        case asgtotalcpuutilization = "ASGTotalCPUUtilization"
-        case asgtotalnetworkin = "ASGTotalNetworkIn"
-        case asgtotalnetworkout = "ASGTotalNetworkOut"
-        case albtargetgrouprequestcount = "ALBTargetGroupRequestCount"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MetricDimension: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -462,20 +555,6 @@ extension AutoScalingPlans {
             case name = "Name"
             case value = "Value"
         }
-    }
-
-    public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case average = "Average"
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        case samplecount = "SampleCount"
-        case sum = "Sum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyType: String, CustomStringConvertible, Codable {
-        case targettrackingscaling = "TargetTrackingScaling"
-        public var description: String { return self.rawValue }
     }
 
     public struct PredefinedLoadMetricSpecification: AWSShape {
@@ -530,31 +609,6 @@ extension AutoScalingPlans {
             case predefinedScalingMetricType = "PredefinedScalingMetricType"
             case resourceLabel = "ResourceLabel"
         }
-    }
-
-    public enum PredictiveScalingMaxCapacityBehavior: String, CustomStringConvertible, Codable {
-        case setforecastcapacitytomaxcapacity = "SetForecastCapacityToMaxCapacity"
-        case setmaxcapacitytoforecastcapacity = "SetMaxCapacityToForecastCapacity"
-        case setmaxcapacityaboveforecastcapacity = "SetMaxCapacityAboveForecastCapacity"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable {
-        case forecastandscale = "ForecastAndScale"
-        case forecastonly = "ForecastOnly"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScalableDimension: String, CustomStringConvertible, Codable {
-        case autoscalingAutoscalinggroupDesiredcapacity = "autoscaling:autoScalingGroup:DesiredCapacity"
-        case ecsServiceDesiredcount = "ecs:service:DesiredCount"
-        case ec2SpotFleetRequestTargetcapacity = "ec2:spot-fleet-request:TargetCapacity"
-        case rdsClusterReadreplicacount = "rds:cluster:ReadReplicaCount"
-        case dynamodbTableReadcapacityunits = "dynamodb:table:ReadCapacityUnits"
-        case dynamodbTableWritecapacityunits = "dynamodb:table:WriteCapacityUnits"
-        case dynamodbIndexReadcapacityunits = "dynamodb:index:ReadCapacityUnits"
-        case dynamodbIndexWritecapacityunits = "dynamodb:index:WriteCapacityUnits"
-        public var description: String { return self.rawValue }
     }
 
     public struct ScalingInstruction: AWSShape {
@@ -648,23 +702,6 @@ extension AutoScalingPlans {
             case serviceNamespace = "ServiceNamespace"
             case targetTrackingConfigurations = "TargetTrackingConfigurations"
         }
-    }
-
-    public enum ScalingMetricType: String, CustomStringConvertible, Codable {
-        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
-        case asgaveragenetworkin = "ASGAverageNetworkIn"
-        case asgaveragenetworkout = "ASGAverageNetworkOut"
-        case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
-        case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
-        case ecsserviceaveragecpuutilization = "ECSServiceAverageCPUUtilization"
-        case ecsserviceaveragememoryutilization = "ECSServiceAverageMemoryUtilization"
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
-        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
-        case ec2spotfleetrequestaveragecpuutilization = "EC2SpotFleetRequestAverageCPUUtilization"
-        case ec2spotfleetrequestaveragenetworkin = "EC2SpotFleetRequestAverageNetworkIn"
-        case ec2spotfleetrequestaveragenetworkout = "EC2SpotFleetRequestAverageNetworkOut"
-        public var description: String { return self.rawValue }
     }
 
     public struct ScalingPlan: AWSShape {
@@ -771,18 +808,6 @@ extension AutoScalingPlans {
         }
     }
 
-    public enum ScalingPlanStatusCode: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case activewithproblems = "ActiveWithProblems"
-        case creationinprogress = "CreationInProgress"
-        case creationfailed = "CreationFailed"
-        case deletioninprogress = "DeletionInProgress"
-        case deletionfailed = "DeletionFailed"
-        case updateinprogress = "UpdateInProgress"
-        case updatefailed = "UpdateFailed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ScalingPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyName", required: true, type: .string), 
@@ -808,28 +833,6 @@ extension AutoScalingPlans {
             case policyType = "PolicyType"
             case targetTrackingConfiguration = "TargetTrackingConfiguration"
         }
-    }
-
-    public enum ScalingPolicyUpdateBehavior: String, CustomStringConvertible, Codable {
-        case keepexternalpolicies = "KeepExternalPolicies"
-        case replaceexternalpolicies = "ReplaceExternalPolicies"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScalingStatusCode: String, CustomStringConvertible, Codable {
-        case inactive = "Inactive"
-        case partiallyactive = "PartiallyActive"
-        case active = "Active"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceNamespace: String, CustomStringConvertible, Codable {
-        case autoscaling = "autoscaling"
-        case ecs = "ecs"
-        case ec2 = "ec2"
-        case rds = "rds"
-        case dynamodb = "dynamodb"
-        public var description: String { return self.rawValue }
     }
 
     public struct TagFilter: AWSShape {

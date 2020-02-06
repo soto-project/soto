@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS APIGateway service.
+
 Amazon API Gateway Amazon API Gateway helps developers deliver robust, secure, and scalable mobile and web application back ends. API Gateway allows developers to securely connect mobile and web applications to APIs that run on AWS Lambda, Amazon EC2, or other publicly addressable web services that are hosted outside of AWS.
 */
 public struct APIGateway {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the APIGateway client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -26,591 +41,593 @@ public struct APIGateway {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Create an ApiKey resource.  AWS CLI
-    public func createApiKey(_ input: CreateApiKeyRequest) -> Future<ApiKey> {
+    public func createApiKey(_ input: CreateApiKeyRequest) -> EventLoopFuture<ApiKey> {
         return client.send(operation: "CreateApiKey", path: "/apikeys", httpMethod: "POST", input: input)
     }
 
     ///  Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
-    public func createAuthorizer(_ input: CreateAuthorizerRequest) -> Future<Authorizer> {
+    public func createAuthorizer(_ input: CreateAuthorizerRequest) -> EventLoopFuture<Authorizer> {
         return client.send(operation: "CreateAuthorizer", path: "/restapis/{restapi_id}/authorizers", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new BasePathMapping resource.
-    public func createBasePathMapping(_ input: CreateBasePathMappingRequest) -> Future<BasePathMapping> {
+    public func createBasePathMapping(_ input: CreateBasePathMappingRequest) -> EventLoopFuture<BasePathMapping> {
         return client.send(operation: "CreateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Deployment resource, which makes a specified RestApi callable over the internet.
-    public func createDeployment(_ input: CreateDeploymentRequest) -> Future<Deployment> {
+    public func createDeployment(_ input: CreateDeploymentRequest) -> EventLoopFuture<Deployment> {
         return client.send(operation: "CreateDeployment", path: "/restapis/{restapi_id}/deployments", httpMethod: "POST", input: input)
     }
 
-    public func createDocumentationPart(_ input: CreateDocumentationPartRequest) -> Future<DocumentationPart> {
+    public func createDocumentationPart(_ input: CreateDocumentationPartRequest) -> EventLoopFuture<DocumentationPart> {
         return client.send(operation: "CreateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "POST", input: input)
     }
 
-    public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest) -> Future<DocumentationVersion> {
+    public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest) -> EventLoopFuture<DocumentationVersion> {
         return client.send(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new domain name.
-    public func createDomainName(_ input: CreateDomainNameRequest) -> Future<DomainName> {
+    public func createDomainName(_ input: CreateDomainNameRequest) -> EventLoopFuture<DomainName> {
         return client.send(operation: "CreateDomainName", path: "/domainnames", httpMethod: "POST", input: input)
     }
 
     ///  Adds a new Model resource to an existing RestApi resource.
-    public func createModel(_ input: CreateModelRequest) -> Future<Model> {
+    public func createModel(_ input: CreateModelRequest) -> EventLoopFuture<Model> {
         return client.send(operation: "CreateModel", path: "/restapis/{restapi_id}/models", httpMethod: "POST", input: input)
     }
 
     ///  Creates a ReqeustValidator of a given RestApi.
-    public func createRequestValidator(_ input: CreateRequestValidatorRequest) -> Future<RequestValidator> {
+    public func createRequestValidator(_ input: CreateRequestValidatorRequest) -> EventLoopFuture<RequestValidator> {
         return client.send(operation: "CreateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Resource resource.
-    public func createResource(_ input: CreateResourceRequest) -> Future<Resource> {
+    public func createResource(_ input: CreateResourceRequest) -> EventLoopFuture<Resource> {
         return client.send(operation: "CreateResource", path: "/restapis/{restapi_id}/resources/{parent_id}", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new RestApi resource.
-    public func createRestApi(_ input: CreateRestApiRequest) -> Future<RestApi> {
+    public func createRestApi(_ input: CreateRestApiRequest) -> EventLoopFuture<RestApi> {
         return client.send(operation: "CreateRestApi", path: "/restapis", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Stage resource that references a pre-existing Deployment for the API. 
-    public func createStage(_ input: CreateStageRequest) -> Future<Stage> {
+    public func createStage(_ input: CreateStageRequest) -> EventLoopFuture<Stage> {
         return client.send(operation: "CreateStage", path: "/restapis/{restapi_id}/stages", httpMethod: "POST", input: input)
     }
 
     ///  Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload. 
-    public func createUsagePlan(_ input: CreateUsagePlanRequest) -> Future<UsagePlan> {
+    public func createUsagePlan(_ input: CreateUsagePlanRequest) -> EventLoopFuture<UsagePlan> {
         return client.send(operation: "CreateUsagePlan", path: "/usageplans", httpMethod: "POST", input: input)
     }
 
     ///  Creates a usage plan key for adding an existing API key to a usage plan.
-    public func createUsagePlanKey(_ input: CreateUsagePlanKeyRequest) -> Future<UsagePlanKey> {
+    public func createUsagePlanKey(_ input: CreateUsagePlanKeyRequest) -> EventLoopFuture<UsagePlanKey> {
         return client.send(operation: "CreateUsagePlanKey", path: "/usageplans/{usageplanId}/keys", httpMethod: "POST", input: input)
     }
 
     ///  Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
-    public func createVpcLink(_ input: CreateVpcLinkRequest) -> Future<VpcLink> {
+    public func createVpcLink(_ input: CreateVpcLinkRequest) -> EventLoopFuture<VpcLink> {
         return client.send(operation: "CreateVpcLink", path: "/vpclinks", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the ApiKey resource.
-    @discardableResult public func deleteApiKey(_ input: DeleteApiKeyRequest) -> Future<Void> {
+    @discardableResult public func deleteApiKey(_ input: DeleteApiKeyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteApiKey", path: "/apikeys/{api_Key}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing Authorizer resource. AWS CLI
-    @discardableResult public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) -> Future<Void> {
+    @discardableResult public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the BasePathMapping resource.
-    @discardableResult public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest) -> Future<Void> {
+    @discardableResult public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the ClientCertificate resource.
-    @discardableResult public func deleteClientCertificate(_ input: DeleteClientCertificateRequest) -> Future<Void> {
+    @discardableResult public func deleteClientCertificate(_ input: DeleteClientCertificateRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
-    @discardableResult public func deleteDeployment(_ input: DeleteDeploymentRequest) -> Future<Void> {
+    @discardableResult public func deleteDeployment(_ input: DeleteDeploymentRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "DELETE", input: input)
     }
 
-    @discardableResult public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest) -> Future<Void> {
+    @discardableResult public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "DELETE", input: input)
     }
 
-    @discardableResult public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) -> Future<Void> {
+    @discardableResult public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the DomainName resource.
-    @discardableResult public func deleteDomainName(_ input: DeleteDomainNameRequest) -> Future<Void> {
+    @discardableResult public func deleteDomainName(_ input: DeleteDomainNameRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDomainName", path: "/domainnames/{domain_name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
-    @discardableResult public func deleteGatewayResponse(_ input: DeleteGatewayResponseRequest) -> Future<Void> {
+    @discardableResult public func deleteGatewayResponse(_ input: DeleteGatewayResponseRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "DELETE", input: input)
     }
 
     ///  Represents a delete integration.
-    @discardableResult public func deleteIntegration(_ input: DeleteIntegrationRequest) -> Future<Void> {
+    @discardableResult public func deleteIntegration(_ input: DeleteIntegrationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "DELETE", input: input)
     }
 
     ///  Represents a delete integration response.
-    @discardableResult public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest) -> Future<Void> {
+    @discardableResult public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing Method resource.
-    @discardableResult public func deleteMethod(_ input: DeleteMethodRequest) -> Future<Void> {
+    @discardableResult public func deleteMethod(_ input: DeleteMethodRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing MethodResponse resource.
-    @discardableResult public func deleteMethodResponse(_ input: DeleteMethodResponseRequest) -> Future<Void> {
+    @discardableResult public func deleteMethodResponse(_ input: DeleteMethodResponseRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a model.
-    @discardableResult public func deleteModel(_ input: DeleteModelRequest) -> Future<Void> {
+    @discardableResult public func deleteModel(_ input: DeleteModelRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a RequestValidator of a given RestApi.
-    @discardableResult public func deleteRequestValidator(_ input: DeleteRequestValidatorRequest) -> Future<Void> {
+    @discardableResult public func deleteRequestValidator(_ input: DeleteRequestValidatorRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Resource resource.
-    @discardableResult public func deleteResource(_ input: DeleteResourceRequest) -> Future<Void> {
+    @discardableResult public func deleteResource(_ input: DeleteResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified API.
-    @discardableResult public func deleteRestApi(_ input: DeleteRestApiRequest) -> Future<Void> {
+    @discardableResult public func deleteRestApi(_ input: DeleteRestApiRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Stage resource.
-    @discardableResult public func deleteStage(_ input: DeleteStageRequest) -> Future<Void> {
+    @discardableResult public func deleteStage(_ input: DeleteStageRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a usage plan of a given plan Id.
-    @discardableResult public func deleteUsagePlan(_ input: DeleteUsagePlanRequest) -> Future<Void> {
+    @discardableResult public func deleteUsagePlan(_ input: DeleteUsagePlanRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a usage plan key and remove the underlying API key from the associated usage plan.
-    @discardableResult public func deleteUsagePlanKey(_ input: DeleteUsagePlanKeyRequest) -> Future<Void> {
+    @discardableResult public func deleteUsagePlanKey(_ input: DeleteUsagePlanKeyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing VpcLink of a specified identifier.
-    @discardableResult public func deleteVpcLink(_ input: DeleteVpcLinkRequest) -> Future<Void> {
+    @discardableResult public func deleteVpcLink(_ input: DeleteVpcLinkRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Flushes all authorizer cache entries on a stage.
-    @discardableResult public func flushStageAuthorizersCache(_ input: FlushStageAuthorizersCacheRequest) -> Future<Void> {
+    @discardableResult public func flushStageAuthorizersCache(_ input: FlushStageAuthorizersCacheRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "FlushStageAuthorizersCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", httpMethod: "DELETE", input: input)
     }
 
     ///  Flushes a stage's cache.
-    @discardableResult public func flushStageCache(_ input: FlushStageCacheRequest) -> Future<Void> {
+    @discardableResult public func flushStageCache(_ input: FlushStageCacheRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", input: input)
     }
 
     ///  Generates a ClientCertificate resource.
-    public func generateClientCertificate(_ input: GenerateClientCertificateRequest) -> Future<ClientCertificate> {
+    public func generateClientCertificate(_ input: GenerateClientCertificateRequest) -> EventLoopFuture<ClientCertificate> {
         return client.send(operation: "GenerateClientCertificate", path: "/clientcertificates", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the current Account resource.
-    public func getAccount(_ input: GetAccountRequest) -> Future<Account> {
+    public func getAccount(_ input: GetAccountRequest) -> EventLoopFuture<Account> {
         return client.send(operation: "GetAccount", path: "/account", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the current ApiKey resource.
-    public func getApiKey(_ input: GetApiKeyRequest) -> Future<ApiKey> {
+    public func getApiKey(_ input: GetApiKeyRequest) -> EventLoopFuture<ApiKey> {
         return client.send(operation: "GetApiKey", path: "/apikeys/{api_Key}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the current ApiKeys resource.
-    public func getApiKeys(_ input: GetApiKeysRequest) -> Future<ApiKeys> {
+    public func getApiKeys(_ input: GetApiKeysRequest) -> EventLoopFuture<ApiKeys> {
         return client.send(operation: "GetApiKeys", path: "/apikeys", httpMethod: "GET", input: input)
     }
 
     ///  Describe an existing Authorizer resource. AWS CLI
-    public func getAuthorizer(_ input: GetAuthorizerRequest) -> Future<Authorizer> {
+    public func getAuthorizer(_ input: GetAuthorizerRequest) -> EventLoopFuture<Authorizer> {
         return client.send(operation: "GetAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "GET", input: input)
     }
 
     ///  Describe an existing Authorizers resource. AWS CLI
-    public func getAuthorizers(_ input: GetAuthorizersRequest) -> Future<Authorizers> {
+    public func getAuthorizers(_ input: GetAuthorizersRequest) -> EventLoopFuture<Authorizers> {
         return client.send(operation: "GetAuthorizers", path: "/restapis/{restapi_id}/authorizers", httpMethod: "GET", input: input)
     }
 
     ///  Describe a BasePathMapping resource.
-    public func getBasePathMapping(_ input: GetBasePathMappingRequest) -> Future<BasePathMapping> {
+    public func getBasePathMapping(_ input: GetBasePathMappingRequest) -> EventLoopFuture<BasePathMapping> {
         return client.send(operation: "GetBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "GET", input: input)
     }
 
     ///  Represents a collection of BasePathMapping resources.
-    public func getBasePathMappings(_ input: GetBasePathMappingsRequest) -> Future<BasePathMappings> {
+    public func getBasePathMappings(_ input: GetBasePathMappingsRequest) -> EventLoopFuture<BasePathMappings> {
         return client.send(operation: "GetBasePathMappings", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about the current ClientCertificate resource.
-    public func getClientCertificate(_ input: GetClientCertificateRequest) -> Future<ClientCertificate> {
+    public func getClientCertificate(_ input: GetClientCertificateRequest) -> EventLoopFuture<ClientCertificate> {
         return client.send(operation: "GetClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "GET", input: input)
     }
 
     ///  Gets a collection of ClientCertificate resources.
-    public func getClientCertificates(_ input: GetClientCertificatesRequest) -> Future<ClientCertificates> {
+    public func getClientCertificates(_ input: GetClientCertificatesRequest) -> EventLoopFuture<ClientCertificates> {
         return client.send(operation: "GetClientCertificates", path: "/clientcertificates", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a Deployment resource.
-    public func getDeployment(_ input: GetDeploymentRequest) -> Future<Deployment> {
+    public func getDeployment(_ input: GetDeploymentRequest) -> EventLoopFuture<Deployment> {
         return client.send(operation: "GetDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a Deployments collection.
-    public func getDeployments(_ input: GetDeploymentsRequest) -> Future<Deployments> {
+    public func getDeployments(_ input: GetDeploymentsRequest) -> EventLoopFuture<Deployments> {
         return client.send(operation: "GetDeployments", path: "/restapis/{restapi_id}/deployments", httpMethod: "GET", input: input)
     }
 
-    public func getDocumentationPart(_ input: GetDocumentationPartRequest) -> Future<DocumentationPart> {
+    public func getDocumentationPart(_ input: GetDocumentationPartRequest) -> EventLoopFuture<DocumentationPart> {
         return client.send(operation: "GetDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "GET", input: input)
     }
 
-    public func getDocumentationParts(_ input: GetDocumentationPartsRequest) -> Future<DocumentationParts> {
+    public func getDocumentationParts(_ input: GetDocumentationPartsRequest) -> EventLoopFuture<DocumentationParts> {
         return client.send(operation: "GetDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "GET", input: input)
     }
 
-    public func getDocumentationVersion(_ input: GetDocumentationVersionRequest) -> Future<DocumentationVersion> {
+    public func getDocumentationVersion(_ input: GetDocumentationVersionRequest) -> EventLoopFuture<DocumentationVersion> {
         return client.send(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", input: input)
     }
 
-    public func getDocumentationVersions(_ input: GetDocumentationVersionsRequest) -> Future<DocumentationVersions> {
+    public func getDocumentationVersions(_ input: GetDocumentationVersionsRequest) -> EventLoopFuture<DocumentationVersions> {
         return client.send(operation: "GetDocumentationVersions", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "GET", input: input)
     }
 
     ///  Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
-    public func getDomainName(_ input: GetDomainNameRequest) -> Future<DomainName> {
+    public func getDomainName(_ input: GetDomainNameRequest) -> EventLoopFuture<DomainName> {
         return client.send(operation: "GetDomainName", path: "/domainnames/{domain_name}", httpMethod: "GET", input: input)
     }
 
     ///  Represents a collection of DomainName resources.
-    public func getDomainNames(_ input: GetDomainNamesRequest) -> Future<DomainNames> {
+    public func getDomainNames(_ input: GetDomainNamesRequest) -> EventLoopFuture<DomainNames> {
         return client.send(operation: "GetDomainNames", path: "/domainnames", httpMethod: "GET", input: input)
     }
 
     ///  Exports a deployed version of a RestApi in a specified format.
-    public func getExport(_ input: GetExportRequest) -> Future<ExportResponse> {
+    public func getExport(_ input: GetExportRequest) -> EventLoopFuture<ExportResponse> {
         return client.send(operation: "GetExport", path: "/restapis/{restapi_id}/stages/{stage_name}/exports/{export_type}", httpMethod: "GET", input: input)
     }
 
     ///  Gets a GatewayResponse of a specified response type on the given RestApi.
-    public func getGatewayResponse(_ input: GetGatewayResponseRequest) -> Future<GatewayResponse> {
+    public func getGatewayResponse(_ input: GetGatewayResponseRequest) -> EventLoopFuture<GatewayResponse> {
         return client.send(operation: "GetGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
-    public func getGatewayResponses(_ input: GetGatewayResponsesRequest) -> Future<GatewayResponses> {
+    public func getGatewayResponses(_ input: GetGatewayResponsesRequest) -> EventLoopFuture<GatewayResponses> {
         return client.send(operation: "GetGatewayResponses", path: "/restapis/{restapi_id}/gatewayresponses", httpMethod: "GET", input: input)
     }
 
     ///  Get the integration settings.
-    public func getIntegration(_ input: GetIntegrationRequest) -> Future<Integration> {
+    public func getIntegration(_ input: GetIntegrationRequest) -> EventLoopFuture<Integration> {
         return client.send(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "GET", input: input)
     }
 
     ///  Represents a get integration response.
-    public func getIntegrationResponse(_ input: GetIntegrationResponseRequest) -> Future<IntegrationResponse> {
+    public func getIntegrationResponse(_ input: GetIntegrationResponseRequest) -> EventLoopFuture<IntegrationResponse> {
         return client.send(operation: "GetIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "GET", input: input)
     }
 
     ///  Describe an existing Method resource.
-    public func getMethod(_ input: GetMethodRequest) -> Future<Method> {
+    public func getMethod(_ input: GetMethodRequest) -> EventLoopFuture<Method> {
         return client.send(operation: "GetMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a MethodResponse resource.
-    public func getMethodResponse(_ input: GetMethodResponseRequest) -> Future<MethodResponse> {
+    public func getMethodResponse(_ input: GetMethodResponseRequest) -> EventLoopFuture<MethodResponse> {
         return client.send(operation: "GetMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "GET", input: input)
     }
 
     ///  Describes an existing model defined for a RestApi resource.
-    public func getModel(_ input: GetModelRequest) -> Future<Model> {
+    public func getModel(_ input: GetModelRequest) -> EventLoopFuture<Model> {
         return client.send(operation: "GetModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "GET", input: input)
     }
 
     ///  Generates a sample mapping template that can be used to transform a payload into the structure of a model.
-    public func getModelTemplate(_ input: GetModelTemplateRequest) -> Future<Template> {
+    public func getModelTemplate(_ input: GetModelTemplateRequest) -> EventLoopFuture<Template> {
         return client.send(operation: "GetModelTemplate", path: "/restapis/{restapi_id}/models/{model_name}/default_template", httpMethod: "GET", input: input)
     }
 
     ///  Describes existing Models defined for a RestApi resource.
-    public func getModels(_ input: GetModelsRequest) -> Future<Models> {
+    public func getModels(_ input: GetModelsRequest) -> EventLoopFuture<Models> {
         return client.send(operation: "GetModels", path: "/restapis/{restapi_id}/models", httpMethod: "GET", input: input)
     }
 
     ///  Gets a RequestValidator of a given RestApi.
-    public func getRequestValidator(_ input: GetRequestValidatorRequest) -> Future<RequestValidator> {
+    public func getRequestValidator(_ input: GetRequestValidatorRequest) -> EventLoopFuture<RequestValidator> {
         return client.send(operation: "GetRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the RequestValidators collection of a given RestApi.
-    public func getRequestValidators(_ input: GetRequestValidatorsRequest) -> Future<RequestValidators> {
+    public func getRequestValidators(_ input: GetRequestValidatorsRequest) -> EventLoopFuture<RequestValidators> {
         return client.send(operation: "GetRequestValidators", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "GET", input: input)
     }
 
     ///  Lists information about a resource.
-    public func getResource(_ input: GetResourceRequest) -> Future<Resource> {
+    public func getResource(_ input: GetResourceRequest) -> EventLoopFuture<Resource> {
         return client.send(operation: "GetResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "GET", input: input)
     }
 
     ///  Lists information about a collection of Resource resources.
-    public func getResources(_ input: GetResourcesRequest) -> Future<Resources> {
+    public func getResources(_ input: GetResourcesRequest) -> EventLoopFuture<Resources> {
         return client.send(operation: "GetResources", path: "/restapis/{restapi_id}/resources", httpMethod: "GET", input: input)
     }
 
     ///  Lists the RestApi resource in the collection.
-    public func getRestApi(_ input: GetRestApiRequest) -> Future<RestApi> {
+    public func getRestApi(_ input: GetRestApiRequest) -> EventLoopFuture<RestApi> {
         return client.send(operation: "GetRestApi", path: "/restapis/{restapi_id}", httpMethod: "GET", input: input)
     }
 
     ///  Lists the RestApis resources for your collection.
-    public func getRestApis(_ input: GetRestApisRequest) -> Future<RestApis> {
+    public func getRestApis(_ input: GetRestApisRequest) -> EventLoopFuture<RestApis> {
         return client.send(operation: "GetRestApis", path: "/restapis", httpMethod: "GET", input: input)
     }
 
     ///  Generates a client SDK for a RestApi and Stage.
-    public func getSdk(_ input: GetSdkRequest) -> Future<SdkResponse> {
+    public func getSdk(_ input: GetSdkRequest) -> EventLoopFuture<SdkResponse> {
         return client.send(operation: "GetSdk", path: "/restapis/{restapi_id}/stages/{stage_name}/sdks/{sdk_type}", httpMethod: "GET", input: input)
     }
 
-    public func getSdkType(_ input: GetSdkTypeRequest) -> Future<SdkType> {
+    public func getSdkType(_ input: GetSdkTypeRequest) -> EventLoopFuture<SdkType> {
         return client.send(operation: "GetSdkType", path: "/sdktypes/{sdktype_id}", httpMethod: "GET", input: input)
     }
 
-    public func getSdkTypes(_ input: GetSdkTypesRequest) -> Future<SdkTypes> {
+    public func getSdkTypes(_ input: GetSdkTypesRequest) -> EventLoopFuture<SdkTypes> {
         return client.send(operation: "GetSdkTypes", path: "/sdktypes", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about a Stage resource.
-    public func getStage(_ input: GetStageRequest) -> Future<Stage> {
+    public func getStage(_ input: GetStageRequest) -> EventLoopFuture<Stage> {
         return client.send(operation: "GetStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "GET", input: input)
     }
 
     ///  Gets information about one or more Stage resources.
-    public func getStages(_ input: GetStagesRequest) -> Future<Stages> {
+    public func getStages(_ input: GetStagesRequest) -> EventLoopFuture<Stages> {
         return client.send(operation: "GetStages", path: "/restapis/{restapi_id}/stages", httpMethod: "GET", input: input)
     }
 
     ///  Gets the Tags collection for a given resource.
-    public func getTags(_ input: GetTagsRequest) -> Future<Tags> {
+    public func getTags(_ input: GetTagsRequest) -> EventLoopFuture<Tags> {
         return client.send(operation: "GetTags", path: "/tags/{resource_arn}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the usage data of a usage plan in a specified time interval.
-    public func getUsage(_ input: GetUsageRequest) -> Future<Usage> {
+    public func getUsage(_ input: GetUsageRequest) -> EventLoopFuture<Usage> {
         return client.send(operation: "GetUsage", path: "/usageplans/{usageplanId}/usage", httpMethod: "GET", input: input)
     }
 
     ///  Gets a usage plan of a given plan identifier.
-    public func getUsagePlan(_ input: GetUsagePlanRequest) -> Future<UsagePlan> {
+    public func getUsagePlan(_ input: GetUsagePlanRequest) -> EventLoopFuture<UsagePlan> {
         return client.send(operation: "GetUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets a usage plan key of a given key identifier.
-    public func getUsagePlanKey(_ input: GetUsagePlanKeyRequest) -> Future<UsagePlanKey> {
+    public func getUsagePlanKey(_ input: GetUsagePlanKeyRequest) -> EventLoopFuture<UsagePlanKey> {
         return client.send(operation: "GetUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
-    public func getUsagePlanKeys(_ input: GetUsagePlanKeysRequest) -> Future<UsagePlanKeys> {
+    public func getUsagePlanKeys(_ input: GetUsagePlanKeysRequest) -> EventLoopFuture<UsagePlanKeys> {
         return client.send(operation: "GetUsagePlanKeys", path: "/usageplans/{usageplanId}/keys", httpMethod: "GET", input: input)
     }
 
     ///  Gets all the usage plans of the caller's account.
-    public func getUsagePlans(_ input: GetUsagePlansRequest) -> Future<UsagePlans> {
+    public func getUsagePlans(_ input: GetUsagePlansRequest) -> EventLoopFuture<UsagePlans> {
         return client.send(operation: "GetUsagePlans", path: "/usageplans", httpMethod: "GET", input: input)
     }
 
     ///  Gets a specified VPC link under the caller's account in a region.
-    public func getVpcLink(_ input: GetVpcLinkRequest) -> Future<VpcLink> {
+    public func getVpcLink(_ input: GetVpcLinkRequest) -> EventLoopFuture<VpcLink> {
         return client.send(operation: "GetVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the VpcLinks collection under the caller's account in a selected region.
-    public func getVpcLinks(_ input: GetVpcLinksRequest) -> Future<VpcLinks> {
+    public func getVpcLinks(_ input: GetVpcLinksRequest) -> EventLoopFuture<VpcLinks> {
         return client.send(operation: "GetVpcLinks", path: "/vpclinks", httpMethod: "GET", input: input)
     }
 
     ///  Import API keys from an external source, such as a CSV-formatted file.
-    public func importApiKeys(_ input: ImportApiKeysRequest) -> Future<ApiKeyIds> {
+    public func importApiKeys(_ input: ImportApiKeysRequest) -> EventLoopFuture<ApiKeyIds> {
         return client.send(operation: "ImportApiKeys", path: "/apikeys?mode=import", httpMethod: "POST", input: input)
     }
 
-    public func importDocumentationParts(_ input: ImportDocumentationPartsRequest) -> Future<DocumentationPartIds> {
+    public func importDocumentationParts(_ input: ImportDocumentationPartsRequest) -> EventLoopFuture<DocumentationPartIds> {
         return client.send(operation: "ImportDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "PUT", input: input)
     }
 
     ///  A feature of the API Gateway control service for creating a new API from an external API definition file.
-    public func importRestApi(_ input: ImportRestApiRequest) -> Future<RestApi> {
+    public func importRestApi(_ input: ImportRestApiRequest) -> EventLoopFuture<RestApi> {
         return client.send(operation: "ImportRestApi", path: "/restapis?mode=import", httpMethod: "POST", input: input)
     }
 
     ///  Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
-    public func putGatewayResponse(_ input: PutGatewayResponseRequest) -> Future<GatewayResponse> {
+    public func putGatewayResponse(_ input: PutGatewayResponseRequest) -> EventLoopFuture<GatewayResponse> {
         return client.send(operation: "PutGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "PUT", input: input)
     }
 
     ///  Sets up a method's integration.
-    public func putIntegration(_ input: PutIntegrationRequest) -> Future<Integration> {
+    public func putIntegration(_ input: PutIntegrationRequest) -> EventLoopFuture<Integration> {
         return client.send(operation: "PutIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PUT", input: input)
     }
 
     ///  Represents a put integration.
-    public func putIntegrationResponse(_ input: PutIntegrationResponseRequest) -> Future<IntegrationResponse> {
+    public func putIntegrationResponse(_ input: PutIntegrationResponseRequest) -> EventLoopFuture<IntegrationResponse> {
         return client.send(operation: "PutIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PUT", input: input)
     }
 
     ///  Add a method to an existing Resource resource.
-    public func putMethod(_ input: PutMethodRequest) -> Future<Method> {
+    public func putMethod(_ input: PutMethodRequest) -> EventLoopFuture<Method> {
         return client.send(operation: "PutMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PUT", input: input)
     }
 
     ///  Adds a MethodResponse to an existing Method resource.
-    public func putMethodResponse(_ input: PutMethodResponseRequest) -> Future<MethodResponse> {
+    public func putMethodResponse(_ input: PutMethodResponseRequest) -> EventLoopFuture<MethodResponse> {
         return client.send(operation: "PutMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PUT", input: input)
     }
 
     ///  A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
-    public func putRestApi(_ input: PutRestApiRequest) -> Future<RestApi> {
+    public func putRestApi(_ input: PutRestApiRequest) -> EventLoopFuture<RestApi> {
         return client.send(operation: "PutRestApi", path: "/restapis/{restapi_id}", httpMethod: "PUT", input: input)
     }
 
     ///  Adds or updates a tag on a given resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: "PUT", input: input)
     }
 
     ///  Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Use Lambda Function as Authorizer Use Cognito User Pool as Authorizer 
-    public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest) -> Future<TestInvokeAuthorizerResponse> {
+    public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest) -> EventLoopFuture<TestInvokeAuthorizerResponse> {
         return client.send(operation: "TestInvokeAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "POST", input: input)
     }
 
     ///  Simulate the execution of a Method in your RestApi with headers, parameters, and an incoming request body.
-    public func testInvokeMethod(_ input: TestInvokeMethodRequest) -> Future<TestInvokeMethodResponse> {
+    public func testInvokeMethod(_ input: TestInvokeMethodRequest) -> EventLoopFuture<TestInvokeMethodResponse> {
         return client.send(operation: "TestInvokeMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "POST", input: input)
     }
 
     ///  Removes a tag from a given resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/tags/{resource_arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Changes information about the current Account resource.
-    public func updateAccount(_ input: UpdateAccountRequest) -> Future<Account> {
+    public func updateAccount(_ input: UpdateAccountRequest) -> EventLoopFuture<Account> {
         return client.send(operation: "UpdateAccount", path: "/account", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about an ApiKey resource.
-    public func updateApiKey(_ input: UpdateApiKeyRequest) -> Future<ApiKey> {
+    public func updateApiKey(_ input: UpdateApiKeyRequest) -> EventLoopFuture<ApiKey> {
         return client.send(operation: "UpdateApiKey", path: "/apikeys/{api_Key}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an existing Authorizer resource. AWS CLI
-    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) -> Future<Authorizer> {
+    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) -> EventLoopFuture<Authorizer> {
         return client.send(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about the BasePathMapping resource.
-    public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest) -> Future<BasePathMapping> {
+    public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest) -> EventLoopFuture<BasePathMapping> {
         return client.send(operation: "UpdateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about an ClientCertificate resource.
-    public func updateClientCertificate(_ input: UpdateClientCertificateRequest) -> Future<ClientCertificate> {
+    public func updateClientCertificate(_ input: UpdateClientCertificateRequest) -> EventLoopFuture<ClientCertificate> {
         return client.send(operation: "UpdateClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about a Deployment resource.
-    public func updateDeployment(_ input: UpdateDeploymentRequest) -> Future<Deployment> {
+    public func updateDeployment(_ input: UpdateDeploymentRequest) -> EventLoopFuture<Deployment> {
         return client.send(operation: "UpdateDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "PATCH", input: input)
     }
 
-    public func updateDocumentationPart(_ input: UpdateDocumentationPartRequest) -> Future<DocumentationPart> {
+    public func updateDocumentationPart(_ input: UpdateDocumentationPartRequest) -> EventLoopFuture<DocumentationPart> {
         return client.send(operation: "UpdateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "PATCH", input: input)
     }
 
-    public func updateDocumentationVersion(_ input: UpdateDocumentationVersionRequest) -> Future<DocumentationVersion> {
+    public func updateDocumentationVersion(_ input: UpdateDocumentationVersionRequest) -> EventLoopFuture<DocumentationVersion> {
         return client.send(operation: "UpdateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about the DomainName resource.
-    public func updateDomainName(_ input: UpdateDomainNameRequest) -> Future<DomainName> {
+    public func updateDomainName(_ input: UpdateDomainNameRequest) -> EventLoopFuture<DomainName> {
         return client.send(operation: "UpdateDomainName", path: "/domainnames/{domain_name}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a GatewayResponse of a specified response type on the given RestApi.
-    public func updateGatewayResponse(_ input: UpdateGatewayResponseRequest) -> Future<GatewayResponse> {
+    public func updateGatewayResponse(_ input: UpdateGatewayResponseRequest) -> EventLoopFuture<GatewayResponse> {
         return client.send(operation: "UpdateGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "PATCH", input: input)
     }
 
     ///  Represents an update integration.
-    public func updateIntegration(_ input: UpdateIntegrationRequest) -> Future<Integration> {
+    public func updateIntegration(_ input: UpdateIntegrationRequest) -> EventLoopFuture<Integration> {
         return client.send(operation: "UpdateIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PATCH", input: input)
     }
 
     ///  Represents an update integration response.
-    public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest) -> Future<IntegrationResponse> {
+    public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest) -> EventLoopFuture<IntegrationResponse> {
         return client.send(operation: "UpdateIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an existing Method resource.
-    public func updateMethod(_ input: UpdateMethodRequest) -> Future<Method> {
+    public func updateMethod(_ input: UpdateMethodRequest) -> EventLoopFuture<Method> {
         return client.send(operation: "UpdateMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an existing MethodResponse resource.
-    public func updateMethodResponse(_ input: UpdateMethodResponseRequest) -> Future<MethodResponse> {
+    public func updateMethodResponse(_ input: UpdateMethodResponseRequest) -> EventLoopFuture<MethodResponse> {
         return client.send(operation: "UpdateMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about a model.
-    public func updateModel(_ input: UpdateModelRequest) -> Future<Model> {
+    public func updateModel(_ input: UpdateModelRequest) -> EventLoopFuture<Model> {
         return client.send(operation: "UpdateModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a RequestValidator of a given RestApi.
-    public func updateRequestValidator(_ input: UpdateRequestValidatorRequest) -> Future<RequestValidator> {
+    public func updateRequestValidator(_ input: UpdateRequestValidatorRequest) -> EventLoopFuture<RequestValidator> {
         return client.send(operation: "UpdateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about a Resource resource.
-    public func updateResource(_ input: UpdateResourceRequest) -> Future<Resource> {
+    public func updateResource(_ input: UpdateResourceRequest) -> EventLoopFuture<Resource> {
         return client.send(operation: "UpdateResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about the specified API.
-    public func updateRestApi(_ input: UpdateRestApiRequest) -> Future<RestApi> {
+    public func updateRestApi(_ input: UpdateRestApiRequest) -> EventLoopFuture<RestApi> {
         return client.send(operation: "UpdateRestApi", path: "/restapis/{restapi_id}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes information about a Stage resource.
-    public func updateStage(_ input: UpdateStageRequest) -> Future<Stage> {
+    public func updateStage(_ input: UpdateStageRequest) -> EventLoopFuture<Stage> {
         return client.send(operation: "UpdateStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "PATCH", input: input)
     }
 
     ///  Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
-    public func updateUsage(_ input: UpdateUsageRequest) -> Future<Usage> {
+    public func updateUsage(_ input: UpdateUsageRequest) -> EventLoopFuture<Usage> {
         return client.send(operation: "UpdateUsage", path: "/usageplans/{usageplanId}/keys/{keyId}/usage", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a usage plan of a given plan Id.
-    public func updateUsagePlan(_ input: UpdateUsagePlanRequest) -> Future<UsagePlan> {
+    public func updateUsagePlan(_ input: UpdateUsagePlanRequest) -> EventLoopFuture<UsagePlan> {
         return client.send(operation: "UpdateUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an existing VpcLink of a specified identifier.
-    public func updateVpcLink(_ input: UpdateVpcLinkRequest) -> Future<VpcLink> {
+    public func updateVpcLink(_ input: UpdateVpcLinkRequest) -> EventLoopFuture<VpcLink> {
         return client.send(operation: "UpdateVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "PATCH", input: input)
     }
 }

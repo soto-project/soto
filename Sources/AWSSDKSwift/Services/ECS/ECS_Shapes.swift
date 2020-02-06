@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ECS {
+    //MARK: Enums
 
     public enum AgentUpdateStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
@@ -20,6 +21,299 @@ extension ECS {
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
+
+    public enum CapacityProviderField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityProviderStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterField: String, CustomStringConvertible, Codable {
+        case attachments = "ATTACHMENTS"
+        case settings = "SETTINGS"
+        case statistics = "STATISTICS"
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterSettingName: String, CustomStringConvertible, Codable {
+        case containerinsights = "containerInsights"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Compatibility: String, CustomStringConvertible, Codable {
+        case ec2 = "EC2"
+        case fargate = "FARGATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Connectivity: String, CustomStringConvertible, Codable {
+        case connected = "CONNECTED"
+        case disconnected = "DISCONNECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerCondition: String, CustomStringConvertible, Codable {
+        case start = "START"
+        case complete = "COMPLETE"
+        case success = "SUCCESS"
+        case healthy = "HEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerInstanceField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerInstanceStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case draining = "DRAINING"
+        case registering = "REGISTERING"
+        case deregistering = "DEREGISTERING"
+        case registrationFailed = "REGISTRATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentControllerType: String, CustomStringConvertible, Codable {
+        case ecs = "ECS"
+        case codeDeploy = "CODE_DEPLOY"
+        case external = "EXTERNAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DesiredStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case pending = "PENDING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
+        case read = "read"
+        case write = "write"
+        case mknod = "mknod"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirelensConfigurationType: String, CustomStringConvertible, Codable {
+        case fluentd = "fluentd"
+        case fluentbit = "fluentbit"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpcMode: String, CustomStringConvertible, Codable {
+        case host = "host"
+        case task = "task"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchType: String, CustomStringConvertible, Codable {
+        case ec2 = "EC2"
+        case fargate = "FARGATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogDriver: String, CustomStringConvertible, Codable {
+        case jsonFile = "json-file"
+        case syslog = "syslog"
+        case journald = "journald"
+        case gelf = "gelf"
+        case fluentd = "fluentd"
+        case awslogs = "awslogs"
+        case splunk = "splunk"
+        case awsfirelens = "awsfirelens"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedScalingStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedTerminationProtection: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkMode: String, CustomStringConvertible, Codable {
+        case bridge = "bridge"
+        case host = "host"
+        case awsvpc = "awsvpc"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PidMode: String, CustomStringConvertible, Codable {
+        case host = "host"
+        case task = "task"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlacementConstraintType: String, CustomStringConvertible, Codable {
+        case distinctinstance = "distinctInstance"
+        case memberof = "memberOf"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlacementStrategyType: String, CustomStringConvertible, Codable {
+        case random = "random"
+        case spread = "spread"
+        case binpack = "binpack"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformDeviceType: String, CustomStringConvertible, Codable {
+        case gpu = "GPU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PropagateTags: String, CustomStringConvertible, Codable {
+        case taskDefinition = "TASK_DEFINITION"
+        case service = "SERVICE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProxyConfigurationType: String, CustomStringConvertible, Codable {
+        case appmesh = "APPMESH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case gpu = "GPU"
+        case inferenceaccelerator = "InferenceAccelerator"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScaleUnit: String, CustomStringConvertible, Codable {
+        case percent = "PERCENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchedulingStrategy: String, CustomStringConvertible, Codable {
+        case replica = "REPLICA"
+        case daemon = "DAEMON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Scope: String, CustomStringConvertible, Codable {
+        case task = "task"
+        case shared = "shared"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SettingName: String, CustomStringConvertible, Codable {
+        case servicelongarnformat = "serviceLongArnFormat"
+        case tasklongarnformat = "taskLongArnFormat"
+        case containerinstancelongarnformat = "containerInstanceLongArnFormat"
+        case awsvpctrunking = "awsvpcTrunking"
+        case containerinsights = "containerInsights"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StabilityStatus: String, CustomStringConvertible, Codable {
+        case steadyState = "STEADY_STATE"
+        case stabilizing = "STABILIZING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetType: String, CustomStringConvertible, Codable {
+        case containerInstance = "container-instance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskDefinitionFamilyStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskDefinitionField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible, Codable {
+        case memberof = "memberOf"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskDefinitionStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskSetField: String, CustomStringConvertible, Codable {
+        case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskStopCode: String, CustomStringConvertible, Codable {
+        case taskfailedtostart = "TaskFailedToStart"
+        case essentialcontainerexited = "EssentialContainerExited"
+        case userinitiated = "UserInitiated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransportProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "tcp"
+        case udp = "udp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UlimitName: String, CustomStringConvertible, Codable {
+        case core = "core"
+        case cpu = "cpu"
+        case data = "data"
+        case fsize = "fsize"
+        case locks = "locks"
+        case memlock = "memlock"
+        case msgqueue = "msgqueue"
+        case nice = "nice"
+        case nofile = "nofile"
+        case nproc = "nproc"
+        case rss = "rss"
+        case rtprio = "rtprio"
+        case rttime = "rttime"
+        case sigpending = "sigpending"
+        case stack = "stack"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Attachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -118,7 +412,7 @@ extension ECS {
         public let autoScalingGroupArn: String
         /// The managed scaling settings for the Auto Scaling group capacity provider.
         public let managedScaling: ManagedScaling?
-        /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection. When managed termination protection is enabled, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions enabled as well. For more information, see Instance Protection in the AWS Auto Scaling User Guide. When managed termination protection is disabled, your Amazon EC2 instances are not protected from termination when the Auto Scaling group scales in.
+        /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection.  When using managed termination protection, managed scaling must also be used otherwise managed termination protection will not work.  When managed termination protection is enabled, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions enabled as well. For more information, see Instance Protection in the AWS Auto Scaling User Guide. When managed termination protection is disabled, your Amazon EC2 instances are not protected from termination when the Auto Scaling group scales in.
         public let managedTerminationProtection: ManagedTerminationProtection?
 
         public init(autoScalingGroupArn: String, managedScaling: ManagedScaling? = nil, managedTerminationProtection: ManagedTerminationProtection? = nil) {
@@ -202,16 +496,6 @@ extension ECS {
         }
     }
 
-    public enum CapacityProviderField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CapacityProviderStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CapacityProviderStrategyItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "base", required: false, type: .integer), 
@@ -288,7 +572,7 @@ extension ECS {
         public let settings: [ClusterSetting]?
         /// Additional information about your clusters that are separated by launch type, including:   runningEC2TasksCount   RunningFargateTasksCount   pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount   activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount  
         public let statistics: [KeyValuePair]?
-        /// The status of the cluster. The valid values are ACTIVE or INACTIVE. ACTIVE indicates that you can register container instances with the cluster and the associated instances can accept tasks.
+        /// The status of the cluster. The following are the possible states that will be returned.  ACTIVE  The cluster is ready to accept tasks and if applicable you can register container instances with the cluster.  PROVISIONING  The cluster has capacity providers associated with it and the resources needed for the capacity provider are being created.  DEPROVISIONING  The cluster has capacity providers associated with it and the resources needed for the capacity provider are being deleted.  FAILED  The cluster has capacity providers associated with it and the resources needed for the capacity provider have failed to create.  INACTIVE  The cluster has been deleted. Clusters with an INACTIVE status may remain discoverable in your account for a period of time. However, this behavior is subject to change in the future, so you should not rely on INACTIVE clusters persisting.  
         public let status: String?
         /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
@@ -328,14 +612,6 @@ extension ECS {
         }
     }
 
-    public enum ClusterField: String, CustomStringConvertible, Codable {
-        case attachments = "ATTACHMENTS"
-        case settings = "SETTINGS"
-        case statistics = "STATISTICS"
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ClusterSetting: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .enum), 
@@ -356,23 +632,6 @@ extension ECS {
             case name = "name"
             case value = "value"
         }
-    }
-
-    public enum ClusterSettingName: String, CustomStringConvertible, Codable {
-        case containerinsights = "containerInsights"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Compatibility: String, CustomStringConvertible, Codable {
-        case ec2 = "EC2"
-        case fargate = "FARGATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Connectivity: String, CustomStringConvertible, Codable {
-        case connected = "CONNECTED"
-        case disconnected = "DISCONNECTED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Container: AWSShape {
@@ -467,14 +726,6 @@ extension ECS {
         }
     }
 
-    public enum ContainerCondition: String, CustomStringConvertible, Codable {
-        case start = "START"
-        case complete = "COMPLETE"
-        case success = "SUCCESS"
-        case healthy = "HEALTHY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ContainerDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "command", required: false, type: .list), 
@@ -519,7 +770,7 @@ extension ECS {
 
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd. If there are multiple arguments, each argument should be a separated string in the array.
         public let command: [String]?
-        /// The number of cpu units reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the only requirement is that the total amount of CPU reserved for all containers within a task be lower than the task-level cpu value.  You can determine the number of CPU units that are available per EC2 instance type by multiplying the vCPUs listed for that instance type on the Amazon EC2 Instances detail page by 1,024.  For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that is the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task would be guaranteed a minimum of 512 CPU units when needed, and each container could float to higher CPU usage if the other container was not using it, but if both tasks were 100% active all of the time, they would be limited to 512 CPU units. Linux containers share unallocated CPU units with other containers on the container instance with the same ratio as their allocated amount. For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that is the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task would be guaranteed a minimum of 512 CPU units when needed, and each container could float to higher CPU usage if the other container was not using it, but if both tasks were 100% active all of the time, they would be limited to 512 CPU units. On Linux container instances, the Docker daemon on the container instance uses the CPU value to calculate the relative CPU share ratios for running containers. For more information, see CPU share constraint in the Docker documentation. The minimum valid CPU share value that the Linux kernel allows is 2. However, the CPU parameter is not required, and you can use CPU values below 2 in your container definitions. For CPU values below 2 (including null), the behavior varies based on your Amazon ECS container agent version:    Agent versions less than or equal to 1.1.0: Null and zero CPU values are passed to Docker as 0, which Docker then converts to 1,024 CPU shares. CPU values of 1 are passed to Docker as 1, which the Linux kernel converts to two CPU shares.    Agent versions greater than or equal to 1.2.0: Null, zero, and CPU values of 1 are passed to Docker as 2.   On Windows container instances, the CPU limit is enforced as an absolute limit, or a quota. Windows containers only have access to the specified amount of CPU that is described in the task definition.
+        /// The number of cpu units reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the only requirement is that the total amount of CPU reserved for all containers within a task be lower than the task-level cpu value.  You can determine the number of CPU units that are available per EC2 instance type by multiplying the vCPUs listed for that instance type on the Amazon EC2 Instances detail page by 1,024.  Linux containers share unallocated CPU units with other containers on the container instance with the same ratio as their allocated amount. For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that is the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task would be guaranteed a minimum of 512 CPU units when needed, and each container could float to higher CPU usage if the other container was not using it, but if both tasks were 100% active all of the time, they would be limited to 512 CPU units. On Linux container instances, the Docker daemon on the container instance uses the CPU value to calculate the relative CPU share ratios for running containers. For more information, see CPU share constraint in the Docker documentation. The minimum valid CPU share value that the Linux kernel allows is 2. However, the CPU parameter is not required, and you can use CPU values below 2 in your container definitions. For CPU values below 2 (including null), the behavior varies based on your Amazon ECS container agent version:    Agent versions less than or equal to 1.1.0: Null and zero CPU values are passed to Docker as 0, which Docker then converts to 1,024 CPU shares. CPU values of 1 are passed to Docker as 1, which the Linux kernel converts to two CPU shares.    Agent versions greater than or equal to 1.2.0: Null, zero, and CPU values of 1 are passed to Docker as 2.   On Windows container instances, the CPU limit is enforced as an absolute limit, or a quota. Windows containers only have access to the specified amount of CPU that is described in the task definition.
         public let cpu: Int?
         /// The dependencies defined for container startup and shutdown. A container can contain multiple dependencies. When a dependency is defined for container startup, for container shutdown it is reversed. For tasks using the EC2 launch type, the container instances require at least version 1.26.0 of the container agent to enable container dependencies. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see Updating the Amazon ECS Container Agent in the Amazon Elastic Container Service Developer Guide. If you are using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide. For tasks using the Fargate launch type, the task or service requires platform version 1.3.0 or later.
         public let dependsOn: [ContainerDependency]?
@@ -794,20 +1045,6 @@ extension ECS {
             case version = "version"
             case versionInfo = "versionInfo"
         }
-    }
-
-    public enum ContainerInstanceField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContainerInstanceStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case draining = "DRAINING"
-        case registering = "REGISTERING"
-        case deregistering = "DEREGISTERING"
-        case registrationFailed = "REGISTRATION_FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ContainerOverride: AWSShape {
@@ -1180,6 +1417,7 @@ extension ECS {
             AWSShapeMember(label: "scale", required: false, type: .structure), 
             AWSShapeMember(label: "service", required: true, type: .string), 
             AWSShapeMember(label: "serviceRegistries", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "taskDefinition", required: true, type: .string)
         ]
 
@@ -1203,10 +1441,12 @@ extension ECS {
         public let service: String
         /// The details of the service discovery registries to assign to this task set. For more information, see Service Discovery.
         public let serviceRegistries: [ServiceRegistry]?
+        /// The metadata that you apply to the task set to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. When a service is deleted, the tags are deleted as well. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
+        public let tags: [Tag]?
         /// The task definition for the tasks in the task set to use.
         public let taskDefinition: String
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String, externalId: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, scale: Scale? = nil, service: String, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String, externalId: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, scale: Scale? = nil, service: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clientToken = clientToken
             self.cluster = cluster
@@ -1218,6 +1458,7 @@ extension ECS {
             self.scale = scale
             self.service = service
             self.serviceRegistries = serviceRegistries
+            self.tags = tags
             self.taskDefinition = taskDefinition
         }
 
@@ -1225,6 +1466,11 @@ extension ECS {
             try self.capacityProviderStrategy?.forEach {
                 try $0.validate(name: "\(name).capacityProviderStrategy[]")
             }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1239,6 +1485,7 @@ extension ECS {
             case scale = "scale"
             case service = "service"
             case serviceRegistries = "serviceRegistries"
+            case tags = "tags"
             case taskDefinition = "taskDefinition"
         }
     }
@@ -1574,13 +1821,6 @@ extension ECS {
         }
     }
 
-    public enum DeploymentControllerType: String, CustomStringConvertible, Codable {
-        case ecs = "ECS"
-        case codeDeploy = "CODE_DEPLOY"
-        case external = "EXTERNAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DeregisterContainerInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: false, type: .string), 
@@ -1907,25 +2147,30 @@ extension ECS {
     public struct DescribeTaskSetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: true, type: .string), 
+            AWSShapeMember(label: "include", required: false, type: .list), 
             AWSShapeMember(label: "service", required: true, type: .string), 
             AWSShapeMember(label: "taskSets", required: false, type: .list)
         ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
         public let cluster: String
+        /// Specifies whether to see the resource tags for the task set. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
+        public let include: [TaskSetField]?
         /// The short name or full Amazon Resource Name (ARN) of the service that the task sets exist in.
         public let service: String
         /// The ID or full Amazon Resource Name (ARN) of task sets to describe.
         public let taskSets: [String]?
 
-        public init(cluster: String, service: String, taskSets: [String]? = nil) {
+        public init(cluster: String, include: [TaskSetField]? = nil, service: String, taskSets: [String]? = nil) {
             self.cluster = cluster
+            self.include = include
             self.service = service
             self.taskSets = taskSets
         }
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
+            case include = "include"
             case service = "service"
             case taskSets = "taskSets"
         }
@@ -2002,13 +2247,6 @@ extension ECS {
         }
     }
 
-    public enum DesiredStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case pending = "PENDING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Device: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerPath", required: false, type: .string), 
@@ -2034,13 +2272,6 @@ extension ECS {
             case hostPath = "hostPath"
             case permissions = "permissions"
         }
-    }
-
-    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
-        case read = "read"
-        case write = "write"
-        case mknod = "mknod"
-        public var description: String { return self.rawValue }
     }
 
     public struct DiscoverPollEndpointRequest: AWSShape {
@@ -2124,6 +2355,28 @@ extension ECS {
         }
     }
 
+    public struct EFSVolumeConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "rootDirectory", required: false, type: .string)
+        ]
+
+        /// The Amazon EFS file system ID to use.
+        public let fileSystemId: String
+        /// The directory within the Amazon EFS file system to mount as the root directory inside the host.
+        public let rootDirectory: String?
+
+        public init(fileSystemId: String, rootDirectory: String? = nil) {
+            self.fileSystemId = fileSystemId
+            self.rootDirectory = rootDirectory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "fileSystemId"
+            case rootDirectory = "rootDirectory"
+        }
+    }
+
     public struct Failure: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
@@ -2173,12 +2426,6 @@ extension ECS {
         }
     }
 
-    public enum FirelensConfigurationType: String, CustomStringConvertible, Codable {
-        case fluentd = "fluentd"
-        case fluentbit = "fluentbit"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HealthCheck: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "command", required: true, type: .list), 
@@ -2214,13 +2461,6 @@ extension ECS {
             case startPeriod = "startPeriod"
             case timeout = "timeout"
         }
-    }
-
-    public enum HealthStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
     }
 
     public struct HostEntry: AWSShape {
@@ -2306,13 +2546,6 @@ extension ECS {
         }
     }
 
-    public enum IpcMode: String, CustomStringConvertible, Codable {
-        case host = "host"
-        case task = "task"
-        case none = "none"
-        public var description: String { return self.rawValue }
-    }
-
     public struct KernelCapabilities: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "add", required: false, type: .list), 
@@ -2355,12 +2588,6 @@ extension ECS {
             case name = "name"
             case value = "value"
         }
-    }
-
-    public enum LaunchType: String, CustomStringConvertible, Codable {
-        case ec2 = "EC2"
-        case fargate = "FARGATE"
-        public var description: String { return self.rawValue }
     }
 
     public struct LinuxParameters: AWSShape {
@@ -2985,18 +3212,6 @@ extension ECS {
         }
     }
 
-    public enum LogDriver: String, CustomStringConvertible, Codable {
-        case jsonFile = "json-file"
-        case syslog = "syslog"
-        case journald = "journald"
-        case gelf = "gelf"
-        case fluentd = "fluentd"
-        case awslogs = "awslogs"
-        case splunk = "splunk"
-        case awsfirelens = "awsfirelens"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ManagedScaling: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maximumScalingStepSize", required: false, type: .integer), 
@@ -3036,18 +3251,6 @@ extension ECS {
             case status = "status"
             case targetCapacity = "targetCapacity"
         }
-    }
-
-    public enum ManagedScalingStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ManagedTerminationProtection: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct MountPoint: AWSShape {
@@ -3153,20 +3356,6 @@ extension ECS {
         }
     }
 
-    public enum NetworkMode: String, CustomStringConvertible, Codable {
-        case bridge = "bridge"
-        case host = "host"
-        case awsvpc = "awsvpc"
-        case none = "none"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PidMode: String, CustomStringConvertible, Codable {
-        case host = "host"
-        case task = "task"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PlacementConstraint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "expression", required: false, type: .string), 
@@ -3187,12 +3376,6 @@ extension ECS {
             case expression = "expression"
             case `type` = "type"
         }
-    }
-
-    public enum PlacementConstraintType: String, CustomStringConvertible, Codable {
-        case distinctinstance = "distinctInstance"
-        case memberof = "memberOf"
-        public var description: String { return self.rawValue }
     }
 
     public struct PlacementStrategy: AWSShape {
@@ -3217,13 +3400,6 @@ extension ECS {
         }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible, Codable {
-        case random = "random"
-        case spread = "spread"
-        case binpack = "binpack"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PlatformDevice: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: true, type: .string), 
@@ -3244,11 +3420,6 @@ extension ECS {
             case id = "id"
             case `type` = "type"
         }
-    }
-
-    public enum PlatformDeviceType: String, CustomStringConvertible, Codable {
-        case gpu = "GPU"
-        public var description: String { return self.rawValue }
     }
 
     public struct PortMapping: AWSShape {
@@ -3278,13 +3449,6 @@ extension ECS {
         }
     }
 
-    public enum PropagateTags: String, CustomStringConvertible, Codable {
-        case taskDefinition = "TASK_DEFINITION"
-        case service = "SERVICE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ProxyConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerName", required: true, type: .string), 
@@ -3310,11 +3474,6 @@ extension ECS {
             case properties = "properties"
             case `type` = "type"
         }
-    }
-
-    public enum ProxyConfigurationType: String, CustomStringConvertible, Codable {
-        case appmesh = "APPMESH"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutAccountSettingDefaultRequest: AWSShape {
@@ -3766,12 +3925,6 @@ extension ECS {
         }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case gpu = "GPU"
-        case inferenceaccelerator = "InferenceAccelerator"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RunTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "capacityProviderStrategy", required: false, type: .list), 
@@ -3917,23 +4070,6 @@ extension ECS {
             case unit = "unit"
             case value = "value"
         }
-    }
-
-    public enum ScaleUnit: String, CustomStringConvertible, Codable {
-        case percent = "PERCENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SchedulingStrategy: String, CustomStringConvertible, Codable {
-        case replica = "REPLICA"
-        case daemon = "DAEMON"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Scope: String, CustomStringConvertible, Codable {
-        case task = "task"
-        case shared = "shared"
-        public var description: String { return self.rawValue }
     }
 
     public struct Secret: AWSShape {
@@ -4142,11 +4278,6 @@ extension ECS {
         }
     }
 
-    public enum ServiceField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ServiceRegistry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerName", required: false, type: .string), 
@@ -4204,27 +4335,6 @@ extension ECS {
             case principalArn = "principalArn"
             case value = "value"
         }
-    }
-
-    public enum SettingName: String, CustomStringConvertible, Codable {
-        case servicelongarnformat = "serviceLongArnFormat"
-        case tasklongarnformat = "taskLongArnFormat"
-        case containerinstancelongarnformat = "containerInstanceLongArnFormat"
-        case awsvpctrunking = "awsvpcTrunking"
-        case containerinsights = "containerInsights"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StabilityStatus: String, CustomStringConvertible, Codable {
-        case steadyState = "STEADY_STATE"
-        case stabilizing = "STABILIZING"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartTaskRequest: AWSShape {
@@ -4641,11 +4751,6 @@ extension ECS {
 
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable {
-        case containerInstance = "container-instance"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Task: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachments", required: false, type: .list), 
@@ -4854,7 +4959,7 @@ extension ECS {
         public let cpu: String?
         /// The Amazon Resource Name (ARN) of the task execution role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role.
         public let executionRoleArn: String?
-        /// The name of a family that this task definition is registered to. A family groups multiple versions of a task definition. Amazon ECS gives the first task definition that you registered to a family a revision number of 1. Amazon ECS gives sequential revision numbers to each task definition that you add.
+        /// The name of a family that this task definition is registered to. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. A family groups multiple versions of a task definition. Amazon ECS gives the first task definition that you registered to a family a revision number of 1. Amazon ECS gives sequential revision numbers to each task definition that you add.
         public let family: String?
         /// The Elastic Inference accelerator associated with the task.
         public let inferenceAccelerators: [InferenceAccelerator]?
@@ -4930,18 +5035,6 @@ extension ECS {
         }
     }
 
-    public enum TaskDefinitionFamilyStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaskDefinitionField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TaskDefinitionPlacementConstraint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "expression", required: false, type: .string), 
@@ -4962,22 +5055,6 @@ extension ECS {
             case expression = "expression"
             case `type` = "type"
         }
-    }
-
-    public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible, Codable {
-        case memberof = "memberOf"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaskDefinitionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaskField: String, CustomStringConvertible, Codable {
-        case tags = "TAGS"
-        public var description: String { return self.rawValue }
     }
 
     public struct TaskOverride: AWSShape {
@@ -5043,6 +5120,7 @@ extension ECS {
             AWSShapeMember(label: "stabilityStatusAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "startedBy", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "taskDefinition", required: false, type: .string), 
             AWSShapeMember(label: "taskSetArn", required: false, type: .string), 
             AWSShapeMember(label: "updatedAt", required: false, type: .timestamp)
@@ -5086,6 +5164,8 @@ extension ECS {
         public let startedBy: String?
         /// The status of the task set. The following describes each state:  PRIMARY  The task set is serving production traffic.  ACTIVE  The task set is not serving production traffic.  DRAINING  The tasks in the task set are being stopped and their corresponding targets are being deregistered from their target group.  
         public let status: String?
+        /// The metadata that you apply to the task set to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
+        public let tags: [Tag]?
         /// The task definition the task set is using.
         public let taskDefinition: String?
         /// The Amazon Resource Name (ARN) of the task set.
@@ -5093,7 +5173,7 @@ extension ECS {
         /// The Unix timestamp for when the task set was last updated.
         public let updatedAt: TimeStamp?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, computedDesiredCount: Int? = nil, createdAt: TimeStamp? = nil, externalId: String? = nil, id: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, runningCount: Int? = nil, scale: Scale? = nil, serviceArn: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, stabilityStatus: StabilityStatus? = nil, stabilityStatusAt: TimeStamp? = nil, startedBy: String? = nil, status: String? = nil, taskDefinition: String? = nil, taskSetArn: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, computedDesiredCount: Int? = nil, createdAt: TimeStamp? = nil, externalId: String? = nil, id: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, runningCount: Int? = nil, scale: Scale? = nil, serviceArn: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, stabilityStatus: StabilityStatus? = nil, stabilityStatusAt: TimeStamp? = nil, startedBy: String? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSetArn: String? = nil, updatedAt: TimeStamp? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.computedDesiredCount = computedDesiredCount
@@ -5113,6 +5193,7 @@ extension ECS {
             self.stabilityStatusAt = stabilityStatusAt
             self.startedBy = startedBy
             self.status = status
+            self.tags = tags
             self.taskDefinition = taskDefinition
             self.taskSetArn = taskSetArn
             self.updatedAt = updatedAt
@@ -5138,17 +5219,11 @@ extension ECS {
             case stabilityStatusAt = "stabilityStatusAt"
             case startedBy = "startedBy"
             case status = "status"
+            case tags = "tags"
             case taskDefinition = "taskDefinition"
             case taskSetArn = "taskSetArn"
             case updatedAt = "updatedAt"
         }
-    }
-
-    public enum TaskStopCode: String, CustomStringConvertible, Codable {
-        case taskfailedtostart = "TaskFailedToStart"
-        case essentialcontainerexited = "EssentialContainerExited"
-        case userinitiated = "UserInitiated"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tmpfs: AWSShape {
@@ -5178,12 +5253,6 @@ extension ECS {
         }
     }
 
-    public enum TransportProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "tcp"
-        case udp = "udp"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Ulimit: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hardLimit", required: true, type: .integer), 
@@ -5209,25 +5278,6 @@ extension ECS {
             case name = "name"
             case softLimit = "softLimit"
         }
-    }
-
-    public enum UlimitName: String, CustomStringConvertible, Codable {
-        case core = "core"
-        case cpu = "cpu"
-        case data = "data"
-        case fsize = "fsize"
-        case locks = "locks"
-        case memlock = "memlock"
-        case msgqueue = "msgqueue"
-        case nice = "nice"
-        case nofile = "nofile"
-        case nproc = "nproc"
-        case rss = "rss"
-        case rtprio = "rtprio"
-        case rttime = "rttime"
-        case sigpending = "sigpending"
-        case stack = "stack"
-        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -5598,25 +5648,30 @@ extension ECS {
     public struct Volume: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dockerVolumeConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "efsVolumeConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "host", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
 
-        /// This parameter is specified when you are using Docker volumes. Docker volumes are only supported when you are using the EC2 launch type. Windows containers only support the use of the local driver. To use bind mounts, specify a host instead.
+        /// This parameter is specified when you are using Docker volumes. Docker volumes are only supported when you are using the EC2 launch type. Windows containers only support the use of the local driver. To use bind mounts, specify the host parameter instead.
         public let dockerVolumeConfiguration: DockerVolumeConfiguration?
+        /// This parameter is specified when you are using an Amazon Elastic File System (Amazon EFS) file storage. Amazon EFS file systems are only supported when you are using the EC2 launch type.   EFSVolumeConfiguration remains in preview and is a Beta Service as defined by and subject to the Beta Service Participation Service Terms located at https://aws.amazon.com/service-terms ("Beta Terms"). These Beta Terms apply to your participation in this preview of EFSVolumeConfiguration. 
+        public let efsVolumeConfiguration: EFSVolumeConfiguration?
         /// This parameter is specified when you are using bind mount host volumes. Bind mount host volumes are supported when you are using either the EC2 or Fargate launch types. The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data is not guaranteed to persist after the containers associated with it stop running. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers cannot mount directories on a different drive, and mount point cannot be across drives. For example, you can mount C:\my\path:C:\my\path and D:\:D:\, but not D:\my\path:C:\my\path or D:\:C:\my\path.
         public let host: HostVolumeProperties?
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
 
-        public init(dockerVolumeConfiguration: DockerVolumeConfiguration? = nil, host: HostVolumeProperties? = nil, name: String? = nil) {
+        public init(dockerVolumeConfiguration: DockerVolumeConfiguration? = nil, efsVolumeConfiguration: EFSVolumeConfiguration? = nil, host: HostVolumeProperties? = nil, name: String? = nil) {
             self.dockerVolumeConfiguration = dockerVolumeConfiguration
+            self.efsVolumeConfiguration = efsVolumeConfiguration
             self.host = host
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case dockerVolumeConfiguration = "dockerVolumeConfiguration"
+            case efsVolumeConfiguration = "efsVolumeConfiguration"
             case host = "host"
             case name = "name"
         }

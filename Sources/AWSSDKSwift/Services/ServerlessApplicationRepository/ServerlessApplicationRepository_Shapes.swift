@@ -4,6 +4,24 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension ServerlessApplicationRepository {
+    //MARK: Enums
+
+    public enum Capability: String, CustomStringConvertible, Codable {
+        case capabilityIam = "CAPABILITY_IAM"
+        case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
+        case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
+        case capabilityResourcePolicy = "CAPABILITY_RESOURCE_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case preparing = "PREPARING"
+        case active = "ACTIVE"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ApplicationDependencySummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -105,14 +123,6 @@ extension ServerlessApplicationRepository {
             case name = "name"
             case spdxLicenseId = "spdxLicenseId"
         }
-    }
-
-    public enum Capability: String, CustomStringConvertible, Codable {
-        case capabilityIam = "CAPABILITY_IAM"
-        case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
-        case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
-        case capabilityResourcePolicy = "CAPABILITY_RESOURCE_POLICY"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateApplicationRequest: AWSShape {
@@ -1025,13 +1035,6 @@ extension ServerlessApplicationRepository {
             case arn = "arn"
             case `type` = "type"
         }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case preparing = "PREPARING"
-        case active = "ACTIVE"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

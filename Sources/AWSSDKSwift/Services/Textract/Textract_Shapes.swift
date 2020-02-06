@@ -4,6 +4,58 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Textract {
+    //MARK: Enums
+
+    public enum BlockType: String, CustomStringConvertible, Codable {
+        case keyValueSet = "KEY_VALUE_SET"
+        case page = "PAGE"
+        case line = "LINE"
+        case word = "WORD"
+        case table = "TABLE"
+        case cell = "CELL"
+        case selectionElement = "SELECTION_ELEMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentClassifier: String, CustomStringConvertible, Codable {
+        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        case freeofadultcontent = "FreeOfAdultContent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityType: String, CustomStringConvertible, Codable {
+        case key = "KEY"
+        case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureType: String, CustomStringConvertible, Codable {
+        case tables = "TABLES"
+        case forms = "FORMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case partialSuccess = "PARTIAL_SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelationshipType: String, CustomStringConvertible, Codable {
+        case value = "VALUE"
+        case child = "CHILD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelectionStatus: String, CustomStringConvertible, Codable {
+        case selected = "SELECTED"
+        case notSelected = "NOT_SELECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AnalyzeDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -146,17 +198,6 @@ extension Textract {
         }
     }
 
-    public enum BlockType: String, CustomStringConvertible, Codable {
-        case keyValueSet = "KEY_VALUE_SET"
-        case page = "PAGE"
-        case line = "LINE"
-        case word = "WORD"
-        case table = "TABLE"
-        case cell = "CELL"
-        case selectionElement = "SELECTION_ELEMENT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BoundingBox: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Height", required: false, type: .float), 
@@ -187,12 +228,6 @@ extension Textract {
             case top = "Top"
             case width = "Width"
         }
-    }
-
-    public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
-        case freeofadultcontent = "FreeOfAdultContent"
-        public var description: String { return self.rawValue }
     }
 
     public struct DetectDocumentTextRequest: AWSShape {
@@ -306,18 +341,6 @@ extension Textract {
         private enum CodingKeys: String, CodingKey {
             case pages = "Pages"
         }
-    }
-
-    public enum EntityType: String, CustomStringConvertible, Codable {
-        case key = "KEY"
-        case value = "VALUE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FeatureType: String, CustomStringConvertible, Codable {
-        case tables = "TABLES"
-        case forms = "FORMS"
-        public var description: String { return self.rawValue }
     }
 
     public struct Geometry: AWSShape {
@@ -591,14 +614,6 @@ extension Textract {
         }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case partialSuccess = "PARTIAL_SUCCESS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NotificationChannel: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
@@ -674,12 +689,6 @@ extension Textract {
         }
     }
 
-    public enum RelationshipType: String, CustomStringConvertible, Codable {
-        case value = "VALUE"
-        case child = "CHILD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct S3Object: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: false, type: .string), 
@@ -717,12 +726,6 @@ extension Textract {
             case name = "Name"
             case version = "Version"
         }
-    }
-
-    public enum SelectionStatus: String, CustomStringConvertible, Codable {
-        case selected = "SELECTED"
-        case notSelected = "NOT_SELECTED"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartDocumentAnalysisRequest: AWSShape {

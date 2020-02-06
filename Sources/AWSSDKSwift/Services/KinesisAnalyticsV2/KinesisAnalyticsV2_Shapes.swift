@@ -4,6 +4,82 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension KinesisAnalyticsV2 {
+    //MARK: Enums
+
+    public enum ApplicationRestoreType: String, CustomStringConvertible, Codable {
+        case skipRestoreFromSnapshot = "SKIP_RESTORE_FROM_SNAPSHOT"
+        case restoreFromLatestSnapshot = "RESTORE_FROM_LATEST_SNAPSHOT"
+        case restoreFromCustomSnapshot = "RESTORE_FROM_CUSTOM_SNAPSHOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable {
+        case deleting = "DELETING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
+        case ready = "READY"
+        case running = "RUNNING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodeContentType: String, CustomStringConvertible, Codable {
+        case plaintext = "PLAINTEXT"
+        case zipfile = "ZIPFILE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationType: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputStartingPosition: String, CustomStringConvertible, Codable {
+        case now = "NOW"
+        case trimHorizon = "TRIM_HORIZON"
+        case lastStoppedPoint = "LAST_STOPPED_POINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogLevel: String, CustomStringConvertible, Codable {
+        case info = "INFO"
+        case warn = "WARN"
+        case error = "ERROR"
+        case debug = "DEBUG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricsLevel: String, CustomStringConvertible, Codable {
+        case application = "APPLICATION"
+        case task = "TASK"
+        case `operator` = "OPERATOR"
+        case parallelism = "PARALLELISM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordFormatType: String, CustomStringConvertible, Codable {
+        case json = "JSON"
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuntimeEnvironment: String, CustomStringConvertible, Codable {
+        case sql10 = "SQL-1_0"
+        case flink16 = "FLINK-1_6"
+        case flink18 = "FLINK-1_8"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case ready = "READY"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AddApplicationCloudWatchLoggingOptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -716,13 +792,6 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public enum ApplicationRestoreType: String, CustomStringConvertible, Codable {
-        case skipRestoreFromSnapshot = "SKIP_RESTORE_FROM_SNAPSHOT"
-        case restoreFromLatestSnapshot = "RESTORE_FROM_LATEST_SNAPSHOT"
-        case restoreFromCustomSnapshot = "RESTORE_FROM_CUSTOM_SNAPSHOT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ApplicationSnapshotConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotsEnabled", required: true, type: .boolean)
@@ -772,16 +841,6 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case snapshotsEnabledUpdate = "SnapshotsEnabledUpdate"
         }
-    }
-
-    public enum ApplicationStatus: String, CustomStringConvertible, Codable {
-        case deleting = "DELETING"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
-        case ready = "READY"
-        case running = "RUNNING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct ApplicationSummary: AWSShape {
@@ -1102,12 +1161,6 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public enum CodeContentType: String, CustomStringConvertible, Codable {
-        case plaintext = "PLAINTEXT"
-        case zipfile = "ZIPFILE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CodeContentUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3ContentLocationUpdate", required: false, type: .structure), 
@@ -1141,12 +1194,6 @@ extension KinesisAnalyticsV2 {
             case textContentUpdate = "TextContentUpdate"
             case zipFileContentUpdate = "ZipFileContentUpdate"
         }
-    }
-
-    public enum ConfigurationType: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case custom = "CUSTOM"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateApplicationRequest: AWSShape {
@@ -2342,13 +2389,6 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public enum InputStartingPosition: String, CustomStringConvertible, Codable {
-        case now = "NOW"
-        case trimHorizon = "TRIM_HORIZON"
-        case lastStoppedPoint = "LAST_STOPPED_POINT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InputStartingPositionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputStartingPosition", required: false, type: .enum)
@@ -2938,14 +2978,6 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable {
-        case info = "INFO"
-        case warn = "WARN"
-        case error = "ERROR"
-        case debug = "DEBUG"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MappingParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CSVMappingParameters", required: false, type: .structure), 
@@ -2971,14 +3003,6 @@ extension KinesisAnalyticsV2 {
             case cSVMappingParameters = "CSVMappingParameters"
             case jSONMappingParameters = "JSONMappingParameters"
         }
-    }
-
-    public enum MetricsLevel: String, CustomStringConvertible, Codable {
-        case application = "APPLICATION"
-        case task = "TASK"
-        case `operator` = "OPERATOR"
-        case parallelism = "PARALLELISM"
-        public var description: String { return self.rawValue }
     }
 
     public struct MonitoringConfiguration: AWSShape {
@@ -3404,12 +3428,6 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public enum RecordFormatType: String, CustomStringConvertible, Codable {
-        case json = "JSON"
-        case csv = "CSV"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReferenceDataSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReferenceSchema", required: true, type: .structure), 
@@ -3593,13 +3611,6 @@ extension KinesisAnalyticsV2 {
             case applicationRestoreConfiguration = "ApplicationRestoreConfiguration"
             case flinkRunConfiguration = "FlinkRunConfiguration"
         }
-    }
-
-    public enum RuntimeEnvironment: String, CustomStringConvertible, Codable {
-        case sql10 = "SQL-1_0"
-        case flink16 = "FLINK-1_6"
-        case flink18 = "FLINK-1_8"
-        public var description: String { return self.rawValue }
     }
 
     public struct S3ApplicationCodeLocationDescription: AWSShape {
@@ -3846,14 +3857,6 @@ extension KinesisAnalyticsV2 {
             case snapshotName = "SnapshotName"
             case snapshotStatus = "SnapshotStatus"
         }
-    }
-
-    public enum SnapshotStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case ready = "READY"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct SourceSchema: AWSShape {

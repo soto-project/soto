@@ -5,14 +5,29 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS IoT1ClickDevicesService service.
+
 Describes all of the AWS IoT 1-Click device-related API operations for the service.
  Also provides sample requests, responses, and errors for the supported web services
  protocols.
 */
 public struct IoT1ClickDevicesService {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the IoT1ClickDevicesService client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -29,16 +44,18 @@ public struct IoT1ClickDevicesService {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Adds device(s) to your account (i.e., claim one or more devices) if and only if you
     ///   received a claim code with the device(s).
-    public func claimDevicesByClaimCode(_ input: ClaimDevicesByClaimCodeRequest) -> Future<ClaimDevicesByClaimCodeResponse> {
+    public func claimDevicesByClaimCode(_ input: ClaimDevicesByClaimCodeRequest) -> EventLoopFuture<ClaimDevicesByClaimCodeResponse> {
         return client.send(operation: "ClaimDevicesByClaimCode", path: "/claims/{claimCode}", httpMethod: "PUT", input: input)
     }
 
     ///  Given a device ID, returns a DescribeDeviceResponse object describing the
     ///   details of the device.
-    public func describeDevice(_ input: DescribeDeviceRequest) -> Future<DescribeDeviceResponse> {
+    public func describeDevice(_ input: DescribeDeviceRequest) -> EventLoopFuture<DescribeDeviceResponse> {
         return client.send(operation: "DescribeDevice", path: "/devices/{deviceId}", httpMethod: "GET", input: input)
     }
 
@@ -47,12 +64,12 @@ public struct IoT1ClickDevicesService {
     ///   and finalizing the claim. For a device of type button, a device event can
     ///   be published by simply clicking the device.
     ///   
-    public func finalizeDeviceClaim(_ input: FinalizeDeviceClaimRequest) -> Future<FinalizeDeviceClaimResponse> {
+    public func finalizeDeviceClaim(_ input: FinalizeDeviceClaimRequest) -> EventLoopFuture<FinalizeDeviceClaimResponse> {
         return client.send(operation: "FinalizeDeviceClaim", path: "/devices/{deviceId}/finalize-claim", httpMethod: "PUT", input: input)
     }
 
     ///  Given a device ID, returns the invokable methods associated with the device.
-    public func getDeviceMethods(_ input: GetDeviceMethodsRequest) -> Future<GetDeviceMethodsResponse> {
+    public func getDeviceMethods(_ input: GetDeviceMethodsRequest) -> EventLoopFuture<GetDeviceMethodsResponse> {
         return client.send(operation: "GetDeviceMethods", path: "/devices/{deviceId}/methods", httpMethod: "GET", input: input)
     }
 
@@ -61,52 +78,52 @@ public struct IoT1ClickDevicesService {
     ///   and finalizing the claim. For a device of type button, a device event can
     ///   be published by simply clicking the device.
     ///   
-    public func initiateDeviceClaim(_ input: InitiateDeviceClaimRequest) -> Future<InitiateDeviceClaimResponse> {
+    public func initiateDeviceClaim(_ input: InitiateDeviceClaimRequest) -> EventLoopFuture<InitiateDeviceClaimResponse> {
         return client.send(operation: "InitiateDeviceClaim", path: "/devices/{deviceId}/initiate-claim", httpMethod: "PUT", input: input)
     }
 
     ///  Given a device ID, issues a request to invoke a named device method (with possible
     ///   parameters). See the "Example POST" code snippet below.
-    public func invokeDeviceMethod(_ input: InvokeDeviceMethodRequest) -> Future<InvokeDeviceMethodResponse> {
+    public func invokeDeviceMethod(_ input: InvokeDeviceMethodRequest) -> EventLoopFuture<InvokeDeviceMethodResponse> {
         return client.send(operation: "InvokeDeviceMethod", path: "/devices/{deviceId}/methods", httpMethod: "POST", input: input)
     }
 
     ///  Using a device ID, returns a DeviceEventsResponse object containing an
     ///   array of events for the device.
-    public func listDeviceEvents(_ input: ListDeviceEventsRequest) -> Future<ListDeviceEventsResponse> {
+    public func listDeviceEvents(_ input: ListDeviceEventsRequest) -> EventLoopFuture<ListDeviceEventsResponse> {
         return client.send(operation: "ListDeviceEvents", path: "/devices/{deviceId}/events", httpMethod: "GET", input: input)
     }
 
     ///  Lists the 1-Click compatible devices associated with your AWS account.
-    public func listDevices(_ input: ListDevicesRequest) -> Future<ListDevicesResponse> {
+    public func listDevices(_ input: ListDevicesRequest) -> EventLoopFuture<ListDevicesResponse> {
         return client.send(operation: "ListDevices", path: "/devices", httpMethod: "GET", input: input)
     }
 
     ///  Lists the tags associated with the specified resource ARN.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
 
     ///  Adds or updates the tags associated with the resource ARN. See AWS IoT 1-Click Service Limits for the maximum number of tags allowed per
     ///   resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a device from your AWS account using its device ID.
-    public func unclaimDevice(_ input: UnclaimDeviceRequest) -> Future<UnclaimDeviceResponse> {
+    public func unclaimDevice(_ input: UnclaimDeviceRequest) -> EventLoopFuture<UnclaimDeviceResponse> {
         return client.send(operation: "UnclaimDevice", path: "/devices/{deviceId}/unclaim", httpMethod: "PUT", input: input)
     }
 
     ///  Using tag keys, deletes the tags (key/value pairs) associated with the specified
     ///   resource ARN.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Using a Boolean value (true or false), this operation
     ///   enables or disables the device given a device ID.
-    public func updateDeviceState(_ input: UpdateDeviceStateRequest) -> Future<UpdateDeviceStateResponse> {
+    public func updateDeviceState(_ input: UpdateDeviceStateRequest) -> EventLoopFuture<UpdateDeviceStateResponse> {
         return client.send(operation: "UpdateDeviceState", path: "/devices/{deviceId}/state", httpMethod: "PUT", input: input)
     }
 }

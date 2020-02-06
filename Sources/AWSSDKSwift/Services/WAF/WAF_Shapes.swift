@@ -4,6 +4,362 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension WAF {
+    //MARK: Enums
+
+    public enum ChangeAction: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeTokenStatus: String, CustomStringConvertible, Codable {
+        case provisioned = "PROVISIONED"
+        case pending = "PENDING"
+        case insync = "INSYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case eq = "EQ"
+        case ne = "NE"
+        case le = "LE"
+        case lt = "LT"
+        case ge = "GE"
+        case gt = "GT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeoMatchConstraintType: String, CustomStringConvertible, Codable {
+        case country = "Country"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeoMatchConstraintValue: String, CustomStringConvertible, Codable {
+        case af = "AF"
+        case ax = "AX"
+        case al = "AL"
+        case dz = "DZ"
+        case `as` = "AS"
+        case ad = "AD"
+        case ao = "AO"
+        case ai = "AI"
+        case aq = "AQ"
+        case ag = "AG"
+        case ar = "AR"
+        case am = "AM"
+        case aw = "AW"
+        case au = "AU"
+        case at = "AT"
+        case az = "AZ"
+        case bs = "BS"
+        case bh = "BH"
+        case bd = "BD"
+        case bb = "BB"
+        case by = "BY"
+        case be = "BE"
+        case bz = "BZ"
+        case bj = "BJ"
+        case bm = "BM"
+        case bt = "BT"
+        case bo = "BO"
+        case bq = "BQ"
+        case ba = "BA"
+        case bw = "BW"
+        case bv = "BV"
+        case br = "BR"
+        case io = "IO"
+        case bn = "BN"
+        case bg = "BG"
+        case bf = "BF"
+        case bi = "BI"
+        case kh = "KH"
+        case cm = "CM"
+        case ca = "CA"
+        case cv = "CV"
+        case ky = "KY"
+        case cf = "CF"
+        case td = "TD"
+        case cl = "CL"
+        case cn = "CN"
+        case cx = "CX"
+        case cc = "CC"
+        case co = "CO"
+        case km = "KM"
+        case cg = "CG"
+        case cd = "CD"
+        case ck = "CK"
+        case cr = "CR"
+        case ci = "CI"
+        case hr = "HR"
+        case cu = "CU"
+        case cw = "CW"
+        case cy = "CY"
+        case cz = "CZ"
+        case dk = "DK"
+        case dj = "DJ"
+        case dm = "DM"
+        case `do` = "DO"
+        case ec = "EC"
+        case eg = "EG"
+        case sv = "SV"
+        case gq = "GQ"
+        case er = "ER"
+        case ee = "EE"
+        case et = "ET"
+        case fk = "FK"
+        case fo = "FO"
+        case fj = "FJ"
+        case fi = "FI"
+        case fr = "FR"
+        case gf = "GF"
+        case pf = "PF"
+        case tf = "TF"
+        case ga = "GA"
+        case gm = "GM"
+        case ge = "GE"
+        case de = "DE"
+        case gh = "GH"
+        case gi = "GI"
+        case gr = "GR"
+        case gl = "GL"
+        case gd = "GD"
+        case gp = "GP"
+        case gu = "GU"
+        case gt = "GT"
+        case gg = "GG"
+        case gn = "GN"
+        case gw = "GW"
+        case gy = "GY"
+        case ht = "HT"
+        case hm = "HM"
+        case va = "VA"
+        case hn = "HN"
+        case hk = "HK"
+        case hu = "HU"
+        case `is` = "IS"
+        case `in` = "IN"
+        case id = "ID"
+        case ir = "IR"
+        case iq = "IQ"
+        case ie = "IE"
+        case im = "IM"
+        case il = "IL"
+        case it = "IT"
+        case jm = "JM"
+        case jp = "JP"
+        case je = "JE"
+        case jo = "JO"
+        case kz = "KZ"
+        case ke = "KE"
+        case ki = "KI"
+        case kp = "KP"
+        case kr = "KR"
+        case kw = "KW"
+        case kg = "KG"
+        case la = "LA"
+        case lv = "LV"
+        case lb = "LB"
+        case ls = "LS"
+        case lr = "LR"
+        case ly = "LY"
+        case li = "LI"
+        case lt = "LT"
+        case lu = "LU"
+        case mo = "MO"
+        case mk = "MK"
+        case mg = "MG"
+        case mw = "MW"
+        case my = "MY"
+        case mv = "MV"
+        case ml = "ML"
+        case mt = "MT"
+        case mh = "MH"
+        case mq = "MQ"
+        case mr = "MR"
+        case mu = "MU"
+        case yt = "YT"
+        case mx = "MX"
+        case fm = "FM"
+        case md = "MD"
+        case mc = "MC"
+        case mn = "MN"
+        case me = "ME"
+        case ms = "MS"
+        case ma = "MA"
+        case mz = "MZ"
+        case mm = "MM"
+        case na = "NA"
+        case nr = "NR"
+        case np = "NP"
+        case nl = "NL"
+        case nc = "NC"
+        case nz = "NZ"
+        case ni = "NI"
+        case ne = "NE"
+        case ng = "NG"
+        case nu = "NU"
+        case nf = "NF"
+        case mp = "MP"
+        case no = "NO"
+        case om = "OM"
+        case pk = "PK"
+        case pw = "PW"
+        case ps = "PS"
+        case pa = "PA"
+        case pg = "PG"
+        case py = "PY"
+        case pe = "PE"
+        case ph = "PH"
+        case pn = "PN"
+        case pl = "PL"
+        case pt = "PT"
+        case pr = "PR"
+        case qa = "QA"
+        case re = "RE"
+        case ro = "RO"
+        case ru = "RU"
+        case rw = "RW"
+        case bl = "BL"
+        case sh = "SH"
+        case kn = "KN"
+        case lc = "LC"
+        case mf = "MF"
+        case pm = "PM"
+        case vc = "VC"
+        case ws = "WS"
+        case sm = "SM"
+        case st = "ST"
+        case sa = "SA"
+        case sn = "SN"
+        case rs = "RS"
+        case sc = "SC"
+        case sl = "SL"
+        case sg = "SG"
+        case sx = "SX"
+        case sk = "SK"
+        case si = "SI"
+        case sb = "SB"
+        case so = "SO"
+        case za = "ZA"
+        case gs = "GS"
+        case ss = "SS"
+        case es = "ES"
+        case lk = "LK"
+        case sd = "SD"
+        case sr = "SR"
+        case sj = "SJ"
+        case sz = "SZ"
+        case se = "SE"
+        case ch = "CH"
+        case sy = "SY"
+        case tw = "TW"
+        case tj = "TJ"
+        case tz = "TZ"
+        case th = "TH"
+        case tl = "TL"
+        case tg = "TG"
+        case tk = "TK"
+        case to = "TO"
+        case tt = "TT"
+        case tn = "TN"
+        case tr = "TR"
+        case tm = "TM"
+        case tc = "TC"
+        case tv = "TV"
+        case ug = "UG"
+        case ua = "UA"
+        case ae = "AE"
+        case gb = "GB"
+        case us = "US"
+        case um = "UM"
+        case uy = "UY"
+        case uz = "UZ"
+        case vu = "VU"
+        case ve = "VE"
+        case vn = "VN"
+        case vg = "VG"
+        case vi = "VI"
+        case wf = "WF"
+        case eh = "EH"
+        case ye = "YE"
+        case zm = "ZM"
+        case zw = "ZW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IPSetDescriptorType: String, CustomStringConvertible, Codable {
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MatchFieldType: String, CustomStringConvertible, Codable {
+        case uri = "URI"
+        case queryString = "QUERY_STRING"
+        case header = "HEADER"
+        case method = "METHOD"
+        case body = "BODY"
+        case singleQueryArg = "SINGLE_QUERY_ARG"
+        case allQueryArgs = "ALL_QUERY_ARGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PositionalConstraint: String, CustomStringConvertible, Codable {
+        case exactly = "EXACTLY"
+        case startsWith = "STARTS_WITH"
+        case endsWith = "ENDS_WITH"
+        case contains = "CONTAINS"
+        case containsWord = "CONTAINS_WORD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PredicateType: String, CustomStringConvertible, Codable {
+        case ipmatch = "IPMatch"
+        case bytematch = "ByteMatch"
+        case sqlinjectionmatch = "SqlInjectionMatch"
+        case geomatch = "GeoMatch"
+        case sizeconstraint = "SizeConstraint"
+        case xssmatch = "XssMatch"
+        case regexmatch = "RegexMatch"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RateKey: String, CustomStringConvertible, Codable {
+        case ip = "IP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TextTransformation: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case compressWhiteSpace = "COMPRESS_WHITE_SPACE"
+        case htmlEntityDecode = "HTML_ENTITY_DECODE"
+        case lowercase = "LOWERCASE"
+        case cmdLine = "CMD_LINE"
+        case urlDecode = "URL_DECODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WafActionType: String, CustomStringConvertible, Codable {
+        case block = "BLOCK"
+        case allow = "ALLOW"
+        case count = "COUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WafOverrideActionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case count = "COUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WafRuleType: String, CustomStringConvertible, Codable {
+        case regular = "REGULAR"
+        case rateBased = "RATE_BASED"
+        case group = "GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct ActivatedRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -156,29 +512,6 @@ extension WAF {
             case targetString = "TargetString"
             case textTransformation = "TextTransformation"
         }
-    }
-
-    public enum ChangeAction: String, CustomStringConvertible, Codable {
-        case insert = "INSERT"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChangeTokenStatus: String, CustomStringConvertible, Codable {
-        case provisioned = "PROVISIONED"
-        case pending = "PENDING"
-        case insync = "INSYNC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case eq = "EQ"
-        case ne = "NE"
-        case le = "LE"
-        case lt = "LT"
-        case ge = "GE"
-        case gt = "GT"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateByteMatchSetRequest: AWSShape {
@@ -1516,264 +1849,6 @@ extension WAF {
         }
     }
 
-    public enum GeoMatchConstraintType: String, CustomStringConvertible, Codable {
-        case country = "Country"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum GeoMatchConstraintValue: String, CustomStringConvertible, Codable {
-        case af = "AF"
-        case ax = "AX"
-        case al = "AL"
-        case dz = "DZ"
-        case `as` = "AS"
-        case ad = "AD"
-        case ao = "AO"
-        case ai = "AI"
-        case aq = "AQ"
-        case ag = "AG"
-        case ar = "AR"
-        case am = "AM"
-        case aw = "AW"
-        case au = "AU"
-        case at = "AT"
-        case az = "AZ"
-        case bs = "BS"
-        case bh = "BH"
-        case bd = "BD"
-        case bb = "BB"
-        case by = "BY"
-        case be = "BE"
-        case bz = "BZ"
-        case bj = "BJ"
-        case bm = "BM"
-        case bt = "BT"
-        case bo = "BO"
-        case bq = "BQ"
-        case ba = "BA"
-        case bw = "BW"
-        case bv = "BV"
-        case br = "BR"
-        case io = "IO"
-        case bn = "BN"
-        case bg = "BG"
-        case bf = "BF"
-        case bi = "BI"
-        case kh = "KH"
-        case cm = "CM"
-        case ca = "CA"
-        case cv = "CV"
-        case ky = "KY"
-        case cf = "CF"
-        case td = "TD"
-        case cl = "CL"
-        case cn = "CN"
-        case cx = "CX"
-        case cc = "CC"
-        case co = "CO"
-        case km = "KM"
-        case cg = "CG"
-        case cd = "CD"
-        case ck = "CK"
-        case cr = "CR"
-        case ci = "CI"
-        case hr = "HR"
-        case cu = "CU"
-        case cw = "CW"
-        case cy = "CY"
-        case cz = "CZ"
-        case dk = "DK"
-        case dj = "DJ"
-        case dm = "DM"
-        case `do` = "DO"
-        case ec = "EC"
-        case eg = "EG"
-        case sv = "SV"
-        case gq = "GQ"
-        case er = "ER"
-        case ee = "EE"
-        case et = "ET"
-        case fk = "FK"
-        case fo = "FO"
-        case fj = "FJ"
-        case fi = "FI"
-        case fr = "FR"
-        case gf = "GF"
-        case pf = "PF"
-        case tf = "TF"
-        case ga = "GA"
-        case gm = "GM"
-        case ge = "GE"
-        case de = "DE"
-        case gh = "GH"
-        case gi = "GI"
-        case gr = "GR"
-        case gl = "GL"
-        case gd = "GD"
-        case gp = "GP"
-        case gu = "GU"
-        case gt = "GT"
-        case gg = "GG"
-        case gn = "GN"
-        case gw = "GW"
-        case gy = "GY"
-        case ht = "HT"
-        case hm = "HM"
-        case va = "VA"
-        case hn = "HN"
-        case hk = "HK"
-        case hu = "HU"
-        case `is` = "IS"
-        case `in` = "IN"
-        case id = "ID"
-        case ir = "IR"
-        case iq = "IQ"
-        case ie = "IE"
-        case im = "IM"
-        case il = "IL"
-        case it = "IT"
-        case jm = "JM"
-        case jp = "JP"
-        case je = "JE"
-        case jo = "JO"
-        case kz = "KZ"
-        case ke = "KE"
-        case ki = "KI"
-        case kp = "KP"
-        case kr = "KR"
-        case kw = "KW"
-        case kg = "KG"
-        case la = "LA"
-        case lv = "LV"
-        case lb = "LB"
-        case ls = "LS"
-        case lr = "LR"
-        case ly = "LY"
-        case li = "LI"
-        case lt = "LT"
-        case lu = "LU"
-        case mo = "MO"
-        case mk = "MK"
-        case mg = "MG"
-        case mw = "MW"
-        case my = "MY"
-        case mv = "MV"
-        case ml = "ML"
-        case mt = "MT"
-        case mh = "MH"
-        case mq = "MQ"
-        case mr = "MR"
-        case mu = "MU"
-        case yt = "YT"
-        case mx = "MX"
-        case fm = "FM"
-        case md = "MD"
-        case mc = "MC"
-        case mn = "MN"
-        case me = "ME"
-        case ms = "MS"
-        case ma = "MA"
-        case mz = "MZ"
-        case mm = "MM"
-        case na = "NA"
-        case nr = "NR"
-        case np = "NP"
-        case nl = "NL"
-        case nc = "NC"
-        case nz = "NZ"
-        case ni = "NI"
-        case ne = "NE"
-        case ng = "NG"
-        case nu = "NU"
-        case nf = "NF"
-        case mp = "MP"
-        case no = "NO"
-        case om = "OM"
-        case pk = "PK"
-        case pw = "PW"
-        case ps = "PS"
-        case pa = "PA"
-        case pg = "PG"
-        case py = "PY"
-        case pe = "PE"
-        case ph = "PH"
-        case pn = "PN"
-        case pl = "PL"
-        case pt = "PT"
-        case pr = "PR"
-        case qa = "QA"
-        case re = "RE"
-        case ro = "RO"
-        case ru = "RU"
-        case rw = "RW"
-        case bl = "BL"
-        case sh = "SH"
-        case kn = "KN"
-        case lc = "LC"
-        case mf = "MF"
-        case pm = "PM"
-        case vc = "VC"
-        case ws = "WS"
-        case sm = "SM"
-        case st = "ST"
-        case sa = "SA"
-        case sn = "SN"
-        case rs = "RS"
-        case sc = "SC"
-        case sl = "SL"
-        case sg = "SG"
-        case sx = "SX"
-        case sk = "SK"
-        case si = "SI"
-        case sb = "SB"
-        case so = "SO"
-        case za = "ZA"
-        case gs = "GS"
-        case ss = "SS"
-        case es = "ES"
-        case lk = "LK"
-        case sd = "SD"
-        case sr = "SR"
-        case sj = "SJ"
-        case sz = "SZ"
-        case se = "SE"
-        case ch = "CH"
-        case sy = "SY"
-        case tw = "TW"
-        case tj = "TJ"
-        case tz = "TZ"
-        case th = "TH"
-        case tl = "TL"
-        case tg = "TG"
-        case tk = "TK"
-        case to = "TO"
-        case tt = "TT"
-        case tn = "TN"
-        case tr = "TR"
-        case tm = "TM"
-        case tc = "TC"
-        case tv = "TV"
-        case ug = "UG"
-        case ua = "UA"
-        case ae = "AE"
-        case gb = "GB"
-        case us = "US"
-        case um = "UM"
-        case uy = "UY"
-        case uz = "UZ"
-        case vu = "VU"
-        case ve = "VE"
-        case vn = "VN"
-        case vg = "VG"
-        case vi = "VI"
-        case wf = "WF"
-        case eh = "EH"
-        case ye = "YE"
-        case zm = "ZM"
-        case zw = "ZW"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GeoMatchSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GeoMatchConstraints", required: true, type: .list), 
@@ -2685,12 +2760,6 @@ extension WAF {
         }
     }
 
-    public enum IPSetDescriptorType: String, CustomStringConvertible, Codable {
-        case ipv4 = "IPV4"
-        case ipv6 = "IPV6"
-        public var description: String { return self.rawValue }
-    }
-
     public struct IPSetSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IPSetId", required: true, type: .string), 
@@ -3582,26 +3651,6 @@ extension WAF {
         }
     }
 
-    public enum MatchFieldType: String, CustomStringConvertible, Codable {
-        case uri = "URI"
-        case queryString = "QUERY_STRING"
-        case header = "HEADER"
-        case method = "METHOD"
-        case body = "BODY"
-        case singleQueryArg = "SINGLE_QUERY_ARG"
-        case allQueryArgs = "ALL_QUERY_ARGS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PositionalConstraint: String, CustomStringConvertible, Codable {
-        case exactly = "EXACTLY"
-        case startsWith = "STARTS_WITH"
-        case endsWith = "ENDS_WITH"
-        case contains = "CONTAINS"
-        case containsWord = "CONTAINS_WORD"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Predicate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataId", required: true, type: .string), 
@@ -3632,17 +3681,6 @@ extension WAF {
             case negated = "Negated"
             case `type` = "Type"
         }
-    }
-
-    public enum PredicateType: String, CustomStringConvertible, Codable {
-        case ipmatch = "IPMatch"
-        case bytematch = "ByteMatch"
-        case sqlinjectionmatch = "SqlInjectionMatch"
-        case geomatch = "GeoMatch"
-        case sizeconstraint = "SizeConstraint"
-        case xssmatch = "XssMatch"
-        case regexmatch = "RegexMatch"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutLoggingConfigurationRequest: AWSShape {
@@ -3759,11 +3797,6 @@ extension WAF {
             case rateLimit = "RateLimit"
             case ruleId = "RuleId"
         }
-    }
-
-    public enum RateKey: String, CustomStringConvertible, Codable {
-        case ip = "IP"
-        public var description: String { return self.rawValue }
     }
 
     public struct RegexMatchSet: AWSShape {
@@ -4454,16 +4487,6 @@ extension WAF {
         public init() {
         }
 
-    }
-
-    public enum TextTransformation: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case compressWhiteSpace = "COMPRESS_WHITE_SPACE"
-        case htmlEntityDecode = "HTML_ENTITY_DECODE"
-        case lowercase = "LOWERCASE"
-        case cmdLine = "CMD_LINE"
-        case urlDecode = "URL_DECODE"
-        public var description: String { return self.rawValue }
     }
 
     public struct TimeWindow: AWSShape {
@@ -5185,13 +5208,6 @@ extension WAF {
         }
     }
 
-    public enum WafActionType: String, CustomStringConvertible, Codable {
-        case block = "BLOCK"
-        case allow = "ALLOW"
-        case count = "COUNT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct WafOverrideAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: true, type: .enum)
@@ -5207,19 +5223,6 @@ extension WAF {
         private enum CodingKeys: String, CodingKey {
             case `type` = "Type"
         }
-    }
-
-    public enum WafOverrideActionType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case count = "COUNT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum WafRuleType: String, CustomStringConvertible, Codable {
-        case regular = "REGULAR"
-        case rateBased = "RATE_BASED"
-        case group = "GROUP"
-        public var description: String { return self.rawValue }
     }
 
     public struct WebACL: AWSShape {

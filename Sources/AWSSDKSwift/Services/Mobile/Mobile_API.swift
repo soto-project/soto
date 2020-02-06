@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS Mobile service.
+
  AWS Mobile Service provides mobile app and website developers with capabilities required to configure AWS resources and bootstrap their developer desktop projects with the necessary SDKs, constants, tools and samples to make use of those resources. 
 */
 public struct Mobile {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the Mobile client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -27,49 +42,51 @@ public struct Mobile {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///   Creates an AWS Mobile Hub project. 
-    public func createProject(_ input: CreateProjectRequest) -> Future<CreateProjectResult> {
+    public func createProject(_ input: CreateProjectRequest) -> EventLoopFuture<CreateProjectResult> {
         return client.send(operation: "CreateProject", path: "/projects", httpMethod: "POST", input: input)
     }
 
     ///   Delets a project in AWS Mobile Hub. 
-    public func deleteProject(_ input: DeleteProjectRequest) -> Future<DeleteProjectResult> {
+    public func deleteProject(_ input: DeleteProjectRequest) -> EventLoopFuture<DeleteProjectResult> {
         return client.send(operation: "DeleteProject", path: "/projects/{projectId}", httpMethod: "DELETE", input: input)
     }
 
     ///   Get the bundle details for the requested bundle id. 
-    public func describeBundle(_ input: DescribeBundleRequest) -> Future<DescribeBundleResult> {
+    public func describeBundle(_ input: DescribeBundleRequest) -> EventLoopFuture<DescribeBundleResult> {
         return client.send(operation: "DescribeBundle", path: "/bundles/{bundleId}", httpMethod: "GET", input: input)
     }
 
     ///   Gets details about a project in AWS Mobile Hub. 
-    public func describeProject(_ input: DescribeProjectRequest) -> Future<DescribeProjectResult> {
+    public func describeProject(_ input: DescribeProjectRequest) -> EventLoopFuture<DescribeProjectResult> {
         return client.send(operation: "DescribeProject", path: "/project", httpMethod: "GET", input: input)
     }
 
     ///   Generates customized software development kit (SDK) and or tool packages used to integrate mobile web or mobile app clients with backend AWS resources. 
-    public func exportBundle(_ input: ExportBundleRequest) -> Future<ExportBundleResult> {
+    public func exportBundle(_ input: ExportBundleRequest) -> EventLoopFuture<ExportBundleResult> {
         return client.send(operation: "ExportBundle", path: "/bundles/{bundleId}", httpMethod: "POST", input: input)
     }
 
     ///   Exports project configuration to a snapshot which can be downloaded and shared. Note that mobile app push credentials are encrypted in exported projects, so they can only be shared successfully within the same AWS account. 
-    public func exportProject(_ input: ExportProjectRequest) -> Future<ExportProjectResult> {
+    public func exportProject(_ input: ExportProjectRequest) -> EventLoopFuture<ExportProjectResult> {
         return client.send(operation: "ExportProject", path: "/exports/{projectId}", httpMethod: "POST", input: input)
     }
 
     ///   List all available bundles. 
-    public func listBundles(_ input: ListBundlesRequest) -> Future<ListBundlesResult> {
+    public func listBundles(_ input: ListBundlesRequest) -> EventLoopFuture<ListBundlesResult> {
         return client.send(operation: "ListBundles", path: "/bundles", httpMethod: "GET", input: input)
     }
 
     ///   Lists projects in AWS Mobile Hub. 
-    public func listProjects(_ input: ListProjectsRequest) -> Future<ListProjectsResult> {
+    public func listProjects(_ input: ListProjectsRequest) -> EventLoopFuture<ListProjectsResult> {
         return client.send(operation: "ListProjects", path: "/projects", httpMethod: "GET", input: input)
     }
 
     ///   Update an existing project. 
-    public func updateProject(_ input: UpdateProjectRequest) -> Future<UpdateProjectResult> {
+    public func updateProject(_ input: UpdateProjectRequest) -> EventLoopFuture<UpdateProjectResult> {
         return client.send(operation: "UpdateProject", path: "/update", httpMethod: "POST", input: input)
     }
 }

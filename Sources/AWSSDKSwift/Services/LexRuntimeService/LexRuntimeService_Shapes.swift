@@ -4,6 +4,55 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension LexRuntimeService {
+    //MARK: Enums
+
+    public enum ConfirmationStatus: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case confirmed = "Confirmed"
+        case denied = "Denied"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentType: String, CustomStringConvertible, Codable {
+        case applicationVndAmazonawsCardGeneric = "application/vnd.amazonaws.card.generic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DialogActionType: String, CustomStringConvertible, Codable {
+        case elicitintent = "ElicitIntent"
+        case confirmintent = "ConfirmIntent"
+        case elicitslot = "ElicitSlot"
+        case close = "Close"
+        case delegate = "Delegate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DialogState: String, CustomStringConvertible, Codable {
+        case elicitintent = "ElicitIntent"
+        case confirmintent = "ConfirmIntent"
+        case elicitslot = "ElicitSlot"
+        case fulfilled = "Fulfilled"
+        case readyforfulfillment = "ReadyForFulfillment"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FulfillmentState: String, CustomStringConvertible, Codable {
+        case fulfilled = "Fulfilled"
+        case failed = "Failed"
+        case readyforfulfillment = "ReadyForFulfillment"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageFormatType: String, CustomStringConvertible, Codable {
+        case plaintext = "PlainText"
+        case custompayload = "CustomPayload"
+        case ssml = "SSML"
+        case composite = "Composite"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Button: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -25,18 +74,6 @@ extension LexRuntimeService {
             case text = "text"
             case value = "value"
         }
-    }
-
-    public enum ConfirmationStatus: String, CustomStringConvertible, Codable {
-        case none = "None"
-        case confirmed = "Confirmed"
-        case denied = "Denied"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContentType: String, CustomStringConvertible, Codable {
-        case applicationVndAmazonawsCardGeneric = "application/vnd.amazonaws.card.generic"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteSessionRequest: AWSShape {
@@ -154,32 +191,6 @@ extension LexRuntimeService {
             case slotToElicit = "slotToElicit"
             case `type` = "type"
         }
-    }
-
-    public enum DialogActionType: String, CustomStringConvertible, Codable {
-        case elicitintent = "ElicitIntent"
-        case confirmintent = "ConfirmIntent"
-        case elicitslot = "ElicitSlot"
-        case close = "Close"
-        case delegate = "Delegate"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DialogState: String, CustomStringConvertible, Codable {
-        case elicitintent = "ElicitIntent"
-        case confirmintent = "ConfirmIntent"
-        case elicitslot = "ElicitSlot"
-        case fulfilled = "Fulfilled"
-        case readyforfulfillment = "ReadyForFulfillment"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FulfillmentState: String, CustomStringConvertible, Codable {
-        case fulfilled = "Fulfilled"
-        case failed = "Failed"
-        case readyforfulfillment = "ReadyForFulfillment"
-        public var description: String { return self.rawValue }
     }
 
     public struct GenericAttachment: AWSShape {
@@ -343,14 +354,6 @@ extension LexRuntimeService {
             case slots = "slots"
             case slotToElicit = "slotToElicit"
         }
-    }
-
-    public enum MessageFormatType: String, CustomStringConvertible, Codable {
-        case plaintext = "PlainText"
-        case custompayload = "CustomPayload"
-        case ssml = "SSML"
-        case composite = "Composite"
-        public var description: String { return self.rawValue }
     }
 
     public struct PostContentRequest: AWSShape {

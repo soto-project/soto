@@ -4,6 +4,94 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudWatch {
+    //MARK: Enums
+
+    public enum AnomalyDetectorStateValue: String, CustomStringConvertible, Codable {
+        case pendingTraining = "PENDING_TRAINING"
+        case trainedInsufficientData = "TRAINED_INSUFFICIENT_DATA"
+        case trained = "TRAINED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
+        case greaterthanthreshold = "GreaterThanThreshold"
+        case lessthanthreshold = "LessThanThreshold"
+        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        case lessthanlowerorgreaterthanupperthreshold = "LessThanLowerOrGreaterThanUpperThreshold"
+        case lessthanlowerthreshold = "LessThanLowerThreshold"
+        case greaterthanupperthreshold = "GreaterThanUpperThreshold"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HistoryItemType: String, CustomStringConvertible, Codable {
+        case configurationupdate = "ConfigurationUpdate"
+        case stateupdate = "StateUpdate"
+        case action = "Action"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanBy: String, CustomStringConvertible, Codable {
+        case timestampdescending = "TimestampDescending"
+        case timestampascending = "TimestampAscending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StandardUnit: String, CustomStringConvertible, Codable {
+        case seconds = "Seconds"
+        case microseconds = "Microseconds"
+        case milliseconds = "Milliseconds"
+        case bytes = "Bytes"
+        case kilobytes = "Kilobytes"
+        case megabytes = "Megabytes"
+        case gigabytes = "Gigabytes"
+        case terabytes = "Terabytes"
+        case bits = "Bits"
+        case kilobits = "Kilobits"
+        case megabits = "Megabits"
+        case gigabits = "Gigabits"
+        case terabits = "Terabits"
+        case percent = "Percent"
+        case count = "Count"
+        case bytesSecond = "Bytes/Second"
+        case kilobytesSecond = "Kilobytes/Second"
+        case megabytesSecond = "Megabytes/Second"
+        case gigabytesSecond = "Gigabytes/Second"
+        case terabytesSecond = "Terabytes/Second"
+        case bitsSecond = "Bits/Second"
+        case kilobitsSecond = "Kilobits/Second"
+        case megabitsSecond = "Megabits/Second"
+        case gigabitsSecond = "Gigabits/Second"
+        case terabitsSecond = "Terabits/Second"
+        case countSecond = "Count/Second"
+        case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StateValue: String, CustomStringConvertible, Codable {
+        case ok = "OK"
+        case alarm = "ALARM"
+        case insufficientData = "INSUFFICIENT_DATA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Statistic: String, CustomStringConvertible, Codable {
+        case samplecount = "SampleCount"
+        case average = "Average"
+        case sum = "Sum"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusCode: String, CustomStringConvertible, Codable {
+        case complete = "Complete"
+        case internalerror = "InternalError"
+        case partialdata = "PartialData"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AlarmHistoryItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -48,7 +136,8 @@ extension CloudWatch {
             AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MetricName", required: false, type: .string), 
             AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "Stat", required: false, type: .string)
+            AWSShapeMember(label: "Stat", required: false, type: .string), 
+            AWSShapeMember(label: "StateValue", required: false, type: .enum)
         ]
 
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model, and the time zone to use for the metric.
@@ -61,13 +150,16 @@ extension CloudWatch {
         public let namespace: String?
         /// The statistic associated with the anomaly detection model.
         public let stat: String?
+        /// The current status of the anomaly detector's training. The possible values are TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA 
+        public let stateValue: AnomalyDetectorStateValue?
 
-        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil, stat: String? = nil) {
+        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil, stat: String? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
             self.stat = stat
+            self.stateValue = stateValue
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -76,6 +168,7 @@ extension CloudWatch {
             case metricName = "MetricName"
             case namespace = "Namespace"
             case stat = "Stat"
+            case stateValue = "StateValue"
         }
     }
 
@@ -99,17 +192,6 @@ extension CloudWatch {
             case excludedTimeRanges = "ExcludedTimeRanges"
             case metricTimezone = "MetricTimezone"
         }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
-        case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanthreshold = "LessThanThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
-        case lessthanlowerorgreaterthanupperthreshold = "LessThanLowerOrGreaterThanUpperThreshold"
-        case lessthanlowerthreshold = "LessThanLowerThreshold"
-        case greaterthanupperthreshold = "GreaterThanUpperThreshold"
-        public var description: String { return self.rawValue }
     }
 
     public struct DashboardEntry: AWSShape {
@@ -1263,13 +1345,6 @@ extension CloudWatch {
         }
     }
 
-    public enum HistoryItemType: String, CustomStringConvertible, Codable {
-        case configurationupdate = "ConfigurationUpdate"
-        case stateupdate = "StateUpdate"
-        case action = "Action"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InsightRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Definition", required: true, type: .string), 
@@ -2354,12 +2429,6 @@ extension CloudWatch {
         }
     }
 
-    public enum ScanBy: String, CustomStringConvertible, Codable {
-        case timestampdescending = "TimestampDescending"
-        case timestampascending = "TimestampAscending"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SetAlarmStateInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlarmName", required: true, type: .string), 
@@ -2401,53 +2470,6 @@ extension CloudWatch {
         }
     }
 
-    public enum StandardUnit: String, CustomStringConvertible, Codable {
-        case seconds = "Seconds"
-        case microseconds = "Microseconds"
-        case milliseconds = "Milliseconds"
-        case bytes = "Bytes"
-        case kilobytes = "Kilobytes"
-        case megabytes = "Megabytes"
-        case gigabytes = "Gigabytes"
-        case terabytes = "Terabytes"
-        case bits = "Bits"
-        case kilobits = "Kilobits"
-        case megabits = "Megabits"
-        case gigabits = "Gigabits"
-        case terabits = "Terabits"
-        case percent = "Percent"
-        case count = "Count"
-        case bytesSecond = "Bytes/Second"
-        case kilobytesSecond = "Kilobytes/Second"
-        case megabytesSecond = "Megabytes/Second"
-        case gigabytesSecond = "Gigabytes/Second"
-        case terabytesSecond = "Terabytes/Second"
-        case bitsSecond = "Bits/Second"
-        case kilobitsSecond = "Kilobits/Second"
-        case megabitsSecond = "Megabits/Second"
-        case gigabitsSecond = "Gigabits/Second"
-        case terabitsSecond = "Terabits/Second"
-        case countSecond = "Count/Second"
-        case none = "None"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StateValue: String, CustomStringConvertible, Codable {
-        case ok = "OK"
-        case alarm = "ALARM"
-        case insufficientData = "INSUFFICIENT_DATA"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Statistic: String, CustomStringConvertible, Codable {
-        case samplecount = "SampleCount"
-        case average = "Average"
-        case sum = "Sum"
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StatisticSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Maximum", required: true, type: .double), 
@@ -2478,13 +2500,6 @@ extension CloudWatch {
             case sampleCount = "SampleCount"
             case sum = "Sum"
         }
-    }
-
-    public enum StatusCode: String, CustomStringConvertible, Codable {
-        case complete = "Complete"
-        case internalerror = "InternalError"
-        case partialdata = "PartialData"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

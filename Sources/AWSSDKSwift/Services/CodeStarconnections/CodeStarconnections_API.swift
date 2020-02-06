@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS CodeStarconnections service.
+
 This AWS CodeStar Connections API Reference provides descriptions and usage examples of the operations and data types for the AWS CodeStar Connections API. You can use the Connections API to work with connections and installations.  Connections are configurations that you use to connect AWS resources to external code repositories. Each connection is a resource that can be given to services such as CodePipeline to connect to a third-party repository such as Bitbucket. For example, you can add the connection in CodePipeline so that it triggers your pipeline when a code change is made to your third-party code repository. Each connection is named and associated with a unique ARN that is used to reference the connection. When you create a connection, the console initiates a third-party connection handshake. Installations are the apps that are used to conduct this handshake. For example, the installation for the Bitbucket provider type is the Bitbucket Cloud app. When you create a connection, you can choose an existing installation or create one. You can work with connections by calling:    CreateConnection, which creates a uniquely named connection that can be referenced by services such as CodePipeline.    DeleteConnection, which deletes the specified connection.    GetConnection, which returns information about the connection, including the connection status.    ListConnections, which lists the connections associated with your account.   For information about how to use AWS CodeStar Connections, see the AWS CodePipeline User Guide.
 */
 public struct CodeStarconnections {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the CodeStarconnections client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -27,24 +42,26 @@ public struct CodeStarconnections {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
-    public func createConnection(_ input: CreateConnectionInput) -> Future<CreateConnectionOutput> {
+    public func createConnection(_ input: CreateConnectionInput) -> EventLoopFuture<CreateConnectionOutput> {
         return client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The connection to be deleted.
-    public func deleteConnection(_ input: DeleteConnectionInput) -> Future<DeleteConnectionOutput> {
+    public func deleteConnection(_ input: DeleteConnectionInput) -> EventLoopFuture<DeleteConnectionOutput> {
         return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the connection ARN and details such as status, owner, and provider type.
-    public func getConnection(_ input: GetConnectionInput) -> Future<GetConnectionOutput> {
+    public func getConnection(_ input: GetConnectionInput) -> EventLoopFuture<GetConnectionOutput> {
         return client.send(operation: "GetConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the connections associated with your account.
-    public func listConnections(_ input: ListConnectionsInput) -> Future<ListConnectionsOutput> {
+    public func listConnections(_ input: ListConnectionsInput) -> EventLoopFuture<ListConnectionsOutput> {
         return client.send(operation: "ListConnections", path: "/", httpMethod: "POST", input: input)
     }
 }

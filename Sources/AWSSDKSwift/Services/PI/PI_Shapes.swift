@@ -4,6 +4,14 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension PI {
+    //MARK: Enums
+
+    public enum ServiceType: String, CustomStringConvertible, Codable {
+        case rds = "RDS"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct DataPoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -388,10 +396,5 @@ extension PI {
             case dimensions = "Dimensions"
             case metric = "Metric"
         }
-    }
-
-    public enum ServiceType: String, CustomStringConvertible, Codable {
-        case rds = "RDS"
-        public var description: String { return self.rawValue }
     }
 }

@@ -4,6 +4,218 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension WorkDocs {
+    //MARK: Enums
+
+    public enum ActivityType: String, CustomStringConvertible, Codable {
+        case documentCheckedIn = "DOCUMENT_CHECKED_IN"
+        case documentCheckedOut = "DOCUMENT_CHECKED_OUT"
+        case documentRenamed = "DOCUMENT_RENAMED"
+        case documentVersionUploaded = "DOCUMENT_VERSION_UPLOADED"
+        case documentVersionDeleted = "DOCUMENT_VERSION_DELETED"
+        case documentVersionViewed = "DOCUMENT_VERSION_VIEWED"
+        case documentVersionDownloaded = "DOCUMENT_VERSION_DOWNLOADED"
+        case documentRecycled = "DOCUMENT_RECYCLED"
+        case documentRestored = "DOCUMENT_RESTORED"
+        case documentReverted = "DOCUMENT_REVERTED"
+        case documentShared = "DOCUMENT_SHARED"
+        case documentUnshared = "DOCUMENT_UNSHARED"
+        case documentSharePermissionChanged = "DOCUMENT_SHARE_PERMISSION_CHANGED"
+        case documentShareableLinkCreated = "DOCUMENT_SHAREABLE_LINK_CREATED"
+        case documentShareableLinkRemoved = "DOCUMENT_SHAREABLE_LINK_REMOVED"
+        case documentShareableLinkPermissionChanged = "DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED"
+        case documentMoved = "DOCUMENT_MOVED"
+        case documentCommentAdded = "DOCUMENT_COMMENT_ADDED"
+        case documentCommentDeleted = "DOCUMENT_COMMENT_DELETED"
+        case documentAnnotationAdded = "DOCUMENT_ANNOTATION_ADDED"
+        case documentAnnotationDeleted = "DOCUMENT_ANNOTATION_DELETED"
+        case folderCreated = "FOLDER_CREATED"
+        case folderDeleted = "FOLDER_DELETED"
+        case folderRenamed = "FOLDER_RENAMED"
+        case folderRecycled = "FOLDER_RECYCLED"
+        case folderRestored = "FOLDER_RESTORED"
+        case folderShared = "FOLDER_SHARED"
+        case folderUnshared = "FOLDER_UNSHARED"
+        case folderSharePermissionChanged = "FOLDER_SHARE_PERMISSION_CHANGED"
+        case folderShareableLinkCreated = "FOLDER_SHAREABLE_LINK_CREATED"
+        case folderShareableLinkRemoved = "FOLDER_SHAREABLE_LINK_REMOVED"
+        case folderShareableLinkPermissionChanged = "FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED"
+        case folderMoved = "FOLDER_MOVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BooleanEnumType: String, CustomStringConvertible, Codable {
+        case `true` = "TRUE"
+        case `false` = "FALSE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommentStatusType: String, CustomStringConvertible, Codable {
+        case draft = "DRAFT"
+        case published = "PUBLISHED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommentVisibilityType: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentSourceType: String, CustomStringConvertible, Codable {
+        case original = "ORIGINAL"
+        case withComments = "WITH_COMMENTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentStatusType: String, CustomStringConvertible, Codable {
+        case initialized = "INITIALIZED"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentThumbnailType: String, CustomStringConvertible, Codable {
+        case small = "SMALL"
+        case smallHq = "SMALL_HQ"
+        case large = "LARGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentVersionStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FolderContentType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case document = "DOCUMENT"
+        case folder = "FOLDER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocaleType: String, CustomStringConvertible, Codable {
+        case en = "en"
+        case fr = "fr"
+        case ko = "ko"
+        case de = "de"
+        case es = "es"
+        case ja = "ja"
+        case ru = "ru"
+        case zhCn = "zh_CN"
+        case zhTw = "zh_TW"
+        case ptBr = "pt_BR"
+        case `default` = "default"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderType: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case group = "GROUP"
+        case invite = "INVITE"
+        case anonymous = "ANONYMOUS"
+        case organization = "ORGANIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceCollectionType: String, CustomStringConvertible, Codable {
+        case sharedWithMe = "SHARED_WITH_ME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceSortType: String, CustomStringConvertible, Codable {
+        case date = "DATE"
+        case name = "NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceStateType: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case restoring = "RESTORING"
+        case recycling = "RECYCLING"
+        case recycled = "RECYCLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case folder = "FOLDER"
+        case document = "DOCUMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RolePermissionType: String, CustomStringConvertible, Codable {
+        case direct = "DIRECT"
+        case inherited = "INHERITED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RoleType: String, CustomStringConvertible, Codable {
+        case viewer = "VIEWER"
+        case contributor = "CONTRIBUTOR"
+        case owner = "OWNER"
+        case coowner = "COOWNER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareStatusType: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case failure = "FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageType: String, CustomStringConvertible, Codable {
+        case unlimited = "UNLIMITED"
+        case quota = "QUOTA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionProtocolType: String, CustomStringConvertible, Codable {
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserFilterType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case activePending = "ACTIVE_PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserSortType: String, CustomStringConvertible, Codable {
+        case userName = "USER_NAME"
+        case fullName = "FULL_NAME"
+        case storageLimit = "STORAGE_LIMIT"
+        case userStatus = "USER_STATUS"
+        case storageUsed = "STORAGE_USED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserStatusType: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case admin = "ADMIN"
+        case poweruser = "POWERUSER"
+        case minimaluser = "MINIMALUSER"
+        case workspacesuser = "WORKSPACESUSER"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AbortDocumentVersionUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -147,43 +359,6 @@ extension WorkDocs {
         }
     }
 
-    public enum ActivityType: String, CustomStringConvertible, Codable {
-        case documentCheckedIn = "DOCUMENT_CHECKED_IN"
-        case documentCheckedOut = "DOCUMENT_CHECKED_OUT"
-        case documentRenamed = "DOCUMENT_RENAMED"
-        case documentVersionUploaded = "DOCUMENT_VERSION_UPLOADED"
-        case documentVersionDeleted = "DOCUMENT_VERSION_DELETED"
-        case documentVersionViewed = "DOCUMENT_VERSION_VIEWED"
-        case documentVersionDownloaded = "DOCUMENT_VERSION_DOWNLOADED"
-        case documentRecycled = "DOCUMENT_RECYCLED"
-        case documentRestored = "DOCUMENT_RESTORED"
-        case documentReverted = "DOCUMENT_REVERTED"
-        case documentShared = "DOCUMENT_SHARED"
-        case documentUnshared = "DOCUMENT_UNSHARED"
-        case documentSharePermissionChanged = "DOCUMENT_SHARE_PERMISSION_CHANGED"
-        case documentShareableLinkCreated = "DOCUMENT_SHAREABLE_LINK_CREATED"
-        case documentShareableLinkRemoved = "DOCUMENT_SHAREABLE_LINK_REMOVED"
-        case documentShareableLinkPermissionChanged = "DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED"
-        case documentMoved = "DOCUMENT_MOVED"
-        case documentCommentAdded = "DOCUMENT_COMMENT_ADDED"
-        case documentCommentDeleted = "DOCUMENT_COMMENT_DELETED"
-        case documentAnnotationAdded = "DOCUMENT_ANNOTATION_ADDED"
-        case documentAnnotationDeleted = "DOCUMENT_ANNOTATION_DELETED"
-        case folderCreated = "FOLDER_CREATED"
-        case folderDeleted = "FOLDER_DELETED"
-        case folderRenamed = "FOLDER_RENAMED"
-        case folderRecycled = "FOLDER_RECYCLED"
-        case folderRestored = "FOLDER_RESTORED"
-        case folderShared = "FOLDER_SHARED"
-        case folderUnshared = "FOLDER_UNSHARED"
-        case folderSharePermissionChanged = "FOLDER_SHARE_PERMISSION_CHANGED"
-        case folderShareableLinkCreated = "FOLDER_SHAREABLE_LINK_CREATED"
-        case folderShareableLinkRemoved = "FOLDER_SHAREABLE_LINK_REMOVED"
-        case folderShareableLinkPermissionChanged = "FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED"
-        case folderMoved = "FOLDER_MOVED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AddResourcePermissionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
@@ -243,12 +418,6 @@ extension WorkDocs {
         private enum CodingKeys: String, CodingKey {
             case shareResults = "ShareResults"
         }
-    }
-
-    public enum BooleanEnumType: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
-        case `false` = "FALSE"
-        public var description: String { return self.rawValue }
     }
 
     public struct Comment: AWSShape {
@@ -343,19 +512,6 @@ extension WorkDocs {
             case createdTimestamp = "CreatedTimestamp"
             case recipientId = "RecipientId"
         }
-    }
-
-    public enum CommentStatusType: String, CustomStringConvertible, Codable {
-        case draft = "DRAFT"
-        case published = "PUBLISHED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CommentVisibilityType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateCommentRequest: AWSShape {
@@ -1886,25 +2042,6 @@ extension WorkDocs {
         }
     }
 
-    public enum DocumentSourceType: String, CustomStringConvertible, Codable {
-        case original = "ORIGINAL"
-        case withComments = "WITH_COMMENTS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DocumentStatusType: String, CustomStringConvertible, Codable {
-        case initialized = "INITIALIZED"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DocumentThumbnailType: String, CustomStringConvertible, Codable {
-        case small = "SMALL"
-        case smallHq = "SMALL_HQ"
-        case large = "LARGE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DocumentVersionMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
@@ -1980,18 +2117,6 @@ extension WorkDocs {
             case status = "Status"
             case thumbnail = "Thumbnail"
         }
-    }
-
-    public enum DocumentVersionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FolderContentType: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case document = "DOCUMENT"
-        case folder = "FOLDER"
-        public var description: String { return self.rawValue }
     }
 
     public struct FolderMetadata: AWSShape {
@@ -2613,21 +2738,6 @@ extension WorkDocs {
         }
     }
 
-    public enum LocaleType: String, CustomStringConvertible, Codable {
-        case en = "en"
-        case fr = "fr"
-        case ko = "ko"
-        case de = "de"
-        case es = "es"
-        case ja = "ja"
-        case ru = "ru"
-        case zhCn = "zh_CN"
-        case zhTw = "zh_TW"
-        case ptBr = "pt_BR"
-        case `default` = "default"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NotificationOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
@@ -2653,12 +2763,6 @@ extension WorkDocs {
             case emailMessage = "EmailMessage"
             case sendEmail = "SendEmail"
         }
-    }
-
-    public enum OrderType: String, CustomStringConvertible, Codable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct Participants: AWSShape {
@@ -2732,15 +2836,6 @@ extension WorkDocs {
         }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case group = "GROUP"
-        case invite = "INVITE"
-        case anonymous = "ANONYMOUS"
-        case organization = "ORGANIZATION"
-        public var description: String { return self.rawValue }
-    }
-
     public struct RemoveAllResourcePermissionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
@@ -2812,11 +2907,6 @@ extension WorkDocs {
             case principalType = "type"
             case resourceId = "ResourceId"
         }
-    }
-
-    public enum ResourceCollectionType: String, CustomStringConvertible, Codable {
-        case sharedWithMe = "SHARED_WITH_ME"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceMetadata: AWSShape {
@@ -2905,40 +2995,6 @@ extension WorkDocs {
         }
     }
 
-    public enum ResourceSortType: String, CustomStringConvertible, Codable {
-        case date = "DATE"
-        case name = "NAME"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceStateType: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case restoring = "RESTORING"
-        case recycling = "RECYCLING"
-        case recycled = "RECYCLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case folder = "FOLDER"
-        case document = "DOCUMENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RolePermissionType: String, CustomStringConvertible, Codable {
-        case direct = "DIRECT"
-        case inherited = "INHERITED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RoleType: String, CustomStringConvertible, Codable {
-        case viewer = "VIEWER"
-        case contributor = "CONTRIBUTOR"
-        case owner = "OWNER"
-        case coowner = "COOWNER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SharePrincipal: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string), 
@@ -3014,12 +3070,6 @@ extension WorkDocs {
         }
     }
 
-    public enum ShareStatusType: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case failure = "FAILURE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StorageRuleType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StorageAllocatedInBytes", required: false, type: .long), 
@@ -3044,12 +3094,6 @@ extension WorkDocs {
             case storageAllocatedInBytes = "StorageAllocatedInBytes"
             case storageType = "StorageType"
         }
-    }
-
-    public enum StorageType: String, CustomStringConvertible, Codable {
-        case unlimited = "UNLIMITED"
-        case quota = "QUOTA"
-        public var description: String { return self.rawValue }
     }
 
     public struct Subscription: AWSShape {
@@ -3077,16 +3121,6 @@ extension WorkDocs {
             case `protocol` = "Protocol"
             case subscriptionId = "SubscriptionId"
         }
-    }
-
-    public enum SubscriptionProtocolType: String, CustomStringConvertible, Codable {
-        case https = "HTTPS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SubscriptionType: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateDocumentRequest: AWSShape {
@@ -3432,12 +3466,6 @@ extension WorkDocs {
         }
     }
 
-    public enum UserFilterType: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case activePending = "ACTIVE_PENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UserMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
@@ -3475,22 +3503,6 @@ extension WorkDocs {
         }
     }
 
-    public enum UserSortType: String, CustomStringConvertible, Codable {
-        case userName = "USER_NAME"
-        case fullName = "FULL_NAME"
-        case storageLimit = "STORAGE_LIMIT"
-        case userStatus = "USER_STATUS"
-        case storageUsed = "STORAGE_USED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UserStatusType: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UserStorageMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
@@ -3511,14 +3523,5 @@ extension WorkDocs {
             case storageRule = "StorageRule"
             case storageUtilizedInBytes = "StorageUtilizedInBytes"
         }
-    }
-
-    public enum UserType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case admin = "ADMIN"
-        case poweruser = "POWERUSER"
-        case minimaluser = "MINIMALUSER"
-        case workspacesuser = "WORKSPACESUSER"
-        public var description: String { return self.rawValue }
     }
 }

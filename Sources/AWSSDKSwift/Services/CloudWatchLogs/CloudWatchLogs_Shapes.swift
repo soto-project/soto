@@ -4,6 +4,40 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CloudWatchLogs {
+    //MARK: Enums
+
+    public enum Distribution: String, CustomStringConvertible, Codable {
+        case random = "Random"
+        case bylogstream = "ByLogStream"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case pendingCancel = "PENDING_CANCEL"
+        case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderBy: String, CustomStringConvertible, Codable {
+        case logstreamname = "LogStreamName"
+        case lasteventtime = "LastEventTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryStatus: String, CustomStringConvertible, Codable {
+        case scheduled = "Scheduled"
+        case running = "Running"
+        case complete = "Complete"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AssociateKmsKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -954,12 +988,6 @@ extension CloudWatchLogs {
         }
     }
 
-    public enum Distribution: String, CustomStringConvertible, Codable {
-        case random = "Random"
-        case bylogstream = "ByLogStream"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ExportTask: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "destination", required: false, type: .string), 
@@ -1059,16 +1087,6 @@ extension CloudWatchLogs {
             case code = "code"
             case message = "message"
         }
-    }
-
-    public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable {
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        case pendingCancel = "PENDING_CANCEL"
-        case running = "RUNNING"
-        public var description: String { return self.rawValue }
     }
 
     public struct FilterLogEventsRequest: AWSShape {
@@ -1712,12 +1730,6 @@ extension CloudWatchLogs {
         }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable {
-        case logstreamname = "LogStreamName"
-        case lasteventtime = "LastEventTime"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OutputLogEvent: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ingestionTime", required: false, type: .long), 
@@ -2131,15 +2143,6 @@ extension CloudWatchLogs {
             case recordsMatched = "recordsMatched"
             case recordsScanned = "recordsScanned"
         }
-    }
-
-    public enum QueryStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "Scheduled"
-        case running = "Running"
-        case complete = "Complete"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
-        public var description: String { return self.rawValue }
     }
 
     public struct RejectedLogEventsInfo: AWSShape {

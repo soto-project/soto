@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension PersonalizeRuntime {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct GetPersonalizedRankingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

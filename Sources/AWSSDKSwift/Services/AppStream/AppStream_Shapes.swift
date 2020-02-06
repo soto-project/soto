@@ -4,6 +4,205 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension AppStream {
+    //MARK: Enums
+
+    public enum AccessEndpointType: String, CustomStringConvertible, Codable {
+        case streaming = "STREAMING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Action: String, CustomStringConvertible, Codable {
+        case clipboardCopyFromLocalDevice = "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
+        case clipboardCopyToLocalDevice = "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
+        case fileUpload = "FILE_UPLOAD"
+        case fileDownload = "FILE_DOWNLOAD"
+        case printingToLocalDevice = "PRINTING_TO_LOCAL_DEVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticationType: String, CustomStringConvertible, Codable {
+        case api = "API"
+        case saml = "SAML"
+        case userpool = "USERPOOL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetAttribute: String, CustomStringConvertible, Codable {
+        case vpcConfiguration = "VPC_CONFIGURATION"
+        case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
+        case domainJoinInfo = "DOMAIN_JOIN_INFO"
+        case iamRoleArn = "IAM_ROLE_ARN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetErrorCode: String, CustomStringConvertible, Codable {
+        case iamServiceRoleMissingEniDescribeAction = "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION"
+        case iamServiceRoleMissingEniCreateAction = "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION"
+        case iamServiceRoleMissingEniDeleteAction = "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION"
+        case networkInterfaceLimitExceeded = "NETWORK_INTERFACE_LIMIT_EXCEEDED"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        case iamServiceRoleIsMissing = "IAM_SERVICE_ROLE_IS_MISSING"
+        case machineRoleIsMissing = "MACHINE_ROLE_IS_MISSING"
+        case stsDisabledInRegion = "STS_DISABLED_IN_REGION"
+        case subnetHasInsufficientIpAddresses = "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES"
+        case iamServiceRoleMissingDescribeSubnetAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION"
+        case subnetNotFound = "SUBNET_NOT_FOUND"
+        case imageNotFound = "IMAGE_NOT_FOUND"
+        case invalidSubnetConfiguration = "INVALID_SUBNET_CONFIGURATION"
+        case securityGroupsNotFound = "SECURITY_GROUPS_NOT_FOUND"
+        case igwNotAttached = "IGW_NOT_ATTACHED"
+        case iamServiceRoleMissingDescribeSecurityGroupsAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION"
+        case domainJoinErrorFileNotFound = "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND"
+        case domainJoinErrorAccessDenied = "DOMAIN_JOIN_ERROR_ACCESS_DENIED"
+        case domainJoinErrorLogonFailure = "DOMAIN_JOIN_ERROR_LOGON_FAILURE"
+        case domainJoinErrorInvalidParameter = "DOMAIN_JOIN_ERROR_INVALID_PARAMETER"
+        case domainJoinErrorMoreData = "DOMAIN_JOIN_ERROR_MORE_DATA"
+        case domainJoinErrorNoSuchDomain = "DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN"
+        case domainJoinErrorNotSupported = "DOMAIN_JOIN_ERROR_NOT_SUPPORTED"
+        case domainJoinNerrInvalidWorkgroupName = "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME"
+        case domainJoinNerrWorkstationNotStarted = "DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED"
+        case domainJoinErrorDsMachineAccountQuotaExceeded = "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED"
+        case domainJoinNerrPasswordExpired = "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED"
+        case domainJoinInternalServiceError = "DOMAIN_JOIN_INTERNAL_SERVICE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetState: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetType: String, CustomStringConvertible, Codable {
+        case alwaysOn = "ALWAYS_ON"
+        case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageBuilderState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case updatingAgent = "UPDATING_AGENT"
+        case running = "RUNNING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        case rebooting = "REBOOTING"
+        case snapshotting = "SNAPSHOTTING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case imageUnavailable = "IMAGE_UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case failed = "FAILED"
+        case copying = "COPYING"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
+        case imageCopyFailure = "IMAGE_COPY_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageAction: String, CustomStringConvertible, Codable {
+        case suppress = "SUPPRESS"
+        case resend = "RESEND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformType: String, CustomStringConvertible, Codable {
+        case windows = "WINDOWS"
+        case windowsServer2016 = "WINDOWS_SERVER_2016"
+        case windowsServer2019 = "WINDOWS_SERVER_2019"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionConnectionState: String, CustomStringConvertible, Codable {
+        case connected = "CONNECTED"
+        case notConnected = "NOT_CONNECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case pending = "PENDING"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackAttribute: String, CustomStringConvertible, Codable {
+        case storageConnectors = "STORAGE_CONNECTORS"
+        case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
+        case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
+        case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
+        case redirectUrl = "REDIRECT_URL"
+        case feedbackUrl = "FEEDBACK_URL"
+        case themeName = "THEME_NAME"
+        case userSettings = "USER_SETTINGS"
+        case embedHostDomains = "EMBED_HOST_DOMAINS"
+        case iamRoleArn = "IAM_ROLE_ARN"
+        case accessEndpoints = "ACCESS_ENDPOINTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackErrorCode: String, CustomStringConvertible, Codable {
+        case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageConnectorType: String, CustomStringConvertible, Codable {
+        case homefolders = "HOMEFOLDERS"
+        case googleDrive = "GOOGLE_DRIVE"
+        case oneDrive = "ONE_DRIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UsageReportExecutionErrorCode: String, CustomStringConvertible, Codable {
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case accessDenied = "ACCESS_DENIED"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UsageReportSchedule: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserStackAssociationErrorCode: String, CustomStringConvertible, Codable {
+        case stackNotFound = "STACK_NOT_FOUND"
+        case userNameNotFound = "USER_NAME_NOT_FOUND"
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VisibilityType: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AccessEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -29,20 +228,6 @@ extension AppStream {
             case endpointType = "EndpointType"
             case vpceId = "VpceId"
         }
-    }
-
-    public enum AccessEndpointType: String, CustomStringConvertible, Codable {
-        case streaming = "STREAMING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Action: String, CustomStringConvertible, Codable {
-        case clipboardCopyFromLocalDevice = "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
-        case clipboardCopyToLocalDevice = "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
-        case fileUpload = "FILE_UPLOAD"
-        case fileDownload = "FILE_DOWNLOAD"
-        case printingToLocalDevice = "PRINTING_TO_LOCAL_DEVICE"
-        public var description: String { return self.rawValue }
     }
 
     public struct Application: AWSShape {
@@ -178,13 +363,6 @@ extension AppStream {
         public init() {
         }
 
-    }
-
-    public enum AuthenticationType: String, CustomStringConvertible, Codable {
-        case api = "API"
-        case saml = "SAML"
-        case userpool = "USERPOOL"
-        public var description: String { return self.rawValue }
     }
 
     public struct BatchAssociateUserStackRequest: AWSShape {
@@ -2143,14 +2321,6 @@ extension AppStream {
         }
     }
 
-    public enum FleetAttribute: String, CustomStringConvertible, Codable {
-        case vpcConfiguration = "VPC_CONFIGURATION"
-        case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
-        case domainJoinInfo = "DOMAIN_JOIN_INFO"
-        case iamRoleArn = "IAM_ROLE_ARN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FleetError: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
@@ -2171,52 +2341,6 @@ extension AppStream {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
         }
-    }
-
-    public enum FleetErrorCode: String, CustomStringConvertible, Codable {
-        case iamServiceRoleMissingEniDescribeAction = "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION"
-        case iamServiceRoleMissingEniCreateAction = "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION"
-        case iamServiceRoleMissingEniDeleteAction = "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION"
-        case networkInterfaceLimitExceeded = "NETWORK_INTERFACE_LIMIT_EXCEEDED"
-        case internalServiceError = "INTERNAL_SERVICE_ERROR"
-        case iamServiceRoleIsMissing = "IAM_SERVICE_ROLE_IS_MISSING"
-        case machineRoleIsMissing = "MACHINE_ROLE_IS_MISSING"
-        case stsDisabledInRegion = "STS_DISABLED_IN_REGION"
-        case subnetHasInsufficientIpAddresses = "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES"
-        case iamServiceRoleMissingDescribeSubnetAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION"
-        case subnetNotFound = "SUBNET_NOT_FOUND"
-        case imageNotFound = "IMAGE_NOT_FOUND"
-        case invalidSubnetConfiguration = "INVALID_SUBNET_CONFIGURATION"
-        case securityGroupsNotFound = "SECURITY_GROUPS_NOT_FOUND"
-        case igwNotAttached = "IGW_NOT_ATTACHED"
-        case iamServiceRoleMissingDescribeSecurityGroupsAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION"
-        case domainJoinErrorFileNotFound = "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND"
-        case domainJoinErrorAccessDenied = "DOMAIN_JOIN_ERROR_ACCESS_DENIED"
-        case domainJoinErrorLogonFailure = "DOMAIN_JOIN_ERROR_LOGON_FAILURE"
-        case domainJoinErrorInvalidParameter = "DOMAIN_JOIN_ERROR_INVALID_PARAMETER"
-        case domainJoinErrorMoreData = "DOMAIN_JOIN_ERROR_MORE_DATA"
-        case domainJoinErrorNoSuchDomain = "DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN"
-        case domainJoinErrorNotSupported = "DOMAIN_JOIN_ERROR_NOT_SUPPORTED"
-        case domainJoinNerrInvalidWorkgroupName = "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME"
-        case domainJoinNerrWorkstationNotStarted = "DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED"
-        case domainJoinErrorDsMachineAccountQuotaExceeded = "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED"
-        case domainJoinNerrPasswordExpired = "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED"
-        case domainJoinInternalServiceError = "DOMAIN_JOIN_INTERNAL_SERVICE_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FleetState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FleetType: String, CustomStringConvertible, Codable {
-        case alwaysOn = "ALWAYS_ON"
-        case onDemand = "ON_DEMAND"
-        public var description: String { return self.rawValue }
     }
 
     public struct Image: AWSShape {
@@ -2412,19 +2536,6 @@ extension AppStream {
         }
     }
 
-    public enum ImageBuilderState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case updatingAgent = "UPDATING_AGENT"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case rebooting = "REBOOTING"
-        case snapshotting = "SNAPSHOTTING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ImageBuilderStateChangeReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -2445,12 +2556,6 @@ extension AppStream {
             case code = "Code"
             case message = "Message"
         }
-    }
-
-    public enum ImageBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case imageUnavailable = "IMAGE_UNAVAILABLE"
-        public var description: String { return self.rawValue }
     }
 
     public struct ImagePermissions: AWSShape {
@@ -2475,15 +2580,6 @@ extension AppStream {
         }
     }
 
-    public enum ImageState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case available = "AVAILABLE"
-        case failed = "FAILED"
-        case copying = "COPYING"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ImageStateChangeReason: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
@@ -2504,13 +2600,6 @@ extension AppStream {
             case code = "Code"
             case message = "Message"
         }
-    }
-
-    public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
-        case imageCopyFailure = "IMAGE_COPY_FAILURE"
-        public var description: String { return self.rawValue }
     }
 
     public struct LastReportGenerationExecutionError: AWSShape {
@@ -2671,12 +2760,6 @@ extension AppStream {
         }
     }
 
-    public enum MessageAction: String, CustomStringConvertible, Codable {
-        case suppress = "SUPPRESS"
-        case resend = "RESEND"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NetworkAccessConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EniId", required: false, type: .string), 
@@ -2697,19 +2780,6 @@ extension AppStream {
             case eniId = "EniId"
             case eniPrivateIpAddress = "EniPrivateIpAddress"
         }
-    }
-
-    public enum Permission: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PlatformType: String, CustomStringConvertible, Codable {
-        case windows = "WINDOWS"
-        case windowsServer2016 = "WINDOWS_SERVER_2016"
-        case windowsServer2019 = "WINDOWS_SERVER_2019"
-        public var description: String { return self.rawValue }
     }
 
     public struct ResourceError: AWSShape {
@@ -2829,19 +2899,6 @@ extension AppStream {
         }
     }
 
-    public enum SessionConnectionState: String, CustomStringConvertible, Codable {
-        case connected = "CONNECTED"
-        case notConnected = "NOT_CONNECTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SessionState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case pending = "PENDING"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct SharedImagePermissions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "imagePermissions", required: true, type: .structure), 
@@ -2941,21 +2998,6 @@ extension AppStream {
         }
     }
 
-    public enum StackAttribute: String, CustomStringConvertible, Codable {
-        case storageConnectors = "STORAGE_CONNECTORS"
-        case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
-        case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
-        case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
-        case redirectUrl = "REDIRECT_URL"
-        case feedbackUrl = "FEEDBACK_URL"
-        case themeName = "THEME_NAME"
-        case userSettings = "USER_SETTINGS"
-        case embedHostDomains = "EMBED_HOST_DOMAINS"
-        case iamRoleArn = "IAM_ROLE_ARN"
-        case accessEndpoints = "ACCESS_ENDPOINTS"
-        public var description: String { return self.rawValue }
-    }
-
     public struct StackError: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
@@ -2976,12 +3018,6 @@ extension AppStream {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
         }
-    }
-
-    public enum StackErrorCode: String, CustomStringConvertible, Codable {
-        case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
-        case internalServiceError = "INTERNAL_SERVICE_ERROR"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartFleetRequest: AWSShape {
@@ -3159,13 +3195,6 @@ extension AppStream {
             case domains = "Domains"
             case resourceIdentifier = "ResourceIdentifier"
         }
-    }
-
-    public enum StorageConnectorType: String, CustomStringConvertible, Codable {
-        case homefolders = "HOMEFOLDERS"
-        case googleDrive = "GOOGLE_DRIVE"
-        case oneDrive = "ONE_DRIVE"
-        public var description: String { return self.rawValue }
     }
 
     public struct TagResourceRequest: AWSShape {
@@ -3566,18 +3595,6 @@ extension AppStream {
         }
     }
 
-    public enum UsageReportExecutionErrorCode: String, CustomStringConvertible, Codable {
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        case accessDenied = "ACCESS_DENIED"
-        case internalServiceError = "INTERNAL_SERVICE_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UsageReportSchedule: String, CustomStringConvertible, Codable {
-        case daily = "DAILY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UsageReportSubscription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastGeneratedReportDate", required: false, type: .timestamp), 
@@ -3748,20 +3765,6 @@ extension AppStream {
             case errorMessage = "ErrorMessage"
             case userStackAssociation = "UserStackAssociation"
         }
-    }
-
-    public enum UserStackAssociationErrorCode: String, CustomStringConvertible, Codable {
-        case stackNotFound = "STACK_NOT_FOUND"
-        case userNameNotFound = "USER_NAME_NOT_FOUND"
-        case internalError = "INTERNAL_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VisibilityType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
-        case shared = "SHARED"
-        public var description: String { return self.rawValue }
     }
 
     public struct VpcConfig: AWSShape {

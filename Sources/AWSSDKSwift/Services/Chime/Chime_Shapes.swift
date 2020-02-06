@@ -4,6 +4,155 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Chime {
+    //MARK: Enums
+
+    public enum AccountType: String, CustomStringConvertible, Codable {
+        case team = "Team"
+        case enterprisedirectory = "EnterpriseDirectory"
+        case enterpriselwa = "EnterpriseLWA"
+        case enterpriseoidc = "EnterpriseOIDC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BotType: String, CustomStringConvertible, Codable {
+        case chatbot = "ChatBot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CallingNameStatus: String, CustomStringConvertible, Codable {
+        case unassigned = "Unassigned"
+        case updateinprogress = "UpdateInProgress"
+        case updatesucceeded = "UpdateSucceeded"
+        case updatefailed = "UpdateFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EmailStatus: String, CustomStringConvertible, Codable {
+        case notsent = "NotSent"
+        case sent = "Sent"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case badrequest = "BadRequest"
+        case conflict = "Conflict"
+        case forbidden = "Forbidden"
+        case notfound = "NotFound"
+        case preconditionfailed = "PreconditionFailed"
+        case resourcelimitexceeded = "ResourceLimitExceeded"
+        case servicefailure = "ServiceFailure"
+        case accessdenied = "AccessDenied"
+        case serviceunavailable = "ServiceUnavailable"
+        case throttled = "Throttled"
+        case unauthorized = "Unauthorized"
+        case unprocessable = "Unprocessable"
+        case voiceconnectorgroupassociationsexist = "VoiceConnectorGroupAssociationsExist"
+        case phonenumberassociationsexist = "PhoneNumberAssociationsExist"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InviteStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case accepted = "Accepted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum License: String, CustomStringConvertible, Codable {
+        case basic = "Basic"
+        case plus = "Plus"
+        case pro = "Pro"
+        case protrial = "ProTrial"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MemberType: String, CustomStringConvertible, Codable {
+        case user = "User"
+        case bot = "Bot"
+        case webhook = "Webhook"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderedPhoneNumberStatus: String, CustomStringConvertible, Codable {
+        case processing = "Processing"
+        case acquired = "Acquired"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OriginationRouteProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "TCP"
+        case udp = "UDP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhoneNumberAssociationName: String, CustomStringConvertible, Codable {
+        case accountid = "AccountId"
+        case userid = "UserId"
+        case voiceconnectorid = "VoiceConnectorId"
+        case voiceconnectorgroupid = "VoiceConnectorGroupId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhoneNumberOrderStatus: String, CustomStringConvertible, Codable {
+        case processing = "Processing"
+        case successful = "Successful"
+        case failed = "Failed"
+        case partial = "Partial"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhoneNumberProductType: String, CustomStringConvertible, Codable {
+        case businesscalling = "BusinessCalling"
+        case voiceconnector = "VoiceConnector"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhoneNumberStatus: String, CustomStringConvertible, Codable {
+        case acquireinprogress = "AcquireInProgress"
+        case acquirefailed = "AcquireFailed"
+        case unassigned = "Unassigned"
+        case assigned = "Assigned"
+        case releaseinprogress = "ReleaseInProgress"
+        case deleteinprogress = "DeleteInProgress"
+        case releasefailed = "ReleaseFailed"
+        case deletefailed = "DeleteFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PhoneNumberType: String, CustomStringConvertible, Codable {
+        case local = "Local"
+        case tollfree = "TollFree"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
+        case unregistered = "Unregistered"
+        case registered = "Registered"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RoomMembershipRole: String, CustomStringConvertible, Codable {
+        case administrator = "Administrator"
+        case member = "Member"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserType: String, CustomStringConvertible, Codable {
+        case privateuser = "PrivateUser"
+        case shareddevice = "SharedDevice"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VoiceConnectorAwsRegion: String, CustomStringConvertible, Codable {
+        case usEast1 = "us-east-1"
+        case usWest2 = "us-west-2"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct Account: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -77,14 +226,6 @@ extension Chime {
             case disableRemoteControl = "DisableRemoteControl"
             case enableDialOut = "EnableDialOut"
         }
-    }
-
-    public enum AccountType: String, CustomStringConvertible, Codable {
-        case team = "Team"
-        case enterprisedirectory = "EnterpriseDirectory"
-        case enterpriselwa = "EnterpriseLWA"
-        case enterpriseoidc = "EnterpriseOIDC"
-        public var description: String { return self.rawValue }
     }
 
     public struct AlexaForBusinessMetadata: AWSShape {
@@ -694,11 +835,6 @@ extension Chime {
         }
     }
 
-    public enum BotType: String, CustomStringConvertible, Codable {
-        case chatbot = "ChatBot"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BusinessCallingSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CdrBucket", required: false, type: .string)
@@ -714,14 +850,6 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case cdrBucket = "CdrBucket"
         }
-    }
-
-    public enum CallingNameStatus: String, CustomStringConvertible, Codable {
-        case unassigned = "Unassigned"
-        case updateinprogress = "UpdateInProgress"
-        case updatesucceeded = "UpdateSucceeded"
-        case updatefailed = "UpdateFailed"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateAccountRequest: AWSShape {
@@ -1756,31 +1884,6 @@ extension Chime {
 
     }
 
-    public enum EmailStatus: String, CustomStringConvertible, Codable {
-        case notsent = "NotSent"
-        case sent = "Sent"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case badrequest = "BadRequest"
-        case conflict = "Conflict"
-        case forbidden = "Forbidden"
-        case notfound = "NotFound"
-        case preconditionfailed = "PreconditionFailed"
-        case resourcelimitexceeded = "ResourceLimitExceeded"
-        case servicefailure = "ServiceFailure"
-        case accessdenied = "AccessDenied"
-        case serviceunavailable = "ServiceUnavailable"
-        case throttled = "Throttled"
-        case unauthorized = "Unauthorized"
-        case unprocessable = "Unprocessable"
-        case voiceconnectorgroupassociationsexist = "VoiceConnectorGroupAssociationsExist"
-        case phonenumberassociationsexist = "PhoneNumberAssociationsExist"
-        public var description: String { return self.rawValue }
-    }
-
     public struct EventsConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BotId", required: false, type: .string), 
@@ -2595,13 +2698,6 @@ extension Chime {
         }
     }
 
-    public enum InviteStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case accepted = "Accepted"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
     public struct InviteUsersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
@@ -2652,14 +2748,6 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case invites = "Invites"
         }
-    }
-
-    public enum License: String, CustomStringConvertible, Codable {
-        case basic = "Basic"
-        case plus = "Plus"
-        case pro = "Pro"
-        case protrial = "ProTrial"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListAccountsRequest: AWSShape {
@@ -3541,13 +3629,6 @@ extension Chime {
         }
     }
 
-    public enum MemberType: String, CustomStringConvertible, Codable {
-        case user = "User"
-        case bot = "Bot"
-        case webhook = "Webhook"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MembershipItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MemberId", required: false, type: .string), 
@@ -3594,13 +3675,6 @@ extension Chime {
             case e164PhoneNumber = "E164PhoneNumber"
             case status = "Status"
         }
-    }
-
-    public enum OrderedPhoneNumberStatus: String, CustomStringConvertible, Codable {
-        case processing = "Processing"
-        case acquired = "Acquired"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct Origination: AWSShape {
@@ -3675,12 +3749,6 @@ extension Chime {
             case `protocol` = "Protocol"
             case weight = "Weight"
         }
-    }
-
-    public enum OriginationRouteProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "TCP"
-        case udp = "UDP"
-        public var description: String { return self.rawValue }
     }
 
     public struct PhoneNumber: AWSShape {
@@ -3780,14 +3848,6 @@ extension Chime {
             case name = "Name"
             case value = "Value"
         }
-    }
-
-    public enum PhoneNumberAssociationName: String, CustomStringConvertible, Codable {
-        case accountid = "AccountId"
-        case userid = "UserId"
-        case voiceconnectorid = "VoiceConnectorId"
-        case voiceconnectorgroupid = "VoiceConnectorGroupId"
-        public var description: String { return self.rawValue }
     }
 
     public struct PhoneNumberCapabilities: AWSShape {
@@ -3899,38 +3959,6 @@ extension Chime {
             case status = "Status"
             case updatedTimestamp = "UpdatedTimestamp"
         }
-    }
-
-    public enum PhoneNumberOrderStatus: String, CustomStringConvertible, Codable {
-        case processing = "Processing"
-        case successful = "Successful"
-        case failed = "Failed"
-        case partial = "Partial"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PhoneNumberProductType: String, CustomStringConvertible, Codable {
-        case businesscalling = "BusinessCalling"
-        case voiceconnector = "VoiceConnector"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PhoneNumberStatus: String, CustomStringConvertible, Codable {
-        case acquireinprogress = "AcquireInProgress"
-        case acquirefailed = "AcquireFailed"
-        case unassigned = "Unassigned"
-        case assigned = "Assigned"
-        case releaseinprogress = "ReleaseInProgress"
-        case deleteinprogress = "DeleteInProgress"
-        case releasefailed = "ReleaseFailed"
-        case deletefailed = "DeleteFailed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PhoneNumberType: String, CustomStringConvertible, Codable {
-        case local = "Local"
-        case tollfree = "TollFree"
-        public var description: String { return self.rawValue }
     }
 
     public struct PutEventsConfigurationRequest: AWSShape {
@@ -4230,13 +4258,6 @@ extension Chime {
         }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
-        case unregistered = "Unregistered"
-        case registered = "Registered"
-        case suspended = "Suspended"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ResetPersonalPINRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
@@ -4395,12 +4416,6 @@ extension Chime {
             case roomId = "RoomId"
             case updatedTimestamp = "UpdatedTimestamp"
         }
-    }
-
-    public enum RoomMembershipRole: String, CustomStringConvertible, Codable {
-        case administrator = "Administrator"
-        case member = "Member"
-        public var description: String { return self.rawValue }
     }
 
     public struct SearchAvailablePhoneNumbersRequest: AWSShape {
@@ -5315,12 +5330,6 @@ extension Chime {
         }
     }
 
-    public enum UserType: String, CustomStringConvertible, Codable {
-        case privateuser = "PrivateUser"
-        case shareddevice = "SharedDevice"
-        public var description: String { return self.rawValue }
-    }
-
     public struct VoiceConnector: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsRegion", required: false, type: .enum), 
@@ -5366,12 +5375,6 @@ extension Chime {
             case updatedTimestamp = "UpdatedTimestamp"
             case voiceConnectorId = "VoiceConnectorId"
         }
-    }
-
-    public enum VoiceConnectorAwsRegion: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usWest2 = "us-west-2"
-        public var description: String { return self.rawValue }
     }
 
     public struct VoiceConnectorGroup: AWSShape {

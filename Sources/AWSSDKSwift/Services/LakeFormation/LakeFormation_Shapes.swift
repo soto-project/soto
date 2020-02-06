@@ -4,6 +4,52 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension LakeFormation {
+    //MARK: Enums
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case eq = "EQ"
+        case ne = "NE"
+        case le = "LE"
+        case lt = "LT"
+        case ge = "GE"
+        case gt = "GT"
+        case contains = "CONTAINS"
+        case notContains = "NOT_CONTAINS"
+        case beginsWith = "BEGINS_WITH"
+        case `in` = "IN"
+        case between = "BETWEEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataLakeResourceType: String, CustomStringConvertible, Codable {
+        case catalog = "CATALOG"
+        case database = "DATABASE"
+        case table = "TABLE"
+        case dataLocation = "DATA_LOCATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FieldNameString: String, CustomStringConvertible, Codable {
+        case resourceArn = "RESOURCE_ARN"
+        case roleArn = "ROLE_ARN"
+        case lastModified = "LAST_MODIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case select = "SELECT"
+        case alter = "ALTER"
+        case drop = "DROP"
+        case delete = "DELETE"
+        case insert = "INSERT"
+        case createDatabase = "CREATE_DATABASE"
+        case createTable = "CREATE_TABLE"
+        case dataLocationAccess = "DATA_LOCATION_ACCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct BatchGrantPermissionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -200,21 +246,6 @@ extension LakeFormation {
         }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case eq = "EQ"
-        case ne = "NE"
-        case le = "LE"
-        case lt = "LT"
-        case ge = "GE"
-        case gt = "GT"
-        case contains = "CONTAINS"
-        case notContains = "NOT_CONTAINS"
-        case beginsWith = "BEGINS_WITH"
-        case `in` = "IN"
-        case between = "BETWEEN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DataLakePrincipal: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataLakePrincipalIdentifier", required: false, type: .string)
@@ -235,14 +266,6 @@ extension LakeFormation {
         private enum CodingKeys: String, CodingKey {
             case dataLakePrincipalIdentifier = "DataLakePrincipalIdentifier"
         }
-    }
-
-    public enum DataLakeResourceType: String, CustomStringConvertible, Codable {
-        case catalog = "CATALOG"
-        case database = "DATABASE"
-        case table = "TABLE"
-        case dataLocation = "DATA_LOCATION"
-        public var description: String { return self.rawValue }
     }
 
     public struct DataLakeSettings: AWSShape {
@@ -405,13 +428,6 @@ extension LakeFormation {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
         }
-    }
-
-    public enum FieldNameString: String, CustomStringConvertible, Codable {
-        case resourceArn = "RESOURCE_ARN"
-        case roleArn = "ROLE_ARN"
-        case lastModified = "LAST_MODIFIED"
-        public var description: String { return self.rawValue }
     }
 
     public struct FilterCondition: AWSShape {
@@ -724,19 +740,6 @@ extension LakeFormation {
             case nextToken = "NextToken"
             case resourceInfoList = "ResourceInfoList"
         }
-    }
-
-    public enum Permission: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case select = "SELECT"
-        case alter = "ALTER"
-        case drop = "DROP"
-        case delete = "DELETE"
-        case insert = "INSERT"
-        case createDatabase = "CREATE_DATABASE"
-        case createTable = "CREATE_TABLE"
-        case dataLocationAccess = "DATA_LOCATION_ACCESS"
-        public var description: String { return self.rawValue }
     }
 
     public struct PrincipalPermissions: AWSShape {

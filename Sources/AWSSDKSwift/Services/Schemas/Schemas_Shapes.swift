@@ -4,6 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension Schemas {
+    //MARK: Enums
 
     public enum CodeGenerationStatus: String, CustomStringConvertible, Codable {
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -11,6 +12,19 @@ extension Schemas {
         case createFailed = "CREATE_FAILED"
         public var description: String { return self.rawValue }
     }
+
+    public enum DiscovererState: String, CustomStringConvertible, Codable {
+        case started = "STARTED"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case openapi3 = "OpenApi3"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CreateDiscovererRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -521,12 +535,6 @@ extension Schemas {
             case `type` = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }
-    }
-
-    public enum DiscovererState: String, CustomStringConvertible, Codable {
-        case started = "STARTED"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
     }
 
     public struct DiscovererSummary: AWSShape {
@@ -1269,11 +1277,6 @@ extension Schemas {
             case resourceArn = "resource-arn"
             case tags = "tags"
         }
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable {
-        case openapi3 = "OpenApi3"
-        public var description: String { return self.rawValue }
     }
 
     public struct UnlockServiceLinkedRoleRequest: AWSShape {

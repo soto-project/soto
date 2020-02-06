@@ -4,6 +4,115 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension MTurk {
+    //MARK: Enums
+
+    public enum AssignmentStatus: String, CustomStringConvertible, Codable {
+        case submitted = "Submitted"
+        case approved = "Approved"
+        case rejected = "Rejected"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Comparator: String, CustomStringConvertible, Codable {
+        case lessthan = "LessThan"
+        case lessthanorequalto = "LessThanOrEqualTo"
+        case greaterthan = "GreaterThan"
+        case greaterthanorequalto = "GreaterThanOrEqualTo"
+        case equalto = "EqualTo"
+        case notequalto = "NotEqualTo"
+        case exists = "Exists"
+        case doesnotexist = "DoesNotExist"
+        case `in` = "In"
+        case notin = "NotIn"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case assignmentaccepted = "AssignmentAccepted"
+        case assignmentabandoned = "AssignmentAbandoned"
+        case assignmentreturned = "AssignmentReturned"
+        case assignmentsubmitted = "AssignmentSubmitted"
+        case assignmentrejected = "AssignmentRejected"
+        case assignmentapproved = "AssignmentApproved"
+        case hitcreated = "HITCreated"
+        case hitexpired = "HITExpired"
+        case hitreviewable = "HITReviewable"
+        case hitextended = "HITExtended"
+        case hitdisposed = "HITDisposed"
+        case ping = "Ping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HITAccessActions: String, CustomStringConvertible, Codable {
+        case accept = "Accept"
+        case previewandaccept = "PreviewAndAccept"
+        case discoverpreviewandaccept = "DiscoverPreviewAndAccept"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HITReviewStatus: String, CustomStringConvertible, Codable {
+        case notreviewed = "NotReviewed"
+        case markedforreview = "MarkedForReview"
+        case reviewedappropriate = "ReviewedAppropriate"
+        case reviewedinappropriate = "ReviewedInappropriate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HITStatus: String, CustomStringConvertible, Codable {
+        case assignable = "Assignable"
+        case unassignable = "Unassignable"
+        case reviewable = "Reviewable"
+        case reviewing = "Reviewing"
+        case disposed = "Disposed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationTransport: String, CustomStringConvertible, Codable {
+        case email = "Email"
+        case sqs = "SQS"
+        case sns = "SNS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable {
+        case softfailure = "SoftFailure"
+        case hardfailure = "HardFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QualificationStatus: String, CustomStringConvertible, Codable {
+        case granted = "Granted"
+        case revoked = "Revoked"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QualificationTypeStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReviewActionStatus: String, CustomStringConvertible, Codable {
+        case intended = "Intended"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReviewPolicyLevel: String, CustomStringConvertible, Codable {
+        case assignment = "Assignment"
+        case hit = "HIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReviewableHITStatus: String, CustomStringConvertible, Codable {
+        case reviewable = "Reviewable"
+        case reviewing = "Reviewing"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct AcceptQualificationRequestRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -148,13 +257,6 @@ extension MTurk {
         }
     }
 
-    public enum AssignmentStatus: String, CustomStringConvertible, Codable {
-        case submitted = "Submitted"
-        case approved = "Approved"
-        case rejected = "Rejected"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AssociateQualificationWithWorkerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
@@ -238,20 +340,6 @@ extension MTurk {
             case reason = "Reason"
             case workerId = "WorkerId"
         }
-    }
-
-    public enum Comparator: String, CustomStringConvertible, Codable {
-        case lessthan = "LessThan"
-        case lessthanorequalto = "LessThanOrEqualTo"
-        case greaterthan = "GreaterThan"
-        case greaterthanorequalto = "GreaterThanOrEqualTo"
-        case equalto = "EqualTo"
-        case notequalto = "NotEqualTo"
-        case exists = "Exists"
-        case doesnotexist = "DoesNotExist"
-        case `in` = "In"
-        case notin = "NotIn"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateAdditionalAssignmentsForHITRequest: AWSShape {
@@ -836,22 +924,6 @@ extension MTurk {
 
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case assignmentaccepted = "AssignmentAccepted"
-        case assignmentabandoned = "AssignmentAbandoned"
-        case assignmentreturned = "AssignmentReturned"
-        case assignmentsubmitted = "AssignmentSubmitted"
-        case assignmentrejected = "AssignmentRejected"
-        case assignmentapproved = "AssignmentApproved"
-        case hitcreated = "HITCreated"
-        case hitexpired = "HITExpired"
-        case hitreviewable = "HITReviewable"
-        case hitextended = "HITExtended"
-        case hitdisposed = "HITDisposed"
-        case ping = "Ping"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetAccountBalanceRequest: AWSShape {
 
 
@@ -1214,13 +1286,6 @@ extension MTurk {
         }
     }
 
-    public enum HITAccessActions: String, CustomStringConvertible, Codable {
-        case accept = "Accept"
-        case previewandaccept = "PreviewAndAccept"
-        case discoverpreviewandaccept = "DiscoverPreviewAndAccept"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HITLayoutParameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -1241,23 +1306,6 @@ extension MTurk {
             case name = "Name"
             case value = "Value"
         }
-    }
-
-    public enum HITReviewStatus: String, CustomStringConvertible, Codable {
-        case notreviewed = "NotReviewed"
-        case markedforreview = "MarkedForReview"
-        case reviewedappropriate = "ReviewedAppropriate"
-        case reviewedinappropriate = "ReviewedInappropriate"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HITStatus: String, CustomStringConvertible, Codable {
-        case assignable = "Assignable"
-        case unassignable = "Unassignable"
-        case reviewable = "Reviewable"
-        case reviewing = "Reviewing"
-        case disposed = "Disposed"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListAssignmentsForHITRequest: AWSShape {
@@ -1989,19 +2037,6 @@ extension MTurk {
         }
     }
 
-    public enum NotificationTransport: String, CustomStringConvertible, Codable {
-        case email = "Email"
-        case sqs = "SQS"
-        case sns = "SNS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable {
-        case softfailure = "SoftFailure"
-        case hardfailure = "HardFailure"
-        public var description: String { return self.rawValue }
-    }
-
     public struct NotifyWorkersFailureStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotifyWorkersFailureCode", required: false, type: .enum), 
@@ -2256,12 +2291,6 @@ extension MTurk {
         }
     }
 
-    public enum QualificationStatus: String, CustomStringConvertible, Codable {
-        case granted = "Granted"
-        case revoked = "Revoked"
-        public var description: String { return self.rawValue }
-    }
-
     public struct QualificationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
@@ -2337,12 +2366,6 @@ extension MTurk {
             case test = "Test"
             case testDurationInSeconds = "TestDurationInSeconds"
         }
-    }
-
-    public enum QualificationTypeStatus: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
     }
 
     public struct RejectAssignmentRequest: AWSShape {
@@ -2463,14 +2486,6 @@ extension MTurk {
         }
     }
 
-    public enum ReviewActionStatus: String, CustomStringConvertible, Codable {
-        case intended = "Intended"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ReviewPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
@@ -2491,12 +2506,6 @@ extension MTurk {
             case parameters = "Parameters"
             case policyName = "PolicyName"
         }
-    }
-
-    public enum ReviewPolicyLevel: String, CustomStringConvertible, Codable {
-        case assignment = "Assignment"
-        case hit = "HIT"
-        public var description: String { return self.rawValue }
     }
 
     public struct ReviewReport: AWSShape {
@@ -2561,12 +2570,6 @@ extension MTurk {
             case subjectType = "SubjectType"
             case value = "Value"
         }
-    }
-
-    public enum ReviewableHITStatus: String, CustomStringConvertible, Codable {
-        case reviewable = "Reviewable"
-        case reviewing = "Reviewing"
-        public var description: String { return self.rawValue }
     }
 
     public struct SendBonusRequest: AWSShape {

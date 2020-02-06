@@ -4,6 +4,9 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension STS {
+    //MARK: Enums
+
+    //MARK: Shapes
 
     public struct AssumeRoleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [

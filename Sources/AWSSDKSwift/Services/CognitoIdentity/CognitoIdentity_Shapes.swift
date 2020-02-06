@@ -4,12 +4,35 @@ import Foundation
 import AWSSDKSwiftCore
 
 extension CognitoIdentity {
+    //MARK: Enums
 
     public enum AmbiguousRoleResolutionType: String, CustomStringConvertible, Codable {
         case authenticatedrole = "AuthenticatedRole"
         case deny = "Deny"
         public var description: String { return self.rawValue }
     }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case accessdenied = "AccessDenied"
+        case internalservererror = "InternalServerError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MappingRuleMatchType: String, CustomStringConvertible, Codable {
+        case equals = "Equals"
+        case contains = "Contains"
+        case startswith = "StartsWith"
+        case notequal = "NotEqual"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RoleMappingType: String, CustomStringConvertible, Codable {
+        case token = "Token"
+        case rules = "Rules"
+        public var description: String { return self.rawValue }
+    }
+
+    //MARK: Shapes
 
     public struct CognitoIdentityProvider: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -280,12 +303,6 @@ extension CognitoIdentity {
         private enum CodingKeys: String, CodingKey {
             case identityPoolId = "IdentityPoolId"
         }
-    }
-
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case internalservererror = "InternalServerError"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetCredentialsForIdentityInput: AWSShape {
@@ -1019,14 +1036,6 @@ extension CognitoIdentity {
         }
     }
 
-    public enum MappingRuleMatchType: String, CustomStringConvertible, Codable {
-        case equals = "Equals"
-        case contains = "Contains"
-        case startswith = "StartsWith"
-        case notequal = "NotEqual"
-        public var description: String { return self.rawValue }
-    }
-
     public struct MergeDeveloperIdentitiesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationUserIdentifier", required: true, type: .string), 
@@ -1118,12 +1127,6 @@ extension CognitoIdentity {
             case rulesConfiguration = "RulesConfiguration"
             case `type` = "Type"
         }
-    }
-
-    public enum RoleMappingType: String, CustomStringConvertible, Codable {
-        case token = "Token"
-        case rules = "Rules"
-        public var description: String { return self.rawValue }
     }
 
     public struct RulesConfigurationType: AWSShape {

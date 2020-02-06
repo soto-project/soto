@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS Pinpoint service.
+
 Doc Engage API - Amazon Pinpoint API
 */
 public struct Pinpoint {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the Pinpoint client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -28,539 +43,541 @@ public struct Pinpoint {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///   Creates an application.
-    public func createApp(_ input: CreateAppRequest) -> Future<CreateAppResponse> {
+    public func createApp(_ input: CreateAppRequest) -> EventLoopFuture<CreateAppResponse> {
         return client.send(operation: "CreateApp", path: "/v1/apps", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new campaign for an application or updates the settings of an existing campaign for an application.
-    public func createCampaign(_ input: CreateCampaignRequest) -> Future<CreateCampaignResponse> {
+    public func createCampaign(_ input: CreateCampaignRequest) -> EventLoopFuture<CreateCampaignResponse> {
         return client.send(operation: "CreateCampaign", path: "/v1/apps/{application-id}/campaigns", httpMethod: "POST", input: input)
     }
 
     ///  Creates a message template for messages that are sent through the email channel.
-    public func createEmailTemplate(_ input: CreateEmailTemplateRequest) -> Future<CreateEmailTemplateResponse> {
+    public func createEmailTemplate(_ input: CreateEmailTemplateRequest) -> EventLoopFuture<CreateEmailTemplateResponse> {
         return client.send(operation: "CreateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "POST", input: input)
     }
 
     ///  Creates an export job for an application.
-    public func createExportJob(_ input: CreateExportJobRequest) -> Future<CreateExportJobResponse> {
+    public func createExportJob(_ input: CreateExportJobRequest) -> EventLoopFuture<CreateExportJobResponse> {
         return client.send(operation: "CreateExportJob", path: "/v1/apps/{application-id}/jobs/export", httpMethod: "POST", input: input)
     }
 
     ///  Creates an import job for an application.
-    public func createImportJob(_ input: CreateImportJobRequest) -> Future<CreateImportJobResponse> {
+    public func createImportJob(_ input: CreateImportJobRequest) -> EventLoopFuture<CreateImportJobResponse> {
         return client.send(operation: "CreateImportJob", path: "/v1/apps/{application-id}/jobs/import", httpMethod: "POST", input: input)
     }
 
     ///  Creates a journey for an application.
-    public func createJourney(_ input: CreateJourneyRequest) -> Future<CreateJourneyResponse> {
+    public func createJourney(_ input: CreateJourneyRequest) -> EventLoopFuture<CreateJourneyResponse> {
         return client.send(operation: "CreateJourney", path: "/v1/apps/{application-id}/journeys", httpMethod: "POST", input: input)
     }
 
     ///  Creates a message template for messages that are sent through a push notification channel.
-    public func createPushTemplate(_ input: CreatePushTemplateRequest) -> Future<CreatePushTemplateResponse> {
+    public func createPushTemplate(_ input: CreatePushTemplateRequest) -> EventLoopFuture<CreatePushTemplateResponse> {
         return client.send(operation: "CreatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
-    public func createSegment(_ input: CreateSegmentRequest) -> Future<CreateSegmentResponse> {
+    public func createSegment(_ input: CreateSegmentRequest) -> EventLoopFuture<CreateSegmentResponse> {
         return client.send(operation: "CreateSegment", path: "/v1/apps/{application-id}/segments", httpMethod: "POST", input: input)
     }
 
     ///  Creates a message template for messages that are sent through the SMS channel.
-    public func createSmsTemplate(_ input: CreateSmsTemplateRequest) -> Future<CreateSmsTemplateResponse> {
+    public func createSmsTemplate(_ input: CreateSmsTemplateRequest) -> EventLoopFuture<CreateSmsTemplateResponse> {
         return client.send(operation: "CreateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "POST", input: input)
     }
 
     ///  Creates a message template for messages that are sent through the voice channel.
-    public func createVoiceTemplate(_ input: CreateVoiceTemplateRequest) -> Future<CreateVoiceTemplateResponse> {
+    public func createVoiceTemplate(_ input: CreateVoiceTemplateRequest) -> EventLoopFuture<CreateVoiceTemplateResponse> {
         return client.send(operation: "CreateVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "POST", input: input)
     }
 
     ///  Disables the ADM channel for an application and deletes any existing settings for the channel.
-    public func deleteAdmChannel(_ input: DeleteAdmChannelRequest) -> Future<DeleteAdmChannelResponse> {
+    public func deleteAdmChannel(_ input: DeleteAdmChannelRequest) -> EventLoopFuture<DeleteAdmChannelResponse> {
         return client.send(operation: "DeleteAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the APNs channel for an application and deletes any existing settings for the channel.
-    public func deleteApnsChannel(_ input: DeleteApnsChannelRequest) -> Future<DeleteApnsChannelResponse> {
+    public func deleteApnsChannel(_ input: DeleteApnsChannelRequest) -> EventLoopFuture<DeleteApnsChannelResponse> {
         return client.send(operation: "DeleteApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
-    public func deleteApnsSandboxChannel(_ input: DeleteApnsSandboxChannelRequest) -> Future<DeleteApnsSandboxChannelResponse> {
+    public func deleteApnsSandboxChannel(_ input: DeleteApnsSandboxChannelRequest) -> EventLoopFuture<DeleteApnsSandboxChannelResponse> {
         return client.send(operation: "DeleteApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
-    public func deleteApnsVoipChannel(_ input: DeleteApnsVoipChannelRequest) -> Future<DeleteApnsVoipChannelResponse> {
+    public func deleteApnsVoipChannel(_ input: DeleteApnsVoipChannelRequest) -> EventLoopFuture<DeleteApnsVoipChannelResponse> {
         return client.send(operation: "DeleteApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
-    public func deleteApnsVoipSandboxChannel(_ input: DeleteApnsVoipSandboxChannelRequest) -> Future<DeleteApnsVoipSandboxChannelResponse> {
+    public func deleteApnsVoipSandboxChannel(_ input: DeleteApnsVoipSandboxChannelRequest) -> EventLoopFuture<DeleteApnsVoipSandboxChannelResponse> {
         return client.send(operation: "DeleteApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an application.
-    public func deleteApp(_ input: DeleteAppRequest) -> Future<DeleteAppResponse> {
+    public func deleteApp(_ input: DeleteAppRequest) -> EventLoopFuture<DeleteAppResponse> {
         return client.send(operation: "DeleteApp", path: "/v1/apps/{application-id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the Baidu channel for an application and deletes any existing settings for the channel.
-    public func deleteBaiduChannel(_ input: DeleteBaiduChannelRequest) -> Future<DeleteBaiduChannelResponse> {
+    public func deleteBaiduChannel(_ input: DeleteBaiduChannelRequest) -> EventLoopFuture<DeleteBaiduChannelResponse> {
         return client.send(operation: "DeleteBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a campaign from an application.
-    public func deleteCampaign(_ input: DeleteCampaignRequest) -> Future<DeleteCampaignResponse> {
+    public func deleteCampaign(_ input: DeleteCampaignRequest) -> EventLoopFuture<DeleteCampaignResponse> {
         return client.send(operation: "DeleteCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the email channel for an application and deletes any existing settings for the channel.
-    public func deleteEmailChannel(_ input: DeleteEmailChannelRequest) -> Future<DeleteEmailChannelResponse> {
+    public func deleteEmailChannel(_ input: DeleteEmailChannelRequest) -> EventLoopFuture<DeleteEmailChannelResponse> {
         return client.send(operation: "DeleteEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a message template for messages that were sent through the email channel.
-    public func deleteEmailTemplate(_ input: DeleteEmailTemplateRequest) -> Future<DeleteEmailTemplateResponse> {
+    public func deleteEmailTemplate(_ input: DeleteEmailTemplateRequest) -> EventLoopFuture<DeleteEmailTemplateResponse> {
         return client.send(operation: "DeleteEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an endpoint from an application.
-    public func deleteEndpoint(_ input: DeleteEndpointRequest) -> Future<DeleteEndpointResponse> {
+    public func deleteEndpoint(_ input: DeleteEndpointRequest) -> EventLoopFuture<DeleteEndpointResponse> {
         return client.send(operation: "DeleteEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the event stream for an application.
-    public func deleteEventStream(_ input: DeleteEventStreamRequest) -> Future<DeleteEventStreamResponse> {
+    public func deleteEventStream(_ input: DeleteEventStreamRequest) -> EventLoopFuture<DeleteEventStreamResponse> {
         return client.send(operation: "DeleteEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the GCM channel for an application and deletes any existing settings for the channel.
-    public func deleteGcmChannel(_ input: DeleteGcmChannelRequest) -> Future<DeleteGcmChannelResponse> {
+    public func deleteGcmChannel(_ input: DeleteGcmChannelRequest) -> EventLoopFuture<DeleteGcmChannelResponse> {
         return client.send(operation: "DeleteGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a journey from an application.
-    public func deleteJourney(_ input: DeleteJourneyRequest) -> Future<DeleteJourneyResponse> {
+    public func deleteJourney(_ input: DeleteJourneyRequest) -> EventLoopFuture<DeleteJourneyResponse> {
         return client.send(operation: "DeleteJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a message template for messages that were sent through a push notification channel.
-    public func deletePushTemplate(_ input: DeletePushTemplateRequest) -> Future<DeletePushTemplateResponse> {
+    public func deletePushTemplate(_ input: DeletePushTemplateRequest) -> EventLoopFuture<DeletePushTemplateResponse> {
         return client.send(operation: "DeletePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a segment from an application.
-    public func deleteSegment(_ input: DeleteSegmentRequest) -> Future<DeleteSegmentResponse> {
+    public func deleteSegment(_ input: DeleteSegmentRequest) -> EventLoopFuture<DeleteSegmentResponse> {
         return client.send(operation: "DeleteSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the SMS channel for an application and deletes any existing settings for the channel.
-    public func deleteSmsChannel(_ input: DeleteSmsChannelRequest) -> Future<DeleteSmsChannelResponse> {
+    public func deleteSmsChannel(_ input: DeleteSmsChannelRequest) -> EventLoopFuture<DeleteSmsChannelResponse> {
         return client.send(operation: "DeleteSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a message template for messages that were sent through the SMS channel.
-    public func deleteSmsTemplate(_ input: DeleteSmsTemplateRequest) -> Future<DeleteSmsTemplateResponse> {
+    public func deleteSmsTemplate(_ input: DeleteSmsTemplateRequest) -> EventLoopFuture<DeleteSmsTemplateResponse> {
         return client.send(operation: "DeleteSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes all the endpoints that are associated with a specific user ID.
-    public func deleteUserEndpoints(_ input: DeleteUserEndpointsRequest) -> Future<DeleteUserEndpointsResponse> {
+    public func deleteUserEndpoints(_ input: DeleteUserEndpointsRequest) -> EventLoopFuture<DeleteUserEndpointsResponse> {
         return client.send(operation: "DeleteUserEndpoints", path: "/v1/apps/{application-id}/users/{user-id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables the voice channel for an application and deletes any existing settings for the channel.
-    public func deleteVoiceChannel(_ input: DeleteVoiceChannelRequest) -> Future<DeleteVoiceChannelResponse> {
+    public func deleteVoiceChannel(_ input: DeleteVoiceChannelRequest) -> EventLoopFuture<DeleteVoiceChannelResponse> {
         return client.send(operation: "DeleteVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a message template for messages that were sent through the voice channel.
-    public func deleteVoiceTemplate(_ input: DeleteVoiceTemplateRequest) -> Future<DeleteVoiceTemplateResponse> {
+    public func deleteVoiceTemplate(_ input: DeleteVoiceTemplateRequest) -> EventLoopFuture<DeleteVoiceTemplateResponse> {
         return client.send(operation: "DeleteVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves information about the status and settings of the ADM channel for an application.
-    public func getAdmChannel(_ input: GetAdmChannelRequest) -> Future<GetAdmChannelResponse> {
+    public func getAdmChannel(_ input: GetAdmChannelRequest) -> EventLoopFuture<GetAdmChannelResponse> {
         return client.send(operation: "GetAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the APNs channel for an application.
-    public func getApnsChannel(_ input: GetApnsChannelRequest) -> Future<GetApnsChannelResponse> {
+    public func getApnsChannel(_ input: GetApnsChannelRequest) -> EventLoopFuture<GetApnsChannelResponse> {
         return client.send(operation: "GetApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the APNs sandbox channel for an application.
-    public func getApnsSandboxChannel(_ input: GetApnsSandboxChannelRequest) -> Future<GetApnsSandboxChannelResponse> {
+    public func getApnsSandboxChannel(_ input: GetApnsSandboxChannelRequest) -> EventLoopFuture<GetApnsSandboxChannelResponse> {
         return client.send(operation: "GetApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the APNs VoIP channel for an application.
-    public func getApnsVoipChannel(_ input: GetApnsVoipChannelRequest) -> Future<GetApnsVoipChannelResponse> {
+    public func getApnsVoipChannel(_ input: GetApnsVoipChannelRequest) -> EventLoopFuture<GetApnsVoipChannelResponse> {
         return client.send(operation: "GetApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
-    public func getApnsVoipSandboxChannel(_ input: GetApnsVoipSandboxChannelRequest) -> Future<GetApnsVoipSandboxChannelResponse> {
+    public func getApnsVoipSandboxChannel(_ input: GetApnsVoipSandboxChannelRequest) -> EventLoopFuture<GetApnsVoipSandboxChannelResponse> {
         return client.send(operation: "GetApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about an application.
-    public func getApp(_ input: GetAppRequest) -> Future<GetAppResponse> {
+    public func getApp(_ input: GetAppRequest) -> EventLoopFuture<GetAppResponse> {
         return client.send(operation: "GetApp", path: "/v1/apps/{application-id}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
-    public func getApplicationDateRangeKpi(_ input: GetApplicationDateRangeKpiRequest) -> Future<GetApplicationDateRangeKpiResponse> {
+    public func getApplicationDateRangeKpi(_ input: GetApplicationDateRangeKpiRequest) -> EventLoopFuture<GetApplicationDateRangeKpiResponse> {
         return client.send(operation: "GetApplicationDateRangeKpi", path: "/v1/apps/{application-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the settings for an application.
-    public func getApplicationSettings(_ input: GetApplicationSettingsRequest) -> Future<GetApplicationSettingsResponse> {
+    public func getApplicationSettings(_ input: GetApplicationSettingsRequest) -> EventLoopFuture<GetApplicationSettingsResponse> {
         return client.send(operation: "GetApplicationSettings", path: "/v1/apps/{application-id}/settings", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
-    public func getApps(_ input: GetAppsRequest) -> Future<GetAppsResponse> {
+    public func getApps(_ input: GetAppsRequest) -> EventLoopFuture<GetAppsResponse> {
         return client.send(operation: "GetApps", path: "/v1/apps", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the Baidu channel for an application.
-    public func getBaiduChannel(_ input: GetBaiduChannelRequest) -> Future<GetBaiduChannelResponse> {
+    public func getBaiduChannel(_ input: GetBaiduChannelRequest) -> EventLoopFuture<GetBaiduChannelResponse> {
         return client.send(operation: "GetBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for a campaign.
-    public func getCampaign(_ input: GetCampaignRequest) -> Future<GetCampaignResponse> {
+    public func getCampaign(_ input: GetCampaignRequest) -> EventLoopFuture<GetCampaignResponse> {
         return client.send(operation: "GetCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about all the activities for a campaign.
-    public func getCampaignActivities(_ input: GetCampaignActivitiesRequest) -> Future<GetCampaignActivitiesResponse> {
+    public func getCampaignActivities(_ input: GetCampaignActivitiesRequest) -> EventLoopFuture<GetCampaignActivitiesResponse> {
         return client.send(operation: "GetCampaignActivities", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/activities", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
-    public func getCampaignDateRangeKpi(_ input: GetCampaignDateRangeKpiRequest) -> Future<GetCampaignDateRangeKpiResponse> {
+    public func getCampaignDateRangeKpi(_ input: GetCampaignDateRangeKpiRequest) -> EventLoopFuture<GetCampaignDateRangeKpiResponse> {
         return client.send(operation: "GetCampaignDateRangeKpi", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
-    public func getCampaignVersion(_ input: GetCampaignVersionRequest) -> Future<GetCampaignVersionResponse> {
+    public func getCampaignVersion(_ input: GetCampaignVersionRequest) -> EventLoopFuture<GetCampaignVersionResponse> {
         return client.send(operation: "GetCampaignVersion", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions/{version}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for all versions of a campaign.
-    public func getCampaignVersions(_ input: GetCampaignVersionsRequest) -> Future<GetCampaignVersionsResponse> {
+    public func getCampaignVersions(_ input: GetCampaignVersionsRequest) -> EventLoopFuture<GetCampaignVersionsResponse> {
         return client.send(operation: "GetCampaignVersions", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
-    public func getCampaigns(_ input: GetCampaignsRequest) -> Future<GetCampaignsResponse> {
+    public func getCampaigns(_ input: GetCampaignsRequest) -> EventLoopFuture<GetCampaignsResponse> {
         return client.send(operation: "GetCampaigns", path: "/v1/apps/{application-id}/campaigns", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the history and status of each channel for an application.
-    public func getChannels(_ input: GetChannelsRequest) -> Future<GetChannelsResponse> {
+    public func getChannels(_ input: GetChannelsRequest) -> EventLoopFuture<GetChannelsResponse> {
         return client.send(operation: "GetChannels", path: "/v1/apps/{application-id}/channels", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the email channel for an application.
-    public func getEmailChannel(_ input: GetEmailChannelRequest) -> Future<GetEmailChannelResponse> {
+    public func getEmailChannel(_ input: GetEmailChannelRequest) -> EventLoopFuture<GetEmailChannelResponse> {
         return client.send(operation: "GetEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the content and settings of a message template for messages that are sent through the email channel.
-    public func getEmailTemplate(_ input: GetEmailTemplateRequest) -> Future<GetEmailTemplateResponse> {
+    public func getEmailTemplate(_ input: GetEmailTemplateRequest) -> EventLoopFuture<GetEmailTemplateResponse> {
         return client.send(operation: "GetEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the settings and attributes of a specific endpoint for an application.
-    public func getEndpoint(_ input: GetEndpointRequest) -> Future<GetEndpointResponse> {
+    public func getEndpoint(_ input: GetEndpointRequest) -> EventLoopFuture<GetEndpointResponse> {
         return client.send(operation: "GetEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the event stream settings for an application.
-    public func getEventStream(_ input: GetEventStreamRequest) -> Future<GetEventStreamResponse> {
+    public func getEventStream(_ input: GetEventStreamRequest) -> EventLoopFuture<GetEventStreamResponse> {
         return client.send(operation: "GetEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of a specific export job for an application.
-    public func getExportJob(_ input: GetExportJobRequest) -> Future<GetExportJobResponse> {
+    public func getExportJob(_ input: GetExportJobRequest) -> EventLoopFuture<GetExportJobResponse> {
         return client.send(operation: "GetExportJob", path: "/v1/apps/{application-id}/jobs/export/{job-id}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of all the export jobs for an application.
-    public func getExportJobs(_ input: GetExportJobsRequest) -> Future<GetExportJobsResponse> {
+    public func getExportJobs(_ input: GetExportJobsRequest) -> EventLoopFuture<GetExportJobsResponse> {
         return client.send(operation: "GetExportJobs", path: "/v1/apps/{application-id}/jobs/export", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the GCM channel for an application.
-    public func getGcmChannel(_ input: GetGcmChannelRequest) -> Future<GetGcmChannelResponse> {
+    public func getGcmChannel(_ input: GetGcmChannelRequest) -> EventLoopFuture<GetGcmChannelResponse> {
         return client.send(operation: "GetGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of a specific import job for an application.
-    public func getImportJob(_ input: GetImportJobRequest) -> Future<GetImportJobResponse> {
+    public func getImportJob(_ input: GetImportJobRequest) -> EventLoopFuture<GetImportJobResponse> {
         return client.send(operation: "GetImportJob", path: "/v1/apps/{application-id}/jobs/import/{job-id}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of all the import jobs for an application.
-    public func getImportJobs(_ input: GetImportJobsRequest) -> Future<GetImportJobsResponse> {
+    public func getImportJobs(_ input: GetImportJobsRequest) -> EventLoopFuture<GetImportJobsResponse> {
         return client.send(operation: "GetImportJobs", path: "/v1/apps/{application-id}/jobs/import", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for a journey.
-    public func getJourney(_ input: GetJourneyRequest) -> Future<GetJourneyResponse> {
+    public func getJourney(_ input: GetJourneyRequest) -> EventLoopFuture<GetJourneyResponse> {
         return client.send(operation: "GetJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
-    public func getJourneyDateRangeKpi(_ input: GetJourneyDateRangeKpiRequest) -> Future<GetJourneyDateRangeKpiResponse> {
+    public func getJourneyDateRangeKpi(_ input: GetJourneyDateRangeKpiRequest) -> EventLoopFuture<GetJourneyDateRangeKpiResponse> {
         return client.send(operation: "GetJourneyDateRangeKpi", path: "/v1/apps/{application-id}/journeys/{journey-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
-    public func getJourneyExecutionActivityMetrics(_ input: GetJourneyExecutionActivityMetricsRequest) -> Future<GetJourneyExecutionActivityMetricsResponse> {
+    public func getJourneyExecutionActivityMetrics(_ input: GetJourneyExecutionActivityMetricsRequest) -> EventLoopFuture<GetJourneyExecutionActivityMetricsResponse> {
         return client.send(operation: "GetJourneyExecutionActivityMetrics", path: "/v1/apps/{application-id}/journeys/{journey-id}/activities/{journey-activity-id}/execution-metrics", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
-    public func getJourneyExecutionMetrics(_ input: GetJourneyExecutionMetricsRequest) -> Future<GetJourneyExecutionMetricsResponse> {
+    public func getJourneyExecutionMetrics(_ input: GetJourneyExecutionMetricsRequest) -> EventLoopFuture<GetJourneyExecutionMetricsResponse> {
         return client.send(operation: "GetJourneyExecutionMetrics", path: "/v1/apps/{application-id}/journeys/{journey-id}/execution-metrics", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
-    public func getPushTemplate(_ input: GetPushTemplateRequest) -> Future<GetPushTemplateResponse> {
+    public func getPushTemplate(_ input: GetPushTemplateRequest) -> EventLoopFuture<GetPushTemplateResponse> {
         return client.send(operation: "GetPushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
-    public func getSegment(_ input: GetSegmentRequest) -> Future<GetSegmentResponse> {
+    public func getSegment(_ input: GetSegmentRequest) -> EventLoopFuture<GetSegmentResponse> {
         return client.send(operation: "GetSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the export jobs for a segment.
-    public func getSegmentExportJobs(_ input: GetSegmentExportJobsRequest) -> Future<GetSegmentExportJobsResponse> {
+    public func getSegmentExportJobs(_ input: GetSegmentExportJobsRequest) -> EventLoopFuture<GetSegmentExportJobsResponse> {
         return client.send(operation: "GetSegmentExportJobs", path: "/v1/apps/{application-id}/segments/{segment-id}/jobs/export", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the import jobs for a segment.
-    public func getSegmentImportJobs(_ input: GetSegmentImportJobsRequest) -> Future<GetSegmentImportJobsResponse> {
+    public func getSegmentImportJobs(_ input: GetSegmentImportJobsRequest) -> EventLoopFuture<GetSegmentImportJobsResponse> {
         return client.send(operation: "GetSegmentImportJobs", path: "/v1/apps/{application-id}/segments/{segment-id}/jobs/import", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
-    public func getSegmentVersion(_ input: GetSegmentVersionRequest) -> Future<GetSegmentVersionResponse> {
+    public func getSegmentVersion(_ input: GetSegmentVersionRequest) -> EventLoopFuture<GetSegmentVersionResponse> {
         return client.send(operation: "GetSegmentVersion", path: "/v1/apps/{application-id}/segments/{segment-id}/versions/{version}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
-    public func getSegmentVersions(_ input: GetSegmentVersionsRequest) -> Future<GetSegmentVersionsResponse> {
+    public func getSegmentVersions(_ input: GetSegmentVersionsRequest) -> EventLoopFuture<GetSegmentVersionsResponse> {
         return client.send(operation: "GetSegmentVersions", path: "/v1/apps/{application-id}/segments/{segment-id}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
-    public func getSegments(_ input: GetSegmentsRequest) -> Future<GetSegmentsResponse> {
+    public func getSegments(_ input: GetSegmentsRequest) -> EventLoopFuture<GetSegmentsResponse> {
         return client.send(operation: "GetSegments", path: "/v1/apps/{application-id}/segments", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the SMS channel for an application.
-    public func getSmsChannel(_ input: GetSmsChannelRequest) -> Future<GetSmsChannelResponse> {
+    public func getSmsChannel(_ input: GetSmsChannelRequest) -> EventLoopFuture<GetSmsChannelResponse> {
         return client.send(operation: "GetSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
-    public func getSmsTemplate(_ input: GetSmsTemplateRequest) -> Future<GetSmsTemplateResponse> {
+    public func getSmsTemplate(_ input: GetSmsTemplateRequest) -> EventLoopFuture<GetSmsTemplateResponse> {
         return client.send(operation: "GetSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about all the endpoints that are associated with a specific user ID.
-    public func getUserEndpoints(_ input: GetUserEndpointsRequest) -> Future<GetUserEndpointsResponse> {
+    public func getUserEndpoints(_ input: GetUserEndpointsRequest) -> EventLoopFuture<GetUserEndpointsResponse> {
         return client.send(operation: "GetUserEndpoints", path: "/v1/apps/{application-id}/users/{user-id}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status and settings of the voice channel for an application.
-    public func getVoiceChannel(_ input: GetVoiceChannelRequest) -> Future<GetVoiceChannelResponse> {
+    public func getVoiceChannel(_ input: GetVoiceChannelRequest) -> EventLoopFuture<GetVoiceChannelResponse> {
         return client.send(operation: "GetVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the content and settings of a message template for messages that are sent through the voice channel.
-    public func getVoiceTemplate(_ input: GetVoiceTemplateRequest) -> Future<GetVoiceTemplateResponse> {
+    public func getVoiceTemplate(_ input: GetVoiceTemplateRequest) -> EventLoopFuture<GetVoiceTemplateResponse> {
         return client.send(operation: "GetVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
-    public func listJourneys(_ input: ListJourneysRequest) -> Future<ListJourneysResponse> {
+    public func listJourneys(_ input: ListJourneysRequest) -> EventLoopFuture<ListJourneysResponse> {
         return client.send(operation: "ListJourneys", path: "/v1/apps/{application-id}/journeys", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves all the tags (keys and values) that are associated with an application, campaign, journey, message template, or segment.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about all the versions of a specific message template.
-    public func listTemplateVersions(_ input: ListTemplateVersionsRequest) -> Future<ListTemplateVersionsResponse> {
+    public func listTemplateVersions(_ input: ListTemplateVersionsRequest) -> EventLoopFuture<ListTemplateVersionsResponse> {
         return client.send(operation: "ListTemplateVersions", path: "/v1/templates/{template-name}/{template-type}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
-    public func listTemplates(_ input: ListTemplatesRequest) -> Future<ListTemplatesResponse> {
+    public func listTemplates(_ input: ListTemplatesRequest) -> EventLoopFuture<ListTemplatesResponse> {
         return client.send(operation: "ListTemplates", path: "/v1/templates", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about a phone number.
-    public func phoneNumberValidate(_ input: PhoneNumberValidateRequest) -> Future<PhoneNumberValidateResponse> {
+    public func phoneNumberValidate(_ input: PhoneNumberValidateRequest) -> EventLoopFuture<PhoneNumberValidateResponse> {
         return client.send(operation: "PhoneNumberValidate", path: "/v1/phone/number/validate", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new event stream for an application or updates the settings of an existing event stream for an application.
-    public func putEventStream(_ input: PutEventStreamRequest) -> Future<PutEventStreamResponse> {
+    public func putEventStream(_ input: PutEventStreamRequest) -> EventLoopFuture<PutEventStreamResponse> {
         return client.send(operation: "PutEventStream", path: "/v1/apps/{application-id}/eventstream", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
-    public func putEvents(_ input: PutEventsRequest) -> Future<PutEventsResponse> {
+    public func putEvents(_ input: PutEventsRequest) -> EventLoopFuture<PutEventsResponse> {
         return client.send(operation: "PutEvents", path: "/v1/apps/{application-id}/events", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more attributes, of the same attribute type, from all the endpoints that are associated with an application.
-    public func removeAttributes(_ input: RemoveAttributesRequest) -> Future<RemoveAttributesResponse> {
+    public func removeAttributes(_ input: RemoveAttributesRequest) -> EventLoopFuture<RemoveAttributesResponse> {
         return client.send(operation: "RemoveAttributes", path: "/v1/apps/{application-id}/attributes/{attribute-type}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates and sends a direct message.
-    public func sendMessages(_ input: SendMessagesRequest) -> Future<SendMessagesResponse> {
+    public func sendMessages(_ input: SendMessagesRequest) -> EventLoopFuture<SendMessagesResponse> {
         return client.send(operation: "SendMessages", path: "/v1/apps/{application-id}/messages", httpMethod: "POST", input: input)
     }
 
     ///  Creates and sends a message to a list of users.
-    public func sendUsersMessages(_ input: SendUsersMessagesRequest) -> Future<SendUsersMessagesResponse> {
+    public func sendUsersMessages(_ input: SendUsersMessagesRequest) -> EventLoopFuture<SendUsersMessagesResponse> {
         return client.send(operation: "SendUsersMessages", path: "/v1/apps/{application-id}/users-messages", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more tags (keys and values) to an application, campaign, journey, message template, or segment.
-    @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/v1/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more tags (keys and values) from an application, campaign, journey, message template, or segment.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/v1/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
-    public func updateAdmChannel(_ input: UpdateAdmChannelRequest) -> Future<UpdateAdmChannelResponse> {
+    public func updateAdmChannel(_ input: UpdateAdmChannelRequest) -> EventLoopFuture<UpdateAdmChannelResponse> {
         return client.send(operation: "UpdateAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
-    public func updateApnsChannel(_ input: UpdateApnsChannelRequest) -> Future<UpdateApnsChannelResponse> {
+    public func updateApnsChannel(_ input: UpdateApnsChannelRequest) -> EventLoopFuture<UpdateApnsChannelResponse> {
         return client.send(operation: "UpdateApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
-    public func updateApnsSandboxChannel(_ input: UpdateApnsSandboxChannelRequest) -> Future<UpdateApnsSandboxChannelResponse> {
+    public func updateApnsSandboxChannel(_ input: UpdateApnsSandboxChannelRequest) -> EventLoopFuture<UpdateApnsSandboxChannelResponse> {
         return client.send(operation: "UpdateApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
-    public func updateApnsVoipChannel(_ input: UpdateApnsVoipChannelRequest) -> Future<UpdateApnsVoipChannelResponse> {
+    public func updateApnsVoipChannel(_ input: UpdateApnsVoipChannelRequest) -> EventLoopFuture<UpdateApnsVoipChannelResponse> {
         return client.send(operation: "UpdateApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
-    public func updateApnsVoipSandboxChannel(_ input: UpdateApnsVoipSandboxChannelRequest) -> Future<UpdateApnsVoipSandboxChannelResponse> {
+    public func updateApnsVoipSandboxChannel(_ input: UpdateApnsVoipSandboxChannelRequest) -> EventLoopFuture<UpdateApnsVoipSandboxChannelResponse> {
         return client.send(operation: "UpdateApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the settings for an application.
-    public func updateApplicationSettings(_ input: UpdateApplicationSettingsRequest) -> Future<UpdateApplicationSettingsResponse> {
+    public func updateApplicationSettings(_ input: UpdateApplicationSettingsRequest) -> EventLoopFuture<UpdateApplicationSettingsResponse> {
         return client.send(operation: "UpdateApplicationSettings", path: "/v1/apps/{application-id}/settings", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
-    public func updateBaiduChannel(_ input: UpdateBaiduChannelRequest) -> Future<UpdateBaiduChannelResponse> {
+    public func updateBaiduChannel(_ input: UpdateBaiduChannelRequest) -> EventLoopFuture<UpdateBaiduChannelResponse> {
         return client.send(operation: "UpdateBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the configuration and other settings for a campaign.
-    public func updateCampaign(_ input: UpdateCampaignRequest) -> Future<UpdateCampaignResponse> {
+    public func updateCampaign(_ input: UpdateCampaignRequest) -> EventLoopFuture<UpdateCampaignResponse> {
         return client.send(operation: "UpdateCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the email channel for an application or updates the status and settings of the email channel for an application.
-    public func updateEmailChannel(_ input: UpdateEmailChannelRequest) -> Future<UpdateEmailChannelResponse> {
+    public func updateEmailChannel(_ input: UpdateEmailChannelRequest) -> EventLoopFuture<UpdateEmailChannelResponse> {
         return client.send(operation: "UpdateEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing message template for messages that are sent through the email channel.
-    public func updateEmailTemplate(_ input: UpdateEmailTemplateRequest) -> Future<UpdateEmailTemplateResponse> {
+    public func updateEmailTemplate(_ input: UpdateEmailTemplateRequest) -> EventLoopFuture<UpdateEmailTemplateResponse> {
         return client.send(operation: "UpdateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes (Attributes, Metrics, and UserAttributes properties) for an endpoint.
-    public func updateEndpoint(_ input: UpdateEndpointRequest) -> Future<UpdateEndpointResponse> {
+    public func updateEndpoint(_ input: UpdateEndpointRequest) -> EventLoopFuture<UpdateEndpointResponse> {
         return client.send(operation: "UpdateEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "PUT", input: input)
     }
 
     ///   Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes (Attributes, Metrics, and UserAttributes properties) for a batch of endpoints.
-    public func updateEndpointsBatch(_ input: UpdateEndpointsBatchRequest) -> Future<UpdateEndpointsBatchResponse> {
+    public func updateEndpointsBatch(_ input: UpdateEndpointsBatchRequest) -> EventLoopFuture<UpdateEndpointsBatchResponse> {
         return client.send(operation: "UpdateEndpointsBatch", path: "/v1/apps/{application-id}/endpoints", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
-    public func updateGcmChannel(_ input: UpdateGcmChannelRequest) -> Future<UpdateGcmChannelResponse> {
+    public func updateGcmChannel(_ input: UpdateGcmChannelRequest) -> EventLoopFuture<UpdateGcmChannelResponse> {
         return client.send(operation: "UpdateGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the configuration and other settings for a journey.
-    public func updateJourney(_ input: UpdateJourneyRequest) -> Future<UpdateJourneyResponse> {
+    public func updateJourney(_ input: UpdateJourneyRequest) -> EventLoopFuture<UpdateJourneyResponse> {
         return client.send(operation: "UpdateJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "PUT", input: input)
     }
 
     ///  Cancels (stops) an active journey.
-    public func updateJourneyState(_ input: UpdateJourneyStateRequest) -> Future<UpdateJourneyStateResponse> {
+    public func updateJourneyState(_ input: UpdateJourneyStateRequest) -> EventLoopFuture<UpdateJourneyStateResponse> {
         return client.send(operation: "UpdateJourneyState", path: "/v1/apps/{application-id}/journeys/{journey-id}/state", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing message template for messages that are sent through a push notification channel.
-    public func updatePushTemplate(_ input: UpdatePushTemplateRequest) -> Future<UpdatePushTemplateResponse> {
+    public func updatePushTemplate(_ input: UpdatePushTemplateRequest) -> EventLoopFuture<UpdatePushTemplateResponse> {
         return client.send(operation: "UpdatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
-    public func updateSegment(_ input: UpdateSegmentRequest) -> Future<UpdateSegmentResponse> {
+    public func updateSegment(_ input: UpdateSegmentRequest) -> EventLoopFuture<UpdateSegmentResponse> {
         return client.send(operation: "UpdateSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
-    public func updateSmsChannel(_ input: UpdateSmsChannelRequest) -> Future<UpdateSmsChannelResponse> {
+    public func updateSmsChannel(_ input: UpdateSmsChannelRequest) -> EventLoopFuture<UpdateSmsChannelResponse> {
         return client.send(operation: "UpdateSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing message template for messages that are sent through the SMS channel.
-    public func updateSmsTemplate(_ input: UpdateSmsTemplateRequest) -> Future<UpdateSmsTemplateResponse> {
+    public func updateSmsTemplate(_ input: UpdateSmsTemplateRequest) -> EventLoopFuture<UpdateSmsTemplateResponse> {
         return client.send(operation: "UpdateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "PUT", input: input)
     }
 
     ///  Changes the status of a specific version of a message template to active.
-    public func updateTemplateActiveVersion(_ input: UpdateTemplateActiveVersionRequest) -> Future<UpdateTemplateActiveVersionResponse> {
+    public func updateTemplateActiveVersion(_ input: UpdateTemplateActiveVersionRequest) -> EventLoopFuture<UpdateTemplateActiveVersionResponse> {
         return client.send(operation: "UpdateTemplateActiveVersion", path: "/v1/templates/{template-name}/{template-type}/active-version", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
-    public func updateVoiceChannel(_ input: UpdateVoiceChannelRequest) -> Future<UpdateVoiceChannelResponse> {
+    public func updateVoiceChannel(_ input: UpdateVoiceChannelRequest) -> EventLoopFuture<UpdateVoiceChannelResponse> {
         return client.send(operation: "UpdateVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing message template for messages that are sent through the voice channel.
-    public func updateVoiceTemplate(_ input: UpdateVoiceTemplateRequest) -> Future<UpdateVoiceTemplateResponse> {
+    public func updateVoiceTemplate(_ input: UpdateVoiceTemplateRequest) -> EventLoopFuture<UpdateVoiceTemplateResponse> {
         return client.send(operation: "UpdateVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "PUT", input: input)
     }
 }

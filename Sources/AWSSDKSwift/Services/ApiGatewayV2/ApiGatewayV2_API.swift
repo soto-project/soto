@@ -5,12 +5,27 @@ import Foundation
 import NIO
 
 /**
+Client object for interacting with AWS ApiGatewayV2 service.
+
 Amazon API Gateway V2
 */
 public struct ApiGatewayV2 {
 
+    //MARK: Member variables
+
     public let client: AWSClient
 
+    //MARK: Initialization
+
+    /// Initialize the ApiGatewayV2 client
+    /// - parameters:
+    ///     - accessKeyId: Public access key provided by AWS
+    ///     - secretAccessKey: Private access key provided by AWS
+    ///     - sessionToken: Token provided by STS.AssumeRole() which allows access to another AWS account
+    ///     - region: Region of server you want to communicate with
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middlewares: Array of middlewares to apply to requests and responses
+    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -26,319 +41,321 @@ public struct ApiGatewayV2 {
             eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
+    
+    //MARK: API Calls
 
     ///  Creates an Api resource.
-    public func createApi(_ input: CreateApiRequest) -> Future<CreateApiResponse> {
+    public func createApi(_ input: CreateApiRequest) -> EventLoopFuture<CreateApiResponse> {
         return client.send(operation: "CreateApi", path: "/v2/apis", httpMethod: "POST", input: input)
     }
 
     ///  Creates an API mapping.
-    public func createApiMapping(_ input: CreateApiMappingRequest) -> Future<CreateApiMappingResponse> {
+    public func createApiMapping(_ input: CreateApiMappingRequest) -> EventLoopFuture<CreateApiMappingResponse> {
         return client.send(operation: "CreateApiMapping", path: "/v2/domainnames/{domainName}/apimappings", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Authorizer for an API.
-    public func createAuthorizer(_ input: CreateAuthorizerRequest) -> Future<CreateAuthorizerResponse> {
+    public func createAuthorizer(_ input: CreateAuthorizerRequest) -> EventLoopFuture<CreateAuthorizerResponse> {
         return client.send(operation: "CreateAuthorizer", path: "/v2/apis/{apiId}/authorizers", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Deployment for an API.
-    public func createDeployment(_ input: CreateDeploymentRequest) -> Future<CreateDeploymentResponse> {
+    public func createDeployment(_ input: CreateDeploymentRequest) -> EventLoopFuture<CreateDeploymentResponse> {
         return client.send(operation: "CreateDeployment", path: "/v2/apis/{apiId}/deployments", httpMethod: "POST", input: input)
     }
 
     ///  Creates a domain name.
-    public func createDomainName(_ input: CreateDomainNameRequest) -> Future<CreateDomainNameResponse> {
+    public func createDomainName(_ input: CreateDomainNameRequest) -> EventLoopFuture<CreateDomainNameResponse> {
         return client.send(operation: "CreateDomainName", path: "/v2/domainnames", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Integration.
-    public func createIntegration(_ input: CreateIntegrationRequest) -> Future<CreateIntegrationResult> {
+    public func createIntegration(_ input: CreateIntegrationRequest) -> EventLoopFuture<CreateIntegrationResult> {
         return client.send(operation: "CreateIntegration", path: "/v2/apis/{apiId}/integrations", httpMethod: "POST", input: input)
     }
 
     ///  Creates an IntegrationResponses.
-    public func createIntegrationResponse(_ input: CreateIntegrationResponseRequest) -> Future<CreateIntegrationResponseResponse> {
+    public func createIntegrationResponse(_ input: CreateIntegrationResponseRequest) -> EventLoopFuture<CreateIntegrationResponseResponse> {
         return client.send(operation: "CreateIntegrationResponse", path: "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Model for an API.
-    public func createModel(_ input: CreateModelRequest) -> Future<CreateModelResponse> {
+    public func createModel(_ input: CreateModelRequest) -> EventLoopFuture<CreateModelResponse> {
         return client.send(operation: "CreateModel", path: "/v2/apis/{apiId}/models", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Route for an API.
-    public func createRoute(_ input: CreateRouteRequest) -> Future<CreateRouteResult> {
+    public func createRoute(_ input: CreateRouteRequest) -> EventLoopFuture<CreateRouteResult> {
         return client.send(operation: "CreateRoute", path: "/v2/apis/{apiId}/routes", httpMethod: "POST", input: input)
     }
 
     ///  Creates a RouteResponse for a Route.
-    public func createRouteResponse(_ input: CreateRouteResponseRequest) -> Future<CreateRouteResponseResponse> {
+    public func createRouteResponse(_ input: CreateRouteResponseRequest) -> EventLoopFuture<CreateRouteResponseResponse> {
         return client.send(operation: "CreateRouteResponse", path: "/v2/apis/{apiId}/routes/{routeId}/routeresponses", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Stage for an API.
-    public func createStage(_ input: CreateStageRequest) -> Future<CreateStageResponse> {
+    public func createStage(_ input: CreateStageRequest) -> EventLoopFuture<CreateStageResponse> {
         return client.send(operation: "CreateStage", path: "/v2/apis/{apiId}/stages", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an Api resource.
-    @discardableResult public func deleteApi(_ input: DeleteApiRequest) -> Future<Void> {
+    @discardableResult public func deleteApi(_ input: DeleteApiRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteApi", path: "/v2/apis/{apiId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an API mapping.
-    @discardableResult public func deleteApiMapping(_ input: DeleteApiMappingRequest) -> Future<Void> {
+    @discardableResult public func deleteApiMapping(_ input: DeleteApiMappingRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteApiMapping", path: "/v2/domainnames/{domainName}/apimappings/{apiMappingId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an Authorizer.
-    @discardableResult public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) -> Future<Void> {
+    @discardableResult public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteAuthorizer", path: "/v2/apis/{apiId}/authorizers/{authorizerId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a CORS configuration.
-    @discardableResult public func deleteCorsConfiguration(_ input: DeleteCorsConfigurationRequest) -> Future<Void> {
+    @discardableResult public func deleteCorsConfiguration(_ input: DeleteCorsConfigurationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteCorsConfiguration", path: "/v2/apis/{apiId}/cors", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Deployment.
-    @discardableResult public func deleteDeployment(_ input: DeleteDeploymentRequest) -> Future<Void> {
+    @discardableResult public func deleteDeployment(_ input: DeleteDeploymentRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDeployment", path: "/v2/apis/{apiId}/deployments/{deploymentId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a domain name.
-    @discardableResult public func deleteDomainName(_ input: DeleteDomainNameRequest) -> Future<Void> {
+    @discardableResult public func deleteDomainName(_ input: DeleteDomainNameRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDomainName", path: "/v2/domainnames/{domainName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an Integration.
-    @discardableResult public func deleteIntegration(_ input: DeleteIntegrationRequest) -> Future<Void> {
+    @discardableResult public func deleteIntegration(_ input: DeleteIntegrationRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteIntegration", path: "/v2/apis/{apiId}/integrations/{integrationId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an IntegrationResponses.
-    @discardableResult public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest) -> Future<Void> {
+    @discardableResult public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteIntegrationResponse", path: "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses/{integrationResponseId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Model.
-    @discardableResult public func deleteModel(_ input: DeleteModelRequest) -> Future<Void> {
+    @discardableResult public func deleteModel(_ input: DeleteModelRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteModel", path: "/v2/apis/{apiId}/models/{modelId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Route.
-    @discardableResult public func deleteRoute(_ input: DeleteRouteRequest) -> Future<Void> {
+    @discardableResult public func deleteRoute(_ input: DeleteRouteRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRoute", path: "/v2/apis/{apiId}/routes/{routeId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a RouteResponse.
-    @discardableResult public func deleteRouteResponse(_ input: DeleteRouteResponseRequest) -> Future<Void> {
+    @discardableResult public func deleteRouteResponse(_ input: DeleteRouteResponseRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRouteResponse", path: "/v2/apis/{apiId}/routes/{routeId}/routeresponses/{routeResponseId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the RouteSettings for a stage.
-    @discardableResult public func deleteRouteSettings(_ input: DeleteRouteSettingsRequest) -> Future<Void> {
+    @discardableResult public func deleteRouteSettings(_ input: DeleteRouteSettingsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRouteSettings", path: "/v2/apis/{apiId}/stages/{stageName}/routesettings/{routeKey}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Stage.
-    @discardableResult public func deleteStage(_ input: DeleteStageRequest) -> Future<Void> {
+    @discardableResult public func deleteStage(_ input: DeleteStageRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteStage", path: "/v2/apis/{apiId}/stages/{stageName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets an Api resource.
-    public func getApi(_ input: GetApiRequest) -> Future<GetApiResponse> {
+    public func getApi(_ input: GetApiRequest) -> EventLoopFuture<GetApiResponse> {
         return client.send(operation: "GetApi", path: "/v2/apis/{apiId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets an API mapping.
-    public func getApiMapping(_ input: GetApiMappingRequest) -> Future<GetApiMappingResponse> {
+    public func getApiMapping(_ input: GetApiMappingRequest) -> EventLoopFuture<GetApiMappingResponse> {
         return client.send(operation: "GetApiMapping", path: "/v2/domainnames/{domainName}/apimappings/{apiMappingId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets API mappings.
-    public func getApiMappings(_ input: GetApiMappingsRequest) -> Future<GetApiMappingsResponse> {
+    public func getApiMappings(_ input: GetApiMappingsRequest) -> EventLoopFuture<GetApiMappingsResponse> {
         return client.send(operation: "GetApiMappings", path: "/v2/domainnames/{domainName}/apimappings", httpMethod: "GET", input: input)
     }
 
     ///  Gets a collection of Api resources.
-    public func getApis(_ input: GetApisRequest) -> Future<GetApisResponse> {
+    public func getApis(_ input: GetApisRequest) -> EventLoopFuture<GetApisResponse> {
         return client.send(operation: "GetApis", path: "/v2/apis", httpMethod: "GET", input: input)
     }
 
     ///  Gets an Authorizer.
-    public func getAuthorizer(_ input: GetAuthorizerRequest) -> Future<GetAuthorizerResponse> {
+    public func getAuthorizer(_ input: GetAuthorizerRequest) -> EventLoopFuture<GetAuthorizerResponse> {
         return client.send(operation: "GetAuthorizer", path: "/v2/apis/{apiId}/authorizers/{authorizerId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the Authorizers for an API.
-    public func getAuthorizers(_ input: GetAuthorizersRequest) -> Future<GetAuthorizersResponse> {
+    public func getAuthorizers(_ input: GetAuthorizersRequest) -> EventLoopFuture<GetAuthorizersResponse> {
         return client.send(operation: "GetAuthorizers", path: "/v2/apis/{apiId}/authorizers", httpMethod: "GET", input: input)
     }
 
     ///  Gets a Deployment.
-    public func getDeployment(_ input: GetDeploymentRequest) -> Future<GetDeploymentResponse> {
+    public func getDeployment(_ input: GetDeploymentRequest) -> EventLoopFuture<GetDeploymentResponse> {
         return client.send(operation: "GetDeployment", path: "/v2/apis/{apiId}/deployments/{deploymentId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the Deployments for an API.
-    public func getDeployments(_ input: GetDeploymentsRequest) -> Future<GetDeploymentsResponse> {
+    public func getDeployments(_ input: GetDeploymentsRequest) -> EventLoopFuture<GetDeploymentsResponse> {
         return client.send(operation: "GetDeployments", path: "/v2/apis/{apiId}/deployments", httpMethod: "GET", input: input)
     }
 
     ///  Gets a domain name.
-    public func getDomainName(_ input: GetDomainNameRequest) -> Future<GetDomainNameResponse> {
+    public func getDomainName(_ input: GetDomainNameRequest) -> EventLoopFuture<GetDomainNameResponse> {
         return client.send(operation: "GetDomainName", path: "/v2/domainnames/{domainName}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the domain names for an AWS account.
-    public func getDomainNames(_ input: GetDomainNamesRequest) -> Future<GetDomainNamesResponse> {
+    public func getDomainNames(_ input: GetDomainNamesRequest) -> EventLoopFuture<GetDomainNamesResponse> {
         return client.send(operation: "GetDomainNames", path: "/v2/domainnames", httpMethod: "GET", input: input)
     }
 
     ///  Gets an Integration.
-    public func getIntegration(_ input: GetIntegrationRequest) -> Future<GetIntegrationResult> {
+    public func getIntegration(_ input: GetIntegrationRequest) -> EventLoopFuture<GetIntegrationResult> {
         return client.send(operation: "GetIntegration", path: "/v2/apis/{apiId}/integrations/{integrationId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets an IntegrationResponses.
-    public func getIntegrationResponse(_ input: GetIntegrationResponseRequest) -> Future<GetIntegrationResponseResponse> {
+    public func getIntegrationResponse(_ input: GetIntegrationResponseRequest) -> EventLoopFuture<GetIntegrationResponseResponse> {
         return client.send(operation: "GetIntegrationResponse", path: "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses/{integrationResponseId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the IntegrationResponses for an Integration.
-    public func getIntegrationResponses(_ input: GetIntegrationResponsesRequest) -> Future<GetIntegrationResponsesResponse> {
+    public func getIntegrationResponses(_ input: GetIntegrationResponsesRequest) -> EventLoopFuture<GetIntegrationResponsesResponse> {
         return client.send(operation: "GetIntegrationResponses", path: "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses", httpMethod: "GET", input: input)
     }
 
     ///  Gets the Integrations for an API.
-    public func getIntegrations(_ input: GetIntegrationsRequest) -> Future<GetIntegrationsResponse> {
+    public func getIntegrations(_ input: GetIntegrationsRequest) -> EventLoopFuture<GetIntegrationsResponse> {
         return client.send(operation: "GetIntegrations", path: "/v2/apis/{apiId}/integrations", httpMethod: "GET", input: input)
     }
 
     ///  Gets a Model.
-    public func getModel(_ input: GetModelRequest) -> Future<GetModelResponse> {
+    public func getModel(_ input: GetModelRequest) -> EventLoopFuture<GetModelResponse> {
         return client.send(operation: "GetModel", path: "/v2/apis/{apiId}/models/{modelId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets a model template.
-    public func getModelTemplate(_ input: GetModelTemplateRequest) -> Future<GetModelTemplateResponse> {
+    public func getModelTemplate(_ input: GetModelTemplateRequest) -> EventLoopFuture<GetModelTemplateResponse> {
         return client.send(operation: "GetModelTemplate", path: "/v2/apis/{apiId}/models/{modelId}/template", httpMethod: "GET", input: input)
     }
 
     ///  Gets the Models for an API.
-    public func getModels(_ input: GetModelsRequest) -> Future<GetModelsResponse> {
+    public func getModels(_ input: GetModelsRequest) -> EventLoopFuture<GetModelsResponse> {
         return client.send(operation: "GetModels", path: "/v2/apis/{apiId}/models", httpMethod: "GET", input: input)
     }
 
     ///  Gets a Route.
-    public func getRoute(_ input: GetRouteRequest) -> Future<GetRouteResult> {
+    public func getRoute(_ input: GetRouteRequest) -> EventLoopFuture<GetRouteResult> {
         return client.send(operation: "GetRoute", path: "/v2/apis/{apiId}/routes/{routeId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets a RouteResponse.
-    public func getRouteResponse(_ input: GetRouteResponseRequest) -> Future<GetRouteResponseResponse> {
+    public func getRouteResponse(_ input: GetRouteResponseRequest) -> EventLoopFuture<GetRouteResponseResponse> {
         return client.send(operation: "GetRouteResponse", path: "/v2/apis/{apiId}/routes/{routeId}/routeresponses/{routeResponseId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the RouteResponses for a Route.
-    public func getRouteResponses(_ input: GetRouteResponsesRequest) -> Future<GetRouteResponsesResponse> {
+    public func getRouteResponses(_ input: GetRouteResponsesRequest) -> EventLoopFuture<GetRouteResponsesResponse> {
         return client.send(operation: "GetRouteResponses", path: "/v2/apis/{apiId}/routes/{routeId}/routeresponses", httpMethod: "GET", input: input)
     }
 
     ///  Gets the Routes for an API.
-    public func getRoutes(_ input: GetRoutesRequest) -> Future<GetRoutesResponse> {
+    public func getRoutes(_ input: GetRoutesRequest) -> EventLoopFuture<GetRoutesResponse> {
         return client.send(operation: "GetRoutes", path: "/v2/apis/{apiId}/routes", httpMethod: "GET", input: input)
     }
 
     ///  Gets a Stage.
-    public func getStage(_ input: GetStageRequest) -> Future<GetStageResponse> {
+    public func getStage(_ input: GetStageRequest) -> EventLoopFuture<GetStageResponse> {
         return client.send(operation: "GetStage", path: "/v2/apis/{apiId}/stages/{stageName}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the Stages for an API.
-    public func getStages(_ input: GetStagesRequest) -> Future<GetStagesResponse> {
+    public func getStages(_ input: GetStagesRequest) -> EventLoopFuture<GetStagesResponse> {
         return client.send(operation: "GetStages", path: "/v2/apis/{apiId}/stages", httpMethod: "GET", input: input)
     }
 
     ///  Gets a collection of Tag resources.
-    public func getTags(_ input: GetTagsRequest) -> Future<GetTagsResponse> {
+    public func getTags(_ input: GetTagsRequest) -> EventLoopFuture<GetTagsResponse> {
         return client.send(operation: "GetTags", path: "/v2/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
 
     ///  Imports an API.
-    public func importApi(_ input: ImportApiRequest) -> Future<ImportApiResponse> {
+    public func importApi(_ input: ImportApiRequest) -> EventLoopFuture<ImportApiResponse> {
         return client.send(operation: "ImportApi", path: "/v2/apis", httpMethod: "PUT", input: input)
     }
 
     ///  Puts an Api resource.
-    public func reimportApi(_ input: ReimportApiRequest) -> Future<ReimportApiResponse> {
+    public func reimportApi(_ input: ReimportApiRequest) -> EventLoopFuture<ReimportApiResponse> {
         return client.send(operation: "ReimportApi", path: "/v2/apis/{apiId}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a new Tag resource to represent a tag.
-    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/v2/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a Tag.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/v2/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates an Api resource.
-    public func updateApi(_ input: UpdateApiRequest) -> Future<UpdateApiResponse> {
+    public func updateApi(_ input: UpdateApiRequest) -> EventLoopFuture<UpdateApiResponse> {
         return client.send(operation: "UpdateApi", path: "/v2/apis/{apiId}", httpMethod: "PATCH", input: input)
     }
 
     ///  The API mapping.
-    public func updateApiMapping(_ input: UpdateApiMappingRequest) -> Future<UpdateApiMappingResponse> {
+    public func updateApiMapping(_ input: UpdateApiMappingRequest) -> EventLoopFuture<UpdateApiMappingResponse> {
         return client.send(operation: "UpdateApiMapping", path: "/v2/domainnames/{domainName}/apimappings/{apiMappingId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an Authorizer.
-    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) -> Future<UpdateAuthorizerResponse> {
+    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) -> EventLoopFuture<UpdateAuthorizerResponse> {
         return client.send(operation: "UpdateAuthorizer", path: "/v2/apis/{apiId}/authorizers/{authorizerId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a Deployment.
-    public func updateDeployment(_ input: UpdateDeploymentRequest) -> Future<UpdateDeploymentResponse> {
+    public func updateDeployment(_ input: UpdateDeploymentRequest) -> EventLoopFuture<UpdateDeploymentResponse> {
         return client.send(operation: "UpdateDeployment", path: "/v2/apis/{apiId}/deployments/{deploymentId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a domain name.
-    public func updateDomainName(_ input: UpdateDomainNameRequest) -> Future<UpdateDomainNameResponse> {
+    public func updateDomainName(_ input: UpdateDomainNameRequest) -> EventLoopFuture<UpdateDomainNameResponse> {
         return client.send(operation: "UpdateDomainName", path: "/v2/domainnames/{domainName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an Integration.
-    public func updateIntegration(_ input: UpdateIntegrationRequest) -> Future<UpdateIntegrationResult> {
+    public func updateIntegration(_ input: UpdateIntegrationRequest) -> EventLoopFuture<UpdateIntegrationResult> {
         return client.send(operation: "UpdateIntegration", path: "/v2/apis/{apiId}/integrations/{integrationId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates an IntegrationResponses.
-    public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest) -> Future<UpdateIntegrationResponseResponse> {
+    public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest) -> EventLoopFuture<UpdateIntegrationResponseResponse> {
         return client.send(operation: "UpdateIntegrationResponse", path: "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses/{integrationResponseId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a Model.
-    public func updateModel(_ input: UpdateModelRequest) -> Future<UpdateModelResponse> {
+    public func updateModel(_ input: UpdateModelRequest) -> EventLoopFuture<UpdateModelResponse> {
         return client.send(operation: "UpdateModel", path: "/v2/apis/{apiId}/models/{modelId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a Route.
-    public func updateRoute(_ input: UpdateRouteRequest) -> Future<UpdateRouteResult> {
+    public func updateRoute(_ input: UpdateRouteRequest) -> EventLoopFuture<UpdateRouteResult> {
         return client.send(operation: "UpdateRoute", path: "/v2/apis/{apiId}/routes/{routeId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a RouteResponse.
-    public func updateRouteResponse(_ input: UpdateRouteResponseRequest) -> Future<UpdateRouteResponseResponse> {
+    public func updateRouteResponse(_ input: UpdateRouteResponseRequest) -> EventLoopFuture<UpdateRouteResponseResponse> {
         return client.send(operation: "UpdateRouteResponse", path: "/v2/apis/{apiId}/routes/{routeId}/routeresponses/{routeResponseId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a Stage.
-    public func updateStage(_ input: UpdateStageRequest) -> Future<UpdateStageResponse> {
+    public func updateStage(_ input: UpdateStageRequest) -> EventLoopFuture<UpdateStageResponse> {
         return client.send(operation: "UpdateStage", path: "/v2/apis/{apiId}/stages/{stageName}", httpMethod: "PATCH", input: input)
     }
 }
