@@ -322,7 +322,7 @@ let package = Package(
         .target(name: "AWSForecastService", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ForecastService"),
         .target(name: "AWSFraudDetector", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/FraudDetector"),
         .target(name: "AWSGameLift", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/GameLift"),
-        .target(name: "AWSGlacier", dependencies: ["AWSSDKSwiftCore", "AWSGlacierMiddleware"], path: "./Sources/AWSSDKSwift/Services/Glacier"),
+        .target(name: "AWSGlacier", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/Glacier", "Extensions/Glacier"]),
         .target(name: "AWSGlobalAccelerator", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/GlobalAccelerator"),
         .target(name: "AWSGlue", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Glue"),
         .target(name: "AWSGreengrass", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Greengrass"),
@@ -409,7 +409,7 @@ let package = Package(
         .target(name: "AWSRoute53", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53"),
         .target(name: "AWSRoute53Domains", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53Domains"),
         .target(name: "AWSRoute53Resolver", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53Resolver"),
-        .target(name: "AWSS3", dependencies: ["AWSSDKSwiftCore", "AWSS3Middleware"], path: "./Sources/AWSSDKSwift/Services/S3"),
+        .target(name: "AWSS3", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/S3", "Extensions/S3"]),
         .target(name: "AWSS3Control", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/S3Control"),
         .target(name: "AWSSES", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SES"),
         .target(name: "AWSSESV2", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SESV2"),
@@ -452,9 +452,6 @@ let package = Package(
         .target(name: "AWSWorkMailMessageFlow", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkMailMessageFlow"),
         .target(name: "AWSWorkSpaces", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkSpaces"),
         .target(name: "AWSXRay", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/XRay"),
-
-        .target(name: "AWSGlacierMiddleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/Glacier"),
-        .target(name: "AWSS3Middleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/S3"),
 
         .testTarget(name: "AWSSDKSwiftTests", dependencies: ["AWSACM","AWSAPIGateway","AWSCloudFront","AWSDynamoDB","AWSEC2","AWSIAM","AWSS3","AWSSES","AWSSNS","AWSSQS","AWSSSM"])
     ]

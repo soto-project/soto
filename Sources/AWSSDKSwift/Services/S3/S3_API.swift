@@ -4,8 +4,6 @@
 import Foundation
 import NIO
 
-import AWSS3Middleware
-
 /**
 Client object for interacting with AWS S3 service.
 
