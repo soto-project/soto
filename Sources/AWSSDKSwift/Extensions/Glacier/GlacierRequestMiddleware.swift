@@ -1,5 +1,6 @@
 import Foundation
 import AWSSDKSwiftCore
+import AWSCrypto
 
 let MEGA_BYTE = 1024 * 1024
 
@@ -33,11 +34,11 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
     //
     // See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
     //
-    fileprivate func computeTreeHash(_ data: Data) -> [UInt8] {
-        var shas: [[UInt8]] = []
+    internal func computeTreeHash(_ data: Data) -> [UInt8] {
+        var shas: [SHA256.Digest] = []
 
         if data.count < MEGA_BYTE {
-            shas.append(sha256(data))
+            shas.append(SHA256.hash(data: data))
         } else {
             var numParts = data.count / MEGA_BYTE
             if data.count % MEGA_BYTE > 0 {
@@ -54,18 +55,21 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
                 } else {
                     end = start + MEGA_BYTE - 1
                 }
-                shas.append(sha256(data.subdata(in: Range(start...end))))
+                shas.append(SHA256.hash(data: data.subdata(in: Range(start...end))))
             }
         }
 
         while shas.count > 1 {
-            var tmpShas: [[UInt8]] = []
+            var tmpShas: [SHA256.Digest] = []
             shas.forEachSlice(2, {
                 let pair = $0
-                guard var bytes1 = pair.first else { return }
+                guard let bytes1 = pair.first else { return }
 
-                if pair.count > 1, var bytes2 = pair.last {
-                    tmpShas.append(sha256(&bytes1, &bytes2))
+                if pair.count > 1, let bytes2 = pair.last {
+                    var sha256 = SHA256()
+                    sha256.update(data: [UInt8](bytes1))
+                    sha256.update(data: [UInt8](bytes2))
+                    tmpShas.append(sha256.finalize())
                 } else {
                     tmpShas.append(bytes1)
                 }
@@ -73,7 +77,7 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
             shas = tmpShas
         }
 
-        return shas[0]
+        return [UInt8](shas[0])
     }
 
 }
