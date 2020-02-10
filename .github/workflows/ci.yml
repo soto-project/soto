@@ -1,11 +1,11 @@
 name: CI
 
-on: 
+on:
   push:
-    branches: 
+    branches:
     - "*"
   pull_request:
-    branches: 
+    branches:
     - master
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tag: ['5.0', '5.1']
+        tag: ['5.1']
     services:
       localstack:
         image: localstack/localstack
