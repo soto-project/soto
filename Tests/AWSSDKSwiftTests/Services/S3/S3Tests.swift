@@ -26,7 +26,7 @@ class S3Tests: XCTestCase {
             accessKeyId: "key",
             secretAccessKey: "secret",
             region: .apnortheast1,
-            endpoint: "http://localhost:4569"
+            endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572"
         )
     }
 
@@ -46,20 +46,6 @@ class S3Tests: XCTestCase {
             }
         }
     }
-
-    func testPutObject() throws {
-        let putRequest = S3.PutObjectRequest(
-            acl: .publicRead,
-            body: TestData.shared.bodyData,
-            bucket: TestData.shared.bucket,
-            contentLength: Int64(TestData.shared.bodyData.count),
-            key: TestData.shared.key
-        )
-
-        let output = try client.putObject(putRequest).wait()
-        XCTAssertNotNil(output.eTag)
-    }
-
 
     func testGetObject() throws {
         let putRequest = S3.PutObjectRequest(
@@ -107,7 +93,7 @@ class S3Tests: XCTestCase {
         let fileHandle = try FileHandle(forWritingTo: URL(fileURLWithPath: filename))
         fileHandle.write(TestData.shared.bodyData)
         fileHandle.closeFile()
-        _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5, filename: filename).wait()
+        _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5*1024*1024, filename: filename).wait()
         let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: TestData.shared.key)).wait()
         XCTAssertEqual(object.body, TestData.shared.bodyData)
         try FileManager.default.removeItem(atPath: filename)
@@ -122,19 +108,18 @@ class S3Tests: XCTestCase {
             key: TestData.shared.key
         )
 
-        let putResult = try client.putObject(putRequest).wait()
+        _ = try client.putObject(putRequest).wait()
 
         let output = try client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket)).wait()
+        let object = output.contents?.first {$0.key == TestData.shared.key}
         XCTAssertEqual(output.maxKeys, 1000)
-        XCTAssertEqual(output.contents?.first?.key, TestData.shared.key)
-        XCTAssertEqual(output.contents?.first?.size, Int64(TestData.shared.bodyData.count))
-        XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag)
+        XCTAssertNotNil(object)
+        XCTAssertEqual(object?.size, Int64(TestData.shared.bodyData.count))
     }
 
 
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {
         return [
-            ("testPutObject", testPutObject),
             ("testListObjects", testListObjects),
             ("testGetObject", testGetObject),
             ("testMultiPartDownload", testMultiPartDownload),

@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - "*"
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install dependencies
+      run: |
+        brew install libressl
+    - name: SPM build
+      run: swift build
+
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tag: ['4.2', '5.1']
+    services:
+      localstack:
+        image: localstack/localstack
+        # ports:
+        # - 4567-4597:4567-4597
+        env:
+          SERVICES: 'dynamodb,s3'
+        options: >-
+          --health-cmd "awslocal s3 ls"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --workdir /opt/code/localstack/
+    container:
+      image: swift:${{ matrix.tag }}
+      volumes:
+      - $GITHUB_WORKSPACE:/src
+      options: --workdir /src
+      env:
+        DYNAMODB_ENDPOINT   : "http://localstack:4569"
+        S3_ENDPOINT         : "http://localstack:4572"
+    steps:
+    - name: Install dependencies
+      run: |
+        apt-get update -qq
+        apt-get install -q -y tzdata libssl-dev zlib1g-dev
+    - name: Print endpoints
+      run: |
+        echo "DYNAMODB  : ${DYNAMODB_ENDPOINT}"
+        echo "S3        : ${S3_ENDPOINT}"
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Test
+      run: swift test -Xswiftc -DDEBUG
