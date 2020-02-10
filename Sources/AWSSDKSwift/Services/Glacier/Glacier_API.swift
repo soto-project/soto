@@ -4,8 +4,6 @@
 import Foundation
 import NIO
 
-import AWSGlacierMiddleware
-
 /**
 Client object for interacting with AWS Glacier service.
 

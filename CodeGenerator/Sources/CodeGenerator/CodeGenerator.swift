@@ -298,10 +298,8 @@ extension AWSService {
         context["partitionEndpoint"] = partitionEndpoint
         switch endpointPrefix {
         case "s3":
-            context["middlewareFramework"] = "AWSS3Middleware"
             context["middlewareClass"] = "S3RequestMiddleware()"
         case "glacier":
-            context["middlewareFramework"] = "AWSGlacierMiddleware"
             context["middlewareClass"] = "GlacierRequestMiddleware(apiVersion: \"\(version)\")"
         default:
             break

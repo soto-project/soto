@@ -14,8 +14,9 @@ let awsSdkSwiftCoreVersion = CommandLine.arguments[1]
 
 let manager = FileManager.default
 
-let servicesBasePath = "./Sources/AWSSDKSwift/Services"
-let middlewaresBasePath = "./Sources/AWSSDKSwift/Middlewares"
+let sourceBasePath = "./Sources/AWSSDKSwift"
+let servicesBasePath = "\(sourceBasePath)/Services"
+let extensionsBasePath = "\(sourceBasePath)/Extensions"
 let testsBasePath = "./Tests/AWSSDKSwiftTests/Services"
 
 func findDirectoryNames(at path: String) -> [String]? {
@@ -29,13 +30,14 @@ func findDirectoryNames(at path: String) -> [String]? {
 guard let services = findDirectoryNames(at: servicesBasePath) else {
 	throw GenerationError.directoryLocation("Problem locating services")
 }
-guard let middlewares = findDirectoryNames(at: middlewaresBasePath) else {
-    throw GenerationError.directoryLocation("Problem locating middlewares")
+guard let extensions = findDirectoryNames(at: extensionsBasePath) else {
+    throw GenerationError.directoryLocation("Problem locating extensions")
 }
 guard let tests = findDirectoryNames(at: testsBasePath) else {
     throw GenerationError.directoryLocation("Problem locating tests")
 }
 var testsSet: Set<String> = Set<String>(tests)
+
 // insert test dependencies need for aws request tests
 testsSet.insert("ACM")
 testsSet.insert("CloudFront")
@@ -51,8 +53,8 @@ let modules = services + middlewares.map { "\($0)Middleware" }
 let libraries = services.map( { "        .library(name: \"AWS\($0)\", targets: [\"AWS\($0)\"])" }).sorted().joined(separator: ",\n")
 // list of targets
 let serviceTargets = services.map { (serviceName) -> String in
-    if let middleware = middlewares.first(where: { $0 == serviceName }) {
-        return "        .target(name: \"AWS\(serviceName)\", dependencies: [\"AWSSDKSwiftCore\", \"AWS\(middleware)Middleware\"], path: \"\(servicesBasePath)/\(serviceName)\")"
+    if let ext = extensions.first(where: { $0 == serviceName }) {
+        return "        .target(name: \"AWS\(serviceName)\", dependencies: [\"AWSSDKSwiftCore\"], path: \"\(sourceBasePath)\", sources: [\"Services/\(serviceName)\", \"Extensions/\(serviceName)\"])"
     } else {
         return "        .target(name: \"AWS\(serviceName)\", dependencies: [\"AWSSDKSwiftCore\"], path: \"\(servicesBasePath)/\(serviceName)\")"
     }
