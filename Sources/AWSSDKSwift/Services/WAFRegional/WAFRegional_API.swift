@@ -39,8 +39,16 @@ public struct WAFRegional {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `useAWSClientShared` if the client shall manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .useAWSClientShared
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -54,7 +62,7 @@ public struct WAFRegional {
             serviceEndpoints: ["ap-east-1": "waf-regional.ap-east-1.amazonaws.com", "ap-northeast-1": "waf-regional.ap-northeast-1.amazonaws.com", "ap-northeast-2": "waf-regional.ap-northeast-2.amazonaws.com", "ap-south-1": "waf-regional.ap-south-1.amazonaws.com", "ap-southeast-1": "waf-regional.ap-southeast-1.amazonaws.com", "ap-southeast-2": "waf-regional.ap-southeast-2.amazonaws.com", "ca-central-1": "waf-regional.ca-central-1.amazonaws.com", "eu-central-1": "waf-regional.eu-central-1.amazonaws.com", "eu-north-1": "waf-regional.eu-north-1.amazonaws.com", "eu-west-1": "waf-regional.eu-west-1.amazonaws.com", "eu-west-2": "waf-regional.eu-west-2.amazonaws.com", "eu-west-3": "waf-regional.eu-west-3.amazonaws.com", "fips-ap-east-1": "waf-regional-fips.ap-east-1.amazonaws.com", "fips-ap-northeast-1": "waf-regional-fips.ap-northeast-1.amazonaws.com", "fips-ap-northeast-2": "waf-regional-fips.ap-northeast-2.amazonaws.com", "fips-ap-south-1": "waf-regional-fips.ap-south-1.amazonaws.com", "fips-ap-southeast-1": "waf-regional-fips.ap-southeast-1.amazonaws.com", "fips-ap-southeast-2": "waf-regional-fips.ap-southeast-2.amazonaws.com", "fips-ca-central-1": "waf-regional-fips.ca-central-1.amazonaws.com", "fips-eu-central-1": "waf-regional-fips.eu-central-1.amazonaws.com", "fips-eu-north-1": "waf-regional-fips.eu-north-1.amazonaws.com", "fips-eu-west-1": "waf-regional-fips.eu-west-1.amazonaws.com", "fips-eu-west-2": "waf-regional-fips.eu-west-2.amazonaws.com", "fips-eu-west-3": "waf-regional-fips.eu-west-3.amazonaws.com", "fips-me-south-1": "waf-regional-fips.me-south-1.amazonaws.com", "fips-sa-east-1": "waf-regional-fips.sa-east-1.amazonaws.com", "fips-us-east-1": "waf-regional-fips.us-east-1.amazonaws.com", "fips-us-east-2": "waf-regional-fips.us-east-2.amazonaws.com", "fips-us-west-1": "waf-regional-fips.us-west-1.amazonaws.com", "fips-us-west-2": "waf-regional-fips.us-west-2.amazonaws.com", "me-south-1": "waf-regional.me-south-1.amazonaws.com", "sa-east-1": "waf-regional.sa-east-1.amazonaws.com", "us-east-1": "waf-regional.us-east-1.amazonaws.com", "us-east-2": "waf-regional.us-east-2.amazonaws.com", "us-west-1": "waf-regional.us-west-1.amazonaws.com", "us-west-2": "waf-regional.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [WAFRegionalErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     

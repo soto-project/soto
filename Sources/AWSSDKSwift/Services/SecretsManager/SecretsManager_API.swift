@@ -39,8 +39,16 @@ public struct SecretsManager {
     ///     - region: Region of server you want to communicate with
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - middlewares: Array of middlewares to apply to requests and responses
-    ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+    ///     - httpClientProvider: HTTPClient to use. Use `useAWSClientShared` if the client shall manage its own HTTPClient.
+    public init(
+        accessKeyId: String? = nil,
+        secretAccessKey: String? = nil,
+        sessionToken: String? = nil,
+        region: AWSSDKSwiftCore.Region? = nil,
+        endpoint: String? = nil,
+        middlewares: [AWSServiceMiddleware] = [],
+        httpClientProvider: AWSClient.HTTPClientProvider = .useAWSClientShared
+    ) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -54,7 +62,7 @@ public struct SecretsManager {
             serviceEndpoints: ["us-east-1-fips": "secretsmanager-fips.us-east-1.amazonaws.com", "us-east-2-fips": "secretsmanager-fips.us-east-2.amazonaws.com", "us-west-1-fips": "secretsmanager-fips.us-west-1.amazonaws.com", "us-west-2-fips": "secretsmanager-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SecretsManagerErrorType.self],
-            eventLoopGroupProvider: eventLoopGroupProvider
+            httpClientProvider: httpClientProvider
         )
     }
     
