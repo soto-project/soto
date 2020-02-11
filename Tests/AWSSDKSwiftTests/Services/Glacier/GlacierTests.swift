@@ -9,7 +9,7 @@
 import XCTest
 import Foundation
 import NIO
-@testable import AWSGlacierMiddleware
+@testable import AWSGlacier
 
 class GlacierTests: XCTestCase {
 
@@ -30,16 +30,15 @@ class GlacierTests: XCTestCase {
         }
         return data
     }
-    
+
     func testComputeTreeHash() throws {
         //  create buffer full of random data, use the same seeds to ensure we get the same buffer everytime
         let data = createRandomBuffer(23, 4, size: 7*1024*1024 + 258)
-        
+
         let middleware = GlacierRequestMiddleware(apiVersion: "2012-06-01")
         let treeHash = middleware.computeTreeHash(Data(data))
-        
+
         XCTAssertEqual(treeHash, [210, 50, 5, 126, 16, 6, 59, 6, 21, 40, 186, 74, 192, 56, 39, 85, 210, 25, 238, 54, 4, 252, 221, 238, 107, 127, 76, 118, 245, 76, 22, 45])
     }
-    
-}
 
+}
