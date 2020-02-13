@@ -47,7 +47,7 @@ public struct APIGateway {
         region: AWSSDKSwiftCore.Region? = nil,
         endpoint: String? = nil,
         middlewares: [AWSServiceMiddleware] = [],
-        httpClientProvider: AWSClient.HTTPClientProvider = .useAWSClientShared
+        httpClientProvider: AWSClient.HTTPClientProvider
     ) {
         let middlewares = [APIGatewayMiddleware()] + middlewares
         self.client = AWSClient(

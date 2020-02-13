@@ -47,7 +47,7 @@ public struct Glacier {
         region: AWSSDKSwiftCore.Region? = nil,
         endpoint: String? = nil,
         middlewares: [AWSServiceMiddleware] = [],
-        httpClientProvider: AWSClient.HTTPClientProvider = .useAWSClientShared
+        httpClientProvider: AWSClient.HTTPClientProvider
     ) {
         let middlewares = [GlacierRequestMiddleware(apiVersion: "2012-06-01")] + middlewares
         self.client = AWSClient(

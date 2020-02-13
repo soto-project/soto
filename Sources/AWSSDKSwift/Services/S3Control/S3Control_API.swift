@@ -47,7 +47,7 @@ public struct S3Control {
         region: AWSSDKSwiftCore.Region? = nil,
         endpoint: String? = nil,
         middlewares: [AWSServiceMiddleware] = [],
-        httpClientProvider: AWSClient.HTTPClientProvider = .useAWSClientShared
+        httpClientProvider: AWSClient.HTTPClientProvider
     ) {
         let middlewares = [S3ControlMiddleware()] + middlewares
         self.client = AWSClient(
